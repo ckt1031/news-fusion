@@ -105,7 +105,9 @@ export default async function checkRss(client: Client) {
 
           if (entry.enclosure) message.setImage(entry.enclosure.url);
 
-          const channelId = Object.keys(config.tags_to_channels).find(key => key === tag);
+          const channelId = Object.entries(config.tags_to_channels).find(
+            key => key[0] === tag,
+          )?.[1];
 
           if (!channelId) {
             logger.error(`${tag} does not have a valid channel ID!`);
