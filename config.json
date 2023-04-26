@@ -1,0 +1,67 @@
+{
+  "sources": {
+    "global": [
+      "https://time.com/feed/",
+      "https://www.cnet.com/rss/news/",
+      "https://www.engadget.com/rss.xml",
+      "https://feedx.net/rss/economist.xml",
+      "http://feeds2.feedburner.com/businessinsider",
+      "http://feeds.guardian.co.uk/theguardian/world/rss"
+    ],
+    "tech_chn": [
+      "http://feeds2.feedburner.com/cnbeta-full",
+      "https://rsshub.app/solidot/www",
+      "http://www.geekpark.net/rss",
+      "http://feed.iplaysoft.com/",
+      "http://www.williamlong.info/rss.xml",
+      "http://feed.appinn.com/",
+      "http://feeds.feedburner.com/ruanyifeng",
+      "https://weekly.tw93.fun/rss.xml",
+      "https://linux.cn/rss.xml",
+      "http://www.ifanr.com/feed",
+      "http://feeds2.feedburner.com/unwirelife",
+      "http://www.ithome.com.tw/rss.xml",
+      "http://feeds.freegroup.org/freegroup/"
+    ],
+    "tech_en": [
+      "https://www.theverge.com/rss/index.xml",
+      "https://techcrunch.com/feed/",
+      "http://9to5google.com/feed/",
+      "Http://9to5mac.com/feed/",
+      "http://feeds.arstechnica.com/arstechnica/index",
+      "http://feeds.feedburner.com/blogspot/hsDu",
+      "http://googleresearch.blogspot.com/atom.xml",
+      "http://feeds.feedburner.com/fastcompany/headlines",
+      "http://blogs.windows.com/feed/",
+      "http://feeds.wired.com/wired/index",
+      "https://www.techradar.com/rss",
+      "https://www.zdnet.com/rss.xml",
+      "https://pureinfotech.com/feed/",
+      "http://feeds2.feedburner.com/thenextweb",
+      "https://www.technologyreview.com/topnews.rss",
+      "https://googleaiblog.blogspot.com/atom.xml",
+      "https://openai.com/blog/rss.xml",
+      "https://www.androidauthority.com/feed"
+    ],
+    "programming": [
+      "https://github.blog/feed/",
+      "https://blog.cloudflare.com/rss/"
+    ],
+    "ithome": ["http://www.ithome.com/rss/"],
+    "hk": [
+      "http://www.scmp.com/rss/2/feed",
+      "http://www.hket.com/rss/hongkong",
+      "http://rthk.hk/rthk/news/rss/c_expressnews_clocal.xml"
+    ],
+    "hacker_news": ["https://news.ycombinator.com/rss"]
+  },
+  "tags_to_channels": {
+    "global": "1099989565944639558",
+    "hk": "1099988995108253726",
+    "tech_chn": "1099988515397320715",
+    "tech_en": "1099989197663780885",
+    "programming": "1099988714563833877",
+    "hacker_news": "1099990014009552916",
+    "ithome": "1099990101527891988"
+  }
+}
