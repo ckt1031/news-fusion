@@ -8,7 +8,7 @@ import normalizeUrl from 'normalize-url';
 import Parser from 'rss-parser';
 
 import config from '../../config.json';
-import RssSourceCheck from '../models/rss-source-check';
+import RssSourceCheck from '../models/rss-feed-check';
 import logging from '../utils/logger';
 
 export default async function checkRss(client: Client) {
@@ -28,15 +28,11 @@ export default async function checkRss(client: Client) {
           continue;
         }
 
-        const checkData = await RssSourceCheck.findOne({ sourceURL: source.url });
-        const nowDateMS = Date.now();
-        const lastCheckedDateMS = checkData?.lastChecked ?? Date.now();
-
         const entries = feed.items
           .filter(item => {
             if (!item.pubDate) return false;
 
-            return dayjs(item.pubDate).valueOf() > lastCheckedDateMS;
+            return dayjs(item.pubDate).valueOf() > Date.now() - 1000 * 60 * 60 * 5; // 12 hours
           })
           // Sort to ascending order.
           .sort((a, b) => dayjs(a.pubDate).valueOf() - dayjs(b.pubDate).valueOf());
@@ -46,6 +42,13 @@ export default async function checkRss(client: Client) {
 
         for (const entry of entries) {
           if (!entry.link || !entry.title) continue;
+
+          const checkData = await RssSourceCheck.findOne({
+            sourceURL: source.url,
+            feedURL: entry.link,
+          });
+
+          if (checkData?.lastChecked && checkData.lastChecked < Date.now()) continue;
 
           const favicoURL = `https://www.google.com/s2/favicons?domain=${entry.link}`;
           const publisherURL = `${url.parse(entry.link).protocol ?? ''}//${
@@ -135,22 +138,22 @@ export default async function checkRss(client: Client) {
           });
 
           num_messages_sent += 1;
-        }
 
-        if (checkData) {
-          await RssSourceCheck.findOneAndUpdate(
-            { sourceUR: source.url },
-            {
-              lastChecked: nowDateMS,
-            },
-          );
-        } else {
-          const newData = new RssSourceCheck({
-            sourceURL: source.url,
-            lastChecked: Date.now(),
-          });
+          if (checkData) {
+            await RssSourceCheck.findOneAndUpdate(
+              { sourceUR: source.url },
+              {
+                lastChecked: Date.now(),
+              },
+            );
+          } else {
+            const newData = new RssSourceCheck({
+              sourceURL: source.url,
+              lastChecked: Date.now(),
+            });
 
-          await newData.save();
+            await newData.save();
+          }
         }
       }
     }
