@@ -3,6 +3,7 @@ import url from 'node:url';
 import dayjs from 'dayjs';
 import type { Client } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
+import normalizeUrl from 'normalize-url';
 import Parser from 'rss-parser';
 
 import config from '../../config.json';
@@ -85,15 +86,19 @@ export default async function checkRss(client: Client) {
           if (img?.[0]) message.setImage(img[1]);
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        if (entry.media) message.setImage(entry.media.content.url);
+        if (entry.media) {
+          const url: string = entry.media.content.url;
 
-        if (entry['media:thumbnail']) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-          message.setImage(entry['media:thumbnail']._attributes.url);
+          message.setImage(normalizeUrl(url));
         }
 
-        if (entry.enclosure) message.setImage(entry.enclosure.url);
+        if (entry['media:thumbnail']) {
+          const url: string = entry['media:thumbnail']._attributes.url;
+
+          message.setImage(normalizeUrl(url));
+        }
+
+        if (entry.enclosure) message.setImage(normalizeUrl(entry.enclosure.url));
 
         const tagData = config.rss_listener.tags.find(i => i.name === tag);
 
