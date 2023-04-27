@@ -13,15 +13,10 @@ import config from '../../config.json';
 const logger = pino();
 
 const db = new QuickDB();
-const parser = new Parser();
-
-function getHostFromRssUrl(rssUrl: string): string {
-  const parsedUrl = url.parse(rssUrl);
-  const host = parsedUrl.hostname;
-  return host ?? '';
-}
 
 export default async function checkRss(client: Client) {
+  const parser = new Parser();
+
   let num_messages_sent = 0;
 
   for (const [tag, sources] of Object.entries(config.sources)) {
@@ -47,98 +42,95 @@ export default async function checkRss(client: Client) {
         // Sort to ascending order.
         .sort((a, b) => dayjs(a.pubDate).valueOf() - dayjs(b.pubDate).valueOf());
 
-      if (entries.length > 0) {
-        for (const entry of entries) {
-          const feedKey = `${SHA256(source)}.${SHA256(entry.link ?? '')}`;
-          const hasSent = await db.get(feedKey);
+      // Ignore feeds with no entries.
+      if (entries.length === 0) continue;
 
-          // Ignore feeds if it is checked
-          if (hasSent) continue;
+      for (const entry of entries) {
+        const feedKey = `${SHA256(source).toString()}.${SHA256(entry.link ?? '').toString()}`;
 
-          const favicoURL = `https://www.google.com/s2/favicons?domain=${entry.link}`;
+        const hasSent = await db.get(feedKey);
 
-          const host = getHostFromRssUrl(entry.link ?? '');
+        if (hasSent || !entry.link || !entry.title) continue;
 
-          // Get milliseconds of feed item
-          const date = dayjs(entry.pubDate);
-          const msSinceEpoch = date.valueOf();
+        const favicoURL = `https://www.google.com/s2/favicons?domain=${entry.link}`;
+        const publisherURL = `${url.parse(entry.link).protocol ?? ''}//${
+          url.parse(entry.link).host ?? ''
+        }`;
 
-          // Content subtraction
-          const MAX_SNIPPET_LENGTH = 512;
-          const snippet = entry.contentSnippet || '';
-          const truncatedSnippet =
-            snippet.length > MAX_SNIPPET_LENGTH
-              ? snippet.slice(0, Math.max(0, MAX_SNIPPET_LENGTH)) + '...'
-              : snippet;
+        // Get milliseconds of feed item
+        const date = dayjs(entry.pubDate);
+        const msSinceEpoch = date.valueOf();
 
-          const message = new EmbedBuilder().setTimestamp(msSinceEpoch);
+        // Content subtraction
+        const MAX_SNIPPET_LENGTH = 512;
+        const snippet = entry.contentSnippet ?? '';
+        const truncatedSnippet =
+          snippet.length > MAX_SNIPPET_LENGTH
+            ? snippet.slice(0, Math.max(0, MAX_SNIPPET_LENGTH)) + '...'
+            : snippet;
 
-          if (feed.title) message.setTitle(entry.title ?? '');
-          if (feed.link) message.setURL(entry.link ?? '');
+        // Create embed
+        const message = new EmbedBuilder()
+          .setURL(entry.link)
+          .setTitle(entry.title)
+          .setAuthor({
+            name: entry.title,
+            iconURL: favicoURL,
+            url: `https://${publisherURL}`,
+          })
+          .setDescription(truncatedSnippet)
+          .setTimestamp(msSinceEpoch);
 
-          if (feed.title)
-            message.setAuthor({
-              name: feed.title,
-              iconURL: favicoURL,
-              url: `https://${host}`,
-            });
+        // Image
+        const raw_content: string = entry['content:encoded'] || entry.content;
 
-          if (truncatedSnippet && truncatedSnippet.length > 0)
-            message.setDescription(truncatedSnippet);
+        if (raw_content) {
+          const img = raw_content.match(/<img[^>]+src="([^">]+)"/i);
 
-          // Image
-          const raw_content = entry['content:encoded'] || entry.content;
-
-          if (raw_content) {
-            const img = raw_content.match(/<img[^>]+src="([^">]+)"/i);
-
-            if (img && img[0]) {
-              message.setImage(img[1]);
-            }
-          }
-
-          if (entry.media) message.setImage(entry.media.content.url);
-
-          if (entry['media:thumbnail']) {
-            message.setImage(entry['media:thumbnail']._attributes.url);
-          }
-
-          if (entry.enclosure) message.setImage(entry.enclosure.url);
-
-          const channelId = Object.entries(config.tags_to_channels).find(
-            key => key[0] === tag,
-          )?.[1];
-
-          if (!channelId) {
-            logger.error(`${tag} does not have a valid channel ID!`);
-            continue;
-          }
-
-          const channel = client.channels.cache.get(channelId);
-
-          if (!channel || !channel.isTextBased()) {
-            logger.error(`${tag} does not have a valid channel!`);
-            continue;
-          }
-
-          const translateButton = new ButtonBuilder()
-            .setCustomId('translate_rss_notification')
-            .setLabel('Translate')
-            .setStyle(ButtonStyle.Primary);
-
-          const summarizeButton = new ButtonBuilder()
-            .setCustomId('summarize_rss_news')
-            .setLabel('Summarize (AI)')
-            .setStyle(ButtonStyle.Primary);
-
-          const row = new ActionRowBuilder<any>().addComponents(translateButton, summarizeButton);
-
-          await channel.send({ embeds: [message], components: [row] });
-
-          await db.set(feedKey, true);
-
-          num_messages_sent += 1;
+          if (img?.[0]) message.setImage(img[1]);
         }
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        if (entry.media) message.setImage(entry.media.content.url);
+
+        if (entry['media:thumbnail']) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          message.setImage(entry['media:thumbnail']._attributes.url);
+        }
+
+        if (entry.enclosure) message.setImage(entry.enclosure.url);
+
+        const channelId = Object.entries(config.tags_to_channels).find(key => key[0] === tag)?.[1];
+
+        if (!channelId) {
+          logger.error(`${tag} does not have a valid channel ID!`);
+          continue;
+        }
+
+        const channel = client.channels.cache.get(channelId);
+
+        if (!channel?.isTextBased()) {
+          logger.error(`${tag} does not have a valid channel!`);
+          continue;
+        }
+
+        const translateButton = new ButtonBuilder()
+          .setCustomId('translate_rss_notification')
+          .setLabel('Translate')
+          .setStyle(ButtonStyle.Primary);
+
+        const summarizeButton = new ButtonBuilder()
+          .setCustomId('summarize_rss_news')
+          .setLabel('Summarize (AI)')
+          .setStyle(ButtonStyle.Primary);
+
+        const row = new ActionRowBuilder<any>().addComponents(translateButton, summarizeButton);
+
+        await channel.send({ embeds: [message], components: [row] });
+
+        await db.set(feedKey, true);
+
+        num_messages_sent += 1;
       }
     }
   }

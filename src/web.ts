@@ -1,13 +1,15 @@
 import express from 'express';
 import pino from 'pino';
 
-const logger = pino();
 const app = express();
+const logger = pino();
+
+const PORT = process.env.PORT ?? 3000;
 
 app.get('/', (_, res) => {
   res.send('Hello World!');
 });
 
-app.listen(3000, () => {
-  logger.info('Server is running on port 3000');
+app.listen(PORT, () => {
+  logger.info(`Server is running on port ${PORT}`);
 });

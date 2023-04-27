@@ -8,6 +8,14 @@
       "http://feeds2.feedburner.com/businessinsider",
       "http://feeds.guardian.co.uk/theguardian/world/rss"
     ],
+    "hacker_news": ["https://news.ycombinator.com/rss"],
+    "hk": [
+      "http://www.scmp.com/rss/2/feed",
+      "http://www.hket.com/rss/hongkong",
+      "http://rthk.hk/rthk/news/rss/c_expressnews_clocal.xml"
+    ],
+    "ithome": ["http://www.ithome.com/rss/"],
+    "programming": ["https://github.blog/feed/", "https://blog.cloudflare.com/rss/"],
     "tech_chn": [
       "http://feeds2.feedburner.com/cnbeta-full",
       "https://rsshub.app/solidot/www",
@@ -42,26 +50,15 @@
       "https://googleaiblog.blogspot.com/atom.xml",
       "https://openai.com/blog/rss.xml",
       "https://www.androidauthority.com/feed"
-    ],
-    "programming": [
-      "https://github.blog/feed/",
-      "https://blog.cloudflare.com/rss/"
-    ],
-    "ithome": ["http://www.ithome.com/rss/"],
-    "hk": [
-      "http://www.scmp.com/rss/2/feed",
-      "http://www.hket.com/rss/hongkong",
-      "http://rthk.hk/rthk/news/rss/c_expressnews_clocal.xml"
-    ],
-    "hacker_news": ["https://news.ycombinator.com/rss"]
+    ]
   },
   "tags_to_channels": {
     "global": "1099989565944639558",
-    "hk": "1099988995108253726",
-    "tech_chn": "1099988515397320715",
-    "tech_en": "1099989197663780885",
-    "programming": "1099988714563833877",
     "hacker_news": "1099990014009552916",
-    "ithome": "1099990101527891988"
+    "hk": "1099988995108253726",
+    "ithome": "1099990101527891988",
+    "programming": "1099988714563833877",
+    "tech_chn": "1099988515397320715",
+    "tech_en": "1099989197663780885"
   }
 }

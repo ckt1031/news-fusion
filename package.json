@@ -1,5 +1,11 @@
 {
   "name": "cktsun-helper",
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint --fix .",
+    "start": "node -r @swc-node/register src/index.ts | pino-pretty",
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "@extractus/article-extractor": "7.2.14",
     "@iamtraction/google-translate": "2.0.1",
@@ -28,12 +34,6 @@
     "prettier": "2.8.8",
     "typescript": "5.0.4"
   },
-  "scripts": {
-    "start": "node -r @swc-node/register src/index.ts | pino-pretty",
-    "format": "prettier --write .",
-    "lint": "eslint --fix .",
-    "typecheck": "tsc --noEmit"
-  },
-  "prettier": "@ckt1031/prettier-config",
-  "packageManager": "npm@9.6.5"
+  "packageManager": "npm@9.6.5",
+  "prettier": "@ckt1031/prettier-config"
 }

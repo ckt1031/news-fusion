@@ -1,5 +1,5 @@
 import translate from '@iamtraction/google-translate';
-import type { ButtonInteraction, CacheType, StringSelectMenuInteraction } from 'discord.js';
+import type { ButtonInteraction, StringSelectMenuInteraction } from 'discord.js';
 import {
   ActionRowBuilder,
   StringSelectMenuBuilder,
@@ -54,8 +54,8 @@ export default async function returnTranslatedButton(interaction: ButtonInteract
     });
 
     languageCollector.on('end', async collected => {
-      if (collected.size > 0) {
-        const selectedMenu = collected.first() as StringSelectMenuInteraction<CacheType>;
+      if (collected.size > 0 && embed.data.title) {
+        const selectedMenu = collected.first() as StringSelectMenuInteraction;
 
         await interaction.editReply({
           content: '👌🏻 Keep your patience! Translating this news...',
@@ -74,14 +74,16 @@ export default async function returnTranslatedButton(interaction: ButtonInteract
         if (selectedMenu.values[0].startsWith('source:') && embed.data.url) {
           const article = await extractArticle(embed.data.url);
 
-          if (article) {
-            desc = article.parsedTextContent;
+          desc = article.parsedTextContent;
 
-            // Google Translate has maxmium text value to be 5000
-            if (desc.length > 2000) {
-              desc = desc.slice(0, 1990) + '...';
-            }
+          // Google Translate has maxmium text value to be 5000
+          if (desc.length > 2000) {
+            desc = desc.slice(0, 1990) + '...';
           }
+        }
+
+        if (!desc) {
+          desc = 'No description found.';
         }
 
         // Fetch Google Translate

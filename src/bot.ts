@@ -20,14 +20,6 @@ const client = new Client({
   partials: [Partials.User, Partials.Channel, Partials.Message, Partials.GuildMember],
 });
 
-function setDiscordStatus() {
-  const text = 'Daily News';
-
-  client.user?.setActivity(text, {
-    type: ActivityType.Watching,
-  });
-}
-
 client.on('interactionCreate', async interaction => {
   if (interaction.isButton()) {
     switch (interaction.customId) {
@@ -39,9 +31,27 @@ client.on('interactionCreate', async interaction => {
         await summarizeNewsButton(interaction);
         break;
       }
+      default: {
+        logger.error(`Unknown button ID: ${interaction.customId}`);
+
+        await interaction.reply({
+          content: 'Unknown button ID 🤔',
+          ephemeral: true,
+        });
+        break;
+      }
     }
   }
 });
+
+function setDiscordStatus() {
+  const text = 'Life';
+
+  // Watch $TEXT
+  client.user?.setActivity(text, {
+    type: ActivityType.Watching,
+  });
+}
 
 client.on('ready', async client => {
   logger.info(`Logged in as ${client.user.tag}!`);

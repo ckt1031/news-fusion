@@ -9,13 +9,16 @@ function removeMarkdownLinks(text: string) {
 export default async function extractArticle(url: string) {
   const article = await extract(url);
 
-  if (!article) {
-    return undefined;
+  let parsedTextContent = '';
+
+  // If no content, return the article as is
+  if (article?.content) {
+    // Convert HTML to text
+    const content = convert(article.content);
+
+    // Remove markdown links
+    parsedTextContent = removeMarkdownLinks(content);
   }
 
-  const content = convert(article.content ?? '');
-
-  const textWithoutLinks = removeMarkdownLinks(content);
-
-  return { ...article, parsedTextContent: textWithoutLinks };
+  return { ...article, parsedTextContent };
 }

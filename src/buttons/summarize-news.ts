@@ -1,12 +1,12 @@
-import type { ButtonInteraction } from 'discord.js';
+import type { ButtonInteraction, StringSelectMenuInteraction } from 'discord.js';
 import {
   ActionRowBuilder,
   StringSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
 } from 'discord.js';
-import extractArticle from '../utils/extract-article';
 import pino from 'pino';
 
+import extractArticle from '../utils/extract-article';
 import { cleanRequestPrompt } from '../utils/poe-com';
 
 const logger = pino();
@@ -51,6 +51,8 @@ export default async function summarizeNewsButton(interaction: ButtonInteraction
 
     languageCollector.on('end', async collected => {
       if (collected.size > 0) {
+        const selectedMenu = collected.first() as StringSelectMenuInteraction;
+
         await interaction.editReply({
           content: '👌🏻 Keep your patience! Summarizing this news...',
           components: [],
@@ -58,22 +60,21 @@ export default async function summarizeNewsButton(interaction: ButtonInteraction
 
         const article = await extractArticle(url);
 
-        if (!article) {
+        if (!embed.data.title || !embed.data.url) {
           await interaction.editReply({
             content: 'Sorry, I cannot summarize this news 😢',
           });
           return;
         }
 
-        let content = article.parsedTextContent;
+        const content =
+          article.parsedTextContent.length > 1700
+            ? article.parsedTextContent.slice(0, 1700) + '...'
+            : article.parsedTextContent;
 
         logger.info(`Summarization Request: ${embed.data.title}`);
 
-        if (content.length > 1600) {
-          content = content.slice(0, 1600) + '...';
-        }
-
-        const language = collected.first().values[0];
+        const language = selectedMenu.values[0];
 
         const reply = await cleanRequestPrompt(
           `Title: ${embed.data.title}\n${content} (Please summarize this news in ${
