@@ -16,6 +16,7 @@ export default async function checkRss(client: Client) {
     const parser = new Parser();
 
     let num_messages_sent = 0;
+    let num_messages_failed = 0;
 
     for (const [tag, sources] of Object.entries(config.rss_listener.sources)) {
       for (const source of sources) {
@@ -41,128 +42,134 @@ export default async function checkRss(client: Client) {
         if (entries.length === 0) continue;
 
         for (const entry of entries) {
-          if (!entry.link || !entry.title) continue;
+          try {
+            if (!entry.link || !entry.title) continue;
 
-          const checkData = await RssSourceCheck.findOne({
-            sourceURL: source.url,
-            feedURL: entry.link,
-          });
-
-          if (checkData?.lastChecked && checkData.lastChecked < Date.now()) continue;
-
-          const favicoURL = `https://www.google.com/s2/favicons?domain=${entry.link}`;
-          const publisherURL = `${url.parse(entry.link).protocol ?? ''}//${
-            url.parse(entry.link).host ?? ''
-          }`;
-
-          // Get milliseconds of feed item
-          const date = dayjs(entry.pubDate);
-          const msSinceEpoch = date.valueOf();
-
-          // Content subtraction
-          const MAX_SNIPPET_LENGTH = 512;
-          const snippet = entry.contentSnippet ?? '';
-          const truncatedSnippet =
-            snippet.length > MAX_SNIPPET_LENGTH
-              ? snippet.slice(0, Math.max(0, MAX_SNIPPET_LENGTH)) + '...'
-              : snippet;
-
-          // Create embed
-          const message = new EmbedBuilder()
-            .setURL(entry.link)
-            .setTitle(entry.title)
-            .setAuthor({
-              name: feed.title ?? publisherURL,
-              iconURL: favicoURL,
-              url: publisherURL,
-            })
-            .setDescription(truncatedSnippet)
-            .setTimestamp(msSinceEpoch);
-
-          // Image
-          const raw_content: string = entry['content:encoded'] || entry.content;
-
-          if (raw_content) {
-            const img = raw_content.match(/<img[^>]+src="([^">]+)"/i);
-
-            if (img?.[0]) message.setImage(normalizeUrl(img[1]));
-          }
-
-          if (entry.media) {
-            const url: string = entry.media.content.url;
-
-            message.setImage(normalizeUrl(url));
-          }
-
-          if (entry['media:thumbnail']) {
-            const url: string = entry['media:thumbnail']._attributes.url;
-
-            message.setImage(normalizeUrl(url));
-          }
-
-          if (entry.enclosure) message.setImage(normalizeUrl(entry.enclosure.url));
-
-          const tagData = config.rss_listener.tags.find(i => i.name === tag);
-
-          if (!tagData) {
-            logging.error(`${tag} does not have a valid channel ID!`);
-            continue;
-          }
-
-          const channel = client.channels.cache.get(tagData.channelId);
-
-          if (!channel?.isTextBased()) {
-            logging.error(`${tag} does not have a valid channel!`);
-            continue;
-          }
-
-          const translateButton = new ButtonBuilder()
-            .setCustomId('translate_rss_notification')
-            .setLabel('Translate')
-            .setStyle(ButtonStyle.Primary);
-
-          const summarizeButton = new ButtonBuilder()
-            .setCustomId('summarize_rss_news')
-            .setLabel('Summarize (AI)')
-            .setStyle(ButtonStyle.Primary);
-
-          const row = new ActionRowBuilder<any>().addComponents(translateButton, summarizeButton);
-
-          await channel.send({
-            embeds: [message],
-            components: [row],
-            ...(source.enableRoleMention &&
-              tagData.mentionRoleId && {
-                content: `<@&${tagData.mentionRoleId}>`,
-                allowedMentions: {
-                  roles: [tagData.mentionRoleId],
-                }
-              }),
-          });
-
-          num_messages_sent += 1;
-
-          if (checkData) {
-            await RssSourceCheck.findOneAndUpdate(
-              { sourceUR: source.url },
-              {
-                lastChecked: Date.now(),
-              },
-            );
-          } else {
-            const newData = new RssSourceCheck({
+            const checkData = await RssSourceCheck.findOne({
               sourceURL: source.url,
               feedURL: entry.link,
-              lastChecked: Date.now(),
             });
 
-            await newData.save();
+            if (checkData?.lastChecked && checkData.lastChecked < Date.now()) continue;
+
+            const favicoURL = `https://www.google.com/s2/favicons?domain=${entry.link}`;
+            const publisherURL = `${url.parse(entry.link).protocol ?? ''}//${
+              url.parse(entry.link).host ?? ''
+            }`;
+
+            // Get milliseconds of feed item
+            const date = dayjs(entry.pubDate);
+            const msSinceEpoch = date.valueOf();
+
+            // Content subtraction
+            const MAX_SNIPPET_LENGTH = 512;
+            const snippet = entry.contentSnippet ?? '';
+            const truncatedSnippet =
+              snippet.length > MAX_SNIPPET_LENGTH
+                ? snippet.slice(0, Math.max(0, MAX_SNIPPET_LENGTH)) + '...'
+                : snippet;
+
+            // Create embed
+            const message = new EmbedBuilder()
+              .setURL(entry.link)
+              .setTitle(entry.title)
+              .setAuthor({
+                name: feed.title ?? publisherURL,
+                iconURL: favicoURL,
+                url: publisherURL,
+              })
+              .setDescription(truncatedSnippet)
+              .setTimestamp(msSinceEpoch);
+
+            // Image
+            const raw_content: string = entry['content:encoded'] || entry.content;
+
+            if (raw_content) {
+              const img = raw_content.match(/<img[^>]+src="([^">]+)"/i);
+
+              if (img?.[0]) message.setImage(normalizeUrl(img[1]));
+            }
+
+            if (entry.media) {
+              const url: string = entry.media.content.url;
+
+              message.setImage(normalizeUrl(url));
+            }
+
+            if (entry['media:thumbnail']) {
+              const url: string = entry['media:thumbnail']._attributes.url;
+
+              message.setImage(normalizeUrl(url));
+            }
+
+            if (entry.enclosure) message.setImage(normalizeUrl(entry.enclosure.url));
+
+            const tagData = config.rss_listener.tags.find(i => i.name === tag);
+
+            if (!tagData) {
+              logging.error(`${tag} does not have a valid channel ID!`);
+              continue;
+            }
+
+            const channel = client.channels.cache.get(tagData.channelId);
+
+            if (!channel?.isTextBased()) {
+              logging.error(`${tag} does not have a valid channel!`);
+              continue;
+            }
+
+            const translateButton = new ButtonBuilder()
+              .setCustomId('translate_rss_notification')
+              .setLabel('Translate')
+              .setStyle(ButtonStyle.Primary);
+
+            const summarizeButton = new ButtonBuilder()
+              .setCustomId('summarize_rss_news')
+              .setLabel('Summarize (AI)')
+              .setStyle(ButtonStyle.Primary);
+
+            const row = new ActionRowBuilder<any>().addComponents(translateButton, summarizeButton);
+
+            await channel.send({
+              embeds: [message],
+              components: [row],
+              ...(source.enableRoleMention &&
+                tagData.mentionRoleId && {
+                  content: `<@&${tagData.mentionRoleId}>`,
+                  allowedMentions: {
+                    roles: [tagData.mentionRoleId],
+                  },
+                }),
+            });
+
+            num_messages_sent += 1;
+
+            if (checkData) {
+              await RssSourceCheck.findOneAndUpdate(
+                { sourceUR: source.url },
+                {
+                  lastChecked: Date.now(),
+                },
+              );
+            } else {
+              const newData = new RssSourceCheck({
+                sourceURL: source.url,
+                feedURL: entry.link,
+                lastChecked: Date.now(),
+              });
+
+              await newData.save();
+            }
+          } catch (error) {
+            logging.error(error);
+            Sentry.captureException(error);
+            num_messages_failed += 1;
           }
         }
       }
     }
 
-    logging.info(`Notification Pushed: ${num_messages_sent}`);
+    logging.info(`Notification Pushed (${num_messages_sent}), Failed (${num_messages_failed}`);
   } catch (error) {
     logging.error(error);
     Sentry.captureException(error);
