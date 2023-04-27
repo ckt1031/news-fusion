@@ -1,5 +1,31 @@
+import Sentry from '@sentry/node';
+import mongoose from 'mongoose';
+import pino from 'pino';
+
+import './validate-env';
 import './bot';
 import './web';
 
-process.on('uncaughtException', console.error);
-process.on('unhandledRejection', console.error);
+const logging = pino();
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1,
+});
+
+await mongoose.connect(`${process.env.MONGODB_URL}CktsunHelperDiscordBot`, {
+  autoIndex: false,
+});
+
+process.on('uncaughtException', err => {
+  logging.error(err);
+  Sentry.captureException(err);
+});
+process.on('unhandledRejection', err => {
+  logging.error(err);
+  Sentry.captureException(err);
+});

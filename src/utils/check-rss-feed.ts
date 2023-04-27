@@ -1,18 +1,15 @@
 import url from 'node:url';
 
-import SHA256 from 'crypto-js/sha256';
 import dayjs from 'dayjs';
 import type { Client } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
 import pino from 'pino';
-import { QuickDB } from 'quick.db';
 import Parser from 'rss-parser';
 
 import config from '../../config.json';
+import RssSourceCheck from '../models/rss-source-check';
 
 const logger = pino();
-
-const db = new QuickDB();
 
 export default async function checkRss(client: Client) {
   const parser = new Parser();
@@ -20,15 +17,19 @@ export default async function checkRss(client: Client) {
   let num_messages_sent = 0;
 
   for (const [tag, sources] of Object.entries(config.sources)) {
-    for (const source of sources) {
+    for (const sourceURL of sources) {
       let feed;
 
       try {
-        feed = await parser.parseURL(source);
+        feed = await parser.parseURL(sourceURL);
       } catch {
-        logger.error(`Error fetching ${source}`);
+        logger.error(`Error fetching ${sourceURL}`);
         continue;
       }
+
+      const checkData = await RssSourceCheck.findOne({ sourceURL });
+      const nowDateMS = Date.now();
+      const lastCheckedDateMS = checkData?.lastChecked ?? Date.now();
 
       const entries = feed.items
         .filter(item => {
@@ -37,7 +38,7 @@ export default async function checkRss(client: Client) {
           const pubDate = new Date(item.pubDate);
 
           // Ignore feeds older than 12 hours.
-          return dayjs(pubDate).valueOf() > Date.now() - 12 * 60 * 60 * 1000;
+          return dayjs(pubDate).valueOf() > lastCheckedDateMS - 12 * 60 * 60 * 1000;
         })
         // Sort to ascending order.
         .sort((a, b) => dayjs(a.pubDate).valueOf() - dayjs(b.pubDate).valueOf());
@@ -46,11 +47,7 @@ export default async function checkRss(client: Client) {
       if (entries.length === 0) continue;
 
       for (const entry of entries) {
-        const feedKey = `${SHA256(source).toString()}.${SHA256(entry.link ?? '').toString()}`;
-
-        const hasSent = await db.get(feedKey);
-
-        if (hasSent || !entry.link || !entry.title) continue;
+        if (!entry.link || !entry.title) continue;
 
         const favicoURL = `https://www.google.com/s2/favicons?domain=${entry.link}`;
         const publisherURL = `${url.parse(entry.link).protocol ?? ''}//${
@@ -128,9 +125,25 @@ export default async function checkRss(client: Client) {
 
         await channel.send({ embeds: [message], components: [row] });
 
-        await db.set(feedKey, true);
-
         num_messages_sent += 1;
+      }
+
+      if (checkData) {
+        await RssSourceCheck.findOneAndUpdate(
+          { sourceURL },
+          {
+            $set: {
+              lastChecked: nowDateMS,
+            },
+          },
+        );
+      } else {
+        const newData = new RssSourceCheck({
+          sourceURL,
+          lastChecked: Date.now(),
+        });
+
+        await newData.save();
       }
     }
   }
