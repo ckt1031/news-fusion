@@ -1,12 +1,14 @@
 {
   "name": "cktsun-helper",
+  "type": "module",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --fix .",
-    "start": "node -r @swc-node/register src/index.ts | pino-pretty",
+    "start": "node --loader @esbuild-kit/esm-loader src/index.ts | pino-pretty",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@esbuild-kit/esm-loader": "2.5.5",
     "@extractus/article-extractor": "7.2.14",
     "@iamtraction/google-translate": "2.0.1",
     "@sentry/node": "7.50.0",
@@ -29,7 +31,6 @@
     "@ckt1031/eslint-config": "1.1.1",
     "@ckt1031/prettier-config": "1.1.1",
     "@ckt1031/tsconfig": "1.1.1",
-    "@swc-node/register": "1.6.5",
     "@types/crypto-js": "4.1.1",
     "@types/express": "4.17.17",
     "@types/html-to-text": "9.0.0",
