@@ -149,6 +149,7 @@ export default async function checkRss(client: Client) {
           } else {
             const newData = new RssSourceCheck({
               sourceURL: source.url,
+              feedURL: entry.link,
               lastChecked: Date.now(),
             });
 
