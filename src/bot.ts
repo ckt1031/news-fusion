@@ -1,12 +1,10 @@
 import Cron from 'croner';
 import { ActivityType, Client, GatewayIntentBits, Partials } from 'discord.js';
-import pino from 'pino';
 
 import returnTranslatedButton from './buttons/return-translated-text';
 import summarizeNewsButton from './buttons/summarize-news';
 import checkRss from './utils/check-rss-feed';
-
-const logger = pino();
+import logging from './utils/logger';
 
 const client = new Client({
   intents: [
@@ -32,7 +30,7 @@ client.on('interactionCreate', async interaction => {
         break;
       }
       default: {
-        logger.error(`Unknown button ID: ${interaction.customId}`);
+        logging.error(`Unknown button ID: ${interaction.customId}`);
 
         await interaction.reply({
           content: 'Unknown button ID 🤔',
@@ -54,7 +52,7 @@ function setDiscordStatus() {
 }
 
 client.on('ready', async client => {
-  logger.info(`Logged in as ${client.user.tag}!`);
+  logging.info(`Logged in as ${client.user.tag}!`);
 
   setDiscordStatus();
   await checkRss(client);

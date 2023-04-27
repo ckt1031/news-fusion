@@ -3,13 +3,11 @@ import url from 'node:url';
 import dayjs from 'dayjs';
 import type { Client } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
-import pino from 'pino';
 import Parser from 'rss-parser';
 
 import config from '../../config.json';
 import RssSourceCheck from '../models/rss-source-check';
-
-const logger = pino();
+import logging from '../utils/logger';
 
 export default async function checkRss(client: Client) {
   const parser = new Parser();
@@ -23,7 +21,7 @@ export default async function checkRss(client: Client) {
       try {
         feed = await parser.parseURL(source.url);
       } catch {
-        logger.error(`Error fetching ${source.url}`);
+        logging.error(`Error fetching ${source.url}`);
         continue;
       }
 
@@ -100,14 +98,14 @@ export default async function checkRss(client: Client) {
         const tagData = config.rss_listener.tags.find(i => i.name === tag);
 
         if (!tagData) {
-          logger.error(`${tag} does not have a valid channel ID!`);
+          logging.error(`${tag} does not have a valid channel ID!`);
           continue;
         }
 
         const channel = client.channels.cache.get(tagData.channelId);
 
         if (!channel?.isTextBased()) {
-          logger.error(`${tag} does not have a valid channel!`);
+          logging.error(`${tag} does not have a valid channel!`);
           continue;
         }
 
@@ -155,5 +153,5 @@ export default async function checkRss(client: Client) {
     }
   }
 
-  logger.info(`Notification Pushed: ${num_messages_sent}`);
+  logging.info(`Notification Pushed: ${num_messages_sent}`);
 }

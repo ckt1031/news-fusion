@@ -5,11 +5,9 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
 } from 'discord.js';
-import pino from 'pino';
 
 import extractArticle from '../utils/extract-article';
-
-const logger = pino();
+import logging from '../utils/logger';
 
 export default async function returnTranslatedButton(interaction: ButtonInteraction) {
   if (!interaction.channel) {
@@ -95,11 +93,11 @@ export default async function returnTranslatedButton(interaction: ButtonInteract
         });
 
         // Log and record
-        logger.info(`Translate Request: ${embed.data.title}`);
+        logging.info(`Translate Request: ${embed.data.title}`);
       }
     });
   } catch (error) {
-    logger.error(error);
+    logging.error(error);
 
     await interaction.reply({
       content: '😨 Error occurred when translating this news!',

@@ -4,12 +4,10 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
 } from 'discord.js';
-import pino from 'pino';
 
 import extractArticle from '../utils/extract-article';
+import logging from '../utils/logger';
 import { cleanRequestPrompt } from '../utils/poe-com';
-
-const logger = pino();
 
 export default async function summarizeNewsButton(interaction: ButtonInteraction) {
   if (!interaction.channel) {
@@ -72,7 +70,7 @@ export default async function summarizeNewsButton(interaction: ButtonInteraction
             ? article.parsedTextContent.slice(0, 1700) + '...'
             : article.parsedTextContent;
 
-        logger.info(`Summarization Request: ${embed.data.title}`);
+        logging.info(`Summarization Request: ${embed.data.title}`);
 
         const language = selectedMenu.values[0];
 
@@ -89,11 +87,11 @@ export default async function summarizeNewsButton(interaction: ButtonInteraction
         });
 
         // Log and record
-        logger.info(`Summarization Finished: ${embed.data.title}`);
+        logging.info(`Summarization Finished: ${embed.data.title}`);
       }
     });
   } catch (error) {
-    logger.error(error);
+    logging.error(error);
 
     await interaction.reply({
       content: '😨 Error occurred when summarizing this news!',

@@ -1,12 +1,11 @@
 import Sentry from '@sentry/node';
 import mongoose from 'mongoose';
-import pino from 'pino';
 
 import './validate-env';
 import './bot';
 import './web';
 
-const logging = pino();
+import logging from './utils/logger';
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,

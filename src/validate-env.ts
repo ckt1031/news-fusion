@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import logging from './utils/logger';
+
 declare global {
   namespace NodeJS {
     // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -20,4 +22,4 @@ const ZodEnvironmentVariables = z.object({
 
 ZodEnvironmentVariables.parse(process.env);
 
-console.log('✅ Environment variables verified!');
+logging.info('✅ Environment variables verified!');
