@@ -28,9 +28,7 @@ client.on('interactionCreate', async interaction => {
         break;
       }
     }
-  }
-
-  if (interaction.isButton()) {
+  } else if (interaction.isButton()) {
     switch (interaction.customId) {
       case 'translate_rss_notification': {
         await returnTranslatedButton(interaction);
