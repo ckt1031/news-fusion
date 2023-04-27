@@ -16,18 +16,18 @@ export default async function checkRss(client: Client) {
 
   let num_messages_sent = 0;
 
-  for (const [tag, sources] of Object.entries(config.sources)) {
-    for (const sourceURL of sources) {
+  for (const [tag, sources] of Object.entries(config.rss_listener.sources)) {
+    for (const source of sources) {
       let feed;
 
       try {
-        feed = await parser.parseURL(sourceURL);
+        feed = await parser.parseURL(source.url);
       } catch {
-        logger.error(`Error fetching ${sourceURL}`);
+        logger.error(`Error fetching ${source.url}`);
         continue;
       }
 
-      const checkData = await RssSourceCheck.findOne({ sourceURL });
+      const checkData = await RssSourceCheck.findOne({ sourceURL: source.url });
       const nowDateMS = Date.now();
       const lastCheckedDateMS = checkData?.lastChecked ?? Date.now();
 
@@ -97,14 +97,14 @@ export default async function checkRss(client: Client) {
 
         if (entry.enclosure) message.setImage(entry.enclosure.url);
 
-        const channelId = Object.entries(config.tags_to_channels).find(key => key[0] === tag)?.[1];
+        const tagData = config.rss_listener.tags.find(i => i.name === tag);
 
-        if (!channelId) {
+        if (!tagData) {
           logger.error(`${tag} does not have a valid channel ID!`);
           continue;
         }
 
-        const channel = client.channels.cache.get(channelId);
+        const channel = client.channels.cache.get(tagData.channelId);
 
         if (!channel?.isTextBased()) {
           logger.error(`${tag} does not have a valid channel!`);
@@ -123,14 +123,21 @@ export default async function checkRss(client: Client) {
 
         const row = new ActionRowBuilder<any>().addComponents(translateButton, summarizeButton);
 
-        await channel.send({ embeds: [message], components: [row] });
+        await channel.send({
+          embeds: [message],
+          components: [row],
+          ...(source.enableRoleMention &&
+            tagData.mentionRoleId && {
+              content: `<@&${tagData.mentionRoleId}>`,
+            }),
+        });
 
         num_messages_sent += 1;
       }
 
       if (checkData) {
         await RssSourceCheck.findOneAndUpdate(
-          { sourceURL },
+          { sourceUR: source.url },
           {
             $set: {
               lastChecked: nowDateMS,
@@ -139,7 +146,7 @@ export default async function checkRss(client: Client) {
         );
       } else {
         const newData = new RssSourceCheck({
-          sourceURL,
+          sourceURL: source.url,
           lastChecked: Date.now(),
         });
 

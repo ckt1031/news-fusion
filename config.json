@@ -1,64 +1,91 @@
 {
-  "sources": {
-    "global": [
-      "https://time.com/feed/",
-      "https://www.cnet.com/rss/news/",
-      "https://www.engadget.com/rss.xml",
-      "https://feedx.net/rss/economist.xml",
-      "http://feeds2.feedburner.com/businessinsider",
-      "http://feeds.guardian.co.uk/theguardian/world/rss"
-    ],
-    "hacker_news": ["https://news.ycombinator.com/rss"],
-    "hk": [
-      "http://www.scmp.com/rss/2/feed",
-      "http://www.hket.com/rss/hongkong",
-      "http://rthk.hk/rthk/news/rss/c_expressnews_clocal.xml"
-    ],
-    "ithome": ["http://www.ithome.com/rss/"],
-    "programming": ["https://github.blog/feed/", "https://blog.cloudflare.com/rss/"],
-    "tech_chn": [
-      "http://feeds2.feedburner.com/cnbeta-full",
-      "https://rsshub.app/solidot/www",
-      "http://www.geekpark.net/rss",
-      "http://feed.iplaysoft.com/",
-      "http://www.williamlong.info/rss.xml",
-      "http://feed.appinn.com/",
-      "http://feeds.feedburner.com/ruanyifeng",
-      "https://weekly.tw93.fun/rss.xml",
-      "https://linux.cn/rss.xml",
-      "http://www.ifanr.com/feed",
-      "http://feeds2.feedburner.com/unwirelife",
-      "http://www.ithome.com.tw/rss.xml",
-      "http://feeds.freegroup.org/freegroup/"
-    ],
-    "tech_en": [
-      "https://www.theverge.com/rss/index.xml",
-      "https://techcrunch.com/feed/",
-      "http://9to5google.com/feed/",
-      "Http://9to5mac.com/feed/",
-      "http://feeds.arstechnica.com/arstechnica/index",
-      "http://feeds.feedburner.com/blogspot/hsDu",
-      "http://googleresearch.blogspot.com/atom.xml",
-      "http://feeds.feedburner.com/fastcompany/headlines",
-      "http://blogs.windows.com/feed/",
-      "http://feeds.wired.com/wired/index",
-      "https://www.techradar.com/rss",
-      "https://www.zdnet.com/rss.xml",
-      "https://pureinfotech.com/feed/",
-      "http://feeds2.feedburner.com/thenextweb",
-      "https://www.technologyreview.com/topnews.rss",
-      "https://googleaiblog.blogspot.com/atom.xml",
-      "https://openai.com/blog/rss.xml",
-      "https://www.androidauthority.com/feed"
+  "rss_listener": {
+    "sources": {
+      "global": [
+        { "enableRoleMention": false, "url": "https://time.com/feed/" },
+        { "enableRoleMention": false, "url": "https://www.cnet.com/rss/news/" },
+        { "enableRoleMention": false, "url": "https://www.engadget.com/rss.xml" },
+        { "enableRoleMention": false, "url": "https://feedx.net/rss/economist.xml" },
+        { "enableRoleMention": false, "url": "http://feeds2.feedburner.com/businessinsider" },
+        { "enableRoleMention": false, "url": "http://feeds.guardian.co.uk/theguardian/world/rss" }
+      ],
+      "hacker_news": [{ "enableRoleMention": false, "url": "https://news.ycombinator.com/rss" }],
+      "hk": [
+        { "enableRoleMention": false, "url": "http://www.scmp.com/rss/2/feed" },
+        { "enableRoleMention": false, "url": "http://www.hket.com/rss/hongkong" },
+        {
+          "enableRoleMention": false,
+          "url": "http://rthk.hk/rthk/news/rss/c_expressnews_clocal.xml"
+        }
+      ],
+      "ithome": [{ "enableRoleMention": false, "url": "http://www.ithome.com/rss/" }],
+      "programming": [
+        { "enableRoleMention": true, "url": "https://github.blog/feed/" },
+        { "enableRoleMention": true, "url": "https://blog.cloudflare.com/rss/" }
+      ],
+      "tech_blog": [
+        { "enableRoleMention": true, "url": "https://googleaiblog.blogspot.com/atom.xml" },
+        { "enableRoleMention": true, "url": "https://openai.com/blog/rss.xml" },
+        { "enableRoleMention": true, "url": "http://feeds.feedburner.com/blogspot/hsDu" },
+        { "enableRoleMention": true, "url": "http://googleresearch.blogspot.com/atom.xml" }
+      ],
+      "tech_chn": [
+        { "enableRoleMention": false, "url": "http://feeds2.feedburner.com/cnbeta-full" },
+        { "enableRoleMention": false, "url": "https://rsshub.app/solidot/www" },
+        { "enableRoleMention": false, "url": "http://www.geekpark.net/rss" },
+        { "enableRoleMention": false, "url": "http://feed.iplaysoft.com/" },
+        { "enableRoleMention": false, "url": "http://www.williamlong.info/rss.xml" },
+        { "enableRoleMention": false, "url": "http://feed.appinn.com/" },
+        { "enableRoleMention": false, "url": "http://feeds.feedburner.com/ruanyifeng" },
+        { "enableRoleMention": false, "url": "https://weekly.tw93.fun/rss.xml" },
+        { "enableRoleMention": false, "url": "https://linux.cn/rss.xml" },
+        { "enableRoleMention": false, "url": "http://www.ifanr.com/feed" },
+        { "enableRoleMention": false, "url": "http://feeds2.feedburner.com/unwirelife" },
+        { "enableRoleMention": false, "url": "http://www.ithome.com.tw/rss.xml" },
+        { "enableRoleMention": false, "url": "http://feeds.freegroup.org/freegroup/" }
+      ],
+      "tech_en": [
+        { "enableRoleMention": true, "url": "https://www.theverge.com/rss/index.xml" },
+        { "enableRoleMention": true, "url": "https://techcrunch.com/feed/" },
+        { "enableRoleMention": true, "url": "http://9to5google.com/feed/" },
+        { "enableRoleMention": true, "url": "Http://9to5mac.com/feed/" },
+        { "enableRoleMention": true, "url": "https://www.androidauthority.com/feed" },
+        { "enableRoleMention": true, "url": "https://www.zdnet.com/rss.xml" },
+        { "enableRoleMention": false, "url": "http://feeds.arstechnica.com/arstechnica/index" },
+        { "enableRoleMention": false, "url": "http://feeds.feedburner.com/fastcompany/headlines" },
+        { "enableRoleMention": false, "url": "http://blogs.windows.com/feed/" },
+        { "enableRoleMention": false, "url": "http://feeds.wired.com/wired/index" },
+        { "enableRoleMention": false, "url": "https://www.techradar.com/rss" },
+        { "enableRoleMention": false, "url": "https://pureinfotech.com/feed/" },
+        { "enableRoleMention": false, "url": "http://feeds2.feedburner.com/thenextweb" },
+        { "enableRoleMention": false, "url": "https://www.technologyreview.com/topnews.rss" }
+      ]
+    },
+    "tags": [
+      { "channelId": "1099989565944639558", "mentionRoleId": "", "name": "global" },
+      { "channelId": "1099990014009552916", "mentionRoleId": "", "name": "hacker_news" },
+      { "channelId": "1099988995108253726", "mentionRoleId": "", "name": "hk" },
+      { "channelId": "1099990101527891988", "mentionRoleId": "", "name": "ithome" },
+      {
+        "channelId": "1099988714563833877",
+        "mentionRoleId": "1101094286373683200",
+        "name": "programming"
+      },
+      {
+        "channelId": "1099988515397320715",
+        "mentionRoleId": "1101094286373683200",
+        "name": "tech_chn"
+      },
+      {
+        "channelId": "1099989197663780885",
+        "mentionRoleId": "1101094286373683200",
+        "name": "tech_en"
+      },
+      {
+        "channelId": "1101095152073838602",
+        "mentionRoleId": "1101094286373683200",
+        "name": "tech_blog"
+      }
     ]
-  },
-  "tags_to_channels": {
-    "global": "1099989565944639558",
-    "hacker_news": "1099990014009552916",
-    "hk": "1099988995108253726",
-    "ithome": "1099990101527891988",
-    "programming": "1099988714563833877",
-    "tech_chn": "1099988515397320715",
-    "tech_en": "1099989197663780885"
   }
 }
