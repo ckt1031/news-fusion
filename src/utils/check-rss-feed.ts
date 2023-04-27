@@ -134,6 +134,9 @@ export default async function checkRss(client: Client) {
             ...(source.enableRoleMention &&
               tagData.mentionRoleId && {
                 content: `<@&${tagData.mentionRoleId}>`,
+                allowedMentions: {
+                  roles: [tagData.mentionRoleId],
+                }
               }),
           });
 
