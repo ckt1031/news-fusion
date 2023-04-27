@@ -72,7 +72,7 @@ export default async function checkRss(client: Client) {
             .setURL(entry.link)
             .setTitle(entry.title)
             .setAuthor({
-              name: entry.title,
+              name: feed.title ?? publisherURL,
               iconURL: favicoURL,
               url: publisherURL,
             })
