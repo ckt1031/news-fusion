@@ -36,10 +36,7 @@ export default async function checkRss(client: Client) {
           .filter(item => {
             if (!item.pubDate) return false;
 
-            const pubDate = new Date(item.pubDate);
-
-            // Ignore feeds older than 12 hours.
-            return dayjs(pubDate).valueOf() > lastCheckedDateMS;
+            return dayjs(item.pubDate).valueOf() > lastCheckedDateMS;
           })
           // Sort to ascending order.
           .sort((a, b) => dayjs(a.pubDate).valueOf() - dayjs(b.pubDate).valueOf());
@@ -144,9 +141,7 @@ export default async function checkRss(client: Client) {
           await RssSourceCheck.findOneAndUpdate(
             { sourceUR: source.url },
             {
-              $set: {
-                lastChecked: nowDateMS,
-              },
+              lastChecked: nowDateMS,
             },
           );
         } else {
