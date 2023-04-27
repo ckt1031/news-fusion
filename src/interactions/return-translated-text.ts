@@ -1,5 +1,9 @@
 import translate from '@iamtraction/google-translate';
-import type { ButtonInteraction, StringSelectMenuInteraction } from 'discord.js';
+import type {
+  ButtonInteraction,
+  MessageActionRowComponentBuilder,
+  StringSelectMenuInteraction,
+} from 'discord.js';
 import {
   ActionRowBuilder,
   StringSelectMenuBuilder,
@@ -19,7 +23,7 @@ export default async function returnTranslatedButton(interaction: ButtonInteract
     const embed = interaction.message.embeds[0];
 
     // Add language selection menu
-    const row = new ActionRowBuilder<any>().addComponents(
+    const row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
       new StringSelectMenuBuilder()
         .setCustomId('language-selection')
         .setPlaceholder('Select a language')

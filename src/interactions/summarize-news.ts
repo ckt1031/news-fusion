@@ -1,4 +1,8 @@
-import type { ButtonInteraction, StringSelectMenuInteraction } from 'discord.js';
+import type {
+  ButtonInteraction,
+  MessageActionRowComponentBuilder,
+  StringSelectMenuInteraction,
+} from 'discord.js';
 import {
   ActionRowBuilder,
   StringSelectMenuBuilder,
@@ -23,7 +27,7 @@ export default async function summarizeNewsButton(interaction: ButtonInteraction
     if (!url) return;
 
     // Add language selection menu
-    const row = new ActionRowBuilder<any>().addComponents(
+    const row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
       new StringSelectMenuBuilder()
         .setCustomId('language-selection')
         .setPlaceholder('Select a language')

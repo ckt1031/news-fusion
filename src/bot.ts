@@ -1,8 +1,9 @@
 import Cron from 'croner';
 import { ActivityType, Client, GatewayIntentBits, Partials } from 'discord.js';
 
-import returnTranslatedButton from './buttons/return-translated-text';
-import summarizeNewsButton from './buttons/summarize-news';
+import returnTranslatedButton from './interactions/return-translated-text';
+import summarizeNewsButton from './interactions/summarize-news';
+import { weatherInfoButton, weatherInfoModalResponse } from './interactions/weather-info';
 import checkRss from './utils/check-rss-feed';
 import logging from './utils/logger';
 
@@ -19,6 +20,16 @@ const client = new Client({
 });
 
 client.on('interactionCreate', async interaction => {
+  if (interaction.isModalSubmit()) {
+    // eslint-disable-next-line sonarjs/no-small-switch
+    switch (interaction.customId) {
+      case 'WEATHER_DASHBOARD-INFO_MODAL': {
+        await weatherInfoModalResponse(interaction);
+        break;
+      }
+    }
+  }
+
   if (interaction.isButton()) {
     switch (interaction.customId) {
       case 'translate_rss_notification': {
@@ -27,6 +38,10 @@ client.on('interactionCreate', async interaction => {
       }
       case 'summarize_rss_news': {
         await summarizeNewsButton(interaction);
+        break;
+      }
+      case 'weatherdashboard-show_info': {
+        await weatherInfoButton(interaction);
         break;
       }
       default: {

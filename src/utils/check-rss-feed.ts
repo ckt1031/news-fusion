@@ -2,7 +2,7 @@ import url from 'node:url';
 
 import * as Sentry from '@sentry/node';
 import dayjs from 'dayjs';
-import type { Client } from 'discord.js';
+import type { Client, MessageActionRowComponentBuilder } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
 import normalizeUrl from 'normalize-url';
 import Parser from 'rss-parser';
@@ -130,7 +130,10 @@ export default async function checkRss(client: Client) {
               .setLabel('Summarize (AI)')
               .setStyle(ButtonStyle.Primary);
 
-            const row = new ActionRowBuilder<any>().addComponents(translateButton, summarizeButton);
+            const row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
+              translateButton,
+              summarizeButton,
+            );
 
             await channel.send({
               embeds: [message],
