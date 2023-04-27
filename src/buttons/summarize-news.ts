@@ -43,7 +43,7 @@ export default async function summarizeNewsButton(interaction: ButtonInteraction
     const languageCollector = interaction.channel.createMessageComponentCollector({
       max: 1,
       // Wait for user to select a language
-      filter: i => i.customId === 'language-selection',
+      filter: i => i.customId === 'language-selection' && i.user.id === interaction.user.id,
       time: 1000 * 60, // 1 minute to expire the message menu
     });
 

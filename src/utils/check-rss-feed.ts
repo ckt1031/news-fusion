@@ -87,22 +87,24 @@ export default async function checkRss(client: Client) {
             if (raw_content) {
               const img = raw_content.match(/<img[^>]+src="([^">]+)"/i);
 
-              if (img?.[0]) message.setImage(normalizeUrl(img[1]));
+              if (img?.[0] && img[0].startsWith('blob:')) message.setImage(normalizeUrl(img[1]));
             }
 
             if (entry.media) {
               const url: string = entry.media.content.url;
 
-              message.setImage(normalizeUrl(url));
+              if (!url.startsWith('blob:')) message.setImage(normalizeUrl(url));
             }
 
             if (entry['media:thumbnail']) {
               const url: string = entry['media:thumbnail']._attributes.url;
 
-              message.setImage(normalizeUrl(url));
+              if (!url.startsWith('blob:')) message.setImage(normalizeUrl(url));
             }
 
-            if (entry.enclosure) message.setImage(normalizeUrl(entry.enclosure.url));
+            if (entry.enclosure && !entry.enclosure.url.startsWith('blob:')) {
+              message.setImage(normalizeUrl(entry.enclosure.url));
+            }
 
             const tagData = config.rss_listener.tags.find(i => i.name === tag);
 
@@ -169,7 +171,7 @@ export default async function checkRss(client: Client) {
       }
     }
 
-    logging.info(`Notification Pushed (${num_messages_sent}), Failed (${num_messages_failed}`);
+    logging.info(`Notification Pushed (${num_messages_sent}), Failed (${num_messages_failed})`);
   } catch (error) {
     logging.error(error);
     Sentry.captureException(error);

@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { defaultCache } from './cache';
+
 export const url = 'https://www.quora.com/poe_api/gql_POST';
 
 export const headers = {
@@ -16,7 +18,31 @@ export const headers = {
   'Quora-Formkey': process.env.POE_QUORA_FORMKEY,
 };
 
-export async function cleanRequestPrompt(msg: string, bot = 'capybara') {
+export async function cleanRequestPrompt(msg: string) {
+  // Check cache
+  const botOptions = ['capybara', 'chinchilla'];
+  let cached: boolean | undefined;
+  let cacheKey = '';
+  let bot = botOptions[0];
+
+  for (const _bot of botOptions) {
+    cacheKey = `POE_API_INSTANCE_USING_${_bot}`;
+    bot = _bot;
+
+    cached = defaultCache.get(cacheKey);
+
+    if (!cached) break;
+
+    // CHeck if this the last bot
+    if (_bot === botOptions[botOptions.length - 1]) {
+      // Return try later:
+      return 'Please try again later. I am currently busy with other requests.';
+    }
+  }
+
+  // Set cache
+  defaultCache.set(cacheKey, true, 60);
+
   // Trigger Poe.com APIs
   const chatId = await loadChatIdMap(bot);
 
@@ -24,7 +50,12 @@ export async function cleanRequestPrompt(msg: string, bot = 'capybara') {
   await sendMessage(msg, bot, chatId);
 
   // Get the latest response.
-  return await getLatestMessage(bot);
+  const response = await getLatestMessage(bot);
+
+  // Set cache
+  defaultCache.del(cacheKey);
+
+  return response;
 }
 
 export async function loadChatIdMap(bot = 'a2'): Promise<string> {

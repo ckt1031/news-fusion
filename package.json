@@ -4,7 +4,7 @@
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --fix .",
-    "start": "node --loader @esbuild-kit/esm-loader src/index.ts | pino-pretty",
+    "start": "node --loader @esbuild-kit/esm-loader -r dotenv/config src/index.ts | pino-pretty",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -18,9 +18,11 @@
     "crypto-js": "4.1.1",
     "dayjs": "1.11.7",
     "discord.js": "14.9.0",
+    "dotenv": "16.0.3",
     "express": "4.18.2",
     "html-to-text": "9.0.5",
     "mongoose": "7.0.5",
+    "node-cache": "5.1.2",
     "normalize-url": "8.0.0",
     "pino": "8.11.0",
     "pino-pretty": "10.0.0",
