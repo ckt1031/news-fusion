@@ -26,7 +26,7 @@ export async function weatherInfoModalResponse(interaction: ModalSubmitInteracti
   embed.setTitle(`Weather Information for ${weatherItem.location.name}`);
   embed.setThumbnail(weatherItem.current.imageUrl);
   embed.setDescription(
-    `Datetime: \`${weatherItem.current.date} ${weatherItem.current.observationtime}\` (${weatherItem.forecast[0].day})})`,
+    `Datetime: \`${weatherItem.current.date} ${weatherItem.current.observationtime}\` (${weatherItem.forecast[0].day})`,
   );
   embed.addFields([
     {
