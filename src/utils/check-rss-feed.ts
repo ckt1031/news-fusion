@@ -11,15 +11,6 @@ import config from '../../config.json';
 import RssSourceCheck from '../models/rss-source-check';
 import logging from '../utils/logger';
 
-function removeQueryString(url: string) {
-  const urlObj = new URL(url);
-
-  urlObj.search = '';
-  urlObj.hash = '';
-
-  return urlObj.toString();
-}
-
 export default async function checkRss(client: Client) {
   try {
     const parser = new Parser();
@@ -83,7 +74,7 @@ export default async function checkRss(client: Client) {
             .setAuthor({
               name: entry.title,
               iconURL: favicoURL,
-              url: `https://${publisherURL}`,
+              url: publisherURL,
             })
             .setDescription(truncatedSnippet)
             .setTimestamp(msSinceEpoch);
@@ -94,23 +85,22 @@ export default async function checkRss(client: Client) {
           if (raw_content) {
             const img = raw_content.match(/<img[^>]+src="([^">]+)"/i);
 
-            if (img?.[0]) message.setImage(normalizeUrl(removeQueryString(img[1])));
+            if (img?.[0]) message.setImage(normalizeUrl(img[1]));
           }
 
           if (entry.media) {
             const url: string = entry.media.content.url;
 
-            message.setImage(normalizeUrl(removeQueryString(url)));
+            message.setImage(normalizeUrl(url));
           }
 
           if (entry['media:thumbnail']) {
             const url: string = entry['media:thumbnail']._attributes.url;
 
-            message.setImage(normalizeUrl(removeQueryString(url)));
+            message.setImage(normalizeUrl(url));
           }
 
-          if (entry.enclosure)
-            message.setImage(normalizeUrl(removeQueryString(entry.enclosure.url)));
+          if (entry.enclosure) message.setImage(normalizeUrl(entry.enclosure.url));
 
           const tagData = config.rss_listener.tags.find(i => i.name === tag);
 
