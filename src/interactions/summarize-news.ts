@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/node';
 import type {
   ButtonInteraction,
   MessageActionRowComponentBuilder,
@@ -38,68 +39,73 @@ export default async function summarizeNewsButton(interaction: ButtonInteraction
             .setValue('zh-TW'),
         ),
     );
-    await interaction.reply({
-      content: 'Please select a language for me to summarize this news 🤔',
+
+    const user = interaction.client.users.cache.get(interaction.user.id);
+
+    if (!user) return;
+
+    if (!embed.data.title || !embed.data.url) {
+      await interaction.reply({
+        content: 'Sorry, I cannot summarize this news 😢',
+      });
+
+      return;
+    }
+
+    const dmMessage = await user.send({
+      content: `Please select a language for me to summarize this news 🤔\n\nTitle: ${embed.data.title}\nURL: ${embed.data.url}`,
       components: [row],
-      ephemeral: true,
     });
 
-    const languageCollector = interaction.channel.createMessageComponentCollector({
+    // Done
+    await interaction.deferUpdate();
+
+    const languageCollector = dmMessage.channel.createMessageComponentCollector({
       max: 1,
       // Wait for user to select a language
-      filter: i => i.customId === 'language-selection' && i.user.id === interaction.user.id,
+      filter: i =>
+        i.customId === 'language-selection' &&
+        i.user.id === interaction.user.id &&
+        i.message.id === dmMessage.id,
       time: 1000 * 60, // 1 minute to expire the message menu
     });
 
     languageCollector.on('end', async collected => {
-      if (collected.size > 0) {
-        const selectedMenu = collected.first() as StringSelectMenuInteraction;
+      if (collected.size === 0 || !embed.data.title || !embed.data.url) return;
 
-        await interaction.editReply({
-          content: '👌🏻 Keep your patience! Summarizing this news...',
-          components: [],
-        });
+      const selectedMenu = collected.first() as StringSelectMenuInteraction;
 
-        const article = await extractArticle(url);
+      await dmMessage.edit({
+        content: '👌🏻 Keep your patience! Summarizing this news...',
+        components: [],
+      });
 
-        if (!embed.data.title || !embed.data.url) {
-          await interaction.editReply({
-            content: 'Sorry, I cannot summarize this news 😢',
-          });
-          return;
-        }
+      const article = await extractArticle(url);
 
-        const content =
-          article.parsedTextContent.length > 1700
-            ? article.parsedTextContent.slice(0, 1700) + '...'
-            : article.parsedTextContent;
+      const content =
+        article.parsedTextContent.length > 1700
+          ? article.parsedTextContent.slice(0, 1700) + '...'
+          : article.parsedTextContent;
 
-        logging.info(`Summarization Request: ${embed.data.title}`);
+      logging.info(`Summarization Request: ${embed.data.title}`);
 
-        const language = selectedMenu.values[0];
+      const language = selectedMenu.values[0];
 
-        const reply = await cleanRequestPrompt(
-          `Title: ${embed.data.title}\n${content} (Please summarize this news in ${
-            language === 'en' ? 'English' : 'Chinese Traditional (Taiwan)'
-          } with professional tone, don't include any hyperlinks and urls, response with the text only!)`,
-          // "chinchilla"
-        );
+      const reply = await cleanRequestPrompt(
+        `Title: ${embed.data.title}\n${content} (Please summarize this news in ${
+          language === 'en' ? 'English' : 'Chinese Traditional (Taiwan)'
+        } with professional tone, don't include any hyperlinks and urls, response with the text only)`,
+      );
 
-        // Send a rinteraction reply
-        await interaction.editReply({
-          content: `${reply}\n\n[${embed.data.title}](${embed.data.url})`,
-        });
+      await dmMessage.edit({
+        content: `Summary:\n\n${reply}\n\nURL: ${embed.data.url}`,
+      });
 
-        // Log and record
-        logging.info(`Summarization Finished: ${embed.data.title}`);
-      }
+      // Log and record
+      logging.info(`Summarization Finished: ${embed.data.title}`);
     });
   } catch (error) {
     logging.error(error);
-
-    await interaction.reply({
-      content: '😨 Error occurred when summarizing this news!',
-      ephemeral: true,
-    });
+    Sentry.captureException(error);
   }
 }
