@@ -12,7 +12,7 @@
     "@extractus/article-extractor": "7.2.14",
     "@iamtraction/google-translate": "2.0.1",
     "@sentry/node": "7.50.0",
-    "axios": "1.3.6",
+    "axios": "1.4.0",
     "better-sqlite3": "8.3.0",
     "croner": "6.0.3",
     "crypto-js": "4.1.1",
