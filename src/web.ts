@@ -11,5 +11,5 @@ app.get('/', (_, res) => {
 });
 
 app.listen(PORT, () => {
-  logging.info(`Server is running on port ${PORT}`);
+  logging.info(`SERVER: Server is running on port ${PORT}`);
 });

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import xml2js from 'xml2js';
 
+import logger from './logger';
+
 interface WeatherLocation {
   name: string;
   zipcode: string;
@@ -153,6 +155,6 @@ export const findWeather = async (options: WeatherOptions): Promise<WeatherItem[
 
     return weatherItems;
   } catch (error) {
-    throw new Error(`Failed to fetch weather data: ${error.message}`);
+    logger.error(error);
   }
 };

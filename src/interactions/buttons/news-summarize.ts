@@ -1,25 +1,23 @@
-import * as Sentry from '@sentry/node';
-import type {
-  ButtonInteraction,
-  MessageActionRowComponentBuilder,
-  StringSelectMenuInteraction,
-} from 'discord.js';
+import type { MessageActionRowComponentBuilder, StringSelectMenuInteraction } from 'discord.js';
 import {
   ActionRowBuilder,
   StringSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
 } from 'discord.js';
 
-import extractArticle from '../utils/extract-article';
-import logging from '../utils/logger';
-import { cleanRequestPrompt } from '../utils/poe-com';
+import type { InteractionHandlers } from '../../sturctures/interactions';
+import extractArticle from '../../utils/extract-article';
+import logging from '../../utils/logger';
+import { cleanRequestPrompt } from '../../utils/poe-com';
 
-export default async function summarizeNewsButton(interaction: ButtonInteraction) {
-  if (!interaction.channel) {
-    return;
-  }
+const button: InteractionHandlers = {
+  type: 'button',
+  customId: 'summarize_rss_news',
+  run: async ({ interaction }) => {
+    if (!interaction.channel || !interaction.isButton()) {
+      return;
+    }
 
-  try {
     // Get embeds from interaction body.
     const embed = interaction.message.embeds[0];
 
@@ -58,7 +56,10 @@ export default async function summarizeNewsButton(interaction: ButtonInteraction
     });
 
     // Done
-    await interaction.deferUpdate();
+    await interaction.reply({
+      ephemeral: true,
+      content: `Sent in DM: ${dmMessage.url}`,
+    });
 
     const languageCollector = dmMessage.channel.createMessageComponentCollector({
       max: 1,
@@ -71,7 +72,11 @@ export default async function summarizeNewsButton(interaction: ButtonInteraction
     });
 
     languageCollector.on('end', async collected => {
-      if (collected.size === 0 || !embed.data.title || !embed.data.url) return;
+      if (collected.size === 0 || !embed.data.title || !embed.data.url) {
+        await dmMessage.delete();
+
+        return;
+      }
 
       const selectedMenu = collected.first() as StringSelectMenuInteraction;
 
@@ -87,7 +92,7 @@ export default async function summarizeNewsButton(interaction: ButtonInteraction
           ? article.parsedTextContent.slice(0, 1700) + '...'
           : article.parsedTextContent;
 
-      logging.info(`Summarization Request: ${embed.data.title}`);
+      logging.info(`NEW TRANSLATION: Request: ${embed.data.title}`);
 
       const language = selectedMenu.values[0];
 
@@ -102,10 +107,9 @@ export default async function summarizeNewsButton(interaction: ButtonInteraction
       });
 
       // Log and record
-      logging.info(`Summarization Finished: ${embed.data.title}`);
+      logging.info(`NEWS SUMMARIZING: Returned result: ${embed.data.title}`);
     });
-  } catch (error) {
-    logging.error(error);
-    Sentry.captureException(error);
-  }
-}
+  },
+};
+
+export default button;

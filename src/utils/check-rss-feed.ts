@@ -174,7 +174,9 @@ export default async function checkRss(client: Client) {
       }
     }
 
-    logging.info(`Notification Pushed (${num_messages_sent}), Failed (${num_messages_failed})`);
+    logging.info(
+      `NEWS PUSH: Notification Pushed (${num_messages_sent}), Failed (${num_messages_failed})`,
+    );
   } catch (error) {
     logging.error(error);
     Sentry.captureException(error);
