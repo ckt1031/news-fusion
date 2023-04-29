@@ -1,11 +1,8 @@
 import axios from 'axios';
 import xml2js from 'xml2js';
 
-import logger from './logger';
-
 interface WeatherLocation {
   name: string;
-  zipcode: string;
   lat: string;
   long: string;
   timezone: string;
@@ -15,16 +12,19 @@ interface WeatherLocation {
 }
 
 interface CurrentWeather {
-  observationtime: string;
   temperature: string;
+  skycode: string;
   skytext: string;
+  date: string;
+  observationtime: string;
+  observationpoint: string;
+  feelslike: string;
   humidity: string;
   winddisplay: string;
+  day: string;
+  shortday: string;
+  windspeed: string;
   imageUrl: string;
-  date: string;
-  feelslike: string;
-  observationpoint: string;
-  uvindex: string;
 }
 
 interface ForecastWeather {
@@ -65,96 +65,95 @@ export const findWeather = async (options: WeatherOptions): Promise<WeatherItem[
 
   const reqUrl = `${findUrl}?src=outlook&weadegreetype=${degreeType}&culture=${lang}&weasearchstr=${search}`;
 
-  try {
-    const response = await axios.get(reqUrl, { timeout });
-    const body = response.data;
+  const response = await axios.get(reqUrl, { timeout });
+  const body: string = response.data;
 
-    if (body.indexOf('<') !== 0) {
-      if (body.search(/not found/i) !== -1) {
-        return [];
-      }
-      throw new Error('Invalid body content');
+  if (!body.startsWith('<')) {
+    if (body.search(/not found/i) !== -1) {
+      return [];
     }
-
-    const resultJSON = await xml2js.parseStringPromise(body, {
-      charkey: 'C$',
-      attrkey: 'A$',
-      explicitArray: true,
-    });
-
-    if (!resultJSON?.weatherdata?.weather) {
-      throw new Error('Failed to parse weather data');
-    }
-
-    if (resultJSON.weatherdata.weather.A$?.errormessage) {
-      throw new Error(resultJSON.weatherdata.weather.A$.errormessage);
-    }
-
-    const weatherItems: WeatherItem[] = [];
-
-    for (const weather of resultJSON.weatherdata.weather) {
-      if (!weather.A$ || typeof weather.A$ !== 'object') {
-        continue;
-      }
-
-      const weatherItem: WeatherItem = {
-        location: {
-          name: weather.A$.weatherlocationname,
-          zipcode: weather.A$.zipcode,
-          lat: weather.A$.lat,
-          long: weather.A$.long,
-          timezone: weather.A$.timezone,
-          alert: weather.A$.alert,
-          degreetype: weather.A$.degreetype,
-          imagerelativeurl: weather.A$.imagerelativeurl,
-        },
-        current: null,
-        forecast: null,
-      };
-
-      if (Array.isArray(weather.current) && weather.current.length > 0) {
-        const currentWeather = weather.current[0].A$;
-        if (currentWeather && typeof currentWeather === 'object') {
-          weatherItem.current = {
-            observationtime: currentWeather.observationtime,
-            temperature: currentWeather.temperature,
-            skytext: currentWeather.skytext,
-            humidity: currentWeather.humidity,
-            winddisplay: currentWeather.winddisplay,
-            date: currentWeather.date,
-            imageUrl: `${weatherItem.location.imagerelativeurl}law/${currentWeather.skycode}.gif`,
-            feelslike: currentWeather.feelslike,
-            observationpoint: currentWeather.observationpoint,
-            uvindex: currentWeather.uvindex,
-          };
-        }
-      }
-
-      if (Array.isArray(weather.forecast)) {
-        const forecastWeather: ForecastWeather[] = [];
-        for (const forecast of weather.forecast) {
-          if (forecast && typeof forecast.A$ === 'object') {
-            forecastWeather.push({
-              low: forecast.A$.low,
-              high: forecast.A$.high,
-              skycodeday: forecast.A$.skycodeday,
-              skytextday: forecast.A$.skytextday,
-              date: forecast.A$.date,
-              day: forecast.A$.day,
-              shortday: forecast.A$.shortday,
-              precip: forecast.A$.precip,
-              weekday: forecast.A$.weekday,
-            });
-          }
-        }
-        weatherItem.forecast = forecastWeather;
-      }
-
-      weatherItems.push(weatherItem);
-    }
-
-    return weatherItems;
-  } catch (error) {
-    logger.error(error);
+    throw new Error('Invalid body content');
   }
+
+  const resultJSON = await xml2js.parseStringPromise(body, {
+    charkey: 'C$',
+    attrkey: 'A$',
+    explicitArray: true,
+  });
+
+  if (!resultJSON?.weatherdata?.weather) {
+    throw new Error('Failed to parse weather data');
+  }
+
+  if (resultJSON.weatherdata.weather.A$?.errormessage) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    throw new Error(resultJSON.weatherdata.weather.A$.errormessage);
+  }
+
+  const weatherItems: WeatherItem[] = [];
+
+  for (const weather of resultJSON.weatherdata.weather) {
+    if (!weather.A$ || typeof weather.A$ !== 'object') {
+      continue;
+    }
+
+    const weatherItem: WeatherItem = {
+      location: {
+        name: weather.A$.weatherlocationname,
+        lat: weather.A$.lat,
+        long: weather.A$.long,
+        timezone: weather.A$.timezone,
+        alert: weather.A$.alert,
+        degreetype: weather.A$.degreetype,
+        imagerelativeurl: weather.A$.imagerelativeurl,
+      },
+      current: null,
+      forecast: null,
+    };
+
+    if (Array.isArray(weather.current) && weather.current.length > 0) {
+      const currentWeather: CurrentWeather | undefined = weather.current[0].A$;
+      if (currentWeather && typeof currentWeather === 'object') {
+        weatherItem.current = {
+          day: currentWeather.day,
+          shortday: currentWeather.shortday,
+          windspeed: currentWeather.windspeed,
+          observationtime: currentWeather.observationtime,
+          temperature: currentWeather.temperature,
+          skytext: currentWeather.skytext,
+          humidity: currentWeather.humidity,
+          winddisplay: currentWeather.winddisplay,
+          date: currentWeather.date,
+          skycode: currentWeather.skycode,
+          imageUrl: `${weatherItem.location.imagerelativeurl}law/${currentWeather.skycode}.gif`,
+          feelslike: currentWeather.feelslike,
+          observationpoint: currentWeather.observationpoint,
+        };
+      }
+    }
+
+    if (Array.isArray(weather.forecast)) {
+      const forecastWeather: ForecastWeather[] = [];
+      for (const forecast of weather.forecast) {
+        if (forecast && typeof forecast.A$ === 'object') {
+          forecastWeather.push({
+            low: forecast.A$.low,
+            high: forecast.A$.high,
+            skycodeday: forecast.A$.skycodeday,
+            skytextday: forecast.A$.skytextday,
+            date: forecast.A$.date,
+            day: forecast.A$.day,
+            shortday: forecast.A$.shortday,
+            precip: forecast.A$.precip,
+            weekday: forecast.A$.weekday,
+          });
+        }
+      }
+      weatherItem.forecast = forecastWeather;
+    }
+
+    weatherItems.push(weatherItem);
+  }
+
+  return weatherItems;
 };
