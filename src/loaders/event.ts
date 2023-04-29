@@ -1,7 +1,6 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import chalk from 'chalk';
 import type { Client } from 'discord.js';
 import { glob } from 'glob';
 
@@ -41,5 +40,5 @@ export async function loadDiscordEvent(client: Client) {
   }
 
   // Print number of loaded events.
-  console.log(chalk.greenBright.bold(`Loaded ${allFiles.length} Discord events.`));
+  logger.debug(`Loaded ${allFiles.length} Discord events.`);
 }
