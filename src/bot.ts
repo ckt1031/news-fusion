@@ -30,3 +30,5 @@ declare module 'discord.js' {
     interactions: Collection<string, InteractionHandlers>;
   }
 }
+
+export { client };

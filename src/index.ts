@@ -2,10 +2,11 @@ import * as Sentry from '@sentry/node';
 import mongoose from 'mongoose';
 
 import './validate-env';
-import './bot';
 import './web';
 
+import { client } from './bot';
 import logging from './utils/logger';
+import logger from './utils/logger';
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
@@ -28,3 +29,17 @@ process.on('unhandledRejection', err => {
   logging.error(err);
   Sentry.captureException(err);
 });
+
+// When the process exits, close the connection to the database
+async function handleExit() {
+  await mongoose.connection.close();
+  client.destroy();
+  logger.info('Node.js Server is shutting down...');
+  // eslint-disable-next-line unicorn/no-process-exit
+  process.exit(0);
+}
+
+process.on('SIGINT', handleExit);
+process.on('SIGTERM', handleExit);
+process.on('SIGUSR2', handleExit);
+process.on('exit', handleExit);
