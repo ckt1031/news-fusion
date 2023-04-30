@@ -139,7 +139,7 @@ export default async function checkRss(client: Client) {
               embeds: [message],
               components: [row],
               ...(source.enableRoleMention &&
-                tagData.mentionRoleId && {
+                tagData.mentionRoleId.length > 0 && {
                   content: `<@&${tagData.mentionRoleId}>`,
                   allowedMentions: {
                     roles: [tagData.mentionRoleId],

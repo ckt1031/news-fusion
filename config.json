@@ -30,6 +30,11 @@
         { "enableRoleMention": true, "url": "http://googleresearch.blogspot.com/atom.xml" }
       ],
       "tech_chn": [
+        {
+          "enableRoleMention": false,
+          "url": "https://www.pingwest.com/feed/"
+        },
+        { "enableRoleMention": false, "url": "https://www.oschina.net/news/rss" },
         { "enableRoleMention": false, "url": "http://feeds2.feedburner.com/cnbeta-full" },
         { "enableRoleMention": false, "url": "https://rsshub.app/solidot/www" },
         { "enableRoleMention": false, "url": "http://www.geekpark.net/rss" },
@@ -68,22 +73,22 @@
       { "channelId": "1099990101527891988", "mentionRoleId": "", "name": "ithome" },
       {
         "channelId": "1099988714563833877",
-        "mentionRoleId": "1101094286373683200",
+        "mentionRoleId": "",
         "name": "programming"
       },
       {
         "channelId": "1099988515397320715",
-        "mentionRoleId": "1101094286373683200",
+        "mentionRoleId": "",
         "name": "tech_chn"
       },
       {
         "channelId": "1099989197663780885",
-        "mentionRoleId": "1101094286373683200",
+        "mentionRoleId": "",
         "name": "tech_en"
       },
       {
         "channelId": "1101095152073838602",
-        "mentionRoleId": "1101094286373683200",
+        "mentionRoleId": "",
         "name": "tech_blog"
       }
     ]
