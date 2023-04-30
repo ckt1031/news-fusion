@@ -1,4 +1,4 @@
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 
 # Create app directory
 WORKDIR /app
@@ -16,7 +16,7 @@ COPY . .
 RUN npm run build
 
 # Final stage
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Create app directory
 WORKDIR /app
