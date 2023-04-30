@@ -2,18 +2,19 @@
   "name": "cktsun-helper",
   "type": "module",
   "scripts": {
+    "build": "tsup src --minify --format esm --sourcemap --clean --target esnext",
     "format": "prettier --write .",
     "lint": "eslint --fix .",
-    "start": "NODE_ENV=production node --loader @esbuild-kit/esm-loader -r dotenv/config src/index.ts | pino-pretty",
+    "start": "cross-env NODE_ENV=production node -r dotenv/config dist/index.js | pino-pretty",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@esbuild-kit/esm-loader": "2.5.5",
     "@extractus/article-extractor": "7.2.14",
     "@iamtraction/google-translate": "2.0.1",
     "@sentry/node": "7.50.0",
     "axios": "1.4.0",
     "croner": "6.0.3",
+    "cross-env": "7.0.3",
     "dayjs": "1.11.7",
     "discord.js": "14.9.0",
     "dotenv": "16.0.3",
@@ -39,6 +40,7 @@
     "@types/xml2js": "0.4.11",
     "eslint": "8.39.0",
     "prettier": "2.8.8",
+    "tsup": "6.7.0",
     "typescript": "5.0.4"
   },
   "packageManager": "npm@9.6.5",
