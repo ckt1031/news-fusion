@@ -19,7 +19,7 @@ export interface DiscordEvent {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export async function loadButtons(client: Client) {
-  let folderPath = join(__dirname, '../interactions/**/*.{js,ts}');
+  let folderPath = join(__dirname, '../dist/interactions/**/*.{js,ts}');
 
   // Parse path in windows
   if (process.platform === 'win32') {
@@ -36,8 +36,6 @@ export async function loadButtons(client: Client) {
   for (const filePath of allFiles) {
     // Get event content.
     const interaction: InteractionHandlers = (await import(filePath)).default;
-
-    console.log(`${interaction.type}-${interaction.customId}`);
 
     client.interactions.set(`${interaction.type}-${interaction.customId}`, interaction);
   }

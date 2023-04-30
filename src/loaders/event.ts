@@ -10,7 +10,9 @@ import logger from '../utils/logger';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export async function loadDiscordEvent(client: Client) {
-  let folderPath = join(__dirname, '../events/**/*.{js,ts}');
+  let folderPath = join(__dirname, '../dist/events/**/*.{js,ts}');
+
+  logger.info(folderPath);
 
   // Parse path in windows
   if (process.platform === 'win32') {
