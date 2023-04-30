@@ -25,11 +25,11 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=8080
 
-COPY --from=build /app/dist ./dist
-COPY --from=build /app/package*.json ./
+COPY --from=base /app/dist ./dist
+COPY --from=base /app/package*.json ./
 
 # Install production dependencies
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 # Expose port
 EXPOSE 8080

@@ -19,7 +19,7 @@ export interface DiscordEvent {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export async function loadButtons(client: Client) {
-  let folderPath = join(__dirname, '../interactions/**/*.ts');
+  let folderPath = join(__dirname, '../interactions/**/*.{js,ts}');
 
   // Parse path in windows
   if (process.platform === 'win32') {
@@ -29,6 +29,7 @@ export async function loadButtons(client: Client) {
   const allFiles = await glob(folderPath);
 
   if (allFiles.length === 0) {
+    logger.error('No interactions found.');
     return;
   }
 
