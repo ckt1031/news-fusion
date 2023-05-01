@@ -3,8 +3,8 @@ FROM node:20-alpine AS base
 # Create app directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy package.json, package-lock.json and .npmrc
+COPY package*.json .npmrc ./
 
 # Install dependencies
 RUN npm ci
@@ -26,7 +26,7 @@ ENV NODE_ENV=production
 ENV PORT=8080
 
 COPY --from=base /app/dist ./dist
-COPY --from=base /app/package*.json ./
+COPY --from=base /app/package*.json /app/.npmrc ./
 
 # Install production dependencies
 RUN npm ci --omit=dev
