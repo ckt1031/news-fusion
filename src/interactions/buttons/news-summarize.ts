@@ -81,7 +81,7 @@ const button: InteractionHandlers = {
       const selectedMenu = collected.first() as StringSelectMenuInteraction;
 
       await dmMessage.edit({
-        content: '👌🏻 Keep your patience! Summarizing this news...',
+        content: `👌🏻 Keep your patience! Summarizing news: **__${embed.data.title}__**`,
         components: [],
       });
 
