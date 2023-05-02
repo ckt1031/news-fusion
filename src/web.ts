@@ -1,29 +1,35 @@
 import dayjs from 'dayjs';
-import express from 'express';
+import fastify from 'fastify';
 import sAgo from 's-ago';
 
 import logging from './utils/logger';
 
-const app = express();
+const app = fastify();
 
 const PORT = process.env.PORT ?? 3000;
 
-app.get('/', (_, res) => {
-  res.send('Hello World!');
+app.get('/', () => {
+  return 'Hello World!';
 });
 
-app.get('/versions', (_, res) => {
-  res.send({
+app.get('/versions', () => {
+  return {
     server: process.versions,
-  });
+  };
 });
 
-app.get('/uptime', (_, res) => {
-  res.send({
-    uptime: sAgo(dayjs().subtract(process.uptime(), 'second').toDate()),
-  });
+app.get('/uptime', () => {
+  return {
+    instance: sAgo(dayjs().subtract(process.uptime(), 'second').toDate()),
+  };
 });
 
-app.listen(PORT, () => {
-  logging.info(`SERVER: Server is running on port ${PORT}`);
-});
+app.listen(
+  {
+    port: Number(PORT),
+    host: '0.0.0.0',
+  },
+  () => {
+    logging.info(`SERVER: Server is running on port ${PORT}`);
+  },
+);
