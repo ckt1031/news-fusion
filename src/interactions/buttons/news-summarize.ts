@@ -98,12 +98,12 @@ const button: InteractionHandlers = {
 
       const reply = await cleanRequestPrompt(
         `Title: ${embed.data.title}\n${content} (Please summarize this news in ${
-          language === 'en' ? 'English' : 'Chinese Traditional (Taiwan)'
+          language === 'en' ? 'English (US)' : 'Chinese Traditional (Taiwan ZH_TW) (NO SIMPLIFIED)'
         } with professional tone, don't include any hyperlinks and urls, response with the text only)`,
       );
 
       await dmMessage.edit({
-        content: `Summary:\n\n${reply}\n\nURL: ${embed.data.url}`,
+        content: `AI Summary: **${embed.data.title}**\nURL: ${embed.data.url}\n\n${reply}`,
       });
 
       // Log and record

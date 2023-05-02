@@ -109,7 +109,7 @@ const button: InteractionHandlers = {
       const translatedText = await translate(`Title: ${embed.data.title}\n\n${desc}`, options);
 
       await dmMessage.edit({
-        content: `Translation:\n\n${translatedText.text}\n\nURL: ${embed.data.url}`,
+        content: `Translation: **${embed.data.title}**\nURL: ${embed.data.url}\n\n${translatedText.text}`,
       });
 
       // Log and record
