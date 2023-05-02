@@ -6,7 +6,7 @@ import { findWeather } from '../../utils/msn-weather';
 
 const modal: InteractionHandlers = {
   type: 'modal',
-  customId: 'weatherdashboard-show_info',
+  customId: 'WEATHER_DASHBOARD-INFO_MODAL',
   run: async ({ interaction }) => {
     if (!interaction.channel || !interaction.isModalSubmit()) {
       return;

@@ -18,11 +18,11 @@ export const event: DiscordEvent = {
   once: false,
   name: Events.InteractionCreate,
   run: async (interaction: Interaction) => {
-    const type = getInteractionType(interaction);
-
-    const interactionHandler = interaction.client.interactions;
-
     if (interaction.isButton() || interaction.isModalSubmit()) {
+      const type = getInteractionType(interaction);
+
+      const interactionHandler = interaction.client.interactions;
+
       const customId = `${type}-${interaction.customId}`;
 
       const handler = interactionHandler.get(customId);
@@ -39,40 +39,5 @@ export const event: DiscordEvent = {
         if (error instanceof Error) console.error(error);
       }
     }
-
-    // // If the interaction is a modal.
-    // if (interaction.isModalSubmit()) {
-    //   // eslint-disable-next-line sonarjs/no-small-switch
-    //   switch (interaction.customId) {
-    //     case 'WEATHER_DASHBOARD-INFO_MODAL': {
-    //       await weatherInfoModalResponse(interaction);
-    //       break;
-    //     }
-    //   }
-    // } else if (interaction.isButton()) {
-    //   switch (interaction.customId) {
-    //     case 'translate_rss_notification': {
-    //       await returnTranslatedButton(interaction);
-    //       break;
-    //     }
-    //     case 'summarize_rss_news': {
-    //       await summarizeNewsButton(interaction);
-    //       break;
-    //     }
-    //     case 'weatherdashboard-show_info': {
-    //       await weatherInfoButton(interaction);
-    //       break;
-    //     }
-    //     default: {
-    //       logging.error(`Unknown button ID: ${interaction.customId}`);
-
-    //       await interaction.reply({
-    //         content: 'Unknown button ID 🤔',
-    //         ephemeral: true,
-    //       });
-    //       break;
-    //     }
-    //   }
-    // }
   },
 };
