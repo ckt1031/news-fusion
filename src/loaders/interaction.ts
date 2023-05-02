@@ -4,11 +4,9 @@ import { fileURLToPath } from 'node:url';
 import type {
   Client,
   ClientEvents,
-  RESTPostAPIChatInputApplicationCommandsJSONBody} from 'discord.js';
-import {
-  REST,
-  Routes,
+  RESTPostAPIChatInputApplicationCommandsJSONBody,
 } from 'discord.js';
+import { REST, Routes } from 'discord.js';
 import { glob } from 'glob';
 
 import type { InteractionHandlers } from '../sturctures/interactions';

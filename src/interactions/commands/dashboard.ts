@@ -1,11 +1,5 @@
-import type {
-  MessageActionRowComponentBuilder} from 'discord.js';
-import {
-  ButtonBuilder,
-  ButtonStyle,
-  EmbedBuilder,
-  SlashCommandBuilder,
-} from 'discord.js';
+import type { MessageActionRowComponentBuilder } from 'discord.js';
+import { ButtonBuilder, ButtonStyle, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 import { ActionRowBuilder } from 'discord.js';
 
 import type { InteractionHandlers } from '../../sturctures/interactions';
