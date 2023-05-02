@@ -1,7 +1,14 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import type { Client, ClientEvents } from 'discord.js';
+import type {
+  Client,
+  ClientEvents,
+  RESTPostAPIChatInputApplicationCommandsJSONBody} from 'discord.js';
+import {
+  REST,
+  Routes,
+} from 'discord.js';
 import { glob } from 'glob';
 
 import type { InteractionHandlers } from '../sturctures/interactions';
@@ -27,6 +34,7 @@ export async function loadButtons(client: Client) {
   }
 
   const allFiles = await glob(folderPath);
+  const commands: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
 
   if (allFiles.length === 0) {
     logger.error('No interactions found.');
@@ -37,7 +45,22 @@ export async function loadButtons(client: Client) {
     // Get event content.
     const interaction: InteractionHandlers = (await import(filePath)).default;
 
+    if (interaction.type === 'command') {
+      client.interactions.set(`command-${interaction.data.name}`, interaction);
+      commands.push(interaction.data.toJSON());
+      continue;
+    }
+
     client.interactions.set(`${interaction.type}-${interaction.customId}`, interaction);
+  }
+
+  if (commands.length > 0) {
+    // Register interactions.
+    const rest = new REST().setToken(process.env.TOKEN);
+
+    await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID), {
+      body: commands,
+    });
   }
 
   // Print number of loaded events.

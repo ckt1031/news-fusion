@@ -33,7 +33,8 @@ export default async function checkRss(client: Client) {
           .filter(item => {
             if (!item.pubDate) return false;
 
-            return dayjs(item.pubDate).valueOf() > Date.now() - 1000 * 60 * 60 * 5; // 12 hours
+            // Ignore feeds older than 12 hours.
+            return dayjs(item.pubDate).valueOf() > Date.now() - 1000 * 60 * 60 * 5;
           })
           // Sort to ascending order.
           .sort((a, b) => dayjs(a.pubDate).valueOf() - dayjs(b.pubDate).valueOf());

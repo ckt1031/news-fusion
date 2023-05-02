@@ -17,7 +17,7 @@ Sentry.init({
   tracesSampleRate: 1,
 });
 
-void mongoose.connect(`${process.env.MONGODB_URL}CktsunHelperDiscordBot`, {
+await mongoose.connect(`${process.env.MONGODB_URL}CktsunHelperDiscordBot`, {
   autoIndex: false,
 });
 

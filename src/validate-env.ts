@@ -18,6 +18,11 @@ const ZodEnvironmentVariables = z.object({
   SENTRY_DSN: z.string(),
   // MongoDB for database.
   MONGODB_URL: z.string(),
+  // Slash commands
+  GUILD_ID: z.string(),
+  CLIENT_ID: z.string(),
+  // Discord bot owner
+  OWNER_ID: z.string(),
 });
 
 ZodEnvironmentVariables.parse(process.env);
