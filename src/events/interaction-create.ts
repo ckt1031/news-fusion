@@ -13,7 +13,7 @@ function getInteractionType(interaction: Interaction) {
   } else if (interaction.isCommand()) {
     return 'command';
   } else {
-    throw new Error('Unknown interaction type.');
+    return 'unknown';
   }
 }
 
