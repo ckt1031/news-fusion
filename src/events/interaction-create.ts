@@ -44,14 +44,7 @@ export const event: DiscordEvent = {
     } else if (interaction.isCommand()) {
       const interactionHandler = interaction.client.interactions;
 
-      const command = interaction.command;
-
-      if (!command) {
-        logging.error(`Interaction command not found: ${interaction.commandName}`);
-        return;
-      }
-
-      const customId = `command-${interaction.command.name}`;
+      const customId = `command-${interaction.commandName}`;
 
       const handler = interactionHandler.get(customId);
 
