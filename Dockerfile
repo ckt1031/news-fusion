@@ -15,9 +15,6 @@ COPY . .
 # Build app
 RUN npm run build
 
-# Upload source maps to Sentry
-RUN npm run sentry-upload-sourcemaps
-
 # Final stage
 FROM node:20-alpine
 
