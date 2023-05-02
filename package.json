@@ -6,7 +6,7 @@
     "format": "prettier --write .",
     "lint": "eslint --fix .",
     "sentry-upload-sourcemaps": "sentry-cli sourcemaps upload dist --release=prd",
-    "start": "cross-env NODE_ENV=production node -r dotenv/config dist/index.js | pino-pretty",
+    "start": "cross-env NODE_ENV=production node --enable-source-map -r dotenv/config dist/index.js | pino-pretty",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
