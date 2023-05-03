@@ -31,7 +31,7 @@ const button: InteractionHandlers = {
         .setCustomId('language-selection')
         .setPlaceholder('Select a language')
         .addOptions(
-          new StringSelectMenuOptionBuilder().setLabel('English').setValue('en'),
+          new StringSelectMenuOptionBuilder().setLabel('English (United States)').setValue('en-US'),
           new StringSelectMenuOptionBuilder()
             .setLabel('Chinese (Traditional Taiwan)')
             .setValue('zh-TW'),
@@ -81,7 +81,9 @@ const button: InteractionHandlers = {
       const selectedMenu = collected.first() as StringSelectMenuInteraction;
 
       await dmMessage.edit({
-        content: `👌🏻 Keep your patience! Summarizing news: **__${embed.data.title}__**`,
+        content: `👌🏻 Keep your patience! Summarizing news into ${
+          selectedMenu.values[0] === 'en-US' ? 'English (US)' : 'Chinese Traditional (Taiwan)'
+        }: **__${embed.data.title}__**`,
         components: [],
       });
 
@@ -98,8 +100,10 @@ const button: InteractionHandlers = {
 
       const reply = await cleanRequestPrompt(
         `Title: ${embed.data.title}\n${content} (Please summarize this news in ${
-          language === 'en' ? 'English (US)' : 'Chinese Traditional (Taiwan ZH_TW) (NO SIMPLIFIED)'
-        } with professional tone, don't include any hyperlinks and urls, response with the text only)`,
+          language === 'en-US'
+            ? 'English (US)'
+            : 'Chinese Traditional (Taiwan ZH_TW) (NO SIMPLIFIED)'
+        } with professional tone and include details info, don't include any hyperlinks, response with the text only under 1700 word length)`,
       );
 
       await dmMessage.edit({

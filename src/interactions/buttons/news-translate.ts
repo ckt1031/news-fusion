@@ -28,7 +28,7 @@ const button: InteractionHandlers = {
         .setPlaceholder('Select a language')
         .addOptions(
           new StringSelectMenuOptionBuilder()
-            .setLabel('MetaData: To English')
+            .setLabel('MetaData: To English (United States)')
             .setValue('metadata:en'),
           new StringSelectMenuOptionBuilder()
             .setLabel('MetaData: To Chinese (Traditional Taiwan)')
