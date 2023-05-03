@@ -44,6 +44,6 @@
     "tsup": "6.7.0",
     "typescript": "5.0.4"
   },
-  "packageManager": "npm@9.6.5",
+  "packageManager": "npm@9.6.6",
   "prettier": "@ckt1031/prettier-config"
 }
