@@ -4,7 +4,6 @@
       "global": [
         { "enableRoleMention": false, "url": "https://time.com/feed/" },
         { "enableRoleMention": false, "url": "https://www.cnet.com/rss/news/" },
-        { "enableRoleMention": false, "url": "https://www.engadget.com/rss.xml" },
         { "enableRoleMention": false, "url": "https://feedx.net/rss/economist.xml" },
         { "enableRoleMention": false, "url": "http://feeds2.feedburner.com/businessinsider" },
         { "enableRoleMention": false, "url": "http://feeds.guardian.co.uk/theguardian/world/rss" }
@@ -23,7 +22,30 @@
         { "enableRoleMention": true, "url": "https://github.blog/feed/" },
         { "enableRoleMention": true, "url": "https://blog.cloudflare.com/rss/" }
       ],
+      "science": [
+        {
+          "enableRoleMention": false,
+          "url": "https://news.mit.edu/rss/research"
+        },
+        {
+          "enableRoleMention": false,
+          "url": "https://www.sciencedaily.com/rss/all.xml"
+        },
+        { "enableRoleMention": false, "url": "https://www.newscientist.com/feed/home" },
+        {
+          "enableRoleMention": false,
+          "url": "https://www.sciencenews.org/feed/"
+        },
+        {
+          "enableRoleMention": false,
+          "url": "https://api.quantamagazine.org/feed/"
+        }
+      ],
       "tech_blog": [
+        {
+          "enableRoleMention": true,
+          "url": "https://deepmind.com/blog/feed/basic/"
+        },
         { "enableRoleMention": true, "url": "https://googleaiblog.blogspot.com/atom.xml" },
         { "enableRoleMention": true, "url": "https://openai.com/blog/rss.xml" },
         { "enableRoleMention": true, "url": "http://feeds.feedburner.com/blogspot/hsDu" },
@@ -50,6 +72,7 @@
         { "enableRoleMention": false, "url": "http://feeds.freegroup.org/freegroup/" }
       ],
       "tech_en": [
+        { "enableRoleMention": false, "url": "https://www.engadget.com/rss.xml" },
         { "enableRoleMention": true, "url": "https://www.theverge.com/rss/index.xml" },
         { "enableRoleMention": true, "url": "https://techcrunch.com/feed/" },
         { "enableRoleMention": true, "url": "http://9to5google.com/feed/" },
@@ -64,6 +87,12 @@
         { "enableRoleMention": false, "url": "https://pureinfotech.com/feed/" },
         { "enableRoleMention": false, "url": "http://feeds2.feedburner.com/thenextweb" },
         { "enableRoleMention": false, "url": "https://www.technologyreview.com/topnews.rss" }
+      ],
+      "v2ex": [
+        {
+          "enableRoleMention": false,
+          "url": "https://v2ex.com/index.xml"
+        }
       ]
     },
     "tags": [
@@ -90,6 +119,16 @@
         "channelId": "1101095152073838602",
         "mentionRoleId": "",
         "name": "tech_blog"
+      },
+      {
+        "channelId": "1103645699381415977",
+        "mentionRoleId": "",
+        "name": "v2ex"
+      },
+      {
+        "channelId": "1103678369045942282",
+        "mentionRoleId": "",
+        "name": "science"
       }
     ]
   }
