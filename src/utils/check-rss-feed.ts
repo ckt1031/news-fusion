@@ -1,6 +1,7 @@
 import url from 'node:url';
 
 import * as Sentry from '@sentry/node';
+import SHA256 from 'crypto-js/sha256';
 import dayjs from 'dayjs';
 import type { Client, MessageActionRowComponentBuilder } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
@@ -8,8 +9,71 @@ import normalizeUrl from 'normalize-url';
 import Parser from 'rss-parser';
 
 import config from '../../config.json';
-import RssSourceCheck from '../models/RssFeedChecks';
+import RssFeedChecks from '../models/RssFeedChecks';
 import logging from '../utils/logger';
+import { defaultCache } from './cache';
+
+// Cache of the last time a feed was checked, using n0de-cache
+class FeedCache {
+  private cache = defaultCache;
+
+  public async get(key: { sourceURL: string; feedURL: string }) {
+    const cacheKey = SHA256(JSON.stringify(key)).toString();
+
+    const cacheData = this.cache.get(cacheKey);
+
+    if (cacheData) {
+      // use type RssSourceCheck
+      return cacheData;
+    }
+
+    const returnData = await RssFeedChecks.findOne({
+      sourceURL: key.sourceURL,
+      feedURL: key.feedURL,
+    });
+
+    if (returnData) {
+      this.cache.set(SHA256(cacheKey).toString(), returnData, 60 * 60 * 24); // 24 hours
+    }
+
+    return returnData;
+  }
+
+  public async set(
+    key: {
+      sourceURL: string;
+      feedURL: string;
+      lastChecked: number;
+    },
+    hasData: boolean,
+  ) {
+    const cacheKey = SHA256(
+      JSON.stringify({
+        sourceURL: key.sourceURL,
+        feedURL: key.feedURL,
+      }),
+    ).toString();
+
+    if (hasData) {
+      await RssFeedChecks.findOneAndUpdate(
+        { sourceURL: key.sourceURL },
+        {
+          lastChecked: Date.now(),
+        },
+      );
+    } else {
+      const newData = new RssFeedChecks({
+        sourceURL: key.sourceURL,
+        feedURL: key.feedURL,
+        lastChecked: Date.now(),
+      });
+
+      await newData.save();
+    }
+
+    this.cache.set(cacheKey, key, 60 * 60 * 24); // 24 hours
+  }
+}
 
 export default async function checkRss(client: Client) {
   try {
@@ -46,11 +110,13 @@ export default async function checkRss(client: Client) {
           try {
             if (!entry.link || !entry.title) continue;
 
-            const checkData = await RssSourceCheck.findOne({
+            const checkData = await new FeedCache().get({
               sourceURL: source.url,
               feedURL: entry.link,
             });
 
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             if (checkData?.lastChecked && checkData.lastChecked < Date.now()) continue;
 
             const favicoURL = `https://www.google.com/s2/favicons?domain=${entry.link}`;
@@ -151,14 +217,14 @@ export default async function checkRss(client: Client) {
             num_messages_sent += 1;
 
             if (checkData) {
-              await RssSourceCheck.findOneAndUpdate(
+              await RssFeedChecks.findOneAndUpdate(
                 { sourceUR: source.url },
                 {
                   lastChecked: Date.now(),
                 },
               );
             } else {
-              const newData = new RssSourceCheck({
+              const newData = new RssFeedChecks({
                 sourceURL: source.url,
                 feedURL: entry.link,
                 lastChecked: Date.now(),
@@ -166,6 +232,15 @@ export default async function checkRss(client: Client) {
 
               await newData.save();
             }
+
+            await new FeedCache().set(
+              {
+                sourceURL: source.url,
+                feedURL: entry.link,
+                lastChecked: Date.now(),
+              },
+              checkData ? true : false,
+            );
           } catch (error) {
             logging.error(error);
             Sentry.captureException(error);

@@ -12,7 +12,7 @@ export const headers = {
   'Accept-Language': 'en-US,en;q=0.9',
   'apollographql-client-version': '1.1.6-65',
   'apollographql-client-name': 'com.quora.app.Experts-apollo-ios',
-  'User-Agent': 'Poe 1.1.6 rv:65 env:prod (iPhone14,2; iOS 16.2; en_US)',
+  'User-Agent': 'Poe 1.2.10 rv:65 env:prod (iPhone14,2; iOS 16.2; en_US)',
   // Credentials
   Cookie: process.env.POE_COOKIE,
   'Quora-Formkey': process.env.POE_QUORA_FORMKEY,
