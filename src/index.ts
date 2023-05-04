@@ -5,11 +5,22 @@ import './validate-env';
 import './web';
 
 import { client } from './bot';
+import { isDevelopment } from './constants';
 import logging from './utils/logger';
 import logger from './utils/logger';
 
+// Handle uncaught errors
+function captureUnhandledRejections(err: Error) {
+  logging.error(err);
+  Sentry.captureException(err);
+}
+
+process.on('uncaughtException', captureUnhandledRejections);
+process.on('unhandledRejection', captureUnhandledRejections);
+
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
+  enabled: !isDevelopment,
 
   // Set tracesSampleRate to 1.0 to capture 100%
   // of transactions for performance monitoring.
@@ -19,15 +30,6 @@ Sentry.init({
 
 await mongoose.connect(`${process.env.MONGODB_URL}CktsunHelperDiscordBot`, {
   autoIndex: false,
-});
-
-process.on('uncaughtException', err => {
-  logging.error(err);
-  Sentry.captureException(err);
-});
-process.on('unhandledRejection', err => {
-  logging.error(err);
-  Sentry.captureException(err);
 });
 
 // When the process exits, close the connection to the database
