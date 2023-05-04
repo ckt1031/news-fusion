@@ -1,7 +1,7 @@
 import url from 'node:url';
 
 import * as Sentry from '@sentry/node';
-import SHA256 from 'crypto-js/sha256';
+import SHA256 from 'crypto-js/sha256.js';
 import dayjs from 'dayjs';
 import type { Client, MessageActionRowComponentBuilder } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
