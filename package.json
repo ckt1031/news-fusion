@@ -12,7 +12,7 @@
   "dependencies": {
     "@extractus/article-extractor": "7.2.14",
     "@iamtraction/google-translate": "2.0.1",
-    "@sentry/node": "7.50.0",
+    "@sentry/node": "7.51.0",
     "axios": "1.4.0",
     "croner": "6.0.3",
     "cross-env": "7.0.3",
