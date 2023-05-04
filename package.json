@@ -2,7 +2,7 @@
   "name": "cktsun-helper",
   "type": "module",
   "scripts": {
-    "build": "tsup src --minify --format esm --sourcemap --clean --target esnext",
+    "build": "tsup src --format esm --sourcemap --clean --target esnext --no-splitting",
     "format": "prettier --write .",
     "lint": "eslint --fix .",
     "sentry-upload-sourcemaps": "sentry-cli sourcemaps upload dist --release=prd",
