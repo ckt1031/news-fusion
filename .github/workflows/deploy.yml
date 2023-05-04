@@ -10,6 +10,24 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: actions/setup-node@v3
+        with:
+          cache: npm
+          node-version: lts
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build app
+        run: npm run build
+
+      - name: Upload sourcemaps to Sentry
+        run: npx sentry-cli sourcemaps upload dist --org $SENTRY_ORG --project $SENTRY_PROJECT --release=prd
+        env:
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
       - run: flyctl deploy --remote-only
