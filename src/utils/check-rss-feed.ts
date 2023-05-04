@@ -145,8 +145,9 @@ export default async function checkRss(client: Client) {
                 iconURL: favicoURL,
                 url: publisherURL,
               })
-              .setDescription(truncatedSnippet)
               .setTimestamp(msSinceEpoch);
+
+            if (truncatedSnippet.length > 0) message.setDescription(truncatedSnippet);
 
             // Image
             const raw_content: string = entry['content:encoded'] || entry.content;
