@@ -19,10 +19,10 @@ const client = new Client({
 
 client.interactions = new Collection();
 
-void loadDiscordEvent(client);
-void loadButtons(client);
+await loadDiscordEvent(client);
+await loadButtons(client);
 
-void client.login(process.env.TOKEN);
+await client.login(process.env.TOKEN);
 
 // declare types.
 declare module 'discord.js' {

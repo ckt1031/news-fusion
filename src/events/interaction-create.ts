@@ -44,11 +44,11 @@ export const event: DiscordEvent = {
     } else if (interaction.isCommand()) {
       const interactionHandler = interaction.client.interactions;
 
-      const customId = `command-${interaction.commandName}`;
+      const customId = `${type}-${interaction.commandName}`;
 
       const handler = interactionHandler.get(customId);
 
-      if (!handler) {
+      if (!handler || handler.type !== 'command') {
         logging.error(`Interaction handler not found: ${customId}`);
 
         return;

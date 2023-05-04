@@ -1,6 +1,7 @@
-import { model, Schema } from 'mongoose';
+/* eslint-disable unicorn/filename-case */
+import * as mongoose from 'mongoose';
 
-const ModuleSchema = new Schema(
+const ModuleSchema = new mongoose.Schema(
   {
     sourceURL: { type: String, required: true },
     feedURL: { type: String, required: true },
@@ -13,4 +14,4 @@ const ModuleSchema = new Schema(
 
 ModuleSchema.index({ sourceURL: 1, feedURL: 1 }, { unique: true });
 
-export default model('rss-feed-checks', ModuleSchema);
+export default mongoose.model('rss-feed-checks', ModuleSchema);

@@ -62,5 +62,5 @@ export async function loadButtons(client: Client) {
   }
 
   // Print number of loaded events.
-  logger.debug(`Loaded ${allFiles.length} interactions.`);
+  logger.info(`Loaded ${allFiles.length} interactions.`);
 }

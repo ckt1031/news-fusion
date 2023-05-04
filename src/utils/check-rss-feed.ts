@@ -8,7 +8,7 @@ import normalizeUrl from 'normalize-url';
 import Parser from 'rss-parser';
 
 import config from '../../config.json';
-import RssSourceCheck from '../models/rss-feed-check';
+import RssSourceCheck from '../models/RssFeedChecks';
 import logging from '../utils/logger';
 
 export default async function checkRss(client: Client) {

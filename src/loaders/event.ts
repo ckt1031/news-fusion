@@ -12,8 +12,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export async function loadDiscordEvent(client: Client) {
   let folderPath = join(__dirname, '../dist/events/**/*.{js,ts}');
 
-  logger.info(folderPath);
-
   // Parse path in windows
   if (process.platform === 'win32') {
     folderPath = folderPath.replaceAll('\\', '/');
@@ -42,5 +40,5 @@ export async function loadDiscordEvent(client: Client) {
   }
 
   // Print number of loaded events.
-  logger.debug(`Loaded ${allFiles.length} Discord events.`);
+  logger.info(`Loaded ${allFiles.length} Discord events.`);
 }

@@ -9,7 +9,7 @@ const command: InteractionHandlers = {
   type: 'command',
   data: new SlashCommandBuilder().setName('dashboard').setDescription('Show the admin dashboard'),
   run: async ({ interaction }) => {
-    if (!interaction.channel || !interaction.isButton()) {
+    if (!interaction.channel || !interaction.isCommand()) {
       return;
     }
 
@@ -22,7 +22,7 @@ const command: InteractionHandlers = {
       return;
     }
 
-    logging.info('WEATHER INFO: Sent modal');
+    logging.info('DASHBOARD: Sent embeds');
 
     const embed = new EmbedBuilder();
     embed.setTitle('Admin Dashboard');
@@ -33,8 +33,14 @@ const command: InteractionHandlers = {
       .setLabel('Shirk Database')
       .setStyle(ButtonStyle.Primary);
 
+    const botInfoButton = new ButtonBuilder()
+      .setCustomId('bot-info')
+      .setLabel('Bot Info')
+      .setStyle(ButtonStyle.Primary);
+
     const row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
       shirkDatabaseButton,
+      botInfoButton,
     );
 
     await interaction.reply({

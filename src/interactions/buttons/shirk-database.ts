@@ -1,4 +1,4 @@
-import rssFeedCheck from '../../models/rss-feed-check';
+import RssFeedCheck from '../../models/RssFeedChecks';
 import type { InteractionHandlers } from '../../sturctures/interactions';
 import logging from '../../utils/logger';
 
@@ -19,10 +19,10 @@ const button: InteractionHandlers = {
       return;
     }
 
-    // Delete data which the field lastChecked (in ms) is older than 1 day.
+    // Delete data which the field lastChecked (in ms) is older than 24 hours.
     const deleteOlderThan = Date.now() - 1000 * 60 * 60 * 24;
 
-    await rssFeedCheck.deleteMany({
+    await RssFeedCheck.deleteMany({
       lastChecked: {
         $lt: deleteOlderThan,
       },
