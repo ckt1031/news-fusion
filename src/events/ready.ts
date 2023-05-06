@@ -2,8 +2,8 @@ import Cron from 'croner';
 import type { Client } from 'discord.js';
 import { ActivityType, Events } from 'discord.js';
 
+import { checkFeeds } from '../rss/checking';
 import type { DiscordEvent } from '../sturctures/event';
-import checkRss from '../utils/check-rss-feed';
 import logging from '../utils/logger';
 
 function setDiscordStatus(client: Client) {
@@ -22,7 +22,7 @@ export const event: DiscordEvent = {
     if (client.user) logging.info(`BOT: Logged in as ${client.user.tag}!`);
 
     setDiscordStatus(client);
-    await checkRss(client);
+    await checkFeeds(client);
 
     // recheck every 3 minute
     Cron(
@@ -31,7 +31,7 @@ export const event: DiscordEvent = {
         timezone: 'Asia/Hong_Kong',
       },
       async () => {
-        await checkRss(client);
+        await checkFeeds(client);
       },
     );
 

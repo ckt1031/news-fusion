@@ -38,6 +38,8 @@ const button: InteractionHandlers = {
       embeds: [embed],
       components: [row],
     });
+
+    await interaction.deferUpdate();
   },
 };
 

@@ -1,7 +1,16 @@
+import { z } from 'zod';
+
 import { getResponse } from '../../ai/edge-gpt';
 import type { InteractionHandlers } from '../../sturctures/interactions';
 import extractArticle from '../../utils/extract-article';
 import logging from '../../utils/logger';
+
+const modalRequestSchema = z.object({
+  articleURL: z.string().url(),
+  textMode: z.enum(['balanced', 'concise']).default('balanced'),
+  textLengthMode: z.enum(['short', 'normal', 'detailed']).default('normal'),
+  language: z.enum(['english', 'chinese']).default('english'),
+});
 
 const button: InteractionHandlers = {
   type: 'modal',
@@ -11,43 +20,39 @@ const button: InteractionHandlers = {
       return;
     }
 
+    const interactionData = modalRequestSchema.parse({
+      articleURL: interaction.fields.getTextInputValue('article_url').toLowerCase(),
+      text_mode: interaction.fields.getTextInputValue('text_mode').toLowerCase(),
+      text_length_mode: interaction.fields.getTextInputValue('text_length_mode').toLowerCase(),
+      language: interaction.fields.getTextInputValue('language').toLowerCase(),
+    });
+
     await interaction.deferUpdate();
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    const textMode = interaction.fields.getTextInputValue('text_mode').toLowerCase() ?? 'balanced';
-    let textLengthMode =
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      interaction.fields.getTextInputValue('text_length_mode').toLowerCase() ?? 'normal';
+    const { articleURL, textMode, textLengthMode, language } = interactionData;
 
-    const url = interaction.fields.getTextInputValue('article_url');
-
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    let language = interaction.fields.getTextInputValue('language').toLowerCase() ?? 'english';
+    let textLengthModePrompt = '';
 
     switch (textLengthMode) {
       case 'short': {
-        textLengthMode = 'in short';
+        textLengthModePrompt = 'in short';
         break;
       }
       case 'normal': {
-        textLengthMode = 'in normal length';
+        textLengthModePrompt = 'in normal length';
         break;
       }
       case 'detailed': {
-        textLengthMode = 'in possibly detailed';
+        textLengthModePrompt = 'in possibly detailed';
         break;
       }
       // No default
     }
 
-    language =
-      language === 'english'
-        ? 'English (US)'
-        : 'Chinese Traditional (Taiwan ZH_TW) (NO SIMPLIFIED)';
+    const languagePrompt =
+      language === 'english' ? 'English (US)' : 'Chinese Traditional Taiwan (NO SIMPLIFIED)';
 
-    if (!url) return;
-
-    const article = await extractArticle(url);
+    const article = await extractArticle(articleURL);
     const user = interaction.client.users.cache.get(interaction.user.id);
 
     if (!user || !article.title || !article.source) return;
@@ -57,17 +62,17 @@ const button: InteractionHandlers = {
         ? article.parsedTextContent.slice(0, 1600) + '...'
         : article.parsedTextContent;
 
-    logging.info(`NEW TRANSLATION: Request: ${article.title}`);
+    logging.info(`NEW SUMMARIZING: Request: ${article.title}`);
 
-    const order = `(Please summarize this news in ${language} with professional tone, the text should be ${textLengthMode} with maxmium 1600 word length, don't include any hyperlinks, change personal subject to the exact object)`;
+    const order = `(Please summarize this news in ${languagePrompt} with professional tone, the text should be ${textLengthModePrompt} with maxmium 1600 word length, don't include any hyperlinks, change personal subject to the exact object)`;
 
     const reply = await getResponse(
-      textMode === 'balanced' ? 'balanced' : 'concise',
-      `${order} Source: ${article.source}\nTitle: ${article.title}\n${content}`,
+      textMode,
+      `${order}\nSource:${article.source}\nTitle:${article.title}\nContent:${content}`,
     );
 
     await user.send({
-      content: `AI Summary: **${article.title}**\nURL: ${url}\n\n${reply}`,
+      content: `AI Summary: **${article.title}**\nURL: ${articleURL}\n\n${reply}`,
     });
 
     // Log and record
