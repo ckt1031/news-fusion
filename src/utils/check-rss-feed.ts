@@ -198,9 +198,15 @@ export default async function checkRss(client: Client) {
               .setLabel('Summarize (AI)')
               .setStyle(ButtonStyle.Primary);
 
+            const starButton = new ButtonBuilder()
+              .setCustomId('news-starboard-add')
+              .setEmoji('⭐')
+              .setStyle(ButtonStyle.Primary);
+
             const row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
               translateButton,
               summarizeButton,
+              starButton,
             );
 
             await channel.send({
