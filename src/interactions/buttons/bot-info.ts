@@ -19,7 +19,7 @@ const button: InteractionHandlers = {
     const embed = new EmbedBuilder()
       .setTitle("Bot's Information")
       .setDescription(
-        'Hello! I am Draconian Bot, honored to see you here. Information below is my body analysis :)',
+        'Information below is my analysis.',
       )
       .addFields([
         {
