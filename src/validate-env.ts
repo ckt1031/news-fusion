@@ -23,6 +23,8 @@ const ZodEnvironmentVariables = z.object({
   CLIENT_ID: z.string(),
   // Discord bot owner
   OWNER_ID: z.string(),
+  // Bing
+  BING_COOKIE: z.string(),
 });
 
 ZodEnvironmentVariables.parse(process.env);

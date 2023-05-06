@@ -5,10 +5,10 @@ import {
   StringSelectMenuOptionBuilder,
 } from 'discord.js';
 
+import { getResponse } from '../../ai/edge-gpt';
 import type { InteractionHandlers } from '../../sturctures/interactions';
 import extractArticle from '../../utils/extract-article';
 import logging from '../../utils/logger';
-import { cleanRequestPrompt } from '../../utils/poe-com';
 
 const button: InteractionHandlers = {
   type: 'button',
@@ -98,7 +98,7 @@ const button: InteractionHandlers = {
 
       const language = selectedMenu.values[0];
 
-      const reply = await cleanRequestPrompt(
+      const reply = await getResponse(
         `Title: ${embed.data.title}\n${content} (Please summarize this news in ${
           language === 'en-US'
             ? 'English (US)'
