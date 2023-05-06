@@ -15,6 +15,14 @@ export interface IEdgeGPTResponse {
   };
 }
 
+export type ChatMode = 'creative' | 'concise' | 'balanced';
+
+export enum ChatModeOptions {
+  creative = 'h3imaginative',
+  concise = 'h3precise',
+  balanced = 'galileo',
+}
+
 async function getConversation() {
   const userAgent =
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.68';
@@ -33,12 +41,12 @@ async function getConversation() {
     throw new Error(response.data.result.message);
   }
 
-  logger.info(`Conversation created: ${response.data.conversationId}`);
+  logger.info(`BingAI: Conversation created: ${response.data.conversationId}`);
 
   return response.data;
 }
 
-export async function getResponse(textPrompt: string) {
+export async function getResponse(mode: ChatMode, textPrompt: string) {
   const conversation = await getConversation();
 
   return new Promise<string>((resolve, reject) => {
@@ -52,13 +60,13 @@ export async function getResponse(textPrompt: string) {
     let wsPushInterval: NodeJS.Timeout;
 
     wsClient.on('open', () => {
-      logger.info('WebSocket connection opened');
+      logger.info(`BingAI: WebSocket connection opened: ${conversation.conversationId}`);
       // Send initial message to GPT WebSocket
       wsClient.send(JSON.stringify({ protocol: 'json', version: 1 }) + terminalChar);
     });
 
     wsClient.on('error', error => {
-      logger.error('WebSocket error:', error);
+      logger.error('BingAI: WebSocket error:', error);
 
       if (!isFulfilled) {
         isFulfilled = true;
@@ -83,6 +91,8 @@ export async function getResponse(textPrompt: string) {
         // Close WebSocket connection
         wsClient.close();
 
+        logger.info(`BingAI: Response received: ${conversation.conversationId}`);
+
         resolve(resultText);
       }
 
@@ -105,12 +115,12 @@ export async function getResponse(textPrompt: string) {
               {
                 source: 'cib',
                 optionsSets: [
-                  'h3precise',
                   'enablemm',
                   'deepleo',
                   'disable_emoji_spoken_text',
                   'nlu_direct_response_filter',
                   'responsible_ai_policy_235',
+                  ChatModeOptions[mode],
                 ],
                 allowedMessageTypes: ['Chat'],
                 sliceIds: [],

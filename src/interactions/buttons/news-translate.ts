@@ -56,7 +56,7 @@ const button: InteractionHandlers = {
     });
 
     // Create a collector to wait for user to select a language
-    const languageCollector = interaction.channel.createMessageComponentCollector({
+    const languageCollector = dmMessage.channel.createMessageComponentCollector({
       max: 1,
       // Wait for user to select a language
       filter: i =>
