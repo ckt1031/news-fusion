@@ -34,7 +34,7 @@ export class RssFeedChecksCache {
     const returnData = response?.toObject();
 
     if (returnData) {
-      this.cache.set(SHA256(cacheKey).toString(), returnData, 60 * 60 * 24); // 24 hours
+      this.cache.set(cacheKey, returnData, 60 * 60 * 24); // 24 hours
     }
 
     return returnData;
