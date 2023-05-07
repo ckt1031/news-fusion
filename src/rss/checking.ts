@@ -209,7 +209,7 @@ export async function checkFeeds(client: Client) {
         });
 
         await cache.set({
-          sourceURL: article.url,
+          sourceURL: source.url,
           feedURL: article.url,
           lastChecked: Date.now(),
         });
