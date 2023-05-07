@@ -101,11 +101,7 @@ export async function checkFeeds(client: Client) {
     for (const data of feeds) {
       const { article, source, tag } = data;
 
-      console.log(0);
-
       if (!article.url || !article.title || !article.pubDate) continue;
-
-      console.log(1);
 
       try {
         const cache = new RssFeedChecksCache();
@@ -118,8 +114,6 @@ export async function checkFeeds(client: Client) {
         if (checkData && checkData.lastChecked < Date.now()) {
           continue;
         }
-
-        console.log(2);
 
         const faviconURL = `https://www.google.com/s2/favicons?domain=${article.url}`;
         const publisherURL = `${url.parse(article.url).protocol ?? ''}//${
