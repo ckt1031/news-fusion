@@ -65,11 +65,11 @@ const button: InteractionHandlers = {
 
     logging.info(`NEW SUMMARIZING: Request: ${article.title}`);
 
-    const order = `(Please summarize this news in ${languagePrompt} with professional tone, the text should be ${textLengthModePrompt} with maxmium 1600 word length, don't include any hyperlinks, change personal subject to the exact object)`;
+    const order = `(Summarize this article in ONLY ${languagePrompt} LANGUAGE with professional tone, text should be ${textLengthModePrompt} with maxmium 1600 word length, don't include any hyperlinks, change personal subject to the exact object)`;
 
     const reply = await getResponse(
       textMode,
-      `${order} Source:${article.source}\nTitle:${article.title}\n${content}`,
+      `${order}\nSource: ${article.source}\nTitle: ${article.title}\nContent: ${content}`,
     );
 
     await user.send({
