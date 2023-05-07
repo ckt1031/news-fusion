@@ -146,7 +146,7 @@ export async function checkFeeds(client: Client) {
         if (truncatedSnippet.length > 0) message.setDescription(truncatedSnippet);
 
         // Image
-        const raw_content: string = article.data['content:encoded'] || article.content;
+        const raw_content: string = article['content:encoded'] || article.content;
 
         if (raw_content) {
           const img = raw_content.match(/<img[^>]+src="([^">]+)"/i);
