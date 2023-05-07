@@ -156,7 +156,7 @@ export async function getResponse(mode: ChatMode, textPrompt: string) {
                   timestamp: new Date().toISOString().replace(/\.\d{3}/, ''),
                   author: 'user',
                   inputMethod: 'Keyboard',
-                  text: `(Do not cite from any links or article, but you can search it, any questions to ask me, response with the answer only) ${textPrompt}`,
+                  text: `(DO NOT SEARCH, DO NOT INCLUDE any questions to ask me, response with the answer only) ${textPrompt}`,
                   messageType: 'Chat',
                 },
                 conversationSignature: conversation.conversationSignature,
