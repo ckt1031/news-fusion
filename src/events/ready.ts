@@ -24,9 +24,9 @@ export const event: DiscordEvent = {
     setDiscordStatus(client);
     await checkFeeds(client);
 
-    // recheck every 3 minute
+    // recheck every 5 minute
     Cron(
-      '*/3 * * * *',
+      '*/5 * * * *',
       {
         timezone: 'Asia/Hong_Kong',
       },

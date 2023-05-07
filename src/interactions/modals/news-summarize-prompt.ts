@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { z } from 'zod';
 
 import { getResponse } from '../../ai/edge-gpt';
@@ -21,10 +22,10 @@ const button: InteractionHandlers = {
     }
 
     const interactionData = modalRequestSchema.parse({
-      articleURL: interaction.fields.getTextInputValue('article_url').toLowerCase(),
-      text_mode: interaction.fields.getTextInputValue('text_mode').toLowerCase(),
-      text_length_mode: interaction.fields.getTextInputValue('text_length_mode').toLowerCase(),
-      language: interaction.fields.getTextInputValue('language').toLowerCase(),
+      articleURL: interaction.fields.getTextInputValue('article_url')?.toLowerCase(),
+      text_mode: interaction.fields.getTextInputValue('text_mode')?.toLowerCase(),
+      text_length_mode: interaction.fields.getTextInputValue('text_length_mode')?.toLowerCase(),
+      language: interaction.fields.getTextInputValue('language')?.toLowerCase(),
     });
 
     await interaction.deferUpdate();
@@ -68,7 +69,7 @@ const button: InteractionHandlers = {
 
     const reply = await getResponse(
       textMode,
-      `${order}\nSource:${article.source}\nTitle:${article.title}\nContent:${content}`,
+      `${order} Source:${article.source}\nTitle:${article.title}\n${content}`,
     );
 
     await user.send({

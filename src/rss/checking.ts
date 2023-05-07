@@ -21,19 +21,22 @@ interface FeedItem {
   pubDate: string;
 
   // everything else is optional
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
 interface RssFeed {
-  title: string;
-  url: string;
+  source: {
+    title: string;
+    url: string;
+  };
   tag: {
     name: string;
     channelId: string;
     mentionRoleId?: string;
     enableRoleMention: boolean;
   };
-  data: Partial<FeedItem>;
+  article: Partial<FeedItem>;
 }
 
 async function fetchAllRssFeeds() {
@@ -59,45 +62,64 @@ async function fetchAllRssFeeds() {
           if (dayjs(item.pubDate).valueOf() < Date.now() - 1000 * 60 * 60 * 5) continue;
 
           feeds.push({
-            title: feed.title,
-            url: feed.link,
+            source: {
+              title: feed.title,
+              url: feed.link,
+            },
             tag: {
               name: tagData.name,
               channelId: tagData.channelId,
               mentionRoleId: tagData.mentionRoleId,
               enableRoleMention: source.enableRoleMention,
             },
-            data: item,
+            article: {
+              title: item.title,
+              url: item.link,
+              pubDate: item.pubDate,
+              ...item,
+            },
           });
         }
       } catch {
         logger.error(`Error fetching ${source.url}`);
+        continue;
       }
     }
   }
+
+  logger.info(`Fetched ${feeds.length} RSS feeds.`);
 
   return feeds;
 }
 
 export async function checkFeeds(client: Client) {
-  try {
-    const feeds = await fetchAllRssFeeds();
+  logger.info('Checking RSS feeds...');
 
-    for (const item of feeds) {
-      const article = item.data;
+  const feeds = await fetchAllRssFeeds();
+
+  try {
+    for (const data of feeds) {
+      const { article, source, tag } = data;
+
+      console.log(0);
+
       if (!article.url || !article.title || !article.pubDate) continue;
+
+      console.log(1);
 
       try {
         const cache = new RssFeedChecksCache();
 
         const checkData = await cache.get({
-          sourceURL: item.url,
+          sourceURL: source.url,
           feedURL: article.url,
         });
 
         if (checkData && checkData.lastChecked < Date.now()) {
           continue;
         }
+
+        console.log(2);
 
         const faviconURL = `https://www.google.com/s2/favicons?domain=${article.url}`;
         const publisherURL = `${url.parse(article.url).protocol ?? ''}//${
@@ -121,7 +143,7 @@ export async function checkFeeds(client: Client) {
           .setURL(article.url)
           .setTitle(article.title)
           .setAuthor({
-            name: item.title,
+            name: source.title,
             iconURL: faviconURL,
             url: publisherURL,
           })
@@ -130,7 +152,7 @@ export async function checkFeeds(client: Client) {
         if (truncatedSnippet.length > 0) message.setDescription(truncatedSnippet);
 
         // Image
-        const raw_content: string = item.data['content:encoded'] || item.data.content;
+        const raw_content: string = article.data['content:encoded'] || article.content;
 
         if (raw_content) {
           const img = raw_content.match(/<img[^>]+src="([^">]+)"/i);
@@ -138,24 +160,24 @@ export async function checkFeeds(client: Client) {
           if (img?.[0] && img[0].startsWith('blob:')) message.setImage(normalizeUrl(img[1]));
         }
 
-        if (item.data.media) {
-          const url: string = item.data.media.content.url;
+        if (article.media) {
+          const url: string = article.media.content.url;
 
           if (!url.startsWith('blob:')) message.setImage(normalizeUrl(url));
         }
 
-        if (item.data['media:thumbnail']) {
-          const url: string = item.data['media:thumbnail']._attributes.url;
+        if (article['media:thumbnail']) {
+          const url: string = article['media:thumbnail']._attributes.url;
 
           if (!url.startsWith('blob:')) message.setImage(normalizeUrl(url));
         }
 
-        if (item.data.enclosure && !item.data.enclosure.url.startsWith('blob:')) {
-          message.setImage(normalizeUrl(item.data.enclosure.url as string));
+        if (article.enclosure && !article.enclosure.url.startsWith('blob:')) {
+          message.setImage(normalizeUrl(article.enclosure.url as string));
         }
 
         // Send message
-        const channel = client.channels.cache.get(item.tag.channelId);
+        const channel = client.channels.cache.get(tag.channelId);
 
         if (!channel?.isTextBased()) continue;
 
@@ -183,17 +205,17 @@ export async function checkFeeds(client: Client) {
         await channel.send({
           embeds: [message],
           components: [row],
-          ...(item.tag.enableRoleMention &&
-            item.tag.mentionRoleId && {
-              content: `<@&${item.tag.mentionRoleId}>`,
+          ...(tag.enableRoleMention &&
+            tag.mentionRoleId && {
+              content: `<@&${tag.mentionRoleId}>`,
               allowedMentions: {
-                roles: [item.tag.mentionRoleId],
+                roles: [tag.mentionRoleId],
               },
             }),
         });
 
         await cache.set({
-          sourceURL: item.url,
+          sourceURL: article.url,
           feedURL: article.url,
           lastChecked: Date.now(),
         });
