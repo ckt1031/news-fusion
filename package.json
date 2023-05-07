@@ -46,7 +46,7 @@
     "@types/pidusage": "2.0.2",
     "@types/set-cookie-parser": "2.4.2",
     "@types/xml2js": "0.4.11",
-    "eslint": "8.39.0",
+    "eslint": "8.40.0",
     "prettier": "2.8.8",
     "tsup": "6.7.0",
     "typescript": "5.0.4"
