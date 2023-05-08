@@ -27,7 +27,7 @@
     "node-cache": "5.1.2",
     "normalize-url": "8.0.0",
     "pidusage": "3.0.2",
-    "pino": "8.12.1",
+    "pino": "8.14.1",
     "pino-pretty": "10.0.0",
     "rss-parser": "3.13.0",
     "s-ago": "2.2.0",
