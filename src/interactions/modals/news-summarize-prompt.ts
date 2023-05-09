@@ -1,17 +1,18 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
-import { z } from 'zod';
-
 import { getResponse } from '../../ai/edge-gpt';
+import { cleanRequestPrompt } from '../../ai/quora';
 import type { InteractionHandlers } from '../../sturctures/interactions';
 import extractArticle from '../../utils/extract-article';
 import logging from '../../utils/logger';
 
-const modalRequestSchema = z.object({
-  articleURL: z.string().url(),
-  textMode: z.enum(['balanced', 'concise']).default('balanced'),
-  textLengthMode: z.enum(['short', 'normal', 'detailed']).default('normal'),
-  language: z.enum(['english', 'chinese']).default('english'),
-});
+function processInput(input: string, options: Record<string, string>, defaultValue: string) {
+  if (input in options) {
+    return options[String(input)];
+  } else if (Object.values(options).includes(input)) {
+    return input;
+  } else {
+    return defaultValue;
+  }
+}
 
 const button: InteractionHandlers = {
   type: 'modal',
@@ -21,22 +22,48 @@ const button: InteractionHandlers = {
       return;
     }
 
-    const interactionData = modalRequestSchema.parse({
-      articleURL: interaction.fields.getTextInputValue('article_url')?.toLowerCase(),
-      text_mode: interaction.fields.getTextInputValue('text_mode')?.toLowerCase(),
-      text_length_mode: interaction.fields.getTextInputValue('text_length_mode')?.toLowerCase(),
-      language: interaction.fields.getTextInputValue('language')?.toLowerCase(),
-    });
+    const articleURL = interaction.fields.getTextInputValue('article_url');
+
+    // Available Options for text_length_mode: 1.Short, 2.Normal, 3.Detailed
+    const textLengthMode = processInput(
+      interaction.fields.getTextInputValue('text_length_mode'),
+      {
+        '1': 'short',
+        '2': 'normal',
+        '3': 'detailed',
+      },
+      'normal',
+    );
+
+    // Available Options for language: 1.English, 2.Chinese
+    const language = processInput(
+      interaction.fields.getTextInputValue('language'),
+      {
+        '1': 'english',
+        '2': 'chinese',
+      },
+      'english',
+    );
+
+    // Available Options for ai_model: 1.Bing, 2.Poe.com
+    const aiModel = processInput(
+      interaction.fields.getTextInputValue('ai_model'),
+      {
+        '1': 'bing',
+        '2': 'poe',
+      },
+      'bing',
+    );
+
+    const languagePrompt = language === 'english' ? 'English (US)' : 'Chinese Traditional (Taiwan)';
 
     await interaction.deferUpdate();
-
-    const { articleURL, textMode, textLengthMode, language } = interactionData;
 
     let textLengthModePrompt = '';
 
     switch (textLengthMode) {
       case 'short': {
-        textLengthModePrompt = 'in short';
+        textLengthModePrompt = 'in short and SINGLE paragraph ONLY';
         break;
       }
       case 'normal': {
@@ -50,9 +77,6 @@ const button: InteractionHandlers = {
       // No default
     }
 
-    const languagePrompt =
-      language === 'english' ? 'English (US)' : 'Chinese Traditional Taiwan (NO SIMPLIFIED)';
-
     const article = await extractArticle(articleURL);
     const user = interaction.client.users.cache.get(interaction.user.id);
 
@@ -65,12 +89,22 @@ const button: InteractionHandlers = {
 
     logging.info(`NEW SUMMARIZING: Request: ${article.title}`);
 
-    const order = `(Summarize this article in ONLY ${languagePrompt} LANGUAGE with professional tone, text should be ${textLengthModePrompt} with maxmium 1600 word length, don't include any hyperlinks, change personal subject to the exact object)`;
+    const order = `(Summarize this article in ONLY ${languagePrompt} LANGUAGE AND professional tone,
+      text should be ${textLengthModePrompt} with maxmium 1500 word length, DON'T include any URLs and hyperlinks, 
+      change personal subject to the exact object)`;
 
-    const reply = await getResponse(
-      textMode,
-      `${order}\nSource: ${article.source}\nTitle: ${article.title}\nContent: ${content}`,
-    );
+    let reply = '';
+
+    if (aiModel === 'bing') {
+      reply = await getResponse(
+        'precise',
+        `${order}\nSource: ${article.source}\nTitle: ${article.title}\nContent: ${content}`,
+      );
+    } else if (aiModel === 'poe') {
+      reply = await cleanRequestPrompt(
+        `${order}\nSource: ${article.source}\nTitle: ${article.title}\nContent: ${content}`,
+      );
+    }
 
     await user.send({
       content: `AI Summary: **${article.title}**\nURL: ${articleURL}\n\n${reply}`,

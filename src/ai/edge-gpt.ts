@@ -15,11 +15,11 @@ export interface IEdgeGPTResponse {
   };
 }
 
-export type ChatMode = 'creative' | 'concise' | 'balanced';
+export type ChatMode = 'creative' | 'precise' | 'balanced';
 
 export enum ChatModeOptions {
   creative = 'h3imaginative',
-  concise = 'h3precise',
+  precise = 'h3precise',
   balanced = 'galileo',
 }
 
@@ -49,7 +49,8 @@ async function getConversation() {
 export async function getResponse(mode: ChatMode, textPrompt: string) {
   const conversation = await getConversation();
 
-  return new Promise<string>((resolve, reject) => {
+  // eslint-disable-next-line sonarjs/prefer-immediate-return
+  const textResult = new Promise<string>((resolve, reject) => {
     const terminalChar = '';
     const wsURL = 'wss://sydney.bing.com/sydney/ChatHub';
     // Use prompt to get response from GPT WebSocket
@@ -115,15 +116,19 @@ export async function getResponse(mode: ChatMode, textPrompt: string) {
               {
                 source: 'cib',
                 optionsSets: [
+                  'dtappid',
                   'enablemm',
                   'deepleo',
+                  'dv3sugg',
+                  'cricinfo',
+                  'cricinfov2',
                   'disable_emoji_spoken_text',
                   'nlu_direct_response_filter',
                   'responsible_ai_policy_235',
-                  ChatModeOptions[mode],
+                  ChatModeOptions[mode as keyof typeof ChatModeOptions],
                 ],
                 allowedMessageTypes: ['Chat'],
-                sliceIds: [],
+                sliceIds: ['222dtappid', '225cricinfo', '224locals0'],
                 traceId: traceId,
                 isStartOfSession: true,
                 message: {
@@ -156,7 +161,7 @@ export async function getResponse(mode: ChatMode, textPrompt: string) {
                   timestamp: new Date().toISOString().replace(/\.\d{3}/, ''),
                   author: 'user',
                   inputMethod: 'Keyboard',
-                  text: `(DO NOT SEARCH, DO NOT INCLUDE any questions to ask me, response with the answer only) ${textPrompt}`,
+                  text: `(Do not include any citation , any questions to ask me, response with the answer only) ${textPrompt}`,
                   messageType: 'Chat',
                 },
                 conversationSignature: conversation.conversationSignature,
@@ -174,4 +179,6 @@ export async function getResponse(mode: ChatMode, textPrompt: string) {
       }
     });
   });
+
+  return textResult;
 }

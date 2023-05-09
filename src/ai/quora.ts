@@ -34,7 +34,7 @@ export async function cleanRequestPrompt(msg: string) {
     if (!cached) break;
 
     // CHeck if this the last bot
-    if (_bot === botOptions[botOptions.length - 1]) {
+    if (_bot === botOptions.at(-1)) {
       // Return try later:
       return 'Please try again later. I am currently busy with other requests.';
     }
@@ -124,7 +124,7 @@ export async function getLatestMessage(bot: string) {
 
     const response = await axios.post(url, data, { headers });
     const responseData = response.data;
-    const lastMessage = responseData.data.chatOfBot.messagesConnection.edges.slice(-1)[0].node;
+    const lastMessage = responseData.data.chatOfBot.messagesConnection.edges.at(-1).node;
     text = lastMessage.text;
     state = lastMessage.state;
     authorNickname = lastMessage.authorNickname;

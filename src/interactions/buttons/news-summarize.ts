@@ -24,24 +24,24 @@ const button: InteractionHandlers = {
       .setCustomId('summarize_rss_news_action')
       .setTitle('News Summarization Prompts');
 
-    const textModeInput = new TextInputBuilder()
-      .setRequired(false)
-      .setCustomId('text_mode')
-      .setPlaceholder('Enter text mode')
-      .setLabel('Text Modes [Concise, Balanced]')
-      .setStyle(TextInputStyle.Short);
-
     const textLengthInput = new TextInputBuilder()
       .setRequired(false)
       .setCustomId('text_length_mode')
-      .setPlaceholder('Enter text length')
-      .setLabel('Text Length [Short, Normal, Detailed]')
+      .setPlaceholder('Enter text length (1.Short, 2.Normal, 3.Detailed)')
+      .setLabel('Text Length')
       .setStyle(TextInputStyle.Short);
 
     const languageInput = new TextInputBuilder()
       .setRequired(false)
       .setCustomId('language')
-      .setPlaceholder('Enter language (English / Chinese)')
+      .setPlaceholder('Enter language (1.English, 2.Chinese)')
+      .setLabel('Language')
+      .setStyle(TextInputStyle.Short);
+
+    const aiModelInput = new TextInputBuilder()
+      .setRequired(false)
+      .setCustomId('ai_model')
+      .setPlaceholder('Enter language (1.Bing, 2.Poe.com)')
       .setLabel('Language')
       .setStyle(TextInputStyle.Short);
 
@@ -54,15 +54,15 @@ const button: InteractionHandlers = {
       .setValue(url);
 
     modal.addComponents(
-      new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(textModeInput),
-    );
-
-    modal.addComponents(
       new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(textLengthInput),
     );
 
     modal.addComponents(
       new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(languageInput),
+    );
+
+    modal.addComponents(
+      new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(aiModelInput),
     );
 
     modal.addComponents(

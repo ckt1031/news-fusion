@@ -18,9 +18,7 @@ const button: InteractionHandlers = {
 
     const embed = new EmbedBuilder()
       .setTitle("Bot's Information")
-      .setDescription(
-        'Information below is my analysis.',
-      )
+      .setDescription('Information below is my analysis.')
       .addFields([
         {
           name: 'Discord.js',

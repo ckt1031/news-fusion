@@ -3,7 +3,7 @@ import { convert } from 'html-to-text';
 
 function removeMarkdownLinks(text: string) {
   // eslint-disable-next-line unicorn/better-regex
-  return text.replace(/\[.*?\]/g, '');
+  return text.replaceAll(/\[.*?\]/g, '');
 }
 
 export default async function extractArticle(url: string) {
