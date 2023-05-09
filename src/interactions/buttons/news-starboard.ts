@@ -22,12 +22,12 @@ const button: InteractionHandlers = {
     const translateButton = new ButtonBuilder()
       .setCustomId('translate_rss_notification')
       .setLabel('Translate')
-      .setStyle(ButtonStyle.Primary);
+      .setStyle(ButtonStyle.Secondary);
 
     const summarizeButton = new ButtonBuilder()
       .setCustomId('summarize_rss_news')
       .setLabel('Summarize (AI)')
-      .setStyle(ButtonStyle.Primary);
+      .setStyle(ButtonStyle.Secondary);
 
     const row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
       translateButton,
