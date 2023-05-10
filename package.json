@@ -21,7 +21,7 @@
     "discord.js": "14.11.0",
     "dotenv": "16.0.3",
     "fastify": "4.17.0",
-    "glob": "10.2.2",
+    "glob": "10.2.3",
     "html-to-text": "9.0.5",
     "mongoose": "7.1.0",
     "node-cache": "5.1.2",
