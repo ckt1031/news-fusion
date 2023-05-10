@@ -23,7 +23,7 @@
     "fastify": "4.17.0",
     "glob": "10.2.3",
     "html-to-text": "9.0.5",
-    "mongoose": "7.1.0",
+    "mongoose": "7.1.1",
     "node-cache": "5.1.2",
     "normalize-url": "8.0.0",
     "pidusage": "3.0.2",
