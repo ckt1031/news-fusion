@@ -63,7 +63,7 @@ const button: InteractionHandlers = {
 
     switch (textLengthMode) {
       case 'short': {
-        textLengthModePrompt = 'in short and SINGLE paragraph ONLY';
+        textLengthModePrompt = 'in SHORT/CONCISE and SINGLE paragraph ONLY';
         break;
       }
       case 'normal': {
@@ -71,7 +71,7 @@ const button: InteractionHandlers = {
         break;
       }
       case 'detailed': {
-        textLengthModePrompt = 'in possibly detailed';
+        textLengthModePrompt = 'in possibly detailed with maxmium 1500 word length';
         break;
       }
       // No default
@@ -90,7 +90,7 @@ const button: InteractionHandlers = {
     logging.info(`NEW SUMMARIZING: Request: ${article.title}`);
 
     const order = `(Summarize this article in ONLY ${languagePrompt} LANGUAGE AND professional tone,
-      text should be ${textLengthModePrompt} with maxmium 1500 words/characters, DON'T include any URLs and hyperlinks, 
+      text should be ${textLengthModePrompt}, DON'T include any URLs and hyperlinks, 
       change personal subject to the exact object)`;
 
     let reply = '';
