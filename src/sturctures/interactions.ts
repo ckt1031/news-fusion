@@ -14,7 +14,7 @@ export interface ModalInteractionHandlers {
 
 export interface CommandInteractionHandlers {
   type: 'command';
-  data: SlashCommandBuilder;
+  data: Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>;
   run: ({ interaction }: { interaction: Interaction }) => Promise<void>;
 }
 
