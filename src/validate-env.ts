@@ -10,21 +10,21 @@ declare global {
 }
 
 const ZodEnvironmentVariables = z.object({
-  TOKEN: z.string(),
+  TOKEN: z.string(), // Discord bot token
   // Poe.com reverse engineered API
-  POE_COOKIE: z.string(),
-  POE_QUORA_FORMKEY: z.string(),
+  POE_COOKIE: z.string(), // Poe.com cookie
+  POE_QUORA_FORMKEY: z.string(), // Poe.com Quora form key
   // Sentry error reporting
-  SENTRY_DSN: z.string(),
+  SENTRY_DSN: z.string(), // Sentry DSN
   // MongoDB for database.
-  MONGODB_URL: z.string(),
+  MONGODB_URL: z.string(), // MongoDB URL
   // Slash commands
-  GUILD_ID: z.string(),
-  CLIENT_ID: z.string(),
+  GUILD_ID: z.string(), // Discord guild ID
+  CLIENT_ID: z.string(), // Discord client ID
   // Discord bot owner
-  OWNER_ID: z.string(),
+  OWNER_ID: z.string(), // Discord bot owner ID
   // Bing
-  BING_COOKIE: z.string(),
+  BING_COOKIE: z.string(), // Bing cookie
 });
 
 ZodEnvironmentVariables.parse(process.env);

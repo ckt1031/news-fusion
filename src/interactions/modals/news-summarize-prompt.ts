@@ -4,7 +4,11 @@ import type { InteractionHandlers } from '../../sturctures/interactions';
 import extractArticle from '../../utils/extract-article';
 import logging from '../../utils/logger';
 
-function processInput(input: string, options: Record<string, string>, defaultValue: string) {
+function processInput(
+  input: string,
+  options: Record<string, string>,
+  defaultValue: string,
+): string {
   if (input in options) {
     return options[String(input)];
   } else if (Object.values(options).includes(input)) {

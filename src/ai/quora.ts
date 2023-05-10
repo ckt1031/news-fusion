@@ -18,23 +18,24 @@ export const headers = {
   'Quora-Formkey': process.env.POE_QUORA_FORMKEY,
 };
 
-export async function getQuoraResponse(msg: string) {
+export async function getQuoraResponse(message: string) {
   // Check cache if bot is busy
   const botOptions = ['capybara', 'chinchilla'];
   let cached: boolean | undefined;
   let cacheKey = '';
   let bot = botOptions[0];
 
-  for (const _bot of botOptions) {
-    cacheKey = `POE_API_INSTANCE_USING_${_bot}`;
-    bot = _bot;
+  for (const botOption of botOptions) {
+    // This is the key to cache that we are checking
+    cacheKey = `POE_API_INSTANCE_USING_${botOption}`;
+    bot = botOption;
 
     cached = defaultCache.get(cacheKey);
 
     if (!cached) break;
 
     // CHeck if this the last bot in the list
-    if (_bot === botOptions.at(-1)) {
+    if (botOption === botOptions.at(-1)) {
       // Return try later:
       return 'Please try again later. I am currently busy with other requests.';
     }
@@ -47,7 +48,7 @@ export async function getQuoraResponse(msg: string) {
   const chatId = await loadChatIdMap(bot);
 
   await clearContext(chatId);
-  await sendMessage(msg, bot, chatId);
+  await sendMessage(message, bot, chatId);
 
   // Get the latest response.
   const response = await getLatestMessage(bot);

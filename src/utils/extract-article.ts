@@ -6,19 +6,20 @@ function removeMarkdownLinks(text: string) {
   return text.replaceAll(/\[.*?\]/g, '');
 }
 
+// Extracts content from a URL
 export default async function extractArticle(url: string) {
+  // Extract article
   const article = await extract(url);
 
-  let parsedTextContent = '';
+  // Throw error if no article
+  if (!article) throw new Error('Failed to extract article');
 
-  // If no content, return the article as is
-  if (article?.content) {
-    // Convert HTML to text
-    const content = convert(article.content);
+  // Convert HTML to text
+  const content = convert(article.content ?? '');
 
-    // Remove markdown links
-    parsedTextContent = removeMarkdownLinks(content);
-  }
+  // Remove markdown links
+  const parsedTextContent = removeMarkdownLinks(content);
 
+  // Return article
   return { ...article, parsedTextContent };
 }
