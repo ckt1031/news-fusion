@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 
 import { getBingResponse } from '../../ai/edge-gpt';
-import { cleanRequestPrompt } from '../../ai/quora';
+import { getQuoraResponse } from '../../ai/quora';
 import type { InteractionHandlers } from '../../sturctures/interactions';
 
 const command: InteractionHandlers = {
@@ -56,7 +56,7 @@ const command: InteractionHandlers = {
     if (model === 'bing') {
       reply = await getBingResponse('precise', prompt);
     } else if (model === 'poe') {
-      reply = await cleanRequestPrompt(prompt);
+      reply = await getQuoraResponse(prompt);
     }
 
     await interaction.followUp({

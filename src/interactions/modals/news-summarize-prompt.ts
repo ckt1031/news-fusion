@@ -89,6 +89,7 @@ const button: InteractionHandlers = {
 
     logging.info(`NEW SUMMARIZING: Request: ${article.title}`);
 
+    // Prompt
     const order = `(Summarize this article in ONLY ${languagePrompt} LANGUAGE AND professional tone,
       text should be ${textLengthModePrompt}, DON'T include any URLs and hyperlinks, 
       change personal subject to the exact object)`;

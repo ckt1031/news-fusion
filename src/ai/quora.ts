@@ -19,7 +19,7 @@ export const headers = {
 };
 
 export async function getQuoraResponse(msg: string) {
-  // Check cache
+  // Check cache if bot is busy
   const botOptions = ['capybara', 'chinchilla'];
   let cached: boolean | undefined;
   let cacheKey = '';
@@ -33,7 +33,7 @@ export async function getQuoraResponse(msg: string) {
 
     if (!cached) break;
 
-    // CHeck if this the last bot
+    // CHeck if this the last bot in the list
     if (_bot === botOptions.at(-1)) {
       // Return try later:
       return 'Please try again later. I am currently busy with other requests.';
@@ -43,7 +43,7 @@ export async function getQuoraResponse(msg: string) {
   // Set cache
   defaultCache.set(cacheKey, true, 60);
 
-  // Trigger Poe.com APIs
+  // Trigger Quora APIs
   const chatId = await loadChatIdMap(bot);
 
   await clearContext(chatId);
