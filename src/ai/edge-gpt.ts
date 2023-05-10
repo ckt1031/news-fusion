@@ -3,6 +3,7 @@ import crypto from 'node:crypto';
 import axios from 'axios';
 import ws from 'ws';
 
+import { userAgent } from '../constants';
 import logger from '../utils/logger';
 
 export interface IEdgeGPTResponse {
@@ -24,9 +25,6 @@ export enum ChatModeOptions {
 }
 
 async function getConversation() {
-  const userAgent =
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.68';
-
   const response = await axios.get<IEdgeGPTResponse>(
     'https://www.bing.com/turing/conversation/create',
     {
