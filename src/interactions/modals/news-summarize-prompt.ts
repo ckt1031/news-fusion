@@ -1,5 +1,5 @@
-import { getResponse } from '../../ai/edge-gpt';
-import { cleanRequestPrompt } from '../../ai/quora';
+import { getBingResponse } from '../../ai/edge-gpt';
+import { getQuoraResponse } from '../../ai/quora';
 import type { InteractionHandlers } from '../../sturctures/interactions';
 import extractArticle from '../../utils/extract-article';
 import logging from '../../utils/logger';
@@ -96,12 +96,12 @@ const button: InteractionHandlers = {
     let reply = '';
 
     if (aiModel === 'bing') {
-      reply = await getResponse(
+      reply = await getBingResponse(
         'precise',
         `${order}\nSource: ${article.source}\nTitle: ${article.title}\nContent: ${content}`,
       );
     } else if (aiModel === 'poe') {
-      reply = await cleanRequestPrompt(
+      reply = await getQuoraResponse(
         `${order}\nSource: ${article.source}\nTitle: ${article.title}\nContent: ${content}`,
       );
     }

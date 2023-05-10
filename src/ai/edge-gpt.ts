@@ -46,7 +46,7 @@ async function getConversation() {
   return response.data;
 }
 
-export async function getResponse(mode: ChatMode, textPrompt: string) {
+export async function getBingResponse(mode: ChatMode, textPrompt: string) {
   const conversation = await getConversation();
 
   // eslint-disable-next-line sonarjs/prefer-immediate-return

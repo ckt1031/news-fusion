@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
 
-import { getResponse } from '../../ai/edge-gpt';
+import { getBingResponse } from '../../ai/edge-gpt';
 import { cleanRequestPrompt } from '../../ai/quora';
 import type { InteractionHandlers } from '../../sturctures/interactions';
 
@@ -54,7 +54,7 @@ const command: InteractionHandlers = {
     let reply = '';
 
     if (model === 'bing') {
-      reply = await getResponse('precise', prompt);
+      reply = await getBingResponse('precise', prompt);
     } else if (model === 'poe') {
       reply = await cleanRequestPrompt(prompt);
     }

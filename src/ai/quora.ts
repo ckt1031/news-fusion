@@ -18,7 +18,7 @@ export const headers = {
   'Quora-Formkey': process.env.POE_QUORA_FORMKEY,
 };
 
-export async function cleanRequestPrompt(msg: string) {
+export async function getQuoraResponse(msg: string) {
   // Check cache
   const botOptions = ['capybara', 'chinchilla'];
   let cached: boolean | undefined;
