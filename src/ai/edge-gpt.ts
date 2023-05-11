@@ -97,22 +97,22 @@ export async function getBingResponseWebsocket(
     if (response.type === 2) {
       const resultText = response.item.messages[1].text as string;
 
-      isFulfilled = true;
-
-      // Stop sending prompts
-      clearInterval(wsPushInterval);
-
-      // Close WebSocket connection
-      wsClient.close();
-
-      logger.info(`BingAI: Response received: ${conversation.conversationId}`);
-
       websocket.send(
         JSON.stringify({
           stage: 2,
           result: resultText,
         }),
       );
+
+      isFulfilled = true;
+
+      // Stop sending prompts
+      clearInterval(wsPushInterval);
+
+      logger.info(`BingAI: Response received: ${conversation.conversationId}`);
+
+      // Close WebSocket connection
+      wsClient.close();
     }
 
     // After receiving the initial message, send the prompt
