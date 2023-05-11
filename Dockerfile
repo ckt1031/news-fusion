@@ -26,6 +26,7 @@ ENV NODE_ENV=production
 ENV PORT=8080
 
 COPY --from=base /app/dist ./dist
+COPY --from=base /app/static ./static
 COPY --from=base /app/package*.json /app/.npmrc ./
 
 # Install production dependencies
