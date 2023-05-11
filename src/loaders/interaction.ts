@@ -1,5 +1,4 @@
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 
 import type {
   Client,
@@ -9,6 +8,7 @@ import type {
 import { REST, Routes } from 'discord.js';
 import { glob } from 'glob';
 
+import { __dirname } from '../constants';
 import type { InteractionHandlers } from '../sturctures/interactions';
 import logger from '../utils/logger';
 
@@ -20,8 +20,6 @@ export interface DiscordEvent {
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-explicit-any
   run: (...arguments_: any[]) => Promise<void> | void;
 }
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export async function loadButtons(client: Client) {
   let folderPath = join(__dirname, '../dist/interactions/**/*.{js,ts}');
