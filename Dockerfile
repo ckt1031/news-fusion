@@ -15,6 +15,9 @@ COPY . .
 # Build app
 RUN npm run build
 
+# Minify static files (HTML, CSS, JS)
+RUN npx -y html-minifier-terser --input-dir static --output-dir static --collapse-whitespace --remove-comments --remove-tag-whitespace --minify-js true --minify-css true --use-short-doctype --remove-attribute-quotes
+
 # Final stage
 FROM node:20-alpine
 
