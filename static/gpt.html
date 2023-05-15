@@ -48,7 +48,7 @@
       </form>
       <div id="result-container" class="mt-5 hidden rounded border p-3"></div>
     </div>
-    <div id="logout-container" class="mt-5 text-right">
+    <div class="mt-5 text-right">
       <button
         type="button"
         id="logout-btn"
@@ -62,7 +62,9 @@
       const generateBtn = document.getElementById('generate-btn');
       const resultContainer = document.getElementById('result-container');
       const logoutBtn = document.getElementById('logout-btn');
-      const ws = new WebSocket('ws://' + window.location.host + '/api/bing-ai');
+      const isHttps = window.location.protocol === 'https:';
+      const wsProtocol = isHttps ? 'wss://' : 'ws://';
+      const ws = new WebSocket(wsProtocol + window.location.host + '/api/bing-ai');
 
       form.addEventListener('submit', async event => {
         event.preventDefault();
