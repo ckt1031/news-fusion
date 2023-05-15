@@ -19,7 +19,7 @@
     "@fastify/view": "7.4.1",
     "@fastify/websocket": "8.0.0",
     "@iamtraction/google-translate": "2.0.1",
-    "@sentry/node": "7.51.2",
+    "@sentry/node": "7.52.1",
     "axios": "1.4.0",
     "croner": "6.0.3",
     "cross-env": "7.0.3",
