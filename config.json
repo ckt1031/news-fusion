@@ -80,7 +80,6 @@
         { "enableRoleMention": false, "url": "http://feeds.feedburner.com/fastcompany/headlines" },
         { "enableRoleMention": false, "url": "http://blogs.windows.com/feed/" },
         { "enableRoleMention": false, "url": "http://feeds.wired.com/wired/index" },
-        { "enableRoleMention": false, "url": "https://www.techradar.com/rss" },
         { "enableRoleMention": false, "url": "https://pureinfotech.com/feed/" },
         { "enableRoleMention": false, "url": "http://feeds2.feedburner.com/thenextweb" },
         { "enableRoleMention": false, "url": "https://www.technologyreview.com/topnews.rss" }
