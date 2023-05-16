@@ -12,17 +12,9 @@
       "hacker_news": [{ "enableRoleMention": false, "url": "https://news.ycombinator.com/rss" }],
       "hk": [
         { "enableRoleMention": false, "url": "http://www.scmp.com/rss/2/feed" },
-        { "enableRoleMention": false, "url": "http://www.hket.com/rss/hongkong" },
-        {
-          "enableRoleMention": false,
-          "url": "http://rthk.hk/rthk/news/rss/c_expressnews_clocal.xml"
-        }
+        { "enableRoleMention": false, "url": "http://www.hket.com/rss/hongkong" }
       ],
       "ithome": [{ "enableRoleMention": false, "url": "http://www.ithome.com/rss/" }],
-      "programming": [
-        { "enableRoleMention": true, "url": "https://github.blog/feed/" },
-        { "enableRoleMention": true, "url": "https://blog.cloudflare.com/rss/" }
-      ],
       "science": [
         {
           "enableRoleMention": false,
@@ -42,7 +34,10 @@
           "url": "https://api.quantamagazine.org/feed/"
         }
       ],
-      "tech_blog": [
+      "tech_blog_en": [
+        { "enableRoleMention": true, "url": "https://vercel.com/atom" },
+        { "enableRoleMention": true, "url": "https://github.blog/feed/" },
+        { "enableRoleMention": true, "url": "https://blog.cloudflare.com/rss/" },
         {
           "enableRoleMention": true,
           "url": "https://deepmind.com/blog/feed/basic/"
@@ -54,7 +49,6 @@
       ],
       "tech_chn": [
         { "enableRoleMention": false, "url": "https://www.oschina.net/news/rss" },
-        { "enableRoleMention": false, "url": "http://feeds2.feedburner.com/cnbeta-full" },
         { "enableRoleMention": false, "url": "https://rsshub.app/solidot/www" },
         { "enableRoleMention": false, "url": "http://www.geekpark.net/rss" },
         { "enableRoleMention": false, "url": "http://www.williamlong.info/rss.xml" },
@@ -62,9 +56,9 @@
         { "enableRoleMention": false, "url": "http://feeds.feedburner.com/ruanyifeng" },
         { "enableRoleMention": false, "url": "https://weekly.tw93.fun/rss.xml" },
         { "enableRoleMention": false, "url": "https://linux.cn/rss.xml" },
-        { "enableRoleMention": false, "url": "http://feeds2.feedburner.com/unwirelife" },
         { "enableRoleMention": false, "url": "http://www.ithome.com.tw/rss.xml" },
-        { "enableRoleMention": false, "url": "http://feeds.freegroup.org/freegroup/" }
+        { "enableRoleMention": false, "url": "http://feeds.freegroup.org/freegroup/" },
+        { "enableRoleMention": false, "url": "http://feeds2.feedburner.com/unwirelife" }
       ],
       "tech_en": [
         { "enableRoleMention": false, "url": "https://www.engadget.com/rss.xml" },
@@ -80,13 +74,8 @@
         { "enableRoleMention": false, "url": "http://feeds.wired.com/wired/index" },
         { "enableRoleMention": false, "url": "https://pureinfotech.com/feed/" },
         { "enableRoleMention": false, "url": "http://feeds2.feedburner.com/thenextweb" },
-        { "enableRoleMention": false, "url": "https://www.technologyreview.com/topnews.rss" }
-      ],
-      "v2ex": [
-        {
-          "enableRoleMention": false,
-          "url": "https://v2ex.com/index.xml"
-        }
+        { "enableRoleMention": false, "url": "https://www.technologyreview.com/topnews.rss" },
+        { "enableRoleMention": false, "url": "https://gizmodo.com/rss" }
       ]
     },
     "tags": [
@@ -94,11 +83,6 @@
       { "channelId": "1099990014009552916", "mentionRoleId": "", "name": "hacker_news" },
       { "channelId": "1099988995108253726", "mentionRoleId": "", "name": "hk" },
       { "channelId": "1099990101527891988", "mentionRoleId": "", "name": "ithome" },
-      {
-        "channelId": "1099988714563833877",
-        "mentionRoleId": "",
-        "name": "programming"
-      },
       {
         "channelId": "1099988515397320715",
         "mentionRoleId": "",
@@ -112,12 +96,7 @@
       {
         "channelId": "1101095152073838602",
         "mentionRoleId": "",
-        "name": "tech_blog"
-      },
-      {
-        "channelId": "1103645699381415977",
-        "mentionRoleId": "",
-        "name": "v2ex"
+        "name": "tech_blog_en"
       },
       {
         "channelId": "1103678369045942282",
