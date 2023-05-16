@@ -53,10 +53,6 @@
         { "enableRoleMention": true, "url": "http://googleresearch.blogspot.com/atom.xml" }
       ],
       "tech_chn": [
-        {
-          "enableRoleMention": false,
-          "url": "https://www.pingwest.com/feed/"
-        },
         { "enableRoleMention": false, "url": "https://www.oschina.net/news/rss" },
         { "enableRoleMention": false, "url": "http://feeds2.feedburner.com/cnbeta-full" },
         { "enableRoleMention": false, "url": "https://rsshub.app/solidot/www" },
