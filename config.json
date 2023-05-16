@@ -63,7 +63,6 @@
         { "enableRoleMention": false, "url": "http://feeds.feedburner.com/ruanyifeng" },
         { "enableRoleMention": false, "url": "https://weekly.tw93.fun/rss.xml" },
         { "enableRoleMention": false, "url": "https://linux.cn/rss.xml" },
-        { "enableRoleMention": false, "url": "http://www.ifanr.com/feed" },
         { "enableRoleMention": false, "url": "http://feeds2.feedburner.com/unwirelife" },
         { "enableRoleMention": false, "url": "http://www.ithome.com.tw/rss.xml" },
         { "enableRoleMention": false, "url": "http://feeds.freegroup.org/freegroup/" }
