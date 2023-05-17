@@ -104,7 +104,7 @@ app.post(
   },
 );
 
-app.get('/api/bing-ai', { websocket: true, preHandler: passwordHandler }, connection => {
+app.get('/api/gpt-ai', { websocket: true, preHandler: passwordHandler }, connection => {
   // the connection will only be opened for authenticated incoming requests
   connection.socket.on('message', async message => {
     // eslint-disable-next-line @typescript-eslint/no-base-to-string

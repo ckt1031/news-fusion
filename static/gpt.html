@@ -64,7 +64,8 @@
       const logoutBtn = document.getElementById('logout-btn');
       const isHttps = window.location.protocol === 'https:';
       const wsProtocol = isHttps ? 'wss://' : 'ws://';
-      const ws = new WebSocket(wsProtocol + window.location.host + '/api/bing-ai');
+      const ws = new WebSocket(wsProtocol + window.location.host + '/api/gpt-ai');
+      const model = 'new-bing';
 
       form.addEventListener('submit', async event => {
         event.preventDefault();
@@ -89,7 +90,7 @@
         resultContainer.classList.remove('hidden');
 
         // Send prompt to server via WebSocket
-        ws.send(JSON.stringify({ prompt }));
+        ws.send(JSON.stringify({ prompt, model }));
 
         ws.onmessage = event => {
           const { stage, result } = JSON.parse(event.data);
