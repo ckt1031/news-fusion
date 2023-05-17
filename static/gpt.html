@@ -75,6 +75,14 @@
           return;
         }
 
+        // If the prompt is too long, warn the user
+        if (prompt.length > 2000) {
+          alert(
+            'Your prompt is too long. The maximum length is 2000 characters. Please shorten your prompt.',
+          );
+          return;
+        }
+
         // Disable the generate button
         generateBtn.disabled = true;
         resultContainer.innerHTML = 'Generating...';
