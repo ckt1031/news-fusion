@@ -45,7 +45,7 @@ async function getConversation() {
 }
 
 export async function getBingResponseWebsocket(
-  websocket: ws.WebSocket,
+  fastifyWS: ws.WebSocket,
   mode: ChatMode,
   textPrompt: string,
 ) {
@@ -84,7 +84,7 @@ export async function getBingResponseWebsocket(
       const resultText = response?.arguments[0]?.messages?.[0]?.text as string;
 
       if (resultText) {
-        websocket.send(
+        fastifyWS.send(
           JSON.stringify({
             stage: 1,
             result: resultText,
@@ -97,7 +97,7 @@ export async function getBingResponseWebsocket(
     if (response.type === 2) {
       const resultText = response.item.messages[1].text as string;
 
-      websocket.send(
+      fastifyWS.send(
         JSON.stringify({
           stage: 2,
           result: resultText,
