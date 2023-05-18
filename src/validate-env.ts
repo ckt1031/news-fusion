@@ -25,12 +25,6 @@ const ZodEnvironmentVariables = z.object({
   OWNER_ID: z.string(), // Discord bot owner ID
   // Bing
   BING_COOKIE: z.string(), // Bing cookie
-  // Session
-  WEB_PASSWORD: z.string(), // Web password
-  WEB_SESSION_TOKEN: z.string(), // Session token
-  // Hcaptcha
-  HCAPTCHA_SITEKEY: z.string(), // Hcaptcha site key
-  HCAPTCHA_SECRETKEY: z.string(), // Hcaptcha secret key
 });
 
 ZodEnvironmentVariables.parse(process.env);
