@@ -3,12 +3,13 @@
   "type": "module",
   "scripts": {
     "build": "tsup src --minify --format esm --sourcemap --clean --target esnext",
-    "dev": "cross-env NODE_ENV=development nodemon --watch src --exec \"npm run build && npm run start\"",
+    "dev": "cross-env NODE_ENV=development nodemon --watch src --exec \"pnpm run build && pnpm run start\"",
     "format": "prettier --write .",
     "lint": "eslint --fix .",
     "sentry-upload-sourcemaps": "sentry-cli sourcemaps upload dist --release=prd",
     "start": "node --enable-source-maps -r dotenv/config dist/index.js | pino-pretty",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
     "@extractus/article-extractor": "7.2.15",
@@ -62,6 +63,6 @@
     "tsup": "6.7.0",
     "typescript": "5.0.4"
   },
-  "packageManager": "npm@9.6.6",
+  "packageManager": "pnpm@8.5.1",
   "prettier": "@ckt1031/prettier-config"
 }
