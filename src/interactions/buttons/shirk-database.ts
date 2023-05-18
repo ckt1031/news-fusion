@@ -19,7 +19,7 @@ const button: InteractionHandlers = {
     }
 
     await shirkDatabase();
-    
+
     // Reply to the interaction.
     await interaction.reply({
       ephemeral: true,

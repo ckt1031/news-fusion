@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import fs from 'node:fs';
+import { createReadStream } from 'node:fs';
 import { join } from 'node:path';
 
 import compress from '@fastify/compress';
@@ -58,7 +58,8 @@ app.get(
   },
   async (_, res) => {
     // Send gpt.html in static folder
-    const stream = fs.createReadStream(join(__dirname, '../static/gpt.html'));
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
+    const stream = createReadStream(join(__dirname, '../static/gpt.html'));
 
     await res.type('text/html').send(stream);
   },
