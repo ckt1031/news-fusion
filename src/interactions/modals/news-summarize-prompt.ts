@@ -1,6 +1,6 @@
-import { getBingResponse } from '../../ai/edge-gpt';
-import { getQuoraResponse } from '../../ai/quora';
 import type { InteractionHandlers } from '../../sturctures/interactions';
+import { getBingResponse } from '../../utils/ai/edge-gpt';
+import { getQuoraResponse } from '../../utils/ai/quora';
 import extractArticle from '../../utils/extract-article';
 import logging from '../../utils/logger';
 

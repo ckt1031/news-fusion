@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from 'discord.js';
 
-import { getBingResponse } from '../../ai/edge-gpt';
-import { getQuoraResponse } from '../../ai/quora';
 import type { InteractionHandlers } from '../../sturctures/interactions';
+import { getBingResponse } from '../../utils/ai/edge-gpt';
+import { getQuoraResponse } from '../../utils/ai/quora';
 
 const command: InteractionHandlers = {
   type: 'command',

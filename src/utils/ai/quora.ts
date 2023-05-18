@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { defaultCache } from '../utils/cache';
+import { defaultCache } from '../../utils/cache';
 
 export const url = 'https://www.quora.com/poe_api/gql_POST';
 

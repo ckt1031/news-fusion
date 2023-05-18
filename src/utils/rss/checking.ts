@@ -3,7 +3,7 @@ import type { Client, MessageActionRowComponentBuilder } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
 import normalizeUrl from 'normalize-url';
 
-import logger from '../utils/logger';
+import logger from '../../utils/logger';
 import { RssFeedChecksCache } from './cache';
 import { fetchAllRssFeeds } from './fetch-all';
 

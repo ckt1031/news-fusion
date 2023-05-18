@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import Parser from 'rss-parser';
 
-import config from '../../config.json';
-import logger from '../utils/logger';
+import config from '../../../config.json';
+import logger from '../../utils/logger';
 import type { RssFeed } from './types';
 
 async function processSource(

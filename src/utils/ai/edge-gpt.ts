@@ -3,8 +3,8 @@ import crypto from 'node:crypto';
 import axios from 'axios';
 import ws from 'ws';
 
-import { userAgent } from '../constants';
-import logger from '../utils/logger';
+import { userAgent } from '../../constants';
+import logger from '../../utils/logger';
 
 export interface IEdgeGPTResponse {
   conversationId: string;
