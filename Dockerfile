@@ -1,10 +1,7 @@
 FROM node:20-alpine AS base
 
-# Install CURL 
-RUN apk add curl
-
 # Setup PNPM
-RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
+RUN npm install -g pnpm
 
 # Create app directory
 WORKDIR /app
@@ -24,11 +21,8 @@ RUN pnpm build
 # Final stage
 FROM node:20-alpine
 
-# Install CURL 
-RUN apk add curl
-
 # Setup PNPM
-RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
+RUN npm install -g pnpm
 
 # Create app directory
 WORKDIR /app
