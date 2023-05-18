@@ -1,6 +1,5 @@
-import RssFeedChecks from '../../models/RssFeedChecks';
 import type { InteractionHandlers } from '../../sturctures/interactions';
-import logging from '../../utils/logger';
+import shirkDatabase from '../../utils/shirk-database';
 
 const button: InteractionHandlers = {
   type: 'button',
@@ -19,17 +18,8 @@ const button: InteractionHandlers = {
       return;
     }
 
-    // Delete data which the field lastChecked (in ms) is older than 24 hours.
-    const deleteOlderThan = Date.now() - 1000 * 60 * 60 * 24;
-
-    await RssFeedChecks.deleteMany({
-      lastChecked: {
-        $lt: deleteOlderThan,
-      },
-    });
-
-    logging.info('Shirk database (RSS feed checks)');
-
+    await shirkDatabase();
+    
     // Reply to the interaction.
     await interaction.reply({
       ephemeral: true,

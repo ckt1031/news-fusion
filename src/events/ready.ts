@@ -5,6 +5,7 @@ import { ActivityType, Events } from 'discord.js';
 import { checkFeeds } from '../rss/checking';
 import type { DiscordEvent } from '../sturctures/event';
 import logging from '../utils/logger';
+import shirkDatabase from '../utils/shirk-database';
 
 function setDiscordStatus(client: Client) {
   const text = 'Life';
@@ -18,13 +19,12 @@ function setDiscordStatus(client: Client) {
 export const event: DiscordEvent = {
   once: true,
   name: Events.ClientReady,
-  run: async (client: Client) => {
+  run: (client: Client) => {
     if (client.user) logging.info(`BOT: Logged in as ${client.user.tag}!`);
 
     setDiscordStatus(client);
-    await checkFeeds(client);
 
-    // recheck every 5 minute
+    // recheck every 5 minutes
     Cron(
       '*/5 * * * *',
       {
@@ -35,7 +35,7 @@ export const event: DiscordEvent = {
       },
     );
 
-    // recheck every 10 minute
+    // recheck every 10 minutes
     Cron(
       '*/10 * * * *',
       {
@@ -43,6 +43,17 @@ export const event: DiscordEvent = {
       },
       () => {
         setDiscordStatus(client);
+      },
+    );
+
+    // recheck every 30 minutes
+    Cron(
+      '*/30 * * * *',
+      {
+        timezone: 'Asia/Hong_Kong',
+      },
+      async () => {
+        await shirkDatabase();
       },
     );
   },
