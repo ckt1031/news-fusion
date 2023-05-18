@@ -2,9 +2,9 @@ import Cron from 'croner';
 import type { Client } from 'discord.js';
 import { ActivityType, Events } from 'discord.js';
 
-import { checkFeeds } from '../rss/checking';
 import type { DiscordEvent } from '../sturctures/event';
 import logging from '../utils/logger';
+import { checkFeeds } from '../utils/rss/checking';
 import shirkDatabase from '../utils/shirk-database';
 
 function setDiscordStatus(client: Client) {
