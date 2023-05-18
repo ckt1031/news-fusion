@@ -24,7 +24,7 @@ jobs:
         run: pnpm build
 
       - name: Upload sourcemaps to Sentry
-        run: pnpx sentry-cli sourcemaps upload dist --org $SENTRY_ORG --project $SENTRY_PROJECT --release=prd
+        run: pnpx @sentry/cli sourcemaps upload dist --org $SENTRY_ORG --project $SENTRY_PROJECT --release=prd
         env:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
