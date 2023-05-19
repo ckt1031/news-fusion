@@ -4,5 +4,5 @@
   },
   "exclude": ["node_modules", "dist", "assets"],
   "extends": "@ckt1031/tsconfig/base.json",
-  "include": ["tools", "__tests__", "src", "config/*.json", "package.json"]
+  "include": ["commitlint.config.ts", "src", "config/*.json", "package.json"]
 }

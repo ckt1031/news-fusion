@@ -7,7 +7,7 @@
     "format": "prettier --write .",
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint --fix .",
-    "prepare": "husky install",
+    "prepare": "is-ci || husky install",
     "start": "node --enable-source-maps -r dotenv/config dist/index.js | pino-pretty",
     "start:pm2": "pm2-runtime --max-memory-restart 200M pnpm -- start",
     "typecheck": "tsc --noEmit"
@@ -27,6 +27,7 @@
     "fastify": "4.17.0",
     "glob": "10.2.5",
     "html-to-text": "9.0.5",
+    "is-ci": "3.0.1",
     "mongoose": "7.1.2",
     "node-cache": "5.1.2",
     "nodemon": "2.0.22",
@@ -44,15 +45,24 @@
     "@ckt1031/eslint-config": "1.1.6",
     "@ckt1031/prettier-config": "1.1.6",
     "@ckt1031/tsconfig": "1.1.6",
+    "@commitlint/cli": "17.6.3",
+    "@commitlint/config-conventional": "17.6.3",
     "@types/crypto-js": "4.1.1",
     "@types/html-to-text": "9.0.0",
     "@types/pidusage": "2.0.2",
     "@types/ws": "8.5.4",
+    "commitizen": "4.3.0",
+    "cz-conventional-changelog": "3.3.0",
     "eslint": "8.40.0",
     "husky": "8.0.3",
+    "lint-staged": "13.2.2",
     "prettier": "2.8.8",
     "tsup": "6.7.0",
     "typescript": "5.0.4"
+  },
+  "engines": {
+    "node": ">=18 <21",
+    "pnpm": "8"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
