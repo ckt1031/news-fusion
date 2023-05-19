@@ -44,8 +44,8 @@ dependencies:
     specifier: 9.0.5
     version: 9.0.5
   mongoose:
-    specifier: 7.1.1
-    version: 7.1.1
+    specifier: 7.1.2
+    version: 7.1.2
   node-cache:
     specifier: 5.1.2
     version: 5.1.2
@@ -1299,7 +1299,7 @@ packages:
     resolution: {integrity: sha512-x1FCFnFifvYDDzTaLII71vG5uvDwgtmDTEVWAxrgeiR8VjMONcCXJx7E+USjDtHlwFmt9MysbqgF9b9Vjr6w+w==}
     engines: {node: '>=4'}
     dependencies:
-      tslib: 2.5.1
+      tslib: 2.5.2
     dev: false
 
   /async-listener@0.6.10:
@@ -2148,7 +2148,7 @@ packages:
     dependencies:
       '@typescript-eslint/utils': 5.59.6(eslint@8.40.0)(typescript@5.0.4)
       eslint: 8.40.0
-      tslib: 2.5.1
+      tslib: 2.5.2
       tsutils: 3.21.0(typescript@5.0.4)
       typescript: 5.0.4
     transitivePeerDependencies:
@@ -3625,8 +3625,8 @@ packages:
       saslprep: 1.0.3
     dev: false
 
-  /mongoose@7.1.1:
-    resolution: {integrity: sha512-AIxaWwGY+td7QOMk4NgK6fbRuGovFyDzv65nU1uj1DsUh3lpjfP3iFYHSR+sUKrs7nbp19ksLlRXkmInBteSCA==}
+  /mongoose@7.1.2:
+    resolution: {integrity: sha512-89+rFzYphsOCdIDam03ryECeOy4bFKvZqnu4NDdUduoOt2ip0/otIqVBBrjQ1Owz1xza6zy4VTifxBG/jNaJNQ==}
     engines: {node: '>=14.0.0'}
     dependencies:
       bson: 5.3.0
@@ -4363,7 +4363,7 @@ packages:
       eslint: 8.40.0
       prettier: 2.8.8
       prettier-package-json: 2.6.0
-      tslib: 2.5.1
+      tslib: 2.5.2
     dev: true
 
   /prettier-plugin-prisma@4.13.0(prettier@2.8.8):
@@ -5346,6 +5346,10 @@ packages:
 
   /tslib@2.5.1:
     resolution: {integrity: sha512-KaI6gPil5m9vF7DKaoXxx1ia9fxS4qG5YveErRRVknPDXXriu5M8h48YRjB6h5ZUOKuAKlSJYb0GaDe8I39fRw==}
+    dev: false
+
+  /tslib@2.5.2:
+    resolution: {integrity: sha512-5svOrSA2w3iGFDs1HibEVBGbDrAY82bFQ3HZ3ixB+88nsbsWQoKqDRb5UBYAUPEzbBn6dAp5gRNXglySbx1MlA==}
 
   /tsup@6.7.0(postcss@8.4.23)(typescript@5.0.4):
     resolution: {integrity: sha512-L3o8hGkaHnu5TdJns+mCqFsDBo83bJ44rlK7e6VdanIvpea4ArPcU3swWGsLVbXak1PqQx/V+SSmFPujBK+zEQ==}
