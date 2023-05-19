@@ -54,7 +54,7 @@ export async function loadButtons(client: Client) {
     // Register interactions.
     const rest = new REST().setToken(process.env.TOKEN);
 
-    await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID), {
+    await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.OWNER_GUILD_ID), {
       body: commands,
     });
   }

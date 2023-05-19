@@ -3,6 +3,7 @@ import type { Client, MessageActionRowComponentBuilder } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
 import normalizeUrl from 'normalize-url';
 
+import { ButtonCustomIds } from '../../sturctures/custom-id';
 import logger from '../../utils/logger';
 import { RssFeedChecksCache } from './cache';
 import { fetchAllRssFeeds } from './fetch-all';
@@ -94,17 +95,17 @@ export async function checkFeeds(client: Client) {
         if (!channel?.isTextBased()) continue;
 
         const translateButton = new ButtonBuilder()
-          .setCustomId('translate_rss_notification')
+          .setCustomId(ButtonCustomIds.TranslateNews)
           .setLabel('Translate')
           .setStyle(ButtonStyle.Secondary);
 
         const summarizeButton = new ButtonBuilder()
-          .setCustomId('summarize_rss_news')
+          .setCustomId(ButtonCustomIds.SummarizeNews)
           .setLabel('Summarize')
           .setStyle(ButtonStyle.Secondary);
 
         const starButton = new ButtonBuilder()
-          .setCustomId('news-starboard-add')
+          .setCustomId(ButtonCustomIds.AddToNewsStarboard)
           .setEmoji('⭐')
           .setStyle(ButtonStyle.Secondary);
 

@@ -6,13 +6,14 @@ import {
   StringSelectMenuOptionBuilder,
 } from 'discord.js';
 
+import { ButtonCustomIds } from '../../sturctures/custom-id';
 import type { InteractionHandlers } from '../../sturctures/interactions';
 import extractArticle from '../../utils/extract-article';
 import logger from '../../utils/logger';
 
 const button: InteractionHandlers = {
   type: 'button',
-  customId: 'translate_rss_notification',
+  customId: ButtonCustomIds.TranslateNews,
   run: async ({ interaction }) => {
     if (!interaction.channel || !interaction.isButton()) {
       return;

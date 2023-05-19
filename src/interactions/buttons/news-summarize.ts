@@ -2,12 +2,13 @@ import type { ModalActionRowComponentBuilder } from 'discord.js';
 import { ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 import { ActionRowBuilder } from 'discord.js';
 
+import { ButtonCustomIds, ModalCustomIds } from '../../sturctures/custom-id';
 import type { InteractionHandlers } from '../../sturctures/interactions';
 import logging from '../../utils/logger';
 
 const button: InteractionHandlers = {
   type: 'button',
-  customId: 'summarize_rss_news',
+  customId: ButtonCustomIds.SummarizeNews,
   run: async ({ interaction }) => {
     if (!interaction.channel || !interaction.isButton()) {
       return;
@@ -21,7 +22,7 @@ const button: InteractionHandlers = {
     if (!url) return;
 
     const modal = new ModalBuilder()
-      .setCustomId('summarize_rss_news_action')
+      .setCustomId(ModalCustomIds.SummarizeNewsAction)
       .setTitle('News Summarization Prompts');
 
     const textLengthInput = new TextInputBuilder()

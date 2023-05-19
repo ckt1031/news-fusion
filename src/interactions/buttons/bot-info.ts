@@ -3,11 +3,12 @@ import { EmbedBuilder, version as discordJsVersion } from 'discord.js';
 import pidusage from 'pidusage';
 import sAgo from 's-ago';
 
+import { ButtonCustomIds } from '../../sturctures/custom-id';
 import type { InteractionHandlers } from '../../sturctures/interactions';
 
 const button: InteractionHandlers = {
   type: 'button',
-  customId: 'bot-info',
+  customId: ButtonCustomIds.BotInfo,
   run: async ({ interaction }) => {
     if (!interaction.channel || !interaction.isButton()) {
       return;

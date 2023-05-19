@@ -19,10 +19,10 @@ const ZodEnvironmentVariables = z.object({
   // MongoDB for database.
   MONGODB_URL: z.string(), // MongoDB URL
   // Slash commands
-  GUILD_ID: z.string(), // Discord guild ID
   CLIENT_ID: z.string(), // Discord client ID
   // Discord bot owner
-  OWNER_ID: z.string(), // Discord bot owner ID
+  OWNER_USER_ID: z.string(), // Discord bot owner ID
+  OWNER_GUILD_ID: z.string(), // Discord owner's guild ID
 });
 
 ZodEnvironmentVariables.parse(process.env);
