@@ -4,7 +4,7 @@ export type ChatMode = 'Creative' | 'Precise' | 'Balanced';
 
 export async function getBingResponse(mode: ChatMode, textPrompt: string) {
   const api = new BingChat({
-    cookie: '.',
+    cookie: process.env.BING_COOKIE,
   });
 
   const res = await api.sendMessage(
