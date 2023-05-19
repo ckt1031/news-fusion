@@ -39,13 +39,6 @@ const button: InteractionHandlers = {
       .setLabel('Language')
       .setStyle(TextInputStyle.Short);
 
-    const aiModelInput = new TextInputBuilder()
-      .setRequired(false)
-      .setCustomId('ai_model')
-      .setPlaceholder('Enter language (1.Bing, 2.Poe.com)')
-      .setLabel('Language')
-      .setStyle(TextInputStyle.Short);
-
     const articleUrlInput = new TextInputBuilder()
       .setRequired(true)
       .setCustomId('article_url')
@@ -61,11 +54,7 @@ const button: InteractionHandlers = {
     modal.addComponents(
       new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(languageInput),
     );
-
-    modal.addComponents(
-      new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(aiModelInput),
-    );
-
+    
     modal.addComponents(
       new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(articleUrlInput),
     );

@@ -1,6 +1,6 @@
+import { ModalCustomIds } from '../../sturctures/custom-id';
 import type { InteractionHandlers } from '../../sturctures/interactions';
 import { getBingResponse } from '../../utils/ai/edge-gpt';
-import { getQuoraResponse } from '../../utils/ai/quora';
 import extractArticle from '../../utils/extract-article';
 import logging from '../../utils/logger';
 
@@ -20,7 +20,7 @@ function processInput(
 
 const button: InteractionHandlers = {
   type: 'modal',
-  customId: 'summarize_rss_news_action',
+  customId: ModalCustomIds.SummarizeNewsAction,
   run: async ({ interaction }) => {
     if (!interaction.channel || !interaction.isModalSubmit()) {
       return;
@@ -47,16 +47,6 @@ const button: InteractionHandlers = {
         '2': 'chinese',
       },
       'english',
-    );
-
-    // Available Options for ai_model: 1.Bing, 2.Poe.com
-    const aiModel = processInput(
-      interaction.fields.getTextInputValue('ai_model'),
-      {
-        '1': 'bing',
-        '2': 'poe',
-      },
-      'bing',
     );
 
     const languagePrompt = language === 'english' ? 'English (US)' : 'Chinese Traditional (Taiwan)';
@@ -86,30 +76,14 @@ const button: InteractionHandlers = {
 
     if (!user || !article.title || !article.source) return;
 
-    const content =
-      article.parsedTextContent.length > 1700
-        ? article.parsedTextContent.slice(0, 1600) + '...'
-        : article.parsedTextContent;
-
     logging.info(`NEW SUMMARIZING: Request: ${article.title}`);
 
-    // Prompt
-    const order = `(Summarize this article in ONLY ${languagePrompt} LANGUAGE AND professional tone,
-      text should be ${textLengthModePrompt}, DON'T include any URLs and hyperlinks, 
-      change personal subject to the exact object)`;
-
-    let reply = '';
-
-    if (aiModel === 'bing') {
-      reply = await getBingResponse(
-        'Precise',
-        `${order}\nSource: ${article.source}\nTitle: ${article.title}\nContent: ${content}`,
-      );
-    } else if (aiModel === 'poe') {
-      reply = await getQuoraResponse(
-        `${order}\nSource: ${article.source}\nTitle: ${article.title}\nContent: ${content}`,
-      );
-    }
+    const reply = await getBingResponse(
+      'Precise',
+      `(Summarize this article in ONLY ${languagePrompt} LANGUAGE AND professional tone,
+        text should be ${textLengthModePrompt}. DON'T include any URLs and hyperlinks, 
+        change personal subject to the exact object): ${articleURL}`,
+    );
 
     await user.send({
       content: `AI Summary: **${article.title}**\nURL: ${articleURL}\n\n${reply}`,

@@ -158,7 +158,7 @@ export async function getBingResponse(mode: ChatMode, textPrompt: string) {
                   timestamp: new Date().toISOString().replace(/\.\d{3}/, ''),
                   author: 'user',
                   inputMethod: 'Keyboard',
-                  text: `(Do not include any citation , any questions to ask me, response with the answer only) ${textPrompt}`,
+                  text: `(Do not do any citation, any questions to ask me, response with the answer only) ${textPrompt}`,
                   messageType: 'Chat',
                 },
                 conversationSignature: conversation.conversationSignature,
