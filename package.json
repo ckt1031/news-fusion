@@ -7,6 +7,7 @@
     "format": "prettier --write .",
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint --fix .",
+    "prepare": "husky install",
     "start": "node --enable-source-maps -r dotenv/config dist/index.js | pino-pretty",
     "start:pm2": "pm2-runtime --max-memory-restart 200M pnpm -- start",
     "typecheck": "tsc --noEmit"
@@ -48,9 +49,18 @@
     "@types/pidusage": "2.0.2",
     "@types/ws": "8.5.4",
     "eslint": "8.40.0",
+    "husky": "8.0.3",
     "prettier": "2.8.8",
     "tsup": "6.7.0",
     "typescript": "5.0.4"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint"
+    ],
+    "*.{yml,yaml,cjs,mjs,js,jsx,ts,tsx,json,css,html,md}": [
+      "prettier -c"
+    ]
   },
   "nodemonConfig": {
     "exec": "pnpm run build && pnpm run start",
