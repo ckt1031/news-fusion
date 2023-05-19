@@ -102,7 +102,7 @@ const button: InteractionHandlers = {
 
     if (aiModel === 'bing') {
       reply = await getBingResponse(
-        'precise',
+        'Precise',
         `${order}\nSource: ${article.source}\nTitle: ${article.title}\nContent: ${content}`,
       );
     } else if (aiModel === 'poe') {

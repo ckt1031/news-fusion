@@ -54,7 +54,7 @@ const command: InteractionHandlers = {
     let reply = '';
 
     if (model === 'bing') {
-      reply = await getBingResponse('precise', prompt);
+      reply = await getBingResponse('Precise', prompt);
     } else if (model === 'poe') {
       reply = await getQuoraResponse(prompt);
     }
