@@ -35,7 +35,7 @@ COPY --from=base /app/dist ./dist
 COPY --from=base /app/package.json /app/.npmrc /app/pnpm-lock.yaml ./
 
 # Install production dependencies
-RUN pnpm install --frozen-lockfile --prod
+RUN pnpm install --frozen-lockfile --prod --ignore-scripts
 
 # Expose port
 EXPOSE 8080
