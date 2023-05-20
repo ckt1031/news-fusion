@@ -2,20 +2,12 @@ import { SlashCommandBuilder } from 'discord.js';
 
 import type { InteractionHandlers } from '../../sturctures/interactions';
 import { getBingResponse } from '../../utils/ai/edge-gpt';
-import { getQuoraResponse } from '../../utils/ai/quora';
 
 const command: InteractionHandlers = {
   type: 'command',
   data: new SlashCommandBuilder()
     .setName('gpt')
     .setDescription('Ask AI to generate text or solve problems for you')
-    .addStringOption(option =>
-      option
-        .setName('model')
-        .setDescription('The model for the AI')
-        .setRequired(true)
-        .addChoices({ name: 'Bing AI', value: 'bing' }, { name: 'Poe.com', value: 'quora' }),
-    )
     .addStringOption(option =>
       option
         .setName('prompt')
@@ -51,13 +43,7 @@ const command: InteractionHandlers = {
       ephemeral: false,
     });
 
-    let reply = '';
-
-    if (model === 'bing') {
-      reply = await getBingResponse('Precise', prompt);
-    } else if (model === 'poe') {
-      reply = await getQuoraResponse(prompt);
-    }
+    const reply = await getBingResponse('Precise', prompt);
 
     await interaction.followUp({
       content: reply,
