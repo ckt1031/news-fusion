@@ -2,8 +2,8 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@extractus/article-extractor':
-    specifier: 7.2.15
-    version: 7.2.15
+    specifier: 7.2.16
+    version: 7.2.16
   '@fastify/rate-limit':
     specifier: 8.0.0
     version: 8.0.0
@@ -728,8 +728,8 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@extractus/article-extractor@7.2.15:
-    resolution: {integrity: sha512-lDo+s3Huk0yIFEtCFTZRe+5iv0wyO+0kyC+LXx2qcorJhvWgiGTDDiwTrG6gwnu7+scg97x4LQIZYnjle/EFDg==}
+  /@extractus/article-extractor@7.2.16:
+    resolution: {integrity: sha512-LV55IG1QOMTDzbb4Cb6TQ8LMoh+smtr6pIAEA7IWTUw8VbSQZtRPr0Go6akJSb/XaaKv4KrtsxNyrhyAjtWrcA==}
     engines: {node: '>= 14'}
     dependencies:
       '@mozilla/readability': 0.4.4
