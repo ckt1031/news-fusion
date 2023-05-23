@@ -4,7 +4,7 @@ import axios from 'axios';
 import ws from 'ws';
 
 import { userAgent } from '../../constants';
-import logger from '../../utils/logger';
+import logger from '../logger';
 
 export interface IEdgeGPTResponse {
   conversationId: string;
@@ -129,36 +129,10 @@ export async function getBingResponse(mode: ChatMode, textPrompt: string) {
                 traceId: traceId,
                 isStartOfSession: true,
                 message: {
-                  locale: 'en-US',
-                  market: 'en-US',
-                  region: 'WW',
-                  location: 'lat:47.639557;long:-122.128159;re=1000m;',
-                  locationHints: [
-                    {
-                      Center: {
-                        Latitude: 22.347_029_864_211_656,
-                        Longitude: 114.194_725_602_113_41,
-                      },
-                      RegionType: 2,
-                      SourceType: 11,
-                    },
-                    {
-                      country: 'Hong Kong',
-                      state: 'Central And Western District',
-                      city: 'Central',
-                      timezoneoffset: 8,
-                      countryConfidence: 8,
-                      cityConfidence: 8,
-                      Center: { Latitude: 22.2794, Longitude: 114.1626 },
-                      RegionType: 2,
-                      SourceType: 1,
-                    },
-                  ],
                   // generate a timestamp in the format of '2023-05-05T22:43:45+08:00', can differ with +8:00
                   timestamp: new Date().toISOString().replace(/\.\d{3}/, ''),
                   author: 'user',
-                  inputMethod: 'Keyboard',
-                  text: `(Do not do any citation, any questions to ask me, response with the answer only) ${textPrompt}`,
+                  text: `With NO any citation, any questions to ask me, ${textPrompt}`,
                   messageType: 'Chat',
                 },
                 conversationSignature: conversation.conversationSignature,

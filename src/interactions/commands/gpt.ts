@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 
 import type { InteractionHandlers } from '../../sturctures/interactions';
-import { getBingResponse } from '../../utils/ai/edge-gpt';
+import { getBingResponse } from '../../utils/ai/new-bing';
 
 const command: InteractionHandlers = {
   type: 'command',

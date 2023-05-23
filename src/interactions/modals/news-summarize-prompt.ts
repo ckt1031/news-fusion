@@ -1,6 +1,6 @@
 import { ModalCustomIds } from '../../sturctures/custom-id';
 import type { InteractionHandlers } from '../../sturctures/interactions';
-import { getBingResponse } from '../../utils/ai/edge-gpt';
+import { getBingResponse } from '../../utils/ai/new-bing';
 import extractArticle from '../../utils/extract-article';
 import logging from '../../utils/logger';
 
@@ -80,9 +80,8 @@ const button: InteractionHandlers = {
 
     const reply = await getBingResponse(
       'Precise',
-      `(Summarize this article in ONLY ${languagePrompt} LANGUAGE AND professional tone,
-        text should be ${textLengthModePrompt}. DON'T include any URLs and hyperlinks, 
-        change personal subject to the exact object): ${articleURL}`,
+      `Summarize this article in ONLY ${languagePrompt} LANGUAGE AND professional tone,
+        text should be ${textLengthModePrompt}, change personal subject to the exact object, URL: ${articleURL}`,
     );
 
     await user.send({
