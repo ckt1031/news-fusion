@@ -1,9 +1,9 @@
 import type { MessageActionRowComponentBuilder } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 
-import Settings from '../../models/Settings';
-import { ButtonCustomIds } from '../../sturctures/custom-id';
+import config from '../../../config.json';
 import type { InteractionHandlers } from '../../sturctures/interactions';
+import { ButtonCustomIds } from '../../sturctures/custom-id';
 
 const button: InteractionHandlers = {
   type: 'button',
@@ -16,13 +16,7 @@ const button: InteractionHandlers = {
     // Get embeds from interaction body.
     const embed = interaction.message.embeds[0];
 
-    const serverId = interaction.guildId;
-
-    const serverData = await Settings.findOne({ serverId });
-
-    if (!serverData) return;
-
-    const channelFromId = interaction.client.channels.cache.get(serverData.rssStarboardChannelId);
+    const channelFromId = interaction.client.channels.cache.get(config.news_starboard_channel);
 
     if (!channelFromId?.isTextBased()) return;
 
