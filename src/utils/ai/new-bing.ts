@@ -3,7 +3,6 @@ import crypto from 'node:crypto';
 import axios from 'axios';
 import ws from 'ws';
 
-import { userAgent } from '../../constants';
 import logger from '../logger';
 
 export interface IEdgeGPTResponse {
@@ -25,22 +24,17 @@ export enum ChatModeOptions {
 }
 
 async function getConversation() {
-  const response = await axios.get<IEdgeGPTResponse>(
+  const { data } = await axios.get<IEdgeGPTResponse>(
     'https://www.bing.com/turing/conversation/create',
-    {
-      headers: {
-        'User-Agent': userAgent,
-      },
-    },
   );
 
-  if (response.data.result.value !== 'Success' && response.data.result.message) {
-    throw new Error(response.data.result.message);
+  if (data.result.value !== 'Success' && data.result.message) {
+    throw new Error(data.result.message);
   }
 
-  logger.info(`BingAI: Conversation created: ${response.data.conversationId}`);
+  logger.info(`BingAI: Conversation created: ${data.conversationId}`);
 
-  return response.data;
+  return data;
 }
 
 export async function getBingResponse(mode: ChatMode, textPrompt: string) {
