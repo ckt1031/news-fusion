@@ -24,17 +24,22 @@ export enum ChatModeOptions {
 }
 
 async function getConversation() {
-  const { data } = await axios.get<IEdgeGPTResponse>(
+  const response = await axios.get<IEdgeGPTResponse>(
     'https://www.bing.com/turing/conversation/create',
   );
 
-  if (data.result.value !== 'Success' && data.result.message) {
-    throw new Error(data.result.message);
+  // If the response is not successful, throw an error
+  if (response.status !== 200) {
+    throw new Error(`BingAI: Conversation creation failed: ${response.status}`);
   }
 
-  logger.info(`BingAI: Conversation created: ${data.conversationId}`);
+  if (response.data.result.value !== 'Success' && response.data.result.message) {
+    throw new Error(response.data.result.message);
+  }
 
-  return data;
+  logger.info(`BingAI: Conversation created: ${response.data.conversationId}`);
+
+  return response.data;
 }
 
 export async function getBingResponse(mode: ChatMode, textPrompt: string) {
