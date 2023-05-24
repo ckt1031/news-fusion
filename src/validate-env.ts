@@ -11,9 +11,6 @@ declare global {
 
 const ZodEnvironmentVariables = z.object({
   TOKEN: z.string(), // Discord bot token
-  // Poe.com reverse engineered API
-  POE_COOKIE: z.string(), // Poe.com cookie
-  POE_QUORA_FORMKEY: z.string(), // Poe.com Quora form key
   // Sentry error reporting
   SENTRY_DSN: z.string(), // Sentry DSN
   // MongoDB for database.
