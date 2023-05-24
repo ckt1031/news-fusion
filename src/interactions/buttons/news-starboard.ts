@@ -1,12 +1,13 @@
 import type { MessageActionRowComponentBuilder } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 
-import config from '../../../config.json';
+import Settings from '../../models/Settings';
+import { ButtonCustomIds } from '../../sturctures/custom-id';
 import type { InteractionHandlers } from '../../sturctures/interactions';
 
 const button: InteractionHandlers = {
   type: 'button',
-  customId: 'news-starboard-add',
+  customId: ButtonCustomIds.AddToNewsStarboard,
   run: async ({ interaction }) => {
     if (!interaction.channel || !interaction.isButton()) {
       return;
@@ -15,18 +16,24 @@ const button: InteractionHandlers = {
     // Get embeds from interaction body.
     const embed = interaction.message.embeds[0];
 
-    const channelFromId = interaction.client.channels.cache.get(config.news_starboard_channel);
+    const serverId = interaction.guildId;
+
+    const serverData = await Settings.findOne({ serverId });
+
+    if (!serverData) return;
+
+    const channelFromId = interaction.client.channels.cache.get(serverData.rssStarboardChannelId);
 
     if (!channelFromId?.isTextBased()) return;
 
     const translateButton = new ButtonBuilder()
-      .setCustomId('translate_rss_notification')
+      .setCustomId(ButtonCustomIds.TranslateNews)
       .setLabel('Translate')
       .setStyle(ButtonStyle.Secondary);
 
     const summarizeButton = new ButtonBuilder()
-      .setCustomId('summarize_rss_news')
-      .setLabel('Summarize (AI)')
+      .setCustomId(ButtonCustomIds.SummarizeNews)
+      .setLabel('Summarize')
       .setStyle(ButtonStyle.Secondary);
 
     const row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
