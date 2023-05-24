@@ -2,3 +2,5 @@ node_modules
 json.sqlite
 .env
 dist
+
+.space
