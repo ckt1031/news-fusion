@@ -59,7 +59,7 @@ const button: InteractionHandlers = {
       new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(articleUrlInput),
     );
 
-    await interaction.showModal(modal);
+    // await interaction.showModal(modal);
 
     logging.info('NEWS SUMMARIZATION: Sent modal');
   },
