@@ -1,6 +1,6 @@
 import { ModalCustomIds } from '../../sturctures/custom-id';
 import type { InteractionHandlers } from '../../sturctures/interactions';
-import { getBingResponse } from '../../utils/ai/new-bing';
+import { getBingResponse } from '../../utils/new-bing';
 import extractArticle from '../../utils/extract-article';
 import logging from '../../utils/logger';
 

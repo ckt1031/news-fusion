@@ -3,7 +3,7 @@ import crypto from 'node:crypto';
 import axios from 'axios';
 import ws from 'ws';
 
-import logger from '../logger';
+import logger from './logger';
 
 export interface IEdgeGPTResponse {
   conversationId: string;
