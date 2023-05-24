@@ -12,18 +12,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@v2
-
       - uses: actions/setup-node@v3
         with:
-          cache: pnpm
+          cache: npm
           node-version: 18
 
       - name: Install dependencies
-        run: pnpm i
+        run: npm ci
 
       - name: Run Type Checking
-        run: pnpm typecheck
+        run: npm run typecheck
 
       - name: Run ESLint
-        run: pnpm lint
+        run: npm run lint
