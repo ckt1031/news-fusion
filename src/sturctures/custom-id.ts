@@ -12,8 +12,8 @@ export enum ButtonCustomIds {
 }
 
 export enum ModalCustomIds {
-  SummarizeNewsAction = 'summarize_rss_news_action',
-  ServerConfigurations = 'server-configuration',
+  SummarizeNewsAction = 'modal-summarize_rss_news_action',
+  ServerConfigurations = 'modal-server-configuration',
 }
 
 export enum ServerConfigurationModelFieldIds {
