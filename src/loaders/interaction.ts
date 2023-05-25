@@ -41,6 +41,13 @@ export async function loadButtons(client: Client) {
     // Get event content.
     const interaction: InteractionHandlers = (await import(filePath)).default;
 
+    // Check if the event is valid.
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!interaction?.type) {
+      logger.error(`Invalid interaction file: ${filePath}`);
+      continue;
+    }
+
     if (interaction.type === 'command') {
       client.interactions.set(`command-${interaction.data.name}`, interaction);
       commands.push(interaction.data.toJSON());
@@ -54,9 +61,12 @@ export async function loadButtons(client: Client) {
     // Register interactions.
     const rest = new REST().setToken(process.env.TOKEN);
 
-    await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.OWNER_GUILD_ID), {
-      body: commands,
-    });
+    await rest.put(
+      Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.OWNER_GUILD_ID),
+      {
+        body: commands,
+      },
+    );
   }
 
   // Print number of loaded events.

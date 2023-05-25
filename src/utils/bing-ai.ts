@@ -165,7 +165,7 @@ export async function getBingResponse(mode: ChatMode, textPrompt: string) {
                   // generate a timestamp in the format of '2023-05-05T22:43:45+08:00', can differ with +8:00
                   timestamp: new Date().toISOString().replace(/\.\d{3}/, ''),
                   author: 'user',
-                  text: `With NO any citation, any questions to ask me, ${textPrompt}`,
+                  text: `With NO any citation, any questions to ask me, give the response text only :), ${textPrompt}`,
                   messageType: 'Chat',
                 },
                 conversationSignature: conversation.conversationSignature,
