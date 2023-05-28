@@ -1,12 +1,14 @@
 import dayjs from 'dayjs';
 import Parser from 'rss-parser';
 
-import config from '../../../config.json';
+import RssFeedSources from '../../models/RssFeedSources';
 import logger from '../../utils/logger';
+import { RssFeedChecksCache } from './cache';
 import type { RssFeed } from './types';
 
 async function processSource(
   source: {
+    name: string;
     enableRoleMention: boolean;
     url: string;
   },
@@ -27,17 +29,30 @@ async function processSource(
       if (!item.pubDate) continue;
 
       // Ignore feeds older than 12 hours.
-      if (dayjs(item.pubDate).valueOf() < twelveHoursAgo) continue;
+      if (dayjs(item.pubDate).valueOf() < twelveHoursAgo || !item.link) continue;
+
+      const cache = new RssFeedChecksCache();
+
+      const checkData = await cache.get({
+        sourceURL: source.url,
+        feedURL: item.link,
+      });
+
+      // Ignore feeds that have been checked in the last 24 hours.
+      if (checkData && checkData.lastChecked < Date.now()) {
+        continue;
+      }
 
       feeds.push({
         source: {
-          title: feed.title,
-          url: feed.link,
+          title: source.name,
+          url: source.url,
           enableRoleMention: source.enableRoleMention,
         },
         tag: {
           name: tagData.name,
-          channelId: tagData.channelId,
+          serverId: tagData.serverId,
+          sendToChannelId: tagData.sendToChannelId,
           mentionRoleId: tagData.mentionRoleId,
         },
         article: {
@@ -59,19 +74,23 @@ export async function fetchAllRssFeeds() {
   const parser = new Parser();
   const feeds: RssFeed[] = [];
 
-  for (const [tag, sources] of Object.entries(config.rss_listener.sources)) {
-    const tagData = config.rss_listener.tags.find(i => i.name === tag);
+  const allSources = await RssFeedSources.find().populate('tag');
 
-    if (!tagData) {
-      logger.error(`No tag found for ${tag}`);
-      continue;
-    }
+  for (const source of allSources) {
+    const sourceFeeds = await processSource(
+      {
+        name: source.name,
+        enableRoleMention: source.enableMentionRole,
+        url: source.sourceURL,
+      },
+      parser,
+      source.tag,
+    );
 
-    const sourcePromises = sources.map(source => processSource(source, parser, tagData));
-    const sourceFeeds = await Promise.all(sourcePromises);
     feeds.push(...sourceFeeds.flat());
   }
 
-  logger.info(`Fetched ${feeds.length} RSS feeds.`);
+  logger.info(`Got ${feeds.length} RSS feeds to push to Discord.`);
+
   return feeds;
 }

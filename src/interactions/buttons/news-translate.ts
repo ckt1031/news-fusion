@@ -6,6 +6,7 @@ import {
   StringSelectMenuOptionBuilder,
 } from 'discord.js';
 
+import Settings from '../../models/Settings';
 import { ButtonCustomIds } from '../../sturctures/custom-id';
 import type { InteractionHandlers } from '../../sturctures/interactions';
 import extractArticle from '../../utils/extract-article';
@@ -16,6 +17,19 @@ const button: InteractionHandlers = {
   customId: ButtonCustomIds.TranslateNews,
   run: async ({ interaction }) => {
     if (!interaction.channel || !interaction.isButton()) {
+      return;
+    }
+
+    const serverId = interaction.guildId;
+
+    // Get server settings
+    const settings = await Settings.findOne({ serverId });
+
+    if (!settings?.enableNewsTranslation) {
+      await interaction.reply({
+        ephemeral: true,
+        content: 'News translation is not enabled in this server.',
+      });
       return;
     }
 

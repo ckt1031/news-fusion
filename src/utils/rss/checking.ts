@@ -23,13 +23,21 @@ export async function checkFeeds(client: Client) {
       try {
         const cache = new RssFeedChecksCache();
 
-        const checkData = await cache.get({
-          sourceURL: source.url,
-          feedURL: article.url,
-        });
+        // Check if channelId is in the server
+        const guild = client.guilds.cache.get(tag.serverId);
+        const channel = client.channels.cache.get(tag.sendToChannelId);
 
-        // Ignore feeds that have been checked in the last 24 hours.
-        if (checkData && checkData.lastChecked < Date.now()) {
+        if (!guild || !channel || !channel.isTextBased() || !guild.channels.cache.has(channel.id)) {
+          continue;
+        }
+
+        // Check if role is in the server
+        const role =
+          typeof tag.mentionRoleId === 'string' && tag.mentionRoleId !== '0'
+            ? guild.roles.cache.get(tag.mentionRoleId)
+            : undefined;
+
+        if (typeof tag.mentionRoleId === 'string' && tag.mentionRoleId !== '0' && !role) {
           continue;
         }
 
@@ -87,12 +95,6 @@ export async function checkFeeds(client: Client) {
         if (article.enclosure?.url.startsWith('http:')) {
           message.setImage(normalizeUrl(article.enclosure.url as string));
         }
-
-        // Send message
-        const channel = client.channels.cache.get(tag.channelId);
-
-        // Return if channel is not a text channel
-        if (!channel?.isTextBased()) continue;
 
         const translateButton = new ButtonBuilder()
           .setCustomId(ButtonCustomIds.TranslateNews)

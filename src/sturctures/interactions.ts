@@ -12,6 +12,12 @@ export interface ModalInteractionHandlers {
   run: ({ interaction }: { interaction: Interaction }) => Promise<void>;
 }
 
+export interface MenuInteractionHandlers {
+  type: 'menu';
+  customId: string;
+  run: ({ interaction }: { interaction: Interaction }) => Promise<void>;
+}
+
 export interface CommandInteractionHandlers {
   type: 'command';
   data: Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>;
@@ -21,4 +27,5 @@ export interface CommandInteractionHandlers {
 export type InteractionHandlers =
   | ButtonInteractionHandlers
   | ModalInteractionHandlers
-  | CommandInteractionHandlers;
+  | CommandInteractionHandlers
+  | MenuInteractionHandlers;

@@ -2,7 +2,7 @@ import type { ModalActionRowComponentBuilder } from 'discord.js';
 import { ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 import { ActionRowBuilder } from 'discord.js';
 
-// import Settings from '../../models/Settings';
+import Settings from '../../models/Settings';
 import {
   ButtonCustomIds,
   ModalCustomIds,
@@ -19,18 +19,18 @@ const button: InteractionHandlers = {
       return;
     }
 
-    // const serverId = interaction.guildId;
+    const serverId = interaction.guildId;
 
     // Get server settings
-    // const settings = await Settings.findOne({ serverId });
+    const settings = await Settings.findOne({ serverId });
 
-    // if (!settings?.enableNewsSummarizing) {
-    //   await interaction.reply({
-    //     ephemeral: true,
-    //     content: 'News summarizing is not enabled in this server.',
-    //   });
-    //   return;
-    // }
+    if (!settings?.enableNewsSummarizing) {
+      await interaction.reply({
+        ephemeral: true,
+        content: 'News summarizing is not enabled in this server.',
+      });
+      return;
+    }
 
     // Get embeds from interaction body.
     const embed = interaction.message.embeds[0];

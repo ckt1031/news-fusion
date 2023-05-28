@@ -16,7 +16,8 @@ export interface RssFeed {
   };
   tag: {
     name: string;
-    channelId: string;
+    serverId: string;
+    sendToChannelId: string;
     mentionRoleId?: string;
   };
   article: Partial<FeedItem>;

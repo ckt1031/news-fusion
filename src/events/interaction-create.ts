@@ -12,6 +12,8 @@ function getInteractionType(interaction: Interaction) {
     return 'modal';
   } else if (interaction.isCommand()) {
     return 'command';
+  } else if (interaction.isAnySelectMenu()) {
+    return 'menu';
   } else {
     return 'unknown';
   }
@@ -23,7 +25,7 @@ export const event: DiscordEvent = {
   run: async (interaction: Interaction) => {
     const type = getInteractionType(interaction);
 
-    if (interaction.isButton() || interaction.isModalSubmit()) {
+    if (interaction.isButton() || interaction.isModalSubmit() || interaction.isAnySelectMenu()) {
       const interactionHandler = interaction.client.interactions;
 
       const customId = `${type}-${interaction.customId}`;
