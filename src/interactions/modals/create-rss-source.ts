@@ -1,3 +1,5 @@
+import normalizeUrl from 'normalize-url';
+
 import RssFeedSources from '../../models/RssFeedSources';
 import RssFeedTag from '../../models/RssFeedTags';
 import { CreateRssSourceModelFieldIds, ModalCustomIds } from '../../sturctures/custom-id';
@@ -13,7 +15,9 @@ const button: InteractionHandlers = {
 
     const serverId = interaction.guildId;
     const name = interaction.fields.getTextInputValue(CreateRssSourceModelFieldIds.Name);
-    const sourceURL = interaction.fields.getTextInputValue(CreateRssSourceModelFieldIds.SourceUrl);
+    const sourceURL = normalizeUrl(
+      interaction.fields.getTextInputValue(CreateRssSourceModelFieldIds.SourceUrl),
+    );
     const mentionRoleId = interaction.fields.getTextInputValue(
       CreateRssSourceModelFieldIds.MentionRoleId,
     );
@@ -40,14 +44,18 @@ const button: InteractionHandlers = {
       existingSource.enableMentionRole = enableMentionRole;
       existingSource.tag = tag;
       existingSource.mentionRoleId = mentionRoleId;
+      existingSource.sourceURL = sourceURL;
 
+      // Save the changes
       await existingSource.save();
 
+      // Acknowledge the interaction
       await interaction.deferUpdate();
 
       return;
     }
 
+    // Create a new source
     await RssFeedSources.create({
       name,
       serverId,
@@ -57,6 +65,7 @@ const button: InteractionHandlers = {
       tag: tag._id,
     });
 
+    // Acknowledge the interaction
     await interaction.deferUpdate();
   },
 };
