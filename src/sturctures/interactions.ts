@@ -20,6 +20,7 @@ export interface MenuInteractionHandlers {
 
 export interface CommandInteractionHandlers {
   type: 'command';
+  isGlobal: boolean;
   data: Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>;
   run: ({ interaction }: { interaction: Interaction }) => Promise<void>;
 }

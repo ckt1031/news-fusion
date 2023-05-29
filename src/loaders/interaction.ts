@@ -30,7 +30,8 @@ export async function loadInteractions(client: Client) {
   }
 
   const allFiles = await glob(folderPath);
-  const commands: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
+  const globalCommands: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
+  const ownerCommands: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
 
   if (allFiles.length === 0) {
     logger.error('No interactions found.');
@@ -50,21 +51,35 @@ export async function loadInteractions(client: Client) {
 
     if (interaction.type === 'command') {
       client.interactions.set(`command-${interaction.data.name}`, interaction);
-      commands.push(interaction.data.toJSON());
+      interaction.isGlobal
+        ? globalCommands.push(interaction.data.toJSON())
+        : ownerCommands.push(interaction.data.toJSON());
+
       continue;
     }
 
     client.interactions.set(`${interaction.type}-${interaction.customId}`, interaction);
   }
 
-  if (commands.length > 0) {
+  // Load global commands to discord.
+  if (globalCommands.length > 0) {
+    // Register interactions.
+    const rest = new REST().setToken(process.env.TOKEN);
+
+    await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
+      body: globalCommands,
+    });
+  }
+
+  // Load owner commands to discord.
+  if (ownerCommands.length > 0) {
     // Register interactions.
     const rest = new REST().setToken(process.env.TOKEN);
 
     await rest.put(
       Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.OWNER_GUILD_ID),
       {
-        body: commands,
+        body: ownerCommands,
       },
     );
   }

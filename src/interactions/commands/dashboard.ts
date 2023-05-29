@@ -8,7 +8,8 @@ import logging from '@/utils/logger';
 
 const command: InteractionHandlers = {
   type: 'command',
-  data: new SlashCommandBuilder().setName('dashboard').setDescription('Show the admin dashboard'),
+  isGlobal: false,
+  data: new SlashCommandBuilder().setName('dashboard').setDescription('Show the owner dashboard'),
   run: async ({ interaction }) => {
     if (!interaction.channel || !interaction.isCommand()) {
       return;

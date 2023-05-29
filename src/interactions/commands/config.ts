@@ -7,6 +7,7 @@ import type { InteractionHandlers } from '@/sturctures/interactions';
 
 const command: InteractionHandlers = {
   type: 'command',
+  isGlobal: true,
   data: new SlashCommandBuilder().setName('config').setDescription('Manage server config'),
   run: async ({ interaction }) => {
     if (!interaction.channel || !interaction.isCommand()) {
