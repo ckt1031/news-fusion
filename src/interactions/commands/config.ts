@@ -14,6 +14,14 @@ const command: InteractionHandlers = {
       return;
     }
 
+    if (!interaction.guild) {
+      await interaction.reply({
+        ephemeral: true,
+        content: 'This command can only be used in a server.',
+      });
+      return;
+    }
+
     // Check if the user is server admin.
     if (!interaction.memberPermissions?.has('Administrator')) {
       await interaction.reply({
