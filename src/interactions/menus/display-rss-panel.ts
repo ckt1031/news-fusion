@@ -2,12 +2,11 @@ import type { Interaction, MessageActionRowComponentBuilder } from 'discord.js';
 import { ButtonStyle } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
 
-import RssFeedSources from '@/models/RssFeedSources';
-import RssFeedTags from '@/models/RssFeedTags';
 import { ButtonCustomIds, MenuCustomIds } from '@/sturctures/custom-id';
 import type { InteractionHandlers } from '@/sturctures/interactions';
 import type { RssSourcePaginationCache } from '@/sturctures/rss-sources-pagination';
 import { feedSourcePaginationCache } from '@/utils/cache';
+import { RssSourcesCache } from '@/utils/rss/cache';
 
 interface UpdateEmbedOptions {
   interaction: Interaction;
@@ -74,19 +73,20 @@ const button: InteractionHandlers = {
   type: 'menu',
   customId: MenuCustomIds.DisplayRssSourcePanel,
   run: async ({ interaction }) => {
-    if (!interaction.channel || !interaction.isAnySelectMenu()) {
+    if (!interaction.channel || !interaction.isAnySelectMenu() || !interaction.guildId) {
       return;
     }
 
+    const cache = new RssSourcesCache();
+
     const selectedTagId = interaction.values[0];
-    const selectedTag = await RssFeedTags.findById(selectedTagId);
+    const selectedTag = await cache.getSingleTag(interaction.guildId, selectedTagId);
     if (!selectedTag) return;
 
     // List all sources with selected tag
-    const rssFeedSources = await RssFeedSources.find({
-      serverId: interaction.guildId,
-      tag: selectedTag._id,
-    });
+    const rssFeedSources = await cache.getSources(interaction.guildId, selectedTag.name);
+
+    if (!rssFeedSources) return;
 
     // Return if no sources
     if (rssFeedSources.length === 0) {

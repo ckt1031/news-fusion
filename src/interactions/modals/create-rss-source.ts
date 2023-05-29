@@ -1,9 +1,8 @@
 import normalizeUrl from 'normalize-url';
 
-import RssFeedSources from '@/models/RssFeedSources';
-import RssFeedTag from '@/models/RssFeedTags';
 import { CreateRssSourceModelFieldIds, ModalCustomIds } from '@/sturctures/custom-id';
 import type { InteractionHandlers } from '@/sturctures/interactions';
+import { RssSourcesCache } from '@/utils/rss/cache';
 
 const button: InteractionHandlers = {
   type: 'modal',
@@ -26,7 +25,12 @@ const button: InteractionHandlers = {
       'true';
     const tagName = interaction.fields.getTextInputValue(CreateRssSourceModelFieldIds.TagName);
 
-    const tag = await RssFeedTag.findOne({ name: tagName, serverId });
+    if (!serverId) return;
+
+    const sourceCache = new RssSourcesCache();
+
+    // Check if the tag exists
+    const tag = await sourceCache.getSingleTag(serverId, tagName);
 
     if (!tag) {
       await interaction.reply({
@@ -38,32 +42,25 @@ const button: InteractionHandlers = {
     }
 
     // If the sourceURL and serverId combination already exists, edit the existing tag
-    const existingSource = await RssFeedSources.findOne({ name, serverId });
+    const existingSource = await sourceCache.getSingleSource(serverId, tagName, name);
 
+    // eslint-disable-next-line unicorn/prefer-ternary
     if (existingSource) {
-      existingSource.enableMentionRole = enableMentionRole;
-      existingSource.tag = tag;
-      existingSource.mentionRoleId = mentionRoleId;
-      existingSource.sourceURL = sourceURL;
-
-      // Save the changes
-      await existingSource.save();
-
-      // Acknowledge the interaction
-      await interaction.deferUpdate();
-
-      return;
+      await sourceCache.updateSource(serverId, tagName, name, {
+        enableMentionRole,
+        mentionRoleId,
+        sourceURL,
+      });
+    } else {
+      await sourceCache.addSource(serverId, tagName, {
+        enableMentionRole,
+        mentionRoleId,
+        sourceURL,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        tag: tag._id,
+      });
     }
-
-    // Create a new source
-    await RssFeedSources.create({
-      name,
-      serverId,
-      sourceURL,
-      enableMentionRole,
-      mentionRoleId,
-      tag: tag._id,
-    });
 
     // Acknowledge the interaction
     await interaction.deferUpdate();

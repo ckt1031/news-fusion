@@ -28,8 +28,19 @@ const button: InteractionHandlers = {
       .setLabel('Name')
       .setStyle(TextInputStyle.Short);
 
+    const tagNameInput = new TextInputBuilder()
+      .setRequired(true)
+      .setCustomId(CreateRssSourceModelFieldIds.TagName)
+      .setPlaceholder('Enter tag name')
+      .setLabel('Tag Name')
+      .setStyle(TextInputStyle.Short);
+
     modal.addComponents(
       new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(nameInput),
+    );
+
+    modal.addComponents(
+      new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(tagNameInput),
     );
 
     await interaction.showModal(modal);

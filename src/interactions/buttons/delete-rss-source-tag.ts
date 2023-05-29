@@ -4,7 +4,7 @@ import { ActionRowBuilder } from 'discord.js';
 
 import {
   ButtonCustomIds,
-  CreateRssSourceModelFieldIds,
+  DeleteRssSourceTagModelFieldIds,
   ModalCustomIds,
 } from '@/sturctures/custom-id';
 import type { InteractionHandlers } from '@/sturctures/interactions';
@@ -23,13 +23,24 @@ const button: InteractionHandlers = {
 
     const nameInput = new TextInputBuilder()
       .setRequired(true)
-      .setCustomId(CreateRssSourceModelFieldIds.Name)
+      .setCustomId(DeleteRssSourceTagModelFieldIds.Name)
       .setPlaceholder('Enter name')
       .setLabel('Name')
       .setStyle(TextInputStyle.Short);
 
+    const deleteSourcesInput = new TextInputBuilder()
+      .setRequired(true)
+      .setCustomId(DeleteRssSourceTagModelFieldIds.DeleteAllSources)
+      .setPlaceholder('Enter true or false')
+      .setLabel('Delete all sources that use this tag')
+      .setStyle(TextInputStyle.Short);
+
     modal.addComponents(
       new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(nameInput),
+    );
+
+    modal.addComponents(
+      new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(deleteSourcesInput),
     );
 
     await interaction.showModal(modal);

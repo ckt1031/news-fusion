@@ -1,10 +1,11 @@
 import dayjs from 'dayjs';
+import type { Client } from 'discord.js';
 import Parser from 'rss-parser';
 
-import RssFeedSources from '@/models/RssFeedSources';
+import type { RssFeedSource } from '@/models/RssFeedSources';
 import logger from '@/utils/logger';
 
-import { RssFeedChecksCache } from './cache';
+import { RssFeedChecksCache, RssSourcesCache } from './cache';
 import type { RssFeed } from './types';
 
 async function processSource(
@@ -71,11 +72,24 @@ async function processSource(
   return feeds;
 }
 
-export async function fetchAllRssFeeds() {
+export async function fetchAllRssFeeds(client: Client) {
   const parser = new Parser();
   const feeds: RssFeed[] = [];
 
-  const allSources = await RssFeedSources.find().populate('tag');
+  const cache = new RssSourcesCache();
+
+  // Get an string array of all client joined guilds
+  const guilds = client.guilds.cache.map(guild => guild.id);
+
+  const allSources: RssFeedSource[] = [];
+
+  for (const guild of guilds) {
+    const sources = await cache.getAllSources(guild);
+
+    if (!sources) continue;
+
+    allSources.push(...sources);
+  }
 
   for (const source of allSources) {
     const sourceFeeds = await processSource(

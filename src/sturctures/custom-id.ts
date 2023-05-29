@@ -62,8 +62,10 @@ export enum CreateRssSourceTagModelFieldIds {
 
 export enum DeleteRssSourceModelFieldIds {
   Name = 'name',
+  TagName = 'tag_name',
 }
 
 export enum DeleteRssSourceTagModelFieldIds {
   Name = 'name',
+  DeleteAllSources = 'delete_all_sources',
 }

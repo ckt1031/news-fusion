@@ -1,7 +1,6 @@
-import RssFeedSources from '@/models/RssFeedSources';
-import RssFeedTag from '@/models/RssFeedTags';
 import { DeleteRssSourceTagModelFieldIds, ModalCustomIds } from '@/sturctures/custom-id';
 import type { InteractionHandlers } from '@/sturctures/interactions';
+import { RssSourcesCache } from '@/utils/rss/cache';
 
 const button: InteractionHandlers = {
   type: 'modal',
@@ -12,12 +11,19 @@ const button: InteractionHandlers = {
     }
 
     const name = interaction.fields.getTextInputValue(DeleteRssSourceTagModelFieldIds.Name);
+    const deleteSources = interaction.fields.getTextInputValue(
+      DeleteRssSourceTagModelFieldIds.DeleteAllSources,
+    );
     const serverId = interaction.guildId;
 
-    // If the name and serverId combination already exists, edit the existing tag
-    const existingTag = await RssFeedTag.findOne({ name, serverId });
+    if (!serverId) return;
 
-    if (!existingTag) {
+    const sourceCache = new RssSourcesCache();
+
+    // Check if the tag exists
+    const tag = await sourceCache.getSingleTag(serverId, name);
+
+    if (!tag) {
       await interaction.reply({
         content: `Tag \`${name}\` does not exist`,
         ephemeral: true,
@@ -26,10 +32,9 @@ const button: InteractionHandlers = {
       return;
     }
 
-    // Check if there are any sources that use this tag
-    const sources = await RssFeedSources.find({ tag: existingTag._id, serverId });
+    const sources = await sourceCache.getSources(serverId, tag.name);
 
-    if (sources.length > 0) {
+    if (sources && sources.length > 0 && deleteSources === 'false') {
       await interaction.reply({
         content: `Tag \`${name}\` is still in use by ${sources.length} source(s)`,
         ephemeral: true,
@@ -38,7 +43,12 @@ const button: InteractionHandlers = {
       return;
     }
 
-    await RssFeedTag.findOneAndDelete({ name, serverId }).exec();
+    if (sources && sources.length > 0 && deleteSources === 'true') {
+      await sourceCache.removeAllSources(serverId, tag.name);
+    }
+
+    // Delete the tag
+    await sourceCache.removeTag(serverId, tag.name);
 
     await interaction.deferUpdate();
   },

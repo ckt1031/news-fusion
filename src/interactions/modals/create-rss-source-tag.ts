@@ -1,6 +1,6 @@
-import RssFeedTag from '@/models/RssFeedTags';
 import { CreateRssSourceTagModelFieldIds, ModalCustomIds } from '@/sturctures/custom-id';
 import type { InteractionHandlers } from '@/sturctures/interactions';
+import { RssSourcesCache } from '@/utils/rss/cache';
 
 const button: InteractionHandlers = {
   type: 'modal',
@@ -17,24 +17,25 @@ const button: InteractionHandlers = {
       CreateRssSourceTagModelFieldIds.SendToChannelId,
     );
 
+    if (!serverId) return;
+
+    const sourceCache = new RssSourcesCache();
+
     // If the name and serverId combination already exists, edit the existing tag
-    const existingTag = await RssFeedTag.findOne({ name, serverId });
+    const existingTag = await sourceCache.getSingleTag(serverId, name);
 
+    // eslint-disable-next-line unicorn/prefer-ternary
     if (existingTag) {
-      existingTag.sendToChannelId = sendToChannelId;
-
-      await existingTag.save();
-
-      await interaction.deferUpdate();
-
-      return;
+      await sourceCache.addTag(serverId, {
+        name,
+        serverId,
+        sendToChannelId,
+      });
+    } else {
+      await sourceCache.updateTag(serverId, name, {
+        sendToChannelId,
+      });
     }
-
-    await RssFeedTag.create({
-      name,
-      serverId,
-      sendToChannelId,
-    });
 
     await interaction.deferUpdate();
   },

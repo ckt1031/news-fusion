@@ -1,7 +1,7 @@
 import NodeCache from 'node-cache';
 
-const feedCheckCache = new NodeCache();
-
+const feedChecksCache = new NodeCache();
+const feedSourcesCache = new NodeCache();
 const feedSourcePaginationCache = new NodeCache();
 
-export { feedCheckCache, feedSourcePaginationCache };
+export { feedChecksCache, feedSourcePaginationCache, feedSourcesCache };

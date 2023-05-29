@@ -6,9 +6,9 @@ import {
   StringSelectMenuOptionBuilder,
 } from 'discord.js';
 
-import RssFeedTags from '@/models/RssFeedTags';
 import { ButtonCustomIds, MenuCustomIds } from '@/sturctures/custom-id';
 import type { InteractionHandlers } from '@/sturctures/interactions';
+import { RssSourcesCache } from '@/utils/rss/cache';
 
 const button: InteractionHandlers = {
   type: 'button',
@@ -20,13 +20,18 @@ const button: InteractionHandlers = {
 
     // List all tags
     const serverId = interaction.guildId;
-    const rssFeedTags = await RssFeedTags.find({ serverId });
+
+    if (!serverId) return;
+
+    const cache = new RssSourcesCache();
+
+    const rssFeedTags = await cache.getTags(serverId);
 
     const embed = new EmbedBuilder();
     embed.setTitle('RSS Source List');
 
     // Return if no tags
-    if (rssFeedTags.length === 0) {
+    if (!rssFeedTags || rssFeedTags.length === 0) {
       embed.setDescription('No tags found');
       await interaction.reply({
         ephemeral: true,

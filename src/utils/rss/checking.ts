@@ -13,7 +13,7 @@ export async function checkFeeds(client: Client) {
   logger.info('Checking RSS feeds...');
 
   // Fetch all feeds
-  const feeds = await fetchAllRssFeeds();
+  const feeds = await fetchAllRssFeeds(client);
 
   try {
     for (const data of feeds) {
