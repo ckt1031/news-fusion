@@ -9,7 +9,7 @@
     "lint": "eslint --fix .",
     "prepare": "is-ci || npx husky install",
     "start": "node --enable-source-maps -r dotenv/config dist/index.js | pino-pretty",
-    "start:pm2": "pm2-runtime --max-memory-restart 200M pnpm -- start",
+    "start:pm2": "pm2-runtime --max-memory-restart 250M pnpm -- start",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
