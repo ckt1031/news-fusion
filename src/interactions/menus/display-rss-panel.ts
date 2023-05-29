@@ -2,12 +2,12 @@ import type { Interaction, MessageActionRowComponentBuilder } from 'discord.js';
 import { ButtonStyle } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
 
-import RssFeedSources, { type RssFeedSource } from '@/models/RssFeedSources';
-import type { RssFeedTag } from '@/models/RssFeedTags';
+import RssFeedSources from '@/models/RssFeedSources';
 import RssFeedTags from '@/models/RssFeedTags';
 import { ButtonCustomIds, MenuCustomIds } from '@/sturctures/custom-id';
 import type { InteractionHandlers } from '@/sturctures/interactions';
-import { defaultCache } from '@/utils/cache';
+import type { RssSourcePaginationCache } from '@/sturctures/rss-sources-pagination';
+import { feedSourcePaginationCache } from '@/utils/cache';
 
 interface UpdateEmbedOptions {
   interaction: Interaction;
@@ -24,36 +24,41 @@ export const updateEmbed = async ({ interaction }: UpdateEmbedOptions) => {
   const itemsPerPage = 10;
 
   // use cache to store current page
-  const currentPage = defaultCache.get<number>(messageId) ?? 0;
-  const selectedTag = defaultCache.get<RssFeedTag>(`PANEL_RSS_SOURCES_TAG_${messageId}`);
-  const rssFeedSources = defaultCache.get<RssFeedSource[]>(`PANEL_RSS_SOURCES_${messageId}`);
+  const data = feedSourcePaginationCache.get<RssSourcePaginationCache>(messageId);
 
-  if (!selectedTag || !rssFeedSources) return;
+  if (!data) return;
 
-  const maxPage = Math.ceil(rssFeedSources.length / itemsPerPage) - 1;
+  const maxPage = Math.ceil(data.rssFeedSources.length / itemsPerPage) - 1;
 
   const embed = new EmbedBuilder();
-  embed.setTitle(`RSS Sources for tag ${selectedTag.name}`);
+  embed.setTitle(`RSS Sources for tag: ${data.selectedTag.name}`);
   embed.setDescription(
-    rssFeedSources
-      .slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+    data.rssFeedSources
+      .slice(data.currentPage * itemsPerPage, (data.currentPage + 1) * itemsPerPage)
       .map((source, index) => {
-        return `${index + 1 + currentPage * itemsPerPage}. ${source.name} - ${source.sourceURL}`;
+        return `${index + 1 + data.currentPage * itemsPerPage}. **${source.name}** - ${
+          source.sourceURL
+        }`;
       })
       .join('\n'),
   );
+  embed.setFooter({
+    text: `Page ${data.currentPage + 1}/${maxPage + 1}`,
+  });
 
   // Add navigation buttons
   const prevButton = new ButtonBuilder()
     .setCustomId(ButtonCustomIds.ListRssSourcePanelPreviuousPage)
     .setLabel('Prev')
     .setStyle(ButtonStyle.Primary)
-    .setDisabled(currentPage === 0);
+    .setDisabled(data.currentPage === 0);
+
   const nextButton = new ButtonBuilder()
     .setCustomId(ButtonCustomIds.ListRssSourcePanelNextPage)
     .setLabel('Next')
     .setStyle(ButtonStyle.Primary)
-    .setDisabled(currentPage === maxPage);
+    .setDisabled(data.currentPage === maxPage);
+
   const actionRow = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
     prevButton,
     nextButton,
@@ -96,12 +101,15 @@ const button: InteractionHandlers = {
     }
 
     // Save to cache
-    defaultCache.set('PANEL_RSS_SOURCES_' + interaction.message.id, rssFeedSources, 15 * 60 * 1000); // 15 minutes
-    defaultCache.set(
-      'PANEL_RSS_SOURCES_TAG_' + interaction.message.id,
-      selectedTag,
-      15 * 60 * 1000,
-    ); // 15 minutes
+    feedSourcePaginationCache.set(
+      interaction.message.id,
+      {
+        currentPage: 0,
+        rssFeedSources,
+        selectedTag,
+      },
+      3 * 60,
+    ); // 3 minute
 
     await updateEmbed({
       interaction,

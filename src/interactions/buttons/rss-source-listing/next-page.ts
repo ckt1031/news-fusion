@@ -1,7 +1,8 @@
 import { updateEmbed } from '@/interactions/menus/display-rss-panel';
 import { ButtonCustomIds } from '@/sturctures/custom-id';
 import type { InteractionHandlers } from '@/sturctures/interactions';
-import { defaultCache } from '@/utils/cache';
+import type { RssSourcePaginationCache } from '@/sturctures/rss-sources-pagination';
+import { feedSourcePaginationCache } from '@/utils/cache';
 
 const button: InteractionHandlers = {
   type: 'button',
@@ -11,9 +12,14 @@ const button: InteractionHandlers = {
       return;
     }
 
-    const currentPage = defaultCache.get<number>(interaction.message.id) ?? 0;
+    const data = feedSourcePaginationCache.get<RssSourcePaginationCache>(interaction.message.id);
 
-    defaultCache.set(interaction.message.id, currentPage + 1);
+    if (!data) return;
+
+    feedSourcePaginationCache.set(interaction.message.id, {
+      ...data,
+      currentPage: data.currentPage + 1,
+    });
 
     await updateEmbed({
       interaction,

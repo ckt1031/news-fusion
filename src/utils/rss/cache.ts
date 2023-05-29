@@ -2,7 +2,7 @@ import sha256 from 'crypto-js/sha256.js';
 
 import type { RssSourceCheck } from '@/models/RssFeedChecks';
 import RssFeedChecks from '@/models/RssFeedChecks';
-import { defaultCache } from '@/utils/cache';
+import { feedCheckCache } from '@/utils/cache';
 
 interface CacheKey {
   sourceURL: string;
@@ -11,7 +11,7 @@ interface CacheKey {
 
 // Cache of the last time a feed was checked, using node-cache
 export class RssFeedChecksCache {
-  private cache = defaultCache;
+  private cache = feedCheckCache;
 
   public async get(key: CacheKey): Promise<RssSourceCheck | undefined> {
     const cacheKey = this.getCacheKey(key);

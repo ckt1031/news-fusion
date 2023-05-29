@@ -29,27 +29,27 @@ To set up and install the Cktsun Helper Discord bot, follow these steps:
 
 2. Navigate to the project directory:
 
-    ```shell
-    cd cktsun-helper
-    ```
+   ```shell
+   cd cktsun-helper
+   ```
 
 3. Install the dependencies using npm:
 
-    ```shell
-    npm install
-    ```
+   ```shell
+   npm install
+   ```
 
 4. Build the TypeScript code into a JavaScript file:
 
-    ```shell
-    npm run build
-    ```
+   ```shell
+   npm run build
+   ```
 
 5. Start the bot:
 
-    ```shell
-    npm start
-    ```
+   ```shell
+   npm start
+   ```
 
 Make sure to populate the necessary environment variables in the .env file before starting the bot. Refer to the [Environment Variables](#environment-variables) section for more details.
 
@@ -68,26 +68,26 @@ The following environment variables are required to run the Cktsun Helper Discor
 
 - **Server Config**
 
-    ![Screenshot 1](https://i.ibb.co/pX14nVX/image.png)
-    ![Screenshot 2](https://i.ibb.co/frz42rG/image.png)
+  ![Screenshot 1](https://i.ibb.co/pX14nVX/image.png)
+  ![Screenshot 2](https://i.ibb.co/frz42rG/image.png)
 
 ### RSS Feed
 
 - **RSS Feed Config**
 
-    ![Screenshot 3](https://i.ibb.co/yPZYhVS/image.png)
+  ![Screenshot 3](https://i.ibb.co/yPZYhVS/image.png)
 
 - **RSS Sources Listing (With Pagination)**
 
-    ![Screenshot 4](https://i.ibb.co/WFGgJkd/image.png)
+  ![Screenshot 4](https://i.ibb.co/WFGgJkd/image.png)
 
 - **RSS Feed AI Summarizing Modal**
 
-    ![Screenshot 5](https://i.ibb.co/bWFGd1V/image.png)
+  ![Screenshot 5](https://i.ibb.co/bWFGd1V/image.png)
 
 - **RSS Feed AI Summarizing Result (Direct Message)**
 
-    ![Screenshot 6](https://i.ibb.co/2gqPpn1/image.png)
+  ![Screenshot 6](https://i.ibb.co/2gqPpn1/image.png)
 
 ## License
 
