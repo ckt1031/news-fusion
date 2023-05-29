@@ -6,9 +6,9 @@ import {
   StringSelectMenuOptionBuilder,
 } from 'discord.js';
 
-import RssFeedTags from '../../../models/RssFeedTags';
-import { ButtonCustomIds, MenuCustomIds } from '../../../sturctures/custom-id';
-import type { InteractionHandlers } from '../../../sturctures/interactions';
+import RssFeedTags from '@/models/RssFeedTags';
+import { ButtonCustomIds, MenuCustomIds } from '@/sturctures/custom-id';
+import type { InteractionHandlers } from '@/sturctures/interactions';
 
 const button: InteractionHandlers = {
   type: 'button',

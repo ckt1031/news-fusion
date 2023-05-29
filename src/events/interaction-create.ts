@@ -1,9 +1,9 @@
 import type { Interaction } from 'discord.js';
 import { Events } from 'discord.js';
 
-import type { DiscordEvent } from '../sturctures/event';
-import logging from '../utils/logger';
-import logger from '../utils/logger';
+import type { DiscordEvent } from '@/sturctures/event';
+import logging from '@/utils/logger';
+import logger from '@/utils/logger';
 
 function getInteractionType(interaction: Interaction) {
   if (interaction.isButton()) {

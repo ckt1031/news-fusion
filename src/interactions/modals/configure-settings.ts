@@ -1,6 +1,6 @@
-import Settings from '../../models/Settings';
-import { ModalCustomIds, ServerConfigurationModelFieldIds } from '../../sturctures/custom-id';
-import type { InteractionHandlers } from '../../sturctures/interactions';
+import Settings from '@/models/Settings';
+import { ModalCustomIds, ServerConfigurationModelFieldIds } from '@/sturctures/custom-id';
+import type { InteractionHandlers } from '@/sturctures/interactions';
 
 const button: InteractionHandlers = {
   type: 'modal',

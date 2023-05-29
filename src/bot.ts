@@ -2,7 +2,7 @@ import { Collection } from 'discord.js';
 import { Client, GatewayIntentBits, Partials } from 'discord.js';
 
 import { loadDiscordEvent } from './loaders/event';
-import { loadButtons } from './loaders/interaction';
+import { loadInteractions } from './loaders/interaction';
 import type { InteractionHandlers } from './sturctures/interactions';
 
 const client = new Client({
@@ -20,7 +20,7 @@ const client = new Client({
 client.interactions = new Collection();
 
 await loadDiscordEvent(client);
-await loadButtons(client);
+await loadInteractions(client);
 
 await client.login(process.env.TOKEN);
 

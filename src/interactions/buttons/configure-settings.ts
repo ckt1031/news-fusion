@@ -2,13 +2,13 @@ import type { ModalActionRowComponentBuilder } from 'discord.js';
 import { ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 import { ActionRowBuilder } from 'discord.js';
 
-import Settings from '../../models/Settings';
+import Settings from '@/models/Settings';
 import {
   ButtonCustomIds,
   ModalCustomIds,
   ServerConfigurationModelFieldIds,
-} from '../../sturctures/custom-id';
-import type { InteractionHandlers } from '../../sturctures/interactions';
+} from '@/sturctures/custom-id';
+import type { InteractionHandlers } from '@/sturctures/interactions';
 
 const button: InteractionHandlers = {
   type: 'button',

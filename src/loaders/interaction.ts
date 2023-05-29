@@ -8,9 +8,9 @@ import type {
 import { REST, Routes } from 'discord.js';
 import { glob } from 'glob';
 
-import { __dirname } from '../constants';
-import type { InteractionHandlers } from '../sturctures/interactions';
-import logger from '../utils/logger';
+import { __dirname } from '@/constants';
+import type { InteractionHandlers } from '@/sturctures/interactions';
+import logger from '@/utils/logger';
 
 /** Discord Client events */
 export interface DiscordEvent {
@@ -21,7 +21,7 @@ export interface DiscordEvent {
   run: (...arguments_: any[]) => Promise<void> | void;
 }
 
-export async function loadButtons(client: Client) {
+export async function loadInteractions(client: Client) {
   let folderPath = join(__dirname, '../dist/interactions/**/*.{js,ts}');
 
   // Parse path in windows

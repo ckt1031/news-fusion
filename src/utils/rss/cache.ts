@@ -1,8 +1,8 @@
 import sha256 from 'crypto-js/sha256.js';
 
-import type { RssSourceCheck } from '../../models/RssFeedChecks';
-import RssFeedChecks from '../../models/RssFeedChecks';
-import { defaultCache } from '../../utils/cache';
+import type { RssSourceCheck } from '@/models/RssFeedChecks';
+import RssFeedChecks from '@/models/RssFeedChecks';
+import { defaultCache } from '@/utils/cache';
 
 interface CacheKey {
   sourceURL: string;

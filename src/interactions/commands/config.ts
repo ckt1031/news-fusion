@@ -2,8 +2,8 @@ import type { MessageActionRowComponentBuilder } from 'discord.js';
 import { ButtonBuilder, ButtonStyle, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 import { ActionRowBuilder } from 'discord.js';
 
-import { ButtonCustomIds } from '../../sturctures/custom-id';
-import type { InteractionHandlers } from '../../sturctures/interactions';
+import { ButtonCustomIds } from '@/sturctures/custom-id';
+import type { InteractionHandlers } from '@/sturctures/interactions';
 
 const command: InteractionHandlers = {
   type: 'command',

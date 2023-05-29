@@ -1,6 +1,6 @@
-import { ButtonCustomIds } from '../../sturctures/custom-id';
-import type { InteractionHandlers } from '../../sturctures/interactions';
-import shirkDatabase from '../../utils/shirk-database';
+import { ButtonCustomIds } from '@/sturctures/custom-id';
+import type { InteractionHandlers } from '@/sturctures/interactions';
+import shirkDatabase from '@/utils/shirk-database';
 
 const button: InteractionHandlers = {
   type: 'button',

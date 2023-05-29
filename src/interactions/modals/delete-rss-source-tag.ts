@@ -1,7 +1,7 @@
-import RssFeedSources from '../../models/RssFeedSources';
-import RssFeedTag from '../../models/RssFeedTags';
-import { DeleteRssSourceTagModelFieldIds, ModalCustomIds } from '../../sturctures/custom-id';
-import type { InteractionHandlers } from '../../sturctures/interactions';
+import RssFeedSources from '@/models/RssFeedSources';
+import RssFeedTag from '@/models/RssFeedTags';
+import { DeleteRssSourceTagModelFieldIds, ModalCustomIds } from '@/sturctures/custom-id';
+import type { InteractionHandlers } from '@/sturctures/interactions';
 
 const button: InteractionHandlers = {
   type: 'modal',

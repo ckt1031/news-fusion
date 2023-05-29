@@ -1,6 +1,6 @@
-import RssFeedSources from '../../models/RssFeedSources';
-import { DeleteRssSourceModelFieldIds, ModalCustomIds } from '../../sturctures/custom-id';
-import type { InteractionHandlers } from '../../sturctures/interactions';
+import RssFeedSources from '@/models/RssFeedSources';
+import { DeleteRssSourceModelFieldIds, ModalCustomIds } from '@/sturctures/custom-id';
+import type { InteractionHandlers } from '@/sturctures/interactions';
 
 const button: InteractionHandlers = {
   type: 'modal',

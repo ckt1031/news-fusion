@@ -2,12 +2,12 @@ import type { Interaction, MessageActionRowComponentBuilder } from 'discord.js';
 import { ButtonStyle } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
 
-import RssFeedSources, { type RssFeedSource } from '../../models/RssFeedSources';
-import type { RssFeedTag } from '../../models/RssFeedTags';
-import RssFeedTags from '../../models/RssFeedTags';
-import { ButtonCustomIds, MenuCustomIds } from '../../sturctures/custom-id';
-import type { InteractionHandlers } from '../../sturctures/interactions';
-import { defaultCache } from '../../utils/cache';
+import RssFeedSources, { type RssFeedSource } from '@/models/RssFeedSources';
+import type { RssFeedTag } from '@/models/RssFeedTags';
+import RssFeedTags from '@/models/RssFeedTags';
+import { ButtonCustomIds, MenuCustomIds } from '@/sturctures/custom-id';
+import type { InteractionHandlers } from '@/sturctures/interactions';
+import { defaultCache } from '@/utils/cache';
 
 interface UpdateEmbedOptions {
   interaction: Interaction;

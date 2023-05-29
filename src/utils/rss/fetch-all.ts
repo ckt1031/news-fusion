@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
 import Parser from 'rss-parser';
 
-import RssFeedSources from '../../models/RssFeedSources';
-import logger from '../../utils/logger';
+import RssFeedSources from '@/models/RssFeedSources';
+import logger from '@/utils/logger';
+
 import { RssFeedChecksCache } from './cache';
 import type { RssFeed } from './types';
 

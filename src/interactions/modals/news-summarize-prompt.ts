@@ -1,8 +1,8 @@
-import { ModalCustomIds, NewsSummarizingModelFieldIds } from '../../sturctures/custom-id';
-import type { InteractionHandlers } from '../../sturctures/interactions';
-import { getBingResponse } from '../../utils/bing-ai';
-import extractArticle from '../../utils/extract-article';
-import logging from '../../utils/logger';
+import { ModalCustomIds, NewsSummarizingModelFieldIds } from '@/sturctures/custom-id';
+import type { InteractionHandlers } from '@/sturctures/interactions';
+import { getBingResponse } from '@/utils/bing-ai';
+import extractArticle from '@/utils/extract-article';
+import logging from '@/utils/logger';
 
 function processInput(
   input: string,

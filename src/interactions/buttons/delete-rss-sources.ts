@@ -6,8 +6,8 @@ import {
   ButtonCustomIds,
   CreateRssSourceModelFieldIds,
   ModalCustomIds,
-} from '../../sturctures/custom-id';
-import type { InteractionHandlers } from '../../sturctures/interactions';
+} from '@/sturctures/custom-id';
+import type { InteractionHandlers } from '@/sturctures/interactions';
 
 const button: InteractionHandlers = {
   type: 'button',

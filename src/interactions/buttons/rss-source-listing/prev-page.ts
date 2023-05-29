@@ -1,7 +1,7 @@
-import { ButtonCustomIds } from '../../../sturctures/custom-id';
-import type { InteractionHandlers } from '../../../sturctures/interactions';
-import { defaultCache } from '../../../utils/cache';
-import { updateEmbed } from '../../menus/display-rss-panel';
+import { updateEmbed } from '@/interactions/menus/display-rss-panel';
+import { ButtonCustomIds } from '@/sturctures/custom-id';
+import type { InteractionHandlers } from '@/sturctures/interactions';
+import { defaultCache } from '@/utils/cache';
 
 const button: InteractionHandlers = {
   type: 'button',

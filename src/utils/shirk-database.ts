@@ -1,4 +1,5 @@
-import RssFeedChecks from '../models/RssFeedChecks';
+import RssFeedChecks from '@/models/RssFeedChecks';
+
 import logger from './logger';
 
 export default async function shirkDatabase() {

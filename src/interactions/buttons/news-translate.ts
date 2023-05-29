@@ -6,11 +6,11 @@ import {
   StringSelectMenuOptionBuilder,
 } from 'discord.js';
 
-import Settings from '../../models/Settings';
-import { ButtonCustomIds } from '../../sturctures/custom-id';
-import type { InteractionHandlers } from '../../sturctures/interactions';
-import extractArticle from '../../utils/extract-article';
-import logger from '../../utils/logger';
+import Settings from '@/models/Settings';
+import { ButtonCustomIds } from '@/sturctures/custom-id';
+import type { InteractionHandlers } from '@/sturctures/interactions';
+import extractArticle from '@/utils/extract-article';
+import logger from '@/utils/logger';
 
 const button: InteractionHandlers = {
   type: 'button',

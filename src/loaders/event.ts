@@ -3,9 +3,9 @@ import { join } from 'node:path';
 import type { Client } from 'discord.js';
 import { glob } from 'glob';
 
-import { __dirname } from '../constants';
-import type { DiscordEvent } from '../sturctures/event';
-import logger from '../utils/logger';
+import { __dirname } from '@/constants';
+import type { DiscordEvent } from '@/sturctures/event';
+import logger from '@/utils/logger';
 
 export async function loadDiscordEvent(client: Client) {
   let folderPath = join(__dirname, '../dist/events/**/*.{js,ts}');

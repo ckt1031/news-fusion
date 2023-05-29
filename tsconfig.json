@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
-    "noEmit": true
+    "baseUrl": ".",
+    "noEmit": true,
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "exclude": ["node_modules", "dist", "assets"],
   "extends": "@ckt1031/tsconfig/base.json",
-  "include": ["commitlint.config.cjs", "src", "config/*.json", "package.json"]
+  "include": ["commitlint.config.cjs", "src", "config/*.json", "package.json", "tsup.config.ts"]
 }

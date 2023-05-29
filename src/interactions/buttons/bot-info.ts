@@ -3,8 +3,8 @@ import { EmbedBuilder, version as discordJsVersion } from 'discord.js';
 import pidusage from 'pidusage';
 import sAgo from 's-ago';
 
-import { ButtonCustomIds } from '../../sturctures/custom-id';
-import type { InteractionHandlers } from '../../sturctures/interactions';
+import { ButtonCustomIds } from '@/sturctures/custom-id';
+import type { InteractionHandlers } from '@/sturctures/interactions';
 
 const button: InteractionHandlers = {
   type: 'button',

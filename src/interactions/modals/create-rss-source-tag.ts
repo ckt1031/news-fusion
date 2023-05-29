@@ -1,6 +1,6 @@
-import RssFeedTag from '../../models/RssFeedTags';
-import { CreateRssSourceTagModelFieldIds, ModalCustomIds } from '../../sturctures/custom-id';
-import type { InteractionHandlers } from '../../sturctures/interactions';
+import RssFeedTag from '@/models/RssFeedTags';
+import { CreateRssSourceTagModelFieldIds, ModalCustomIds } from '@/sturctures/custom-id';
+import type { InteractionHandlers } from '@/sturctures/interactions';
 
 const button: InteractionHandlers = {
   type: 'modal',
