@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import type { Client, MessageActionRowComponentBuilder } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
-import normalizeUrl from 'normalize-url';
 
 import { ButtonCustomIds } from '@/sturctures/custom-id';
 import logger from '@/utils/logger';
@@ -78,23 +77,23 @@ export async function checkFeeds(client: Client) {
         if (raw_content) {
           const img = raw_content.match(/<img[^>]+src="([^">]+)"/i);
 
-          if (img?.[0] && img[1].startsWith('http')) message.setImage(normalizeUrl(img[1]));
+          if (img?.[0] && img[1].startsWith('http')) message.setImage(img[1]);
         }
 
         if (article.media) {
           const url: string = article.media.content.url;
 
-          if (url.startsWith('http:')) message.setImage(normalizeUrl(url));
+          if (url.startsWith('http:')) message.setImage(url);
         }
 
         if (article['media:thumbnail']) {
           const url: string = article['media:thumbnail']._attributes.url;
 
-          if (url.startsWith('http:')) message.setImage(normalizeUrl(url));
+          if (url.startsWith('http:')) message.setImage(url);
         }
 
         if (article.enclosure?.url.startsWith('http:')) {
-          message.setImage(normalizeUrl(article.enclosure.url as string));
+          message.setImage(article.enclosure.url as string);
         }
 
         const translateButton = new ButtonBuilder()

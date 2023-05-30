@@ -1,5 +1,3 @@
-import normalizeUrl from 'normalize-url';
-
 import { CreateRssSourceModelFieldIds, ModalCustomIds } from '@/sturctures/custom-id';
 import type { InteractionHandlers } from '@/sturctures/interactions';
 import { RssSourcesCache } from '@/utils/rss/cache';
@@ -14,9 +12,7 @@ const button: InteractionHandlers = {
 
     const serverId = interaction.guildId;
     const name = interaction.fields.getTextInputValue(CreateRssSourceModelFieldIds.Name);
-    const sourceURL = normalizeUrl(
-      interaction.fields.getTextInputValue(CreateRssSourceModelFieldIds.SourceUrl),
-    );
+    const sourceURL = interaction.fields.getTextInputValue(CreateRssSourceModelFieldIds.SourceUrl);
     const mentionRoleId = interaction.fields.getTextInputValue(
       CreateRssSourceModelFieldIds.MentionRoleId,
     );
