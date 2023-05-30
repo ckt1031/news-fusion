@@ -44,7 +44,7 @@ const button: InteractionHandlers = {
     }
 
     if (sources && sources.length > 0 && deleteSources === 'true') {
-      await sourceCache.removeAllSources(serverId, tag.name);
+      await sourceCache.removeSourcesFromTag(serverId, tag.name);
     }
 
     // Delete the tag

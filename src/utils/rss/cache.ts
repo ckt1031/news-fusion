@@ -87,7 +87,8 @@ export class RssSourcesCache {
   }
 
   public async getTags(guildId: string): Promise<RssFeedTag[] | undefined> {
-    const cacheData: RssFeedTag[] | undefined = this.cache.get(guildId);
+    const key = `${guildId}_tags`;
+    const cacheData: RssFeedTag[] | undefined = this.cache.get(key);
 
     // If we have cache data, return it.
     if (cacheData) return cacheData;
@@ -98,7 +99,7 @@ export class RssSourcesCache {
     if (!response) return undefined;
 
     // Set the cache for 24 hours.
-    this.cache.set(guildId, response, 60 * 60 * 24);
+    this.cache.set(key, response, 60 * 60 * 24);
 
     return response;
   }
@@ -261,9 +262,9 @@ export class RssSourcesCache {
     await RssFeedSources.findByIdAndUpdate({ serverId, name: sourceName }, data);
   }
 
-  public async removeSource(serverId: string, tag: string, sourceName: string) {
-    const key = `${serverId}_${tag}_sources`;
-    const cacheData = await this.getSources(serverId, tag);
+  public async removeSource(serverId: string, tagName: string, sourceName: string) {
+    const key = `${serverId}_${tagName}_sources`;
+    const cacheData = await this.getSources(serverId, tagName);
 
     // If we have cache data, remove the source from it.
     if (cacheData) {
@@ -275,24 +276,32 @@ export class RssSourcesCache {
     await RssFeedSources.findOneAndDelete({ serverId, name: sourceName });
   }
 
-  public async removeAllSources(serverId: string, tag: string) {
-    const key = `${serverId}_${tag}_sources`;
+  public async removeSourcesFromTag(serverId: string, tagName: string) {
+    const key = `${serverId}_${tagName}_sources`;
+
+    const tag = await this.getSingleTag(serverId, tagName);
+
+    if (!tag) return;
 
     // Remove the source from the database.
-    await RssFeedSources.deleteMany({ serverId, 'tag.name': tag });
+    await RssFeedSources.deleteMany({ serverId, tag: tag._id });
 
     // Remove the cache.
     this.cache.del(key);
 
     // Remove the tag from the database.
-    await this.removeTag(serverId, tag);
+    await this.removeTag(serverId, tagName);
   }
 
   private async getFreshSourcesFromDatabase(
     serverId: string,
     tagName: string,
   ): Promise<RssFeedSource[] | undefined> {
-    return await RssFeedSources.find({ serverId, 'tag.name': tagName }).populate('tag');
+    const tag = await this.getSingleTag(serverId, tagName);
+
+    if (!tag) return undefined;
+
+    return await RssFeedSources.find({ serverId, tag: tag._id }).populate('tag');
   }
 
   private async getFreshTagsFromDatabase(serverId: string): Promise<RssFeedTag[] | undefined> {

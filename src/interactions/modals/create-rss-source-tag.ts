@@ -26,13 +26,13 @@ const button: InteractionHandlers = {
 
     // eslint-disable-next-line unicorn/prefer-ternary
     if (existingTag) {
-      await sourceCache.addTag(serverId, {
-        name,
-        serverId,
+      await sourceCache.updateTag(serverId, name, {
         sendToChannelId,
       });
     } else {
-      await sourceCache.updateTag(serverId, name, {
+      await sourceCache.addTag(serverId, {
+        name,
+        serverId,
         sendToChannelId,
       });
     }
