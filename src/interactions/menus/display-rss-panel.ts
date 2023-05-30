@@ -35,6 +35,14 @@ export const updateEmbed = async ({ interaction }: UpdateEmbedOptions) => {
     data.rssFeedSources
       .slice(data.currentPage * itemsPerPage, (data.currentPage + 1) * itemsPerPage)
       .map((source, index) => {
+        if (source.mentionRoleId.length > 3) {
+          return `${index + 1 + data.currentPage * itemsPerPage}. **${source.name}** - ${
+            source.sourceURL
+          }\nMentioning role: <@&${source.mentionRoleId}> (Enabled: ${
+            source.enableMentionRole ? '**YES**' : 'NO'
+          })`;
+        }
+
         return `${index + 1 + data.currentPage * itemsPerPage}. **${source.name}** - ${
           source.sourceURL
         }`;
