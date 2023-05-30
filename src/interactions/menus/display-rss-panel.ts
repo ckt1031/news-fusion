@@ -79,8 +79,8 @@ const button: InteractionHandlers = {
 
     const cache = new RssSourcesCache();
 
-    const selectedTagId = interaction.values[0];
-    const selectedTag = await cache.getSingleTag(interaction.guildId, selectedTagId);
+    const selectedTagName = interaction.values[0];
+    const selectedTag = await cache.getSingleTag(interaction.guildId, selectedTagName);
     if (!selectedTag) return;
 
     // List all sources with selected tag

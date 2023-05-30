@@ -48,7 +48,7 @@ const button: InteractionHandlers = {
         rssFeedTags.map(tag =>
           new StringSelectMenuOptionBuilder()
             .setLabel(tag.name)
-            .setValue(String(tag._id))
+            .setValue(tag.name)
             .setDescription(String(tag._id)),
         ),
       );

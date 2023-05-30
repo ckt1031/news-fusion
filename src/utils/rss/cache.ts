@@ -233,13 +233,13 @@ export class RssSourcesCache {
   }
 
   public async updateSource(
-    guildId: string,
+    serverId: string,
     tagName: string,
     sourceName: string,
     data: Partial<RssFeedSource>,
   ) {
-    const key = `${guildId}_${tagName}_sources`;
-    const cacheData = await this.getSources(guildId, tagName);
+    const key = `${serverId}_${tagName}_sources`;
+    const cacheData = await this.getSources(serverId, tagName);
 
     // Update the source in the database.
     if (cacheData) {
@@ -258,7 +258,7 @@ export class RssSourcesCache {
     }
 
     // Update the source in the database.
-    await RssFeedSources.findByIdAndUpdate({ serverId: guildId, name: sourceName }, data);
+    await RssFeedSources.findByIdAndUpdate({ serverId, name: sourceName }, data);
   }
 
   public async removeSource(serverId: string, tag: string, sourceName: string) {
