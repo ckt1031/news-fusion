@@ -12,9 +12,11 @@ Discord Bot for cktsun which simplifies life, RSS feed, AI summarizer, and more!
 
 ### Bot
 
+- **🗄️Caching**: The bot includes a caching mechanism to improve performance and reduce the need for repeated API requests. It caches data such as RSS feed entries and summarized content, allowing for faster retrieval and reduced load on external services.
+- **🌐Multi-Server Support**: The bot is capable of running on multiple servers simultaneously. It can be configured to work with settings on each server.
 - **↙️Slash Commands**: The bot uses Discord's slash commands to provide a simple and intuitive interface for users to interact with the bot.
-- **🔋MongoDB Database**: The bot uses MongoDB to store data. This allows the bot to store data persistently and allows for easy retrieval of data.
-- **⚠️Error Reporting**: The bot uses Sentry to report errors. This allows the bot to report errors to Sentry, which can then be used to debug the bot.
+- **🔋MongoDB Database**: The bot uses **MongoDB** to store data. This allows the bot to store data persistently and allows for easy retrieval of data.
+- **⚠️Error Reporting**: The bot uses **Sentry** to report errors. This allows the bot to report errors to Sentry, which can then be used to debug the bot.
 - **🛡️TypeScript**: The bot is written in TypeScript. This allows for type checking and better code quality.
 
 ## Setup and Installation
