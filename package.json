@@ -23,7 +23,7 @@
     "crypto-js": "4.1.1",
     "dayjs": "1.11.7",
     "discord.js": "14.11.0",
-    "dotenv": "16.1.0",
+    "dotenv": "16.1.1",
     "fastify": "4.17.0",
     "glob": "10.2.6",
     "html-to-text": "9.0.5",
