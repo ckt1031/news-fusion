@@ -82,7 +82,7 @@ const button: InteractionHandlers = {
 
     const reply = await getBingResponse(
       'Precise',
-      `Summarize this article in ONLY ${languagePrompt} LANGUAGE AND professional tone,
+      `Summarize this article ONLY in ${languagePrompt} as the summarized text LANGUAGE within professional tone,
         text should be ${textLengthModePrompt}, change personal subject to the exact object, URL: ${articleURL}`,
     );
 
