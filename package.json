@@ -50,7 +50,7 @@
     "@types/crypto-js": "4.1.1",
     "@types/html-to-text": "9.0.1",
     "@types/pidusage": "2.0.2",
-    "@types/ws": "8.5.4",
+    "@types/ws": "8.5.5",
     "commitizen": "4.3.0",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "8.42.0",
