@@ -3,7 +3,7 @@
   "extends": ["config:base"],
   "packageRules": [
     {
-      "groupName": "CktNodeConfig",
+      "groupName": "Ckt1031-Nodejs-Config",
       "groupSlug": "ckt1031",
       "matchPackageNames": [
         "@ckt1031/eslint-config",
