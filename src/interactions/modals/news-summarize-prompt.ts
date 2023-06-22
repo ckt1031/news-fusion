@@ -52,7 +52,7 @@ const button: InteractionHandlers = {
     logging.info(`NEW SUMMARIZING: Request: ${article.title}`);
 
     const hostOfArticle = new URL(articleURL).host;
-    const prompt = `Tasks: Summarize this article ONLY in ${languagePrompt} with the given content with professional tone, response with the text only.\nSource: ${hostOfArticle}\nTitle: ${article.title}\n\nContent: ${article.parsedTextContent}`;
+    const prompt = `Tasks: Summarize this article shortly ONLY in ${languagePrompt} with the given content with professional tone, response with the text only. Only summarize about the main idea\nSource: ${hostOfArticle}\nTitle: ${article.title}\n\nContent: ${article.parsedTextContent}`;
 
     const chatCompletion = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo-0613',
