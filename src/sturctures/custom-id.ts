@@ -42,7 +42,6 @@ export enum ServerConfigurationModelFieldIds {
 }
 
 export enum NewsSummarizingModelFieldIds {
-  TextLengthMode = 'text_length_mode',
   Language = 'language',
   ArticleUrl = 'article_url',
 }

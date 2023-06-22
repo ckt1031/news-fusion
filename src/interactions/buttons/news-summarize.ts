@@ -43,13 +43,6 @@ const button: InteractionHandlers = {
       .setCustomId(ModalCustomIds.SummarizeNewsAction)
       .setTitle('News Summarization Prompts');
 
-    const textLengthInput = new TextInputBuilder()
-      .setRequired(false)
-      .setCustomId(NewsSummarizingModelFieldIds.TextLengthMode)
-      .setPlaceholder('Enter text length (1.Short, 2.Normal, 3.Detailed)')
-      .setLabel('Text Length')
-      .setStyle(TextInputStyle.Short);
-
     const languageInput = new TextInputBuilder()
       .setRequired(false)
       .setCustomId(NewsSummarizingModelFieldIds.Language)
@@ -64,10 +57,6 @@ const button: InteractionHandlers = {
       .setLabel('Article URL')
       .setStyle(TextInputStyle.Paragraph)
       .setValue(url);
-
-    modal.addComponents(
-      new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(textLengthInput),
-    );
 
     modal.addComponents(
       new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(languageInput),

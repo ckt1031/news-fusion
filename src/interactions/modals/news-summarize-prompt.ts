@@ -1,8 +1,8 @@
 import { ModalCustomIds, NewsSummarizingModelFieldIds } from '@/sturctures/custom-id';
 import type { InteractionHandlers } from '@/sturctures/interactions';
-import { getBingResponse } from '@/utils/bing-ai';
 import extractArticle from '@/utils/extract-article';
 import logging from '@/utils/logger';
+import { openai } from '@/utils/open-ai';
 
 function processInput(
   input: string,
@@ -30,17 +30,6 @@ const button: InteractionHandlers = {
       NewsSummarizingModelFieldIds.ArticleUrl,
     );
 
-    // Available Options for text_length_mode: 1.Short, 2.Normal, 3.Detailed
-    const textLengthMode = processInput(
-      interaction.fields.getTextInputValue(NewsSummarizingModelFieldIds.TextLengthMode),
-      {
-        '1': 'short',
-        '2': 'normal',
-        '3': 'detailed',
-      },
-      'normal',
-    );
-
     // Available Options for language: 1.English, 2.Chinese
     const language = processInput(
       interaction.fields.getTextInputValue(NewsSummarizingModelFieldIds.Language),
@@ -55,24 +44,6 @@ const button: InteractionHandlers = {
 
     await interaction.deferUpdate();
 
-    let textLengthModePrompt = '';
-
-    switch (textLengthMode) {
-      case 'short': {
-        textLengthModePrompt = 'in SHORT/CONCISE and SINGLE paragraph ONLY';
-        break;
-      }
-      case 'normal': {
-        textLengthModePrompt = 'in normal length';
-        break;
-      }
-      case 'detailed': {
-        textLengthModePrompt = 'in possibly detailed with maxmium 1500 word length';
-        break;
-      }
-      // No default
-    }
-
     const article = await extractArticle(articleURL);
     const user = interaction.client.users.cache.get(interaction.user.id);
 
@@ -80,14 +51,23 @@ const button: InteractionHandlers = {
 
     logging.info(`NEW SUMMARIZING: Request: ${article.title}`);
 
-    const reply = await getBingResponse(
-      'Precise',
-      `Summarize this article ONLY in ${languagePrompt} as the summarized text LANGUAGE within professional tone,
-        text should be ${textLengthModePrompt}, change personal subject to the exact object, URL: ${articleURL}`,
-    );
+    const hostOfArticle = new URL(articleURL).host;
+    const prompt = `Tasks: Summarize this article ONLY in ${languagePrompt} with the given content with professional tone, response with the text only.\nSource: ${hostOfArticle}\nTitle: ${article.title}\n\nContent: ${article.parsedTextContent}`;
+
+    const chatCompletion = await openai.createChatCompletion({
+      model: 'gpt-3.5-turbo-0613',
+      messages: [{ role: 'user', content: prompt }],
+    });
+
+    if (!chatCompletion.data.choices[0].message?.content) {
+      await user.send({
+        content: `AI Summary: **${article.title}**\nURL: ${articleURL}\n\nNo summary returned.`,
+      });
+      return;
+    }
 
     await user.send({
-      content: `AI Summary: **${article.title}**\nURL: ${articleURL}\n\n${reply}`,
+      content: `AI Summary: **${article.title}**\nURL: ${articleURL}\n\n${chatCompletion.data.choices[0].message.content}`,
     });
 
     // Log and record
