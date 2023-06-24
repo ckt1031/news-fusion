@@ -1,7 +1,27 @@
-import { Configuration, OpenAIApi } from 'openai';
+import axios from 'axios';
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const OPEN_AI_API_KEY = process.env.OPENAI_API_KEY;
+const OPEN_AI_BASE_URL = process.env.OPENAI_BASE_URL ?? 'https://api.openai.com';
 
-export const openai = new OpenAIApi(configuration);
+export async function getOpenaiResponse({ prompt }: { prompt: string }) {
+  const { data, status } = await axios.post(
+    `${OPEN_AI_BASE_URL}/v1/chat/completions`,
+    {
+      prompt,
+      max_tokens: 1700,
+      temperature: 0.5,
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${OPEN_AI_API_KEY}`,
+      },
+    },
+  );
+
+  if (status !== 200 || !data.choices[0].message?.content) {
+    return null;
+  }
+
+  return data.choices[0].message?.content as string;
+}

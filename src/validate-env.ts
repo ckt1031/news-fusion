@@ -21,6 +21,7 @@ const ZodEnvironmentVariables = z.object({
   OWNER_USER_ID: z.string(), // Discord bot owner ID
   OWNER_GUILD_ID: z.string(), // Discord owner's guild ID
   // OpenAI
+  OPENAI_BASE_URL: z.string().optional(), // OpenAI API host (https://api.openai.com)
   OPENAI_API_KEY: z.string(), // OpenAI API key
 });
 
