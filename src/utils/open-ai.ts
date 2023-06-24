@@ -7,7 +7,13 @@ export async function getOpenaiResponse({ prompt }: { prompt: string }) {
   const { data, status } = await axios.post(
     `${OPEN_AI_BASE_URL}/v1/chat/completions`,
     {
-      prompt,
+      stream: false,
+      messages: [
+        {
+          role: 'user',
+          content: prompt,
+        },
+      ],
       model: 'gpt-3.5-turbo-0613',
       max_tokens: 1700,
       temperature: 0.5,
