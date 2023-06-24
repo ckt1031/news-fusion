@@ -8,6 +8,7 @@ export async function getOpenaiResponse({ prompt }: { prompt: string }) {
     `${OPEN_AI_BASE_URL}/v1/chat/completions`,
     {
       prompt,
+      model: 'gpt-3.5-turbo-0613',
       max_tokens: 1700,
       temperature: 0.5,
     },
