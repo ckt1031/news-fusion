@@ -23,6 +23,7 @@ const ZodEnvironmentVariables = z.object({
   // OpenAI
   OPENAI_BASE_URL: z.string().optional(), // OpenAI API host (https://api.openai.com)
   OPENAI_API_KEY: z.string(), // OpenAI API key
+  OPENAI_DEFAULT_MODEL: z.string().optional(), // OpenAI default model
 });
 
 ZodEnvironmentVariables.parse(process.env);
