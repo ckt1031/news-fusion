@@ -5,6 +5,7 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'disc
 import { ButtonCustomIds } from '@/sturctures/custom-id';
 import logger from '@/utils/logger';
 
+import getAiContent from './ai-content';
 import { RssFeedChecksCache } from './cache';
 import { fetchAllRssFeeds } from './fetch-all';
 
@@ -69,8 +70,6 @@ export async function checkFeeds(client: Client) {
           })
           .setTimestamp(msSinceEpoch);
 
-        if (truncatedSnippet.length > 0) message.setDescription(truncatedSnippet);
-
         // Image
         const raw_content: string = article['content:encoded'] || article.content;
 
@@ -117,23 +116,37 @@ export async function checkFeeds(client: Client) {
           starButton,
         );
 
-        await channel.send({
-          embeds: [message],
-          components: [row],
-          ...(source.enableRoleMention &&
-            tag.mentionRoleId && {
-              content: `<@&${tag.mentionRoleId}>`,
-              allowedMentions: {
-                roles: [tag.mentionRoleId],
-              },
-            }),
-        });
+        const aiResult = await getAiContent(article.url);
 
-        await cache.set({
-          sourceURL: source.url,
-          feedURL: article.url,
-          lastChecked: Date.now(),
-        });
+        if (aiResult && aiResult.weightedMean >= 5) {
+          const summary = aiResult.summary;
+
+          message.setDescription(summary);
+
+          if (truncatedSnippet.length > 0) {
+            message.setDescription(`${truncatedSnippet}\n\nSummary \`\`\`${summary}\`\`\``);
+          }
+
+          await channel.send({
+            embeds: [message],
+            components: [row],
+            ...(source.enableRoleMention &&
+              tag.mentionRoleId && {
+                content: `<@&${tag.mentionRoleId}>`,
+                allowedMentions: {
+                  roles: [tag.mentionRoleId],
+                },
+              }),
+          });
+        }
+
+        if (aiResult) {
+          await cache.set({
+            sourceURL: source.url,
+            feedURL: article.url,
+            lastChecked: Date.now(),
+          });
+        }
       } catch (error) {
         logger.error(error);
         continue;
