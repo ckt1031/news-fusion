@@ -22,24 +22,14 @@ export default async function getAiContent(url: string) {
 
   const sourceHost = new URL(url).hostname;
 
-  const task = `Tasks: Analyze this article, provide a score with the following significance score, and summarize the content with a short text, details, and a professional tone, beware to remove unnecessary information, ignoring the standards below in the summary text, only care about the article content.
-  Response Requirement: ONLY JSON, {
-    isClickBait: boolean;
-    scores: {
-      scale: number;
-      magnitude: number;
-      potential: number;
-      novelty: number;
-      credibility: number;
-    };
-    summary: string;
-  } no extra fields
+  const task = `Tasks: Analyze this article, provide a score with the following significance score, and summarize the content with a short text, details, and a professional tone, beware to remove unnecessary information, DO NOT MENTION THE standards below in the summary text such as credibility and scale, only care about the article content.
+  Response Requirement: ONLY JSON, { isClickBait, scores: { scale: magnitude, potential, novelty, credibility,}, summary } no extra fields
   Standards: (Score from 0 to 10 for each)
-  scale: how many people the event affected, more groups of people affected, scores higher
-  magnitude: how big the effect, the larger severity to humanity and society, scores higher.
-  potential: how likely it is that the event will cause bigger events to the entire humanity and society;
-  novelty: how unexpected or unique was the event;
-  credibility: how credible is the source.
+  scale: how many people the event affected
+  magnitude: how big the effect
+  potential: how likely it is that the event will cause bigger events
+  novelty: how unexpected or unique was the event
+  credibility: how credible is the source
   isClickBait: whether the title is clickbait or not. (Boolean)
   Give the reason why you give such a score to each item.
   Only give the score and explanations as the response.
@@ -47,11 +37,10 @@ export default async function getAiContent(url: string) {
 
   const prompt = `
   ${task}
-  ---
-  Title: ${article.title}
-  Source: ${sourceHost}
-  Date: ${article.published}
-  Content: ${article.parsedTextContent}
+  Title:${article.title}
+  Source:${sourceHost}
+  Date:${article.published}
+  Content:${article.parsedTextContent}
   `;
 
   const response = await getOpenaiResponse({ prompt });
