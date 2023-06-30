@@ -5,11 +5,11 @@ interface AiContent {
   isClickBait: boolean;
   userRequirementSatified: boolean;
   scores: {
-    scale: number; // Weight: 2.5
-    magnitude: number; // Weight: 3
+    scale: number; // Weight: 3
+    magnitude: number; // Weight: 2.5
     potential: number; // Weight: 2
     novelty: number; // Weight: 1.5
-    credibility: number; // Weight: 2
+    credibility: number; // Weight: 1
   };
   summary: string;
 }
@@ -57,12 +57,12 @@ export default async function getAiContent(url: string, aiFilteringRequirement?:
 
   const weightedMean = Number(
     (
-      (parsedResponse.scores.scale * 2.5 +
-        parsedResponse.scores.magnitude * 3 +
+      (parsedResponse.scores.scale * 3 +
+        parsedResponse.scores.magnitude * 2.5 +
         parsedResponse.scores.potential * 2 +
         parsedResponse.scores.novelty * 1.5 +
-        parsedResponse.scores.credibility * 2) /
-      11
+        parsedResponse.scores.credibility * 1) /
+      10
     ).toFixed(2),
   );
 
