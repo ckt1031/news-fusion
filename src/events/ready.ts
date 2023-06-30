@@ -35,9 +35,9 @@ export const event: DiscordEvent = {
       },
     );
 
-    // recheck every 10 minutes
+    // recheck every 15 minutes
     Cron(
-      '*/10 * * * *',
+      '*/15 * * * *',
       {
         timezone: 'Asia/Hong_Kong',
       },

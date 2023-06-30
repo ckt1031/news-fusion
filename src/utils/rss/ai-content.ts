@@ -2,7 +2,6 @@ import extractArticle from '../extract-article';
 import { getOpenaiResponse } from '../open-ai';
 
 interface AiContent {
-  isClickBait: boolean;
   userRequirementSatified: boolean;
   scores: {
     scale: number; // Weight: 3
@@ -14,7 +13,11 @@ interface AiContent {
   summary: string;
 }
 
-export default async function getAiContent(url: string, aiFilteringRequirement?: string) {
+export default async function getAiContent(
+  url: string,
+  tagName: string,
+  aiFilteringRequirement?: string,
+) {
   try {
     const article = await extractArticle(url);
 
@@ -25,25 +28,25 @@ export default async function getAiContent(url: string, aiFilteringRequirement?:
     const sourceHost = new URL(url).hostname;
 
     const task = `Tasks: Analyze this article, provide a score with the following significance score, and summarize the content with a short text and a professional tone, beware to remove unnecessary information, DO NOT MENTION THE Significance scores below in the summary text such as credibility and scale, only care about the article content.
-  Response Requirement: ONLY JSON, { isClickBait, userRequirementSatified, scores: { scale: magnitude, potential, novelty, credibility }, summary } no extra fields
+  Response Requirement: ONLY JSON: { userRequirementSatified, scores: { scale: magnitude, potential, novelty, credibility }, summary } no extra fields
   Significance Scores: (Score from 0 to 10)
-  - scale: how many people the event affected
-  - magnitude: how big the effect
-  - potential: how likely it is that the event will cause bigger events
-  - novelty: how unexpected or unique was the event
+  - scale: how many group of people from the event will be affected.
+  - magnitude: how big the effect will be to the society and affect to the given topic.
+  - potential: how likely it is that the event will cause bigger events, new trend.
+  - novelty: how unexpected or unique, will this be the top news of the day or the first time it happened
   - credibility: how credible is the source
   Status:
   userRequirementSatified: whether the user requirement is satisfied. (Boolean) (True if N/A or empty)
-  isClickBait: whether the title is clickbait or not. (Boolean)
 `;
 
     const prompt = `
   ${task}
-  Title:${article.title}
-  Source:${sourceHost}
-  Requirement:${aiFilteringRequirement ?? 'N/A'}
-  Date:${article.published}
-  Content:${article.parsedTextContent}
+  Title: ${article.title}
+  Source: ${sourceHost}
+  Tag/Topic: ${tagName}
+  Requirement: ${aiFilteringRequirement ?? 'N/A'}
+  Date: ${article.published}
+  Content: ${article.parsedTextContent}
   `;
 
     const response = await getOpenaiResponse({ prompt });
@@ -72,7 +75,6 @@ export default async function getAiContent(url: string, aiFilteringRequirement?:
     return {
       weightedMean,
       summary,
-      isClickBait: parsedResponse.isClickBait,
       userRequirementSatified: parsedResponse.userRequirementSatified,
     };
   } catch (error) {
