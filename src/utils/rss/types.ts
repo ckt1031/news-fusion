@@ -13,6 +13,7 @@ export interface RssFeed {
     title: string;
     url: string;
     enableRoleMention: boolean;
+    aiFilterRequirement?: string;
   };
   tag: {
     name: string;

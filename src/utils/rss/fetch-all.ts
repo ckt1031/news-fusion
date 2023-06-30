@@ -13,6 +13,7 @@ async function processSource(
     name: string;
     enableRoleMention: boolean;
     url: string;
+    aiFilterRequirement?: string;
   },
   parser: Parser,
   tagData: RssFeed['tag'],
@@ -50,6 +51,7 @@ async function processSource(
           title: source.name,
           url: source.url,
           enableRoleMention: source.enableRoleMention,
+          aiFilterRequirement: source.aiFilterRequirement,
         },
         tag: {
           name: tagData.name,
@@ -97,6 +99,7 @@ export async function fetchAllRssFeeds(client: Client) {
         name: source.name,
         enableRoleMention: source.enableMentionRole,
         url: source.sourceURL,
+        aiFilterRequirement: source.aiFilterRequirement,
       },
       parser,
       source.tag,

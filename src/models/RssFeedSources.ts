@@ -11,6 +11,7 @@ export interface RssFeedSource {
   tag: RssFeedTag;
   enableMentionRole: boolean;
   mentionRoleId: string;
+  aiFilterRequirement: string;
 }
 
 const Schema = new mongoose.Schema<RssFeedSource>(

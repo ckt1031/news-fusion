@@ -116,9 +116,14 @@ export async function checkFeeds(client: Client) {
           starButton,
         );
 
-        const aiResult = await getAiContent(article.url);
+        const aiResult = await getAiContent(article.url, source.aiFilterRequirement);
 
-        if (aiResult && aiResult.weightedMean >= 5 && !aiResult.isClickBait) {
+        if (
+          aiResult &&
+          aiResult.weightedMean >= 5 &&
+          !aiResult.isClickBait &&
+          aiResult.userRequirementSatified
+        ) {
           const summary = aiResult.summary;
 
           message.setDescription(summary);

@@ -52,6 +52,7 @@ export enum CreateRssSourceModelFieldIds {
   TagName = 'tag_name',
   MentionRoleId = 'mention_role_id',
   EnableRoleMention = 'enable_role_mention',
+  AI_FILTER_REQUIREMENT = 'ai_filter_requirement',
 }
 
 export enum CreateRssSourceTagModelFieldIds {

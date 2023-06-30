@@ -7,13 +7,17 @@ export interface RssFeedTag {
 
   serverId: string;
   sendToChannelId: string;
+
+  // AI Filtering
+  aiFilteringRequirement: string;
 }
 
 const Schema = new mongoose.Schema<RssFeedTag>(
   {
     name: { type: String, required: true },
     serverId: { type: String, required: true },
-    sendToChannelId: { type: String, required: true },
+    sendToChannelId: { type: String, required: true, default: '' },
+    aiFilteringRequirement: { type: String, required: true, default: '' },
   },
   {
     timestamps: true,
