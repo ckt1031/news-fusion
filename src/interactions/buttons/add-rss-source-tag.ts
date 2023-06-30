@@ -35,12 +35,25 @@ const button: InteractionHandlers = {
       .setLabel('Send To Channel ID')
       .setStyle(TextInputStyle.Short);
 
+    const aiFilterRequrementInput = new TextInputBuilder()
+      .setRequired(true)
+      .setCustomId(CreateRssSourceTagModelFieldIds.AI_FILTER_REQUIREMENT)
+      .setPlaceholder(
+        'Example: I want the signifant news only, with no review, gossip or opinion pieces.',
+      )
+      .setLabel('AI Filter Requirement?')
+      .setStyle(TextInputStyle.Short);
+
     modal.addComponents(
       new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(nameInput),
     );
 
     modal.addComponents(
       new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(channelIdInput),
+    );
+
+    modal.addComponents(
+      new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(aiFilterRequrementInput),
     );
 
     await interaction.showModal(modal);
