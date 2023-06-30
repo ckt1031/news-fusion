@@ -120,7 +120,7 @@ export async function checkFeeds(client: Client) {
 
         if (
           aiResult &&
-          aiResult.weightedMean >= 5 &&
+          aiResult.weightedMean >= 6 &&
           !aiResult.isClickBait &&
           aiResult.userRequirementSatified
         ) {
