@@ -22,17 +22,16 @@ export default async function getAiContent(url: string) {
 
   const sourceHost = new URL(url).hostname;
 
-  const task = `Tasks: Analyze this article, provide a score with the following significance score, and summarize the content with a short text, details, and a professional tone, beware to remove unnecessary information, DO NOT MENTION THE standards below in the summary text such as credibility and scale, only care about the article content.
-  Response Requirement: ONLY JSON, { isClickBait, scores: { scale: magnitude, potential, novelty, credibility,}, summary } no extra fields
-  Standards: (Score from 0 to 10 for each)
-  scale: how many people the event affected
-  magnitude: how big the effect
-  potential: how likely it is that the event will cause bigger events
-  novelty: how unexpected or unique was the event
-  credibility: how credible is the source
+  const task = `Tasks: Analyze this article, provide a score with the following significance score, and summarize the content with a short text and a professional tone, beware to remove unnecessary information, DO NOT MENTION THE standards below in the summary text such as credibility and scale, only care about the article content.
+  Response Requirement: ONLY JSON, { isClickBait, scores: { scale: magnitude, potential, novelty, credibility }, summary } no extra fields
+  Standards: (Score from 0 to 10)
+  - scale: how many people the event affected
+  - magnitude: how big the effect
+  - potential: how likely it is that the event will cause bigger events
+  - novelty: how unexpected or unique was the event
+  - credibility: how credible is the source
+  Status:
   isClickBait: whether the title is clickbait or not. (Boolean)
-  Give the reason why you give such a score to each item.
-  Only give the score and explanations as the response.
 `;
 
   const prompt = `
@@ -66,5 +65,5 @@ export default async function getAiContent(url: string) {
 
   const summary = parsedResponse.summary;
 
-  return { weightedMean, summary };
+  return { weightedMean, summary, isClickBait: parsedResponse.isClickBait };
 }
