@@ -120,7 +120,7 @@ export async function checkFeeds(client: Client) {
 
         if (
           aiResult &&
-          aiResult.weightedMean >= 6 &&
+          aiResult.weightedMean >= 5 &&
           !aiResult.isClickBait &&
           aiResult.userRequirementSatified
         ) {
@@ -129,7 +129,9 @@ export async function checkFeeds(client: Client) {
           message.setDescription(summary);
 
           if (truncatedSnippet.length > 0) {
-            message.setDescription(`${truncatedSnippet}\n\nSummary \`\`\`${summary}\`\`\``);
+            message.setDescription(
+              `${truncatedSnippet}\n\nSignificant Score: ${aiResult.weightedMean}\nSummary: \`\`\`${summary}\`\`\``,
+            );
           }
 
           await channel.send({
