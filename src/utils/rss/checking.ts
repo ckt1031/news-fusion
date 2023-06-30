@@ -130,7 +130,7 @@ export async function checkFeeds(client: Client) {
 
           if (truncatedSnippet.length > 0) {
             message.setDescription(
-              `${truncatedSnippet}\n\nSignificant Score: ${aiResult.weightedMean}\nSummary: \`\`\`${summary}\`\`\``,
+              `${truncatedSnippet}\n\n**Significant Score:** ${aiResult.weightedMean}\n**Summary:** \`\`\`${summary}\`\`\``,
             );
           }
 

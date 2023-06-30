@@ -15,15 +15,16 @@ interface AiContent {
 }
 
 export default async function getAiContent(url: string, aiFilteringRequirement?: string) {
-  const article = await extractArticle(url);
+  try {
+    const article = await extractArticle(url);
 
-  if (!article.title || !article.published) {
-    return undefined;
-  }
+    if (!article.title || !article.published) {
+      return undefined;
+    }
 
-  const sourceHost = new URL(url).hostname;
+    const sourceHost = new URL(url).hostname;
 
-  const task = `Tasks: Analyze this article, provide a score with the following significance score, and summarize the content with a short text and a professional tone, beware to remove unnecessary information, DO NOT MENTION THE Significance scores below in the summary text such as credibility and scale, only care about the article content.
+    const task = `Tasks: Analyze this article, provide a score with the following significance score, and summarize the content with a short text and a professional tone, beware to remove unnecessary information, DO NOT MENTION THE Significance scores below in the summary text such as credibility and scale, only care about the article content.
   Response Requirement: ONLY JSON, { isClickBait, userRequirementSatified, scores: { scale: magnitude, potential, novelty, credibility }, summary } no extra fields
   Significance Scores: (Score from 0 to 10)
   - scale: how many people the event affected
@@ -36,7 +37,7 @@ export default async function getAiContent(url: string, aiFilteringRequirement?:
   isClickBait: whether the title is clickbait or not. (Boolean)
 `;
 
-  const prompt = `
+    const prompt = `
   ${task}
   Title:${article.title}
   Source:${sourceHost}
@@ -45,33 +46,37 @@ export default async function getAiContent(url: string, aiFilteringRequirement?:
   Content:${article.parsedTextContent}
   `;
 
-  const response = await getOpenaiResponse({ prompt });
+    const response = await getOpenaiResponse({ prompt });
 
-  // Check if response is valid and json
-  if (!response || typeof response !== 'string') {
+    // Check if response is valid and json
+    if (!response || typeof response !== 'string') {
+      return undefined;
+    }
+
+    // Parse response
+    const parsedResponse: AiContent = JSON.parse(response);
+
+    const weightedMean = Number(
+      (
+        (parsedResponse.scores.scale * 3 +
+          parsedResponse.scores.magnitude * 2.5 +
+          parsedResponse.scores.potential * 2 +
+          parsedResponse.scores.novelty * 1.5 +
+          parsedResponse.scores.credibility * 1) /
+        10
+      ).toFixed(2),
+    );
+
+    const summary = parsedResponse.summary;
+
+    return {
+      weightedMean,
+      summary,
+      isClickBait: parsedResponse.isClickBait,
+      userRequirementSatified: parsedResponse.userRequirementSatified,
+    };
+  } catch (error) {
+    console.log(error);
     return undefined;
   }
-
-  // Parse response
-  const parsedResponse: AiContent = JSON.parse(response);
-
-  const weightedMean = Number(
-    (
-      (parsedResponse.scores.scale * 3 +
-        parsedResponse.scores.magnitude * 2.5 +
-        parsedResponse.scores.potential * 2 +
-        parsedResponse.scores.novelty * 1.5 +
-        parsedResponse.scores.credibility * 1) /
-      10
-    ).toFixed(2),
-  );
-
-  const summary = parsedResponse.summary;
-
-  return {
-    weightedMean,
-    summary,
-    isClickBait: parsedResponse.isClickBait,
-    userRequirementSatified: parsedResponse.userRequirementSatified,
-  };
 }
