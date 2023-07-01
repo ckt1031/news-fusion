@@ -16,6 +16,9 @@ const button: InteractionHandlers = {
     const sendToChannelId = interaction.fields.getTextInputValue(
       CreateRssSourceTagModelFieldIds.SendToChannelId,
     );
+    const aiFilteringRequirement = interaction.fields.getTextInputValue(
+      CreateRssSourceTagModelFieldIds.AI_FILTER_REQUIREMENT,
+    );
 
     if (!serverId) return;
 
@@ -28,12 +31,14 @@ const button: InteractionHandlers = {
     if (existingTag) {
       await sourceCache.updateTag(serverId, name, {
         sendToChannelId,
+        aiFilteringRequirement,
       });
     } else {
       await sourceCache.addTag(serverId, {
         name,
         serverId,
         sendToChannelId,
+        aiFilteringRequirement,
       });
     }
 
