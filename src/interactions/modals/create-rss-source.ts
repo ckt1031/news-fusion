@@ -20,9 +20,6 @@ const button: InteractionHandlers = {
       interaction.fields.getTextInputValue(CreateRssSourceModelFieldIds.EnableRoleMention) ===
       'true';
     const tagName = interaction.fields.getTextInputValue(CreateRssSourceModelFieldIds.TagName);
-    const aiFilterRequirement = interaction.fields.getTextInputValue(
-      CreateRssSourceModelFieldIds.AI_FILTER_REQUIREMENT,
-    );
 
     if (!serverId) return;
 
@@ -49,7 +46,6 @@ const button: InteractionHandlers = {
         enableMentionRole,
         mentionRoleId,
         sourceURL,
-        aiFilterRequirement,
       });
     } else {
       await sourceCache.addSource(serverId, tagName, {
@@ -58,7 +54,6 @@ const button: InteractionHandlers = {
         mentionRoleId,
         sourceURL,
         serverId,
-        aiFilterRequirement,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         tag: tag._id,
