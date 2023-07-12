@@ -30,7 +30,7 @@
     "is-ci": "3.0.1",
     "mongoose": "7.3.3",
     "node-cache": "5.1.2",
-    "nodemon": "2.0.22",
+    "nodemon": "3.0.1",
     "pidusage": "3.0.2",
     "pino": "8.14.1",
     "pino-pretty": "10.0.1",
