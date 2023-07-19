@@ -81,6 +81,6 @@
       "src"
     ]
   },
-  "packageManager": "npm@9.8.0",
+  "packageManager": "npm@9.8.1",
   "prettier": "@ckt1031/prettier-config"
 }
