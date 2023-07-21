@@ -16,7 +16,7 @@
     "@extractus/article-extractor": "8.0.0",
     "@fastify/rate-limit": "8.0.3",
     "@iamtraction/google-translate": "2.0.1",
-    "@sentry/node": "7.58.1",
+    "@sentry/node": "7.60.0",
     "axios": "1.4.0",
     "croner": "6.0.6",
     "cross-env": "7.0.3",
