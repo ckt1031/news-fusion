@@ -5,7 +5,7 @@
     "build": "tsup src --minify --format esm --sourcemap --clean --target esnext",
     "dev": "cross-env NODE_ENV=development nodemon",
     "format": "prettier --write .",
-    "preinstall": "npx only-allow npm",
+    "preinstall": "npx only-allow pnpm",
     "lint": "eslint --fix .",
     "prepare": "is-ci || npx husky install",
     "start": "node --enable-source-maps -r dotenv/config dist/index.js | pino-pretty",
@@ -59,7 +59,7 @@
   },
   "engines": {
     "node": ">=16 <21",
-    "npm": "9"
+    "pnpm": "8"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -81,6 +81,6 @@
       "src"
     ]
   },
-  "packageManager": "npm@9.8.1",
+  "packageManager": "pnpm@8.6.10",
   "prettier": "@ckt1031/prettier-config"
 }
