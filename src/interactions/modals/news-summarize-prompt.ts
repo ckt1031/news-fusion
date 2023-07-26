@@ -2,7 +2,7 @@ import { ModalCustomIds, NewsSummarizingModelFieldIds } from '@/sturctures/custo
 import type { InteractionHandlers } from '@/sturctures/interactions';
 import extractArticle from '@/utils/extract-article';
 import logging from '@/utils/logger';
-import { getOpenaiResponse } from '@/utils/open-ai';
+import { getOpenAIResponse } from '@/utils/open-ai';
 
 function processInput(
   input: string,
@@ -54,7 +54,7 @@ const button: InteractionHandlers = {
     const hostOfArticle = new URL(articleURL).host;
     const prompt = `Tasks: Summarize this article SHORLY AND CONCISELY, but contain most details, return ONLY in ${languagePrompt} with the given content with professional tone, response with the text only. Only summarize about the main idea\nSource: ${hostOfArticle}\nTitle: ${article.title}\n\nContent: ${article.parsedTextContent}`;
 
-    const chatCompletion = await getOpenaiResponse({
+    const chatCompletion = await getOpenAIResponse({
       prompt,
     });
 

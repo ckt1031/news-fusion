@@ -5,7 +5,6 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'disc
 import { ButtonCustomIds } from '@/sturctures/custom-id';
 import logger from '@/utils/logger';
 
-import getAiContent from './ai-content';
 import { RssFeedChecksCache } from './cache';
 import { fetchAllRssFeeds } from './fetch-all';
 
@@ -116,39 +115,27 @@ export async function checkFeeds(client: Client) {
           starButton,
         );
 
-        const aiResult = await getAiContent(article.url, tag.name, source.aiFilterRequirement);
-
-        if (aiResult && aiResult.weightedMean >= 5 && aiResult.userRequirementSatified) {
-          const summary = aiResult.summary;
-
-          message.setDescription(summary);
-
-          if (truncatedSnippet.length > 0) {
-            message.setDescription(
-              `${truncatedSnippet}\n\n**Significant Score:** ${aiResult.weightedMean}\n**Summary:** \`\`\`${summary}\`\`\``,
-            );
-          }
-
-          await channel.send({
-            embeds: [message],
-            components: [row],
-            ...(source.enableRoleMention &&
-              tag.mentionRoleId && {
-                content: `<@&${tag.mentionRoleId}>`,
-                allowedMentions: {
-                  roles: [tag.mentionRoleId],
-                },
-              }),
-          });
+        if (truncatedSnippet.length > 0) {
+          message.setDescription(truncatedSnippet);
         }
 
-        if (aiResult) {
-          await cache.set({
-            sourceURL: source.url,
-            feedURL: article.url,
-            lastChecked: Date.now(),
-          });
-        }
+        await channel.send({
+          embeds: [message],
+          components: [row],
+          ...(source.enableRoleMention &&
+            tag.mentionRoleId && {
+              content: `<@&${tag.mentionRoleId}>`,
+              allowedMentions: {
+                roles: [tag.mentionRoleId],
+              },
+            }),
+        });
+
+        await cache.set({
+          sourceURL: source.url,
+          feedURL: article.url,
+          lastChecked: Date.now(),
+        });
       } catch (error) {
         logger.error(error);
         continue;
