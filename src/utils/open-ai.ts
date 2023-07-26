@@ -1,3 +1,5 @@
+import cl100k_base from '@dqbd/tiktoken/encoders/cl100k_base.json';
+import { Tiktoken } from '@dqbd/tiktoken/lite';
 import { Configuration, OpenAIApi } from 'openai';
 
 interface GetOpenaiResponse {
@@ -11,10 +13,26 @@ export async function getOpenAIResponse({ prompt }: GetOpenaiResponse) {
   });
   const openai = new OpenAIApi(configuration);
 
+  let model = 'gpt-3.5-turbo';
+
+  const encoding = new Tiktoken(
+    cl100k_base.bpe_ranks,
+    cl100k_base.special_tokens,
+    cl100k_base.pat_str,
+  );
+
+  const tokens = encoding.encode(prompt);
+
+  if (tokens.length > 3500) {
+    model = 'gpt-3.5-turbo-16k';
+  }
+
+  encoding.free();
+
   const chatCompletion = await openai.createChatCompletion({
     temperature: 0,
     max_tokens: 1000,
-    model: process.env.OPENAI_DEFAULT_MODEL ?? 'gpt-3.5-turbo-16k',
+    model: process.env.OPENAI_DEFAULT_MODEL ?? model,
     messages: [{ role: 'user', content: prompt }],
   });
 
