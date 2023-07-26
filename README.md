@@ -1,6 +1,6 @@
-# Cktsun Helper
+# RSS News Bot
 
-Discord Bot for cktsun which simplifies life, RSS feed, AI summarizer, and more!
+A Discord Bot which simplifies life, RSS feed, AI summarizer, and more!
 
 ## Features
 
@@ -21,18 +21,18 @@ Discord Bot for cktsun which simplifies life, RSS feed, AI summarizer, and more!
 
 ## Setup and Installation
 
-To set up and install the Cktsun Helper Discord bot, follow these steps:
+To set up and install the RSS News Discord bot, follow these steps:
 
 1. Clone the repository:
 
    ```shell
-   git clone https://github.com/your-username/cktsun-helper.git
+   git clone https://github.com/your-username/rss-news-bot.git
    ```
 
 2. Navigate to the project directory:
 
    ```shell
-   cd cktsun-helper
+   cd rss-news-bot
    ```
 
 3. Install the dependencies using npm:
@@ -57,7 +57,7 @@ Make sure to populate the necessary environment variables in the .env file befor
 
 ## Environment Variables
 
-The following environment variables are required to run the Cktsun Helper Discord bot:
+The following environment variables are required to run the RSS News Discord bot:
 
 - `TOKEN`: Discord bot token. This is the token provided by Discord for your bot.
 - `SENTRY_DSN`: Sentry DSN (Data Source Name) for error reporting. This is used to send error reports to Sentry.
