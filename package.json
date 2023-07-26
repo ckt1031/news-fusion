@@ -1,5 +1,5 @@
 {
-  "name": "cktsun-helper",
+  "name": "rss-news-bot",
   "type": "module",
   "scripts": {
     "build": "tsup src --minify --format esm --sourcemap --clean --target esnext",
