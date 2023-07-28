@@ -52,11 +52,11 @@ const button: InteractionHandlers = {
     logger.info(`NEW SUMMARIZING: Request: ${article.title}`);
 
     const hostOfArticle = new URL(articleURL).host;
-    const prompt = `Task: Summarize this article CONCISELY, but contain most details, RETURN ONLY in **${languagePrompt}** with professional tone, response with the text only. Only summarize about the main idea\nSource: ${hostOfArticle}\nTitle: ${article.title}\n\nContent: ${article.parsedTextContent}`;
 
     try {
       const chatCompletion = await getOpenAIResponse({
-        prompt,
+        systemPrompt: `You are news summarizer.\nSummarize article given by users CONCISELY, but contain most details.\nRETURN ONLY in **${languagePrompt}** with professional tone.\nResponse with the text only. Only summarize about the main idea.`,
+        userPrompt: `Source: ${hostOfArticle}\nTitle: ${article.title}\n\nContent: ${article.parsedTextContent}`,
       });
 
       if (!chatCompletion) {

@@ -1,15 +1,16 @@
 import cl100k_base from '@dqbd/tiktoken/encoders/cl100k_base.json' assert { type: 'json' };
 import { Tiktoken } from '@dqbd/tiktoken/lite';
-import { Configuration, OpenAIApi } from 'openai';
+import { ChatCompletionRequestMessageRoleEnum, Configuration, OpenAIApi } from 'openai';
 
 import logger from './logger';
 import { sleep } from './sleep';
 
 interface GetOpenaiResponse {
-  prompt: string;
+  systemPrompt?: string;
+  userPrompt: string;
 }
 
-export async function getOpenAIResponse({ prompt }: GetOpenaiResponse) {
+export async function getOpenAIResponse({ userPrompt, systemPrompt }: GetOpenaiResponse) {
   const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
     basePath: process.env.OPENAI_BASE_URL ?? 'https://api.openai.com/v1',
@@ -24,7 +25,7 @@ export async function getOpenAIResponse({ prompt }: GetOpenaiResponse) {
     cl100k_base.pat_str,
   );
 
-  const tokens = encoding.encode(prompt);
+  const tokens = encoding.encode(`${systemPrompt ?? ''}\n${userPrompt}`);
 
   if (tokens.length > 3500) {
     model = 'gpt-3.5-turbo-16k';
@@ -44,7 +45,12 @@ export async function getOpenAIResponse({ prompt }: GetOpenaiResponse) {
       temperature: 0,
       max_tokens: 750,
       model: process.env.OPENAI_DEFAULT_MODEL ?? model,
-      messages: [{ role: 'user', content: prompt }],
+      messages: [
+        ...(systemPrompt
+          ? [{ role: ChatCompletionRequestMessageRoleEnum.System, content: systemPrompt }]
+          : []),
+        { role: ChatCompletionRequestMessageRoleEnum.User, content: userPrompt },
+      ],
     });
 
     if (chatCompletion.status === 200) {
