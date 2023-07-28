@@ -52,22 +52,31 @@ const button: InteractionHandlers = {
     logging.info(`NEW SUMMARIZING: Request: ${article.title}`);
 
     const hostOfArticle = new URL(articleURL).host;
-    const prompt = `Tasks: Summarize this article SHORLY AND CONCISELY, but contain most details, return ONLY in ${languagePrompt} with the given content with professional tone, response with the text only. Only summarize about the main idea\nSource: ${hostOfArticle}\nTitle: ${article.title}\n\nContent: ${article.parsedTextContent}`;
+    const prompt = `Task: Summarize this article CONCISELY, but contain most details, RETURN ONLY in **${languagePrompt}** with professional tone, response with the text only. Only summarize about the main idea\nSource: ${hostOfArticle}\nTitle: ${article.title}\n\nContent: ${article.parsedTextContent}`;
 
-    const chatCompletion = await getOpenAIResponse({
-      prompt,
-    });
-
-    if (!chatCompletion) {
-      await user.send({
-        content: `AI Summary: **${article.title}**\nURL: ${articleURL}\n\nNo summary returned.`,
+    try {
+      const chatCompletion = await getOpenAIResponse({
+        prompt,
       });
-      return;
-    }
 
-    await user.send({
-      content: `AI Summary: **${article.title}**\nURL: ${articleURL}\n\n${chatCompletion}`,
-    });
+      if (!chatCompletion) {
+        await user.send({
+          content: `AI Summary: **${article.title}**\nURL: ${articleURL}\n\nNo summary returned.`,
+        });
+        return;
+      }
+
+      await user.send({
+        content: `AI Summary: **${article.title}**\nURL: ${articleURL}\n\n${chatCompletion}`,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error);
+        await user.send({
+          content: `AI Summary: **${article.title}**\nURL: ${articleURL}\n\nError: \`\`\`${error.message}\`\`\``,
+        });
+      }
+    }
 
     // Log and record
     logging.info(`NEWS SUMMARIZING: Returned result: ${article.title}`);
