@@ -4,7 +4,7 @@ import { ActionRowBuilder } from 'discord.js';
 
 import { ButtonCustomIds } from '@/sturctures/custom-id';
 import type { InteractionHandlers } from '@/sturctures/interactions';
-import logging from '@/utils/logger';
+import logger from '@/utils/logger';
 
 const command: InteractionHandlers = {
   type: 'command',
@@ -24,7 +24,7 @@ const command: InteractionHandlers = {
       return;
     }
 
-    logging.info('DASHBOARD: Sent embeds');
+    logger.info('DASHBOARD: Sent embeds');
 
     const embed = new EmbedBuilder();
     embed.setTitle('Admin Dashboard');

@@ -2,7 +2,6 @@ import type { Interaction } from 'discord.js';
 import { Events } from 'discord.js';
 
 import type { DiscordEvent } from '@/sturctures/event';
-import logging from '@/utils/logger';
 import logger from '@/utils/logger';
 
 function getInteractionType(interaction: Interaction) {
@@ -33,7 +32,7 @@ export const event: DiscordEvent = {
       const handler = interactionHandler.get(customId);
 
       if (!handler) {
-        logging.error(`Interaction handler not found: ${customId}`);
+        logger.error(`Interaction handler not found: ${customId}`);
 
         return;
       }
@@ -51,7 +50,7 @@ export const event: DiscordEvent = {
       const handler = interactionHandler.get(customId);
 
       if (!handler || handler.type !== 'command') {
-        logging.error(`Interaction handler not found: ${customId}`);
+        logger.error(`Interaction handler not found: ${customId}`);
 
         return;
       }

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import logging from './utils/logger';
+import logger from './utils/logger';
 
 declare global {
   namespace NodeJS {
@@ -28,4 +28,4 @@ const ZodEnvironmentVariables = z.object({
 
 ZodEnvironmentVariables.parse(process.env);
 
-logging.info('✅ Environment variables verified!');
+logger.info('✅ Environment variables verified!');

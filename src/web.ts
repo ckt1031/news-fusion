@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import fastify from 'fastify';
 import sAgo from 's-ago';
 
-import logging from './utils/logger';
+import logger from './utils/logger';
 
 const app = fastify();
 
@@ -36,6 +36,6 @@ app.listen(
     host: '0.0.0.0',
   },
   () => {
-    logging.info(`SERVER: Server is running on port ${PORT}`);
+    logger.info(`SERVER: Server is running on port ${PORT}`);
   },
 );

@@ -9,7 +9,7 @@ import {
   NewsSummarizingModelFieldIds,
 } from '@/sturctures/custom-id';
 import type { InteractionHandlers } from '@/sturctures/interactions';
-import logging from '@/utils/logger';
+import logger from '@/utils/logger';
 
 const button: InteractionHandlers = {
   type: 'button',
@@ -68,7 +68,7 @@ const button: InteractionHandlers = {
 
     await interaction.showModal(modal);
 
-    logging.info('NEWS SUMMARIZATION: Sent modal');
+    logger.info('NEWS SUMMARIZATION: Sent modal');
   },
 };
 

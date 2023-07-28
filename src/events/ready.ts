@@ -3,7 +3,7 @@ import type { Client } from 'discord.js';
 import { ActivityType, Events } from 'discord.js';
 
 import type { DiscordEvent } from '@/sturctures/event';
-import logging from '@/utils/logger';
+import logger from '@/utils/logger';
 import { checkFeeds } from '@/utils/rss/checking';
 import shirkDatabase from '@/utils/shirk-database';
 
@@ -20,7 +20,7 @@ export const event: DiscordEvent = {
   once: true,
   name: Events.ClientReady,
   run: (client: Client) => {
-    if (client.user) logging.info(`BOT: Logged in as ${client.user.tag}!`);
+    if (client.user) logger.info(`BOT: Logged in as ${client.user.tag}!`);
 
     setDiscordStatus(client);
 

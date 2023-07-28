@@ -6,12 +6,11 @@ import './web';
 
 import { client } from './bot';
 import { isDevelopment } from './constants';
-import logging from './utils/logger';
 import logger from './utils/logger';
 
 // Handle uncaught errors
 function captureUnhandledRejections(err: Error) {
-  logging.error(err);
+  logger.error(err);
   Sentry.captureException(err);
 }
 

@@ -1,7 +1,7 @@
 import { ModalCustomIds, NewsSummarizingModelFieldIds } from '@/sturctures/custom-id';
 import type { InteractionHandlers } from '@/sturctures/interactions';
 import extractArticle from '@/utils/extract-article';
-import logging from '@/utils/logger';
+import logger from '@/utils/logger';
 import { getOpenAIResponse } from '@/utils/open-ai';
 
 function processInput(
@@ -49,7 +49,7 @@ const button: InteractionHandlers = {
 
     if (!user || !article.title || !article.source) return;
 
-    logging.info(`NEW SUMMARIZING: Request: ${article.title}`);
+    logger.info(`NEW SUMMARIZING: Request: ${article.title}`);
 
     const hostOfArticle = new URL(articleURL).host;
     const prompt = `Task: Summarize this article CONCISELY, but contain most details, RETURN ONLY in **${languagePrompt}** with professional tone, response with the text only. Only summarize about the main idea\nSource: ${hostOfArticle}\nTitle: ${article.title}\n\nContent: ${article.parsedTextContent}`;
@@ -79,7 +79,7 @@ const button: InteractionHandlers = {
     }
 
     // Log and record
-    logging.info(`NEWS SUMMARIZING: Returned result: ${article.title}`);
+    logger.info(`NEWS SUMMARIZING: Returned result: ${article.title}`);
   },
 };
 
