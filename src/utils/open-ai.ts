@@ -2,6 +2,7 @@ import cl100k_base from '@dqbd/tiktoken/encoders/cl100k_base.json' assert { type
 import { Tiktoken } from '@dqbd/tiktoken/lite';
 import { Configuration, OpenAIApi } from 'openai';
 
+import logger from './logger';
 import { sleep } from './sleep';
 
 interface GetOpenaiResponse {
@@ -31,6 +32,8 @@ export async function getOpenAIResponse({ prompt }: GetOpenaiResponse) {
 
   encoding.free();
 
+  logger.info(`OpenAI API: ${model}, ${tokens.length} tokens`);
+
   let chatCompletion;
   let retryCount = 0;
   const maxRetries = 3;
@@ -47,6 +50,8 @@ export async function getOpenAIResponse({ prompt }: GetOpenaiResponse) {
     if (chatCompletion.status === 200) {
       break; // Break the loop if successful
     }
+
+    logger.info(`OpenAI API error: ${chatCompletion.status}`);
 
     retryCount++;
     if (retryCount < maxRetries) {
