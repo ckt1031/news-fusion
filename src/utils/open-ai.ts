@@ -42,7 +42,7 @@ export async function getOpenAIResponse({ prompt }: GetOpenaiResponse) {
   do {
     chatCompletion = await openai.createChatCompletion({
       temperature: 0,
-      max_tokens: 1000,
+      max_tokens: 750,
       model: process.env.OPENAI_DEFAULT_MODEL ?? model,
       messages: [{ role: 'user', content: prompt }],
     });
