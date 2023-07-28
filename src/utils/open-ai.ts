@@ -2,6 +2,8 @@ import cl100k_base from '@dqbd/tiktoken/encoders/cl100k_base.json' assert { type
 import { Tiktoken } from '@dqbd/tiktoken/lite';
 import { Configuration, OpenAIApi } from 'openai';
 
+import { sleep } from './sleep';
+
 interface GetOpenaiResponse {
   prompt: string;
 }
@@ -29,12 +31,32 @@ export async function getOpenAIResponse({ prompt }: GetOpenaiResponse) {
 
   encoding.free();
 
-  const chatCompletion = await openai.createChatCompletion({
-    temperature: 0,
-    max_tokens: 1000,
-    model: process.env.OPENAI_DEFAULT_MODEL ?? model,
-    messages: [{ role: 'user', content: prompt }],
-  });
+  let chatCompletion;
+  let retryCount = 0;
+  const maxRetries = 3;
+  const retryInterval = 3000; // 3 seconds
+
+  do {
+    chatCompletion = await openai.createChatCompletion({
+      temperature: 0,
+      max_tokens: 1000,
+      model: process.env.OPENAI_DEFAULT_MODEL ?? model,
+      messages: [{ role: 'user', content: prompt }],
+    });
+
+    if (chatCompletion.status === 200) {
+      break; // Break the loop if successful
+    }
+
+    retryCount++;
+    if (retryCount < maxRetries) {
+      await sleep(retryInterval); // Wait for the specified interval before retrying
+    }
+  } while (retryCount < maxRetries);
+
+  if (chatCompletion.status !== 200) {
+    throw new Error('OpenAI API error');
+  }
 
   return chatCompletion.data.choices[0].message?.content;
 }
