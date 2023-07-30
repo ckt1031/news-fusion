@@ -1,6 +1,5 @@
-import dayjs from 'dayjs';
 import type { Client, MessageActionRowComponentBuilder } from 'discord.js';
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 
 import { ButtonCustomIds } from '@/sturctures/custom-id';
 import logger from '@/utils/logger';
@@ -41,58 +40,14 @@ export async function checkFeeds(client: Client) {
           continue;
         }
 
-        // Favicons
-        const articleUrl = new URL(article.url);
-        const faviconURL = `https://www.google.com/s2/favicons?domain=${articleUrl.hostname}`;
-        const publisherURL = `${articleUrl.protocol}//${articleUrl.host}`;
-
-        // Get milliseconds of feed item
-        const msSinceEpoch = dayjs(article.pubDate).valueOf();
-
         // Content subtraction
-        const MAX_SNIPPET_LENGTH = 768;
+        const MAX_SNIPPET_LENGTH = 750;
         const snippet: string = article.contentSnippet ?? '';
         const truncatedSnippet: string =
           snippet.length > MAX_SNIPPET_LENGTH
             ? // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
               snippet.slice(0, Math.max(0, MAX_SNIPPET_LENGTH)) + '...'
             : snippet;
-
-        // Create embed
-        const message = new EmbedBuilder()
-          .setURL(article.url)
-          .setTitle(article.title)
-          .setAuthor({
-            name: source.title,
-            iconURL: faviconURL,
-            url: publisherURL,
-          })
-          .setTimestamp(msSinceEpoch);
-
-        // Image
-        const raw_content: string = article['content:encoded'] || article.content;
-
-        if (raw_content) {
-          const img = raw_content.match(/<img[^>]+src="([^">]+)"/i);
-
-          if (img?.[0] && img[1].startsWith('http')) message.setImage(img[1]);
-        }
-
-        if (article.media) {
-          const url: string = article.media.content.url;
-
-          if (url.startsWith('http:')) message.setImage(url);
-        }
-
-        if (article['media:thumbnail']) {
-          const url: string = article['media:thumbnail']._attributes.url;
-
-          if (url.startsWith('http:')) message.setImage(url);
-        }
-
-        if (article.enclosure?.url.startsWith('http:')) {
-          message.setImage(article.enclosure.url as string);
-        }
 
         const translateButton = new ButtonBuilder()
           .setCustomId(ButtonCustomIds.TranslateNews)
@@ -115,12 +70,14 @@ export async function checkFeeds(client: Client) {
           starButton,
         );
 
-        if (truncatedSnippet.length > 0) {
-          message.setDescription(truncatedSnippet);
-        }
+        const mentionText =
+          (tag.mentionRoleId ?? '').length > 9 && source.enableRoleMention
+            ? `<@&${tag.mentionRoleId ?? ''}>`
+            : '';
+        const content = `${article.title}\n\n${truncatedSnippet}\n\n[Full Article ↗️](${article.url}) ${mentionText}`;
 
         await channel.send({
-          embeds: [message],
+          content,
           components: [row],
           ...(source.enableRoleMention &&
             tag.mentionRoleId && {
