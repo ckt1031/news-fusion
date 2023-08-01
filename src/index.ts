@@ -34,7 +34,7 @@ await mongoose.connect(`${process.env.MONGODB_URL}Rss-News-Bot`, {
 // When the process exits, close the connection to the database
 async function handleExit() {
   await mongoose.connection.close();
-  client.destroy();
+  await client.destroy();
   logger.info('Node.js Server is shutting down...');
   // eslint-disable-next-line unicorn/no-process-exit
   process.exit(0);
