@@ -17,7 +17,7 @@
     "@extractus/article-extractor": "8.0.1",
     "@fastify/rate-limit": "8.0.3",
     "@iamtraction/google-translate": "2.0.1",
-    "@sentry/node": "7.60.0",
+    "@sentry/node": "7.61.0",
     "croner": "6.0.7",
     "cross-env": "7.0.3",
     "crypto-js": "4.1.1",
