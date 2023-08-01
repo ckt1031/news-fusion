@@ -74,7 +74,7 @@ export async function checkFeeds(client: Client) {
           (tag.mentionRoleId ?? '').length > 9 && source.enableRoleMention
             ? `<@&${tag.mentionRoleId ?? ''}>`
             : '';
-        const content = `${article.title}\n\n${truncatedSnippet}\n\n[Full Article ↗️](${article.url}) ${mentionText}`;
+        const content = `## ${article.title}\n\n${truncatedSnippet}\n\n${article.url} ${mentionText}`;
 
         await channel.send({
           content,
