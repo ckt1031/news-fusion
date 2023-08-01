@@ -24,7 +24,7 @@
     "dayjs": "1.11.9",
     "discord.js": "14.11.0",
     "dotenv": "16.3.1",
-    "fastify": "4.20.0",
+    "fastify": "4.21.0",
     "glob": "10.3.3",
     "html-to-text": "9.0.5",
     "is-ci": "3.0.1",
