@@ -28,7 +28,7 @@
     "glob": "10.3.3",
     "html-to-text": "9.0.5",
     "is-ci": "3.0.1",
-    "mongoose": "7.4.1",
+    "mongoose": "7.4.2",
     "node-cache": "5.1.2",
     "openai": "3.3.0",
     "pidusage": "3.0.2",
