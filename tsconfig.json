@@ -1,12 +1,24 @@
 {
+  "$schema": "http://json.schemastore.org/tsconfig",
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "include": [
+    "src"
+  ],
   "compilerOptions": {
-    "baseUrl": ".",
-    "noEmit": true,
-    "paths": {
-      "@/*": ["src/*"]
-    }
-  },
-  "exclude": ["node_modules", "dist", "assets"],
-  "extends": "@ckt1031/tsconfig/base.json",
-  "include": ["commitlint.config.cjs", "src", "config/*.json", "package.json", "tsup.config.ts"]
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": [
+      "ESNext"
+    ],
+    "types": [
+      "@cloudflare/workers-types"
+    ],
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true
+  }
 }
