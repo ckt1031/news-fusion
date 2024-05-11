@@ -1,4 +1,12 @@
-const prompt = `
-`;
+const prompt = `## Task Instructions: Summarize
+
+- Write your output in Markdown format, using appropriate syntax for typesetting and formatting.
+- Keep the same original language variety or dialect as the input text.
+- You are an expert at summarizing text concisely while maintaining clarity and readability.
+- Your task is to summarize the article into a few key points, ensuring the summary is easy to understand and captures the essence of the original content.
+- You should summarize in a clear structure. You might use subheadings for long content, while you should use bullet points for short content.
+- No extra comments or context alongside your response.
+
+## Article Content`;
 
 export default prompt;

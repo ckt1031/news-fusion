@@ -1,0 +1,12 @@
+name = "news-bot"
+main = "src/index.ts"
+compatibility_date = "2024-04-03"
+compatibility_flags = ["nodejs_compat"]
+
+dev.port = 8787
+
+[[d1_databases]]
+binding = "D1" # i.e. available in your Worker on env.DB
+database_name = "NEWS_BOT"
+database_id = "b3f2dab6-9d01-4d44-88e3-b01e1abff613"
+migrations_dir = ".drizzle"
