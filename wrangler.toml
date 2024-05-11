@@ -5,6 +5,14 @@ compatibility_flags = ["nodejs_compat"]
 
 dev.port = 8787
 
+[placement]
+mode = "smart"
+
+[triggers]
+# Schedule cron triggers:
+# - At every 5th minute
+crons = [ "*/5 * * * *" ]
+
 [[d1_databases]]
 binding = "D1" # i.e. available in your Worker on env.DB
 database_name = "NEWS_BOT"

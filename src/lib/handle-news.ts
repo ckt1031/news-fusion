@@ -1,4 +1,8 @@
-import { EARLIEST_DAYS, MUST_READ_RSS_LIST, RSS_CATEGORY } from "../config/news-sources";
+import {
+  EARLIEST_DAYS,
+  MUST_READ_RSS_LIST,
+  RSS_CATEGORY,
+} from "../config/news-sources";
 import { NewArticle, articles } from "../db/schema";
 import { sendDiscordMessage } from "../discord/utils";
 import { DISCORD_INTERACTION_BUTTONS } from "../types/discord";
@@ -42,7 +46,7 @@ export async function cronCheckNews(env: ServerEnv) {
         const isNew = await checkIfNewsIsNew(env, item.link);
 
         if (isNew) {
-          await sendDiscordMessage(env, {
+          await sendDiscordMessage(env, env.DISCORD_RSS_CHANNEL_ID, {
             embeds: [
               {
                 title: item.title,
