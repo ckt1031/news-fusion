@@ -1,33 +1,36 @@
 {
-  "name": "news-bot",
-  "type": "module",
-  "scripts": {
-    "dev": "wrangler dev src/index.ts",
-    "deploy": "wrangler deploy",
-    "generate": "drizzle-kit generate",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@ai-sdk/openai": "^0.0.10",
-    "@hono/zod-openapi": "^0.11.0",
-    "ai": "^3.1.5",
-    "dayjs": "^1.11.11",
-    "discord-api-types": "^0.37.83",
-    "discord.js": "^14.15.2",
-    "drizzle-orm": "^0.30.10",
-    "fast-xml-parser": "^4.3.6",
-    "hono": "^4.3.4",
-    "nanoid": "^5.0.7",
-    "openai": "^4.45.0",
-    "postgres": "^3.4.4",
-    "remove-trailing-slash": "^0.1.1",
-    "zod": "^3.23.8"
-  },
-  "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240502.0",
-    "@types/node": "^20.12.11",
-    "drizzle-kit": "^0.21.1",
-    "typescript": "5.4.5",
-    "wrangler": "^3.55.0"
-  }
+	"name": "news-bot",
+	"type": "module",
+	"scripts": {
+		"dev": "wrangler dev src/index.ts",
+		"deploy": "wrangler deploy",
+		"lint": "biome check .",
+		"lint:fix": "biome check . --apply",
+		"generate": "drizzle-kit generate",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@ai-sdk/openai": "^0.0.10",
+		"@hono/zod-openapi": "^0.11.1",
+		"ai": "^3.1.5",
+		"dayjs": "^1.11.11",
+		"discord-api-types": "^0.37.83",
+		"discord.js": "^14.15.2",
+		"drizzle-orm": "^0.30.10",
+		"fast-xml-parser": "^4.3.6",
+		"hono": "^4.3.5",
+		"nanoid": "^5.0.7",
+		"openai": "^4.45.0",
+		"postgres": "^3.4.4",
+		"remove-trailing-slash": "^0.1.1",
+		"zod": "^3.23.8"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.7.3",
+		"@cloudflare/workers-types": "^4.20240502.0",
+		"@types/node": "^20.12.11",
+		"drizzle-kit": "^0.21.1",
+		"typescript": "5.4.5",
+		"wrangler": "^3.55.0"
+	}
 }

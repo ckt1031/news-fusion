@@ -1,4 +1,4 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>shinGangan/renovate-config-hono"]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["github>shinGangan/renovate-config-hono"]
 }

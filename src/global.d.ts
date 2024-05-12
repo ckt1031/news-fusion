@@ -1,9 +1,8 @@
-
-import {} from 'hono'
-import { ServerEnv } from './types/env';
+import {} from 'hono';
+import type { ServerEnv } from './types/env';
 
 declare module 'hono' {
-  interface Env {
-      Bindings: ServerEnv
-  }
+	interface Env {
+		Bindings: ServerEnv;
+	}
 }
