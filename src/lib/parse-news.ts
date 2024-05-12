@@ -28,12 +28,11 @@ export async function parseRSS(url: string) {
 				'#text': z.string(),
 			})
 			.or(z.string())
-			.transform((guid) => {
-				if (typeof guid === 'object') {
-					return guid['#text'];
-				}
-				return guid;
-			}),
+			.transform((guid) =>
+				typeof guid === 'object'
+					? removeTrailingSlash(guid['#text'])
+					: removeTrailingSlash(guid),
+			),
 	});
 
 	const feedSchema = z.object({
@@ -42,12 +41,7 @@ export async function parseRSS(url: string) {
 		item: z
 			.array(feedItemSchema)
 			.or(feedItemSchema)
-			.transform((item) => {
-				if (Array.isArray(item)) {
-					return item;
-				}
-				return [item];
-			}),
+			.transform((item) => (Array.isArray(item) ? item : [item])),
 	});
 
 	return feedSchema.parse(data.rss.channel);

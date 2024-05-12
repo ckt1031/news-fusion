@@ -43,6 +43,15 @@ export async function cronCheckNews(env: ServerEnv) {
 					continue;
 				}
 
+				// If RSS is weather.gov.hk and title has 現時並無特別報告, skip
+				if (
+					rss ===
+						'https://rss.weather.gov.hk/rss/WeatherWarningBulletin_uc.xml' &&
+					item.title.includes('現時並無特別報告')
+				) {
+					continue;
+				}
+
 				const isNew = await checkIfNewsIsNew(env, item.guid);
 
 				if (isNew) {

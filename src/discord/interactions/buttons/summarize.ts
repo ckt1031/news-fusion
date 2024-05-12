@@ -1,9 +1,11 @@
 import {
 	type APIMessageComponentInteraction,
+	ButtonStyle,
 	ComponentType,
 	InteractionResponseType,
 } from 'discord-api-types/v10';
 import { summarizeText } from '../../../lib/llm';
+import { DISCORD_INTERACTION_BUTTONS } from '../../../types/discord';
 import type { ServerEnv } from '../../../types/env';
 import { createDiscordThread, sendDiscordMessage } from '../../utils';
 
@@ -71,13 +73,23 @@ const summarizeButtonExecution = async (
 
 	await sendDiscordMessage(env, channel.id, {
 		content: text,
+		components: [
+			{
+				type: ComponentType.ActionRow,
+				components: [
+					{
+						type: ComponentType.Button,
+						style: ButtonStyle.Secondary,
+						label: 'Translate',
+						custom_id: DISCORD_INTERACTION_BUTTONS.TRANSLATE,
+					},
+				],
+			},
+		],
 	});
 
 	return {
-		type: InteractionResponseType.ChannelMessageWithSource,
-		data: {
-			content: 'hey',
-		},
+		type: InteractionResponseType.Pong,
 	};
 };
 
