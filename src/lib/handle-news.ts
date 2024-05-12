@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { ButtonStyle, ComponentType } from 'discord-api-types/v10';
 import { nanoid } from 'nanoid';
+import pickRandom from 'pick-random';
 import removeTrailingSlash from 'remove-trailing-slash';
 import {
 	EARLIEST_DAYS,
@@ -34,7 +35,17 @@ export async function createArticleDatabase(env: ServerEnv, data: NewArticle) {
 export async function cronCheckNews(env: ServerEnv) {
 	// Handle Must Read RSS
 	for (const rssCategory of Object.keys(MUST_READ_RSS_LIST)) {
-		for (const rss of MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY]) {
+		// Pick a random RSS from the list
+
+		// Have env.D1 means cloudflare worker, cloudfare worker has limited subrequest,
+		// so we need to pick a random rss to avoid hitting the limit
+		const rssList = env.D1
+			? pickRandom(MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY], {
+					count: 2,
+				})
+			: MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY];
+
+		for (const rss of rssList) {
 			try {
 				const feed = await parseRSS(rss);
 
@@ -44,10 +55,9 @@ export async function cronCheckNews(env: ServerEnv) {
 						continue;
 					}
 
-					// If RSS is weather.gov.hk and title has 現時並無特別報告, skip
+					// If RSS has weather.gov.hk and title has 現時並無特別報告, skip
 					if (
-						rss ===
-							'https://rss.weather.gov.hk/rss/WeatherWarningBulletin_uc.xml' &&
+						rss.includes('weather.gov.hk') &&
 						item.title.includes('現時並無特別報告')
 					) {
 						continue;
