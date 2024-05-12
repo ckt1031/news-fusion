@@ -2,8 +2,8 @@ import {
 	ComponentType,
 	InteractionResponseType,
 	InteractionType,
+	MessageFlags,
 } from 'discord-api-types/v10';
-import { InteractionResponseFlags } from 'discord-interactions';
 import { Hono } from 'hono';
 import { DISCORD_INTERACTION_BUTTONS } from '../types/discord';
 import summarizeButtonExecution from './interactions/buttons/summarize';
@@ -55,7 +55,7 @@ app.post('/', async (c) => {
 			type: InteractionResponseType.ChannelMessageWithSource,
 			data: {
 				content: error instanceof Error ? error.message : 'An error occurred',
-				flags: InteractionResponseFlags.EPHEMERAL,
+				flags: MessageFlags.Ephemeral,
 			},
 		});
 	}

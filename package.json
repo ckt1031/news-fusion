@@ -15,13 +15,11 @@
 		"ai": "^3.1.5",
 		"dayjs": "^1.11.11",
 		"discord-api-types": "^0.37.83",
-		"discord.js": "^14.15.2",
 		"drizzle-orm": "^0.30.10",
 		"fast-xml-parser": "^4.3.6",
 		"hono": "^4.3.5",
 		"nanoid": "^5.0.7",
 		"openai": "^4.45.0",
-		"postgres": "^3.4.4",
 		"remove-trailing-slash": "^0.1.1",
 		"zod": "^3.23.8"
 	},
