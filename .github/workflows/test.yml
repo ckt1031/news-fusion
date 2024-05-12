@@ -23,3 +23,6 @@ jobs:
 
       - name: Check Project
         run: bun run lint
+
+      - name: Test
+        run: bun test

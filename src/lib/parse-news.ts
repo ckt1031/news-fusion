@@ -12,6 +12,8 @@ export async function getNewsMinimalistList() {
 }
 
 export async function parseRSS(url: string) {
+	console.log('Parsing RSS:', url);
+
 	const req = await fetch(url);
 	const xmlData = await req.text();
 	const parser = new XMLParser({
@@ -43,24 +45,33 @@ export async function parseRSS(url: string) {
 			.or(rssFeedItemSchema)
 			.transform((item) => (Array.isArray(item) ? item : [item])),
 	});
-	
 
 	const isAtom = url.includes('atom');
 
 	if (isAtom) {
 		const atomFeedSchema = z.object({
-			title: z.string().or(z.object({ '#text': z.string() })).transform((title) =>
-				typeof title === 'object' ? title['#text'] : title,
-			).transform((title) => decode(title)),
-			id: z.string().transform(removeTrailingSlash),
-			entry: z.object({
-				id: z.string().transform(removeTrailingSlash),
-				// Either string or {"#text": string}
-				title: z.string().or(z.object({ '#text': z.string() })).transform((title) =>
+			title: z
+				.string()
+				.or(z.object({ '#text': z.string() }))
+				.transform((title) =>
 					typeof title === 'object' ? title['#text'] : title,
-				).transform((title) => decode(title)),
-				updated: z.string().transform((date) => new Date(date).toISOString()),
-			}).array(),
+				)
+				.transform((title) => decode(title)),
+			id: z.string().transform(removeTrailingSlash),
+			entry: z
+				.object({
+					id: z.string().transform(removeTrailingSlash),
+					// Either string or {"#text": string}
+					title: z
+						.string()
+						.or(z.object({ '#text': z.string() }))
+						.transform((title) =>
+							typeof title === 'object' ? title['#text'] : title,
+						)
+						.transform((title) => decode(title)),
+					updated: z.string().transform((date) => new Date(date).toISOString()),
+				})
+				.array(),
 		});
 
 		const atomData = atomFeedSchema.parse(data.feed);

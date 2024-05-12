@@ -11,6 +11,7 @@
 	},
 	"dependencies": {
 		"@hono/zod-openapi": "^0.11.1",
+		"bun-types": "^1.1.8",
 		"dayjs": "^1.11.11",
 		"discord-api-types": "^0.37.83",
 		"drizzle-orm": "^0.30.10",
@@ -25,10 +26,12 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.7.3",
-		"@cloudflare/workers-types": "^4.20240502.0",
+		"@cloudflare/workers-types": "latest",
 		"@types/node": "^20.12.11",
 		"drizzle-kit": "^0.21.1",
 		"typescript": "5.4.5",
-		"wrangler": "^3.55.0"
-	}
+		"wrangler": "latest",
+		"@types/bun": "latest"
+	},
+	"module": "index.ts"
 }

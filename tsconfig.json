@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json.schemastore.org/tsconfig",
 	"exclude": ["node_modules", "dist"],
-	"include": ["src"],
+	"include": ["src", "tests", "drizzle.config.ts"],
 	"compilerOptions": {
 		"target": "ESNext",
 		"module": "ESNext",
