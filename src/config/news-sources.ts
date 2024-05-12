@@ -20,7 +20,7 @@ export const MUST_READ_RSS_LIST: Record<RSS_CATEGORY, string[]> = {
 		'https://feeds.appinn.com/appinns/',
 	],
 	[RSS_CATEGORY.WEATHER]: [
-		// 'https://rss.weather.gov.hk/rss/WeatherWarningBulletin_uc.xml',
+		'https://rss.weather.gov.hk/rss/WeatherWarningBulletin_uc.xml',
 	],
 };
 
