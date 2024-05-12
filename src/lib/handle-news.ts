@@ -35,69 +35,73 @@ export async function cronCheckNews(env: ServerEnv) {
 	// Handle Must Read RSS
 	for (const rssCategory of Object.keys(MUST_READ_RSS_LIST)) {
 		for (const rss of MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY]) {
-			const feed = await parseRSS(rss);
+			try {
+				const feed = await parseRSS(rss);
 
-			for (const item of feed.item) {
-				// check if the news is within the last 3 days, use dayjs
-				if (dayjs().diff(dayjs(item.pubDate), 'day') > EARLIEST_DAYS) {
-					continue;
-				}
+				for (const item of feed.item) {
+					// check if the news is within the last 3 days, use dayjs
+					if (dayjs().diff(dayjs(item.pubDate), 'day') > EARLIEST_DAYS) {
+						continue;
+					}
 
-				// If RSS is weather.gov.hk and title has 現時並無特別報告, skip
-				if (
-					rss ===
-						'https://rss.weather.gov.hk/rss/WeatherWarningBulletin_uc.xml' &&
-					item.title.includes('現時並無特別報告')
-				) {
-					continue;
-				}
+					// If RSS is weather.gov.hk and title has 現時並無特別報告, skip
+					if (
+						rss ===
+							'https://rss.weather.gov.hk/rss/WeatherWarningBulletin_uc.xml' &&
+						item.title.includes('現時並無特別報告')
+					) {
+						continue;
+					}
 
-				const isNew = await checkIfNewsIsNew(env, item.guid);
+					const isNew = await checkIfNewsIsNew(env, item.guid);
 
-				if (isNew) {
-					await sendDiscordMessage(env, env.DISCORD_RSS_CHANNEL_ID, {
-						embeds: [
-							{
-								title: item.title,
-								url: item.link,
-								author: {
-									name: feed.title,
+					if (isNew) {
+						await sendDiscordMessage(env, env.DISCORD_RSS_CHANNEL_ID, {
+							embeds: [
+								{
+									title: item.title,
+									url: item.link,
+									author: {
+										name: feed.title,
+									},
+									timestamp: new Date(item.pubDate).toISOString(),
 								},
-								timestamp: new Date(item.pubDate).toISOString(),
-							},
-						],
-						components: [
-							{
-								type: ComponentType.ActionRow,
-								components: [
-									{
-										type: ComponentType.Button,
-										style: ButtonStyle.Secondary,
-										label: 'Summarize',
-										custom_id: DISCORD_INTERACTION_BUTTONS.SUMMARIZE,
-									},
-									{
-										type: ComponentType.Button,
-										style: ButtonStyle.Secondary,
-										label: 'Translate',
-										custom_id: DISCORD_INTERACTION_BUTTONS.TRANSLATE,
-									},
-								],
-							},
-						],
-					});
+							],
+							components: [
+								{
+									type: ComponentType.ActionRow,
+									components: [
+										{
+											type: ComponentType.Button,
+											style: ButtonStyle.Secondary,
+											label: 'Summarize',
+											custom_id: DISCORD_INTERACTION_BUTTONS.SUMMARIZE,
+										},
+										{
+											type: ComponentType.Button,
+											style: ButtonStyle.Secondary,
+											label: 'Translate',
+											custom_id: DISCORD_INTERACTION_BUTTONS.TRANSLATE,
+										},
+									],
+								},
+							],
+						});
 
-					await createArticleDatabase(env, {
-						id: nanoid(),
-						importantEnough: true,
-						title: item.title,
-						url: item.link,
-						publisher: feed.title,
-						category: rssCategory,
-						guid: item.guid,
-						publishedAt: new Date(item.pubDate).getTime(),
-					});
+						await createArticleDatabase(env, {
+							id: nanoid(),
+							importantEnough: true,
+							title: item.title,
+							url: item.link,
+							publisher: feed.title,
+							category: rssCategory,
+							guid: item.guid,
+							publishedAt: new Date(item.pubDate).getTime(),
+						});
+					}
 				}
+			} catch (error) {
+				console.error(error);
 			}
 		}
 	}

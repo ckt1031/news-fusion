@@ -1,8 +1,10 @@
-import type {
-	RESTGetAPIChannelMessageResult,
-	RESTGetAPIChannelResult,
-	RESTPostAPIChannelMessageJSONBody,
-	RESTPostAPIChannelMessageResult,
+import {
+	type APIMessageComponentInteraction,
+	InteractionResponseType,
+	type RESTGetAPIChannelMessageResult,
+	type RESTGetAPIChannelResult,
+	type RESTPostAPIChannelMessageJSONBody,
+	type RESTPostAPIChannelMessageResult,
 } from 'discord-api-types/v10';
 import type { ServerEnv } from '../types/env';
 
@@ -44,6 +46,23 @@ export async function getDiscordMessage(env: ServerEnv, messageId: string) {
 	}
 
 	return response.json() as unknown as RESTGetAPIChannelMessageResult;
+}
+
+export async function deferUpdateInteraction(
+	interaction: APIMessageComponentInteraction,
+) {
+	await fetch(
+		`https://discord.com/api/v10/interactions/${interaction.id}/${interaction.token}/callback`,
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				type: InteractionResponseType.DeferredMessageUpdate,
+			}),
+		},
+	);
 }
 
 export async function createDiscordThread(

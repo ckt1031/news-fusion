@@ -1,5 +1,6 @@
 import type OpenAI from 'openai';
 import summarizePrompt from '../prompts/summarize';
+import translatePrompt from '../prompts/translate';
 import type { ServerEnv } from '../types/env';
 
 async function generate(env: ServerEnv, message: string) {
@@ -13,7 +14,8 @@ async function generate(env: ServerEnv, message: string) {
 			stream: false,
 			model: env.OPENAI_LLM_MODEL,
 			messages: [{ role: 'user', content: message }],
-		}),
+			temperature: 0.6,
+		} satisfies OpenAI.ChatCompletionCreateParams),
 	});
 
 	if (!response.ok) {
@@ -27,4 +29,11 @@ async function generate(env: ServerEnv, message: string) {
 
 export async function summarizeText(env: ServerEnv, originalContent: string) {
 	return await generate(env, `${summarizePrompt}\n\n${originalContent}`);
+}
+
+export async function translateText(env: ServerEnv, originalContent: string) {
+	return await generate(
+		env,
+		`${translatePrompt}\n\n\`\`\`input\n${originalContent}\`\`\``,
+	);
 }

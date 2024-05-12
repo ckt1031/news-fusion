@@ -7,6 +7,7 @@ import {
 import { Hono } from 'hono';
 import { DISCORD_INTERACTION_BUTTONS } from '../types/discord';
 import summarizeButtonExecution from './interactions/buttons/summarize';
+import translateButtonExecution from './interactions/buttons/translate';
 import verifyDiscordRequest from './verify-request';
 
 const app = new Hono();
@@ -43,6 +44,9 @@ app.post('/', async (c) => {
 				switch (interaction.data.custom_id) {
 					case DISCORD_INTERACTION_BUTTONS.SUMMARIZE: {
 						return c.json(await summarizeButtonExecution(c.env, interaction));
+					}
+					case DISCORD_INTERACTION_BUTTONS.TRANSLATE: {
+						return c.json(await translateButtonExecution(c.env, interaction));
 					}
 				}
 			}

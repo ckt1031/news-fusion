@@ -5,6 +5,7 @@ import {
 	InteractionResponseType,
 } from 'discord-api-types/v10';
 import { summarizeText } from '../../../lib/llm';
+import { scrapeToMarkdown } from '../../../lib/scrape';
 import { DISCORD_INTERACTION_BUTTONS } from '../../../types/discord';
 import type { ServerEnv } from '../../../types/env';
 import { createDiscordThread, sendDiscordMessage } from '../../utils';
@@ -42,21 +43,7 @@ const summarizeButtonExecution = async (
 
 	const url = parentMessage.embeds[0].url;
 
-	const extractAPIResponse = await fetch(
-		`${env.TOOLS_API_BASE_URL}/web/extract/markdown?url=${url}`,
-		{
-			headers: {
-				accept: 'application/json',
-				Authorization: `Bearer ${env.TOOLS_API_KEY}`,
-			},
-		},
-	);
-
-	if (!extractAPIResponse.ok) {
-		throw new Error('Failed to extract content');
-	}
-
-	const { content } = (await extractAPIResponse.json()) as { content: string };
+	const content = await scrapeToMarkdown(env, url);
 
 	const text = await summarizeText(env, content);
 
@@ -64,14 +51,14 @@ const summarizeButtonExecution = async (
 		throw new Error('Failed to summarize content');
 	}
 
-	const channel = await createDiscordThread(
+	const thread = await createDiscordThread(
 		env,
 		env.DISCORD_RSS_CHANNEL_ID,
 		parentMessage.id,
 		'Summary',
 	);
 
-	await sendDiscordMessage(env, channel.id, {
+	await sendDiscordMessage(env, thread.id, {
 		content: text,
 		components: [
 			{
