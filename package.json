@@ -1,37 +1,38 @@
 {
-	"name": "news-bot",
-	"type": "module",
-	"scripts": {
-		"dev": "wrangler dev src/index.ts",
-		"deploy": "wrangler deploy",
-		"lint": "biome check . && tsc --noEmit",
-		"lint:fix": "biome check . --apply",
-		"generate": "drizzle-kit generate",
-		"typecheck": "tsc --noEmit"
-	},
-	"dependencies": {
-		"@hono/zod-openapi": "^0.11.1",
-		"bun-types": "^1.1.8",
-		"dayjs": "^1.11.11",
-		"discord-api-types": "^0.37.83",
-		"drizzle-orm": "^0.30.10",
-		"fast-xml-parser": "^4.3.6",
-		"hono": "^4.3.5",
-		"html-entities": "^2.5.2",
-		"nanoid": "^5.0.7",
-		"openai": "^4.45.0",
-		"pick-random": "^4.0.0",
-		"remove-trailing-slash": "^0.1.1",
-		"zod": "^3.23.8"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "1.7.3",
-		"@cloudflare/workers-types": "latest",
-		"@types/node": "^20.12.11",
-		"drizzle-kit": "^0.21.1",
-		"typescript": "5.4.5",
-		"wrangler": "latest",
-		"@types/bun": "latest"
-	},
-	"module": "index.ts"
+  "name": "news-bot",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev src/index.ts",
+    "deploy": "wrangler deploy",
+    "lint": "biome check . && tsc --noEmit",
+    "lint:fix": "biome check . --apply",
+    "generate": "drizzle-kit generate",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hono/zod-openapi": "^0.11.1",
+    "bun-types": "^1.1.8",
+    "dayjs": "^1.11.11",
+    "discord-api-types": "^0.37.83",
+    "discord-interactions": "^3.4.0",
+    "drizzle-orm": "^0.30.10",
+    "fast-xml-parser": "^4.3.6",
+    "hono": "^4.3.5",
+    "html-entities": "^2.5.2",
+    "nanoid": "^5.0.7",
+    "openai": "^4.45.0",
+    "pick-random": "^4.0.0",
+    "remove-trailing-slash": "^0.1.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.7.3",
+    "@cloudflare/workers-types": "latest",
+    "@types/node": "^20.12.11",
+    "drizzle-kit": "^0.21.1",
+    "typescript": "5.4.5",
+    "wrangler": "latest",
+    "@types/bun": "latest"
+  },
+  "module": "index.ts"
 }
