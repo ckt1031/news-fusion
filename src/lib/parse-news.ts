@@ -23,13 +23,31 @@ export async function parseRSS(url: string) {
 		title: z.string().transform((title) => decode(title)),
 		link: z.string().transform(removeTrailingSlash),
 		pubDate: z.string().transform((date) => new Date(date).toISOString()),
-		guid: z.string(),
+		guid: z
+			.object({
+				'#text': z.string(),
+			})
+			.or(z.string())
+			.transform((guid) => {
+				if (typeof guid === 'object') {
+					return guid['#text'];
+				}
+				return guid;
+			}),
 	});
 
 	const feedSchema = z.object({
 		title: z.string(),
 		link: z.string().transform(removeTrailingSlash),
-		item: z.array(feedItemSchema),
+		item: z
+			.array(feedItemSchema)
+			.or(feedItemSchema)
+			.transform((item) => {
+				if (Array.isArray(item)) {
+					return item;
+				}
+				return [item];
+			}),
 	});
 
 	return feedSchema.parse(data.rss.channel);
