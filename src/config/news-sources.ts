@@ -16,6 +16,7 @@ export const MUST_READ_RSS_LIST: Record<RSS_CATEGORY, string[]> = {
 	[RSS_CATEGORY.TECH]: [
 		'https://weekly.tw93.fun/rss.xml',
 		'https://feeds.feedburner.com/ruanyifeng',
+		'https://feeds.appinn.com/appinns/',
 	],
 };
 
