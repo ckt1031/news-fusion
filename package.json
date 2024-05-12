@@ -4,7 +4,7 @@
 	"scripts": {
 		"dev": "wrangler dev src/index.ts",
 		"deploy": "wrangler deploy",
-		"lint": "biome check .",
+		"lint": "biome check . && tsc --noEmit",
 		"lint:fix": "biome check . --apply",
 		"generate": "drizzle-kit generate",
 		"typecheck": "tsc --noEmit"
