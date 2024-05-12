@@ -8,11 +8,6 @@ app.get('/', (c) => {
 	return c.text('Hey Here!');
 });
 
-app.get('/cron', async (c) => {
-	await cronCheckNews(c.env);
-	return c.text('Done!');
-});
-
 app.route('/discord', discordBot);
 
 export default app;

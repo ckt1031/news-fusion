@@ -41,7 +41,7 @@ export async function cronCheckNews(env: ServerEnv) {
 		// so we need to pick a random rss to avoid hitting the limit
 		const rssList = env.D1
 			? pickRandom(MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY], {
-					count: 2,
+					count: 3,
 				})
 			: MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY];
 

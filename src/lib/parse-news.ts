@@ -19,7 +19,7 @@ export async function parseRSS(url: string) {
 	});
 	const data = parser.parse(xmlData);
 
-	const feedItemSchema = z.object({
+	const rssFeedItemSchema = z.object({
 		title: z.string().transform((title) => decode(title)),
 		link: z.string().transform(removeTrailingSlash),
 		pubDate: z.string().transform((date) => new Date(date).toISOString()),
@@ -35,14 +35,49 @@ export async function parseRSS(url: string) {
 			),
 	});
 
-	const feedSchema = z.object({
+	const rssFeedSchema = z.object({
 		title: z.string(),
 		link: z.string().transform(removeTrailingSlash),
 		item: z
-			.array(feedItemSchema)
-			.or(feedItemSchema)
+			.array(rssFeedItemSchema)
+			.or(rssFeedItemSchema)
 			.transform((item) => (Array.isArray(item) ? item : [item])),
 	});
+	
 
-	return feedSchema.parse(data.rss.channel);
+	const isAtom = url.includes('atom');
+
+	if (isAtom) {
+		const atomFeedSchema = z.object({
+			title: z.string().or(z.object({ '#text': z.string() })).transform((title) =>
+				typeof title === 'object' ? title['#text'] : title,
+			).transform((title) => decode(title)),
+			id: z.string().transform(removeTrailingSlash),
+			entry: z.object({
+				id: z.string().transform(removeTrailingSlash),
+				// Either string or {"#text": string}
+				title: z.string().or(z.object({ '#text': z.string() })).transform((title) =>
+					typeof title === 'object' ? title['#text'] : title,
+				).transform((title) => decode(title)),
+				updated: z.string().transform((date) => new Date(date).toISOString()),
+			}).array(),
+		});
+
+		const atomData = atomFeedSchema.parse(data.feed);
+
+		type RssFeedSchema = z.infer<typeof rssFeedSchema>;
+
+		return {
+			title: atomData.title,
+			link: atomData.id,
+			item: atomData.entry.map((entry) => ({
+				title: entry.title,
+				link: entry.id,
+				pubDate: entry.updated,
+				guid: entry.id,
+			})),
+		} satisfies RssFeedSchema;
+	}
+
+	return rssFeedSchema.parse(data.rss.channel);
 }
