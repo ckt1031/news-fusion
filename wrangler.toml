@@ -15,6 +15,6 @@ crons = [ "*/5 * * * *" ]
 
 [[d1_databases]]
 binding = "D1" # i.e. available in your Worker on env.DB
-database_name = "NEWS_BOT"
-database_id = "b3f2dab6-9d01-4d44-88e3-b01e1abff613"
+database_name = "news_bot"
+database_id = "d1e122b7-8eab-463e-8e54-f36cc5adcb54"
 migrations_dir = ".drizzle"

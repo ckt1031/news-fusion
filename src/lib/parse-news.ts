@@ -1,4 +1,5 @@
 import { XMLParser } from 'fast-xml-parser';
+import { decode } from 'html-entities';
 import removeTrailingSlash from 'remove-trailing-slash';
 import { z } from 'zod';
 import { NEWS_MINIMALIST_API } from '../config/news-sources';
@@ -19,24 +20,17 @@ export async function parseRSS(url: string) {
 	const data = parser.parse(xmlData);
 
 	const feedItemSchema = z.object({
-		title: z.string(),
+		title: z.string().transform((title) => decode(title)),
 		link: z.string().transform(removeTrailingSlash),
 		pubDate: z.string().transform((date) => new Date(date).toISOString()),
+		guid: z.string(),
 	});
 
-	const feedSchema = z
-		.object({
-			title: z.string(),
-			link: z.string().transform(removeTrailingSlash),
-			item: z.array(feedItemSchema),
-		})
-		.transform((data) => {
-			return {
-				title: data.title,
-				link: data.link,
-				items: data.item,
-			};
-		});
+	const feedSchema = z.object({
+		title: z.string(),
+		link: z.string().transform(removeTrailingSlash),
+		item: z.array(feedItemSchema),
+	});
 
 	return feedSchema.parse(data.rss.channel);
 }

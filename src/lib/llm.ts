@@ -3,11 +3,6 @@ import summarizePrompt from '../prompts/summarize';
 import type { ServerEnv } from '../types/env';
 
 async function generate(env: ServerEnv, message: string) {
-	// const result = await openai.chat.completions.create({
-	//   model: env.OPENAI_LLM_MODEL,
-	//   messages: [{ role: "user", content: message }],
-	// });
-
 	const response = await fetch(`${env.OPENAI_API_BASE_URL}/chat/completions`, {
 		method: 'POST',
 		headers: {
@@ -20,6 +15,10 @@ async function generate(env: ServerEnv, message: string) {
 			messages: [{ role: 'user', content: message }],
 		}),
 	});
+
+	if (!response.ok) {
+		throw new Error('Failed to generate response');
+	}
 
 	const result = (await response.json()) as OpenAI.ChatCompletion;
 

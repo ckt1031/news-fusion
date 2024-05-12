@@ -10,14 +10,13 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@ai-sdk/openai": "^0.0.10",
 		"@hono/zod-openapi": "^0.11.1",
-		"ai": "^3.1.5",
 		"dayjs": "^1.11.11",
 		"discord-api-types": "^0.37.83",
 		"drizzle-orm": "^0.30.10",
 		"fast-xml-parser": "^4.3.6",
 		"hono": "^4.3.5",
+		"html-entities": "^2.5.2",
 		"nanoid": "^5.0.7",
 		"openai": "^4.45.0",
 		"remove-trailing-slash": "^0.1.1",

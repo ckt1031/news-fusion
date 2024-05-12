@@ -1,5 +1,6 @@
 export enum RSS_CATEGORY {
 	TECH = 'tech',
+	WEATHER = 'weather',
 }
 
 export const RSS_LINKS = {
@@ -17,6 +18,9 @@ export const MUST_READ_RSS_LIST: Record<RSS_CATEGORY, string[]> = {
 		'https://weekly.tw93.fun/rss.xml',
 		'https://feeds.feedburner.com/ruanyifeng',
 		'https://feeds.appinn.com/appinns/',
+	],
+	[RSS_CATEGORY.WEATHER]: [
+		// 'https://rss.weather.gov.hk/rss/WeatherWarningBulletin_uc.xml',
 	],
 };
 

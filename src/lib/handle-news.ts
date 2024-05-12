@@ -14,12 +14,12 @@ import type { ServerEnv } from '../types/env';
 import { getDB } from './db';
 import { parseRSS } from './parse-news';
 
-export async function checkIfNewsIsNew(env: ServerEnv, url: string) {
+export async function checkIfNewsIsNew(env: ServerEnv, guid: string) {
 	const db = getDB(env.D1);
 
 	const result = await db.query.articles.findFirst({
 		// with: { url },
-		where: (d, { eq }) => eq(d.url, removeTrailingSlash(url)),
+		where: (d, { eq }) => eq(d.guid, removeTrailingSlash(guid)),
 	});
 
 	return !result;
@@ -37,13 +37,13 @@ export async function cronCheckNews(env: ServerEnv) {
 		for (const rss of MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY]) {
 			const feed = await parseRSS(rss);
 
-			for (const item of feed.items) {
+			for (const item of feed.item) {
 				// check if the news is within the last 3 days, use dayjs
 				if (dayjs().diff(dayjs(item.pubDate), 'day') > EARLIEST_DAYS) {
 					continue;
 				}
 
-				const isNew = await checkIfNewsIsNew(env, item.link);
+				const isNew = await checkIfNewsIsNew(env, item.guid);
 
 				if (isNew) {
 					await sendDiscordMessage(env, env.DISCORD_RSS_CHANNEL_ID, {
@@ -85,6 +85,7 @@ export async function cronCheckNews(env: ServerEnv) {
 						url: item.link,
 						publisher: feed.title,
 						category: rssCategory,
+						guid: item.guid,
 						publishedAt: new Date(item.pubDate).getTime(),
 					});
 				}

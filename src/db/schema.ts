@@ -7,6 +7,8 @@ export const articles = sqliteTable('articles', {
 	publisher: text('publisher').notNull(),
 	category: text('category').notNull(),
 
+	guid: text('guid').notNull(),
+
 	// Unix Timestamp
 	publishedAt: integer('publishedAt').notNull(),
 
