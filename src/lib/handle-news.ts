@@ -39,11 +39,14 @@ export async function cronCheckNews(env: ServerEnv) {
 
 		// Have env.D1 means cloudflare worker, cloudfare worker has limited subrequest,
 		// so we need to pick a random rss to avoid hitting the limit
-		const rssList = env.D1
-			? pickRandom(MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY], {
-					count: 3,
-				})
-			: MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY];
+		const rssList =
+			MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY].length > 3
+				? env.D1
+					? pickRandom(MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY], {
+							count: 3,
+						})
+					: MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY]
+				: MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY];
 
 		for (const rss of rssList) {
 			try {

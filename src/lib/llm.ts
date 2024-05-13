@@ -1,8 +1,8 @@
 import type OpenAI from 'openai';
+import { z } from 'zod';
 import summarizePrompt from '../prompts/summarize';
 import translatePrompt from '../prompts/translate';
 import type { ServerEnv } from '../types/env';
-import { z } from 'zod';
 import type { RecursivePartial } from '../types/utils';
 
 async function generate(env: ServerEnv, message: string) {
@@ -38,7 +38,11 @@ async function generate(env: ServerEnv, message: string) {
 
 	const result = await schema.parseAsync(await response.json());
 
-	if (!result.choices || result.choices.length === 0 || !result.choices[0]?.message) {
+	if (
+		!result.choices ||
+		result.choices.length === 0 ||
+		!result.choices[0]?.message
+	) {
 		throw new Error('Failed to generate response');
 	}
 
