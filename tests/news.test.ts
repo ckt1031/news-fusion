@@ -1,5 +1,4 @@
 import { expect, test } from 'bun:test';
-import { env } from 'bun';
 import {
 	MUST_READ_RSS_LIST,
 	type RSS_CATEGORY,

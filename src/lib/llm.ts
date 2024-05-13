@@ -5,11 +5,11 @@ import translatePrompt from '../prompts/translate';
 import type { ServerEnv } from '../types/env';
 import type { RecursivePartial } from '../types/utils';
 
-async function generate(env: ServerEnv, message: string) {
+async function generate(env: ServerEnv, model: string, message: string) {
 	const baseURL = env.OPENAI_API_BASE_URL ?? 'https://api.openai.com/v1';
 	const body: OpenAI.ChatCompletionCreateParams = {
 		stream: false,
-		model: env.OPENAI_LLM_MODEL ?? 'gpt-3.5-turbo',
+		model,
 		messages: [{ role: 'user', content: message }],
 		temperature: 0.6,
 	};
@@ -50,12 +50,13 @@ async function generate(env: ServerEnv, message: string) {
 }
 
 export async function summarizeText(env: ServerEnv, originalContent: string) {
-	return await generate(env, `${summarizePrompt}\n\n${originalContent}`);
+	return await generate(env, '', `${summarizePrompt}\n\n${originalContent}`);
 }
 
 export async function translateText(env: ServerEnv, originalContent: string) {
 	return await generate(
 		env,
+		'command-r-plus',
 		`${translatePrompt}\n\n\`\`\`input\n${originalContent}\`\`\``,
 	);
 }
