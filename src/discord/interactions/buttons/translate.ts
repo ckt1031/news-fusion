@@ -1,6 +1,10 @@
 import {
 	type APIMessageComponentInteraction,
 	InteractionResponseType,
+	ComponentType,
+	ButtonStyle,
+	type APIActionRowComponent,
+	type APIMessageActionRowComponent,
 } from 'discord-api-types/v10';
 import { translateText } from '../../../lib/llm';
 import { scrapeToMarkdown } from '../../../lib/scrape';
@@ -10,12 +14,49 @@ import {
 	deferUpdateInteraction,
 	sendDiscordMessage,
 } from '../../utils';
+import { DISCORD_INTERACTION_BUTTONS } from '../../../types/discord';
 
 const translateButtonExecution = async (
 	env: ServerEnv,
 	interaction: APIMessageComponentInteraction,
 ) => {
+	
 	await deferUpdateInteraction(interaction);
+
+	const messageComponents: APIActionRowComponent<APIMessageActionRowComponent>[] = [
+		{
+			type: ComponentType.ActionRow,
+			components: [
+				{
+					type: ComponentType.Button,
+					style: ButtonStyle.Secondary,
+					label: 'Re-translate',
+					custom_id: DISCORD_INTERACTION_BUTTONS.RE_TRANSLATE,
+				},
+			],
+		},
+	];
+
+	// Check if message has content
+	if (interaction.message.content.length > 0) {
+		// Use message content to translate
+		const content = interaction.message.content;
+
+		const translation = await translateText(env, content);
+
+		if (!translation) {
+			throw new Error('Failed to translate content');
+		}
+
+		await sendDiscordMessage(env, interaction.message.channel_id, {
+			content: translation,
+			message_reference: {
+				message_id: interaction.message.id,
+				channel_id: interaction.message.channel_id,
+			},
+			components: messageComponents,
+		});
+	}
 
 	// Check if message has embed
 	if (interaction.message.embeds.length > 0) {
@@ -44,26 +85,7 @@ const translateButtonExecution = async (
 
 		await sendDiscordMessage(env, thread.id, {
 			content: translation,
-		});
-	}
-
-	// Check if message has content
-	if (interaction.message.content) {
-		// Use message content to translate
-		const content = interaction.message.content;
-
-		const translation = await translateText(env, content);
-
-		if (!translation) {
-			throw new Error('Failed to translate content');
-		}
-
-		await sendDiscordMessage(env, interaction.message.channel_id, {
-			content: translation,
-			message_reference: {
-				message_id: interaction.message.id,
-				channel_id: interaction.message.channel_id,
-			},
+			components: messageComponents,
 		});
 	}
 

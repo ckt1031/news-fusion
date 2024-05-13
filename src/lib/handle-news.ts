@@ -88,7 +88,7 @@ export async function cronCheckNews(env: ServerEnv) {
 											type: ComponentType.Button,
 											style: ButtonStyle.Secondary,
 											label: 'Summarize',
-											custom_id: DISCORD_INTERACTION_BUTTONS.SUMMARIZE,
+											custom_id: DISCORD_INTERACTION_BUTTONS.GENERATE_SUMMARIZE,
 										},
 										{
 											type: ComponentType.Button,

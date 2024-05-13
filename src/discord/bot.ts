@@ -8,6 +8,7 @@ import { Hono } from 'hono';
 import { DISCORD_INTERACTION_BUTTONS } from '../types/discord';
 import summarizeButtonExecution from './interactions/buttons/summarize';
 import translateButtonExecution from './interactions/buttons/translate';
+import { sendDiscordMessage } from './utils';
 import verifyDiscordRequest from './verify-request';
 
 const app = new Hono();
@@ -40,14 +41,24 @@ app.post('/', async (c) => {
 			}
 
 			if (interaction.data.component_type === ComponentType.Button) {
-				// return c.json(await summarizeButtonExecution(c.env, interaction));
-				switch (interaction.data.custom_id) {
-					case DISCORD_INTERACTION_BUTTONS.SUMMARIZE: {
-						return c.json(await summarizeButtonExecution(c.env, interaction));
+				try {
+					switch (interaction.data.custom_id) {
+						case DISCORD_INTERACTION_BUTTONS.GENERATE_SUMMARIZE: {
+							return c.json(await summarizeButtonExecution(c.env, interaction));
+						}
+						case DISCORD_INTERACTION_BUTTONS.TRANSLATE: {
+							return c.json(await translateButtonExecution(c.env, interaction));
+						}
 					}
-					case DISCORD_INTERACTION_BUTTONS.TRANSLATE: {
-						return c.json(await translateButtonExecution(c.env, interaction));
-					}
+				} catch (error) {
+					await sendDiscordMessage(c.env, interaction.channel.id, {
+						content:
+							error instanceof Error ? error.message : 'An error occurred',
+						flags: MessageFlags.Ephemeral,
+						message_reference: {
+							message_id: interaction.message.id,
+						},
+					});
 				}
 			}
 		}

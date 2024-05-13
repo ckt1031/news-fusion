@@ -51,13 +51,15 @@ async function generate(env: ServerEnv, model: string, message: string) {
 }
 
 export async function summarizeText(env: ServerEnv, originalContent: string) {
-	const model = isMostlyChinese(originalContent) ? 'yi-medium' : 'llama3-70b-8192';
+	const model = isMostlyChinese(originalContent)
+		? 'yi-medium'
+		: 'llama3-70b-8192';
 
 	return await generate(env, model, `${summarizePrompt}\n\n${originalContent}`);
 }
 
 export async function translateText(env: ServerEnv, originalContent: string) {
-	const model = isMostlyChinese(originalContent) ? 'command-r-plus' : 'Qwen/Qwen1.5-72B-Chat	';
+	const model = isMostlyChinese(originalContent) ? 'command-r-plus' : 'Qwen/Qwen1.5-72B-Chat';
 
 	return await generate(
 		env,

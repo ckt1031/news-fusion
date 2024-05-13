@@ -67,6 +67,12 @@ const summarizeButtonExecution = async (
 					{
 						type: ComponentType.Button,
 						style: ButtonStyle.Secondary,
+						label: 'Regenerate',
+						custom_id: DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE,
+					},
+					{
+						type: ComponentType.Button,
+						style: ButtonStyle.Secondary,
 						label: 'Translate',
 						custom_id: DISCORD_INTERACTION_BUTTONS.TRANSLATE,
 					},
