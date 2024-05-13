@@ -4,6 +4,7 @@ import summarizePrompt from '../prompts/summarize';
 import translatePrompt from '../prompts/translate';
 import type { ServerEnv } from '../types/env';
 import type { RecursivePartial } from '../types/utils';
+import { isMostlyChinese } from './detect-chinese';
 
 async function generate(env: ServerEnv, model: string, message: string) {
 	const baseURL = env.OPENAI_API_BASE_URL ?? 'https://api.openai.com/v1';
@@ -50,13 +51,17 @@ async function generate(env: ServerEnv, model: string, message: string) {
 }
 
 export async function summarizeText(env: ServerEnv, originalContent: string) {
-	return await generate(env, '', `${summarizePrompt}\n\n${originalContent}`);
+	const model = isMostlyChinese(originalContent) ? 'yi-medium' : 'llama3-70b-8192';
+
+	return await generate(env, model, `${summarizePrompt}\n\n${originalContent}`);
 }
 
 export async function translateText(env: ServerEnv, originalContent: string) {
+	const model = isMostlyChinese(originalContent) ? 'command-r-plus' : 'Qwen/Qwen1.5-72B-Chat	';
+
 	return await generate(
 		env,
-		'command-r-plus',
+		model,
 		`${translatePrompt}\n\n\`\`\`input\n${originalContent}\`\`\``,
 	);
 }

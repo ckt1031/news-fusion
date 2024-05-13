@@ -6,6 +6,7 @@
 		"target": "ESNext",
 		"module": "ESNext",
 		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
 		"lib": ["ESNext"],
 		"types": ["@cloudflare/workers-types"],
 		"strict": true,
