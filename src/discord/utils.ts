@@ -8,12 +8,78 @@ import {
 } from 'discord-api-types/v10';
 import type { ServerEnv } from '../types/env';
 
+const discordAPIBaseURL = 'https://discord.com/api/v10';
+
+export async function getAllMessagesInDiscordChannel(
+	env: ServerEnv,
+	channelId: string,
+	props: {
+		before?: string;
+		after?: string;
+		limit?: number;
+	},
+) {
+	let api = `${discordAPIBaseURL}/channels/${channelId}/messages`;
+
+	// Dynamically create query string
+	const query = new URLSearchParams();
+	if (props.before) query.append('before', props.before);
+	if (props.after) query.append('after', props.after);
+	if (props.limit) query.append('limit', props.limit.toString());
+
+	if (query.toString()) {
+		api += `?${query.toString()}`;
+	}
+
+	const headers = {
+		Authorization: `Bot ${env.DISCORD_BOT_TOKEN}`,
+		'Content-Type': 'application/json',
+	};
+
+	const response = await fetch(api, {
+		method: 'GET',
+		headers,
+	});
+
+	if (!response.ok) {
+		throw new Error(`Failed to send Discord message: ${response.statusText}`);
+	}
+
+	return response.json() as unknown as RESTGetAPIChannelMessageResult[];
+}
+
+export async function editDiscordMessage(
+	env: ServerEnv,
+	channelId: string,
+	messageId: string,
+	messageBody: Partial<RESTPostAPIChannelMessageJSONBody>,
+) {
+	const api = `${discordAPIBaseURL}/channels/${channelId}/messages/${messageId}`;
+	const headers = {
+		Authorization: `Bot ${env.DISCORD_BOT_TOKEN}`,
+		'Content-Type': 'application/json',
+	};
+
+	const body = JSON.stringify(messageBody);
+	const response = await fetch(api, {
+		method: 'PATCH',
+		headers,
+		body,
+	});
+
+	if (!response.ok) {
+		throw new Error(`Failed to send Discord message: ${response.statusText}`);
+	}
+
+	return response.json() as unknown as RESTPostAPIChannelMessageResult;
+}
+
 export async function sendDiscordMessage(
 	env: ServerEnv,
 	channelId: string,
 	messageBody: RESTPostAPIChannelMessageJSONBody,
 ) {
-	const api = `https://discord.com/api/v10/channels/${channelId}/messages`;
+	const api = `${discordAPIBaseURL}/channels/${channelId}/messages`;
 	const headers = {
 		Authorization: `Bot ${env.DISCORD_BOT_TOKEN}`,
 		'Content-Type': 'application/json',
@@ -33,8 +99,12 @@ export async function sendDiscordMessage(
 	return response.json() as unknown as RESTPostAPIChannelMessageResult;
 }
 
-export async function getDiscordMessage(env: ServerEnv, messageId: string) {
-	const api = `https://discord.com/api/v10/channels/${env.DISCORD_RSS_CHANNEL_ID}/messages/${messageId}`;
+export async function getDiscordMessage(
+	env: ServerEnv,
+	channelId: string,
+	messageId: string,
+) {
+	const api = `${discordAPIBaseURL}/channels/${channelId}/messages/${messageId}`;
 	const headers = {
 		Authorization: `Bot ${env.DISCORD_BOT_TOKEN}`,
 		'Content-Type': 'application/json',
@@ -52,7 +122,7 @@ export async function deferUpdateInteraction(
 	interaction: APIMessageComponentInteraction,
 ) {
 	await fetch(
-		`https://discord.com/api/v10/interactions/${interaction.id}/${interaction.token}/callback`,
+		`${discordAPIBaseURL}/interactions/${interaction.id}/${interaction.token}/callback`,
 		{
 			method: 'POST',
 			headers: {
@@ -71,7 +141,7 @@ export async function createDiscordThread(
 	messageId: string,
 	name: string,
 ) {
-	const api = `https://discord.com/api/v10/channels/${channelId}/messages/${messageId}/threads`;
+	const api = `${discordAPIBaseURL}/channels/${channelId}/messages/${messageId}/threads`;
 	const headers = {
 		Authorization: `Bot ${env.DISCORD_BOT_TOKEN}`,
 		'Content-Type': 'application/json',

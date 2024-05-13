@@ -1,41 +1,41 @@
 import {
-	type APIMessageComponentInteraction,
-	InteractionResponseType,
-	ComponentType,
-	ButtonStyle,
 	type APIActionRowComponent,
 	type APIMessageActionRowComponent,
+	type APIMessageComponentInteraction,
+	ButtonStyle,
+	ComponentType,
+	InteractionResponseType,
 } from 'discord-api-types/v10';
 import { translateText } from '../../../lib/llm';
 import { scrapeToMarkdown } from '../../../lib/scrape';
+import { DISCORD_INTERACTION_BUTTONS } from '../../../types/discord';
 import type { ServerEnv } from '../../../types/env';
 import {
 	createDiscordThread,
 	deferUpdateInteraction,
 	sendDiscordMessage,
 } from '../../utils';
-import { DISCORD_INTERACTION_BUTTONS } from '../../../types/discord';
 
 const translateButtonExecution = async (
 	env: ServerEnv,
 	interaction: APIMessageComponentInteraction,
 ) => {
-	
 	await deferUpdateInteraction(interaction);
 
-	const messageComponents: APIActionRowComponent<APIMessageActionRowComponent>[] = [
-		{
-			type: ComponentType.ActionRow,
-			components: [
-				{
-					type: ComponentType.Button,
-					style: ButtonStyle.Secondary,
-					label: 'Re-translate',
-					custom_id: DISCORD_INTERACTION_BUTTONS.RE_TRANSLATE,
-				},
-			],
-		},
-	];
+	const messageComponents: APIActionRowComponent<APIMessageActionRowComponent>[] =
+		[
+			{
+				type: ComponentType.ActionRow,
+				components: [
+					{
+						type: ComponentType.Button,
+						style: ButtonStyle.Secondary,
+						label: 'Re-translate',
+						custom_id: DISCORD_INTERACTION_BUTTONS.RE_TRANSLATE,
+					},
+				],
+			},
+		];
 
 	// Check if message has content
 	if (interaction.message.content.length > 0) {

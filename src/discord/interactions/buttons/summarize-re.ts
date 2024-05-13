@@ -1,20 +1,18 @@
 import {
 	type APIMessageComponentInteraction,
-	ButtonStyle,
 	ComponentType,
 	InteractionResponseType,
 } from 'discord-api-types/v10';
 import { summarizeText } from '../../../lib/llm';
 import { scrapeToMarkdown } from '../../../lib/scrape';
-import { DISCORD_INTERACTION_BUTTONS } from '../../../types/discord';
 import type { ServerEnv } from '../../../types/env';
 import {
-	createDiscordThread,
 	deferUpdateInteraction,
-	sendDiscordMessage,
+	editDiscordMessage,
+	getAllMessagesInDiscordChannel,
 } from '../../utils';
 
-const summarizeButtonExecution = async (
+const reSummarizeButtonExecution = async (
 	env: ServerEnv,
 	interaction: APIMessageComponentInteraction,
 ) => {
@@ -28,9 +26,21 @@ const summarizeButtonExecution = async (
 		throw new Error('Invalid component type');
 	}
 
-	const parentMessage = interaction.message;
+	const allMessagesInThread = await getAllMessagesInDiscordChannel(
+		env,
+		interaction.message.channel_id,
+		{
+			before: interaction.message.id,
+		},
+	);
 
-	if (parentMessage.embeds.length === 0 || !parentMessage.embeds[0].url) {
+	const parentMessage = allMessagesInThread[0].referenced_message;
+
+	if (
+		!parentMessage ||
+		parentMessage.embeds.length === 0 ||
+		!parentMessage.embeds[0].url
+	) {
 		throw new Error('No embeds found');
 	}
 
@@ -44,39 +54,18 @@ const summarizeButtonExecution = async (
 		throw new Error('Failed to summarize content');
 	}
 
-	const thread = await createDiscordThread(
+	await editDiscordMessage(
 		env,
-		env.DISCORD_RSS_CHANNEL_ID,
-		parentMessage.id,
-		'Summary',
+		interaction.message.channel_id,
+		interaction.message.id,
+		{
+			content: text,
+		},
 	);
-
-	await sendDiscordMessage(env, thread.id, {
-		content: text,
-		components: [
-			{
-				type: ComponentType.ActionRow,
-				components: [
-					{
-						type: ComponentType.Button,
-						style: ButtonStyle.Secondary,
-						label: 'Regenerate',
-						custom_id: DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE,
-					},
-					{
-						type: ComponentType.Button,
-						style: ButtonStyle.Secondary,
-						label: 'Translate',
-						custom_id: DISCORD_INTERACTION_BUTTONS.TRANSLATE,
-					},
-				],
-			},
-		],
-	});
 
 	return {
 		type: InteractionResponseType.Pong,
 	};
 };
 
-export default summarizeButtonExecution;
+export default reSummarizeButtonExecution;

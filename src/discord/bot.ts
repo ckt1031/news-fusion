@@ -7,7 +7,9 @@ import {
 import { Hono } from 'hono';
 import { DISCORD_INTERACTION_BUTTONS } from '../types/discord';
 import summarizeButtonExecution from './interactions/buttons/summarize';
+import reSummarizeButtonExecution from './interactions/buttons/summarize-re';
 import translateButtonExecution from './interactions/buttons/translate';
+import reTranslateButtonExecution from './interactions/buttons/translate-re';
 import { sendDiscordMessage } from './utils';
 import verifyDiscordRequest from './verify-request';
 
@@ -46,8 +48,18 @@ app.post('/', async (c) => {
 						case DISCORD_INTERACTION_BUTTONS.GENERATE_SUMMARIZE: {
 							return c.json(await summarizeButtonExecution(c.env, interaction));
 						}
+						case DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE: {
+							return c.json(
+								await reSummarizeButtonExecution(c.env, interaction),
+							);
+						}
 						case DISCORD_INTERACTION_BUTTONS.TRANSLATE: {
 							return c.json(await translateButtonExecution(c.env, interaction));
+						}
+						case DISCORD_INTERACTION_BUTTONS.RE_TRANSLATE: {
+							return c.json(
+								await reTranslateButtonExecution(c.env, interaction),
+							);
 						}
 					}
 				} catch (error) {

@@ -59,7 +59,9 @@ export async function summarizeText(env: ServerEnv, originalContent: string) {
 }
 
 export async function translateText(env: ServerEnv, originalContent: string) {
-	const model = isMostlyChinese(originalContent) ? 'command-r-plus' : 'Qwen/Qwen1.5-72B-Chat';
+	const model = isMostlyChinese(originalContent)
+		? 'command-r-plus'
+		: 'Qwen/Qwen1.5-110B-Chat';
 
 	return await generate(
 		env,
