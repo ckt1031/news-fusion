@@ -1,4 +1,4 @@
-import { clearUnused } from './lib/db';
+import { clearUnusedDatabaseData } from './lib/db';
 import { cronCheckNews } from './lib/handle-news';
 import { initSentry } from './lib/sentry';
 import app from './server';
@@ -27,7 +27,7 @@ export default {
 
 		// Every 2 days
 		if (event.cron === '0 0 */2 * *') {
-			ctx.waitUntil(clearUnused(env).catch(handleCrash));
+			ctx.waitUntil(clearUnusedDatabaseData(env).catch(handleCrash));
 		}
 	},
 	async fetch(request: Request, env: ServerEnv) {

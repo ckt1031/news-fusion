@@ -7,7 +7,7 @@ export function getDB(db: D1Database) {
 	return drizzle(db, { schema });
 }
 
-export async function clearUnused(env: ServerEnv) {
+export async function clearUnusedDatabaseData(env: ServerEnv) {
 	const db = getDB(env.D1);
 
 	// Delete articles that are 7 days old
