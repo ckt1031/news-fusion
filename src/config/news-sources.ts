@@ -3,12 +3,12 @@ export enum RSS_CATEGORY {
 	WEATHER = 'weather',
 }
 
-export const RSS_LINKS = {
+export const AI_FILTER_RSS_LINKS = {
 	[RSS_CATEGORY.TECH]: [
 		// The Verge
 		'https://www.theverge.com/tech/rss/index.xml',
 		// TechCrunch
-		'https://techcrunch.com/feed/',
+		// 'https://techcrunch.com/feed/',
 	],
 };
 

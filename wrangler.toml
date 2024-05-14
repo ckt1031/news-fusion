@@ -11,7 +11,7 @@ mode = "smart"
 [triggers]
 # Schedule cron triggers:
 # - At every 5th minute
-crons = [ "*/5 * * * *" ]
+crons = [ "*/5 * * * *", "0 0 */2 * *" ]
 
 [[d1_databases]]
 binding = "D1" # i.e. available in your Worker on env.DB

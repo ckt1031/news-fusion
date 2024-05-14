@@ -9,7 +9,6 @@ export const articles = sqliteTable('articles', {
 
 	guid: text('guid').notNull(),
 
-	// Unix Timestamp
 	publishedAt: integer('publishedAt').notNull(),
 
 	importantEnough: integer('id', { mode: 'boolean' }).notNull(),
