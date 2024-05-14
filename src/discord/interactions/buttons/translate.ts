@@ -11,10 +11,10 @@ import { scrapeToMarkdown } from '../../../lib/scrape';
 import { DISCORD_INTERACTION_BUTTONS } from '../../../types/discord';
 import type { ServerEnv } from '../../../types/env';
 import {
-	createDiscordThread,
 	createNewsInfoDiscordThread,
 	deferUpdateInteraction,
-	sendDiscordMessage,
+	deleteThreadCreatedMessage,
+	discordMessage,
 } from '../../utils';
 
 const translateButtonExecution = async (
@@ -49,13 +49,18 @@ const translateButtonExecution = async (
 			throw new Error('Failed to translate content');
 		}
 
-		await sendDiscordMessage(env, interaction.message.channel_id, {
-			content: translation,
-			message_reference: {
-				message_id: interaction.message.id,
-				channel_id: interaction.message.channel_id,
+		await discordMessage({
+			env,
+			method: 'POST',
+			channelId: interaction.message.channel_id,
+			body: {
+				content: translation,
+				message_reference: {
+					message_id: interaction.message.id,
+					channel_id: interaction.message.channel_id,
+				},
+				components: messageComponents,
 			},
-			components: messageComponents,
 		});
 	}
 
@@ -79,10 +84,17 @@ const translateButtonExecution = async (
 		// Send to thread
 		const thread = await createNewsInfoDiscordThread(env, interaction);
 
-		await sendDiscordMessage(env, thread.id, {
-			content: translation,
-			components: messageComponents,
+		await discordMessage({
+			env,
+			method: 'POST',
+			channelId: thread.id,
+			body: {
+				content: translation,
+				components: messageComponents,
+			},
 		});
+
+		await deleteThreadCreatedMessage(env, interaction.message.channel_id);
 	}
 
 	return {

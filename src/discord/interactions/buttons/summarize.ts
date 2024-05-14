@@ -9,10 +9,10 @@ import { scrapeToMarkdown } from '../../../lib/scrape';
 import { DISCORD_INTERACTION_BUTTONS } from '../../../types/discord';
 import type { ServerEnv } from '../../../types/env';
 import {
-	createDiscordThread,
 	createNewsInfoDiscordThread,
 	deferUpdateInteraction,
-	sendDiscordMessage,
+	deleteThreadCreatedMessage,
+	discordMessage,
 } from '../../utils';
 
 const summarizeButtonExecution = async (
@@ -39,28 +39,35 @@ const summarizeButtonExecution = async (
 
 	const thread = await createNewsInfoDiscordThread(env, interaction);
 
-	await sendDiscordMessage(env, thread.id, {
-		content: text,
-		components: [
-			{
-				type: ComponentType.ActionRow,
-				components: [
-					{
-						type: ComponentType.Button,
-						style: ButtonStyle.Secondary,
-						label: 'Regenerate',
-						custom_id: DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE,
-					},
-					{
-						type: ComponentType.Button,
-						style: ButtonStyle.Secondary,
-						label: 'Translate',
-						custom_id: DISCORD_INTERACTION_BUTTONS.TRANSLATE,
-					},
-				],
-			},
-		],
+	await discordMessage({
+		env,
+		method: 'POST',
+		channelId: thread.id,
+		body: {
+			content: text,
+			components: [
+				{
+					type: ComponentType.ActionRow,
+					components: [
+						{
+							type: ComponentType.Button,
+							style: ButtonStyle.Secondary,
+							label: 'Regenerate',
+							custom_id: DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE,
+						},
+						{
+							type: ComponentType.Button,
+							style: ButtonStyle.Secondary,
+							label: 'Translate',
+							custom_id: DISCORD_INTERACTION_BUTTONS.TRANSLATE,
+						},
+					],
+				},
+			],
+		},
 	});
+
+	await deleteThreadCreatedMessage(env, parentMessage.channel_id);
 
 	return {
 		type: InteractionResponseType.Pong,

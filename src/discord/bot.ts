@@ -10,7 +10,7 @@ import summarizeButtonExecution from './interactions/buttons/summarize';
 import reSummarizeButtonExecution from './interactions/buttons/summarize-re';
 import translateButtonExecution from './interactions/buttons/translate';
 import reTranslateButtonExecution from './interactions/buttons/translate-re';
-import { sendDiscordMessage } from './utils';
+import { discordMessage } from './utils';
 import verifyDiscordRequest from './verify-request';
 
 const app = new Hono();
@@ -64,12 +64,17 @@ app.post('/', async (c) => {
 					}
 				} catch (error) {
 					console.error(error);
-					await sendDiscordMessage(c.env, interaction.channel.id, {
-						content:
-							error instanceof Error ? error.message : 'An error occurred',
-						flags: MessageFlags.Ephemeral,
-						message_reference: {
-							message_id: interaction.message.id,
+					await discordMessage({
+						env: c.env,
+						channelId: interaction.channel.id,
+						method: 'POST',
+						body: {
+							content:
+								error instanceof Error ? error.message : 'An error occurred',
+							flags: MessageFlags.Ephemeral,
+							message_reference: {
+								message_id: interaction.message.id,
+							},
 						},
 					});
 				}

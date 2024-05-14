@@ -10,7 +10,7 @@ import type { InteractionExecution } from '../../../types/discord';
 import type { ServerEnv } from '../../../types/env';
 import {
 	deferUpdateInteraction,
-	editDiscordMessage,
+	discordMessage,
 	getAllMessagesInDiscordChannel,
 } from '../../utils';
 
@@ -51,14 +51,16 @@ const reSummarizeButtonExecution = async (
 		throw new Error('Failed to summarize content');
 	}
 
-	await editDiscordMessage(
+	// Edit the message with the new summarized text
+	await discordMessage({
 		env,
-		interaction.message.channel_id,
-		interaction.message.id,
-		{
+		method: 'PATCH',
+		channelId: interaction.message.channel_id,
+		messageId: interaction.message.id,
+		body: {
 			content: text,
 		},
-	);
+	});
 
 	return {
 		type: InteractionResponseType.Pong,

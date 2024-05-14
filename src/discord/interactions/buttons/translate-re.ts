@@ -8,9 +8,8 @@ import { scrapeToMarkdown } from '../../../lib/scrape';
 import type { ServerEnv } from '../../../types/env';
 import {
 	deferUpdateInteraction,
-	editDiscordMessage,
+	discordMessage,
 	getAllMessagesInDiscordChannel,
-	getDiscordMessage,
 } from '../../utils';
 
 const reTranslateButtonExecution = async (
@@ -22,11 +21,12 @@ const reTranslateButtonExecution = async (
 	let content = '';
 
 	const refMsg = (
-		await getDiscordMessage(
+		await discordMessage({
 			env,
-			interaction.message.channel_id,
-			interaction.message.id,
-		)
+			method: 'GET',
+			channelId: interaction.message.channel_id,
+			messageId: interaction.message.id,
+		})
 	).referenced_message;
 
 	if (refMsg) {
@@ -65,14 +65,16 @@ const reTranslateButtonExecution = async (
 		throw new Error('Failed to translate content');
 	}
 
-	await editDiscordMessage(
+	// Edit the message with the new translated text
+	await discordMessage({
 		env,
-		interaction.message.channel_id,
-		interaction.message.id,
-		{
+		method: 'PATCH',
+		channelId: interaction.message.channel_id,
+		messageId: interaction.message.id,
+		body: {
 			content: translation,
 		},
-	);
+	});
 
 	return {
 		type: InteractionResponseType.Pong,
