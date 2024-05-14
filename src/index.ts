@@ -1,5 +1,5 @@
 import { clearUnusedDatabaseData } from './lib/db';
-import { cronCheckNews } from './lib/handle-news';
+import { checkNews } from './lib/news';
 import { initSentry } from './lib/sentry';
 import app from './server';
 import type { ServerEnv } from './types/env';
@@ -22,7 +22,11 @@ export default {
 
 		// Every 5 minutes
 		if (event.cron === '*/5 * * * *') {
-			ctx.waitUntil(cronCheckNews(env).catch(handleCrash));
+			ctx.waitUntil(
+				checkNews(env, {
+					doNotCheckAiFilter: true,
+				}).catch(handleCrash),
+			);
 		}
 
 		// Every 2 days

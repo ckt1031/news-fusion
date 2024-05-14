@@ -2,37 +2,18 @@ import dayjs from 'dayjs';
 import { ButtonStyle, ComponentType } from 'discord-api-types/v10';
 import { nanoid } from 'nanoid';
 import pickRandom from 'pick-random';
-import removeTrailingSlash from 'remove-trailing-slash';
 import {
 	EARLIEST_DAYS,
 	MUST_READ_RSS_LIST,
 	type RSS_CATEGORY,
-} from '../config/news-sources';
-import { type NewArticle, articles } from '../db/schema';
-import { sendDiscordMessage } from '../discord/utils';
-import { DISCORD_INTERACTION_BUTTONS } from '../types/discord';
-import type { ServerEnv } from '../types/env';
-import { getDB } from './db';
-import { parseRSS } from './parse-news';
+} from '../../config/news-sources';
+import { sendDiscordMessage } from '../../discord/utils';
+import { DISCORD_INTERACTION_BUTTONS } from '../../types/discord';
+import type { ServerEnv } from '../../types/env';
+import { checkIfNewsIsNew, createArticleDatabase } from '../db';
+import { parseRSS } from '../parse-news';
 
-export async function checkIfNewsIsNew(env: ServerEnv, guid: string) {
-	const db = getDB(env.D1);
-
-	const result = await db.query.articles.findFirst({
-		// with: { url },
-		where: (d, { eq }) => eq(d.guid, removeTrailingSlash(guid)),
-	});
-
-	return !result;
-}
-
-export async function createArticleDatabase(env: ServerEnv, data: NewArticle) {
-	const db = getDB(env.D1);
-
-	await db.insert(articles).values(data);
-}
-
-export async function cronCheckNews(env: ServerEnv) {
+export default async function checkMustRead(env: ServerEnv) {
 	// Handle Must Read RSS
 	for (const rssCategory of Object.keys(MUST_READ_RSS_LIST)) {
 		// Pick a random RSS from the list
