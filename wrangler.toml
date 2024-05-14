@@ -5,6 +5,12 @@ compatibility_flags = ["nodejs_compat"]
 
 dev.port = 8787
 
+routes = [
+	{ pattern = "news-bot.ckt1031.xyz", custom_domain = true }
+]
+
+workers_dev = false
+
 [placement]
 mode = "smart"
 
