@@ -17,18 +17,21 @@ async function baseReqeust<T>(prop: {
 	method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
 	body?: unknown;
 }): Promise<T> {
-	console.log(`Sending request to ${prop.api} with method ${prop.method}`, prop.body);
+	console.log(
+		`Sending request to ${prop.api} with method ${prop.method}`,
+		prop.body,
+	);
 
 	const headers = {
 		// Set Authorization header if env is provided, some API like Interaction Callback doesn't need Authorization header
 		...(prop.env ? { Authorization: `Bot ${prop.env.DISCORD_BOT_TOKEN}` } : {}),
 		'Content-Type': 'application/json',
 	};
-	
+
 	const response = await fetch(prop.api, {
 		method: prop.method,
 		headers,
-		...(prop.body ? { body: JSON.stringify(prop.body) } : {})
+		...(prop.body ? { body: JSON.stringify(prop.body) } : {}),
 	});
 
 	if (!response.ok) {
@@ -43,9 +46,9 @@ async function baseReqeust<T>(prop: {
 
 		throw new Error(`Failed to send Discord message: ${response.statusText}`);
 	}
-	
+
 	try {
-		return await response.json() as unknown as T;
+		return (await response.json()) as unknown as T;
 	} catch {
 		return {} as unknown as T;
 	}
