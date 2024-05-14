@@ -63,9 +63,16 @@ export async function translateText(env: ServerEnv, originalContent: string) {
 	// 	? 'command-r-plus'
 	// 	: 'Qwen/Qwen1.5-110B-Chat';
 
-	return await generate(
+	const content = await generate(
 		env,
 		'command-r-plus',
 		`${translatePrompt}\n\n\`\`\`input\n${originalContent}\`\`\``,
 	);
+
+	if (!content) {
+		throw new Error('Failed to translate content');
+	}
+
+	// Use ... if the content is too long, 1900 is the limit
+	return content.length > 1900 ? `${content.slice(0, 1900)}...` : content;
 }

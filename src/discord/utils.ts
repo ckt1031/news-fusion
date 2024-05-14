@@ -13,7 +13,7 @@ const discordAPIBaseURL = 'https://discord.com/api/v10';
 export async function getAllMessagesInDiscordChannel(
 	env: ServerEnv,
 	channelId: string,
-	props: {
+	props?: {
 		before?: string;
 		after?: string;
 		limit?: number;
@@ -23,9 +23,9 @@ export async function getAllMessagesInDiscordChannel(
 
 	// Dynamically create query string
 	const query = new URLSearchParams();
-	if (props.before) query.append('before', props.before);
-	if (props.after) query.append('after', props.after);
-	if (props.limit) query.append('limit', props.limit.toString());
+	if (props?.before) query.append('before', props.before);
+	if (props?.after) query.append('after', props.after);
+	if (props?.limit) query.append('limit', props.limit.toString());
 
 	if (query.toString()) {
 		api += `?${query.toString()}`;
@@ -85,11 +85,10 @@ export async function sendDiscordMessage(
 		'Content-Type': 'application/json',
 	};
 
-	const body = JSON.stringify(messageBody);
 	const response = await fetch(api, {
 		method: 'POST',
 		headers,
-		body,
+		body: JSON.stringify(messageBody),
 	});
 
 	if (!response.ok) {
@@ -155,8 +154,27 @@ export async function createDiscordThread(
 	});
 
 	if (!response.ok) {
-		throw new Error(`Failed to get Discord message: ${response.statusText}`);
+		throw new Error(`Failed to create Thread: ${response.statusText}`);
 	}
 
 	return response.json() as unknown as RESTGetAPIChannelResult;
+}
+
+export async function createNewsInfoDiscordThread(
+	env: ServerEnv,
+	interaction: APIMessageComponentInteraction,
+) {
+	// Check if message has a thread
+	if (interaction.message.thread) {
+		return interaction.message.thread;
+	}
+
+	const thread = await createDiscordThread(
+		env,
+		env.DISCORD_RSS_CHANNEL_ID,
+		interaction.message.id,
+		'Article Info',
+	);
+
+	return thread;
 }

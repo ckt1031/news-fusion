@@ -63,6 +63,7 @@ app.post('/', async (c) => {
 						}
 					}
 				} catch (error) {
+					console.error(error);
 					await sendDiscordMessage(c.env, interaction.channel.id, {
 						content:
 							error instanceof Error ? error.message : 'An error occurred',

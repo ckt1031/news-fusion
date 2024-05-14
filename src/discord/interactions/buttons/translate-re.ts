@@ -1,6 +1,7 @@
 import {
 	type APIMessageComponentInteraction,
 	InteractionResponseType,
+	MessageType,
 } from 'discord-api-types/v10';
 import { translateText } from '../../../lib/llm';
 import { scrapeToMarkdown } from '../../../lib/scrape';
@@ -40,7 +41,10 @@ const reTranslateButtonExecution = async (
 			},
 		);
 
-		const parentMessage = allMessagesInThread[0].referenced_message;
+		// Find one that message.type === MessageType.ThreadStarterMessage
+		const parentMessage = allMessagesInThread.find(
+			(msg) => msg.type === MessageType.ThreadStarterMessage,
+		)?.referenced_message;
 
 		if (
 			!parentMessage ||

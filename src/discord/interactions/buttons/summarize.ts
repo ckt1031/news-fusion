@@ -10,6 +10,7 @@ import { DISCORD_INTERACTION_BUTTONS } from '../../../types/discord';
 import type { ServerEnv } from '../../../types/env';
 import {
 	createDiscordThread,
+	createNewsInfoDiscordThread,
 	deferUpdateInteraction,
 	sendDiscordMessage,
 } from '../../utils';
@@ -44,12 +45,7 @@ const summarizeButtonExecution = async (
 		throw new Error('Failed to summarize content');
 	}
 
-	const thread = await createDiscordThread(
-		env,
-		env.DISCORD_RSS_CHANNEL_ID,
-		parentMessage.id,
-		'Summary',
-	);
+	const thread = await createNewsInfoDiscordThread(env, interaction);
 
 	await sendDiscordMessage(env, thread.id, {
 		content: text,

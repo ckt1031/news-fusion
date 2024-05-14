@@ -12,6 +12,7 @@ const prompt = `## Task: Text Summarization
 - Use < > to quote links in your summary, except for single YouTube video links, which should be left as is. 
 - The summary must be shorter than 2000 characters, to ensure it can be sent in a single Discord message.
 - For links, never include any images, videos, or other embedded content in the summary.
+- Never include any format that is not for Discord Message (e.g., HTML).
 
 Please await further user instructions to receive the text that needs to be summarized. Once received, follow the above guidelines to provide a structured and clear summary.
 

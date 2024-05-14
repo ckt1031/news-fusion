@@ -1,6 +1,7 @@
 import { sentry } from '@hono/sentry';
 import { Hono } from 'hono';
 import discordBot from '../discord/bot';
+import { cronCheckNews } from '../lib/handle-news';
 import { initSentry } from '../lib/sentry';
 import type { ServerEnv } from '../types/env';
 
@@ -12,17 +13,26 @@ app.get('/', (c) => {
 	return c.text('Hey Here!');
 });
 
+app.get('/cron', async (c) => {
+	await cronCheckNews(c.env);
+	return c.text('OK!');
+});
+
+app.get('/cron', (c) => {
+	return c.text('Hey Here!');
+});
+
 app.route('/discord', discordBot);
 
-app.onError((e, c) => {
-	if (c.env.SENTRY_DSN && c.env.SENTRY_DSN.length > 0) {
-		const sentry = initSentry(c.env.SENTRY_DSN, c.executionCtx);
-		sentry.captureException(e);
-	}
+// app.onError((e, c) => {
+// 	if (c.env.SENTRY_DSN && c.env.SENTRY_DSN.length > 0) {
+// 		const sentry = initSentry(c.env.SENTRY_DSN, c.executionCtx);
+// 		sentry.captureException(e);
+// 	}
 
-	console.error(e);
+// 	console.error(e);
 
-	return c.text('Internal Server Error', 500);
-});
+// 	return c.text('Internal Server Error', 500);
+// });
 
 export default app;
