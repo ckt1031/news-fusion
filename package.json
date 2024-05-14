@@ -20,7 +20,7 @@
 		"hono": "^4.3.6",
 		"html-entities": "^2.5.2",
 		"nanoid": "^5.0.7",
-		"openai": "^4.45.0",
+		"openai": "^4.46.1",
 		"pick-random": "^4.0.0",
 		"remove-trailing-slash": "^0.1.1",
 		"toucan-js": "^3.4.0",
@@ -29,11 +29,10 @@
 	"devDependencies": {
 		"@biomejs/biome": "1.7.3",
 		"@cloudflare/workers-types": "latest",
-		"@types/node": "^20.12.11",
+		"@types/node": "^20.12.12",
 		"drizzle-kit": "^0.21.1",
 		"typescript": "5.4.5",
 		"wrangler": "latest",
 		"@types/bun": "latest"
-	},
-	"module": "index.ts"
+	}
 }

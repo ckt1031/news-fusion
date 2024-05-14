@@ -21,14 +21,6 @@ const summarizeButtonExecution = async (
 ) => {
 	await deferUpdateInteraction(interaction);
 
-	if (!interaction.data) {
-		throw new Error('No data provided');
-	}
-
-	if (interaction.data.component_type !== ComponentType.Button) {
-		throw new Error('Invalid component type');
-	}
-
 	const parentMessage = interaction.message;
 
 	if (parentMessage.embeds.length === 0 || !parentMessage.embeds[0].url) {

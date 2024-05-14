@@ -6,6 +6,7 @@ import {
 } from 'discord-api-types/v10';
 import { summarizeText } from '../../../lib/llm';
 import { scrapeToMarkdown } from '../../../lib/scrape';
+import type { InteractionExecution } from '../../../types/discord';
 import type { ServerEnv } from '../../../types/env';
 import {
 	deferUpdateInteraction,
@@ -15,17 +16,9 @@ import {
 
 const reSummarizeButtonExecution = async (
 	env: ServerEnv,
-	interaction: APIMessageComponentInteraction,
+	interaction: InteractionExecution,
 ) => {
 	await deferUpdateInteraction(interaction);
-
-	if (!interaction.data) {
-		throw new Error('No data provided');
-	}
-
-	if (interaction.data.component_type !== ComponentType.Button) {
-		throw new Error('Invalid component type');
-	}
 
 	const allMessagesInThread = await getAllMessagesInDiscordChannel(
 		env,
