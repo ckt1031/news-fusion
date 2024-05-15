@@ -1,9 +1,9 @@
 import { XMLParser } from 'fast-xml-parser';
-import { decode } from 'html-entities';
-import removeTrailingSlash from 'remove-trailing-slash';
+import { decode as decodeHtmlEntities } from 'html-entities';
 import { z } from 'zod';
 import { NEWS_MINIMALIST_API } from '../config/news-sources';
 import { NewsMinimalistResponse } from '../types/news-minimalist';
+import removeTrailingSlash from './remove-trailing-slash';
 
 export async function getNewsMinimalistList() {
 	const response = await fetch(NEWS_MINIMALIST_API);
@@ -22,7 +22,7 @@ export async function parseRSS(url: string) {
 	const data = parser.parse(xmlData);
 
 	const rssFeedItemSchema = z.object({
-		title: z.string().transform((title) => decode(title)),
+		title: z.string().transform((title) => decodeHtmlEntities(title)),
 		link: z.string().transform(removeTrailingSlash),
 		pubDate: z.string().transform((date) => new Date(date).toISOString()),
 		guid: z
@@ -56,7 +56,7 @@ export async function parseRSS(url: string) {
 				.transform((title) =>
 					typeof title === 'object' ? title['#text'] : title,
 				)
-				.transform((title) => decode(title)),
+				.transform((title) => decodeHtmlEntities(title)),
 			id: z.string().transform(removeTrailingSlash),
 			entry: z
 				.object({
@@ -68,7 +68,7 @@ export async function parseRSS(url: string) {
 						.transform((title) =>
 							typeof title === 'object' ? title['#text'] : title,
 						)
-						.transform((title) => decode(title)),
+						.transform((title) => decodeHtmlEntities(title)),
 					updated: z.string().transform((date) => new Date(date).toISOString()),
 				})
 				.array(),

@@ -6,6 +6,7 @@ import {
 	type RESTGetAPIChannelMessageResult,
 	type RESTPostAPIChannelMessageResult,
 } from 'discord-api-types/v10';
+import { generateTitle } from '../lib/llm';
 import type { DiscordMessageProp } from '../types/discord';
 import type { ServerEnv } from '../types/env';
 
@@ -133,17 +134,27 @@ export async function createDiscordThread(
 export async function createNewsInfoDiscordThread(
 	env: ServerEnv,
 	interaction: APIMessageComponentInteraction,
+	content: string,
 ) {
 	// Check if message has a thread
 	if (interaction.message.thread) {
 		return interaction.message.thread;
 	}
 
+	let title = await generateTitle(env, content);
+
+	if (!title) {
+		title = 'Article Info';
+	} else if (title.length > 100) {
+		// Safe guard for title length
+		title = title.slice(0, 100);
+	}
+
 	const thread = await createDiscordThread(
 		env,
 		env.DISCORD_RSS_CHANNEL_ID,
 		interaction.message.id,
-		'Article Info',
+		title,
 	);
 
 	return thread;

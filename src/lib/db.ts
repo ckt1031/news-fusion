@@ -1,9 +1,9 @@
 import { lt } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
-import removeTrailingSlash from 'remove-trailing-slash';
 import * as schema from '../db/schema';
 import type { NewArticle } from '../db/schema';
 import type { ServerEnv } from '../types/env';
+import removeTrailingSlash from './remove-trailing-slash';
 
 export function getDB(db: D1Database) {
 	return drizzle(db, { schema });

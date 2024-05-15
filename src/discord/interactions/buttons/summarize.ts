@@ -37,7 +37,7 @@ const summarizeButtonExecution = async (
 		throw new Error('Failed to summarize content');
 	}
 
-	const thread = await createNewsInfoDiscordThread(env, interaction);
+	const thread = await createNewsInfoDiscordThread(env, interaction, text);
 
 	await discordMessage({
 		env,

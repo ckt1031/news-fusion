@@ -82,7 +82,11 @@ const translateButtonExecution = async (
 		}
 
 		// Send to thread
-		const thread = await createNewsInfoDiscordThread(env, interaction);
+		const thread = await createNewsInfoDiscordThread(
+			env,
+			interaction,
+			translation,
+		);
 
 		await discordMessage({
 			env,

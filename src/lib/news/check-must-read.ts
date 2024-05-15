@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import { ButtonStyle, ComponentType } from 'discord-api-types/v10';
 import { nanoid } from 'nanoid';
-import pickRandom from 'pick-random';
 import {
 	EARLIEST_DAYS,
 	MUST_READ_RSS_LIST,
@@ -12,6 +11,7 @@ import { DISCORD_INTERACTION_BUTTONS } from '../../types/discord';
 import type { ServerEnv } from '../../types/env';
 import { checkIfNewsIsNew, createArticleDatabase } from '../db';
 import { parseRSS } from '../parse-news';
+import pickRandom from '../pick-random';
 
 export default async function checkMustRead(env: ServerEnv) {
 	// Handle Must Read RSS
@@ -23,9 +23,7 @@ export default async function checkMustRead(env: ServerEnv) {
 		const rssList =
 			MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY].length > 3
 				? env.D1
-					? pickRandom(MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY], {
-							count: 3,
-						})
+					? pickRandom(MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY], 3)
 					: MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY]
 				: MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY];
 

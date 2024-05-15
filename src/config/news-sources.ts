@@ -18,7 +18,7 @@ export const MUST_READ_RSS_LIST: Record<RSS_CATEGORY, string[]> = {
 		'https://blog.google/rss',
 		'https://github.com/blog/all.atom',
 		'https://vercel.com/atom',
-		'https://feeds.appinn.com/appinns/',
+		'https://feeds.appinn.com/appinns',
 		'https://weekly.tw93.fun/rss.xml',
 		'https://feeds.feedburner.com/ruanyifeng',
 	],
