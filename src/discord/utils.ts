@@ -6,6 +6,7 @@ import {
 	type RESTGetAPIChannelMessageResult,
 	type RESTPostAPIChannelMessageResult,
 } from 'discord-api-types/v10';
+import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 import { generateTitle } from '../lib/llm';
 import type { DiscordMessageProp } from '../types/discord';
 import type { ServerEnv } from '../types/env';
@@ -178,4 +179,19 @@ export async function deleteThreadCreatedMessage(
 			messageId: message.id,
 		});
 	}
+}
+
+export async function discordTextSplit(text: string): Promise<string[]> {
+	if (text.length < 1990) {
+		return [text];
+	}
+
+	const splitter = RecursiveCharacterTextSplitter.fromLanguage('markdown', {
+		chunkSize: 1500,
+		chunkOverlap: 0,
+	});
+
+	const output = await splitter.createDocuments([text]);
+
+	return output.map((doc) => doc.pageContent);
 }

@@ -6,10 +6,10 @@ import {
 } from 'discord-api-types/v10';
 import { Hono } from 'hono';
 import { DISCORD_INTERACTION_BUTTONS } from '../types/discord';
-import summarizeButtonExecution from './interactions/buttons/summarize';
 import reSummarizeButtonExecution from './interactions/buttons/re-summarize';
-import translateButtonExecution from './interactions/buttons/translate';
 import reTranslateButtonExecution from './interactions/buttons/re-translate';
+import summarizeButtonExecution from './interactions/buttons/summarize';
+import translateButtonExecution from './interactions/buttons/translate';
 import { discordMessage } from './utils';
 import verifyDiscordRequest from './verify-request';
 

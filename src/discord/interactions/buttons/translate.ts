@@ -15,6 +15,7 @@ import {
 	deferUpdateInteraction,
 	deleteThreadCreatedMessage,
 	discordMessage,
+	discordTextSplit,
 } from '../../utils';
 
 const translateButtonExecution = async (
@@ -81,6 +82,8 @@ const translateButtonExecution = async (
 			throw new Error('Failed to translate content');
 		}
 
+		const chunks = await discordTextSplit(translation);
+
 		// Send to thread
 		const thread = await createNewsInfoDiscordThread(
 			env,
@@ -88,15 +91,20 @@ const translateButtonExecution = async (
 			translation,
 		);
 
-		await discordMessage({
-			env,
-			method: 'POST',
-			channelId: thread.id,
-			body: {
-				content: translation,
-				components: messageComponents,
-			},
-		});
+		for (const chunk of chunks) {
+			const isOnlyOne = chunks.length === 1;
+
+			await discordMessage({
+				env,
+				method: 'POST',
+				channelId: thread.id,
+				body: {
+					content: chunk,
+					// Idk how to handle multiple messages sent later
+					components: isOnlyOne ? messageComponents : [],
+				},
+			});
+		}
 
 		await deleteThreadCreatedMessage(env, interaction.message.channel_id);
 	}

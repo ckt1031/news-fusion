@@ -1,4 +1,6 @@
 import {
+	type APIActionRowComponent,
+	type APIMessageActionRowComponent,
 	type APIMessageComponentInteraction,
 	ButtonStyle,
 	ComponentType,
@@ -13,6 +15,7 @@ import {
 	deferUpdateInteraction,
 	deleteThreadCreatedMessage,
 	discordMessage,
+	discordTextSplit,
 } from '../../utils';
 
 const summarizeButtonExecution = async (
@@ -37,35 +40,44 @@ const summarizeButtonExecution = async (
 		throw new Error('Failed to summarize content');
 	}
 
+	const chunks = await discordTextSplit(text);
+
 	const thread = await createNewsInfoDiscordThread(env, interaction, text);
 
-	await discordMessage({
-		env,
-		method: 'POST',
-		channelId: thread.id,
-		body: {
-			content: text,
+	const components: APIActionRowComponent<APIMessageActionRowComponent>[] = [
+		{
+			type: ComponentType.ActionRow,
 			components: [
 				{
-					type: ComponentType.ActionRow,
-					components: [
-						{
-							type: ComponentType.Button,
-							style: ButtonStyle.Secondary,
-							label: 'Regenerate',
-							custom_id: DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE,
-						},
-						{
-							type: ComponentType.Button,
-							style: ButtonStyle.Secondary,
-							label: 'Translate',
-							custom_id: DISCORD_INTERACTION_BUTTONS.TRANSLATE,
-						},
-					],
+					type: ComponentType.Button,
+					style: ButtonStyle.Secondary,
+					label: 'Regenerate',
+					custom_id: DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE,
+				},
+				{
+					type: ComponentType.Button,
+					style: ButtonStyle.Secondary,
+					label: 'Translate',
+					custom_id: DISCORD_INTERACTION_BUTTONS.TRANSLATE,
 				},
 			],
 		},
-	});
+	];
+
+	for (const chunk of chunks) {
+		const isOnlyOne = chunks.length === 1;
+
+		await discordMessage({
+			env,
+			method: 'POST',
+			channelId: thread.id,
+			body: {
+				content: chunk,
+				// Idk how to handle multiple messages sent later
+				components: isOnlyOne ? components : [],
+			},
+		});
+	}
 
 	await deleteThreadCreatedMessage(env, parentMessage.channel_id);
 
