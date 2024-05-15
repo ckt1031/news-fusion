@@ -1,9 +1,4 @@
-import {
-	type APIMessageComponentInteraction,
-	ComponentType,
-	InteractionResponseType,
-	MessageType,
-} from 'discord-api-types/v10';
+import { InteractionResponseType, MessageType } from 'discord-api-types/v10';
 import { summarizeText } from '../../../lib/llm';
 import { scrapeToMarkdown } from '../../../lib/scrape';
 import type { InteractionExecution } from '../../../types/discord';
