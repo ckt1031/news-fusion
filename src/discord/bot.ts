@@ -7,9 +7,9 @@ import {
 import { Hono } from 'hono';
 import { DISCORD_INTERACTION_BUTTONS } from '../types/discord';
 import summarizeButtonExecution from './interactions/buttons/summarize';
-import reSummarizeButtonExecution from './interactions/buttons/summarize-re';
+import reSummarizeButtonExecution from './interactions/buttons/re-summarize';
 import translateButtonExecution from './interactions/buttons/translate';
-import reTranslateButtonExecution from './interactions/buttons/translate-re';
+import reTranslateButtonExecution from './interactions/buttons/re-translate';
 import { discordMessage } from './utils';
 import verifyDiscordRequest from './verify-request';
 
