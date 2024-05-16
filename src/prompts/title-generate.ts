@@ -9,6 +9,11 @@ You are an expert news editor skilled at creating concise, engaging headlines. G
 5. Prioritize accuracy and relevance over sensationalism
 6. Request clarification if content lacks focus
 
+## Example of Response
+
+Response 1: \`New COVID Variant Spreads Rapidly\`
+Response 2: \`OpenAI releases GPT-4 model\`
+
 ## Content`;
 
 export default prompt;

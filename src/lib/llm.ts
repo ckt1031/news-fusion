@@ -1,54 +1,37 @@
-import type OpenAI from 'openai';
-import { z } from 'zod';
+import type { MessageContentText } from '@langchain/core/messages';
+import { ChatOpenAI } from '@langchain/openai';
 import summarizePrompt from '../prompts/summarize';
 import titleGenPrompt from '../prompts/title-generate';
 import translatePrompt from '../prompts/translate';
 import type { ServerEnv } from '../types/env';
-import type { RecursivePartial } from '../types/utils';
 import { isMostlyChinese } from './detect-chinese';
 
-async function generate(env: ServerEnv, model: string, message: string) {
-	const baseURL = env.OPENAI_API_BASE_URL ?? 'https://api.openai.com/v1';
-	const body: OpenAI.ChatCompletionCreateParams = {
-		stream: false,
-		model,
-		messages: [{ role: 'user', content: message }],
-		temperature: 0.6,
-	};
-	const response = await fetch(`${baseURL}/chat/completions`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${env.OPENAI_API_KEY}`,
+async function generate(
+	env: ServerEnv,
+	modelName: string,
+	message: string,
+): Promise<string> {
+	const model = new ChatOpenAI({
+		temperature: 0.9,
+		model: modelName,
+		apiKey: env.OPENAI_API_KEY,
+		configuration: {
+			baseURL: env.OPENAI_API_BASE_URL ?? 'https://api.openai.com/v1',
 		},
-		body: JSON.stringify(body),
 	});
 
-	if (!response.ok) {
-		throw new Error('Failed to generate response');
+	const { content } = await model.invoke(message);
+
+	if (typeof content === 'string') return content;
+
+	// Find one with type === 'text'
+	const textResult = content.find((r) => r.type === 'text');
+
+	if (!textResult) {
+		throw new Error('Langchain (OpenAI): Failed to generate content');
 	}
 
-	const schema: z.ZodType<RecursivePartial<OpenAI.ChatCompletion>> = z.object({
-		choices: z.array(
-			z.object({
-				message: z.object({
-					content: z.string(),
-				}),
-			}),
-		),
-	});
-
-	const result = await schema.parseAsync(await response.json());
-
-	if (
-		!result.choices ||
-		result.choices.length === 0 ||
-		!result.choices[0]?.message
-	) {
-		throw new Error('Failed to generate response');
-	}
-
-	return result.choices[0].message.content;
+	return (textResult as MessageContentText).text;
 }
 
 export async function summarizeText(env: ServerEnv, originalContent: string) {
@@ -62,10 +45,6 @@ export async function summarizeText(env: ServerEnv, originalContent: string) {
 }
 
 export async function translateText(env: ServerEnv, originalContent: string) {
-	// const model = isMostlyChinese(originalContent)
-	// 	? 'command-r-plus'
-	// 	: 'Qwen/Qwen1.5-110B-Chat';
-
 	const content = await generate(
 		env,
 		'command-r-plus',

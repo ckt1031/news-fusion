@@ -10,7 +10,6 @@ const prompt = `## Task: Text Summarization
 - Structure your summary with subheadings for lengthy content and bullet points for shorter pieces. 
 - Refrain from including personal comments, reflections, or unnecessary information like dates or reading times. Focus solely on the main ideas. 
 - Use < > to quote links in your summary, except for single YouTube video links, which should be left as is. 
-- The summary must be shorter than 2000 in length, maxmium 1900, to ensure it can be sent in a single Discord message.
 - For links, never include any images, videos, or other embedded content in the summary.
 - Never include any format that is not for Discord Message (e.g., HTML).
 
