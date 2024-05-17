@@ -14,7 +14,7 @@
 		"@langchain/core": "^0.1.63",
 		"@langchain/openai": "^0.0.31",
 		"dayjs": "^1.11.11",
-		"discord-api-types": "^0.37.83",
+		"discord-api-types": "^0.37.84",
 		"discord-interactions": "^3.4.0",
 		"drizzle-orm": "^0.30.10",
 		"fast-xml-parser": "^4.3.6",
