@@ -15,7 +15,7 @@ export async function parseRSS(url: string) {
 	const req = await fetch(url);
 	const xmlData = await req.text();
 	const parser = new XMLParser({
-		ignoreAttributes: false,
+		ignoreAttributes: true,
 	});
 	const data = parser.parse(xmlData);
 
