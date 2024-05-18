@@ -22,6 +22,17 @@ app.get('/', (c) => {
 });
 
 app.post('/', async (c) => {
+	const handleError = (error: unknown) => {
+		console.error(error);
+		return c.json({
+			type: InteractionResponseType.ChannelMessageWithSource,
+			data: {
+				content: error instanceof Error ? error.message : 'An error occurred',
+				flags: MessageFlags.Ephemeral,
+			},
+		});
+	};
+
 	try {
 		const { isValid, interaction } = await verifyDiscordRequest(c);
 
@@ -44,26 +55,32 @@ app.post('/', async (c) => {
 
 			if (interaction.data.component_type === ComponentType.Button) {
 				try {
+					let response = {};
+
 					switch (interaction.data.custom_id) {
 						case DISCORD_INTERACTION_BUTTONS.GENERATE_SUMMARIZE: {
-							return c.json(await summarizeButtonExecution(c.env, interaction));
+							response = await summarizeButtonExecution(c.env, interaction);
+							break;
 						}
 						case DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE: {
-							return c.json(
-								await reSummarizeButtonExecution(c.env, interaction),
-							);
+							response = await reSummarizeButtonExecution(c.env, interaction);
+							break;
 						}
 						case DISCORD_INTERACTION_BUTTONS.TRANSLATE: {
-							return c.json(await translateButtonExecution(c.env, interaction));
+							response = await translateButtonExecution(c.env, interaction);
+							break;
 						}
 						case DISCORD_INTERACTION_BUTTONS.RE_TRANSLATE: {
-							return c.json(
-								await reTranslateButtonExecution(c.env, interaction),
-							);
+							response = await reTranslateButtonExecution(c.env, interaction);
+							break;
+						}
+						default: {
+							throw new Error('Unknown button');
 						}
 					}
+
+					return c.json(response);
 				} catch (error) {
-					console.error(error);
 					await discordMessage({
 						env: c.env,
 						channelId: interaction.channel.id,
@@ -77,20 +94,14 @@ app.post('/', async (c) => {
 							},
 						},
 					});
+					return handleError(error);
 				}
 			}
 		}
 
 		throw new Error('Invalid interaction type');
 	} catch (error) {
-		console.error(error);
-		return c.json({
-			type: InteractionResponseType.ChannelMessageWithSource,
-			data: {
-				content: error instanceof Error ? error.message : 'An error occurred',
-				flags: MessageFlags.Ephemeral,
-			},
-		});
+		return handleError(error);
 	}
 });
 
