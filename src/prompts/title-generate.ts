@@ -11,8 +11,9 @@ You are an expert news editor skilled at creating concise, engaging headlines. G
 
 ## Example of Response
 
-Response 1: \`New COVID Variant Spreads Rapidly\`
-Response 2: \`OpenAI releases GPT-4 model\`
+New COVID Variant Spreads Rapidly
+
+OpenAI releases GPT-4 model
 
 ## Content`;
 

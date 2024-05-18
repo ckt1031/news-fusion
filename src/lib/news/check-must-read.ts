@@ -11,21 +11,18 @@ import { DISCORD_INTERACTION_BUTTONS } from '../../types/discord';
 import type { ServerEnv } from '../../types/env';
 import { checkIfNewsIsNew, createArticleDatabase } from '../db';
 import { parseRSS } from '../parse-news';
-import pickRandom from '../pick-random';
 
 export default async function checkMustRead(env: ServerEnv) {
 	// Handle Must Read RSS
 	for (const rssCategory of Object.keys(MUST_READ_RSS_LIST)) {
 		// Pick a random RSS from the list
 
-		// Have env.D1 means cloudflare worker, cloudfare worker has limited subrequest,
-		// so we need to pick a random rss to avoid hitting the limit
-		const rssList =
-			MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY].length > 3
-				? env.D1
-					? pickRandom(MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY], 3)
-					: MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY]
-				: MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY];
+		const rssList = MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY];
+
+		// If the list is empty, skip
+		if (!rssList || rssList.length === 0) {
+			continue;
+		}
 
 		for (const rss of rssList) {
 			try {

@@ -60,7 +60,7 @@ export async function translateText(env: ServerEnv, originalContent: string) {
 }
 
 export async function generateTitle(env: ServerEnv, content: string) {
-	const model = 'command-r-plus';
+	const model = 'gpt-3.5-turbo';
 
 	// If content is longer than 1900 characters, truncate it
 	const truncatedContent =
