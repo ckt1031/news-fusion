@@ -20,7 +20,7 @@
     "fast-xml-parser": "^4.3.6",
     "hono": "^4.3.7",
     "html-entities": "^2.5.2",
-    "langchain": "^0.1.37",
+    "langchain": "^0.2.0",
     "nanoid": "^5.0.7",
     "openai": "^4.47.1",
     "toucan-js": "^3.4.0",
