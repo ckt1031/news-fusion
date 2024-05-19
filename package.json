@@ -1,39 +1,40 @@
 {
-	"name": "news-bot",
-	"type": "module",
-	"scripts": {
-		"dev": "wrangler dev src/index.ts",
-		"deploy": "wrangler deploy --minify",
-		"lint": "tsc && biome check .",
-		"lint:fix": "tsc && biome format . --write && biome check . --apply",
-		"generate": "drizzle-kit generate",
-		"typecheck": "tsc"
-	},
-	"dependencies": {
-		"@hono/sentry": "^1.1.0",
-		"@langchain/core": "^0.2.0",
-		"@langchain/openai": "^0.0.32",
-		"dayjs": "^1.11.11",
-		"discord-api-types": "^0.37.84",
-		"discord-interactions": "^3.4.0",
-		"drizzle-orm": "^0.30.10",
-		"fast-xml-parser": "^4.3.6",
-		"hono": "^4.3.7",
-		"html-entities": "^2.5.2",
-		"langchain": "^0.2.0",
-		"nanoid": "^5.0.7",
-		"openai": "^4.47.1",
-		"toucan-js": "^3.4.0",
-		"zod": "^3.23.8"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "1.7.3",
-		"@cloudflare/workers-types": "latest",
-		"@types/node": "^20.12.12",
-		"bun-types": "^1.1.8",
-		"drizzle-kit": "^0.21.2",
-		"typescript": "5.4.5",
-		"wrangler": "latest",
-		"@types/bun": "latest"
-	}
+  "name": "news-bot",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev src/index.ts",
+    "deploy": "wrangler deploy --minify",
+    "lint": "tsc && biome check .",
+    "lint:fix": "tsc && biome format . --write && biome check . --apply",
+    "generate": "drizzle-kit generate",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@hono/sentry": "^1.1.0",
+    "@langchain/core": "^0.2.0",
+    "@langchain/openai": "^0.0.33",
+    "dayjs": "^1.11.11",
+    "discord-api-types": "^0.37.84",
+    "discord-interactions": "^3.4.0",
+    "drizzle-orm": "^0.30.10",
+    "fast-xml-parser": "^4.4.0",
+    "hono": "^4.3.8",
+    "html-entities": "^2.5.2",
+    "langchain": "^0.2.0",
+    "nanoid": "^5.0.7",
+    "openai": "^4.47.1",
+    "remeda": "^1.61.0",
+    "toucan-js": "^3.4.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.7.3",
+    "@cloudflare/workers-types": "latest",
+    "@types/node": "^20.12.12",
+    "bun-types": "^1.1.8",
+    "drizzle-kit": "^0.21.2",
+    "typescript": "5.4.5",
+    "wrangler": "latest",
+    "@types/bun": "latest"
+  }
 }
