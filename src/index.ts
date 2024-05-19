@@ -1,8 +1,8 @@
-import { clearUnusedDatabaseData } from './lib/db';
-import { checkNews } from './lib/news';
-import { initSentry } from './lib/sentry';
-import app from './server';
-import type { ServerEnv } from './types/env';
+import { clearUnusedDatabaseData } from '@/lib/db';
+import { checkNews } from '@/lib/news';
+import { initSentry } from '@/lib/sentry';
+import app from '@/server';
+import type { ServerEnv } from '@/types/env';
 
 export default {
 	async scheduled(

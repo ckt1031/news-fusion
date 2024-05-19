@@ -4,6 +4,7 @@ import type { ServerEnv } from '@/types/env';
 import { sentry } from '@hono/sentry';
 import { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
+import dbRoute from './db';
 
 const app = new Hono<{ Bindings: ServerEnv }>();
 
@@ -14,6 +15,7 @@ app.get('/', (c) => {
 });
 
 app.route('/discord', discordBot);
+app.route('/db', dbRoute);
 
 app.onError((e, c) => {
 	if (e instanceof HTTPException) {

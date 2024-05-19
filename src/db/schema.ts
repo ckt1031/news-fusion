@@ -1,4 +1,5 @@
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { createInsertSchema } from 'drizzle-zod';
 
 export const articles = sqliteTable('articles', {
 	id: text('id').primaryKey().unique(),
@@ -15,3 +16,4 @@ export const articles = sqliteTable('articles', {
 });
 
 export type NewArticle = typeof articles.$inferInsert;
+export const NewArticleSchema = createInsertSchema(articles);

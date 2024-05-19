@@ -13,6 +13,9 @@ export const envSchema = z.object({
 	TOOLS_API_KEY: z.string(),
 
 	SENTRY_DSN: z.string().optional(),
+
+	WORKER_BASE_URL: z.string().optional(),
+	WORKER_API_KEY: z.string(),
 });
 
 export type ServerEnv = z.infer<typeof envSchema> & {

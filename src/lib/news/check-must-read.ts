@@ -17,14 +17,14 @@ export default async function checkMustRead(env: ServerEnv) {
 	for (const rssCategory of Object.keys(MUST_READ_RSS_LIST)) {
 		// Pick a random RSS from the list
 
-		const rssList = MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY];
+		const list = MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY];
 
 		// If the list is empty, skip
-		if (!rssList || rssList.length === 0) {
+		if (!list || list.length === 0) {
 			continue;
 		}
 
-		for (const rss of rssList) {
+		for (const rss of list) {
 			try {
 				const feed = await parseRSS(rss);
 
