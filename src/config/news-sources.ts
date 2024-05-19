@@ -1,4 +1,4 @@
-import * as R from "remeda";
+import * as R from 'remeda';
 
 export enum RSS_CATEGORY {
 	TECH = 'tech',
@@ -54,7 +54,10 @@ export const MUST_READ_RSS_LIST: Partial<Record<RSS_CATEGORY, string[]>> = {
 	],
 };
 
-export const ALL_RSS_LIST = R.mergeDeep(MUST_READ_RSS_LIST, AI_FILTER_RSS_LINKS);
+export const ALL_RSS_LIST = R.mergeDeep(
+	MUST_READ_RSS_LIST,
+	AI_FILTER_RSS_LINKS,
+);
 
 export const NEWS_MINIMALIST_API =
 	'https://www.newsminimalist.com/api/get-all-stories';
