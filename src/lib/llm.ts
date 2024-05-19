@@ -55,8 +55,7 @@ export async function translateText(env: ServerEnv, originalContent: string) {
 		throw new Error('Failed to translate content');
 	}
 
-	// Use ... if the content is too long, 1900 is the limit
-	return content.length > 1900 ? `${content.slice(0, 1900)}...` : content;
+	return content;
 }
 
 export async function generateTitle(env: ServerEnv, content: string) {
