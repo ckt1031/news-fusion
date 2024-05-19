@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test';
-import removeTrailingSlash from '../src/lib/remove-trailing-slash';
+import removeTrailingSlash from '@/lib/remove-trailing-slash';
 
 test('Remove Trailing Slash', async () => {
 	expect(removeTrailingSlash('https://example.com/')).toBe(

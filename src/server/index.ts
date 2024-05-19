@@ -1,9 +1,9 @@
+import discordBot from '@/discord/bot';
+import { initSentry } from '@/lib/sentry';
+import type { ServerEnv } from '@/types/env';
 import { sentry } from '@hono/sentry';
 import { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
-import discordBot from '../discord/bot';
-import { initSentry } from '../lib/sentry';
-import type { ServerEnv } from '../types/env';
 
 const app = new Hono<{ Bindings: ServerEnv }>();
 

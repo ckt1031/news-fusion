@@ -1,16 +1,16 @@
 import {
+	deferUpdateInteraction,
+	discordMessage,
+	getAllMessagesInDiscordChannel,
+} from '@/discord/utils';
+import { translateText } from '@/lib/llm';
+import { scrapeToMarkdown } from '@/lib/scrape';
+import type { ServerEnv } from '@/types/env';
+import {
 	type APIMessageComponentInteraction,
 	InteractionResponseType,
 	MessageType,
 } from 'discord-api-types/v10';
-import { translateText } from '../../../lib/llm';
-import { scrapeToMarkdown } from '../../../lib/scrape';
-import type { ServerEnv } from '../../../types/env';
-import {
-	deferUpdateInteraction,
-	discordMessage,
-	getAllMessagesInDiscordChannel,
-} from '../../utils';
 
 const reTranslateButtonExecution = async (
 	env: ServerEnv,

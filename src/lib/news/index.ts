@@ -1,4 +1,4 @@
-import type { ServerEnv } from '../../types/env';
+import type { ServerEnv } from '@/types/env';
 import checkMustRead from './check-must-read';
 
 type CheckNewsProps = {

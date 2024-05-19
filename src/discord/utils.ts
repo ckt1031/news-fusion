@@ -1,3 +1,7 @@
+import { DISCORD_API_BASE } from '@/config/api';
+import { generateTitle } from '@/lib/llm';
+import type { DiscordMessageProp } from '@/types/discord';
+import type { ServerEnv } from '@/types/env';
 import {
 	type APIMessage,
 	type APIMessageComponentInteraction,
@@ -7,11 +11,6 @@ import {
 	type RESTPostAPIChannelMessageResult,
 } from 'discord-api-types/v10';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
-import { generateTitle } from '../lib/llm';
-import type { DiscordMessageProp } from '../types/discord';
-import type { ServerEnv } from '../types/env';
-
-const DISCORD_API_BASE = 'https://discord.com/api/v10';
 
 async function baseReqeust<T>(prop: {
 	env?: ServerEnv;

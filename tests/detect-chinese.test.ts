@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test';
-import { isMostlyChinese } from '../src/lib/detect-chinese';
+import { isMostlyChinese } from '@/lib/detect-chinese';
 
 test('Detect Chinese Amount', async () => {
 	expect(isMostlyChinese('Whats up?')).toBe(false);

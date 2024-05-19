@@ -1,6 +1,6 @@
+import removeTrailingSlash from '@/lib/remove-trailing-slash';
 import { decode as decodeHtmlEntities } from 'html-entities';
 import { z } from 'zod';
-import removeTrailingSlash from '../lib/remove-trailing-slash';
 
 const CommonRssFeedItemSchema = z
 	.object({

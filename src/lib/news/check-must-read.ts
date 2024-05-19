@@ -1,14 +1,14 @@
-import dayjs from 'dayjs';
-import { ButtonStyle, ComponentType } from 'discord-api-types/v10';
-import { nanoid } from 'nanoid';
 import {
 	EARLIEST_DAYS,
 	MUST_READ_RSS_LIST,
 	type RSS_CATEGORY,
-} from '../../config/news-sources';
-import { discordMessage } from '../../discord/utils';
-import { DISCORD_INTERACTION_BUTTONS } from '../../types/discord';
-import type { ServerEnv } from '../../types/env';
+} from '@/config/news-sources';
+import { discordMessage } from '@/discord/utils';
+import { DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
+import type { ServerEnv } from '@/types/env';
+import dayjs from 'dayjs';
+import { ButtonStyle, ComponentType } from 'discord-api-types/v10';
+import { nanoid } from 'nanoid';
 import { checkIfNewsIsNew, createArticleDatabase } from '../db';
 import { parseRSS } from '../parse-news';
 

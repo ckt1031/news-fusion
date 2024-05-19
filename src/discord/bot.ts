@@ -1,3 +1,4 @@
+import { DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
 import {
 	ComponentType,
 	InteractionResponseType,
@@ -5,7 +6,6 @@ import {
 	MessageFlags,
 } from 'discord-api-types/v10';
 import { Hono } from 'hono';
-import { DISCORD_INTERACTION_BUTTONS } from '../types/discord';
 import reSummarizeButtonExecution from './interactions/buttons/re-summarize';
 import reTranslateButtonExecution from './interactions/buttons/re-translate';
 import summarizeButtonExecution from './interactions/buttons/summarize';

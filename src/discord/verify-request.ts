@@ -1,3 +1,4 @@
+import type { RecursivePartial } from '@/types/utils';
 import {
 	type APIInteraction,
 	type APIPingInteraction,
@@ -7,7 +8,6 @@ import { verifyKey } from 'discord-interactions';
 import type { Context, Env } from 'hono';
 import type { BlankInput } from 'hono/types';
 import { z } from 'zod';
-import type { RecursivePartial } from '../types/utils';
 
 export default async function verifyDiscordRequest(
 	c: Context<Env, '/', BlankInput>,

@@ -1,9 +1,9 @@
+import summarizePrompt from '@/prompts/summarize';
+import titleGenPrompt from '@/prompts/title-generate';
+import translatePrompt from '@/prompts/translate';
+import type { ServerEnv } from '@/types/env';
 import type { MessageContentText } from '@langchain/core/messages';
 import { ChatOpenAI } from '@langchain/openai';
-import summarizePrompt from '../prompts/summarize';
-import titleGenPrompt from '../prompts/title-generate';
-import translatePrompt from '../prompts/translate';
-import type { ServerEnv } from '../types/env';
 import { isMostlyChinese } from './detect-chinese';
 
 async function generate(

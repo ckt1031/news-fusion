@@ -1,5 +1,5 @@
+import type { ServerEnv } from '@/types/env';
 import { z } from 'zod';
-import type { ServerEnv } from '../types/env';
 
 /** Get website major content in markdown format from personal API */
 export async function scrapeToMarkdown(env: ServerEnv, url: string) {

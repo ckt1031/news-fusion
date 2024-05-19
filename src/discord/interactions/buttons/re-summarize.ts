@@ -1,13 +1,13 @@
-import { InteractionResponseType, MessageType } from 'discord-api-types/v10';
-import { summarizeText } from '../../../lib/llm';
-import { scrapeToMarkdown } from '../../../lib/scrape';
-import type { InteractionExecution } from '../../../types/discord';
-import type { ServerEnv } from '../../../types/env';
 import {
 	deferUpdateInteraction,
 	discordMessage,
 	getAllMessagesInDiscordChannel,
-} from '../../utils';
+} from '@/discord/utils';
+import { summarizeText } from '@/lib/llm';
+import { scrapeToMarkdown } from '@/lib/scrape';
+import type { InteractionExecution } from '@/types/discord';
+import type { ServerEnv } from '@/types/env';
+import { InteractionResponseType, MessageType } from 'discord-api-types/v10';
 
 const reSummarizeButtonExecution = async (
 	env: ServerEnv,

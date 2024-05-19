@@ -1,4 +1,15 @@
 import {
+	createNewsInfoDiscordThread,
+	deferUpdateInteraction,
+	deleteThreadCreatedMessage,
+	discordMessage,
+	discordTextSplit,
+} from '@/discord/utils';
+import { summarizeText } from '@/lib/llm';
+import { scrapeToMarkdown } from '@/lib/scrape';
+import { DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
+import type { ServerEnv } from '@/types/env';
+import {
 	type APIActionRowComponent,
 	type APIMessageActionRowComponent,
 	type APIMessageComponentInteraction,
@@ -6,17 +17,6 @@ import {
 	ComponentType,
 	InteractionResponseType,
 } from 'discord-api-types/v10';
-import { summarizeText } from '../../../lib/llm';
-import { scrapeToMarkdown } from '../../../lib/scrape';
-import { DISCORD_INTERACTION_BUTTONS } from '../../../types/discord';
-import type { ServerEnv } from '../../../types/env';
-import {
-	createNewsInfoDiscordThread,
-	deferUpdateInteraction,
-	deleteThreadCreatedMessage,
-	discordMessage,
-	discordTextSplit,
-} from '../../utils';
 
 const summarizeButtonExecution = async (
 	env: ServerEnv,
