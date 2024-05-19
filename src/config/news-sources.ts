@@ -1,11 +1,18 @@
 import * as R from 'remeda';
 
 export enum RSS_CATEGORY {
+	AI = 'ai',
 	TECH = 'tech',
 	DEV = 'programming-dev',
-	AI = 'ai',
+
 	WEATHER = 'weather',
+
+	// General News
+	GENERAL = 'general',
 	NATIONAL = 'national',
+
+	// Regional
+	LOCAL_HKG = 'hkg',
 
 	// General Blog with multiple categories
 	BLOG = 'blog',
@@ -13,16 +20,21 @@ export enum RSS_CATEGORY {
 }
 
 export const AI_FILTER_RSS_LINKS: Partial<Record<RSS_CATEGORY, string[]>> = {
+	[RSS_CATEGORY.LOCAL_HKG]: ['https://www.scmp.com/rss/2/feed'],
 	[RSS_CATEGORY.TECH]: [
-		'https://github.com/blog/all.atom',
 		'https://blog.google/rss',
-		'https://feeds2.feedburner.com/businessinsider',
+		'https://github.com/blog/all.atom',
 		'https://www.theverge.com/tech/rss/index.xml',
+	],
+	[RSS_CATEGORY.GENERAL]: [
+		'https://www.theguardian.com/uk/rss',
+		'https://feeds2.feedburner.com/businessinsider',
 	],
 };
 
 /** Formal RSS */
 export const MUST_READ_RSS_LIST: Partial<Record<RSS_CATEGORY, string[]>> = {
+	[RSS_CATEGORY.GENERAL]: ['https://www.newyorker.com/feed/news'],
 	[RSS_CATEGORY.TECH]: [
 		'https://vercel.com/atom',
 		'https://feeds.appinn.com/appinns',
@@ -44,6 +56,8 @@ export const MUST_READ_RSS_LIST: Partial<Record<RSS_CATEGORY, string[]>> = {
 	],
 	[RSS_CATEGORY.BLOG]: [
 		// 'https://www.solidot.org/index.rss',
+
+		'https://www.wainao.me/rss.xml',
 
 		// Tinyfool
 		'https://codechina.org/feed/',
