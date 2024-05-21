@@ -4,7 +4,6 @@ import {
 	type RSS_CATEGORY,
 } from '@/config/news-sources';
 import type { ServerEnv } from '@/types/env';
-import dayjs from 'dayjs';
 import { saveArticle } from '.';
 import { checkIfNewsIsNew } from '../db';
 import { parseRSS } from '../parse-news';
@@ -25,13 +24,14 @@ export default async function checkMustRead(env: ServerEnv) {
 
 		for (const rss of list) {
 			try {
-				const feed = await parseRSS(rss);
+				const feed = await parseRSS(rss, EARLIEST_DAYS);
 
 				for (const item of feed.item) {
 					// check if the news is within the last $EARLIEST_DAYS days
-					if (dayjs().diff(dayjs(item.pubDate), 'day') > EARLIEST_DAYS) {
-						continue;
-					}
+					// if (dayjs().diff(dayjs(item.pubDate), 'day') > EARLIEST_DAYS) {
+					// 	continue;
+					// }
+					// Since we can do this in the parseRSS function, we can remove this check
 
 					if (!filterRSS({ url: rss, title: item.title })) continue;
 
@@ -41,7 +41,7 @@ export default async function checkMustRead(env: ServerEnv) {
 						await sendNewsToDiscord({
 							env,
 							newsData: {
-								title: item.title,
+								title: feed.title,
 								link: item.link,
 								pubDate: item.pubDate,
 							},

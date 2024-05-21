@@ -116,3 +116,5 @@ const AtomFeedSchema = z
 export const RssFeedSchema = CommonRssFeedSchema.or(Alternative1FeedSchema).or(
 	AtomFeedSchema,
 );
+
+export type RssFeed = z.infer<typeof RssFeedSchema>;

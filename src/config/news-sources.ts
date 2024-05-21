@@ -38,7 +38,6 @@ export const AI_FILTER_RSS_LINKS: Partial<Record<RSS_CATEGORY, string[]>> = {
 	[RSS_CATEGORY.TECH]: [
 		'https://blog.google/rss',
 		'https://github.com/blog/all.atom',
-		'https://www.theverge.com/tech/rss/index.xml',
 	],
 	[RSS_CATEGORY.GENERAL]: [
 		'https://www.newyorker.com/feed/news',
@@ -50,21 +49,27 @@ export const AI_FILTER_RSS_LINKS: Partial<Record<RSS_CATEGORY, string[]>> = {
 /** Formal RSS */
 export const MUST_READ_RSS_LIST: Partial<Record<RSS_CATEGORY, string[]>> = {
 	[RSS_CATEGORY.TECH]: [
-		'https://vercel.com/atom',
-		'https://feeds.appinn.com/appinns',
+		'https://www.theverge.com/rss/index.xml',
+		'https://feeds.bloomberg.com/technology/news.rss',
 	],
 	[RSS_CATEGORY.DEV]: [
+		// Open Source
+		'https://hellogithub.com/rss',
+
+		// Microsoft
+		'https://blogs.windows.com/feed',
+
+		// Programming Languages
 		'https://bun.sh/rss.xml',
 		'https://deno.com/feed',
 		'https://nodejs.org/en/feed/blog.xml',
-		'https://hellogithub.com/rss',
-		'https://blogs.windows.com/feed/',
 
 		// Frameworks
 		'https://nextjs.org/feed.xml',
 		'https://astro.build/rss.xml',
 
 		// Developer Platform
+		'https://vercel.com/atom',
 		'https://blog.replit.com/feed.xml',
 	],
 	[RSS_CATEGORY.APP]: [
@@ -76,10 +81,13 @@ export const MUST_READ_RSS_LIST: Partial<Record<RSS_CATEGORY, string[]>> = {
 		'https://rss.weather.gov.hk/rss/WeatherWarningBulletin_uc.xml',
 	],
 	[RSS_CATEGORY.BLOG]: [
+		// App Sharing
+		'https://www.appinn.com/feed',
+
 		'https://www.wainao.me/rss.xml',
 
 		// Tinyfool
-		'https://codechina.org/feed/',
+		'https://codechina.org/feed',
 		'https://weekly.tw93.fun/rss.xml',
 		'https://feeds.feedburner.com/ruanyifeng',
 		'https://www.williamlong.info/rss.xml',
