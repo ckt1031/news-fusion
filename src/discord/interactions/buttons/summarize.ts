@@ -67,9 +67,8 @@ const summarizeButtonExecution = async (
 	for (const chunk of chunks) {
 		const isOnlyOne = chunks.length === 1;
 
-		await discordMessage({
-			env,
-			method: 'POST',
+		await discordMessage.send({
+			token: env.DISCORD_BOT_TOKEN,
 			channelId: thread.id,
 			body: {
 				content: chunk,
@@ -79,7 +78,10 @@ const summarizeButtonExecution = async (
 		});
 	}
 
-	await deleteThreadCreatedMessage(env, parentMessage.channel_id);
+	await deleteThreadCreatedMessage(
+		env.DISCORD_BOT_TOKEN,
+		parentMessage.channel_id,
+	);
 
 	return {
 		type: InteractionResponseType.Pong,

@@ -20,8 +20,8 @@ export default {
 			throw e;
 		};
 
-		// Every 5 minutes
-		if (event.cron === '*/5 * * * *') {
+		// Every 20 minutes
+		if (event.cron === '*/20 * * * *') {
 			ctx.waitUntil(
 				checkNews(env, {
 					doNotCheckAiFilter: true,

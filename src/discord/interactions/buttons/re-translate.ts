@@ -21,9 +21,8 @@ const reTranslateButtonExecution = async (
 	let content = '';
 
 	const refMsg = (
-		await discordMessage({
-			env,
-			method: 'GET',
+		await discordMessage.get({
+			token: env.DISCORD_BOT_TOKEN,
 			channelId: interaction.message.channel_id,
 			messageId: interaction.message.id,
 		})
@@ -34,7 +33,7 @@ const reTranslateButtonExecution = async (
 		content = refMsg.content;
 	} else {
 		const allMessagesInThread = await getAllMessagesInDiscordChannel(
-			env,
+			env.DISCORD_BOT_TOKEN,
 			interaction.message.channel_id,
 			{
 				before: interaction.message.id,
@@ -66,9 +65,8 @@ const reTranslateButtonExecution = async (
 	}
 
 	// Edit the message with the new translated text
-	await discordMessage({
-		env,
-		method: 'PATCH',
+	await discordMessage.edit({
+		token: env.DISCORD_BOT_TOKEN,
 		channelId: interaction.message.channel_id,
 		messageId: interaction.message.id,
 		body: {

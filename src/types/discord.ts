@@ -16,23 +16,20 @@ export type InteractionExecution = APIMessageComponentInteraction & {
 	data: APIMessageComponentInteractionData;
 };
 
-type BaseDiscordMessageProp = {
-	env: ServerEnv;
+export type BaseDiscordMessageProp = {
+	token: ServerEnv['DISCORD_BOT_TOKEN'];
 	channelId: string;
 };
 
-type GetOrDeleteDiscordMessageProp = BaseDiscordMessageProp & {
-	method: 'GET' | 'DELETE';
+export type GetOrDeleteDiscordMessageProp = BaseDiscordMessageProp & {
 	messageId: string;
 };
 
-type PostDiscordMessageProp = BaseDiscordMessageProp & {
-	method: 'POST';
+export type PostDiscordMessageProp = BaseDiscordMessageProp & {
 	body: RESTPostAPIChannelMessageJSONBody;
 };
 
-type PatchDiscordMessageProp = BaseDiscordMessageProp & {
-	method: 'PATCH';
+export type PatchDiscordMessageProp = BaseDiscordMessageProp & {
 	messageId: string;
 	body: RESTPostAPIChannelMessageJSONBody;
 };

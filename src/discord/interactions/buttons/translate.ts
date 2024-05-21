@@ -50,9 +50,8 @@ const translateButtonExecution = async (
 			throw new Error('Failed to translate content');
 		}
 
-		await discordMessage({
-			env,
-			method: 'POST',
+		await discordMessage.send({
+			token: env.DISCORD_BOT_TOKEN,
 			channelId: interaction.message.channel_id,
 			body: {
 				content: translation,
@@ -94,9 +93,8 @@ const translateButtonExecution = async (
 		for (const chunk of chunks) {
 			const isOnlyOne = chunks.length === 1;
 
-			await discordMessage({
-				env,
-				method: 'POST',
+			await discordMessage.send({
+				token: env.DISCORD_BOT_TOKEN,
 				channelId: thread.id,
 				body: {
 					content: chunk,
@@ -106,7 +104,10 @@ const translateButtonExecution = async (
 			});
 		}
 
-		await deleteThreadCreatedMessage(env, interaction.message.channel_id);
+		await deleteThreadCreatedMessage(
+			env.DISCORD_BOT_TOKEN,
+			interaction.message.channel_id,
+		);
 	}
 
 	return {

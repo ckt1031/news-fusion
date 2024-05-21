@@ -81,10 +81,9 @@ app.post('/', async (c) => {
 
 					return c.json(response);
 				} catch (error) {
-					await discordMessage({
-						env: c.env,
+					await discordMessage.send({
+						token: c.env.DISCORD_BOT_TOKEN,
 						channelId: interaction.channel.id,
-						method: 'POST',
 						body: {
 							content:
 								error instanceof Error ? error.message : 'An error occurred',

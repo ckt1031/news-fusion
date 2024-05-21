@@ -95,4 +95,4 @@ export const ALL_RSS_LIST = R.mergeDeep(
 export const NEWS_MINIMALIST_API =
 	'https://www.newsminimalist.com/api/get-all-stories';
 
-export const EARLIEST_DAYS = 3;
+export const EARLIEST_DAYS = 2;

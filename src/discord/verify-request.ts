@@ -27,8 +27,6 @@ export default async function verifyDiscordRequest(
 	// Safe for assigning APIInteraction because PingInteraction will not be reaching core logic
 	const interaction: APIInteraction = JSON.parse(body);
 
-	// console.log('Interaction:', interaction);
-
 	const pingSchema: z.ZodType<RecursivePartial<APIPingInteraction>> = z.object({
 		// InteractionType.PING
 		type: z.literal(InteractionType.Ping),

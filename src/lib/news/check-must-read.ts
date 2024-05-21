@@ -3,14 +3,13 @@ import {
 	MUST_READ_RSS_LIST,
 	type RSS_CATEGORY,
 } from '@/config/news-sources';
-import { discordMessage } from '@/discord/utils';
-import { DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
 import dayjs from 'dayjs';
-import { ButtonStyle, ComponentType } from 'discord-api-types/v10';
-import { sendNewsToDiscord } from '.';
+import { saveArticle } from '.';
 import { checkIfNewsIsNew } from '../db';
 import { parseRSS } from '../parse-news';
+import filterRSS from './filter-news';
+import sendNewsToDiscord from './send-discord-news';
 
 export default async function checkMustRead(env: ServerEnv) {
 	// Handle Must Read RSS
@@ -29,61 +28,26 @@ export default async function checkMustRead(env: ServerEnv) {
 				const feed = await parseRSS(rss);
 
 				for (const item of feed.item) {
-					// check if the news is within the last 3 days, use dayjs
+					// check if the news is within the last $EARLIEST_DAYS days
 					if (dayjs().diff(dayjs(item.pubDate), 'day') > EARLIEST_DAYS) {
 						continue;
 					}
 
-					// If RSS has weather.gov.hk and title has 現時並無特別報告, skip
-					if (
-						rss.includes('weather.gov.hk') &&
-						item.title.includes('現時並無特別報告')
-					) {
-						continue;
-					}
+					if (!filterRSS({ url: rss, title: item.title })) continue;
 
 					const isNew = await checkIfNewsIsNew(env, item.guid);
 
 					if (isNew) {
-						await discordMessage({
+						await sendNewsToDiscord({
 							env,
-							channelId: env.DISCORD_RSS_CHANNEL_ID,
-							method: 'POST',
-							body: {
-								embeds: [
-									{
-										title: item.title,
-										url: item.link,
-										author: {
-											name: feed.title,
-										},
-										timestamp: new Date(item.pubDate).toISOString(),
-									},
-								],
-								components: [
-									{
-										type: ComponentType.ActionRow,
-										components: [
-											{
-												type: ComponentType.Button,
-												style: ButtonStyle.Secondary,
-												label: 'Summarize',
-												custom_id:
-													DISCORD_INTERACTION_BUTTONS.GENERATE_SUMMARIZE,
-											},
-											{
-												type: ComponentType.Button,
-												style: ButtonStyle.Secondary,
-												label: 'Translate',
-												custom_id: DISCORD_INTERACTION_BUTTONS.TRANSLATE,
-											},
-										],
-									},
-								],
+							newsData: {
+								title: item.title,
+								link: item.link,
+								pubDate: item.pubDate,
 							},
 						});
 
-						await sendNewsToDiscord(env, {
+						await saveArticle(env, {
 							importantEnough: true,
 							title: item.title,
 							url: item.link,

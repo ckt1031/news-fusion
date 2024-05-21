@@ -16,7 +16,7 @@ export async function checkNews(env: ServerEnv, props?: CheckNewsProps) {
 	}
 }
 
-export async function sendNewsToDiscord(
+export async function saveArticle(
 	env: ServerEnv,
 	news: Omit<NewArticle, 'id'>,
 ) {

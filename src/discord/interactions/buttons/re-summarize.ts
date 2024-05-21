@@ -16,7 +16,7 @@ const reSummarizeButtonExecution = async (
 	await deferUpdateInteraction(interaction);
 
 	const allMessagesInThread = await getAllMessagesInDiscordChannel(
-		env,
+		env.DISCORD_BOT_TOKEN,
 		interaction.message.channel_id,
 		{
 			before: interaction.message.id,
@@ -47,9 +47,8 @@ const reSummarizeButtonExecution = async (
 	}
 
 	// Edit the message with the new summarized text
-	await discordMessage({
-		env,
-		method: 'PATCH',
+	await discordMessage.edit({
+		token: env.DISCORD_BOT_TOKEN,
 		channelId: interaction.message.channel_id,
 		messageId: interaction.message.id,
 		body: {
