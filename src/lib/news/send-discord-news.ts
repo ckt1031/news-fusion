@@ -5,16 +5,21 @@ import { ButtonStyle, ComponentType } from 'discord-api-types/v10';
 
 type SendNewsToDiscordProps = {
 	env: ServerEnv;
-	newsData: {
-		title: string;
-		link: string;
-		pubDate: string;
+	data: {
+		feed: {
+			title: string;
+		};
+		news: {
+			title: string;
+			link: string;
+			pubDate: string;
+		};
 	};
 };
 
 export default async function sendNewsToDiscord({
 	env,
-	newsData,
+	data,
 }: SendNewsToDiscordProps) {
 	await discordMessage.send({
 		token: env.DISCORD_BOT_TOKEN,
@@ -22,12 +27,12 @@ export default async function sendNewsToDiscord({
 		body: {
 			embeds: [
 				{
-					title: newsData.title,
-					url: newsData.link,
+					title: data.news.title,
+					url: data.news.link,
 					author: {
-						name: newsData.title,
+						name: data.feed.title,
 					},
-					timestamp: new Date(newsData.pubDate).toISOString(),
+					timestamp: new Date(data.news.pubDate).toISOString(),
 				},
 			],
 			components: [

@@ -27,12 +27,6 @@ export default async function checkMustRead(env: ServerEnv) {
 				const feed = await parseRSS(rss, EARLIEST_DAYS);
 
 				for (const item of feed.item) {
-					// check if the news is within the last $EARLIEST_DAYS days
-					// if (dayjs().diff(dayjs(item.pubDate), 'day') > EARLIEST_DAYS) {
-					// 	continue;
-					// }
-					// Since we can do this in the parseRSS function, we can remove this check
-
 					if (!filterRSS({ url: rss, title: item.title })) continue;
 
 					const isNew = await checkIfNewsIsNew(env, item.guid);
@@ -40,10 +34,15 @@ export default async function checkMustRead(env: ServerEnv) {
 					if (isNew) {
 						await sendNewsToDiscord({
 							env,
-							newsData: {
-								title: feed.title,
-								link: item.link,
-								pubDate: item.pubDate,
+							data: {
+								feed: {
+									title: feed.title,
+								},
+								news: {
+									title: item.title,
+									link: item.link,
+									pubDate: item.pubDate,
+								},
 							},
 						});
 
