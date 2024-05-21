@@ -8,8 +8,8 @@ import { DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
 import dayjs from 'dayjs';
 import { ButtonStyle, ComponentType } from 'discord-api-types/v10';
-import { nanoid } from 'nanoid';
-import { checkIfNewsIsNew, createArticleDatabase } from '../db';
+import { sendNewsToDiscord } from '.';
+import { checkIfNewsIsNew } from '../db';
 import { parseRSS } from '../parse-news';
 
 export default async function checkMustRead(env: ServerEnv) {
@@ -83,8 +83,7 @@ export default async function checkMustRead(env: ServerEnv) {
 							},
 						});
 
-						await createArticleDatabase(env, {
-							id: nanoid(),
+						await sendNewsToDiscord(env, {
 							importantEnough: true,
 							title: item.title,
 							url: item.link,

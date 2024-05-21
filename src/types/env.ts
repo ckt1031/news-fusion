@@ -19,5 +19,5 @@ export const envSchema = z.object({
 });
 
 export type ServerEnv = z.infer<typeof envSchema> & {
-	D1: D1Database;
+	D1?: D1Database;
 };

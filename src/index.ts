@@ -9,7 +9,7 @@ export default {
 		event: ScheduledEvent,
 		env: ServerEnv,
 		ctx: ExecutionContext,
-	): Promise<void> {
+	) {
 		const handleCrash = (e: Error) => {
 			if (env.SENTRY_DSN && env.SENTRY_DSN.length > 0) {
 				const sentry = initSentry(env.SENTRY_DSN, ctx);

@@ -38,7 +38,7 @@ export async function summarizeText(env: ServerEnv, originalContent: string) {
 	const prompt = `${summarizePrompt}\n\n${originalContent}`;
 
 	const model = isMostlyChinese(originalContent)
-		? 'yi-medium'
+		? 'command-r-plus'
 		: 'gemini-1.5-flash-latest';
 
 	return await generate(env, model, prompt);
@@ -59,7 +59,7 @@ export async function translateText(env: ServerEnv, originalContent: string) {
 }
 
 export async function generateTitle(env: ServerEnv, content: string) {
-	const model = 'gpt-3.5-turbo';
+	const model = 'llama3-70b-8192';
 
 	// If content is longer than 1900 characters, truncate it
 	const truncatedContent =

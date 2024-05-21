@@ -19,6 +19,20 @@ export enum RSS_CATEGORY {
 	APP = 'app',
 }
 
+export const AI_FILTER_RSSHUB_PATHS: Partial<Record<RSS_CATEGORY, string[]>> = {
+	[RSS_CATEGORY.AI]: [
+		// Add /exclude_rts_replies later
+		'/twitter/user/aiatmeta',
+		'/twitter/user/cohere',
+		'/twitter/user/anthropicai',
+		'/twitter/user/openai',
+		'/twitter/user/openaidevs',
+		'/twitter/user/perplexity_ai',
+		'/twitter/user/deepseek_ai',
+		'/twitter/user/groqinc',
+	],
+};
+
 export const AI_FILTER_RSS_LINKS: Partial<Record<RSS_CATEGORY, string[]>> = {
 	[RSS_CATEGORY.LOCAL_HKG]: ['https://www.scmp.com/rss/2/feed'],
 	[RSS_CATEGORY.TECH]: [
@@ -27,6 +41,7 @@ export const AI_FILTER_RSS_LINKS: Partial<Record<RSS_CATEGORY, string[]>> = {
 		'https://www.theverge.com/tech/rss/index.xml',
 	],
 	[RSS_CATEGORY.GENERAL]: [
+		'https://www.newyorker.com/feed/news',
 		'https://www.theguardian.com/uk/rss',
 		'https://feeds2.feedburner.com/businessinsider',
 	],
@@ -34,7 +49,6 @@ export const AI_FILTER_RSS_LINKS: Partial<Record<RSS_CATEGORY, string[]>> = {
 
 /** Formal RSS */
 export const MUST_READ_RSS_LIST: Partial<Record<RSS_CATEGORY, string[]>> = {
-	[RSS_CATEGORY.GENERAL]: ['https://www.newyorker.com/feed/news'],
 	[RSS_CATEGORY.TECH]: [
 		'https://vercel.com/atom',
 		'https://feeds.appinn.com/appinns',
@@ -46,17 +60,22 @@ export const MUST_READ_RSS_LIST: Partial<Record<RSS_CATEGORY, string[]>> = {
 		'https://hellogithub.com/rss',
 		'https://blogs.windows.com/feed/',
 
+		// Frameworks
+		'https://nextjs.org/feed.xml',
+		'https://astro.build/rss.xml',
+
 		// Developer Platform
 		'https://blog.replit.com/feed.xml',
 	],
-	[RSS_CATEGORY.APP]: ['https://discord.com/blog/rss.xml'],
+	[RSS_CATEGORY.APP]: [
+		'https://discord.com/blog/rss.xml',
+		'https://obsidian.md/changelog.xml',
+	],
 	[RSS_CATEGORY.AI]: ['https://huggingface.co/blog/feed.xml'],
 	[RSS_CATEGORY.WEATHER]: [
 		'https://rss.weather.gov.hk/rss/WeatherWarningBulletin_uc.xml',
 	],
 	[RSS_CATEGORY.BLOG]: [
-		// 'https://www.solidot.org/index.rss',
-
 		'https://www.wainao.me/rss.xml',
 
 		// Tinyfool

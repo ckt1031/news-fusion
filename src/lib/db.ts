@@ -21,6 +21,8 @@ function getWorkerHonoHost<T>(env: ServerEnv) {
 }
 
 export async function clearUnusedDatabaseData(env: ServerEnv) {
+	if (!env.D1) throw new Error('D1 database is not available');
+
 	const db = getDB(env.D1);
 
 	// Delete articles that are 7 days old
@@ -40,9 +42,7 @@ export async function checkIfNewsIsNew(
 			json: { url: guid },
 		});
 
-		const { isNew } = await res.json();
-
-		return isNew;
+		return (await res.json()).isNew;
 	}
 
 	const db = getDB(env.D1);
@@ -61,7 +61,6 @@ export async function createArticleDatabase(env: ServerEnv, data: NewArticle) {
 		await client['create-article'].$put({
 			json: data,
 		});
-
 		return;
 	}
 
