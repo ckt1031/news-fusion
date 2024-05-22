@@ -38,6 +38,7 @@ export const AI_FILTER_RSS_LINKS: Partial<Record<RSS_CATEGORY, string[]>> = {
 	[RSS_CATEGORY.TECH]: [
 		'https://blog.google/rss',
 		'https://github.com/blog/all.atom',
+		'https://feeds.bloomberg.com/technology/news.rss',
 	],
 	[RSS_CATEGORY.GENERAL]: [
 		'https://www.newyorker.com/feed/news',
@@ -48,10 +49,7 @@ export const AI_FILTER_RSS_LINKS: Partial<Record<RSS_CATEGORY, string[]>> = {
 
 /** Formal RSS */
 export const MUST_READ_RSS_LIST: Partial<Record<RSS_CATEGORY, string[]>> = {
-	[RSS_CATEGORY.TECH]: [
-		'https://www.theverge.com/rss/index.xml',
-		'https://feeds.bloomberg.com/technology/news.rss',
-	],
+	[RSS_CATEGORY.TECH]: ['https://www.theverge.com/rss/index.xml'],
 	[RSS_CATEGORY.DEV]: [
 		// Open Source
 		'https://hellogithub.com/rss',
