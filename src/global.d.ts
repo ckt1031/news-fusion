@@ -7,8 +7,10 @@ declare module 'hono' {
 	}
 }
 
-export type RecursivePartial<T> = {
-	[P in keyof T]?: RecursivePartial<T[P]>;
-};
+declare global {
+	type RecursivePartial<T> = {
+		[P in keyof T]?: RecursivePartial<T[P]>;
+	};
 
-export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
+	type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
+}

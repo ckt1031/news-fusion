@@ -37,9 +37,7 @@ async function generate(
 export async function summarizeText(env: ServerEnv, originalContent: string) {
 	const prompt = `${summarizePrompt}\n\n${originalContent}`;
 
-	const model = isMostlyChinese(originalContent)
-		? 'command-r-plus'
-		: 'gpt-4o';
+	const model = isMostlyChinese(originalContent) ? 'command-r-plus' : 'gpt-4o';
 
 	return await generate(env, model, prompt);
 }
