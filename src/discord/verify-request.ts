@@ -1,4 +1,3 @@
-import type { RecursivePartial } from '@/types/utils';
 import {
 	type APIInteraction,
 	type APIPingInteraction,

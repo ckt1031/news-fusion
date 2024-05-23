@@ -1,7 +1,6 @@
 import { NEWS_MINIMALIST_API } from '@/config/news-sources';
 import { NewsMinimalistResponse } from '@/types/news-minimalist';
 import { type RssFeed, RssFeedSchema } from '@/types/rss';
-import type { ArrayElement } from '@/types/utils';
 import { XMLParser } from 'fast-xml-parser';
 
 export async function getNewsMinimalistList() {
