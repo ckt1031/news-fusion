@@ -5,6 +5,7 @@ import type { ServerEnv } from '@/types/env';
 import type { MessageContentText } from '@langchain/core/messages';
 import { HumanMessage, SystemMessage } from '@langchain/core/messages';
 import { ChatOpenAI } from '@langchain/openai';
+import { CallbackHandler } from 'langfuse-langchain';
 import { isMostlyChinese } from './detect-chinese';
 
 async function generate(
@@ -15,6 +16,12 @@ async function generate(
 		user?: string;
 	},
 ): Promise<string> {
+	const langfuseHandler = new CallbackHandler({
+		secretKey: env.LANGFUSE_SECRET_KEY,
+		publicKey: env.LANGFUSE_PUBLIC_KEY,
+		baseUrl: env.LANGFUSE_BASE_URL ?? 'https://us.cloud.langfuse.com',
+	});
+
 	const model = new ChatOpenAI({
 		temperature: 0.9,
 		model: modelName,
@@ -50,7 +57,9 @@ async function generate(
 			]
 		: [];
 
-	const { content } = await model.invoke([...systemMessage, ...humanMessages]);
+	const { content } = await model.invoke([...systemMessage, ...humanMessages], {
+		callbacks: env.LANGFUSE_SECRET_KEY ? [langfuseHandler] : [],
+	});
 
 	if (typeof content === 'string') return content;
 
@@ -85,13 +94,11 @@ export async function translateText(env: ServerEnv, originalContent: string) {
 }
 
 export async function generateTitle(env: ServerEnv, content: string) {
-	const model = 'gpt-3.5-turbo';
-
 	// If content is longer than 1900 characters, truncate it
 	const truncatedContent =
 		content.length > 1900 ? `${content.slice(0, 1900)}...` : content;
 
-	return await generate(env, model, {
+	return await generate(env, 'gpt-3.5-turbo', {
 		system: titleGenPrompt,
 		user: truncatedContent,
 	});

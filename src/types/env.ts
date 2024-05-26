@@ -16,6 +16,10 @@ export const envSchema = z.object({
 
 	WORKER_BASE_URL: z.string().optional(),
 	WORKER_API_KEY: z.string(),
+
+	LANGFUSE_SECRET_KEY: z.string().optional(),
+	LANGFUSE_PUBLIC_KEY: z.string().optional(),
+	LANGFUSE_BASE_URL: z.string().optional(),
 });
 
 export type ServerEnv = z.infer<typeof envSchema> & {

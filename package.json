@@ -23,6 +23,7 @@
 		"hono": "^4.3.8",
 		"html-entities": "^2.5.2",
 		"langchain": "^0.2.0",
+		"langfuse-langchain": "^3.11.1",
 		"nanoid": "^5.0.7",
 		"openai": "^4.47.1",
 		"remeda": "^1.61.0",
