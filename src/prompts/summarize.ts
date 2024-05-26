@@ -13,8 +13,6 @@ const prompt = `## Task: Text Summarization
 - Structure your summary with subheadings for lengthy content and bullet points for shorter pieces. 
 - Refrain from including personal comments, reflections, or unnecessary information like dates or reading times. Focus solely on the main ideas. 
 - Use < > to quote links in your summary, except for single YouTube video links, which should be left as is.
-- Never include any format that is not for Discord Message (e.g., HTML).
-
-## Article Content`;
+- Never include any format that is not for Discord Message (e.g., HTML).`;
 
 export default prompt;

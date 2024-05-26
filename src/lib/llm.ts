@@ -3,13 +3,17 @@ import titleGenPrompt from '@/prompts/title-generate';
 import translatePrompt from '@/prompts/translate';
 import type { ServerEnv } from '@/types/env';
 import type { MessageContentText } from '@langchain/core/messages';
+import { HumanMessage, SystemMessage } from '@langchain/core/messages';
 import { ChatOpenAI } from '@langchain/openai';
 import { isMostlyChinese } from './detect-chinese';
 
 async function generate(
 	env: ServerEnv,
 	modelName: string,
-	message: string,
+	message: {
+		system?: string;
+		user?: string;
+	},
 ): Promise<string> {
 	const model = new ChatOpenAI({
 		temperature: 0.9,
@@ -20,7 +24,33 @@ async function generate(
 		},
 	});
 
-	const { content } = await model.invoke(message);
+	const systemMessage = message.system
+		? [
+				new SystemMessage({
+					content: [
+						{
+							type: 'text',
+							text: message.system,
+						},
+					],
+				}),
+			]
+		: [];
+
+	const humanMessages = message.user
+		? [
+				new HumanMessage({
+					content: [
+						{
+							type: 'text',
+							text: message.user,
+						},
+					],
+				}),
+			]
+		: [];
+
+	const { content } = await model.invoke([...systemMessage, ...humanMessages]);
 
 	if (typeof content === 'string') return content;
 
@@ -35,23 +65,21 @@ async function generate(
 }
 
 export async function summarizeText(env: ServerEnv, originalContent: string) {
-	const prompt = `${summarizePrompt}\n\n${originalContent}`;
+	const model = isMostlyChinese(originalContent) ? 'yi-large-turbo' : 'gpt-4o';
 
-	const model = isMostlyChinese(originalContent) ? 'command-r-plus' : 'gpt-4o';
-
-	return await generate(env, model, prompt);
+	return await generate(env, model, {
+		system: summarizePrompt,
+		user: originalContent,
+	});
 }
 
 export async function translateText(env: ServerEnv, originalContent: string) {
-	const content = await generate(
-		env,
-		'command-r-plus',
-		`${translatePrompt}\n\n\`\`\`input\n${originalContent}\`\`\``,
-	);
+	const content = await generate(env, 'yi-large-turbo', {
+		system: translatePrompt,
+		user: originalContent,
+	});
 
-	if (!content) {
-		throw new Error('Failed to translate content');
-	}
+	if (!content) throw new Error('Failed to translate content');
 
 	return content;
 }
@@ -63,9 +91,8 @@ export async function generateTitle(env: ServerEnv, content: string) {
 	const truncatedContent =
 		content.length > 1900 ? `${content.slice(0, 1900)}...` : content;
 
-	return await generate(
-		env,
-		model,
-		`${titleGenPrompt}\n\n\`\`\`input\n${truncatedContent}\`\`\``,
-	);
+	return await generate(env, model, {
+		system: titleGenPrompt,
+		user: truncatedContent,
+	});
 }

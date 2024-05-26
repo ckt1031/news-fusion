@@ -13,8 +13,6 @@ You are an expert news editor skilled at creating concise, engaging headlines. G
 
 New COVID Variant Spreads Rapidly
 
-OpenAI releases GPT-4 model
-
-## Content`;
+OpenAI releases GPT-4 model`;
 
 export default prompt;
