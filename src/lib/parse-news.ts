@@ -11,21 +11,22 @@ export async function getNewsMinimalistList() {
 
 function filterLastDayNews(
 	item: ArrayElement<RssFeed['item']>,
-	lastDay: number,
+	pastHours: number,
 ) {
 	const pubDate = new Date(item.pubDate);
 
-	if (lastDay < 0) {
+	if (pastHours === -1) {
 		return true;
 	}
 
 	const now = new Date();
 	const diff = now.getTime() - pubDate.getTime();
+	const diffHours = diff / 1000 / 60 / 60;
 
-	return diff <= lastDay * 24 * 60 * 60 * 1000;
+	return diffHours <= pastHours;
 }
 
-export async function parseRSS(url: string, lastDay = -1) {
+export async function parseRSS(url: string, pastHours = -1) {
 	console.log('Parsing RSS:', url);
 
 	const req = await fetch(url);
@@ -44,6 +45,6 @@ export async function parseRSS(url: string, lastDay = -1) {
 
 	return {
 		...parsedData,
-		item: parsedData.item.filter((item) => filterLastDayNews(item, lastDay)),
+		item: parsedData.item.filter((item) => filterLastDayNews(item, pastHours)),
 	};
 }

@@ -1,5 +1,5 @@
 import {
-	EARLIEST_DAYS,
+	EARLIEST_HOURS,
 	MUST_READ_RSS_LIST,
 	type RSS_CATEGORY,
 } from '@/config/news-sources';
@@ -24,7 +24,7 @@ export default async function checkMustRead(env: ServerEnv) {
 
 		for (const rss of list) {
 			try {
-				const feed = await parseRSS(rss, EARLIEST_DAYS);
+				const feed = await parseRSS(rss, EARLIEST_HOURS);
 
 				for (const item of feed.item) {
 					if (!filterRSS({ url: rss, title: item.title })) continue;

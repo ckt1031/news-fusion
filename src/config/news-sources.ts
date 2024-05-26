@@ -21,7 +21,7 @@ export enum RSS_CATEGORY {
 
 export const AI_FILTER_RSSHUB_PATHS: Partial<Record<RSS_CATEGORY, string[]>> = {
 	[RSS_CATEGORY.AI]: [
-		// Add /exclude_rts_replies later
+		// TODO: Add /exclude_rts_replies later
 		'/twitter/user/aiatmeta',
 		'/twitter/user/cohere',
 		'/twitter/user/anthropicai',
@@ -34,23 +34,31 @@ export const AI_FILTER_RSSHUB_PATHS: Partial<Record<RSS_CATEGORY, string[]>> = {
 };
 
 export const AI_FILTER_RSS_LINKS: Partial<Record<RSS_CATEGORY, string[]>> = {
-	[RSS_CATEGORY.LOCAL_HKG]: ['https://www.scmp.com/rss/2/feed'],
-	[RSS_CATEGORY.TECH]: [
-		'https://blog.google/rss',
-		'https://github.com/blog/all.atom',
-		'https://feeds.bloomberg.com/technology/news.rss',
-	],
 	[RSS_CATEGORY.GENERAL]: [
 		'https://www.newyorker.com/feed/news',
 		'https://www.theguardian.com/uk/rss',
 		'https://feeds2.feedburner.com/businessinsider',
 	],
+	[RSS_CATEGORY.TECH]: [
+		'https://blog.google/rss',
+		'https://blog.cloudflare.com/rss',
+		'https://github.com/blog/all.atom',
+		'https://www.theverge.com/rss/index.xml',
+		'https://feeds.bloomberg.com/technology/news.rss',
+	],
+	[RSS_CATEGORY.LOCAL_HKG]: ['https://www.scmp.com/rss/2/feed'],
 };
 
 /** Formal RSS */
 export const MUST_READ_RSS_LIST: Partial<Record<RSS_CATEGORY, string[]>> = {
-	[RSS_CATEGORY.TECH]: ['https://www.theverge.com/rss/index.xml'],
+	[RSS_CATEGORY.TECH]: [
+		'http://research.microsoft.com/rss/news.xml',
+	],
 	[RSS_CATEGORY.DEV]: [
+		// Tools
+		'https://blog.jetbrains.com/feed',
+		'https://www.docker.com/feed/',
+
 		// Open Source
 		'https://hellogithub.com/rss',
 
@@ -66,25 +74,31 @@ export const MUST_READ_RSS_LIST: Partial<Record<RSS_CATEGORY, string[]>> = {
 		'https://nextjs.org/feed.xml',
 		'https://astro.build/rss.xml',
 
+		// AI but basically programming
+		'https://blog.langchain.dev/rss',
+
 		// Developer Platform
 		'https://vercel.com/atom',
+		'https://stackoverflow.blog/feed',
 		'https://blog.replit.com/feed.xml',
+		'https://supabase.com/feed.xml',
 	],
 	[RSS_CATEGORY.APP]: [
 		'https://discord.com/blog/rss.xml',
 		'https://obsidian.md/changelog.xml',
 	],
-	[RSS_CATEGORY.AI]: ['https://huggingface.co/blog/feed.xml'],
+	[RSS_CATEGORY.AI]: [
+		'https://lastweekin.ai/feed',
+		'https://huggingface.co/blog/feed.xml',
+		'https://jina.ai/feed.rss'
+	],
 	[RSS_CATEGORY.WEATHER]: [
 		'https://rss.weather.gov.hk/rss/WeatherWarningBulletin_uc.xml',
 	],
 	[RSS_CATEGORY.BLOG]: [
-		// App Sharing
+		'https://baoyu.io/feed.xml',
 		'https://www.appinn.com/feed',
-
 		'https://www.wainao.me/rss.xml',
-
-		// Tinyfool
 		'https://codechina.org/feed',
 		'https://weekly.tw93.fun/rss.xml',
 		'https://feeds.feedburner.com/ruanyifeng',
@@ -101,4 +115,4 @@ export const ALL_RSS_LIST = R.mergeDeep(
 export const NEWS_MINIMALIST_API =
 	'https://www.newsminimalist.com/api/get-all-stories';
 
-export const EARLIEST_DAYS = 2;
+export const EARLIEST_HOURS = 2;
