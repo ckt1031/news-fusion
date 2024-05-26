@@ -1,21 +1,20 @@
 import {
+	AI_FILTER_RSS_LINKS,
 	EARLIEST_HOURS,
-	MUST_READ_RSS_LIST,
 	type RSS_CATEGORY,
 } from '@/config/news-sources';
 import type { ServerEnv } from '@/types/env';
 import { saveArticle } from '.';
 import { checkIfNewsIsNew } from '../db';
+import { checkArticleImportance } from '../llm';
 import { parseRSS } from '../parse-news';
+import { scrapeToMarkdown } from '../scrape';
 import filterRSS from './filter-news';
 import sendNewsToDiscord from './send-discord-news';
 
-export default async function checkMustRead(env: ServerEnv) {
-	// Handle Must Read RSS
-	for (const rssCategory of Object.keys(MUST_READ_RSS_LIST)) {
-		// Pick a random RSS from the list
-
-		const list = MUST_READ_RSS_LIST[rssCategory as RSS_CATEGORY];
+export default async function aiCheckFilter(env: ServerEnv) {
+	for (const rssCategory of Object.keys(AI_FILTER_RSS_LINKS)) {
+		const list = AI_FILTER_RSS_LINKS[rssCategory as RSS_CATEGORY];
 
 		// If the list is empty, skip
 		if (!list || list.length === 0) {
@@ -33,22 +32,29 @@ export default async function checkMustRead(env: ServerEnv) {
 
 					if (!isNew) continue;
 
-					await sendNewsToDiscord({
-						env,
-						data: {
-							feed: {
-								title: feed.title,
+					const markdownContent = await scrapeToMarkdown(env, item.link);
+
+					const result = await checkArticleImportance(env, markdownContent);
+					const isImportant = result.toLowerCase().includes('true');
+
+					if (isImportant) {
+						await sendNewsToDiscord({
+							env,
+							data: {
+								feed: {
+									title: feed.title,
+								},
+								news: {
+									title: item.title,
+									link: item.link,
+									pubDate: item.pubDate,
+								},
 							},
-							news: {
-								title: item.title,
-								link: item.link,
-								pubDate: item.pubDate,
-							},
-						},
-					});
+						});
+					}
 
 					await saveArticle(env, {
-						importantEnough: true,
+						importantEnough: isImportant,
 						title: item.title,
 						url: item.link,
 						publisher: feed.title,
@@ -57,9 +63,7 @@ export default async function checkMustRead(env: ServerEnv) {
 						publishedAt: new Date(item.pubDate).getTime(),
 					});
 				}
-			} catch (error) {
-				console.error(error);
-			}
+			} catch {}
 		}
 	}
 }

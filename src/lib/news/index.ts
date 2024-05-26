@@ -2,6 +2,7 @@ import type { NewArticle } from '@/db/schema';
 import type { ServerEnv } from '@/types/env';
 import { nanoid } from 'nanoid';
 import { createArticleDatabase } from '../db';
+import aiCheckFilter from './ai-filter-news';
 import checkMustRead from './check-must-read';
 
 type CheckNewsProps = {
@@ -10,9 +11,14 @@ type CheckNewsProps = {
 };
 
 export async function checkNews(env: ServerEnv, props?: CheckNewsProps) {
-	// Handle Must Read RSS
 	if (!props?.doNotCheckMustRead) {
+		// Handle Must Read RSS
 		await checkMustRead(env);
+	}
+
+	if (!props?.doNotCheckAiFilter) {
+		// Handle AI Filter RSS
+		await aiCheckFilter(env);
 	}
 }
 
