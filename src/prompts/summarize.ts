@@ -10,6 +10,7 @@ const prompt = `## Task: Text Summarization
 - Your output should be formatted in Markdown for posting on Discord, and written in the same language as the input text (English or Traditional Chinese).
 - No codeblocks or specific code-related content should be included in the summary. 
 - No images, videos, or other embedded content in the summary.
+- Lowest header level should be H3 (###) in the summary, with H1 (##) reserved for the task title, use bullet points for shorter content.
 - Structure your summary with subheadings for lengthy content and bullet points for shorter pieces. 
 - Refrain from including personal comments, reflections, or unnecessary information like dates or reading times. Focus solely on the main ideas. 
 - Use < > to quote links in your summary, except for single YouTube video links, which should be left as is.
