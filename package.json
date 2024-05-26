@@ -12,17 +12,17 @@
 	"dependencies": {
 		"@hono/sentry": "^1.1.0",
 		"@hono/zod-validator": "^0.2.1",
-		"@langchain/core": "^0.2.0",
+		"@langchain/core": "^0.2.1",
 		"@langchain/openai": "^0.0.33",
 		"dayjs": "^1.11.11",
-		"discord-api-types": "^0.37.84",
+		"discord-api-types": "^0.37.85",
 		"discord-interactions": "^3.4.0",
 		"drizzle-orm": "^0.30.10",
 		"drizzle-zod": "^0.5.1",
 		"fast-xml-parser": "^4.4.0",
-		"hono": "^4.3.8",
+		"hono": "^4.3.11",
 		"html-entities": "^2.5.2",
-		"langchain": "^0.2.0",
+		"langchain": "^0.2.2",
 		"langfuse-langchain": "^3.11.1",
 		"nanoid": "^5.0.7",
 		"openai": "^4.47.1",
@@ -31,13 +31,13 @@
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
+		"@types/bun": "latest",
 		"@biomejs/biome": "1.7.3",
 		"@cloudflare/workers-types": "latest",
 		"@types/node": "^20.12.12",
-		"bun-types": "^1.1.8",
-		"drizzle-kit": "^0.21.2",
+		"bun-types": "^1.1.10",
+		"drizzle-kit": "^0.21.4",
 		"typescript": "5.4.5",
-		"wrangler": "latest",
-		"@types/bun": "latest"
+		"wrangler": "latest"
 	}
 }
