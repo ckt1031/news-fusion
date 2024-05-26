@@ -61,6 +61,8 @@ async function generate(
 		callbacks: env.LANGFUSE_SECRET_KEY ? [langfuseHandler] : [],
 	});
 
+	await langfuseHandler.flushAsync();
+
 	if (typeof content === 'string') return content;
 
 	// Find one with type === 'text'
