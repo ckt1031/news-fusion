@@ -5,26 +5,34 @@ import type { ServerEnv } from '@/types/env';
 import type { MessageContentText } from '@langchain/core/messages';
 import { HumanMessage, SystemMessage } from '@langchain/core/messages';
 import { ChatOpenAI } from '@langchain/openai';
-import { CallbackHandler } from 'langfuse-langchain';
+import { CallbackHandler as LangFuseCallbackHandler } from 'langfuse-langchain';
 import { isMostlyChinese } from './detect-chinese';
 
-async function generate(
-	env: ServerEnv,
-	modelName: string,
+type GenerateProps = {
+	env: ServerEnv;
+	model: string;
 	message: {
 		system?: string;
 		user?: string;
-	},
-): Promise<string> {
-	const langfuseHandler = new CallbackHandler({
+	};
+	temperature?: number;
+};
+
+async function generate({
+	env,
+	model,
+	message,
+	temperature,
+}: GenerateProps): Promise<string> {
+	const langfuseHandler = new LangFuseCallbackHandler({
 		secretKey: env.LANGFUSE_SECRET_KEY,
 		publicKey: env.LANGFUSE_PUBLIC_KEY,
 		baseUrl: env.LANGFUSE_BASE_URL ?? 'https://us.cloud.langfuse.com',
 	});
 
-	const model = new ChatOpenAI({
-		temperature: 0.9,
-		model: modelName,
+	const chatLLM = new ChatOpenAI({
+		temperature: temperature ?? 0.5,
+		model,
 		apiKey: env.OPENAI_API_KEY,
 		configuration: {
 			baseURL: env.OPENAI_API_BASE_URL ?? 'https://api.openai.com/v1',
@@ -57,9 +65,12 @@ async function generate(
 			]
 		: [];
 
-	const { content } = await model.invoke([...systemMessage, ...humanMessages], {
-		callbacks: env.LANGFUSE_SECRET_KEY ? [langfuseHandler] : [],
-	});
+	const { content } = await chatLLM.invoke(
+		[...systemMessage, ...humanMessages],
+		{
+			callbacks: env.LANGFUSE_SECRET_KEY ? [langfuseHandler] : [],
+		},
+	);
 
 	await langfuseHandler.flushAsync();
 
@@ -78,16 +89,26 @@ async function generate(
 export async function summarizeText(env: ServerEnv, originalContent: string) {
 	const model = isMostlyChinese(originalContent) ? 'yi-large-turbo' : 'gpt-4o';
 
-	return await generate(env, model, {
-		system: summarizePrompt,
-		user: originalContent,
+	return await generate({
+		env,
+		model,
+		temperature: 0.4,
+		message: {
+			system: summarizePrompt,
+			user: originalContent,
+		},
 	});
 }
 
 export async function translateText(env: ServerEnv, originalContent: string) {
-	const content = await generate(env, 'yi-large-turbo', {
-		system: translatePrompt,
-		user: originalContent,
+	const content = await generate({
+		env,
+		model: 'yi-large-turbo',
+		temperature: 0.2,
+		message: {
+			system: translatePrompt,
+			user: originalContent,
+		},
 	});
 
 	if (!content) throw new Error('Failed to translate content');
@@ -100,8 +121,13 @@ export async function generateTitle(env: ServerEnv, content: string) {
 	const truncatedContent =
 		content.length > 1900 ? `${content.slice(0, 1900)}...` : content;
 
-	return await generate(env, 'gpt-3.5-turbo', {
-		system: titleGenPrompt,
-		user: truncatedContent,
+	return await generate({
+		env,
+		model: 'gpt-3.5-turbo',
+		temperature: 0,
+		message: {
+			system: titleGenPrompt,
+			user: truncatedContent,
+		},
 	});
 }
