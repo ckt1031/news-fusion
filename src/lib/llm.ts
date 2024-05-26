@@ -1,3 +1,4 @@
+import filterImportancePrompt from '@/prompts/filter-importance';
 import summarizePrompt from '@/prompts/summarize';
 import titleGenPrompt from '@/prompts/title-generate';
 import translatePrompt from '@/prompts/translate';
@@ -128,6 +129,18 @@ export async function generateTitle(env: ServerEnv, content: string) {
 		message: {
 			system: titleGenPrompt,
 			user: truncatedContent,
+		},
+	});
+}
+
+export async function checkArticleImportance(env: ServerEnv, content: string) {
+	return await generate({
+		env,
+		model: 'gpt-4o',
+		temperature: 0.1,
+		message: {
+			system: filterImportancePrompt,
+			user: content,
 		},
 	});
 }

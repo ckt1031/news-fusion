@@ -44,16 +44,13 @@ export const AI_FILTER_RSS_LINKS: Partial<Record<RSS_CATEGORY, string[]>> = {
 		'https://blog.cloudflare.com/rss',
 		'https://github.com/blog/all.atom',
 		'https://www.theverge.com/rss/index.xml',
-		'https://feeds.bloomberg.com/technology/news.rss',
+		// 'https://feeds.bloomberg.com/technology/news.rss',
 	],
-	[RSS_CATEGORY.LOCAL_HKG]: ['https://www.scmp.com/rss/2/feed'],
 };
 
 /** Formal RSS */
 export const MUST_READ_RSS_LIST: Partial<Record<RSS_CATEGORY, string[]>> = {
-	[RSS_CATEGORY.TECH]: [
-		'http://research.microsoft.com/rss/news.xml',
-	],
+	[RSS_CATEGORY.TECH]: ['http://research.microsoft.com/rss/news.xml'],
 	[RSS_CATEGORY.DEV]: [
 		// Tools
 		'https://blog.jetbrains.com/feed',
@@ -90,7 +87,7 @@ export const MUST_READ_RSS_LIST: Partial<Record<RSS_CATEGORY, string[]>> = {
 	[RSS_CATEGORY.AI]: [
 		'https://lastweekin.ai/feed',
 		'https://huggingface.co/blog/feed.xml',
-		'https://jina.ai/feed.rss'
+		'https://jina.ai/feed.rss',
 	],
 	[RSS_CATEGORY.WEATHER]: [
 		'https://rss.weather.gov.hk/rss/WeatherWarningBulletin_uc.xml',
