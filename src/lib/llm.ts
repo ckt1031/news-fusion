@@ -7,7 +7,6 @@ import type { MessageContentText } from '@langchain/core/messages';
 import { HumanMessage, SystemMessage } from '@langchain/core/messages';
 import { ChatOpenAI } from '@langchain/openai';
 import { CallbackHandler as LangFuseCallbackHandler } from 'langfuse-langchain';
-import { isMostlyChinese } from './detect-chinese';
 
 type GenerateProps = {
 	env: ServerEnv;
@@ -88,11 +87,9 @@ async function generate({
 }
 
 export async function summarizeText(env: ServerEnv, originalContent: string) {
-	const model = isMostlyChinese(originalContent) ? 'command-r-plus' : 'gpt-4o';
-
 	return await generate({
 		env,
-		model,
+		model: 'gpt-4o',
 		temperature: 0.4,
 		message: {
 			system: summarizePrompt,
@@ -104,7 +101,7 @@ export async function summarizeText(env: ServerEnv, originalContent: string) {
 export async function translateText(env: ServerEnv, originalContent: string) {
 	const content = await generate({
 		env,
-		model: 'command-r-plus',
+		model: 'gpt-4o',
 		temperature: 0.2,
 		message: {
 			system: translatePrompt,
