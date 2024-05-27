@@ -1,13 +1,5 @@
-import { NEWS_MINIMALIST_API } from '@/config/news-sources';
-import { NewsMinimalistResponse } from '@/types/news-minimalist';
 import { type RssFeed, RssFeedSchema } from '@/types/rss';
 import { XMLParser } from 'fast-xml-parser';
-
-export async function getNewsMinimalistList() {
-	const response = await fetch(NEWS_MINIMALIST_API);
-
-	return await NewsMinimalistResponse.parseAsync(await response.json());
-}
 
 function filterLastDayNews(
 	item: ArrayElement<RssFeed['item']>,

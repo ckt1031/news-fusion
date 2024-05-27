@@ -109,7 +109,4 @@ export const ALL_RSS_LIST = R.mergeDeep(
 	AI_FILTER_RSS_LINKS,
 );
 
-export const NEWS_MINIMALIST_API =
-	'https://www.newsminimalist.com/api/get-all-stories';
-
 export const EARLIEST_HOURS = 2;
