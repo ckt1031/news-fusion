@@ -34,7 +34,11 @@ export default async function aiCheckFilter(env: ServerEnv) {
 
 					const markdownContent = await scrapeToMarkdown(env, item.link);
 
-					const result = await checkArticleImportance(env, markdownContent);
+					const result = await checkArticleImportance(env, `
+					title: ${item.title}
+					url: ${item.link}
+					content: ${markdownContent}
+					`);
 					const isImportant = result.toLowerCase().includes('true');
 
 					if (isImportant) {
