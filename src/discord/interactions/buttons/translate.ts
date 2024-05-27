@@ -84,11 +84,7 @@ const translateButtonExecution = async (
 		const chunks = await discordTextSplit(translation);
 
 		// Send to thread
-		const thread = await createNewsInfoDiscordThread(
-			env,
-			interaction,
-			translation,
-		);
+		const thread = await createNewsInfoDiscordThread(env, interaction, content);
 
 		for (const chunk of chunks) {
 			const isOnlyOne = chunks.length === 1;
