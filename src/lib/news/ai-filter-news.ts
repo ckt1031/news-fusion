@@ -6,7 +6,7 @@ import {
 import type { ServerEnv } from '@/types/env';
 import { saveArticle } from '.';
 import { checkIfNewsIsNew } from '../db';
-import { checkArticleImportance } from '../llm';
+import { checkArticleImportance, requestChatCompletionAPI } from '../llm';
 import { parseRSS } from '../parse-news';
 import { scrapeToMarkdown } from '../scrape';
 import filterRSS from './filter-news';
@@ -45,9 +45,20 @@ export default async function aiCheckFilter(env: ServerEnv) {
 					const isImportant = result.toLowerCase().includes('true');
 
 					if (isImportant) {
+						const shortSummary = await requestChatCompletionAPI({
+							env,
+							model: 'gpt-3',
+							temperature: 0.1,
+							message: {
+								system: 'Generate a 50-100 word summary for given article and content, only in plain text.',
+								user: markdownContent,
+							},
+						});
+						
 						await sendNewsToDiscord({
 							env,
 							data: {
+								description: shortSummary,
 								feed: {
 									title: feed.title,
 								},

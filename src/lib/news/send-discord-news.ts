@@ -14,6 +14,7 @@ type SendNewsToDiscordProps = {
 			link: string;
 			pubDate: string;
 		};
+		description?: string;
 	};
 };
 
@@ -29,6 +30,7 @@ export default async function sendNewsToDiscord({
 				{
 					title: data.news.title,
 					url: data.news.link,
+					description: data.description,
 					author: {
 						name: data.feed.title,
 					},

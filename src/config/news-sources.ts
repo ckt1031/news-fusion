@@ -36,7 +36,7 @@ export const AI_FILTER_RSSHUB_PATHS: Partial<Record<RSS_CATEGORY, string[]>> = {
 export const AI_FILTER_RSS_LINKS: Partial<Record<RSS_CATEGORY, string[]>> = {
 	[RSS_CATEGORY.GENERAL]: [
 		'https://www.newyorker.com/feed/news',
-		// 'https://www.theguardian.com/uk/rss',
+		'https://www.theguardian.com/uk/rss',
 		// 'https://feeds2.feedburner.com/businessinsider',
 	],
 	[RSS_CATEGORY.TECH]: [

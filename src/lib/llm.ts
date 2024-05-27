@@ -18,7 +18,7 @@ type GenerateProps = {
 	temperature?: number;
 };
 
-async function generate({
+export async function requestChatCompletionAPI({
 	env,
 	model,
 	message,
@@ -87,7 +87,7 @@ async function generate({
 }
 
 export async function summarizeText(env: ServerEnv, originalContent: string) {
-	return await generate({
+	return await requestChatCompletionAPI({
 		env,
 		model: 'gpt-4o',
 		temperature: 0.4,
@@ -99,7 +99,7 @@ export async function summarizeText(env: ServerEnv, originalContent: string) {
 }
 
 export async function translateText(env: ServerEnv, originalContent: string) {
-	const content = await generate({
+	const content = await requestChatCompletionAPI({
 		env,
 		model: 'gpt-4o',
 		temperature: 0.2,
@@ -119,7 +119,7 @@ export async function generateTitle(env: ServerEnv, content: string) {
 	const truncatedContent =
 		content.length > 1900 ? `${content.slice(0, 1900)}...` : content;
 
-	return await generate({
+	return await requestChatCompletionAPI({
 		env,
 		model: 'gpt-3.5-turbo',
 		temperature: 0,
@@ -131,7 +131,7 @@ export async function generateTitle(env: ServerEnv, content: string) {
 }
 
 export async function checkArticleImportance(env: ServerEnv, content: string) {
-	return await generate({
+	return await requestChatCompletionAPI({
 		env,
 		model: 'gpt-4o',
 		temperature: 0.1,
