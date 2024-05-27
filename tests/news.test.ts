@@ -1,11 +1,15 @@
 import { expect, test } from 'bun:test';
-import { ALL_RSS_LIST, type RSS_CATEGORY } from '@/config/news-sources';
-import { parseRSS } from '@/lib/parse-news';
+import { ALL_RSS_LIST } from '@/config/news-sources';
+import checkRSS from '@/lib/news/check-rss';
 
 test('Test News Availability', async () => {
-	for (const rssCategory of Object.keys(ALL_RSS_LIST)) {
-		for (const rss of ALL_RSS_LIST[rssCategory as RSS_CATEGORY] ?? []) {
-			expect(await parseRSS(rss)).not.toBeNull();
-		}
-	}
+	expect(
+		await checkRSS({
+			// @ts-ignore
+			env: {},
+			list: ALL_RSS_LIST,
+			allMustRead: true,
+			isTesting: true,
+		}),
+	).not.toBeNull();
 });
