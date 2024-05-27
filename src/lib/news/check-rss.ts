@@ -106,7 +106,7 @@ export default async function checkRSS({
 					}
 
 					console.info(
-						`${item.link}: `,
+						`${item.link} : `,
 						`${importantEnough ? 'Important' : 'Not Important'}`,
 					);
 
@@ -125,7 +125,7 @@ export default async function checkRSS({
 								},
 							});
 
-							console.info(`Short Summary (${item.link}):`, shortSummary);
+							console.info(`Short Summary ( ${item.link} ):`, shortSummary);
 						}
 
 						await sendNewsToDiscord({
