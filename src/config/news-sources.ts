@@ -40,7 +40,7 @@ export const RSS_VIDEOS: RssCatagory = {
 	discordChannelId: '1245004330868674591',
 	sources: [
 		'{RSSHUB}/bilibili/user/video/25876945', // 极客湾 Geekerwan
-		'{RSSHUB}/youtube/user/@kurzgesagt', // YouTube: Kurzgesagt – In a Nutshell
+		// '{RSSHUB}/youtube/user/@kurzgesagt', // YouTube: Kurzgesagt – In a Nutshell, No need, they have discord announcement channel
 		'{RSSHUB}/youtube/user/@xiao_lin_shuo', // YouTube: 小Lin说
 	],
 };
@@ -71,7 +71,7 @@ export const RSS_DEV: RssCatagory = {
 	sources: [
 		'https://www.docker.com/feed',
 		// Open Source
-		'https://hellogithub.com/rss',
+		'{RSSHUB}/hellogithub/article',
 		// Microsoft
 		'https://blogs.windows.com/feed',
 		// Programming Languages
