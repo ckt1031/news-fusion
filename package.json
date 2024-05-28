@@ -1,43 +1,43 @@
 {
-	"name": "news-bot",
-	"type": "module",
-	"scripts": {
-		"dev": "wrangler dev src/index.ts",
-		"deploy": "wrangler deploy --minify",
-		"lint": "tsc && biome check .",
-		"lint:fix": "tsc && biome format . --write && biome check . --apply",
-		"generate": "drizzle-kit generate",
-		"typecheck": "tsc"
-	},
-	"dependencies": {
-		"@hono/sentry": "^1.1.0",
-		"@hono/zod-validator": "^0.2.1",
-		"@langchain/core": "^0.2.2",
-		"@langchain/openai": "^0.0.34",
-		"dayjs": "^1.11.11",
-		"discord-api-types": "^0.37.86",
-		"discord-interactions": "^3.4.0",
-		"drizzle-orm": "^0.30.10",
-		"drizzle-zod": "^0.5.1",
-		"fast-xml-parser": "^4.4.0",
-		"hono": "^4.4.0",
-		"html-entities": "^2.5.2",
-		"langchain": "^0.2.2",
-		"langfuse-langchain": "^3.11.1",
-		"nanoid": "^5.0.7",
-		"openai": "^4.47.1",
-		"remeda": "^1.61.0",
-		"toucan-js": "^3.4.0",
-		"zod": "^3.23.8"
-	},
-	"devDependencies": {
-		"@types/bun": "latest",
-		"@biomejs/biome": "1.7.3",
-		"@cloudflare/workers-types": "latest",
-		"@types/node": "^20.12.12",
-		"bun-types": "^1.1.10",
-		"drizzle-kit": "^0.21.4",
-		"typescript": "5.4.5",
-		"wrangler": "latest"
-	}
+  "name": "news-bot",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev src/index.ts",
+    "deploy": "wrangler deploy --minify",
+    "lint": "tsc && biome check .",
+    "lint:fix": "tsc && biome format . --write && biome check . --apply",
+    "generate": "drizzle-kit generate",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@hono/sentry": "^1.1.0",
+    "@hono/zod-validator": "^0.2.1",
+    "@langchain/core": "^0.2.2",
+    "@langchain/openai": "^0.0.34",
+    "dayjs": "^1.11.11",
+    "discord-api-types": "^0.37.86",
+    "discord-interactions": "^3.4.0",
+    "drizzle-orm": "^0.30.10",
+    "drizzle-zod": "^0.5.1",
+    "fast-xml-parser": "^4.4.0",
+    "hono": "^4.4.0",
+    "html-entities": "^2.5.2",
+    "langchain": "^0.2.2",
+    "langfuse-langchain": "^3.11.1",
+    "nanoid": "^5.0.7",
+    "openai": "^4.47.1",
+    "remeda": "^1.61.0",
+    "toucan-js": "^3.4.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.7.3",
+    "@cloudflare/workers-types": "latest",
+    "@types/bun": "latest",
+    "@types/node": "^20.12.12",
+    "bun-types": "^1.1.10",
+    "drizzle-kit": "^0.21.4",
+    "typescript": "5.4.5",
+    "wrangler": "latest"
+  }
 }
