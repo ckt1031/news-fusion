@@ -13,6 +13,7 @@ import { parseRSS } from '../parse-news';
 import { scrapeToMarkdown } from '../scrape';
 import filterRSS from './filter-news';
 import sendNewsToDiscord from './send-discord-news';
+import { getRSSHubURL } from './rsshub';
 
 type Props = {
 	env: ServerEnv;
@@ -65,9 +66,16 @@ export default async function checkRSS({
 			: catagoryData.items;
 
 		for (const rssItem of rssListOfCatagory) {
-			const url = typeof rssItem === 'string' ? rssItem : rssItem.source;
+			let url: string | false = typeof rssItem === 'string' ? rssItem : rssItem.source;
+
+			url = getRSSHubURL(env, url);
+
+			if (!url) continue;
+
 			try {
 				const feed = await parseRSS(url, EARLIEST_HOURS);
+				
+				console.info(`Checking RSS: ${url}`);
 
 				if (!feed || isTesting) continue;
 

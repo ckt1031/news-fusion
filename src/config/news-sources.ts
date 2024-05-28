@@ -38,7 +38,27 @@ export const AI_FILTER_RSS_LINKS: RSSList = {
 
 /** Formal RSS */
 export const MUST_READ_RSS_LIST: RSSList = {
-	[RSS_CATEGORY.TECHNOLOGY]: ['http://research.microsoft.com/rss/news.xml'],
+	[RSS_CATEGORY.TECHNOLOGY]: [
+		'http://research.microsoft.com/rss/news.xml',
+		{
+			// 极客湾 Geekerwan
+			source: '{RSSHUB}/bilibili/user/video/25876945',
+			disableAutoSummary: true,
+			disableAllAIFunctions: true,
+		},
+		{
+			// YouTube: Kurzgesagt – In a Nutshell
+			source: '{RSSHUB}/youtube/user/@kurzgesagt',
+			disableAutoSummary: true,
+			disableAllAIFunctions: true,
+		},
+		{
+			// YouTube: 小Lin说
+			source: '{RSSHUB}/youtube/user/@xiao_lin_shuo',
+			disableAutoSummary: true,
+			disableAllAIFunctions: true,
+		},
+	],
 	[RSS_CATEGORY.DEVELOPER]: [
 		// Tools
 		'https://www.docker.com/feed',

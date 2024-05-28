@@ -6,7 +6,7 @@ test('Test News Availability', async () => {
 	expect(
 		await checkRSS({
 			// @ts-ignore
-			env: {},
+			env: process.env,
 			list: ALL_RSS_LIST,
 			allMustRead: true,
 			isTesting: true,

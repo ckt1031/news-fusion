@@ -9,6 +9,9 @@ export const envSchema = z.object({
 	DISCORD_PUBLIC_KEY: z.string(),
 	DISCORD_RSS_CHANNEL_ID: z.string(),
 
+	RSSHUB_BASE_URL: z.string().optional(),
+	RSSHUB_ACCESS_KEY: z.string().optional(),
+
 	TOOLS_API_BASE_URL: z.string(),
 	TOOLS_API_KEY: z.string(),
 

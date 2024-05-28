@@ -12,5 +12,10 @@ export default function filterRSS(prop: FilterProps) {
 		return false;
 	}
 
+	// No #shorts in title
+	if (prop.title.toLowerCase().includes('#shorts')) {
+		return false;
+	}
+
 	return true;
 }

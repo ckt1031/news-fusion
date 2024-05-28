@@ -19,8 +19,6 @@ function filterLastDayNews(
 }
 
 export async function parseRSS(url: string, pastHours = -1) {
-	console.log('Parsing RSS:', url);
-
 	const req = await fetch(url);
 
 	if (!req.ok) {
