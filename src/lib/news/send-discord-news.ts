@@ -19,6 +19,7 @@ type SendNewsToDiscordProps = {
 			link: string;
 			pubDate: string;
 		};
+		channelId: string;
 		description?: string;
 		disableAllComponents?: boolean;
 	};
@@ -49,7 +50,7 @@ export default async function sendNewsToDiscord({
 	];
 	await discordMessage.send({
 		token: env.DISCORD_BOT_TOKEN,
-		channelId: env.DISCORD_RSS_CHANNEL_ID,
+		channelId: data.channelId,
 		body: {
 			embeds: [
 				{

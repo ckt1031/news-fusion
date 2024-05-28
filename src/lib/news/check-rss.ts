@@ -47,7 +47,8 @@ export default async function checkRSS({
 	isTesting,
 }: Props) {
 	for (const source of catagory.sources) {
-		let url: string | undefined = typeof source === 'string' ? source : source.url;
+		let url: string | undefined =
+			typeof source === 'string' ? source : source.url;
 
 		url = getRSSHubURL(env, url);
 
@@ -123,6 +124,7 @@ export default async function checkRSS({
 								link: item.link,
 								pubDate: item.pubDate,
 							},
+							channelId: catagory.discordChannelId,
 							disableAllComponents,
 						},
 					});

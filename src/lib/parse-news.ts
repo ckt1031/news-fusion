@@ -32,9 +32,13 @@ export async function parseRSS(url: string, pastHours = -1) {
 	const data = parser.parse(xmlData);
 
 	const parsedData = RssFeedSchema.parse(data.feed ?? data.rss.channel);
-	const filteredData = parsedData.item.filter((item) => filterLastDayNews(item, pastHours));
+	const filteredData = parsedData.item.filter((item) =>
+		filterLastDayNews(item, pastHours),
+	);
 
-	console.info(`Parsed ${filteredData.length} (Total ${parsedData.item.length}) news from ${url}`);
+	console.info(
+		`Parsed ${filteredData.length} (Total ${parsedData.item.length}) news from ${url}`,
+	);
 
 	return {
 		...parsedData,

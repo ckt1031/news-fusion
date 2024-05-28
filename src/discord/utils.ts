@@ -181,7 +181,7 @@ export async function createNewsInfoDiscordThread(
 
 	const thread = await createDiscordThread(
 		env.DISCORD_BOT_TOKEN,
-		env.DISCORD_RSS_CHANNEL_ID,
+		interaction.channel.id,
 		interaction.message.id,
 		title,
 	);
