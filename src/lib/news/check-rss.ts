@@ -1,46 +1,40 @@
 import {
 	EARLIEST_HOURS,
-	type RSSList,
-	type RSSListValue,
-	type RSSSourceItem,
-	type RSS_CATEGORY,
+	type RssCatagory,
+	type RssSourceItem,
 } from '@/config/news-sources';
 import type { ServerEnv } from '@/types/env';
-import { saveArticle } from '.';
-import { checkIfNewsIsNew } from '../db';
+import { nanoid } from 'nanoid';
+import { checkIfNewsIsNew, createArticleDatabase } from '../db';
 import { checkArticleImportance, requestChatCompletionAPI } from '../llm';
 import { parseRSS } from '../parse-news';
 import { scrapeToMarkdown } from '../scrape';
 import filterRSS from './filter-news';
-import sendNewsToDiscord from './send-discord-news';
 import { getRSSHubURL } from './rsshub';
+import sendNewsToDiscord from './send-discord-news';
 
 type Props = {
 	env: ServerEnv;
-	list: RSSList;
+	catagory: RssCatagory;
 	allMustRead: boolean;
 	isTesting?: boolean;
 };
 
 const getDisableAllComponents = (
-	catagoryData: RSSListValue,
-	rssItem: string | RSSSourceItem,
+	catagoryData: RssCatagory,
+	rssItem: RssSourceItem,
 ) => {
-	const catagorySideDisableAllComponent = Array.isArray(catagoryData)
-		? false
-		: catagoryData.disableAllAIFunctions;
+	const catagorySideDisableAllComponent = catagoryData.disableAllAIFunctions;
 	const itemSideDisableAllComponent =
 		typeof rssItem === 'string' ? false : rssItem.disableAllAIFunctions;
 	return catagorySideDisableAllComponent || itemSideDisableAllComponent;
 };
 
 const getDisableAutoSummarize = (
-	catagoryData: RSSListValue,
-	rssItem: string | RSSSourceItem,
+	catagoryData: RssCatagory,
+	rssItem: RssSourceItem,
 ) => {
-	const catagorySideDisableAutoSummarize = Array.isArray(catagoryData)
-		? false
-		: catagoryData.disableAutoSummary;
+	const catagorySideDisableAutoSummarize = catagoryData.disableAutoSummary;
 	const itemSideDisableAutoSummarize =
 		typeof rssItem === 'string' ? false : rssItem.disableAutoSummary;
 	return catagorySideDisableAutoSummarize || itemSideDisableAutoSummarize;
@@ -48,126 +42,107 @@ const getDisableAutoSummarize = (
 
 export default async function checkRSS({
 	env,
-	list,
+	catagory,
 	allMustRead,
 	isTesting,
 }: Props) {
-	// Handle Must Read RSS
-	for (const rssCategory of Object.keys(list)) {
-		// Pick a random RSS from the list
+	for (const source of catagory.sources) {
+		let url: string | undefined = typeof source === 'string' ? source : source.url;
 
-		const catagoryData = list[rssCategory as RSS_CATEGORY];
+		url = getRSSHubURL(env, url);
 
-		// If the list is empty, skip
-		if (!catagoryData) continue;
+		if (!url) continue;
 
-		const rssListOfCatagory = Array.isArray(catagoryData)
-			? catagoryData
-			: catagoryData.items;
+		try {
+			const feed = await parseRSS(url, EARLIEST_HOURS);
 
-		for (const rssItem of rssListOfCatagory) {
-			let url: string | false = typeof rssItem === 'string' ? rssItem : rssItem.source;
+			console.info(`Checking RSS: ${url}`);
 
-			url = getRSSHubURL(env, url);
+			if (!feed || isTesting) continue;
 
-			if (!url) continue;
+			for (const item of feed.item) {
+				if (!filterRSS({ url, title: item.title })) continue;
 
-			try {
-				const feed = await parseRSS(url, EARLIEST_HOURS);
-				
-				console.info(`Checking RSS: ${url}`);
+				const isNew = await checkIfNewsIsNew(env, item.guid);
+				if (!isNew) continue;
 
-				if (!feed || isTesting) continue;
+				const disableAllComponents = getDisableAllComponents(catagory, source);
+				const disableAutoSummarize = getDisableAutoSummarize(catagory, source);
 
-				for (const item of feed.item) {
-					if (!filterRSS({ url, title: item.title })) continue;
+				let importantEnough = true;
+				let markdownContent = '';
 
-					const isNew = await checkIfNewsIsNew(env, item.guid);
-					if (!isNew) continue;
+				if (!allMustRead || !disableAutoSummarize) {
+					markdownContent = await scrapeToMarkdown(env, item.link);
+				}
 
-					const disableAllComponents = getDisableAllComponents(
-						catagoryData,
-						rssItem,
-					);
-					const disableAutoSummarize = getDisableAutoSummarize(
-						catagoryData,
-						rssItem,
-					);
-
-					let importantEnough = true;
-					let markdownContent = '';
-
-					if (!allMustRead || !disableAutoSummarize) {
-						markdownContent = await scrapeToMarkdown(env, item.link);
-					}
-
-					if (!allMustRead) {
-						const result = await checkArticleImportance(
-							env,
-							`
+				if (!allMustRead) {
+					const result = await checkArticleImportance(
+						env,
+						`
 					title: ${item.title}
 					url: ${item.link}
 					content: ${markdownContent}
 					`,
-						);
-						importantEnough = result.toLowerCase().includes('true');
-					}
-
-					console.info(
-						`${item.link} : `,
-						`${importantEnough ? 'Important' : 'Not Important'}`,
 					);
+					importantEnough = result.toLowerCase().includes('true');
+				}
 
-					if (importantEnough) {
-						let shortSummary: string | undefined = undefined;
+				console.info(
+					`${item.link} : `,
+					`${importantEnough ? 'Important' : 'Not Important'}`,
+				);
 
-						if (!disableAutoSummarize) {
-							shortSummary = await requestChatCompletionAPI({
-								env,
-								model: 'gpt-3.5-turbo',
-								temperature: 0.1,
-								message: {
-									system:
-										'Generate a 50-100 word summary for given article and content, only in plain text.',
-									user: markdownContent,
-								},
-							});
+				if (importantEnough) {
+					let shortSummary: string | undefined = undefined;
 
-							console.info(`Short Summary ( ${item.link} ):`, shortSummary);
-						}
-
-						await sendNewsToDiscord({
+					if (!disableAutoSummarize) {
+						shortSummary = await requestChatCompletionAPI({
 							env,
-							data: {
-								...(!disableAutoSummarize && { description: shortSummary }),
-								feed: {
-									title: feed.title,
-								},
-								news: {
-									title: item.title,
-									link: item.link,
-									pubDate: item.pubDate,
-								},
-								disableAllComponents,
+							model: 'gpt-3.5-turbo',
+							temperature: 0.1,
+							message: {
+								system:
+									'Generate a 50-100 word summary for given article and content, only in plain text.',
+								user: markdownContent,
 							},
 						});
+
+						console.info(`Short Summary ( ${item.link} ):`, shortSummary);
 					}
 
-					await saveArticle(env, {
-						importantEnough,
-						title: item.title,
-						url: item.link,
-						publisher: feed.title,
-						category: rssCategory,
-						guid: item.guid,
-						publishedAt: new Date(item.pubDate).getTime(),
+					await sendNewsToDiscord({
+						env,
+						data: {
+							...(!disableAutoSummarize && { description: shortSummary }),
+							feed: {
+								title: feed.title,
+							},
+							news: {
+								title: item.title,
+								link: item.link,
+								pubDate: item.pubDate,
+							},
+							disableAllComponents,
+						},
 					});
 				}
-			} catch (error) {
-				console.error(error);
-				if (isTesting && error instanceof Error) {
-					throw error;
-				}
+
+				await createArticleDatabase(env, {
+					id: nanoid(),
+					importantEnough,
+					title: item.title,
+					url: item.link,
+					publisher: feed.title,
+					category: catagory.name,
+					guid: item.guid,
+					publishedAt: new Date(item.pubDate).getTime(),
+				});
+			}
+		} catch (error) {
+			console.error(error);
+			if (isTesting && error instanceof Error) {
+				throw error;
 			}
 		}
 	}

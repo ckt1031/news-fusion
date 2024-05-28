@@ -1,5 +1,4 @@
 import { clearUnusedDatabaseData } from '@/lib/db';
-import { checkNews } from '@/lib/news';
 import { initSentry } from '@/lib/sentry';
 import app from '@/server';
 import type { ServerEnv } from '@/types/env';
@@ -19,15 +18,6 @@ export default {
 			console.error(e);
 			throw e;
 		};
-
-		// Every 15 minutes
-		if (event.cron === '*/15 * * * *') {
-			ctx.waitUntil(
-				checkNews(env, {
-					doNotCheckAiFilter: true,
-				}).catch(handleCrash),
-			);
-		}
 
 		// Every 2 days
 		if (event.cron === '0 0 */2 * *') {
