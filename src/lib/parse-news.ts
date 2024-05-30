@@ -36,9 +36,16 @@ export async function parseRSS(url: string, pastHours = -1) {
 		filterLastDayNews(item, pastHours),
 	);
 
-	console.info(
-		`Parsed ${filteredData.length} (Total ${parsedData.item.length}) news from ${url}`,
-	);
+	if (typeof process !== 'undefined' && process.env.TESTING === '1') {
+		// Also check if URL is valud
+		for (const data of parsedData.item) {
+			if (!data.link.startsWith('http')) throw 'URL Validation Failed';
+		}
+	} else {
+		console.info(
+			`Parsed ${filteredData.length} (Total ${parsedData.item.length}) news from ${url}`,
+		);
+	}
 
 	return {
 		...parsedData,

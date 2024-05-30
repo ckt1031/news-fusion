@@ -76,7 +76,7 @@ export const RSS_TECH: RssCatagory = {
 		'https://blog.cloudflare.com/rss',
 		'https://github.com/blog/all.atom',
 		'https://www.theverge.com/rss/index.xml',
-		// 'https://www.theregister.com/headlines.atom',
+		'https://www.theregister.com/headlines.rss',
 		{
 			url: 'http://research.microsoft.com/rss/news.xml',
 			checkImportance: false,
