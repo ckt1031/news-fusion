@@ -21,9 +21,6 @@ You are an expert translator specializing in translating content from English (U
 
 Translate the following English text into Traditional Chinese (Hong Kong):
 
-### Task Title
-
-\`\`\`
 ## Welcome Message
 
 ### Content
@@ -32,11 +29,9 @@ Translate the following English text into Traditional Chinese (Hong Kong):
 - We are excited to have you here.
 - Please read the rules and guidelines.
 - Feel free to ask any questions.
-\`\`\`
 
 ## Your Translation
 
-\`\`\`markdown
 ## 歡迎信息
 
 ### 內容
@@ -45,6 +40,6 @@ Translate the following English text into Traditional Chinese (Hong Kong):
 - 我們很高興你能加入。
 - 請閱讀規則和指南。
 - 有任何問題，請隨時提出。
-\`\`\``;
+`;
 
 export default prompt;
