@@ -77,14 +77,16 @@ export default async function checkRSS({
 					markdownContent = await scrapeToMarkdown(env, item.link);
 				}
 
+				const content = `
+				title: ${item.title}
+				url: ${item.link}
+				content: ${markdownContent}
+				`;
+
 				if (!allMustRead) {
 					const result = await checkArticleImportance(
 						env,
-						`
-					title: ${item.title}
-					url: ${item.link}
-					content: ${markdownContent}
-					`,
+						content,
 					);
 					importantEnough = result.toLowerCase().includes('true');
 				}
@@ -105,7 +107,7 @@ export default async function checkRSS({
 							message: {
 								system:
 									'Generate a 50-100 word summary for given article and content, only in plain text.',
-								user: markdownContent,
+								user: content,
 							},
 						});
 
