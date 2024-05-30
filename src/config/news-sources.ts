@@ -40,9 +40,7 @@ export const RSS_GENERAL: RssCatagory = {
 export const RSS_HKG: RssCatagory = {
 	name: RSS_CATEGORY.HKG,
 	discordChannelId: '1245731477048660021',
-	sources: [
-		'https://www.scmp.com/rss/2/feed',
-	],
+	sources: ['https://www.scmp.com/rss/2/feed'],
 };
 
 export const RSS_THINKING: RssCatagory = {
@@ -78,7 +76,7 @@ export const RSS_TECH: RssCatagory = {
 		'https://blog.cloudflare.com/rss',
 		'https://github.com/blog/all.atom',
 		'https://www.theverge.com/rss/index.xml',
-		'https://www.theregister.com/headlines.atom',
+		// 'https://www.theregister.com/headlines.atom',
 		{
 			url: 'http://research.microsoft.com/rss/news.xml',
 			checkImportance: false,

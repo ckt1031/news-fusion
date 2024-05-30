@@ -84,10 +84,7 @@ export default async function checkRSS({
 				`;
 
 				if (!allMustRead) {
-					const result = await checkArticleImportance(
-						env,
-						content,
-					);
+					const result = await checkArticleImportance(env, content);
 					importantEnough = result.toLowerCase().includes('true');
 				}
 
