@@ -19,6 +19,8 @@ export type RssCatagory = {
 
 export enum RSS_CATEGORY {
 	BLOGS = 'blogs',
+	HKG = 'hkg',
+	THINKING = 'thinking',
 	VIDEOS = 'videos',
 	ALERTS = 'alerts',
 	GENERAL = 'general',
@@ -28,10 +30,30 @@ export enum RSS_CATEGORY {
 
 export const RSS_GENERAL: RssCatagory = {
 	name: RSS_CATEGORY.GENERAL,
-	discordChannelId: '1232637503144722432',
+	discordChannelId: '1245738873787645962',
 	sources: [
-		'https://www.theguardian.com/uk/rss',
+		'https://rss.politico.com/politics-news.xml',
+		'https://feeds.bbci.co.uk/news/world/rss.xml',
+	],
+};
+
+export const RSS_HKG: RssCatagory = {
+	name: RSS_CATEGORY.HKG,
+	discordChannelId: '1245731477048660021',
+	sources: [
+		'https://www.scmp.com/rss/2/feed',
+	],
+};
+
+export const RSS_THINKING: RssCatagory = {
+	name: RSS_CATEGORY.THINKING,
+	discordChannelId: '1245734549879525546',
+	sources: [
+		'https://asteriskmag.com/feed',
+		'https://www.nplusonemag.com/feed',
 		'https://www.newyorker.com/feed/news',
+		'https://api.quantamagazine.org/feed',
+		'https://www.noemamag.com/?feed=noemarss',
 	],
 };
 
@@ -43,7 +65,7 @@ export const RSS_VIDEOS: RssCatagory = {
 	checkImportance: false,
 	sources: [
 		'{RSSHUB}/bilibili/user/video/25876945', // 极客湾 Geekerwan
-		// '{RSSHUB}/youtube/user/@kurzgesagt', // YouTube: Kurzgesagt – In a Nutshell, No need, they have discord announcement channel
+		'{RSSHUB}/youtube/user/@kurzgesagt', // YouTube: Kurzgesagt – In a Nutshell
 		'{RSSHUB}/youtube/user/@xiao_lin_shuo', // YouTube: 小Lin说
 	],
 };
@@ -56,6 +78,7 @@ export const RSS_TECH: RssCatagory = {
 		'https://blog.cloudflare.com/rss',
 		'https://github.com/blog/all.atom',
 		'https://www.theverge.com/rss/index.xml',
+		'https://www.theregister.com/headlines.atom',
 		{
 			url: 'http://research.microsoft.com/rss/news.xml',
 			checkImportance: false,
