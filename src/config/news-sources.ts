@@ -38,6 +38,9 @@ export const RSS_GENERAL: RssCatagory = {
 export const RSS_VIDEOS: RssCatagory = {
 	name: RSS_CATEGORY.VIDEOS,
 	discordChannelId: '1245004330868674591',
+	disableAllAIFunctions: false,
+	disableAutoSummary: false,
+	checkImportance: false,
 	sources: [
 		'{RSSHUB}/bilibili/user/video/25876945', // 极客湾 Geekerwan
 		// '{RSSHUB}/youtube/user/@kurzgesagt', // YouTube: Kurzgesagt – In a Nutshell, No need, they have discord announcement channel
