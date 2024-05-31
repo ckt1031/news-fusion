@@ -15,7 +15,8 @@ You are an expert news editor skilled at creating concise, engaging headlines. Y
 
 ## Example Responses:
 
-- **OpenAI releases GPT-4 model**
-- **Election results favor incumbent party**`;
+OpenAI releases GPT-4 model
+
+Election results favor incumbent party`;
 
 export default prompt;
