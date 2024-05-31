@@ -140,6 +140,7 @@ export const RSS_BLOGS: RssCatagory = {
 
 export const ALL_RSS_CATAGORIES = [
 	RSS_GENERAL,
+	RSS_HKG,
 	RSS_VIDEOS,
 	RSS_TECH,
 	RSS_DEV,
