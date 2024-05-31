@@ -32,7 +32,7 @@ export const RSS_GENERAL: RssCatagory = {
 	name: RSS_CATEGORY.GENERAL,
 	discordChannelId: '1245738873787645962',
 	sources: [
-		'https://rss.politico.com/politics-news.xml',
+		'https://rss.politico.com/politics08.xml',
 		'https://feeds.bbci.co.uk/news/world/rss.xml',
 	],
 };
@@ -119,8 +119,6 @@ export const RSS_ALERTS: RssCatagory = {
 	name: RSS_CATEGORY.ALERTS,
 	discordChannelId: '1245007194064293929',
 	checkImportance: false,
-	disableAutoSummary: true,
-	disableAllAIFunctions: true,
 	sources: ['https://rss.weather.gov.hk/rss/WeatherWarningBulletin_uc.xml'],
 };
 
