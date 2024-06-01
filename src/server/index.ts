@@ -17,6 +17,11 @@ app.get('/', (c) => {
 app.route('/discord', discordBot);
 app.route('/db', dbRoute);
 
+// robots.txt, disallow all
+app.get('/robots.txt', (c) => {
+	return c.text('User-agent: *\nDisallow: /');
+});
+
 app.onError((e, c) => {
 	if (e instanceof HTTPException) {
 		return c.json(
@@ -32,7 +37,7 @@ app.onError((e, c) => {
 
 	console.error(e);
 
-	return c.text('Internal Server Error', 500);
+	return c.status(500);
 });
 
 export default app;
