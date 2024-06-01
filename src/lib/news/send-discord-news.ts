@@ -63,7 +63,7 @@ export default async function sendNewsToDiscord({
 			// 		timestamp: new Date(data.news.pubDate).toISOString(),
 			// 	},
 			// ],
-			content: `# [data.news.title](<${data.news.link}>)\n\n${data.description}`,
+			content: `# [${data.news.title}](<${data.news.link}>)\n\n${data.description}`,
 			components: data.disableAllComponents ? [] : components,
 		},
 	});
