@@ -119,7 +119,7 @@ export const RSS_ALERTS: RssCatagory = {
 	name: RSS_CATEGORY.ALERTS,
 	discordChannelId: '1245007194064293929',
 	checkImportance: false,
-	sources: ['https://rss.weather.gov.hk/rss/WeatherWarningBulletin_uc.xml'],
+	sources: ['https://rss.weather.gov.hk/rss/WeatherWarningBulletin.xml'],
 };
 
 export const RSS_BLOGS: RssCatagory = {
