@@ -1,5 +1,6 @@
 {
 	"name": "news-bot",
+	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
 		"dev": "wrangler dev src/index.ts",

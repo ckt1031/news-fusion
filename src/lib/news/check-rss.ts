@@ -6,7 +6,8 @@ import {
 import type { ServerEnv } from '@/types/env';
 import { nanoid } from 'nanoid';
 import { checkIfNewsIsNew, createArticleDatabase } from '../db';
-import { checkArticleImportance, requestChatCompletionAPI } from '../llm';
+import { requestChatCompletionAPI } from '../llm/api';
+import { checkArticleImportance } from '../llm/prompt-calls';
 import { parseRSS } from '../parse-news';
 import { scrapeToMarkdown } from '../scrape';
 import filterRSS from './filter-news';
@@ -105,6 +106,9 @@ export default async function checkRSS({
 								system:
 									'Generate a 50-100 words summary with key points of given article and content, only in plain text, must be concise and precise.',
 								user: content,
+							},
+							trace: {
+								name: 'summarize-article-briefly',
 							},
 						});
 

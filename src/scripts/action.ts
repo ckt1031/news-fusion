@@ -3,6 +3,7 @@
  */
 
 import { ALL_RSS_CATAGORIES } from '@/config/news-sources';
+import { getLangfuse } from '@/lib/llm/api';
 import checkRSS from '@/lib/news/check-rss';
 import { envSchema } from '@/types/env';
 
@@ -15,3 +16,5 @@ for (const catagory of ALL_RSS_CATAGORIES) {
 		allMustRead: true,
 	});
 }
+
+await getLangfuse(env).shutdownAsync();

@@ -4,7 +4,7 @@ import {
 	discordMessage,
 	discordTextSplit,
 } from '@/discord/utils';
-import { summarizeText } from '@/lib/llm';
+import { summarizeText } from '@/lib/llm/prompt-calls';
 import { scrapeToMarkdown } from '@/lib/scrape';
 import { DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';

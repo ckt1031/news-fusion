@@ -2,7 +2,7 @@ import {
 	discordMessage,
 	getAllMessagesInDiscordChannel,
 } from '@/discord/utils';
-import { summarizeText } from '@/lib/llm';
+import { summarizeText } from '@/lib/llm/prompt-calls';
 import { scrapeToMarkdown } from '@/lib/scrape';
 import type { ServerEnv } from '@/types/env';
 import type { APIMessageComponentInteraction } from 'discord-api-types/v10';

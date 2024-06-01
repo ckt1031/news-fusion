@@ -1,5 +1,5 @@
 import { DISCORD_API_BASE } from '@/config/api';
-import { generateTitle } from '@/lib/llm';
+import { generateTitle } from '@/lib/llm/prompt-calls';
 import type {
 	GetOrDeleteDiscordMessageProp,
 	PatchDiscordMessageProp,
