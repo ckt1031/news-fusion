@@ -24,7 +24,5 @@ export default {
 			ctx.waitUntil(clearUnusedDatabaseData(env).catch(handleCrash));
 		}
 	},
-	async fetch(request: Request, env: ServerEnv) {
-		return await app.fetch(request, env);
-	},
+	fetch: app.fetch,
 };
