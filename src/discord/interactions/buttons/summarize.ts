@@ -87,7 +87,8 @@ const summarizeButtonExecution = async (
 	c: Context<Env, '/', BlankInput>,
 	interaction: APIMessageComponentInteraction,
 ) => {
-	c.executionCtx.waitUntil(handleSummarie(c.env, interaction));
+	c.var.ctx /*  */
+		.waitUntil(handleSummarie(c.env, interaction));
 
 	return {
 		type: InteractionResponseType.DeferredMessageUpdate,

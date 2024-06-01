@@ -6,6 +6,7 @@ import {
 	MessageFlags,
 } from 'discord-api-types/v10';
 import { Hono } from 'hono';
+import { getRequestExecutionContext } from '../lib/get-execution-ctx';
 import reSummarizeButtonExecution from './interactions/buttons/re-summarize';
 import reTranslateButtonExecution from './interactions/buttons/re-translate';
 import summarizeButtonExecution from './interactions/buttons/summarize';
@@ -21,6 +22,8 @@ app.get('/', (c) => {
 });
 
 app.post('/', async (c) => {
+	c.set('ctx', getRequestExecutionContext());
+
 	const handleError = (error: unknown) => {
 		console.error(error);
 		return c.json({
