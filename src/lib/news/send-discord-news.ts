@@ -52,17 +52,18 @@ export default async function sendNewsToDiscord({
 		token: env.DISCORD_BOT_TOKEN,
 		channelId: data.channelId,
 		body: {
-			embeds: [
-				{
-					title: data.news.title,
-					url: data.news.link,
-					description: data.description,
-					author: {
-						name: data.feed.title,
-					},
-					timestamp: new Date(data.news.pubDate).toISOString(),
-				},
-			],
+			// embeds: [
+			// 	{
+			// 		title: data.news.title,
+			// 		url: data.news.link,
+			// 		description: data.description,
+			// 		author: {
+			// 			name: data.feed.title,
+			// 		},
+			// 		timestamp: new Date(data.news.pubDate).toISOString(),
+			// 	},
+			// ],
+			content: `# [data.news.title](<${data.news.link}>)\n\n${data.description}`,
 			components: data.disableAllComponents ? [] : components,
 		},
 	});

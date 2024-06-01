@@ -9,7 +9,6 @@ import type { ServerEnv } from '@/types/env';
 import {
 	type APIMessage,
 	type APIMessageComponentInteraction,
-	InteractionResponseType,
 	MessageType,
 	type RESTGetAPIChannelMessageResult,
 	type RESTPostAPIChannelMessageResult,
@@ -131,18 +130,6 @@ export const discordMessage = {
 		});
 	},
 };
-
-export async function deferUpdateInteraction(
-	interaction: APIMessageComponentInteraction,
-) {
-	await discordBaseRequest({
-		path: `/interactions/${interaction.id}/${interaction.token}/callback`,
-		method: 'POST',
-		body: {
-			type: InteractionResponseType.DeferredMessageUpdate,
-		},
-	});
-}
 
 export async function createDiscordThread(
 	token: ServerEnv['DISCORD_BOT_TOKEN'],
