@@ -10,7 +10,6 @@ import reSummarizeButtonExecution from './interactions/buttons/re-summarize';
 import reTranslateButtonExecution from './interactions/buttons/re-translate';
 import summarizeButtonExecution from './interactions/buttons/summarize';
 import translateButtonExecution from './interactions/buttons/translate';
-import { discordMessage } from './utils';
 import verifyDiscordRequest from './verify-request';
 
 const app = new Hono();
@@ -81,18 +80,6 @@ app.post('/', async (c) => {
 
 					return c.json(response);
 				} catch (error) {
-					await discordMessage.send({
-						token: c.env.DISCORD_BOT_TOKEN,
-						channelId: interaction.channel.id,
-						body: {
-							content:
-								error instanceof Error ? error.message : 'An error occurred',
-							flags: MessageFlags.Ephemeral,
-							message_reference: {
-								message_id: interaction.message.id,
-							},
-						},
-					});
 					return handleError(error);
 				}
 			}
