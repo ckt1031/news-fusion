@@ -25,6 +25,7 @@ export enum RSS_CATEGORY {
 	ALERTS = 'alerts',
 	GENERAL = 'general',
 	DEVELOPER = 'developer',
+	UPDATES = 'updates',
 	TECHNOLOGY = 'technology',
 }
 
@@ -74,7 +75,7 @@ export const RSS_TECH: RssCatagory = {
 	sources: [
 		'https://blog.google/rss',
 		'https://blog.cloudflare.com/rss',
-		'https://github.com/blog/all.atom',
+		'https://github.blog/feed',
 		'https://www.theverge.com/rss/index.xml',
 		'https://www.theregister.com/headlines.rss',
 		{
@@ -93,7 +94,11 @@ export const RSS_DEV: RssCatagory = {
 	discordChannelId: '1245006701812387890',
 	checkImportance: false,
 	sources: [
+		// AI
+		'https://rsshub.bestblogs.dev/deeplearning/thebatch',
+
 		'https://www.docker.com/feed',
+		'https://blog.mozilla.org/feed/',
 		// Open Source
 		'{RSSHUB}/hellogithub/article',
 		// Microsoft
@@ -101,10 +106,16 @@ export const RSS_DEV: RssCatagory = {
 		// Programming Languages
 		'https://bun.sh/rss.xml',
 		'https://deno.com/feed',
+		'https://blog.rust-lang.org/',
 		'https://nodejs.org/en/feed/blog.xml',
-		// Frameworks
+		'https://cprss.s3.amazonaws.com/javascriptweekly.com.xml',
+		// Frameworks and frontennd tools
 		'https://nextjs.org/feed.xml',
 		'https://astro.build/rss.xml',
+		'https://tailwindcss.com/feeds/feed.xml',
+		'https://nuxt.com/blog/rss.xml',
+		'https://react.dev/rss.xml',
+		'https://blog.vuejs.org/feed.rss',
 		// AI but basically programming
 		'https://blog.langchain.dev/rss',
 		// Developer Platform
@@ -112,6 +123,11 @@ export const RSS_DEV: RssCatagory = {
 		'https://stackoverflow.blog/feed',
 		'https://blog.replit.com/feed.xml',
 		'https://supabase.com/feed.xml',
+		'https://blog.stackblitz.com/rss.xml',
+		'https://firebase.blog/rss.xml',
+		// Platforms
+		'https://netflixtechblog.com/feed',
+		'https://engineering.atspotify.com/feed/',
 	],
 };
 
@@ -135,6 +151,15 @@ export const RSS_BLOGS: RssCatagory = {
 		'https://feeds.feedburner.com/ruanyifeng',
 		'https://www.williamlong.info/rss.xml',
 		'https://www.owenyoung.com/atom.xml',
+	],
+};
+
+export const RSS_UPDATES: RssCatagory = {
+	name: RSS_CATEGORY.UPDATES,
+	discordChannelId: '1245045959570755584',
+	sources: [
+		'https://obsidian.md/feed.xml',
+		'https://discord.com/blog/rss.xml',
 	],
 };
 
