@@ -157,10 +157,7 @@ export const RSS_BLOGS: RssCatagory = {
 export const RSS_UPDATES: RssCatagory = {
 	name: RSS_CATEGORY.UPDATES,
 	discordChannelId: '1245045959570755584',
-	sources: [
-		'https://obsidian.md/feed.xml',
-		'https://discord.com/blog/rss.xml',
-	],
+	sources: ['https://obsidian.md/feed.xml', 'https://discord.com/blog/rss.xml'],
 };
 
 export const ALL_RSS_CATAGORIES = [

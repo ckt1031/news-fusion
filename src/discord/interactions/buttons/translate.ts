@@ -93,6 +93,8 @@ class TranslateButton extends ButtonStructure {
 				throw new Error('Failed to translate content');
 			}
 
+			console.log('AI Translation:', translation);
+
 			const chunks = await discordTextSplit(translation);
 
 			// Send to thread
