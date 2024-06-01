@@ -6,7 +6,7 @@ import {
 } from '@/discord/utils';
 import { summarizeText } from '@/lib/llm/prompt-calls';
 import { scrapeToMarkdown } from '@/lib/scrape';
-import { DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
+import { ButtonStructure, DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
 import {
 	type APIActionRowComponent,
@@ -19,79 +19,82 @@ import {
 import type { Context, Env } from 'hono';
 import type { BlankInput } from 'hono/types';
 
-const handleSummarie = async (
-	env: ServerEnv,
-	interaction: APIMessageComponentInteraction,
-) => {
-	const parentMessage = interaction.message;
+class SummarizeButton extends ButtonStructure {
+	declare id: DISCORD_INTERACTION_BUTTONS.GENERATE_SUMMARIZE;
+	async execute(
+		c: Context<Env, '/', BlankInput>,
+		interaction: APIMessageComponentInteraction,
+	) {
+		c.executionCtx.waitUntil(this.handleLogic(c.env, interaction));
 
-	if (parentMessage.embeds.length === 0 || !parentMessage.embeds[0].url) {
-		throw new Error('No embeds found');
-	}
-
-	const url = parentMessage.embeds[0].url;
-
-	const content = await scrapeToMarkdown(env, url);
-
-	const text = await summarizeText(env, content);
-
-	if (!text) {
-		throw new Error('Failed to summarize content');
-	}
-
-	const chunks = await discordTextSplit(text);
-
-	const thread = await createNewsInfoDiscordThread(env, interaction, text);
-
-	const components: APIActionRowComponent<APIMessageActionRowComponent>[] = [
-		{
-			type: ComponentType.ActionRow,
-			components: [
-				{
-					type: ComponentType.Button,
-					style: ButtonStyle.Secondary,
-					label: 'Regenerate',
-					custom_id: DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE,
-				},
-				{
-					type: ComponentType.Button,
-					style: ButtonStyle.Secondary,
-					label: 'Translate',
-					custom_id: DISCORD_INTERACTION_BUTTONS.TRANSLATE,
-				},
-			],
-		},
-	];
-
-	for (const chunk of chunks) {
-		const isOnlyOne = chunks.length === 1;
-
-		await discordMessage.send({
-			token: env.DISCORD_BOT_TOKEN,
-			channelId: thread.id,
-			body: {
-				content: chunk,
-				// Idk how to handle multiple messages sent later
-				components: isOnlyOne ? components : [],
-			},
+		return c.json({
+			type: InteractionResponseType.DeferredMessageUpdate,
 		});
 	}
 
-	await deleteThreadCreatedMessage(
-		env.DISCORD_BOT_TOKEN,
-		parentMessage.channel_id,
-	);
-};
+	async handleLogic(
+		env: ServerEnv,
+		interaction: APIMessageComponentInteraction,
+	): Promise<void> {
+		const parentMessage = interaction.message;
 
-const summarizeButtonExecution = async (
-	c: Context<Env, '/', BlankInput>,
-	interaction: APIMessageComponentInteraction,
-) => {
-	c.executionCtx.waitUntil(handleSummarie(c.env, interaction));
+		if (parentMessage.embeds.length === 0 || !parentMessage.embeds[0].url) {
+			throw new Error('No embeds found');
+		}
 
-	return c.json({
-		type: InteractionResponseType.DeferredMessageUpdate,
-	});
-};
+		const url = parentMessage.embeds[0].url;
 
-export default summarizeButtonExecution;
+		const content = await scrapeToMarkdown(env, url);
+
+		const text = await summarizeText(env, content);
+
+		if (!text) {
+			throw new Error('Failed to summarize content');
+		}
+
+		const chunks = await discordTextSplit(text);
+
+		const thread = await createNewsInfoDiscordThread(env, interaction, text);
+
+		const components: APIActionRowComponent<APIMessageActionRowComponent>[] = [
+			{
+				type: ComponentType.ActionRow,
+				components: [
+					{
+						type: ComponentType.Button,
+						style: ButtonStyle.Secondary,
+						label: 'Regenerate',
+						custom_id: DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE,
+					},
+					{
+						type: ComponentType.Button,
+						style: ButtonStyle.Secondary,
+						label: 'Translate',
+						custom_id: DISCORD_INTERACTION_BUTTONS.TRANSLATE,
+					},
+				],
+			},
+		];
+
+		for (const chunk of chunks) {
+			const isOnlyOne = chunks.length === 1;
+
+			await discordMessage.send({
+				token: env.DISCORD_BOT_TOKEN,
+				channelId: thread.id,
+				body: {
+					content: chunk,
+					// Idk how to handle multiple messages sent later
+					components: isOnlyOne ? components : [],
+				},
+			});
+		}
+
+		await deleteThreadCreatedMessage(
+			env.DISCORD_BOT_TOKEN,
+			parentMessage.channel_id,
+		);
+	}
+}
+
+export default new SummarizeButton();

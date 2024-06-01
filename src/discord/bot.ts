@@ -1,4 +1,8 @@
-import { DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
+/**
+ * Reference:
+ * - https://discord.com/developers/docs/interactions/message-components#buttons
+ */
+
 import {
 	ComponentType,
 	InteractionResponseType,
@@ -6,15 +10,13 @@ import {
 	MessageFlags,
 } from 'discord-api-types/v10';
 import { Hono } from 'hono';
-import reSummarizeButtonExecution from './interactions/buttons/re-summarize';
-import reTranslateButtonExecution from './interactions/buttons/re-translate';
-import summarizeButtonExecution from './interactions/buttons/summarize';
-import translateButtonExecution from './interactions/buttons/translate';
+import reSummarizeButton from './interactions/buttons/re-summarize';
+import reTranslateButton from './interactions/buttons/re-translate';
+import summarizeButton from './interactions/buttons/summarize';
+import translateButton from './interactions/buttons/translate';
 import verifyDiscordRequest from './verify-request';
 
 const app = new Hono();
-
-// Reference: https://github.com/discord/cloudflare-sample-app/blob/main/src/server.js
 
 app.get('/', (c) => {
 	return c.text(`👋 ${c.env.DISCORD_APPLICATION_ID}`);
@@ -53,24 +55,21 @@ app.post('/', async (c) => {
 			}
 
 			if (interaction.data.component_type === ComponentType.Button) {
+				const buttons = [
+					summarizeButton,
+					reSummarizeButton,
+					translateButton,
+					reTranslateButton,
+				];
+
+				const button = buttons.find((b) => b.id === interaction.data.custom_id);
+
+				if (!button) {
+					throw new Error('Unknown button');
+				}
+
 				try {
-					switch (interaction.data.custom_id) {
-						case DISCORD_INTERACTION_BUTTONS.GENERATE_SUMMARIZE: {
-							return await summarizeButtonExecution(c, interaction);
-						}
-						case DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE: {
-							return await reSummarizeButtonExecution(c, interaction);
-						}
-						case DISCORD_INTERACTION_BUTTONS.TRANSLATE: {
-							return await translateButtonExecution(c, interaction);
-						}
-						case DISCORD_INTERACTION_BUTTONS.RE_TRANSLATE: {
-							return await reTranslateButtonExecution(c, interaction);
-						}
-						default: {
-							throw new Error('Unknown button');
-						}
-					}
+					return await button.execute(c, interaction);
 				} catch (error) {
 					return handleError(error);
 				}
