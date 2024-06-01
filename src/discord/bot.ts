@@ -3,6 +3,7 @@
  * - https://discord.com/developers/docs/interactions/message-components#buttons
  */
 
+import { reportToSentryOnHono } from '@/server/on-error';
 import {
 	ComponentType,
 	InteractionResponseType,
@@ -68,16 +69,15 @@ app.post('/', async (c) => {
 					throw new Error(`Invalid button ID: ${interaction.data.custom_id}`);
 				}
 
-				try {
-					return await button.execute(c, interaction);
-				} catch (error) {
-					return handleError(error);
-				}
+				return await button.execute(c, interaction);
 			}
 		}
 
-		throw new Error('Invalid interaction type');
+		throw new Error(`Invalid interaction type: ${interaction.type}`);
 	} catch (error) {
+		if (error instanceof Error) {
+			reportToSentryOnHono(c, error);
+		}
 		return handleError(error);
 	}
 });

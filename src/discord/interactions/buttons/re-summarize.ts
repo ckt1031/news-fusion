@@ -4,10 +4,7 @@ import {
 } from '@/discord/utils';
 import { summarizeText } from '@/lib/llm/prompt-calls';
 import { scrapeToMarkdown } from '@/lib/scrape';
-import {
-	ButtonStructure,
-	DISCORD_INTERACTION_BUTTONS,
-} from '@/types/discord';
+import { ButtonStructure, DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
 import type { APIMessageComponentInteraction } from 'discord-api-types/v10';
 import { InteractionResponseType, MessageType } from 'discord-api-types/v10';

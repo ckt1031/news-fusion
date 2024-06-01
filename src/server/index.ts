@@ -1,10 +1,10 @@
 import discordBot from '@/discord/bot';
-import { initSentry } from '@/lib/sentry';
 import type { ServerEnv } from '@/types/env';
 import { sentry } from '@hono/sentry';
 import { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
 import dbRoute from './db';
+import { reportToSentryOnHono } from './on-error';
 
 const app = new Hono<{ Bindings: ServerEnv }>();
 
@@ -30,14 +30,11 @@ app.onError((e, c) => {
 		);
 	}
 
-	if (c.env.SENTRY_DSN && c.env.SENTRY_DSN.length > 0) {
-		const sentry = initSentry(c.env.SENTRY_DSN, c.executionCtx);
-		sentry.captureException(e);
-	}
+	reportToSentryOnHono(c, e);
 
 	console.error(e);
 
-	return c.status(500);
+	return c.text('An error occurred', 500);
 });
 
 export default app;
