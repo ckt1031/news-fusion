@@ -69,6 +69,8 @@ app.post('/', async (c) => {
 					throw new Error(`Invalid button ID: ${interaction.data.custom_id}`);
 				}
 
+				console.log(`Button Run: ${button.id}`);
+
 				return await button.execute(c, interaction);
 			}
 		}
