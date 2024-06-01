@@ -1,6 +1,5 @@
 import {
 	createNewsInfoDiscordThread,
-	deferUpdateInteraction,
 	deleteThreadCreatedMessage,
 	discordMessage,
 	discordTextSplit,
@@ -17,13 +16,13 @@ import {
 	ComponentType,
 	InteractionResponseType,
 } from 'discord-api-types/v10';
+import type { Context, Env } from 'hono';
+import type { BlankInput } from 'hono/types';
 
-const summarizeButtonExecution = async (
+const handleSummarie = async (
 	env: ServerEnv,
 	interaction: APIMessageComponentInteraction,
 ) => {
-	await deferUpdateInteraction(interaction);
-
 	const parentMessage = interaction.message;
 
 	if (parentMessage.embeds.length === 0 || !parentMessage.embeds[0].url) {
@@ -82,9 +81,16 @@ const summarizeButtonExecution = async (
 		env.DISCORD_BOT_TOKEN,
 		parentMessage.channel_id,
 	);
+};
+
+const summarizeButtonExecution = async (
+	c: Context<Env, '/', BlankInput>,
+	interaction: APIMessageComponentInteraction,
+) => {
+	c.executionCtx.waitUntil(handleSummarie(c.env, interaction));
 
 	return {
-		type: InteractionResponseType.Pong,
+		type: InteractionResponseType.DeferredMessageUpdate,
 	};
 };
 

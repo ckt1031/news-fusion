@@ -59,7 +59,7 @@ app.post('/', async (c) => {
 
 					switch (interaction.data.custom_id) {
 						case DISCORD_INTERACTION_BUTTONS.GENERATE_SUMMARIZE: {
-							response = await summarizeButtonExecution(c.env, interaction);
+							response = await summarizeButtonExecution(c, interaction);
 							break;
 						}
 						case DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE: {
