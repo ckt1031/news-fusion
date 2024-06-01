@@ -98,7 +98,7 @@ export const RSS_DEV: RssCatagory = {
 		'https://rsshub.bestblogs.dev/deeplearning/thebatch',
 
 		'https://www.docker.com/feed',
-		'https://blog.mozilla.org/feed/',
+		'https://blog.mozilla.org/feed',
 		// Open Source
 		'{RSSHUB}/hellogithub/article',
 		// Microsoft
@@ -106,7 +106,7 @@ export const RSS_DEV: RssCatagory = {
 		// Programming Languages
 		'https://bun.sh/rss.xml',
 		'https://deno.com/feed',
-		'https://blog.rust-lang.org/',
+		'https://blog.rust-lang.org/feed',
 		'https://nodejs.org/en/feed/blog.xml',
 		'https://cprss.s3.amazonaws.com/javascriptweekly.com.xml',
 		// Frameworks and frontennd tools
@@ -127,7 +127,7 @@ export const RSS_DEV: RssCatagory = {
 		'https://firebase.blog/rss.xml',
 		// Platforms
 		'https://netflixtechblog.com/feed',
-		'https://engineering.atspotify.com/feed/',
+		'https://engineering.atspotify.com/feed',
 	],
 };
 
