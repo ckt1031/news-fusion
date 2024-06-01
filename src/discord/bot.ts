@@ -54,31 +54,23 @@ app.post('/', async (c) => {
 
 			if (interaction.data.component_type === ComponentType.Button) {
 				try {
-					let response = {};
-
 					switch (interaction.data.custom_id) {
 						case DISCORD_INTERACTION_BUTTONS.GENERATE_SUMMARIZE: {
-							response = await summarizeButtonExecution(c, interaction);
-							break;
+							return await summarizeButtonExecution(c, interaction);
 						}
 						case DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE: {
-							response = await reSummarizeButtonExecution(c, interaction);
-							break;
+							return await reSummarizeButtonExecution(c, interaction);
 						}
 						case DISCORD_INTERACTION_BUTTONS.TRANSLATE: {
-							response = await translateButtonExecution(c, interaction);
-							break;
+							return await translateButtonExecution(c, interaction);
 						}
 						case DISCORD_INTERACTION_BUTTONS.RE_TRANSLATE: {
-							response = await reTranslateButtonExecution(c, interaction);
-							break;
+							return await reTranslateButtonExecution(c, interaction);
 						}
 						default: {
 							throw new Error('Unknown button');
 						}
 					}
-
-					return c.json(response);
 				} catch (error) {
 					return handleError(error);
 				}

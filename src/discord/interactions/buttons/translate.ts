@@ -113,9 +113,9 @@ const translateButtonExecution = async (
 ) => {
 	c.executionCtx.waitUntil(handleTranslation(c.env, interaction));
 
-	return {
+	return c.json({
 		type: InteractionResponseType.DeferredMessageUpdate,
-	};
+	});
 };
 
 export default translateButtonExecution;

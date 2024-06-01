@@ -63,9 +63,9 @@ const reSummarizeButtonExecution = async (
 ) => {
 	c.executionCtx.waitUntil(handleReSummarize(c.env, interaction));
 
-	return {
+	return c.json({
 		type: InteractionResponseType.DeferredMessageUpdate,
-	};
+	});
 };
 
 export default reSummarizeButtonExecution;

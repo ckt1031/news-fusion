@@ -80,9 +80,9 @@ const reTranslateButtonExecution = async (
 ) => {
 	c.executionCtx.waitUntil(handleReTranslation(c.env, interaction));
 
-	return {
+	return c.json({
 		type: InteractionResponseType.DeferredMessageUpdate,
-	};
+	});
 };
 
 export default reTranslateButtonExecution;
