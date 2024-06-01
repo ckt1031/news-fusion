@@ -103,7 +103,7 @@ export default async function checkRSS({
 							temperature: 0.1,
 							message: {
 								system:
-									'Generate a 50-100 word summary for given article and content, only in plain text.',
+									'Generate a 50-100 words summary with key points of given article and content, only in plain text, must be concise and precise.',
 								user: content,
 							},
 						});

@@ -1,6 +1,5 @@
 import {
 	createNewsInfoDiscordThread,
-	deferUpdateInteraction,
 	deleteThreadCreatedMessage,
 	discordMessage,
 	discordTextSplit,
@@ -17,13 +16,13 @@ import {
 	ComponentType,
 	InteractionResponseType,
 } from 'discord-api-types/v10';
+import type { Context, Env } from 'hono';
+import type { BlankInput } from 'hono/types';
 
-const translateButtonExecution = async (
+const handleTranslation = async (
 	env: ServerEnv,
 	interaction: APIMessageComponentInteraction,
 ) => {
-	await deferUpdateInteraction(interaction);
-
 	const messageComponents: APIActionRowComponent<APIMessageActionRowComponent>[] =
 		[
 			{
@@ -105,9 +104,17 @@ const translateButtonExecution = async (
 			interaction.message.channel_id,
 		);
 	}
+};
+
+const translateButtonExecution = async (
+	c: Context<Env, '/', BlankInput>,
+
+	interaction: APIMessageComponentInteraction,
+) => {
+	c.executionCtx.waitUntil(handleTranslation(c.env, interaction));
 
 	return {
-		type: InteractionResponseType.Pong,
+		type: InteractionResponseType.DeferredMessageUpdate,
 	};
 };
 

@@ -62,15 +62,15 @@ app.post('/', async (c) => {
 							break;
 						}
 						case DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE: {
-							response = await reSummarizeButtonExecution(c.env, interaction);
+							response = await reSummarizeButtonExecution(c, interaction);
 							break;
 						}
 						case DISCORD_INTERACTION_BUTTONS.TRANSLATE: {
-							response = await translateButtonExecution(c.env, interaction);
+							response = await translateButtonExecution(c, interaction);
 							break;
 						}
 						case DISCORD_INTERACTION_BUTTONS.RE_TRANSLATE: {
-							response = await reTranslateButtonExecution(c.env, interaction);
+							response = await reTranslateButtonExecution(c, interaction);
 							break;
 						}
 						default: {

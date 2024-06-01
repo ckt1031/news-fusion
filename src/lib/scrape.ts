@@ -14,7 +14,7 @@ export async function scrapeToMarkdown(env: ServerEnv, url: string) {
 	);
 
 	if (!extractAPIResponse.ok) {
-		throw new Error('Failed to extract content');
+		throw new Error(`Failed to extract content: ${url}`);
 	}
 
 	const schema = z.object({

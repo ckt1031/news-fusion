@@ -1,5 +1,4 @@
 import {
-	deferUpdateInteraction,
 	discordMessage,
 	getAllMessagesInDiscordChannel,
 } from '@/discord/utils';
@@ -11,13 +10,13 @@ import {
 	InteractionResponseType,
 	MessageType,
 } from 'discord-api-types/v10';
+import type { Context, Env } from 'hono';
+import type { BlankInput } from 'hono/types';
 
-const reTranslateButtonExecution = async (
+const handleReTranslation = async (
 	env: ServerEnv,
 	interaction: APIMessageComponentInteraction,
 ) => {
-	await deferUpdateInteraction(interaction);
-
 	let content = '';
 
 	const refMsg = (
@@ -73,9 +72,16 @@ const reTranslateButtonExecution = async (
 			content: translation,
 		},
 	});
+};
+
+const reTranslateButtonExecution = async (
+	c: Context<Env, '/', BlankInput>,
+	interaction: APIMessageComponentInteraction,
+) => {
+	c.executionCtx.waitUntil(handleReTranslation(c.env, interaction));
 
 	return {
-		type: InteractionResponseType.Pong,
+		type: InteractionResponseType.DeferredMessageUpdate,
 	};
 };
 

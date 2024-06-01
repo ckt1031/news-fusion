@@ -1,20 +1,20 @@
 import {
-	deferUpdateInteraction,
 	discordMessage,
 	getAllMessagesInDiscordChannel,
 } from '@/discord/utils';
 import { summarizeText } from '@/lib/llm';
 import { scrapeToMarkdown } from '@/lib/scrape';
-import type { InteractionExecution } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
+import type { APIMessageComponentInteraction } from 'discord-api-types/v10';
 import { InteractionResponseType, MessageType } from 'discord-api-types/v10';
 
-const reSummarizeButtonExecution = async (
-	env: ServerEnv,
-	interaction: InteractionExecution,
-) => {
-	await deferUpdateInteraction(interaction);
+import type { Context, Env } from 'hono';
+import type { BlankInput } from 'hono/types';
 
+const handleReSummarize = async (
+	env: ServerEnv,
+	interaction: APIMessageComponentInteraction,
+) => {
 	const allMessagesInThread = await getAllMessagesInDiscordChannel(
 		env.DISCORD_BOT_TOKEN,
 		interaction.message.channel_id,
@@ -55,9 +55,16 @@ const reSummarizeButtonExecution = async (
 			content: text,
 		},
 	});
+};
+
+const reSummarizeButtonExecution = async (
+	c: Context<Env, '/', BlankInput>,
+	interaction: APIMessageComponentInteraction,
+) => {
+	c.executionCtx.waitUntil(handleReSummarize(c.env, interaction));
 
 	return {
-		type: InteractionResponseType.Pong,
+		type: InteractionResponseType.DeferredMessageUpdate,
 	};
 };
 
