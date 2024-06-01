@@ -20,7 +20,7 @@ import type { Context, Env } from 'hono';
 import type { BlankInput } from 'hono/types';
 
 class SummarizeButton extends ButtonStructure {
-	declare id: DISCORD_INTERACTION_BUTTONS.GENERATE_SUMMARIZE;
+	id = DISCORD_INTERACTION_BUTTONS.GENERATE_SUMMARIZE;
 	async execute(
 		c: Context<Env, '/', BlankInput>,
 		interaction: APIMessageComponentInteraction,

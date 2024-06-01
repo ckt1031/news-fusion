@@ -20,7 +20,7 @@ import type { Context, Env } from 'hono';
 import type { BlankInput } from 'hono/types';
 
 class TranslateButton extends ButtonStructure {
-	declare id: DISCORD_INTERACTION_BUTTONS.TRANSLATE;
+	id = DISCORD_INTERACTION_BUTTONS.TRANSLATE;
 	async execute(
 		c: Context<Env, '/', BlankInput>,
 		interaction: APIMessageComponentInteraction,

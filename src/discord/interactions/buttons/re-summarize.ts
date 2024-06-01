@@ -6,7 +6,7 @@ import { summarizeText } from '@/lib/llm/prompt-calls';
 import { scrapeToMarkdown } from '@/lib/scrape';
 import {
 	ButtonStructure,
-	type DISCORD_INTERACTION_BUTTONS,
+	DISCORD_INTERACTION_BUTTONS,
 } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
 import type { APIMessageComponentInteraction } from 'discord-api-types/v10';
@@ -16,7 +16,7 @@ import type { Context, Env } from 'hono';
 import type { BlankInput } from 'hono/types';
 
 class ReSummarizeButton extends ButtonStructure {
-	declare id: DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE;
+	id = DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE;
 	async execute(
 		c: Context<Env, '/', BlankInput>,
 		interaction: APIMessageComponentInteraction,

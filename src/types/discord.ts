@@ -56,7 +56,7 @@ export abstract class CommandStructure {
 }
 
 export abstract class ButtonStructure {
-	id!: DISCORD_INTERACTION_BUTTONS;
+	readonly id!: DISCORD_INTERACTION_BUTTONS;
 	abstract execute(
 		c: Context<Env, '/', BlankInput>,
 		interaction: APIMessageComponentInteraction,

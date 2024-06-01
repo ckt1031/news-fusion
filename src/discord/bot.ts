@@ -65,7 +65,7 @@ app.post('/', async (c) => {
 				const button = buttons.find((b) => b.id === interaction.data.custom_id);
 
 				if (!button) {
-					throw new Error('Unknown button');
+					throw new Error(`Invalid button ID: ${interaction.data.custom_id}`);
 				}
 
 				try {

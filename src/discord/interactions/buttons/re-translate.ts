@@ -6,7 +6,7 @@ import { translateText } from '@/lib/llm/prompt-calls';
 import { scrapeToMarkdown } from '@/lib/scrape';
 import {
 	ButtonStructure,
-	type DISCORD_INTERACTION_BUTTONS,
+	DISCORD_INTERACTION_BUTTONS,
 } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
 import {
@@ -18,7 +18,7 @@ import type { Context, Env } from 'hono';
 import type { BlankInput } from 'hono/types';
 
 class ReTranslationButton extends ButtonStructure {
-	declare id: DISCORD_INTERACTION_BUTTONS.RE_TRANSLATE;
+	id = DISCORD_INTERACTION_BUTTONS.RE_TRANSLATE;
 	async execute(
 		c: Context<Env, '/', BlankInput>,
 		interaction: APIMessageComponentInteraction,
