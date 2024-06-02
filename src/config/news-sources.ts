@@ -140,7 +140,7 @@ export const RSS_ALERTS: RssCatagory = {
 
 export const RSS_BLOGS: RssCatagory = {
 	name: RSS_CATEGORY.BLOGS,
-	discordChannelId: '1245007333624348672',
+	discordChannelId: '1245004300300587018',
 	checkImportance: false,
 	sources: [
 		'https://baoyu.io/feed.xml',
