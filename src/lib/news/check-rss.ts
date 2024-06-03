@@ -94,7 +94,10 @@ export default async function checkRSS({
 				}
 
 				if (!allMustRead) {
-					importantEnough = await checkArticleImportance(env, content);
+					importantEnough = await checkArticleImportance(env, content, {
+						trace: true,
+						useGPT4o: true,
+					});
 				}
 
 				console.info(
