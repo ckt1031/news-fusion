@@ -82,7 +82,10 @@ export const RSS_TECH: RssCatagory = {
 		},
 		// AI
 		'https://lastweekin.ai/feed',
-		'https://huggingface.co/blog/feed.xml',
+		{
+			url: 'https://huggingface.co/blog/feed.xml',
+			checkImportance: false,
+		},
 		'https://jina.ai/feed.rss',
 	],
 };
