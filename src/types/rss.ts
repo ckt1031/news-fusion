@@ -16,7 +16,8 @@ const CommonRssFeedItemSchema = z
 				typeof guid === 'object'
 					? removeTrailingSlash(guid['#text'])
 					: removeTrailingSlash(guid),
-			).optional(),
+			)
+			.optional(),
 	})
 	.transform((item) => ({
 		// Make format to common format
