@@ -93,11 +93,11 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 				let content = '';
 
-				if (!checkImportance || !disableAutoSummarize) {
+				if (checkImportance || !disableAutoSummarize) {
 					content = await urlToLLMContent(env, item);
 				}
 
-				if (!checkImportance) {
+				if (checkImportance) {
 					importantEnough = await checkArticleImportance(env, content, {
 						trace: true,
 						useGPT4o: true,
