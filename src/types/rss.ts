@@ -16,14 +16,14 @@ const CommonRssFeedItemSchema = z
 				typeof guid === 'object'
 					? removeTrailingSlash(guid['#text'])
 					: removeTrailingSlash(guid),
-			),
+			).optional(),
 	})
 	.transform((item) => ({
 		// Make format to common format
 		title: item.title,
-		link: removeTrailingSlash(item.link || item.guid),
+		link: removeTrailingSlash(item.link || item.guid || ''),
 		pubDate: item.pubDate,
-		guid: item.guid,
+		guid: item.guid || item.link || '',
 	}));
 
 const CommonRssFeedSchema = z.object({
