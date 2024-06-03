@@ -156,6 +156,11 @@ export const RSS_BLOGS: RssCatagory = {
 		'https://feeds.feedburner.com/ruanyifeng',
 		'https://www.williamlong.info/rss.xml',
 		'https://www.owenyoung.com/atom.xml',
+		'https://1link.fun/index.xml',
+		{
+			url: 'https://sspai.com/feed',
+			checkImportance: true,
+		},
 	],
 };
 

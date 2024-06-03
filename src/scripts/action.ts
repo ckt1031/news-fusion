@@ -13,7 +13,6 @@ for (const catagory of ALL_RSS_CATAGORIES) {
 	await checkRSS({
 		env,
 		catagory,
-		allMustRead: true,
 	});
 }
 

@@ -9,7 +9,6 @@ test('Test News Availability', async () => {
 				// @ts-ignore
 				env: process.env,
 				catagory,
-				allMustRead: true,
 				isTesting: true,
 			}),
 		).not.toBeNull();

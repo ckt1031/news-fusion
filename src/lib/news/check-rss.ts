@@ -18,7 +18,6 @@ import sendNewsToDiscord from './send-discord-news';
 type Props = {
 	env: ServerEnv;
 	catagory: RssCatagory;
-	allMustRead: boolean;
 	isTesting?: boolean;
 };
 
@@ -55,28 +54,33 @@ export async function urlToLLMContent(
 	`;
 }
 
-export default async function checkRSS({
-	env,
-	catagory,
-	allMustRead,
-	isTesting,
-}: Props) {
+export default async function checkRSS({ env, catagory, isTesting }: Props) {
 	for (const source of catagory.sources) {
 		let url: string | undefined =
 			typeof source === 'string' ? source : source.url;
 
+		// Try to get rsshub url if {RSSHUB} is in the url
 		url = getRSSHubURL(env, url);
 
 		if (!url) continue;
+
+		const checkImportance =
+			(typeof source === 'string' ? false : source.checkImportance) ||
+			(catagory.checkImportance ?? true);
 
 		try {
 			const feed = await parseRSS(url, EARLIEST_HOURS);
 
 			console.info(`Checking RSS: ${url}`);
 
+			// Skip if no feed, or testing mode
 			if (!feed || isTesting) continue;
 
 			for (const item of feed.item) {
+				/**
+				 * Single Item Area
+				 */
+
 				if (!filterRSS({ url, title: item.title })) continue;
 
 				const isNew = await checkIfNewsIsNew(env, item.guid);
@@ -89,11 +93,11 @@ export default async function checkRSS({
 
 				let content = '';
 
-				if (!allMustRead || !disableAutoSummarize) {
+				if (!checkImportance || !disableAutoSummarize) {
 					content = await urlToLLMContent(env, item);
 				}
 
-				if (!allMustRead) {
+				if (!checkImportance) {
 					importantEnough = await checkArticleImportance(env, content, {
 						trace: true,
 						useGPT4o: true,
