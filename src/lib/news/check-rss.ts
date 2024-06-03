@@ -4,12 +4,13 @@ import {
 	type RssSourceItem,
 } from '@/config/news-sources';
 import type { ServerEnv } from '@/types/env';
+import type { RssFeed } from '@/types/rss';
 import { nanoid } from 'nanoid';
 import { checkIfNewsIsNew, createArticleDatabase } from '../db';
 import { requestChatCompletionAPI } from '../llm/api';
 import { checkArticleImportance } from '../llm/prompt-calls';
 import { parseRSS } from '../parse-news';
-import { scrapeToMarkdown } from '../scrape';
+import { type ScrapeMarkdownVar, scrapeToMarkdown } from '../scrape';
 import filterRSS from './filter-news';
 import { getRSSHubURL } from './rsshub';
 import sendNewsToDiscord from './send-discord-news';
@@ -40,6 +41,19 @@ const getDisableAutoSummarize = (
 		typeof rssItem === 'string' ? false : rssItem.disableAutoSummary;
 	return catagorySideDisableAutoSummarize || itemSideDisableAutoSummarize;
 };
+
+export async function urlToLLMContent(
+	env: ScrapeMarkdownVar,
+	item: ArrayElement<RssFeed['item']>,
+) {
+	const markdownContent = await scrapeToMarkdown(env, item.link);
+
+	return `
+	title: ${item.title}
+	url: ${item.link}
+	content: ${markdownContent}
+	`;
+}
 
 export default async function checkRSS({
 	env,
@@ -72,21 +86,15 @@ export default async function checkRSS({
 				const disableAutoSummarize = getDisableAutoSummarize(catagory, source);
 
 				let importantEnough = true;
-				let markdownContent = '';
+
+				let content = '';
 
 				if (!allMustRead || !disableAutoSummarize) {
-					markdownContent = await scrapeToMarkdown(env, item.link);
+					content = await urlToLLMContent(env, item);
 				}
 
-				const content = `
-				title: ${item.title}
-				url: ${item.link}
-				content: ${markdownContent}
-				`;
-
 				if (!allMustRead) {
-					const result = await checkArticleImportance(env, content);
-					importantEnough = result.toLowerCase().includes('true');
+					importantEnough = await checkArticleImportance(env, content);
 				}
 
 				console.info(

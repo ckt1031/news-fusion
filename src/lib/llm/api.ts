@@ -8,8 +8,17 @@ import {
 } from 'langfuse-langchain';
 import packageInfo from '../../../package.json';
 
-type GenerateProps = {
-	env: ServerEnv;
+export type TextCompletionsGenerateProps = {
+	env: Pick<
+		ServerEnv,
+		| 'LANGFUSE_SECRET_KEY'
+		| 'LANGFUSE_PUBLIC_KEY'
+		| 'LANGFUSE_BASE_URL'
+		| 'OPENAI_API_KEY'
+		| 'OPENAI_API_BASE_URL'
+	> & {
+		D1?: unknown;
+	};
 	model: string;
 	message: {
 		system?: string;
@@ -17,12 +26,13 @@ type GenerateProps = {
 	};
 	temperature?: number;
 	trace?: {
+		enabled?: boolean;
 		name?: string;
 		id?: string;
 	};
 };
 
-export function getLangfuse(env: ServerEnv) {
+export function getLangfuse(env: TextCompletionsGenerateProps['env']) {
 	return new Langfuse({
 		secretKey: env.LANGFUSE_SECRET_KEY,
 		publicKey: env.LANGFUSE_PUBLIC_KEY,
@@ -36,19 +46,7 @@ export async function requestChatCompletionAPI({
 	message,
 	temperature,
 	trace,
-}: GenerateProps): Promise<string> {
-	const langfuse = getLangfuse(env);
-
-	const langfuseTrace = langfuse.trace({
-		id: trace?.id,
-		name: trace?.name,
-		version: packageInfo.version,
-	});
-
-	const langfuseHandler = new LangFuseCallbackHandler({
-		root: langfuseTrace,
-	});
-
+}: TextCompletionsGenerateProps): Promise<string> {
 	const chatLLM = new ChatOpenAI({
 		temperature: temperature ?? 0.5,
 		model,
@@ -84,6 +82,18 @@ export async function requestChatCompletionAPI({
 			]
 		: [];
 
+	const langfuse = getLangfuse(env);
+
+	const langfuseTrace = langfuse.trace({
+		id: trace?.id,
+		name: trace?.name,
+		version: packageInfo.version,
+	});
+
+	const langfuseHandler = new LangFuseCallbackHandler({
+		root: langfuseTrace,
+	});
+
 	const { content } = await chatLLM.invoke(
 		[...systemMessage, ...humanMessages],
 		{
@@ -92,7 +102,7 @@ export async function requestChatCompletionAPI({
 	);
 
 	// Cloudflare Worker is a short-lived environment, so we need to flush and send the trace immediately
-	if (env.D1) {
+	if (env.D1 && env.LANGFUSE_SECRET_KEY) {
 		await langfuse.flushAsync();
 	}
 

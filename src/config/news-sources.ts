@@ -113,6 +113,7 @@ export const RSS_DEV: RssCatagory = {
 		'https://nodejs.org/en/feed/blog.xml',
 		'https://pythoninsider.blogspot.com/rss.xml',
 		'https://cprss.s3.amazonaws.com/javascriptweekly.com.xml',
+		'https://cprss.s3.amazonaws.com/nodeweekly.com.xml',
 		// Frameworks and frontennd tools
 		'https://nextjs.org/feed.xml',
 		'https://astro.build/rss.xml',
@@ -164,7 +165,6 @@ export const RSS_UPDATES: RssCatagory = {
 	sources: [
 		'https://obsidian.md/feed.xml',
 		'https://discord.com/blog/rss.xml',
-		'https://brave.com/blog/index.xml',
 		'https://brave.com/blog/index.xml',
 		'https://blog.chromium.org/rss.xml',
 	],

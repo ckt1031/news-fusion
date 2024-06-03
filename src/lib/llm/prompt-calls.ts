@@ -2,10 +2,15 @@ import filterImportancePrompt from '@/prompts/filter-importance';
 import summarizePrompt from '@/prompts/summarize';
 import titleGenPrompt from '@/prompts/title-generate';
 import translatePrompt from '@/prompts/translate';
-import type { ServerEnv } from '@/types/env';
-import { requestChatCompletionAPI } from './api';
+import {
+	type TextCompletionsGenerateProps,
+	requestChatCompletionAPI,
+} from './api';
 
-export async function summarizeText(env: ServerEnv, originalContent: string) {
+export async function summarizeText(
+	env: TextCompletionsGenerateProps['env'],
+	originalContent: string,
+) {
 	return await requestChatCompletionAPI({
 		env,
 		model: 'gpt-4o',
@@ -20,7 +25,10 @@ export async function summarizeText(env: ServerEnv, originalContent: string) {
 	});
 }
 
-export async function translateText(env: ServerEnv, originalContent: string) {
+export async function translateText(
+	env: TextCompletionsGenerateProps['env'],
+	originalContent: string,
+) {
 	const content = await requestChatCompletionAPI({
 		env,
 		model: 'gpt-4o',
@@ -37,7 +45,10 @@ export async function translateText(env: ServerEnv, originalContent: string) {
 	return content;
 }
 
-export async function generateTitle(env: ServerEnv, content: string) {
+export async function generateTitle(
+	env: TextCompletionsGenerateProps['env'],
+	content: string,
+) {
 	// If content is longer than 1900 characters, truncate it
 	const truncatedContent =
 		content.length > 1900 ? `${content.slice(0, 1900)}...` : content;
@@ -56,17 +67,26 @@ export async function generateTitle(env: ServerEnv, content: string) {
 	});
 }
 
-export async function checkArticleImportance(env: ServerEnv, content: string) {
-	return await requestChatCompletionAPI({
+export async function checkArticleImportance(
+	env: TextCompletionsGenerateProps['env'],
+	content: string,
+	custom?: {
+		useGPT4o?: boolean;
+		trace?: boolean;
+	},
+) {
+	const result = await requestChatCompletionAPI({
 		env,
-		model: 'gpt-4o',
+		model: custom?.useGPT4o ? 'gpt-4o' : 'gpt-3.5-turbo',
 		temperature: 0.1,
 		message: {
 			system: filterImportancePrompt,
 			user: content,
 		},
 		trace: {
+			enabled: custom?.trace ?? true,
 			name: 'check-article-importance',
 		},
 	});
+	return result.toLowerCase().includes('true');
 }
