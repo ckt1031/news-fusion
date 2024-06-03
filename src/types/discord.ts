@@ -16,27 +16,27 @@ export enum DISCORD_INTERACTION_BUTTONS {
 	RE_TRANSLATE = 're_translate',
 }
 
-export type InteractionExecution = APIMessageComponentInteraction & {
+export interface InteractionExecution extends APIMessageComponentInteraction {
 	data: APIMessageComponentInteractionData;
-};
+}
 
-export type BaseDiscordMessageProp = {
+export interface BaseDiscordMessageProp {
 	token: ServerEnv['DISCORD_BOT_TOKEN'];
 	channelId: string;
-};
+}
 
-export type GetOrDeleteDiscordMessageProp = BaseDiscordMessageProp & {
+export interface GetOrDeleteDiscordMessageProp extends BaseDiscordMessageProp {
 	messageId: string;
-};
+}
 
-export type PostDiscordMessageProp = BaseDiscordMessageProp & {
+export interface PostDiscordMessageProp extends BaseDiscordMessageProp {
 	body: RESTPostAPIChannelMessageJSONBody;
-};
+}
 
-export type PatchDiscordMessageProp = BaseDiscordMessageProp & {
+export interface PatchDiscordMessageProp extends BaseDiscordMessageProp {
 	messageId: string;
 	body: RESTPostAPIChannelMessageJSONBody;
-};
+}
 
 export type DiscordMessageProp =
 	| GetOrDeleteDiscordMessageProp

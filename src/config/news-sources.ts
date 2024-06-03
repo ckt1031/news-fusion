@@ -9,13 +9,13 @@ export type RssSourceItem =
 			url: string;
 	  } & Config)
 	| string;
-export type RssCatagory = {
+export interface RssCatagory extends Config {
 	name: RSS_CATEGORY;
 	sources: RssSourceItem[];
 
 	// Push to this channel
 	discordChannelId: string;
-} & Config;
+}
 
 export enum RSS_CATEGORY {
 	BLOGS = 'blogs',
