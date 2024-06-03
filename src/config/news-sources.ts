@@ -74,8 +74,6 @@ export const RSS_TECH: RssCatagory = {
 	discordChannelId: '1245004214678061096',
 	sources: [
 		'https://blog.google/rss',
-		'https://blog.cloudflare.com/rss',
-		'https://github.blog/feed',
 		'https://www.theverge.com/rss/index.xml',
 		'https://www.theregister.com/headlines.rss',
 		{
@@ -94,11 +92,16 @@ export const RSS_DEV: RssCatagory = {
 	discordChannelId: '1245006701812387890',
 	checkImportance: false,
 	sources: [
+		'https://blog.cloudflare.com/rss',
+		'https://github.blog/feed',
 		// AI
 		'https://rsshub.bestblogs.dev/deeplearning/thebatch',
 
+		'https://www.netlify.com/community-feed.xml',
+		'https://www.koyeb.com/feed.xml',
+		'https://blog.postman.com/feed',
+
 		'https://www.docker.com/feed',
-		'https://blog.mozilla.org/feed',
 		// Open Source
 		'{RSSHUB}/hellogithub/article',
 		// Microsoft
@@ -108,6 +111,7 @@ export const RSS_DEV: RssCatagory = {
 		'https://deno.com/feed',
 		'https://blog.rust-lang.org/feed',
 		'https://nodejs.org/en/feed/blog.xml',
+		'https://pythoninsider.blogspot.com/rss.xml',
 		'https://cprss.s3.amazonaws.com/javascriptweekly.com.xml',
 		// Frameworks and frontennd tools
 		'https://nextjs.org/feed.xml',
@@ -157,7 +161,13 @@ export const RSS_BLOGS: RssCatagory = {
 export const RSS_UPDATES: RssCatagory = {
 	name: RSS_CATEGORY.UPDATES,
 	discordChannelId: '1245045959570755584',
-	sources: ['https://obsidian.md/feed.xml', 'https://discord.com/blog/rss.xml'],
+	sources: [
+		'https://obsidian.md/feed.xml',
+		'https://discord.com/blog/rss.xml',
+		'https://brave.com/blog/index.xml',
+		'https://brave.com/blog/index.xml',
+		'https://blog.chromium.org/rss.xml',
+	],
 };
 
 export const ALL_RSS_CATAGORIES = [
