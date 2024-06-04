@@ -15,6 +15,7 @@ const env = await envSchema
 describe('News Importance Prompt Accuracy for Technology', async () => {
 	test('Should give true for important articles', async () => {
 		const list = [
+			'https://vercel.com/blog/introducing-bytecode-caching-for-vercel-functions',
 			'https://huggingface.co/blog/space-secrets-disclosure',
 			'https://www.anthropic.com/news/claude-3-family',
 			'https://cohere.com/blog/command-r-plus-microsoft-azure',
