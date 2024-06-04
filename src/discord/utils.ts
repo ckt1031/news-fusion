@@ -42,14 +42,14 @@ async function discordBaseRequest<T>({
 		'Content-Type': 'application/json',
 	};
 
-	const response = await ofetch<unknown | T>(`${DISCORD_API_BASE}${path}`, {
+	const response = await ofetch<T>(`${DISCORD_API_BASE}${path}`, {
 		method,
 		headers,
 		body,
 		timeout: 3000, // Timeout after 3 seconds
 	});
 
-	return response as T;
+	return response;
 }
 
 export async function getAllMessagesInDiscordChannel(

@@ -6,6 +6,7 @@ import { ALL_RSS_CATAGORIES } from '@/config/news-sources';
 import { getLangfuse } from '@/lib/llm/api';
 import checkRSS from '@/lib/news/check-rss';
 import { envSchema } from '@/types/env';
+import { exit } from 'node:process';
 
 const env = await envSchema.parseAsync(process.env);
 
@@ -17,3 +18,5 @@ for (const catagory of ALL_RSS_CATAGORIES) {
 }
 
 await getLangfuse(env).shutdownAsync();
+
+exit(0);
