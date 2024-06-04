@@ -1,3 +1,4 @@
+import { waitUntil } from '@/lib/wait-until';
 import { CommandStructure } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
 import {
@@ -29,7 +30,7 @@ class SummarizeCommand extends CommandStructure {
 		c: Context<Env, '/', BlankInput>,
 		interaction: APIApplicationCommandInteraction,
 	) {
-		c.executionCtx.waitUntil(this.handleLogic(c.env, interaction));
+		waitUntil(c, this.handleLogic(c.env, interaction));
 
 		return c.json({
 			type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,

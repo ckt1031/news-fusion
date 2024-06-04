@@ -5,3 +5,5 @@ dist
 .drizzle
 .wrangler
 supabase
+.vercel
+.next

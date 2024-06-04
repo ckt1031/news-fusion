@@ -6,6 +6,7 @@ import {
 } from '@/discord/utils';
 import { translateText } from '@/lib/llm/prompt-calls';
 import { scrapeToMarkdown } from '@/lib/scrape';
+import { waitUntil } from '@/lib/wait-until';
 import { ButtonStructure, DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
 import {
@@ -25,7 +26,7 @@ class TranslateButton extends ButtonStructure {
 		c: Context<Env, '/', BlankInput>,
 		interaction: APIMessageComponentInteraction,
 	) {
-		c.executionCtx.waitUntil(this.handleLogic(c.env, interaction));
+		waitUntil(c, this.handleLogic(c.env, interaction));
 
 		return c.json({
 			type: InteractionResponseType.DeferredMessageUpdate,

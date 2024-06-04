@@ -3,7 +3,7 @@
 	"formatter": {
 		"enabled": true,
 		"formatWithErrors": false,
-		"ignore": ["node_modules", "dist", ".dirzzle", ".wrangle"],
+		"ignore": ["node_modules", "dist", ".dirzzle", ".next", ".vercel"],
 		"indentStyle": "tab",
 		"indentWidth": 2,
 		"lineEnding": "lf",
@@ -23,7 +23,7 @@
 				"noUnusedVariables": "error"
 			}
 		},
-		"ignore": ["node_modules", "dist", ".dirzzle", ".wrangle"]
+		"ignore": ["node_modules", "dist", ".dirzzle", ".next", ".vercel"]
 	},
 	"organizeImports": {
 		"enabled": true

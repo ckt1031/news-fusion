@@ -31,7 +31,7 @@ export async function translateText(
 ) {
 	const content = await requestChatCompletionAPI({
 		env,
-		model: 'gpt-4o',
+		model: 'command-r-plus',
 		temperature: 0.2,
 		message: {
 			system: translatePrompt,
@@ -55,7 +55,7 @@ export async function generateTitle(
 
 	return await requestChatCompletionAPI({
 		env,
-		model: 'gpt-3.5-turbo',
+		model: 'gpt-3.5-turbo-0125',
 		temperature: 0,
 		message: {
 			system: titleGenPrompt,
@@ -77,7 +77,7 @@ export async function checkArticleImportance(
 ) {
 	const result = await requestChatCompletionAPI({
 		env,
-		model: custom?.useGPT4o ? 'gpt-4o' : 'gpt-3.5-turbo',
+		model: custom?.useGPT4o ? 'gpt-4o' : 'gpt-3.5-turbo-0125',
 		temperature: 0.1,
 		message: {
 			system: filterImportancePrompt,
