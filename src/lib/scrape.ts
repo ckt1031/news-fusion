@@ -9,9 +9,9 @@ export type ScrapeMarkdownVar = Pick<
 /** Get website major content in markdown format from personal API */
 export async function scrapeToMarkdown(env: ScrapeMarkdownVar, url: string) {
 	AbortSignal.timeout ??= function timeout(ms) {
-		const ctrl = new AbortController()
-		setTimeout(() => ctrl.abort(), ms)
-		return ctrl.signal
+		const ctrl = new AbortController();
+		setTimeout(() => ctrl.abort(), ms);
+		return ctrl.signal;
 	};
 
 	console.log('Scraping markdown from:', url);
@@ -23,7 +23,7 @@ export async function scrapeToMarkdown(env: ScrapeMarkdownVar, url: string) {
 				accept: 'application/json',
 				Authorization: `Bearer ${env.TOOLS_API_KEY}`,
 			},
-			signal: AbortSignal.timeout(15000) // 15 seconds
+			signal: AbortSignal.timeout(15000), // 15 seconds
 		},
 	);
 
