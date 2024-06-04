@@ -4,6 +4,7 @@ import { sentry } from '@hono/sentry';
 import { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
 import { reportToSentryOnHono } from './on-error';
+import { getRuntimeKey } from 'hono/adapter';
 
 const app = new Hono<{ Bindings: ServerEnv }>();
 
@@ -18,6 +19,16 @@ app.route('/discord', discordBot);
 // robots.txt, disallow all
 app.get('/robots.txt', (c) => {
 	return c.text('User-agent: *\nDisallow: /');
+});
+
+// robots.txt, disallow all
+app.get('/versions', (c) => {
+	return c.json({
+		runtime: getRuntimeKey(),
+		...(typeof process !== 'undefined' && {
+			server: process.versions,
+		})
+	});
 });
 
 app.onError((e, c) => {
