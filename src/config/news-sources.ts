@@ -33,7 +33,7 @@ export const RSS_GENERAL: RssCatagory = {
 	name: RSS_CATEGORY.GENERAL,
 	discordChannelId: '1245738873787645962',
 	sources: [
-		'https://rss.politico.com/politics08.xml',
+		'https://rss.politico.com/politics-news.xml',
 		'https://feeds.bbci.co.uk/news/world/rss.xml',
 	],
 };
@@ -186,6 +186,7 @@ export const ALL_RSS_CATAGORIES = [
 	RSS_DEV,
 	RSS_ALERTS,
 	RSS_BLOGS,
+	RSS_UPDATES,
 ];
 
 export const EARLIEST_HOURS = 2;

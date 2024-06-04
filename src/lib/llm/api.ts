@@ -44,6 +44,8 @@ export function getLangfuse(env: TextCompletionsGenerateProps['env']) {
 }
 
 export async function requestEmbeddingsAPI({ env, text }: EmbeddingsProp) {
+	console.log('Request Embeddings API');
+
 	const embeddings = new OpenAIEmbeddings({
 		model: 'text-embedding-3-small',
 		configuration: {
@@ -60,6 +62,8 @@ export async function requestChatCompletionAPI({
 	temperature,
 	trace,
 }: TextCompletionsGenerateProps): Promise<string> {
+	console.log('Request Chat Completion API', trace);
+
 	const chatLLM = new ChatOpenAI({
 		temperature: temperature ?? 0.5,
 		model,

@@ -52,5 +52,3 @@ export async function parseRSS(url: string, pastHours = -1) {
 		item: filteredData,
 	};
 }
-
-await parseRSS('https://sspai.com/feed');

@@ -114,7 +114,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					if (!disableAutoSummarize) {
 						shortSummary = await requestChatCompletionAPI({
 							env,
-							model: 'gpt-3.5-turbo',
+							model: 'gpt-3.5-turbo-0125',
 							temperature: 0.1,
 							message: {
 								system:
