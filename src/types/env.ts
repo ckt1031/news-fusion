@@ -22,8 +22,9 @@ export const envSchema = z.object({
 	LANGFUSE_SECRET_KEY: z.string().optional(),
 	LANGFUSE_PUBLIC_KEY: z.string().optional(),
 	LANGFUSE_BASE_URL: z.string().optional(),
+
+	// Database URL
+	DATABASE_URL: z.string(),
 });
 
-export type ServerEnv = z.infer<typeof envSchema> & {
-	D1?: D1Database;
-};
+export type ServerEnv = z.infer<typeof envSchema>;

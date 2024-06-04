@@ -3,7 +3,6 @@ import type { ServerEnv } from '@/types/env';
 import { sentry } from '@hono/sentry';
 import { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
-import dbRoute from './db';
 import { reportToSentryOnHono } from './on-error';
 
 const app = new Hono<{ Bindings: ServerEnv }>();
@@ -15,7 +14,6 @@ app.get('/', (c) => {
 });
 
 app.route('/discord', discordBot);
-app.route('/db', dbRoute);
 
 // robots.txt, disallow all
 app.get('/robots.txt', (c) => {

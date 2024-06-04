@@ -5,9 +5,8 @@ import {
 } from '@/config/news-sources';
 import type { ServerEnv } from '@/types/env';
 import type { RssFeed } from '@/types/rss';
-import { nanoid } from 'nanoid';
 import { checkIfNewsIsNew, createArticleDatabase } from '../db';
-import { requestChatCompletionAPI } from '../llm/api';
+import { requestChatCompletionAPI, requestEmbeddingsAPI } from '../llm/api';
 import { checkArticleImportance } from '../llm/prompt-calls';
 import { parseRSS } from '../parse-news';
 import { type ScrapeMarkdownVar, scrapeToMarkdown } from '../scrape';
@@ -89,7 +88,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 				const disableAllComponents = getDisableAllComponents(catagory, source);
 				const disableAutoSummarize = getDisableAutoSummarize(catagory, source);
 
-				let importantEnough = true;
+				let important = true;
 
 				let content = '';
 
@@ -98,7 +97,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 				}
 
 				if (checkImportance) {
-					importantEnough = await checkArticleImportance(env, content, {
+					important = await checkArticleImportance(env, content, {
 						trace: true,
 						useGPT4o: true,
 					});
@@ -106,10 +105,10 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 				console.info(
 					`${item.link} : `,
-					`${importantEnough ? 'Important' : 'Not Important'}`,
+					`${important ? 'Important' : 'Not Important'}`,
 				);
 
-				if (importantEnough) {
+				if (important) {
 					let shortSummary: string | undefined = undefined;
 
 					if (!disableAutoSummarize) {
@@ -148,15 +147,20 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					});
 				}
 
+				const embedding = await requestEmbeddingsAPI({
+					env,
+					text: content,
+				});
+
 				await createArticleDatabase(env, {
-					id: nanoid(),
-					importantEnough,
+					important,
 					title: item.title,
 					url: item.link,
 					publisher: feed.title,
 					category: catagory.name,
 					guid: item.guid,
-					publishedAt: new Date(item.pubDate).getTime(),
+					publishedAt: new Date(item.pubDate),
+					embedding,
 				});
 			}
 		} catch (error) {

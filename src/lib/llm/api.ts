@@ -1,7 +1,7 @@
 import type { ServerEnv } from '@/types/env';
 import type { MessageContentText } from '@langchain/core/messages';
 import { HumanMessage, SystemMessage } from '@langchain/core/messages';
-import { ChatOpenAI } from '@langchain/openai';
+import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai';
 import {
 	CallbackHandler as LangFuseCallbackHandler,
 	Langfuse,
@@ -16,9 +16,7 @@ export type TextCompletionsGenerateProps = {
 		| 'LANGFUSE_BASE_URL'
 		| 'OPENAI_API_KEY'
 		| 'OPENAI_API_BASE_URL'
-	> & {
-		D1?: unknown;
-	};
+	>;
 	model: string;
 	message: {
 		system?: string;
@@ -32,12 +30,27 @@ export type TextCompletionsGenerateProps = {
 	};
 };
 
+export interface EmbeddingsProp {
+	env: Pick<ServerEnv, 'OPENAI_API_KEY' | 'OPENAI_API_BASE_URL'>;
+	text: string;
+}
+
 export function getLangfuse(env: TextCompletionsGenerateProps['env']) {
 	return new Langfuse({
 		secretKey: env.LANGFUSE_SECRET_KEY,
 		publicKey: env.LANGFUSE_PUBLIC_KEY,
 		baseUrl: env.LANGFUSE_BASE_URL ?? 'https://us.cloud.langfuse.com',
 	});
+}
+
+export async function requestEmbeddingsAPI({ env, text }: EmbeddingsProp) {
+	const embeddings = new OpenAIEmbeddings({
+		model: 'text-embedding-3-small',
+		configuration: {
+			baseURL: env.OPENAI_API_BASE_URL ?? 'https://api.openai.com/v1',
+		},
+	});
+	return await embeddings.embedQuery(text);
 }
 
 export async function requestChatCompletionAPI({
@@ -101,8 +114,7 @@ export async function requestChatCompletionAPI({
 		},
 	);
 
-	// Cloudflare Worker is a short-lived environment, so we need to flush and send the trace immediately
-	if (env.D1 && env.LANGFUSE_SECRET_KEY) {
+	if (env.LANGFUSE_SECRET_KEY && 'bun' in process.versions) {
 		await langfuse.flushAsync();
 	}
 

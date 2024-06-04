@@ -1,7 +1,11 @@
 import { defineConfig } from 'drizzle-kit';
 
 export default defineConfig({
-	dialect: 'sqlite',
+	dialect: 'postgresql',
 	schema: './src/db/schema.ts',
-	out: './.drizzle',
+	out: './supabase/migrations',
+	dbCredentials: {
+		// biome-ignore lint/style/noNonNullAssertion: <explanation>
+		url: process.env.DATABASE_URL!,
+	},
 });

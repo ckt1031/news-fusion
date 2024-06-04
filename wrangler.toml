@@ -12,9 +12,3 @@ workers_dev = false
 
 [triggers]
 crons = [ "0 0 */2 * *" ]
-
-[[d1_databases]]
-binding = "D1" # i.e. available in your Worker on env.DB
-database_name = "news_bot"
-database_id = "d1e122b7-8eab-463e-8e54-f36cc5adcb54"
-migrations_dir = ".drizzle"
