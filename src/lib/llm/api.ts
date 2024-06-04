@@ -118,7 +118,7 @@ export async function requestChatCompletionAPI({
 		},
 	);
 
-	if (env.LANGFUSE_SECRET_KEY && ('bun' in process.versions)) {
+	if (env.LANGFUSE_SECRET_KEY && 'bun' in process.versions) {
 		await langfuse.flushAsync();
 	}
 

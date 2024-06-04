@@ -2,11 +2,11 @@
  * This is script to run news fetchinng in full and filter with AI, only find out important news.
  */
 
+import { exit } from 'node:process';
 import { ALL_RSS_CATAGORIES } from '@/config/news-sources';
 import { getLangfuse } from '@/lib/llm/api';
 import checkRSS from '@/lib/news/check-rss';
 import { envSchema } from '@/types/env';
-import { exit } from 'node:process';
 
 const env = await envSchema.parseAsync(process.env);
 

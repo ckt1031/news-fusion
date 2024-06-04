@@ -22,7 +22,7 @@ function filterLastDayNews(
 export async function parseRSS(url: string, pastHours = -1) {
 	const xmlData = await ofetch<string>(url, {
 		timeout: 10000, // 10 seconds
-		parseResponse: (txt) => txt
+		parseResponse: (txt) => txt,
 	});
 
 	const parser = new XMLParser({
