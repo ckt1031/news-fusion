@@ -6,7 +6,7 @@
 		"dev": "wrangler dev src/index.ts",
 		"deploy": "wrangler deploy --minify",
 		"lint": "tsc && biome check .",
-		"lint:fix": "tsc && biome format . --write && biome check . --apply",
+		"lint:fix": "tsc && biome format . --write && biome check . --write",
 		"generate": "drizzle-kit generate",
 		"typecheck": "tsc"
 	},

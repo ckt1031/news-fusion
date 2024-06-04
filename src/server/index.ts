@@ -1,10 +1,11 @@
 import discordBot from '@/discord/bot';
+import { clearUnusedDatabaseData } from '@/lib/db';
 import type { ServerEnv } from '@/types/env';
 import { sentry } from '@hono/sentry';
 import { Hono } from 'hono';
+import { env, getRuntimeKey } from 'hono/adapter';
 import { HTTPException } from 'hono/http-exception';
 import { reportToSentryOnHono } from './on-error';
-import { getRuntimeKey } from 'hono/adapter';
 
 const app = new Hono<{ Bindings: ServerEnv }>();
 
@@ -27,8 +28,21 @@ app.get('/versions', (c) => {
 		runtime: getRuntimeKey(),
 		...(typeof process !== 'undefined' && {
 			server: process.versions,
-		})
+		}),
 	});
+});
+
+// Vercel Cron Job
+app.get('/cron/vercel', async (c) => {
+	const environment = env(c);
+
+	if (c.req.header('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
+		return c.text('Unauthorized', 401);
+	}
+
+	await clearUnusedDatabaseData(environment);
+
+	return c.text('Cron job done');
 });
 
 app.onError((e, c) => {

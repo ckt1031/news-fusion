@@ -26,6 +26,7 @@
 		"ignore": ["node_modules", "dist", ".dirzzle", ".next", ".vercel"]
 	},
 	"organizeImports": {
-		"enabled": true
+		"enabled": true,
+		"ignore": ["node_modules", "dist", ".dirzzle", ".next", ".vercel"]
 	}
 }

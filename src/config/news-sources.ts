@@ -133,6 +133,7 @@ export const RSS_DEV: RssCatagory = {
 		'https://supabase.com/feed.xml',
 		'https://blog.stackblitz.com/rss.xml',
 		'https://firebase.blog/rss.xml',
+		'https://www.freecodecamp.org/news/rss/',
 		// Platforms
 		'https://netflixtechblog.com/feed',
 		'https://engineering.atspotify.com/feed',
@@ -160,6 +161,7 @@ export const RSS_BLOGS: RssCatagory = {
 		'https://www.williamlong.info/rss.xml',
 		'https://www.owenyoung.com/atom.xml',
 		'https://1link.fun/index.xml',
+		'https://1byte.io/articles/index.xml',
 		{
 			url: 'https://sspai.com/feed',
 			checkImportance: true,

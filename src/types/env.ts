@@ -22,6 +22,9 @@ export const envSchema = z.object({
 
 	// Database URL
 	DATABASE_URL: z.string(),
+
+	// Vercel CRON secret
+	CRON_SECRET: z.string().optional(),
 });
 
 export type ServerEnv = z.infer<typeof envSchema>;

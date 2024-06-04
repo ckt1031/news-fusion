@@ -1,0 +1,8 @@
+{
+	"crons": [
+		{
+			"path": "/cron/vercel",
+			"schedule": "0 0 */2 * *"
+		}
+	]
+}
