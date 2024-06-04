@@ -21,7 +21,7 @@ export async function scrapeToMarkdown(env: ScrapeMarkdownVar, url: string) {
 				accept: 'application/json',
 				Authorization: `Bearer ${env.TOOLS_API_KEY}`,
 			},
-			timeout: 10000,	
+			timeout: 10000,
 		},
 	);
 
