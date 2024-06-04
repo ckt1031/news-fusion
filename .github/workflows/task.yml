@@ -23,6 +23,7 @@ jobs:
       - name: Run Script
         run: bun src/scripts/action.ts
         env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           OPENAI_API_BASE_URL: ${{ secrets.OPENAI_API_BASE_URL }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
@@ -33,8 +34,6 @@ jobs:
           TOOLS_API_BASE_URL: ${{ secrets.TOOLS_API_BASE_URL }}
           TOOLS_API_KEY: ${{ secrets.TOOLS_API_KEY }}
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-          WORKER_BASE_URL: ${{ secrets.WORKER_BASE_URL }}
-          WORKER_API_KEY: ${{ secrets.WORKER_API_KEY }}
           LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
           LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
           LANGFUSE_BASE_URL: ${{ secrets.LANGFUSE_BASE_URL }}
