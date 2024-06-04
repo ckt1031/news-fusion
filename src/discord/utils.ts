@@ -14,6 +14,7 @@ import {
 	type RESTPostAPIChannelMessageResult,
 } from 'discord-api-types/v10';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
+import { ofetch } from 'ofetch';
 
 type BaseReqeustProp = {
 	token?: string;
@@ -41,34 +42,14 @@ async function discordBaseRequest<T>({
 		'Content-Type': 'application/json',
 	};
 
-	const response = await fetch(`${DISCORD_API_BASE}${path}`, {
+	const response = await ofetch<unknown | T>(`${DISCORD_API_BASE}${path}`, {
 		method,
 		headers,
-		body: body ? JSON.stringify(body) : undefined,
+		body,
+		timeout: 3000, // Timeout after 3 seconds
 	});
 
-	if (!response.ok) {
-		const contentType = response.headers.get('content-type');
-
-		if (contentType?.includes('application/json')) {
-			try {
-				const errorResponse = await response.json();
-				console.error('Response Error:', errorResponse);
-			} catch {
-				const textResponse = await response.text();
-				console.error(textResponse);
-			}
-		}
-
-		throw new Error(`Failed to send Discord message: ${response.statusText}`);
-	}
-
-	try {
-		const jsonResponse = await response.json();
-		return jsonResponse as T;
-	} catch {
-		return {} as T;
-	}
+	return response as T;
 }
 
 export async function getAllMessagesInDiscordChannel(

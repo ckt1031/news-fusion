@@ -1,5 +1,6 @@
 import { type RssFeed, RssFeedSchema } from '@/types/rss';
 import { XMLParser } from 'fast-xml-parser';
+import { ofetch } from 'ofetch';
 
 function filterLastDayNews(
 	item: ArrayElement<RssFeed['item']>,
@@ -19,13 +20,10 @@ function filterLastDayNews(
 }
 
 export async function parseRSS(url: string, pastHours = -1) {
-	const req = await fetch(url);
+	const xmlData = await ofetch<string>(url, {
+		timeout: 10000, // 10 seconds
+	});
 
-	if (!req.ok) {
-		throw new Error(`Failed to fetch RSS: ${url} (${req.status})`);
-	}
-
-	const xmlData = await req.text();
 	const parser = new XMLParser({
 		ignoreAttributes: true,
 	});
