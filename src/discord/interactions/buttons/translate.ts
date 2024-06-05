@@ -5,7 +5,7 @@ import {
 	discordTextSplit,
 } from '@/discord/utils';
 import { translateText } from '@/lib/llm/prompt-calls';
-import { scrapeToMarkdown } from '@/lib/scrape';
+import { scrapeToMarkdown } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
 import { ButtonStructure, DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
@@ -80,7 +80,7 @@ class TranslateButton extends ButtonStructure {
 		// Check if message has embed
 		if (interaction.message.embeds.length > 0) {
 			// Use Embed URL to translate
-			const url = interaction.message.embeds[0].url;
+			const url = interaction.message.embeds[0]?.url;
 
 			if (!url) {
 				throw new Error('No URL found');

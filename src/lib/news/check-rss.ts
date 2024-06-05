@@ -10,7 +10,11 @@ import { checkIfNewsIsNew, createArticleDatabase } from '../db';
 import { requestChatCompletionAPI, requestEmbeddingsAPI } from '../llm/api';
 import { checkArticleImportance } from '../llm/prompt-calls';
 import { parseRSS } from '../parse-news';
-import { type ScrapeMarkdownVar, scrapeToMarkdown } from '../scrape';
+import {
+	type ScrapeMarkdownVar,
+	scrapeToMarkdown,
+	scrapeYouTube,
+} from '../tool-apis';
 import filterRSS from './filter-news';
 import { getRSSHubURL } from './rsshub';
 import sendNewsToDiscord from './send-discord-news';
@@ -38,7 +42,15 @@ export async function urlToLLMContent(
 	env: ScrapeMarkdownVar,
 	item: ArrayElement<RssFeed['item']>,
 ) {
-	const markdownContent = await scrapeToMarkdown(env, item.link);
+	let markdownContent = '';
+
+	const host = new URL(item.link).host;
+
+	if (host.includes('youtube.com')) {
+		markdownContent = (await scrapeYouTube(env, item.link)).captions.text;
+	} else {
+		markdownContent = await scrapeToMarkdown(env, item.link);
+	}
 
 	return `
 	title: ${item.title}

@@ -3,7 +3,7 @@ import {
 	getAllMessagesInDiscordChannel,
 } from '@/discord/utils';
 import { translateText } from '@/lib/llm/prompt-calls';
-import { scrapeToMarkdown } from '@/lib/scrape';
+import { scrapeToMarkdown } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
 import { ButtonStructure, DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
@@ -62,7 +62,7 @@ class ReTranslationButton extends ButtonStructure {
 			if (
 				!parentMessage ||
 				parentMessage.embeds.length === 0 ||
-				!parentMessage.embeds[0].url
+				!parentMessage.embeds[0]?.url
 			) {
 				throw new Error('No embeds found');
 			}

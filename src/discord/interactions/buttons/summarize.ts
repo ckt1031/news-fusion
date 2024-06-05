@@ -5,7 +5,7 @@ import {
 	discordTextSplit,
 } from '@/discord/utils';
 import { summarizeText } from '@/lib/llm/prompt-calls';
-import { scrapeToMarkdown } from '@/lib/scrape';
+import { scrapeToMarkdown } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
 import { ButtonStructure, DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
@@ -39,7 +39,7 @@ class SummarizeButton extends ButtonStructure {
 	): Promise<void> {
 		const parentMessage = interaction.message;
 
-		if (parentMessage.embeds.length === 0 || !parentMessage.embeds[0].url) {
+		if (parentMessage.embeds.length === 0 || !parentMessage.embeds[0]?.url) {
 			throw new Error('No embeds found');
 		}
 

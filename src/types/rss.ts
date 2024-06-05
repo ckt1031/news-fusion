@@ -64,7 +64,7 @@ const Alternative1FeedSchema = z
 		link: z
 			.object({ '@_rel': z.string(), '@_href': z.string() })
 			.array()
-			.transform((link) => link[0]['@_href']),
+			.transform((link) => link[0]?.['@_href'] || ''),
 		entry: z
 			.array(Alternative1FeedItemSchema)
 			.or(Alternative1FeedItemSchema)

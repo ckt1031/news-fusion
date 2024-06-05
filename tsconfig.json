@@ -16,6 +16,7 @@
 		"noUnusedParameters": true,
 		"noUnusedLocals": true,
 		"allowSyntheticDefaultImports": true,
+		"noUncheckedIndexedAccess": true,
 		"lib": ["ESNext"],
 		"types": ["@cloudflare/workers-types", "./src/global.d.ts"],
 		"strict": true,
