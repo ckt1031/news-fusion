@@ -1,9 +1,18 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.7.3/schema.json",
+	"$schema": "https://biomejs.dev/schemas/1.8.0/schema.json",
+	"files": {
+		"ignore": [
+			"node_modules",
+			"dist",
+			".dirzzle",
+			".next",
+			".vercel",
+			"./src/types/tool-apis.d.ts"
+		]
+	},
 	"formatter": {
 		"enabled": true,
 		"formatWithErrors": false,
-		"ignore": ["node_modules", "dist", ".dirzzle", ".next", ".vercel"],
 		"indentStyle": "tab",
 		"indentWidth": 2,
 		"lineEnding": "lf",
@@ -22,11 +31,9 @@
 				"noUnusedImports": "error",
 				"noUnusedVariables": "error"
 			}
-		},
-		"ignore": ["node_modules", "dist", ".dirzzle", ".next", ".vercel"]
+		}
 	},
 	"organizeImports": {
-		"enabled": true,
-		"ignore": ["node_modules", "dist", ".dirzzle", ".next", ".vercel"]
+		"enabled": true
 	}
 }
