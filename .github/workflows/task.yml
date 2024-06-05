@@ -20,7 +20,7 @@ jobs:
       - name: Install Dependencies
         run: |
           bun install
-          bunx openapi-typescript ${{ env.TOOLS_API_BASE_URL }}/openapi.json -o ./src/types/tool-apis.d.ts
+          bun run generate-tool-api-schema
         env:
           TOOLS_API_BASE_URL: ${{ secrets.TOOLS_API_BASE_URL }}
 

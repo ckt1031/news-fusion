@@ -4,11 +4,13 @@
 	"type": "module",
 	"scripts": {
 		"dev": "wrangler dev src/index.ts",
+		"vercel-build": "next build && bun run generate-tool-api-schema",
 		"deploy": "wrangler deploy --minify",
 		"lint": "tsc && biome check .",
 		"lint:fix": "tsc && biome format . --write && biome check . --write",
 		"generate": "drizzle-kit generate",
-		"typecheck": "tsc"
+		"typecheck": "tsc",
+		"generate-tool-api-schema": "bun scripts/generate-tool-api-schema.ts"
 	},
 	"dependencies": {
 		"@hono/sentry": "^1.1.0",
@@ -45,5 +47,6 @@
 		"supabase": "^1.172.2",
 		"typescript": "5.4.5",
 		"wrangler": "^3.59.0"
-	}
+	},
+	"packageManager": "bun@1.1.12"
 }
