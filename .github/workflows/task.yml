@@ -18,7 +18,11 @@ jobs:
           bun-download-url: "https://github.com/oven-sh/bun/releases/latest/download/bun-${{runner.os == 'macOS' && 'darwin' || runner.os}}-${{ runner.arch == 'X64' && 'x64' || 'arm64' }}.zip"
 
       - name: Install Dependencies
-        run: bun install
+        run: |
+          bun install
+          bunx openapi-typescript ${{ env.TOOLS_API_BASE_URL }}/openapi.json -o ./src/types/tool-apis.d.ts
+        env:
+          TOOLS_API_BASE_URL: ${{ secrets.TOOLS_API_BASE_URL }}
 
       - name: Run Script
         run: bun src/scripts/action.ts

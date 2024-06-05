@@ -8,3 +8,4 @@ supabase
 .vercel
 .next
 tsconfig.tsbuildinfo
+src/types/tool-apis.d.ts
