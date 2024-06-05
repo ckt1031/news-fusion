@@ -1,7 +1,8 @@
 import {
 	EARLIEST_HOURS,
-	type RssCatagory,
-	type RssSourceItem,
+	type RSSCatacory,
+	type RSSChannelItem,
+	type RSSConfig,
 } from '@/config/news-sources';
 import type { ServerEnv } from '@/types/env';
 import type { RssFeed } from '@/types/rss';
@@ -16,29 +17,22 @@ import sendNewsToDiscord from './send-discord-news';
 
 type Props = {
 	env: ServerEnv;
-	catagory: RssCatagory;
+	catagory: RSSCatacory;
 	isTesting?: boolean;
 };
 
-const getDisableAllComponents = (
-	catagoryData: RssCatagory,
-	rssItem: RssSourceItem,
-) => {
-	const catagorySideDisableAllComponent = catagoryData.disableAllAIFunctions;
-	const itemSideDisableAllComponent =
-		typeof rssItem === 'string' ? false : rssItem.disableAllAIFunctions;
-	return catagorySideDisableAllComponent || itemSideDisableAllComponent;
-};
-
-const getDisableAutoSummarize = (
-	catagoryData: RssCatagory,
-	rssItem: RssSourceItem,
-) => {
-	const catagorySideDisableAutoSummarize = catagoryData.disableAutoSummary;
-	const itemSideDisableAutoSummarize =
-		typeof rssItem === 'string' ? false : rssItem.disableAutoSummary;
-	return catagorySideDisableAutoSummarize || itemSideDisableAutoSummarize;
-};
+function getConfiguration(
+	catagory: RSSCatacory,
+	channel: RSSChannelItem,
+	key: keyof RSSConfig,
+	defaultValue = false,
+) {
+	return (
+		(typeof channel === 'string' ? undefined : channel[key]) ??
+		catagory[key] ??
+		defaultValue
+	);
+}
 
 export async function urlToLLMContent(
 	env: ScrapeMarkdownVar,
@@ -54,18 +48,14 @@ export async function urlToLLMContent(
 }
 
 export default async function checkRSS({ env, catagory, isTesting }: Props) {
-	for (const source of catagory.sources) {
+	for (const channel of catagory.channels) {
 		let url: string | undefined =
-			typeof source === 'string' ? source : source.url;
+			typeof channel === 'string' ? channel : channel.url;
 
 		// Try to get rsshub url if {RSSHUB} is in the url
 		url = getRSSHubURL(env, url);
 
 		if (!url) continue;
-
-		const checkImportance =
-			(typeof source === 'string' ? false : source.checkImportance) ||
-			(catagory.checkImportance ?? true);
 
 		try {
 			const feed = await parseRSS(url, EARLIEST_HOURS);
@@ -83,18 +73,37 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 				if (!filterRSS({ url, title: item.title })) continue;
 
 				const isNew = await checkIfNewsIsNew(env, item.guid);
+
+				// Rejected if the news was already checked
 				if (!isNew) continue;
 
-				const disableAllComponents = getDisableAllComponents(catagory, source);
-				const disableAutoSummarize = getDisableAutoSummarize(catagory, source);
-
-				let important = true;
+				const autoSummarize = getConfiguration(
+					catagory,
+					channel,
+					'autoSummarize',
+					true,
+				);
+				const includeAIButtons = getConfiguration(
+					catagory,
+					channel,
+					'includeAIButtons',
+					true,
+				);
+				const checkImportance = getConfiguration(
+					catagory,
+					channel,
+					'checkImportance',
+					true,
+				);
 
 				let content = '';
 
-				if (checkImportance || !disableAutoSummarize) {
+				if (checkImportance || !autoSummarize) {
+					// We still need to get the content for importance check or auto summarize
 					content = await urlToLLMContent(env, item);
 				}
+
+				let important = true;
 
 				if (checkImportance) {
 					important = await checkArticleImportance(env, content, {
@@ -111,7 +120,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 				if (important) {
 					let shortSummary: string | undefined = undefined;
 
-					if (!disableAutoSummarize) {
+					if (autoSummarize) {
 						shortSummary = await requestChatCompletionAPI({
 							env,
 							model: 'gpt-3.5-turbo-0125',
@@ -132,7 +141,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					await sendNewsToDiscord({
 						env,
 						data: {
-							...(!disableAutoSummarize && { description: shortSummary }),
+							...(autoSummarize && { description: shortSummary }),
 							feed: {
 								title: feed.title,
 							},
@@ -142,7 +151,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 								pubDate: item.pubDate,
 							},
 							channelId: catagory.discordChannelId,
-							disableAllComponents,
+							includeAIButtons,
 						},
 					});
 				}

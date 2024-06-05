@@ -1,17 +1,19 @@
-type Config = {
+export type RSSConfig = {
 	checkImportance?: boolean;
-	disableAutoSummary?: boolean;
-	disableAllAIFunctions?: boolean;
+	/** Default to ture, check importance of income content */
+	autoSummarize?: boolean;
+	/** Default to ture, this will include buttons such as "Translate" or "Summarize" buttons */
+	includeAIButtons?: boolean;
 };
 
-export type RssSourceItem =
+export type RSSChannelItem =
 	| ({
 			url: string;
-	  } & Config)
+	  } & RSSConfig)
 	| string;
-export interface RssCatagory extends Config {
+export interface RSSCatacory extends RSSConfig {
 	name: RSS_CATEGORY;
-	sources: RssSourceItem[];
+	channels: RSSChannelItem[];
 
 	// Push to this channel
 	discordChannelId: string;
@@ -29,25 +31,25 @@ export enum RSS_CATEGORY {
 	TECHNOLOGY = 'technology',
 }
 
-export const RSS_GENERAL: RssCatagory = {
+export const RSS_GENERAL: RSSCatacory = {
 	name: RSS_CATEGORY.GENERAL,
 	discordChannelId: '1245738873787645962',
-	sources: [
+	channels: [
 		'https://rss.politico.com/politics-news.xml',
 		'https://feeds.bbci.co.uk/news/world/rss.xml',
 	],
 };
 
-export const RSS_HKG: RssCatagory = {
+export const RSS_HKG: RSSCatacory = {
 	name: RSS_CATEGORY.HKG,
 	discordChannelId: '1245731477048660021',
-	sources: ['https://www.scmp.com/rss/2/feed'],
+	channels: ['https://www.scmp.com/rss/2/feed'],
 };
 
-export const RSS_THINKING: RssCatagory = {
+export const RSS_THINKING: RSSCatacory = {
 	name: RSS_CATEGORY.THINKING,
 	discordChannelId: '1245734549879525546',
-	sources: [
+	channels: [
 		'https://asteriskmag.com/feed',
 		'https://www.nplusonemag.com/feed',
 		'https://www.newyorker.com/feed/news',
@@ -56,23 +58,46 @@ export const RSS_THINKING: RssCatagory = {
 	],
 };
 
-export const RSS_VIDEOS: RssCatagory = {
+export const RSS_VIDEOS: RSSCatacory = {
 	name: RSS_CATEGORY.VIDEOS,
 	discordChannelId: '1245004330868674591',
-	disableAllAIFunctions: false,
-	disableAutoSummary: false,
 	checkImportance: false,
-	sources: [
-		'{RSSHUB}/bilibili/user/video/25876945', // 极客湾 Geekerwan
-		'{RSSHUB}/youtube/user/@kurzgesagt', // YouTube: Kurzgesagt – In a Nutshell
-		'{RSSHUB}/youtube/user/@xiao_lin_shuo', // YouTube: 小Lin说
+	includeAIButtons: true,
+	autoSummarize: true,
+	channels: [
+		// Science and Education
+		'{RSSHUB}/youtube/user/@veritasium', // Veritasium
+		'{RSSHUB}/youtube/user/@kurzgesagt', // Kurzgesagt – In a Nutshell
+		'{RSSHUB}/youtube/user/@minutephysics', // minutephysics
+		'{RSSHUB}/youtube/user/@AsapSCIENCE', // AsapSCIENCE
+		'{RSSHUB}/youtube/user/@NileRed', // NileRed
+		'{RSSHUB}/youtube/user/@NileRedExtra', // NileRedExtra
+
+		// Tech
+		'{RSSHUB}/youtube/user/@mkbhd', // Marques Brownlee
+
+		// Programming and Tech
+		'{RSSHUB}/youtube/user/@fireship', // Fireship
+		'{RSSHUB}/youtube/user/@t3dotgg', // T3
+		'{RSSHUB}/youtube/user/@joshtriedcoding', // Josh tried coding
+		'{RSSHUB}/youtube/user/@TraversyMedia', // Traversy Media
+
+		/**
+		 * Chinese High Quality Channels below
+		 */
+		'{RSSHUB}/youtube/user/@lyi', // 林亦LYi
+		'{RSSHUB}/youtube/user/@chaiknowsofficialchannel982', // 柴知道
+		'{RSSHUB}/youtube/user/@xiao_lin_shuo', // 小Lin说
+		'{RSSHUB}/youtube/user/@geekerwan1024', // 极客湾 Geekerwan
+		'{RSSHUB}/youtube/user/@axtonliu', // 回到 Axton
+		'{RSSHUB}/youtube/user/@NDWTB', // 脑洞乌托邦
 	],
 };
 
-export const RSS_TECH: RssCatagory = {
+export const RSS_TECH: RSSCatacory = {
 	name: RSS_CATEGORY.TECHNOLOGY,
 	discordChannelId: '1245004214678061096',
-	sources: [
+	channels: [
 		'https://blog.google/rss',
 		'https://www.theverge.com/rss/index.xml',
 		'https://www.theregister.com/headlines.rss',
@@ -90,11 +115,11 @@ export const RSS_TECH: RssCatagory = {
 	],
 };
 
-export const RSS_DEV: RssCatagory = {
+export const RSS_DEV: RSSCatacory = {
 	name: RSS_CATEGORY.DEVELOPER,
 	discordChannelId: '1245006701812387890',
 	checkImportance: false,
-	sources: [
+	channels: [
 		'https://blog.cloudflare.com/rss',
 		'https://github.blog/feed',
 		// AI
@@ -140,18 +165,18 @@ export const RSS_DEV: RssCatagory = {
 	],
 };
 
-export const RSS_ALERTS: RssCatagory = {
+export const RSS_ALERTS: RSSCatacory = {
 	name: RSS_CATEGORY.ALERTS,
 	discordChannelId: '1245007194064293929',
 	checkImportance: true,
-	sources: ['https://rss.weather.gov.hk/rss/WeatherWarningBulletin.xml'],
+	channels: ['https://rss.weather.gov.hk/rss/WeatherWarningBulletin.xml'],
 };
 
-export const RSS_BLOGS: RssCatagory = {
+export const RSS_BLOGS: RSSCatacory = {
 	name: RSS_CATEGORY.BLOGS,
 	discordChannelId: '1245004300300587018',
 	checkImportance: false,
-	sources: [
+	channels: [
 		'https://baoyu.io/feed.xml',
 		'https://www.appinn.com/feed',
 		'https://www.wainao.me/rss.xml',
@@ -169,10 +194,10 @@ export const RSS_BLOGS: RssCatagory = {
 	],
 };
 
-export const RSS_UPDATES: RssCatagory = {
+export const RSS_UPDATES: RSSCatacory = {
 	name: RSS_CATEGORY.UPDATES,
 	discordChannelId: '1245045959570755584',
-	sources: [
+	channels: [
 		'https://obsidian.md/feed.xml',
 		'https://discord.com/blog/rss.xml',
 		'https://brave.com/blog/index.xml',

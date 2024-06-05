@@ -21,7 +21,7 @@ type SendNewsToDiscordProps = {
 		};
 		channelId: string;
 		description?: string;
-		disableAllComponents?: boolean;
+		includeAIButtons?: boolean;
 	};
 };
 
@@ -64,7 +64,7 @@ export default async function sendNewsToDiscord({
 				},
 			],
 			// content: `# [${data.news.title}](<${data.news.link}>)\n\n${data.description}`,
-			components: data.disableAllComponents ? [] : components,
+			components: data.includeAIButtons ? components : [],
 		},
 	});
 }
