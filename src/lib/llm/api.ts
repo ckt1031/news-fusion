@@ -59,6 +59,9 @@ export async function requestEmbeddingsAPI({
 		configuration: {
 			baseURL: env.OPENAI_API_BASE_URL ?? 'https://api.openai.com/v1',
 		},
+		// Maxmium 10 seconds
+		timeout: 10 * 1000,
+		maxRetries: 3,
 	});
 	return await embeddings.embedQuery(text);
 }
@@ -82,6 +85,9 @@ export async function requestChatCompletionAPI({
 		configuration: {
 			baseURL: env.OPENAI_API_BASE_URL ?? 'https://api.openai.com/v1',
 		},
+		// Maxmium 60 seconds
+		timeout: 60 * 1000,
+		maxRetries: 3,
 	});
 
 	const systemMessage = message.system

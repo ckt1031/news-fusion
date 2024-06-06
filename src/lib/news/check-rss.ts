@@ -103,24 +103,19 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					true,
 				);
 
-				let content = '';
-
 				let thumbnail: string | undefined = item?.thumbnail;
 
-				if (checkImportance || autoSummarize) {
-					// We still need to get the content for importance check or auto summarize
-					content = await getContentMakrdownFromURL(env, item.link);
+				const content = await getContentMakrdownFromURL(env, item.link);
 
-					if (!content) {
-						consola.error('Failed to get content for', item.link);
+				if (!content) {
+					consola.error('Failed to get content for', item.link);
 
-						// If content, importance check and auto summarize are meaningless
-						autoSummarize = false;
-						checkImportance = false;
-					}
+					// If content, importance check and auto summarize are meaningless
+					autoSummarize = false;
+					checkImportance = false;
 				}
 
-				const similar = await isArticleSimilar(env, item.link);
+				const similar = await isArticleSimilar(env, content);
 
 				// Reject if similar article found
 				if (similar.similarities.length > 0 && similar.result) {

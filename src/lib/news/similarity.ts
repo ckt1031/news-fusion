@@ -7,7 +7,6 @@ import type { ServerEnv } from '@/types/env';
 import { cosineDistance, desc, gt, sql } from 'drizzle-orm';
 import { getDB } from '../db';
 import { requestEmbeddingsAPI } from '../llm/api';
-import { getContentMakrdownFromURL } from './check-rss';
 
 /**
  * Drizzle ORM with vector for PostgreSQL
@@ -36,9 +35,7 @@ export async function getSimilarities(env: ServerEnv, text: string) {
 	return similarGuides;
 }
 
-export async function isArticleSimilar(env: ServerEnv, url: string) {
-	const content = await getContentMakrdownFromURL(env, url);
-
+export async function isArticleSimilar(env: ServerEnv, content: string) {
 	const similarities = await getSimilarities(env, content);
 
 	return {
