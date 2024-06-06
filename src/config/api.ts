@@ -10,3 +10,5 @@ export const DEFAULT_TRANSLATE_MODEL = 'yi-large-turbo';
 export const DEFAULT_TITLE_GENERATE_MODEL = 'gpt-3.5-turbo-0125';
 
 export const DEFAULT_CHECK_IMPORTANCE_MODEL = 'gpt-4o';
+
+export const DEFAULT_MINIMUM_SIMILARITY_SCORE = 0.8;

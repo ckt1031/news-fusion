@@ -121,6 +121,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 				const similar = await isArticleSimilar(env, item.link);
 
+				// Reject if similar article found
 				if (similar.similarities.length > 0 && similar.result) {
 					console.info(
 						`Similar article found: ${item.link} -> ${similar.similarities[0]?.url}`,

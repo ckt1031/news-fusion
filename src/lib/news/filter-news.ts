@@ -12,7 +12,7 @@ export default function filterRSS(prop: FilterProps) {
 		return false;
 	}
 
-	// No #shorts in title
+	// No #shorts in title for YouTube
 	if (prop.title.toLowerCase().includes('#shorts')) {
 		return false;
 	}

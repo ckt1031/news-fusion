@@ -1,4 +1,7 @@
-import { DEFAULT_EMBEDDING_MODEL } from '@/config/api';
+import {
+	DEFAULT_EMBEDDING_MODEL,
+	DEFAULT_MINIMUM_SIMILARITY_SCORE,
+} from '@/config/api';
 import { articles } from '@/db/schema';
 import type { ServerEnv } from '@/types/env';
 import { cosineDistance, desc, gt, sql } from 'drizzle-orm';
@@ -39,7 +42,9 @@ export async function isArticleSimilar(env: ServerEnv, url: string) {
 	const similarities = await getSimilarities(env, content);
 
 	return {
-		result: similarities.some((similarity) => similarity.similarity > 0.8),
+		result: similarities.some(
+			(similarity) => similarity.similarity > DEFAULT_MINIMUM_SIMILARITY_SCORE,
+		),
 
 		// Sort by decenting order of similarity
 		similarities: similarities.sort((a, b) => b.similarity - a.similarity),
