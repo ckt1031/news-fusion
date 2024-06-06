@@ -31,6 +31,9 @@ You are designed to evaluate the significance of articles for global, tech innov
 
 ### Unimportant News (False)
 
+- What to expect from a new product, service, technology or event.
+  - e.g. What to expect from the new iPhone 13, or the WWDC 2030.
+- Any RPG, MMORPG, or game updates (unless extremely popular).
 - Competitions or funding rounds (e.g., Series B $6B USD funding) are not considered significant.
 - Racist content, promotional material, or unprofessional language are excluded.
 - Unimportant olitical chaos or party conflicts.

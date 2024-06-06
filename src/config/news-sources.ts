@@ -98,6 +98,14 @@ export const RSS_TECH: RSSCatacory = {
 	discordChannelId: '1245004214678061096',
 	channels: [
 		'https://blog.google/rss',
+		'https://9to5mac.com/feed',
+		'https://9to5linux.com/feed',
+		'https://9to5google.com/feed',
+		'https://techcrunch.com/feed',
+		'https://www.geekwire.com/feed',
+		'https://www.engadget.com/rss.xml',
+		'https://www.wired.com/feed/rss',
+		'https://www.zdnet.com/news/rss.xml',
 		'https://www.theverge.com/rss/index.xml',
 		'https://www.theregister.com/headlines.rss',
 		{
@@ -111,6 +119,16 @@ export const RSS_TECH: RSSCatacory = {
 			checkImportance: false,
 		},
 		'https://jina.ai/feed.rss',
+	],
+};
+
+export const RSS_SCIENCE: RSSCatacory = {
+	name: RSS_CATEGORY.TECHNOLOGY,
+	discordChannelId: '1248298490170441728',
+	channels: [
+		'https://rss.sciencedaily.com/all.xml',
+		'https://www.newscientist.com/feed/home',
+		'https://www.scientificamerican.com/platform/syndication/rss',
 	],
 };
 
@@ -142,13 +160,15 @@ export const RSS_DEV: RSSCatacory = {
 		'https://pythoninsider.blogspot.com/rss.xml',
 		'https://cprss.s3.amazonaws.com/javascriptweekly.com.xml',
 		'https://cprss.s3.amazonaws.com/nodeweekly.com.xml',
-		// Frameworks and frontennd tools
+		// Frameworks and frontend tools
 		'https://nextjs.org/feed.xml',
 		'https://astro.build/rss.xml',
 		'https://tailwindcss.com/feeds/feed.xml',
 		'https://nuxt.com/blog/rss.xml',
 		'https://react.dev/rss.xml',
 		'https://blog.vuejs.org/feed.rss',
+		'https://web.dev/static/blog/feed.xml',
+		'https://blog.google/products/chrome/rss',
 		// AI but basically programming
 		'https://blog.langchain.dev/rss',
 		// Developer Platform
@@ -186,6 +206,7 @@ export const RSS_BLOGS: RSSCatacory = {
 		'https://www.williamlong.info/rss.xml',
 		'https://www.owenyoung.com/atom.xml',
 		'https://1link.fun/index.xml',
+		'https://antfu.me/feed.xml',
 		'https://1byte.io/articles/index.xml',
 		{
 			url: 'https://sspai.com/feed',
@@ -193,6 +214,11 @@ export const RSS_BLOGS: RSSCatacory = {
 		},
 		'https://feed.miantiao.me',
 		'https://blog.krdw.site/rss.xml',
+		'https://diygod.cc/feed',
+		{
+			url: 'https://www.ifanr.com/feed',
+			checkImportance: true,
+		},
 	],
 };
 
@@ -210,6 +236,7 @@ export const RSS_UPDATES: RSSCatacory = {
 export const ALL_RSS_CATAGORIES = [
 	RSS_GENERAL,
 	RSS_HKG,
+	RSS_SCIENCE,
 	RSS_THINKING,
 	RSS_VIDEOS,
 	RSS_TECH,
