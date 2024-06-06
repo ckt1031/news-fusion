@@ -49,6 +49,7 @@ export const RSS_HKG: RSSCatacory = {
 export const RSS_THINKING: RSSCatacory = {
 	name: RSS_CATEGORY.THINKING,
 	discordChannelId: '1245734549879525546',
+	checkImportance: false,
 	channels: [
 		'https://asteriskmag.com/feed',
 		'https://www.nplusonemag.com/feed',
@@ -167,7 +168,7 @@ export const RSS_DEV: RSSCatacory = {
 export const RSS_ALERTS: RSSCatacory = {
 	name: RSS_CATEGORY.ALERTS,
 	discordChannelId: '1245007194064293929',
-	checkImportance: true,
+	checkImportance: false,
 	channels: ['https://rss.weather.gov.hk/rss/WeatherWarningBulletin.xml'],
 };
 
