@@ -2,6 +2,11 @@ import removeTrailingSlash from '@/lib/remove-trailing-slash';
 import { decode as decodeHtmlEntities } from 'html-entities';
 import { z } from 'zod';
 
+// Schema for the first type of thumbnail (media:content)
+const MediaContentSchema = z.object({
+	'@_url': z.string().url(),
+});
+
 const CommonRssFeedItemSchema = z
 	.object({
 		title: z.string().transform((title) => decodeHtmlEntities(title)),
@@ -18,6 +23,11 @@ const CommonRssFeedItemSchema = z
 					: removeTrailingSlash(guid),
 			)
 			.optional(),
+
+		// Additions
+		enclosure: MediaContentSchema.optional(),
+		'media:content': MediaContentSchema.optional(),
+		'media:thumbnail': MediaContentSchema.optional(),
 	})
 	.transform((item) => ({
 		// Make format to common format
@@ -25,6 +35,10 @@ const CommonRssFeedItemSchema = z
 		link: removeTrailingSlash(item.link || item.guid || ''),
 		pubDate: item.pubDate,
 		guid: item.guid || item.link || '',
+		thumbnail:
+			item['media:content']?.['@_url'] ||
+			item['media:thumbnail']?.['@_url'] ||
+			item.enclosure?.['@_url'],
 	}));
 
 const CommonRssFeedSchema = z.object({

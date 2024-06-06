@@ -26,7 +26,8 @@ export async function parseRSS(url: string, pastHours = -1) {
 	});
 
 	const parser = new XMLParser({
-		ignoreAttributes: true,
+		ignoreAttributes: false,
+		parseAttributeValue: false,
 	});
 	const data = parser.parse(xmlData);
 
@@ -48,6 +49,12 @@ export async function parseRSS(url: string, pastHours = -1) {
 
 	return {
 		...parsedData,
-		item: filteredData,
+		item: filteredData as {
+			title: string;
+			link: string;
+			pubDate: string;
+			guid: string;
+			thumbnail?: string | undefined;
+		}[],
 	};
 }

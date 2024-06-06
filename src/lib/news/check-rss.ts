@@ -11,6 +11,7 @@ import { checkArticleImportance } from '../llm/prompt-calls';
 import { parseRSS } from '../parse-news';
 import {
 	type ScrapeMarkdownVar,
+	scrapeMetaData,
 	scrapeToMarkdown,
 	scrapeYouTube,
 } from '../tool-apis';
@@ -101,6 +102,8 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 				let content = '';
 
+				let thumbnail: string | undefined = item?.thumbnail;
+
 				if (checkImportance || autoSummarize) {
 					// We still need to get the content for importance check or auto summarize
 					content = await getContentMakrdownFromURL(env, item.link);
@@ -149,6 +152,10 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						console.info(`Short Summary ( ${item.link} ):`, shortSummary);
 					}
 
+					if (!thumbnail) {
+						thumbnail = (await scrapeMetaData(env, item.link)).image;
+					}
+
 					await sendNewsToDiscord({
 						env,
 						data: {
@@ -163,6 +170,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 							},
 							channelId: catagory.discordChannelId,
 							includeAIButtons,
+							thumbnail,
 						},
 					});
 				}

@@ -132,6 +132,7 @@ export const RSS_DEV: RSSCatacory = {
 		'{RSSHUB}/hellogithub/article',
 		// Microsoft
 		'https://blogs.windows.com/feed',
+		'https://blogs.windows.com/msedgedev/feed',
 		// Programming Languages
 		'https://bun.sh/rss.xml',
 		'https://deno.com/feed',
@@ -156,7 +157,7 @@ export const RSS_DEV: RSSCatacory = {
 		'https://supabase.com/feed.xml',
 		'https://blog.stackblitz.com/rss.xml',
 		'https://firebase.blog/rss.xml',
-		'https://www.freecodecamp.org/news/rss/',
+		'https://www.freecodecamp.org/news/rss',
 		// Platforms
 		'https://netflixtechblog.com/feed',
 		'https://engineering.atspotify.com/feed',
@@ -208,6 +209,7 @@ export const RSS_UPDATES: RSSCatacory = {
 export const ALL_RSS_CATAGORIES = [
 	RSS_GENERAL,
 	RSS_HKG,
+	RSS_THINKING,
 	RSS_VIDEOS,
 	RSS_TECH,
 	RSS_DEV,

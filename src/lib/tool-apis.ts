@@ -42,6 +42,24 @@ export async function scrapeToMarkdown(env: ScrapeMarkdownVar, url: string) {
 	return data.content;
 }
 
+export async function scrapeMetaData(env: ScrapeMarkdownVar, url: string) {
+	console.log('Scraping metadata from:', url);
+
+	const client = getClient(env);
+
+	const { data, error } = await client.GET('/v1/web/extract/meta', {
+		params: {
+			query: { url },
+		},
+	});
+
+	if (error || !data) {
+		throw new Error(`Failed to scrape metadata from ${url}`);
+	}
+
+	return data;
+}
+
 export async function scrapeYouTube(env: ScrapeMarkdownVar, url: string) {
 	console.log('Scraping YouTube:', url);
 

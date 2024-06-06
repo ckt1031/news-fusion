@@ -22,6 +22,7 @@ type SendNewsToDiscordProps = {
 		channelId: string;
 		description?: string;
 		includeAIButtons?: boolean;
+		thumbnail?: string;
 	};
 };
 
@@ -61,6 +62,13 @@ export default async function sendNewsToDiscord({
 						name: data.feed.title,
 					},
 					timestamp: new Date(data.news.pubDate).toISOString(),
+					...(data.thumbnail
+						? {
+								thumbnail: {
+									url: data.thumbnail,
+								},
+							}
+						: {}),
 				},
 			],
 			// content: `# [${data.news.title}](<${data.news.link}>)\n\n${data.description}`,
