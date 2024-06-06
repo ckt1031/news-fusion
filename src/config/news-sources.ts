@@ -189,6 +189,8 @@ export const RSS_BLOGS: RSSCatacory = {
 			url: 'https://sspai.com/feed',
 			checkImportance: true,
 		},
+		'https://feed.miantiao.me',
+		'https://blog.krdw.site/rss.xml',
 	],
 };
 
