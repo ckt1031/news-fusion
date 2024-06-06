@@ -6,6 +6,7 @@ import {
 	CallbackHandler as LangFuseCallbackHandler,
 	Langfuse,
 } from 'langfuse-langchain';
+import { get_encoding } from 'tiktoken';
 import packageInfo from '../../../package.json';
 
 export type TextCompletionsGenerateProps = {
@@ -20,7 +21,7 @@ export type TextCompletionsGenerateProps = {
 	model: string;
 	message: {
 		system?: string;
-		user?: string;
+		user: string;
 	};
 	temperature?: number;
 	trace?: {
@@ -44,7 +45,20 @@ export function getLangfuse(env: TextCompletionsGenerateProps['env']) {
 	});
 }
 
-export async function requestEmbeddingsAPI({ env, text, model }: EmbeddingsProp) {
+function calculateTokens(model: string, text: string) {
+	const base = model.includes('gpt-4o') ? 'o200k_base' : 'cl100k_base';
+	const encoding = get_encoding(base);
+	const tokens = encoding.encode(text);
+	encoding.free();
+
+	return tokens;
+}
+
+export async function requestEmbeddingsAPI({
+	env,
+	text,
+	model,
+}: EmbeddingsProp) {
 	console.log('Request Embeddings API', {
 		model,
 	});
@@ -65,8 +79,11 @@ export async function requestChatCompletionAPI({
 	temperature,
 	trace,
 }: TextCompletionsGenerateProps): Promise<string> {
+	const tokens = calculateTokens(model, (message.system ?? '') + message.user);
+
 	console.log('Request Chat Completion API', {
 		model,
+		tokens,
 		...trace,
 	});
 
