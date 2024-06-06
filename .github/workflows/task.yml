@@ -25,7 +25,7 @@ jobs:
           TOOLS_API_BASE_URL: ${{ secrets.TOOLS_API_BASE_URL }}
 
       - name: Run Script
-        run: bun src/scripts/action.ts
+        run: bun src/news-check.ts
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           OPENAI_API_BASE_URL: ${{ secrets.OPENAI_API_BASE_URL }}

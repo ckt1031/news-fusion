@@ -2,11 +2,11 @@ import type { ServerEnv } from '@/types/env';
 import type { MessageContentText } from '@langchain/core/messages';
 import { HumanMessage, SystemMessage } from '@langchain/core/messages';
 import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai';
+import packageInfo from '@package-info';
 import {
 	CallbackHandler as LangFuseCallbackHandler,
 	Langfuse,
 } from 'langfuse-langchain';
-import packageInfo from '../../../package.json';
 
 export type TextCompletionsGenerateProps = {
 	env: Pick<

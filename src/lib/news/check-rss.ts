@@ -37,13 +37,16 @@ function getConfiguration(
 	);
 }
 
-export async function getContentMakrdownFromURL(env: ScrapeMarkdownVar, url: string) {
+export async function getContentMakrdownFromURL(
+	env: ScrapeMarkdownVar,
+	url: string,
+) {
 	const host = new URL(url).host;
 
 	if (host.includes('youtube.com')) {
 		return (await scrapeYouTube(env, url)).captions?.text ?? '';
 	}
-	
+
 	return await scrapeToMarkdown(env, url);
 }
 
@@ -101,7 +104,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 				if (checkImportance || autoSummarize) {
 					// We still need to get the content for importance check or auto summarize
 					content = await getContentMakrdownFromURL(env, item.link);
-					
+
 					if (!content) {
 						console.error('Failed to get content for', item.link);
 

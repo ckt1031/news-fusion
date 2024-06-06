@@ -5,6 +5,7 @@
 		"app",
 		"src",
 		"tests",
+		"scripts",
 		"drizzle.config.ts",
 		".next/types/**/*.ts"
 	],
@@ -23,7 +24,8 @@
 		"skipLibCheck": true,
 		"noEmit": true,
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["./src/*"],
+			"@package-info": ["./package.json"]
 		},
 		"allowJs": true,
 		"incremental": true,
