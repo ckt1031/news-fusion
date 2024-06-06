@@ -31,7 +31,7 @@ export async function translateText(
 ) {
 	const content = await requestChatCompletionAPI({
 		env,
-		model: 'command-r-plus',
+		model: 'gemini-1.5-flash-latest',
 		temperature: 0.2,
 		message: {
 			system: translatePrompt,
@@ -55,7 +55,7 @@ export async function generateTitle(
 
 	return await requestChatCompletionAPI({
 		env,
-		model: 'gpt-3.5-turbo-0125',
+		model: 'gemini-1.5-flash-latest',
 		temperature: 0,
 		message: {
 			system: titleGenPrompt,
