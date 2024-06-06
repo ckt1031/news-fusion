@@ -135,7 +135,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					if (autoSummarize) {
 						shortSummary = await requestChatCompletionAPI({
 							env,
-							model: 'gpt-3.5-turbo-0125',
+							model: 'gemini-1.5-flash-latest',
 							temperature: 0.1,
 							message: {
 								system:
