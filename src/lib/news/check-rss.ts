@@ -110,7 +110,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 				let content = '';
 
-				if (checkImportance || !autoSummarize) {
+				if (checkImportance || autoSummarize) {
 					// We still need to get the content for importance check or auto summarize
 					content = await urlToLLMContent(env, item);
 				}

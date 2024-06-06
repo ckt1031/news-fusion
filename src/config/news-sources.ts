@@ -62,8 +62,6 @@ export const RSS_VIDEOS: RSSCatacory = {
 	name: RSS_CATEGORY.VIDEOS,
 	discordChannelId: '1245004330868674591',
 	checkImportance: false,
-	includeAIButtons: true,
-	autoSummarize: true,
 	channels: [
 		// Science and Education
 		'{RSSHUB}/youtube/user/@veritasium', // Veritasium
