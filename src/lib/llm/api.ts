@@ -29,6 +29,7 @@ export type TextCompletionsGenerateProps = {
 		name?: string;
 		id?: string;
 	};
+	timeout?: number;
 };
 
 export interface EmbeddingsProp {
@@ -72,6 +73,7 @@ export async function requestChatCompletionAPI({
 	message,
 	temperature,
 	trace,
+	timeout = 60 * 1000,
 }: TextCompletionsGenerateProps): Promise<string> {
 	consola.start('Request Chat Completion API', {
 		model,
@@ -86,7 +88,7 @@ export async function requestChatCompletionAPI({
 			baseURL: env.OPENAI_API_BASE_URL ?? 'https://api.openai.com/v1',
 		},
 		// Maxmium 60 seconds
-		timeout: 60 * 1000,
+		timeout,
 		maxRetries: 3,
 	});
 
