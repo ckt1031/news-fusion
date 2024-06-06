@@ -2,6 +2,7 @@ import discordBot from '@/discord/bot';
 import { clearUnusedDatabaseData } from '@/lib/db';
 import type { ServerEnv } from '@/types/env';
 import { sentry } from '@hono/sentry';
+import consola from 'consola';
 import { Hono } from 'hono';
 import { env, getRuntimeKey } from 'hono/adapter';
 import { HTTPException } from 'hono/http-exception';
@@ -55,7 +56,7 @@ app.onError((e, c) => {
 
 	reportToSentryOnHono(c, e);
 
-	console.error(e);
+	consola.error(e);
 
 	return c.text('An error occurred', 500);
 });

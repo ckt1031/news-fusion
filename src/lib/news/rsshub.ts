@@ -1,10 +1,11 @@
 import type { ServerEnv } from '@/types/env';
+import consola from 'consola';
 
 export function getRSSHubURL(env: ServerEnv, url: string) {
 	if (!url.includes('{RSSHUB}')) return url;
 
 	if (!env.RSSHUB_BASE_URL) {
-		console.error(
+		consola.info(
 			`Skipping RSSHub: ${url.replace(
 				'{RSSHUB}',
 				'',

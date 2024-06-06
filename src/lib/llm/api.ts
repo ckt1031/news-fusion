@@ -3,6 +3,7 @@ import type { MessageContentText } from '@langchain/core/messages';
 import { HumanMessage, SystemMessage } from '@langchain/core/messages';
 import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai';
 import packageInfo from '@package-info';
+import consola from 'consola';
 import {
 	CallbackHandler as LangFuseCallbackHandler,
 	Langfuse,
@@ -49,7 +50,7 @@ export async function requestEmbeddingsAPI({
 	text,
 	model,
 }: EmbeddingsProp) {
-	console.log('Request Embeddings API', {
+	consola.start('Request Embeddings API', {
 		model,
 	});
 
@@ -69,7 +70,7 @@ export async function requestChatCompletionAPI({
 	temperature,
 	trace,
 }: TextCompletionsGenerateProps): Promise<string> {
-	console.log('Request Chat Completion API', {
+	consola.start('Request Chat Completion API', {
 		model,
 		...trace,
 	});

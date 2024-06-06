@@ -9,6 +9,7 @@ import { scrapeToMarkdown } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
 import { ButtonStructure, DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
+import consola from 'consola';
 import {
 	type APIActionRowComponent,
 	type APIMessageActionRowComponent,
@@ -94,7 +95,7 @@ class TranslateButton extends ButtonStructure {
 				throw new Error('Failed to translate content');
 			}
 
-			console.log('AI Translation:', translation);
+			consola.info('AI Translation:', translation);
 
 			const chunks = await discordTextSplit(translation);
 

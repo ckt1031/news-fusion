@@ -6,6 +6,7 @@ import {
 	type RSSConfig,
 } from '@/config/news-sources';
 import type { ServerEnv } from '@/types/env';
+import consola from 'consola';
 import { checkIfNewsIsNew, createArticleDatabase } from '../db';
 import { requestChatCompletionAPI, requestEmbeddingsAPI } from '../llm/api';
 import { checkArticleImportance } from '../llm/prompt-calls';
@@ -63,7 +64,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 		if (!url) continue;
 
-		console.info(`Checking RSS: ${url}`);
+		consola.start(`Checking RSS: ${url}`);
 
 		try {
 			const feed = await parseRSS(url, EARLIEST_HOURS);
@@ -111,7 +112,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					content = await getContentMakrdownFromURL(env, item.link);
 
 					if (!content) {
-						console.error('Failed to get content for', item.link);
+						consola.error('Failed to get content for', item.link);
 
 						// If content, importance check and auto summarize are meaningless
 						autoSummarize = false;
@@ -123,7 +124,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 				// Reject if similar article found
 				if (similar.similarities.length > 0 && similar.result) {
-					console.info(
+					consola.success(
 						`Similar article found: ${item.link} -> ${similar.similarities[0]?.url}`,
 					);
 					continue;
@@ -138,7 +139,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					});
 				}
 
-				console.info(
+				consola.success(
 					`${item.link} : `,
 					`${important ? 'Important' : 'Not Important'}`,
 				);
@@ -161,7 +162,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 							},
 						});
 
-						console.info(`Short Summary ( ${item.link} ):`, shortSummary);
+						consola.success(`Short Summary ( ${item.link} ):`, shortSummary);
 					}
 
 					if (!thumbnail) {
@@ -205,17 +206,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 				});
 			}
 		} catch (error) {
-			console.error(error);
-			if (isTesting && error instanceof Error) {
-				throw error;
-			}
+			consola.error(error);
 		}
 	}
 }
-
-// const content = await getContentMakrdownFromURL(process.env, 'https://www.nbcchicago.com/news/business/money-report/watch-spacex-launch-starship-on-its-fourth-test-spaceflight/3456605/');
-// const docs = await checkSimilarities(process.env, content);
-
-// console.log(docs);
-
-// exit(0);

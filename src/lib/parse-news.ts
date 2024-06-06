@@ -1,4 +1,5 @@
 import { type RssFeed, RssFeedSchema } from '@/types/rss';
+import consola from 'consola';
 import { XMLParser } from 'fast-xml-parser';
 import { ofetch } from 'ofetch';
 
@@ -42,7 +43,7 @@ export async function parseRSS(url: string, pastHours = -1) {
 			if (!data.link.startsWith('http')) throw 'URL Validation Failed';
 		}
 	} else {
-		console.info(
+		consola.success(
 			`Parsed ${filteredData.length} (Total ${parsedData.item.length}) news from ${url}`,
 		);
 	}

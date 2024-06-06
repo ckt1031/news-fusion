@@ -6,6 +6,7 @@ import type {
 	PostDiscordMessageProp,
 } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
+import consola from 'consola';
 import {
 	type APIMessage,
 	type APIMessageComponentInteraction,
@@ -32,7 +33,7 @@ async function discordBaseRequest<T>({
 }: BaseReqeustProp): Promise<T> {
 	const logBody = body ? [body] : [];
 
-	console.debug(
+	consola.start(
 		`Discord API: Sending request to ${path} with method ${method}`,
 		...logBody,
 	);

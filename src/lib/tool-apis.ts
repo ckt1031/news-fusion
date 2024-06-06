@@ -1,5 +1,6 @@
 import type { ServerEnv } from '@/types/env';
 import type { paths } from '@/types/tool-apis';
+import consola from 'consola';
 import createClient, { type Middleware } from 'openapi-fetch';
 
 export type ScrapeMarkdownVar = Pick<
@@ -25,7 +26,7 @@ function getClient(env: ScrapeMarkdownVar) {
 
 /** Get website major content in markdown format from personal API */
 export async function scrapeToMarkdown(env: ScrapeMarkdownVar, url: string) {
-	console.log('Scraping markdown from:', url);
+	consola.start('Scraping markdown from:', url);
 
 	const client = getClient(env);
 
@@ -43,7 +44,7 @@ export async function scrapeToMarkdown(env: ScrapeMarkdownVar, url: string) {
 }
 
 export async function scrapeMetaData(env: ScrapeMarkdownVar, url: string) {
-	console.log('Scraping metadata from:', url);
+	consola.start('Scraping metadata from:', url);
 
 	const client = getClient(env);
 
@@ -61,7 +62,7 @@ export async function scrapeMetaData(env: ScrapeMarkdownVar, url: string) {
 }
 
 export async function scrapeYouTube(env: ScrapeMarkdownVar, url: string) {
-	console.log('Scraping YouTube:', url);
+	consola.start('Scraping YouTube:', url);
 
 	const client = getClient(env);
 

@@ -2,6 +2,7 @@ import { describe, expect, test } from 'bun:test';
 import { checkArticleImportance } from '@/lib/llm/prompt-calls';
 import { getContentMakrdownFromURL } from '@/lib/news/check-rss';
 import { envSchema } from '@/types/env';
+import consola from 'consola';
 
 const env = await envSchema
 	.pick({
@@ -33,7 +34,7 @@ describe('News Importance Prompt Accuracy for Technology', async () => {
 				useAdvancedModel: false,
 			});
 
-			console.log(`Is ${news} important? ${importantEnough ? 'Yes' : 'No'}`);
+			consola.box(`${news} ${importantEnough ? 'is' : 'is not'} important.`);
 			expect(importantEnough).toBe(true);
 		}
 	});

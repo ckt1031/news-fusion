@@ -3,6 +3,7 @@
  * - https://discord.com/developers/docs/interactions/message-components#buttons
  */
 
+import { consola } from 'consola';
 import {
 	ComponentType,
 	InteractionResponseType,
@@ -58,7 +59,7 @@ app.post('/', async (c) => {
 				throw new Error(`Invalid button ID: ${interaction.data.custom_id}`);
 			}
 
-			console.log(`Button Run: ${button.id}`);
+			consola.info(`Button Run: ${button.id}`);
 
 			return await button.execute(c, interaction);
 		}

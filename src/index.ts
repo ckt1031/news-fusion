@@ -2,6 +2,7 @@ import { clearUnusedDatabaseData } from '@/lib/db';
 import { initSentry } from '@/lib/sentry';
 import app from '@/server';
 import type { ServerEnv } from '@/types/env';
+import consola from 'consola';
 
 export default {
 	async scheduled(
@@ -15,7 +16,7 @@ export default {
 				sentry.captureException(e);
 			}
 
-			console.error(e);
+			consola.error(e);
 			throw e;
 		};
 
