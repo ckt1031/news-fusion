@@ -77,7 +77,7 @@ export async function checkArticleImportance(
 ) {
 	const result = await requestChatCompletionAPI({
 		env,
-		model: custom?.useGPT4o ? 'gpt-4o' : 'gpt-3.5-turbo-0125',
+		model: custom?.useGPT4o ? 'gpt-4o' : 'gemini-1.0-pro',
 		temperature: 0.1,
 		message: {
 			system: filterImportancePrompt,
