@@ -30,7 +30,7 @@ describe('News Importance Prompt Accuracy for Technology', async () => {
 			const content = await getContentMakrdownFromURL(env, news);
 
 			const importantEnough = await checkArticleImportance(env, content, {
-				useGPT4o: false,
+				useAdvancedModel: false,
 			});
 
 			console.log(`Is ${news} important? ${importantEnough ? 'Yes' : 'No'}`);
@@ -53,7 +53,7 @@ describe('News Importance Prompt Accuracy for Technology', async () => {
 			const content = await getContentMakrdownFromURL(env, news);
 
 			const importantEnough = await checkArticleImportance(env, content, {
-				useGPT4o: false,
+				useAdvancedModel: false,
 			});
 
 			console.log(`Is ${news} important? ${importantEnough ? 'Yes' : 'No'}`);

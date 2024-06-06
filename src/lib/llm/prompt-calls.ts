@@ -1,3 +1,9 @@
+import {
+	DEFAULT_CHECK_IMPORTANCE_MODEL,
+	DEFAULT_SUMMARIZE_MODEL,
+	DEFAULT_TITLE_GENERATE_MODEL,
+	DEFAULT_TRANSLATE_MODEL,
+} from '@/config/api';
 import filterImportancePrompt from '@/prompts/filter-importance';
 import summarizePrompt from '@/prompts/summarize';
 import titleGenPrompt from '@/prompts/title-generate';
@@ -13,7 +19,7 @@ export async function summarizeText(
 ) {
 	return await requestChatCompletionAPI({
 		env,
-		model: 'gpt-4o',
+		model: DEFAULT_SUMMARIZE_MODEL,
 		temperature: 0.4,
 		message: {
 			system: summarizePrompt,
@@ -31,7 +37,7 @@ export async function translateText(
 ) {
 	const content = await requestChatCompletionAPI({
 		env,
-		model: 'gemini-1.5-flash-latest',
+		model: DEFAULT_TRANSLATE_MODEL,
 		temperature: 0.2,
 		message: {
 			system: translatePrompt,
@@ -55,7 +61,7 @@ export async function generateTitle(
 
 	return await requestChatCompletionAPI({
 		env,
-		model: 'gemini-1.5-flash-latest',
+		model: DEFAULT_TITLE_GENERATE_MODEL,
 		temperature: 0,
 		message: {
 			system: titleGenPrompt,
@@ -71,13 +77,15 @@ export async function checkArticleImportance(
 	env: TextCompletionsGenerateProps['env'],
 	content: string,
 	custom?: {
-		useGPT4o?: boolean;
+		useAdvancedModel?: boolean;
 		trace?: boolean;
 	},
 ) {
 	const result = await requestChatCompletionAPI({
 		env,
-		model: custom?.useGPT4o ? 'gpt-4o' : 'gemini-1.0-pro',
+		model: custom?.useAdvancedModel
+			? DEFAULT_CHECK_IMPORTANCE_MODEL
+			: 'command-r-plus',
 		temperature: 0.1,
 		message: {
 			system: filterImportancePrompt,

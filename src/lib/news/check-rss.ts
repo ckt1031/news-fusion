@@ -1,3 +1,4 @@
+import { DEFAULT_EMBEDDING_MODEL, DEFAULT_SUMMARIZE_MODEL } from '@/config/api';
 import {
 	EARLIEST_HOURS,
 	type RSSCatacory,
@@ -18,6 +19,7 @@ import {
 import filterRSS from './filter-news';
 import { getRSSHubURL } from './rsshub';
 import sendNewsToDiscord from './send-discord-news';
+import { isArticleSimilar } from './similarity';
 
 type Props = {
 	env: ServerEnv;
@@ -117,12 +119,21 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					}
 				}
 
+				const similar = await isArticleSimilar(env, item.link);
+
+				if (similar.similarities.length > 0 && similar.result) {
+					console.info(
+						`Similar article found: ${item.link} -> ${similar.similarities[0]?.url}`,
+					);
+					continue;
+				}
+
 				let important = true;
 
 				if (checkImportance) {
 					important = await checkArticleImportance(env, content, {
 						trace: true,
-						useGPT4o: true,
+						useAdvancedModel: true,
 					});
 				}
 
@@ -137,7 +148,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					if (autoSummarize) {
 						shortSummary = await requestChatCompletionAPI({
 							env,
-							model: 'gemini-1.5-flash-latest',
+							model: DEFAULT_SUMMARIZE_MODEL,
 							temperature: 0.1,
 							message: {
 								system:
@@ -178,7 +189,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 				const embedding = await requestEmbeddingsAPI({
 					env,
 					text: content,
-					model: 'text-embedding-3-small',
+					model: DEFAULT_EMBEDDING_MODEL,
 				});
 
 				await createArticleDatabase(env, {
@@ -200,3 +211,10 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 		}
 	}
 }
+
+// const content = await getContentMakrdownFromURL(process.env, 'https://www.nbcchicago.com/news/business/money-report/watch-spacex-launch-starship-on-its-fourth-test-spaceflight/3456605/');
+// const docs = await checkSimilarities(process.env, content);
+
+// console.log(docs);
+
+// exit(0);

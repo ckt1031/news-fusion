@@ -86,12 +86,7 @@ export async function requestChatCompletionAPI({
 	const systemMessage = message.system
 		? [
 				new SystemMessage({
-					content: [
-						{
-							type: 'text',
-							text: message.system,
-						},
-					],
+					content: message.system,
 				}),
 			]
 		: [];
@@ -99,12 +94,7 @@ export async function requestChatCompletionAPI({
 	const humanMessages = message.user
 		? [
 				new HumanMessage({
-					content: [
-						{
-							type: 'text',
-							text: message.user,
-						},
-					],
+					content: message.user,
 				}),
 			]
 		: [];
