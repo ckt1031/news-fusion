@@ -13,20 +13,17 @@ const CommonRssFeedItemSchema = z
 		link: z.string().optional(),
 		pubDate: z.string().transform((date) => new Date(date).toISOString()),
 		guid: z
-			.object({
-				'#text': z.string(),
-			})
-			.or(z.string())
-			.transform((guid) =>
-				typeof guid === 'object'
-					? removeTrailingSlash(guid['#text'])
-					: removeTrailingSlash(guid),
+			.string()
+			.or(
+				z.object({
+					'#text': z.string().optional(),
+				}),
 			)
+			.transform((guid) => (typeof guid === 'object' ? guid['#text'] : guid))
 			.optional(),
 
 		// Additions
-		enclosure: MediaContentSchema.optional(),
-		'media:content': MediaContentSchema.optional(),
+		'media:content': MediaContentSchema.or(z.string()).optional(),
 		'media:thumbnail': MediaContentSchema.optional(),
 	})
 	.transform((item) => ({
@@ -34,11 +31,12 @@ const CommonRssFeedItemSchema = z
 		title: item.title,
 		link: removeTrailingSlash(item.link || item.guid || ''),
 		pubDate: item.pubDate,
-		guid: item.guid || item.link || '',
+		guid: removeTrailingSlash(item.guid || item.link || ''),
 		thumbnail:
-			item['media:content']?.['@_url'] ||
-			item['media:thumbnail']?.['@_url'] ||
-			item.enclosure?.['@_url'],
+			(typeof item['media:content'] !== 'string' &&
+				typeof item['media:content'] !== 'undefined' &&
+				item['media:content']?.['@_url']) ||
+			item['media:thumbnail']?.['@_url'],
 	}));
 
 const CommonRssFeedSchema = z.object({

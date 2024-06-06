@@ -61,10 +61,10 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 		if (!url) continue;
 
+		console.info(`Checking RSS: ${url}`);
+
 		try {
 			const feed = await parseRSS(url, EARLIEST_HOURS);
-
-			console.info(`Checking RSS: ${url}`);
 
 			// Skip if no feed, or testing mode
 			if (!feed || isTesting) continue;
