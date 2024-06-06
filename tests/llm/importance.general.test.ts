@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import { checkArticleImportance } from '@/lib/llm/prompt-calls';
-import { urlToLLMContent } from '@/lib/news/check-rss';
+import { getContentMakrdownFromURL } from '@/lib/news/check-rss';
 import { envSchema } from '@/types/env';
 
 const env = await envSchema
@@ -25,12 +25,7 @@ describe('News Importance Prompt Accuracy for General', async () => {
 		];
 
 		for (const news of list) {
-			const content = await urlToLLMContent(env, {
-				title: 'Test News',
-				link: news,
-				pubDate: new Date().toISOString(),
-				guid: news,
-			});
+			const content = await getContentMakrdownFromURL(env, news);
 
 			const importantEnough = await checkArticleImportance(env, content, {
 				useGPT4o: false,
@@ -50,12 +45,7 @@ describe('News Importance Prompt Accuracy for General', async () => {
 		];
 
 		for (const news of list) {
-			const content = await urlToLLMContent(env, {
-				title: 'Test News',
-				link: news,
-				pubDate: new Date().toISOString(),
-				guid: news,
-			});
+			const content = await getContentMakrdownFromURL(env, news);
 
 			const importantEnough = await checkArticleImportance(env, content, {
 				useGPT4o: false,

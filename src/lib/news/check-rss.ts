@@ -5,7 +5,6 @@ import {
 	type RSSConfig,
 } from '@/config/news-sources';
 import type { ServerEnv } from '@/types/env';
-import type { RssFeed } from '@/types/rss';
 import { checkIfNewsIsNew, createArticleDatabase } from '../db';
 import { requestChatCompletionAPI, requestEmbeddingsAPI } from '../llm/api';
 import { checkArticleImportance } from '../llm/prompt-calls';
@@ -38,25 +37,14 @@ function getConfiguration(
 	);
 }
 
-export async function urlToLLMContent(
-	env: ScrapeMarkdownVar,
-	item: ArrayElement<RssFeed['item']>,
-) {
-	let markdownContent = '';
-
-	const host = new URL(item.link).host;
+export async function getContentMakrdownFromURL(env: ScrapeMarkdownVar, url: string) {
+	const host = new URL(url).host;
 
 	if (host.includes('youtube.com')) {
-		markdownContent = (await scrapeYouTube(env, item.link)).captions.text;
-	} else {
-		markdownContent = await scrapeToMarkdown(env, item.link);
+		return (await scrapeYouTube(env, url)).captions?.text ?? '';
 	}
-
-	return `
-	title: ${item.title}
-	url: ${item.link}
-	content: ${markdownContent}
-	`;
+	
+	return await scrapeToMarkdown(env, url);
 }
 
 export default async function checkRSS({ env, catagory, isTesting }: Props) {
@@ -89,7 +77,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 				// Rejected if the news was already checked
 				if (!isNew) continue;
 
-				const autoSummarize = getConfiguration(
+				let autoSummarize = getConfiguration(
 					catagory,
 					channel,
 					'autoSummarize',
@@ -101,7 +89,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					'includeAIButtons',
 					true,
 				);
-				const checkImportance = getConfiguration(
+				let checkImportance = getConfiguration(
 					catagory,
 					channel,
 					'checkImportance',
@@ -112,7 +100,15 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 				if (checkImportance || autoSummarize) {
 					// We still need to get the content for importance check or auto summarize
-					content = await urlToLLMContent(env, item);
+					content = await getContentMakrdownFromURL(env, item.link);
+					
+					if (!content) {
+						console.error('Failed to get content for', item.link);
+
+						// If content, importance check and auto summarize are meaningless
+						autoSummarize = false;
+						checkImportance = false;
+					}
 				}
 
 				let important = true;
