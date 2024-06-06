@@ -171,6 +171,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 				const embedding = await requestEmbeddingsAPI({
 					env,
 					text: content,
+					model: 'text-embedding-3-small',
 				});
 
 				await createArticleDatabase(env, {

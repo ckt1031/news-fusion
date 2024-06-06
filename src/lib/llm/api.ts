@@ -33,6 +33,7 @@ export type TextCompletionsGenerateProps = {
 export interface EmbeddingsProp {
 	env: Pick<ServerEnv, 'OPENAI_API_KEY' | 'OPENAI_API_BASE_URL'>;
 	text: string;
+	model: string;
 }
 
 export function getLangfuse(env: TextCompletionsGenerateProps['env']) {
@@ -43,11 +44,13 @@ export function getLangfuse(env: TextCompletionsGenerateProps['env']) {
 	});
 }
 
-export async function requestEmbeddingsAPI({ env, text }: EmbeddingsProp) {
-	console.log('Request Embeddings API');
+export async function requestEmbeddingsAPI({ env, text, model }: EmbeddingsProp) {
+	console.log('Request Embeddings API', {
+		model,
+	});
 
 	const embeddings = new OpenAIEmbeddings({
-		model: 'text-embedding-3-small',
+		model,
 		configuration: {
 			baseURL: env.OPENAI_API_BASE_URL ?? 'https://api.openai.com/v1',
 		},
@@ -62,7 +65,10 @@ export async function requestChatCompletionAPI({
 	temperature,
 	trace,
 }: TextCompletionsGenerateProps): Promise<string> {
-	console.log('Request Chat Completion API', trace);
+	console.log('Request Chat Completion API', {
+		model,
+		...trace,
+	});
 
 	const chatLLM = new ChatOpenAI({
 		temperature: temperature ?? 0.5,
@@ -118,7 +124,7 @@ export async function requestChatCompletionAPI({
 		},
 	);
 
-	if (env.LANGFUSE_SECRET_KEY && 'bun' in process.versions) {
+	if (env.LANGFUSE_SECRET_KEY && !('bun' in process.versions)) {
 		await langfuse.flushAsync();
 	}
 
