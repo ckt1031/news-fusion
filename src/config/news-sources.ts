@@ -1,3 +1,5 @@
+import { YOUTUBE_RSS } from './api';
+
 export type RSSConfig = {
 	checkImportance?: boolean;
 	/** Default to ture, check importance of income content */
@@ -65,31 +67,31 @@ export const RSS_VIDEOS: RSSCatacory = {
 	checkImportance: false,
 	channels: [
 		// Science and Education
-		'{RSSHUB}/youtube/user/@veritasium', // Veritasium
-		'{RSSHUB}/youtube/user/@kurzgesagt', // Kurzgesagt – In a Nutshell
-		'{RSSHUB}/youtube/user/@minutephysics', // minutephysics
-		'{RSSHUB}/youtube/user/@AsapSCIENCE', // AsapSCIENCE
-		'{RSSHUB}/youtube/user/@NileRed', // NileRed
-		'{RSSHUB}/youtube/user/@NileRedExtra', // NileRedExtra
+		`${YOUTUBE_RSS}UCHnyfMqiRRG1u-2MsSQLbXA`, // Veritasium
+		`${YOUTUBE_RSS}UCsXVk37bltHxD1rDPwtNM8Q`, // Kurzgesagt – In a Nutshell
+		`${YOUTUBE_RSS}UCUHW94eEFW7hkUMVaZz4eDg`, // minutephysics
+		`${YOUTUBE_RSS}UCC552Sd-3nyi_tk2BudLUzA`, // AsapSCIENCE
+		`${YOUTUBE_RSS}UCFhXFikryT4aFcLkLw2LBLA`, // NileRed
+		`${YOUTUBE_RSS}UCEnAit0duntJxa3gZG-paoA`, // NileRedExtra
 
 		// Tech
-		'{RSSHUB}/youtube/user/@mkbhd', // Marques Brownlee
+		`${YOUTUBE_RSS}UCBJycsmduvYEL83R_U4JriQ`, // Marques Brownlee
 
 		// Programming and Tech
-		'{RSSHUB}/youtube/user/@fireship', // Fireship
-		'{RSSHUB}/youtube/user/@t3dotgg', // T3
-		'{RSSHUB}/youtube/user/@joshtriedcoding', // Josh tried coding
-		'{RSSHUB}/youtube/user/@TraversyMedia', // Traversy Media
+		`${YOUTUBE_RSS}UCsBjURrPoezykLs9EqgamOA`, // fireship
+		`${YOUTUBE_RSS}UCbRP3c757lWg9M-U7TyEkXA`, // t3dotgg
+		`${YOUTUBE_RSS}UCvGwM5woTl13I-qThI4YMCg`, // joshtriedcoding
+		`${YOUTUBE_RSS}UC29ju8bIPH5as8OGnQzwJyA`, // TraversyMedia
 
 		/**
 		 * Chinese High Quality Channels below
 		 */
-		'{RSSHUB}/youtube/user/@lyi', // 林亦LYi
-		'{RSSHUB}/youtube/user/@chaiknowsofficialchannel982', // 柴知道
-		'{RSSHUB}/youtube/user/@xiao_lin_shuo', // 小Lin说
-		'{RSSHUB}/youtube/user/@geekerwan1024', // 极客湾 Geekerwan
-		'{RSSHUB}/youtube/user/@axtonliu', // 回到 Axton
-		'{RSSHUB}/youtube/user/@NDWTB', // 脑洞乌托邦
+		`${YOUTUBE_RSS}UC4dtpugIYK56S_7btf5a-iQ`, // lyi 林亦LYi
+		`${YOUTUBE_RSS}UCQtwvRQWnT5Buh9hpvNNryQ`, // chaiknowsofficialchannel982 柴知道
+		`${YOUTUBE_RSS}UCilwQlk62k1z7aUEZPOB6yw`, // xiao_lin_shuo 小Lin说
+		`${YOUTUBE_RSS}UCeUJO1H3TEXu2syfAAPjYKQ`, // geekerwan1024 极客湾 Geekerwan
+		`${YOUTUBE_RSS}UCBj9S8TBRlCU4QnhTEOdWZQ`, // axtonliu 回到 Axton
+		`${YOUTUBE_RSS}UC2tQpW0dPiyWPebwBSksJ_g`, // NDWTB 脑洞乌托邦
 	],
 };
 
