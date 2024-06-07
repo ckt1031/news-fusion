@@ -8,7 +8,7 @@ export const DEFAULT_EMBEDDING_MODEL = 'text-embedding-3-small';
 
 export const DEFAULT_SUMMARIZE_MODEL = 'gemini-1.5-flash-latest';
 
-export const DEFAULT_TRANSLATE_MODEL = 'yi-large-turbo';
+export const DEFAULT_TRANSLATE_MODEL = 'yi-large';
 
 export const DEFAULT_TITLE_GENERATE_MODEL = 'gpt-3.5-turbo-0125';
 
