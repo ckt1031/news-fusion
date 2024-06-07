@@ -1,4 +1,4 @@
-import { DEFAULT_EMBEDDING_MODEL, DEFAULT_SUMMARIZE_MODEL } from '@/config/api';
+import { DEFAULT_EMBEDDING_MODEL } from '@/config/api';
 import {
 	EARLIEST_HOURS,
 	type RSSCatacory,
@@ -8,15 +8,13 @@ import {
 import type { ServerEnv } from '@/types/env';
 import consola from 'consola';
 import { checkIfNewsIsNew, createArticleDatabase } from '../db';
-import { requestChatCompletionAPI, requestEmbeddingsAPI } from '../llm/api';
-import { checkArticleImportance } from '../llm/prompt-calls';
-import { parseRSS } from '../parse-news';
+import { requestEmbeddingsAPI } from '../llm/api';
 import {
-	type ScrapeMarkdownVar,
-	scrapeMetaData,
-	scrapeToMarkdown,
-	scrapeYouTube,
-} from '../tool-apis';
+	checkArticleImportance,
+	summarizeIntoShortText,
+} from '../llm/prompt-calls';
+import { parseRSS } from '../parse-news';
+import { getContentMakrdownFromURL, scrapeMetaData } from '../tool-apis';
 import filterRSS from './filter-news';
 import { getRSSHubURL } from './rsshub';
 import sendNewsToDiscord from './send-discord-news';
@@ -39,19 +37,6 @@ function getConfiguration(
 		catagory[key] ??
 		defaultValue
 	);
-}
-
-export async function getContentMakrdownFromURL(
-	env: ScrapeMarkdownVar,
-	url: string,
-) {
-	const host = new URL(url).host;
-
-	if (host.includes('youtube.com')) {
-		return (await scrapeYouTube(env, url)).captions?.text ?? '';
-	}
-
-	return await scrapeToMarkdown(env, url);
 }
 
 export default async function checkRSS({ env, catagory, isTesting }: Props) {
@@ -107,7 +92,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 				const content = await getContentMakrdownFromURL(env, item.link);
 
-				if (!content) {
+				if (content.length === 0) {
 					consola.error('Failed to get content for', item.link);
 
 					// If content, importance check and auto summarize are meaningless
@@ -115,66 +100,61 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					checkImportance = false;
 				}
 
-				const embedding = await requestEmbeddingsAPI({
-					env,
-					text: content,
-					model: DEFAULT_EMBEDDING_MODEL,
-					timeout: 5 * 1000,
-				});
+				let embedding: number[] = [];
+				let important = !checkImportance;
 
-				const similar = await isArticleSimilar(env, embedding);
-
-				// Reject if similar article found
-				if (similar.similarities.length > 0 && similar.result) {
-					consola.success(
-						`Similar article found: ${item.link} -> ${similar.similarities[0]?.url}`,
-					);
-					continue;
-				}
-
-				let important = true;
-
-				if (checkImportance) {
-					important = await checkArticleImportance(env, content, {
-						trace: true,
-						useAdvancedModel: true,
+				if (content.length !== 0) {
+					embedding = await requestEmbeddingsAPI({
+						env,
+						text: content,
+						model: DEFAULT_EMBEDDING_MODEL,
+						timeout: 5 * 1000,
 					});
-				}
 
-				consola.success(
-					`${item.link} : `,
-					`${important ? 'Important' : 'Not Important'}`,
-				);
+					const similar = await isArticleSimilar(env, embedding);
+
+					// Reject if similar article found
+					if (similar.similarities.length > 0 && similar.result) {
+						consola.success(
+							`Similar article found: ${item.link} -> ${similar.similarities[0]?.url}`,
+						);
+						continue;
+					}
+
+					if (checkImportance) {
+						important = await checkArticleImportance(env, content, {
+							trace: true,
+							useAdvancedModel: true,
+						});
+					}
+
+					consola.success(
+						`${item.link} : `,
+						`${important ? 'Important' : 'Not Important'}`,
+					);
+				}
 
 				if (important) {
 					let shortSummary: string | undefined = undefined;
 
-					if (autoSummarize) {
-						shortSummary = await requestChatCompletionAPI({
-							env,
-							model: DEFAULT_SUMMARIZE_MODEL,
-							temperature: 0.1,
-							message: {
-								system:
-									'Generate a 50-100 words summary with only key points and main ideas of given article and content, only in plain text, must be concise and precise.',
-								user: content,
-							},
-							trace: {
-								name: 'summarize-article-briefly',
-							},
-						});
-
+					if (autoSummarize && content.length !== 0) {
+						shortSummary = await summarizeIntoShortText(env, content);
 						consola.success(`Short Summary ( ${item.link} ):`, shortSummary);
 					}
 
 					if (!thumbnail) {
-						thumbnail = (await scrapeMetaData(env, item.link)).image;
+						try {
+							thumbnail = (await scrapeMetaData(env, item.link)).image;
+						} catch (error) {
+							consola.error('Failed to get thumbnail:', error);
+						}
 					}
 
 					await sendNewsToDiscord({
 						env,
 						data: {
-							...(autoSummarize && { description: shortSummary }),
+							...(autoSummarize &&
+								shortSummary && { description: shortSummary }),
 							feed: {
 								title: feed.title,
 							},

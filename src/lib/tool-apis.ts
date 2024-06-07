@@ -24,6 +24,19 @@ function getClient(env: ScrapeMarkdownVar) {
 	return client;
 }
 
+export async function getContentMakrdownFromURL(
+	env: ScrapeMarkdownVar,
+	url: string,
+) {
+	const host = new URL(url).host;
+
+	if (host.includes('youtube.com')) {
+		return (await scrapeYouTube(env, url)).captions?.text ?? '';
+	}
+
+	return await scrapeToMarkdown(env, url);
+}
+
 /** Get website major content in markdown format from personal API */
 export async function scrapeToMarkdown(env: ScrapeMarkdownVar, url: string) {
 	consola.start('Scraping markdown from:', url);

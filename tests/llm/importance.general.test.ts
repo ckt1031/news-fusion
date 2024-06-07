@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import { checkArticleImportance } from '@/lib/llm/prompt-calls';
-import { getContentMakrdownFromURL } from '@/lib/news/check-rss';
+import { getContentMakrdownFromURL } from '@/lib/tool-apis';
 import { envSchema } from '@/types/env';
 
 const env = await envSchema

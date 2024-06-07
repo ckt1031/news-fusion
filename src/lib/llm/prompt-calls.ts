@@ -6,6 +6,7 @@ import {
 } from '@/config/api';
 import filterImportancePrompt from '@/prompts/filter-importance';
 import summarizePrompt from '@/prompts/summarize';
+import summarizeInfoShortTextPrompt from '@/prompts/summarize-to-short-text';
 import titleGenPrompt from '@/prompts/title-generate';
 import translatePrompt from '@/prompts/translate';
 import {
@@ -27,6 +28,24 @@ export async function summarizeText(
 		},
 		trace: {
 			name: 'summarize-article',
+		},
+	});
+}
+
+export async function summarizeIntoShortText(
+	env: TextCompletionsGenerateProps['env'],
+	originalContent: string,
+) {
+	return await requestChatCompletionAPI({
+		env,
+		model: DEFAULT_SUMMARIZE_MODEL,
+		temperature: 0.2,
+		message: {
+			system: summarizeInfoShortTextPrompt,
+			user: originalContent,
+		},
+		trace: {
+			name: 'summarize-article-briefly',
 		},
 	});
 }
