@@ -1,12 +1,8 @@
-import {
-	DEFAULT_EMBEDDING_MODEL,
-	DEFAULT_MINIMUM_SIMILARITY_SCORE,
-} from '@/config/api';
+import { DEFAULT_MINIMUM_SIMILARITY_SCORE } from '@/config/api';
 import { articles } from '@/db/schema';
 import type { ServerEnv } from '@/types/env';
 import { cosineDistance, desc, gt, sql } from 'drizzle-orm';
 import { getDB } from '../db';
-import { requestEmbeddingsAPI } from '../llm/api';
 
 /**
  * Drizzle ORM with vector for PostgreSQL
@@ -16,13 +12,7 @@ import { requestEmbeddingsAPI } from '../llm/api';
 /**
  * Get a list of similar articles based on the text
  */
-export async function getSimilarities(env: ServerEnv, text: string) {
-	const embedding = await requestEmbeddingsAPI({
-		env,
-		text,
-		model: DEFAULT_EMBEDDING_MODEL,
-	});
-
+export async function getSimilarities(env: ServerEnv, embedding: number[]) {
 	const similarity = sql<number>`1 - (${cosineDistance(articles.embedding, embedding)})`;
 
 	const similarGuides = await getDB(env.DATABASE_URL)
@@ -35,8 +25,8 @@ export async function getSimilarities(env: ServerEnv, text: string) {
 	return similarGuides;
 }
 
-export async function isArticleSimilar(env: ServerEnv, content: string) {
-	const similarities = await getSimilarities(env, content);
+export async function isArticleSimilar(env: ServerEnv, embedding: number[]) {
+	const similarities = await getSimilarities(env, embedding);
 
 	return {
 		result: similarities.some(

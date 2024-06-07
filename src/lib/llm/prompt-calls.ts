@@ -96,7 +96,7 @@ export async function checkArticleImportance(
 			enabled: custom?.trace ?? true,
 			name: 'check-article-importance',
 		},
-		timeout: 15 * 1000,
+		timeout: 10 * 1000,
 	});
 	return result.toLowerCase().includes('true');
 }

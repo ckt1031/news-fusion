@@ -115,7 +115,14 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					checkImportance = false;
 				}
 
-				const similar = await isArticleSimilar(env, content);
+				const embedding = await requestEmbeddingsAPI({
+					env,
+					text: content,
+					model: DEFAULT_EMBEDDING_MODEL,
+					timeout: 5 * 1000,
+				});
+
+				const similar = await isArticleSimilar(env, embedding);
 
 				// Reject if similar article found
 				if (similar.similarities.length > 0 && similar.result) {
@@ -182,12 +189,6 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						},
 					});
 				}
-
-				const embedding = await requestEmbeddingsAPI({
-					env,
-					text: content,
-					model: DEFAULT_EMBEDDING_MODEL,
-				});
 
 				await createArticleDatabase(env, {
 					important,

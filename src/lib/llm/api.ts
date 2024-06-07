@@ -36,6 +36,7 @@ export interface EmbeddingsProp {
 	env: Pick<ServerEnv, 'OPENAI_API_KEY' | 'OPENAI_API_BASE_URL'>;
 	text: string;
 	model: string;
+	timeout?: number;
 }
 
 export function getLangfuse(env: TextCompletionsGenerateProps['env']) {
@@ -62,7 +63,7 @@ export async function requestEmbeddingsAPI({
 		},
 		// Maxmium 10 seconds
 		timeout: 10 * 1000,
-		maxRetries: 3,
+		maxRetries: 5,
 	});
 	return await embeddings.embedQuery(text);
 }
@@ -89,7 +90,7 @@ export async function requestChatCompletionAPI({
 		},
 		// Maxmium 60 seconds
 		timeout,
-		maxRetries: 3,
+		maxRetries: 5,
 	});
 
 	const systemMessage = message.system
