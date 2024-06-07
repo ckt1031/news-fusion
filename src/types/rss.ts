@@ -23,7 +23,9 @@ const CommonRssFeedItemSchema = z
 			.optional(),
 
 		// Additions
-		'media:content': MediaContentSchema.or(z.string()).optional(),
+		'media:content': MediaContentSchema.or(z.string())
+			.or(MediaContentSchema.array())
+			.optional(),
 		'media:thumbnail': MediaContentSchema.optional(),
 	})
 	.transform((item) => ({
@@ -35,7 +37,11 @@ const CommonRssFeedItemSchema = z
 		thumbnail:
 			(typeof item['media:content'] !== 'string' &&
 				typeof item['media:content'] !== 'undefined' &&
-				item['media:content']?.['@_url']) ||
+				(Array.isArray(item['media:content'])
+					? item['media:content'][0]?.['@_url']
+					: typeof item['media:content'] === 'object'
+						? item['media:content']['@_url']
+						: item['media:content'])) ||
 			item['media:thumbnail']?.['@_url'],
 	}));
 
