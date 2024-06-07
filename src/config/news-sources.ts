@@ -119,6 +119,9 @@ export const RSS_TECH: RSSCatacory = {
 			checkImportance: false,
 		},
 		'https://jina.ai/feed.rss',
+
+		// Chinese:
+		'https://feeds.feedburner.com/unwirelife',
 	],
 };
 
