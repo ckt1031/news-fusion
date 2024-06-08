@@ -111,8 +111,9 @@ export const RSS_TECH: RSSCatacory = {
 		'https://www.zdnet.com/news/rss.xml',
 		'https://www.theverge.com/rss/index.xml',
 		'https://www.theregister.com/headlines.rss',
+		'https://rss.slashdot.org/Slashdot/slashdot',
 		{
-			url: 'http://research.microsoft.com/rss/news.xml',
+			url: 'https://research.microsoft.com/rss/news.xml',
 			checkImportance: false,
 		},
 		// AI
