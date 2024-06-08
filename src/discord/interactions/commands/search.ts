@@ -4,7 +4,8 @@ import {
 	getContentMarkdownParallel,
 	getUrlFromText,
 } from '@/lib/get-urls';
-import { summarizeText } from '@/lib/llm/prompt-calls';
+import { generateSearchQuery, summarizeText } from '@/lib/llm/prompt-calls';
+import { webSearch } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
 import { CommandStructure } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
@@ -20,15 +21,15 @@ import {
 import type { Context, Env } from 'hono';
 import type { BlankInput } from 'hono/types';
 
-class SummarizeCommand extends CommandStructure {
+class WebSearchCommand extends CommandStructure {
 	info = {
-		name: 'summarize',
-		description: 'Summarize articles or text.',
+		name: 'web-search',
+		description: 'Search the web for information.',
 		type: ApplicationCommandType.ChatInput,
 		options: [
 			{
 				name: 'content',
-				description: 'Summarize instructions, which can be text or URLs.',
+				description: 'Any type of content or instructions to search for.',
 				type: ApplicationCommandOptionType.String,
 				required: true,
 			},
@@ -44,7 +45,7 @@ class SummarizeCommand extends CommandStructure {
 		return c.json({
 			type: InteractionResponseType.ChannelMessageWithSource,
 			data: {
-				content: 'Summarizing...',
+				content: 'Searching the web...',
 				flags: MessageFlags.Ephemeral,
 			},
 		} satisfies RESTPostAPIInteractionCallbackJSONBody);
@@ -66,15 +67,33 @@ class SummarizeCommand extends CommandStructure {
 		) {
 			throw new Error('Invalid option type');
 		}
+
 		const content = interaction.data.options[0].value;
 
 		const urls = getUrlFromText(content);
 
-		// biome-ignore lint/style/noNonNullAssertion: <explanation>
-		const fetchedContent = await getContentMarkdownParallel(env, urls!);
+		async function webQuery() {
+			const query = await generateSearchQuery(env, content);
+			const queryResults = await webSearch(env, query);
+
+			// Remove all existing URLs from the search results
+			const filteredResults = urls
+				? queryResults.filter((result) => !urls.includes(result.link))
+				: queryResults;
+
+			return await getContentMarkdownParallel(
+				env,
+				filteredResults.map((result) => result.link),
+			);
+		}
+
+		const fetchedContent = await Promise.all([
+			webQuery(),
+			...(urls ? [getContentMarkdownParallel(env, urls)] : []),
+		]);
 
 		const userPrompt = contentToSummarizePromptTemplate({
-			fetchedContent: urls ? fetchedContent : [],
+			fetchedContent: fetchedContent.flat(),
 			content,
 		});
 
@@ -93,4 +112,4 @@ class SummarizeCommand extends CommandStructure {
 	}
 }
 
-export default SummarizeCommand;
+export default WebSearchCommand;

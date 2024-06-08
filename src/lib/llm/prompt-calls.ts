@@ -5,6 +5,7 @@ import {
 	DEFAULT_TRANSLATE_MODEL,
 } from '@/config/api';
 import filterImportancePrompt from '@/prompts/filter-importance';
+import queryGenPrompt from '@/prompts/query-generate';
 import summarizePrompt from '@/prompts/summarize';
 import summarizeInfoShortTextPrompt from '@/prompts/summarize-to-short-text';
 import titleGenPrompt from '@/prompts/title-generate';
@@ -68,6 +69,24 @@ export async function translateText(
 	});
 
 	return content;
+}
+
+export async function generateSearchQuery(
+	env: TextCompletionsGenerateProps['env'],
+	content: string,
+) {
+	return await requestChatCompletionAPI({
+		env,
+		model: 'gpt-3.5-turbo-0125',
+		temperature: 0.2,
+		message: {
+			system: queryGenPrompt,
+			user: content,
+		},
+		trace: {
+			name: 'generate-search-query',
+		},
+	});
 }
 
 export async function generateTitle(

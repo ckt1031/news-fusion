@@ -91,3 +91,21 @@ export async function scrapeYouTube(env: ScrapeMarkdownVar, url: string) {
 
 	return data;
 }
+
+export async function webSearch(env: ServerEnv, query: string, limit = 5) {
+	consola.start('Searching the web:', query);
+
+	const client = getClient(env);
+
+	const { data, error } = await client.GET('/v1/web/search', {
+		params: {
+			query: { query,limit: limit.toString() },
+		},
+	});
+
+	if (error || !data) {
+		throw new Error(`Failed to search the web for ${query}`);
+	}
+
+	return data.data.slice(0, limit);
+}

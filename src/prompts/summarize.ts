@@ -29,6 +29,8 @@ export const instructionIncludedPrompt = `# Special Instructions or content
 {{instructions}}
 
 {{extraContent}}
+
+{{webQueries}}
 `;
 
 export default basePrompt;
