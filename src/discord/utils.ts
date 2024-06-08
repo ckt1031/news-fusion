@@ -11,6 +11,7 @@ import {
 	type APIMessage,
 	type APIMessageComponentInteraction,
 	MessageType,
+	type RESTGetAPIApplicationGuildCommandsResult,
 	type RESTGetAPIChannelMessageResult,
 	type RESTPatchAPIWebhookWithTokenMessageJSONBody,
 	type RESTPostAPIApplicationCommandsJSONBody,
@@ -79,6 +80,27 @@ export async function registerGuildCommands(
 		method: 'POST',
 		body: command,
 	});
+}
+
+export async function deleteAllGuildCommands(
+	token: string,
+	applicationId: string,
+	guildId: string,
+) {
+	const commands =
+		await discordBaseRequest<RESTGetAPIApplicationGuildCommandsResult>({
+			token,
+			path: `/applications/${applicationId}/guilds/${guildId}/commands`,
+			method: 'GET',
+		});
+
+	for (const command of commands) {
+		await discordBaseRequest({
+			token,
+			path: `/applications/${applicationId}/guilds/${guildId}/commands/${command.id}`,
+			method: 'DELETE',
+		});
+	}
 }
 
 export async function getAllMessagesInDiscordChannel(
