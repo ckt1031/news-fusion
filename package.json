@@ -4,12 +4,13 @@
 	"type": "module",
 	"scripts": {
 		"dev": "wrangler dev src/index.ts",
-		"vercel-build": "bun run generate-tool-api-schema && next build",
+		"vercel-build": "bun run generate-tool-api-schema && next build && bun run register-commands",
 		"deploy": "wrangler deploy --minify",
 		"lint": "tsc && biome check .",
 		"lint:fix": "tsc && biome format . --write && biome check . --write",
 		"generate": "drizzle-kit generate",
 		"typecheck": "tsc",
+		"register-commands": "bun run scripts/generate-tool-api-schema.ts",
 		"generate-tool-api-schema": "bun scripts/generate-tool-api-schema.ts"
 	},
 	"dependencies": {

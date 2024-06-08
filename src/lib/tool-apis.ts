@@ -99,7 +99,7 @@ export async function webSearch(env: ServerEnv, query: string, limit = 5) {
 
 	const { data, error } = await client.GET('/v1/web/search', {
 		params: {
-			query: { query,limit: limit.toString() },
+			query: { query, limit: limit.toString() },
 		},
 	});
 

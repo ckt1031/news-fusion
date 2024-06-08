@@ -22,13 +22,15 @@ export async function getContentMarkdownParallel(
 	// Use Promise.all to summarize multiple URLs
 	const summaries = await Promise.all(
 		urls.map((url) =>
-			getContentMakrdownFromURL(env, url).then((d) => ({
-				url,
-				content: d,
-			})).catch(() => ({
-        url,
-        content: 'Failed to fetch content',
-      })),
+			getContentMakrdownFromURL(env, url)
+				.then((d) => ({
+					url,
+					content: d,
+				}))
+				.catch(() => ({
+					url,
+					content: 'Failed to fetch content',
+				})),
 		),
 	);
 
