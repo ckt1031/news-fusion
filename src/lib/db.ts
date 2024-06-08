@@ -1,7 +1,7 @@
 import * as schema from '@/db/schema';
 import type { NewArticle } from '@/db/schema';
 import type { ServerEnv } from '@/types/env';
-import { eq, lt } from 'drizzle-orm';
+import { arrayOverlaps, eq, lt, or } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import removeTrailingSlash from './remove-trailing-slash';
@@ -29,7 +29,11 @@ export async function checkIfNewsIsNew(
 
 	const result = await db.query.articles.findFirst({
 		// with: { url },
-		where: (d, { eq }) => eq(d.guid, removeTrailingSlash(guid)),
+		where: (d, { eq }) =>
+			or(
+				eq(d.guid, removeTrailingSlash(guid)),
+				arrayOverlaps(schema.articles, [guid]),
+			),
 	});
 
 	return !result;

@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm';
 import {
 	boolean,
 	index,
@@ -22,6 +23,11 @@ export const articles = pgTable(
 
 		// OpenAI: text-embedding-3-small
 		embedding: vector('embedding', { dimensions: 1536 }).notNull(),
+
+		similarArticles: text('similarArticles')
+			.array()
+			.notNull()
+			.default(sql`ARRAY[]::text[]`),
 	},
 	(table) => ({
 		embeddingIndex: index('embeddingIndex').using(

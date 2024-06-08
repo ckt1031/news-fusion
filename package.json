@@ -9,6 +9,7 @@
 		"lint": "tsc && biome check .",
 		"lint:fix": "tsc && biome format . --write && biome check . --write",
 		"generate": "drizzle-kit generate",
+		"migrate": "drizzle-kit migrate",
 		"typecheck": "tsc",
 		"register-commands": "bun scripts/register-commands.ts",
 		"generate-tool-api-schema": "bun scripts/generate-tool-api-schema.ts"
