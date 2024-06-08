@@ -31,6 +31,7 @@ jobs:
           OPENAI_API_BASE_URL: ${{ secrets.OPENAI_API_BASE_URL }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_GUILD_ID: ${{ secrets.DISCORD_GUILD_ID }}
           DISCORD_APPLICATION_ID: ${{ secrets.DISCORD_APPLICATION_ID }}
           DISCORD_PUBLIC_KEY: ${{ secrets.DISCORD_PUBLIC_KEY }}
           RSSHUB_ACCESS_KEY: ${{ secrets.RSSHUB_ACCESS_KEY }}
