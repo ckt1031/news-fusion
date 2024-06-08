@@ -1,5 +1,5 @@
 import { discordMessage } from '@/discord/utils';
-import { DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
+import { DiscordBotInteractionButtons } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
 import {
 	type APIActionRowComponent,
@@ -38,13 +38,22 @@ export default async function sendNewsToDiscord({
 					type: ComponentType.Button,
 					style: ButtonStyle.Secondary,
 					label: 'Summarize',
-					custom_id: DISCORD_INTERACTION_BUTTONS.GENERATE_SUMMARIZE,
+					custom_id: DiscordBotInteractionButtons.Summarize,
 				},
 				{
 					type: ComponentType.Button,
 					style: ButtonStyle.Secondary,
 					label: 'Translate',
-					custom_id: DISCORD_INTERACTION_BUTTONS.TRANSLATE,
+					custom_id: DiscordBotInteractionButtons.Translate,
+				},
+				{
+					type: ComponentType.Button,
+					style: ButtonStyle.Secondary,
+					label: 'Re-generate',
+					emoji: {
+						id: ':repeat:',
+					},
+					custom_id: DiscordBotInteractionButtons.ReGenerateNewsNotification,
 				},
 			],
 		},

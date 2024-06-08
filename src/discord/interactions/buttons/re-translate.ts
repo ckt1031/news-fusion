@@ -5,7 +5,7 @@ import {
 import { translateText } from '@/lib/llm/prompt-calls';
 import { getContentMakrdownFromURL } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
-import { ButtonStructure, DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
+import { ButtonStructure, DiscordBotInteractionButtons } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
 import {
 	type APIMessageComponentInteraction,
@@ -16,7 +16,7 @@ import type { Context, Env } from 'hono';
 import type { BlankInput } from 'hono/types';
 
 class ReTranslationButton extends ButtonStructure {
-	id = DISCORD_INTERACTION_BUTTONS.RE_TRANSLATE;
+	id = DiscordBotInteractionButtons.ReTranslate;
 	async execute(
 		c: Context<Env, '/', BlankInput>,
 		interaction: APIMessageComponentInteraction,
@@ -90,4 +90,4 @@ class ReTranslationButton extends ButtonStructure {
 	}
 }
 
-export default new ReTranslationButton();
+export default ReTranslationButton;

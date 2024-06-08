@@ -7,7 +7,7 @@ import {
 import { summarizeText } from '@/lib/llm/prompt-calls';
 import { getContentMakrdownFromURL } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
-import { ButtonStructure, DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
+import { ButtonStructure, DiscordBotInteractionButtons } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
 import {
 	type APIActionRowComponent,
@@ -21,7 +21,7 @@ import type { Context, Env } from 'hono';
 import type { BlankInput } from 'hono/types';
 
 class SummarizeButton extends ButtonStructure {
-	id = DISCORD_INTERACTION_BUTTONS.GENERATE_SUMMARIZE;
+	id = DiscordBotInteractionButtons.Summarize;
 	async execute(
 		c: Context<Env, '/', BlankInput>,
 		interaction: APIMessageComponentInteraction,
@@ -65,13 +65,13 @@ class SummarizeButton extends ButtonStructure {
 						type: ComponentType.Button,
 						style: ButtonStyle.Secondary,
 						label: 'Regenerate',
-						custom_id: DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE,
+						custom_id: DiscordBotInteractionButtons.ReSummarize,
 					},
 					{
 						type: ComponentType.Button,
 						style: ButtonStyle.Secondary,
 						label: 'Translate',
-						custom_id: DISCORD_INTERACTION_BUTTONS.TRANSLATE,
+						custom_id: DiscordBotInteractionButtons.Translate,
 					},
 				],
 			},
@@ -98,4 +98,4 @@ class SummarizeButton extends ButtonStructure {
 	}
 }
 
-export default new SummarizeButton();
+export default SummarizeButton;

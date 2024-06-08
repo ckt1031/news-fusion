@@ -1,7 +1,7 @@
 import * as schema from '@/db/schema';
 import type { NewArticle } from '@/db/schema';
 import type { ServerEnv } from '@/types/env';
-import { lt } from 'drizzle-orm';
+import { eq, lt } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import removeTrailingSlash from './remove-trailing-slash';
@@ -39,4 +39,17 @@ export async function createArticleDatabase(env: ServerEnv, data: NewArticle) {
 	const db = getDB(env.DATABASE_URL);
 
 	await db.insert(schema.articles).values(data);
+}
+
+export async function updateArticleDatabase(
+	env: ServerEnv,
+	url: string,
+	data: Partial<NewArticle>,
+) {
+	const db = getDB(env.DATABASE_URL);
+
+	await db
+		.update(schema.articles)
+		.set(data)
+		.where(eq(schema.articles.url, removeTrailingSlash(url)));
 }

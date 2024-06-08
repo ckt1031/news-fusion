@@ -12,10 +12,7 @@ import {
 } from 'discord-api-types/v10';
 import { Hono } from 'hono';
 import { env } from 'hono/adapter';
-import reSummarizeButton from './interactions/buttons/re-summarize';
-import reTranslateButton from './interactions/buttons/re-translate';
-import summarizeButton from './interactions/buttons/summarize';
-import translateButton from './interactions/buttons/translate';
+import buttons from './interactions/buttons';
 import verifyDiscordRequest from './verify-request';
 
 const app = new Hono();
@@ -59,13 +56,6 @@ app.post('/', async (c) => {
 		}
 
 		if (interaction.data.component_type === ComponentType.Button) {
-			const buttons = [
-				summarizeButton,
-				reSummarizeButton,
-				translateButton,
-				reTranslateButton,
-			];
-
 			const button = buttons.find((b) => b.id === interaction.data.custom_id);
 
 			if (!button) {

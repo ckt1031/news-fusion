@@ -5,7 +5,7 @@ import {
 import { summarizeText } from '@/lib/llm/prompt-calls';
 import { getContentMakrdownFromURL } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
-import { ButtonStructure, DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
+import { ButtonStructure, DiscordBotInteractionButtons } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
 import type { APIMessageComponentInteraction } from 'discord-api-types/v10';
 import { InteractionResponseType, MessageType } from 'discord-api-types/v10';
@@ -14,7 +14,7 @@ import type { Context, Env } from 'hono';
 import type { BlankInput } from 'hono/types';
 
 class ReSummarizeButton extends ButtonStructure {
-	id = DISCORD_INTERACTION_BUTTONS.REGENERATE_SUMMARIZE;
+	id = DiscordBotInteractionButtons.ReSummarize;
 	async execute(
 		c: Context<Env, '/', BlankInput>,
 		interaction: APIMessageComponentInteraction,
@@ -73,4 +73,4 @@ class ReSummarizeButton extends ButtonStructure {
 	}
 }
 
-export default new ReSummarizeButton();
+export default ReSummarizeButton;

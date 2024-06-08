@@ -9,11 +9,14 @@ import type { Context, Env } from 'hono';
 import type { BlankInput, TypedResponse } from 'hono/types';
 import type { ServerEnv } from './env';
 
-export enum DISCORD_INTERACTION_BUTTONS {
-	GENERATE_SUMMARIZE = 'summarize',
-	REGENERATE_SUMMARIZE = 'regenerate_summarize',
-	TRANSLATE = 'translate',
-	RE_TRANSLATE = 're_translate',
+export enum DiscordBotInteractionButtons {
+	Summarize = 'summarize',
+	Translate = 'translate',
+
+	// Re-try buttons
+	ReTranslate = 're_translate',
+	ReSummarize = 'regenerate_summarize',
+	ReGenerateNewsNotification = 'regenerate_news_notification',
 }
 
 export interface InteractionExecution extends APIMessageComponentInteraction {
@@ -56,7 +59,7 @@ export abstract class CommandStructure {
 }
 
 export abstract class ButtonStructure {
-	readonly id!: DISCORD_INTERACTION_BUTTONS;
+	readonly id!: DiscordBotInteractionButtons;
 	abstract execute(
 		c: Context<Env, '/', BlankInput>,
 		interaction: APIMessageComponentInteraction,
