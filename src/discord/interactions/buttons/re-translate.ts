@@ -3,7 +3,7 @@ import {
 	getAllMessagesInDiscordChannel,
 } from '@/discord/utils';
 import { translateText } from '@/lib/llm/prompt-calls';
-import { scrapeToMarkdown } from '@/lib/tool-apis';
+import { getContentMakrdownFromURL } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
 import { ButtonStructure, DISCORD_INTERACTION_BUTTONS } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
@@ -69,7 +69,7 @@ class ReTranslationButton extends ButtonStructure {
 
 			const url = parentMessage.embeds[0].url;
 
-			content = await scrapeToMarkdown(env, url);
+			content = await getContentMakrdownFromURL(env, url);
 		}
 
 		const translation = await translateText(env, content);
