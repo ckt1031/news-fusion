@@ -106,6 +106,7 @@ export const RSS_TECH: RSSCatacory = {
 		'https://techcrunch.com/feed',
 		'https://www.geekwire.com/feed',
 		'https://www.engadget.com/rss.xml',
+		'https://arstechnica.com/feed',
 		'https://www.wired.com/feed/rss',
 		'https://www.zdnet.com/news/rss.xml',
 		'https://www.theverge.com/rss/index.xml',
@@ -173,9 +174,11 @@ export const RSS_DEV: RSSCatacory = {
 		'https://react.dev/rss.xml',
 		'https://blog.vuejs.org/feed.rss',
 		'https://web.dev/static/blog/feed.xml',
+		'https://turbo.build/feed.xml',
 		'https://blog.google/products/chrome/rss',
-		// AI but basically programming
+		// AI
 		'https://blog.langchain.dev/rss',
+		'https://qwenlm.github.io/blog/index.xml',
 		// Developer Platform
 		'https://vercel.com/atom',
 		'https://stackoverflow.blog/feed',
