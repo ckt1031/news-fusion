@@ -49,9 +49,8 @@ export default async function sendNewsToDiscord({
 				{
 					type: ComponentType.Button,
 					style: ButtonStyle.Secondary,
-					label: 'Re-generate',
 					emoji: {
-						id: ':repeat:',
+						name: '🔁',
 					},
 					custom_id: DiscordBotInteractionButtons.ReGenerateNewsNotification,
 				},
