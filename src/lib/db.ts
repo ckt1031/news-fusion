@@ -1,7 +1,7 @@
 import * as schema from '@/db/schema';
 import type { NewArticle } from '@/db/schema';
 import type { ServerEnv } from '@/types/env';
-import { arrayOverlaps, eq, lt, or } from 'drizzle-orm';
+import { arrayOverlaps, eq, lt, or, sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import removeTrailingSlash from './remove-trailing-slash';
@@ -31,12 +31,24 @@ export async function checkIfNewsIsNew(
 		// with: { url },
 		where: (d, { eq }) =>
 			or(
-				eq(d.guid, removeTrailingSlash(guid)),
+				eq(d.guid, (guid)),
 				arrayOverlaps(schema.articles, [guid]),
 			),
 	});
 
 	return !result;
+}
+
+export async function addSimilarArticleToDatabase(
+	env: ServerEnv,
+	url: string,
+	similarUrl: string,
+) {
+	const db = getDB(env.DATABASE_URL);
+
+	await db.update(schema.articles).set({
+		similarArticles: sql`${schema.articles.similarArticles} || ${similarUrl}`,
+	}).where(eq(schema.articles.url, (url)));
 }
 
 export async function createArticleDatabase(env: ServerEnv, data: NewArticle) {
