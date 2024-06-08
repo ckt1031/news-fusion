@@ -3,6 +3,7 @@
  * - https://discord.com/developers/docs/interactions/message-components#buttons
  */
 
+import commands from '@/discord/interactions/commands';
 import { consola } from 'consola';
 import {
 	ComponentType,
@@ -38,6 +39,18 @@ app.post('/', async (c) => {
 		return c.json({
 			type: InteractionResponseType.Pong,
 		});
+	}
+
+	if (interaction.type === InteractionType.ApplicationCommand) {
+		const command = commands.find((b) => b.info.name === interaction.data.name);
+
+		if (!command) {
+			throw new Error(`Invalid command name: ${interaction.data.name}`);
+		}
+
+		consola.info(`Button Run: ${command.info.name}`);
+
+		return await command.execute(c, interaction);
 	}
 
 	if (interaction.type === InteractionType.MessageComponent) {

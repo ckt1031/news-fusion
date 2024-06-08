@@ -48,7 +48,7 @@ export abstract class CommandStructure {
 	abstract execute(
 		c: Context<Env, '/', BlankInput>,
 		interaction: APIMessageApplicationCommandInteraction,
-	): Promise<unknown>;
+	): Promise<TypedResponse>;
 	abstract handleLogic(
 		env: ServerEnv,
 		interaction: APIMessageApplicationCommandInteraction,

@@ -1,15 +1,22 @@
+import { discordMessage, discordTextSplit } from '@/discord/utils';
+import { summarizeText } from '@/lib/llm/prompt-calls';
+import { getContentMakrdownFromURL } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
+import { instructionIncludedPrompt } from '@/prompts/summarize';
 import { CommandStructure } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
 import {
 	type APIApplicationCommandInteraction,
 	ApplicationCommandOptionType,
 	ApplicationCommandType,
+	InteractionResponseType,
+	MessageFlags,
 	type RESTPostAPIApplicationCommandsJSONBody,
+	type RESTPostAPIInteractionCallbackJSONBody,
 } from 'discord-api-types/v10';
-import { InteractionResponseType } from 'discord-interactions';
 import type { Context, Env } from 'hono';
 import type { BlankInput } from 'hono/types';
+import Mustache from 'mustache';
 
 class SummarizeCommand extends CommandStructure {
 	info = {
@@ -33,8 +40,12 @@ class SummarizeCommand extends CommandStructure {
 		waitUntil(c, this.handleLogic(c.env, interaction));
 
 		return c.json({
-			type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
-		});
+			type: InteractionResponseType.ChannelMessageWithSource,
+			data: {
+				content: 'Summarizing...',
+				flags: MessageFlags.Ephemeral,
+			},
+		} satisfies RESTPostAPIInteractionCallbackJSONBody);
 	}
 
 	async handleLogic(
@@ -55,7 +66,53 @@ class SummarizeCommand extends CommandStructure {
 		}
 		const content = interaction.data.options[0].value;
 
-		console.log(env, content);
+		const urlPattern = /(https?:\/\/[^\s)]+)/g;
+
+		const urls = content.match(urlPattern);
+
+		const fetchedContent: {
+			url: string;
+			content: string;
+		}[] = [];
+
+		if (urls) {
+			//getContentMakrdownFromURL
+			// Use Promise.all to summarize multiple URLs
+			const summaries = await Promise.all(
+				urls.map((url) =>
+					getContentMakrdownFromURL(env, url).then((d) => ({
+						url,
+						content: d,
+					})),
+				),
+			);
+
+			fetchedContent.push(...summaries);
+		}
+
+		const extraContent = fetchedContent
+			.map(({ url, content }) => {
+				return `## ${url}\n\n\`\`\`${content}\`\`\``;
+			})
+			.join('\n\n');
+
+		const userPrompt = Mustache.render(instructionIncludedPrompt, {
+			instructions: content,
+			extraContent: urls ? extraContent : '',
+		});
+
+		const text = await summarizeText(env, userPrompt);
+		const chunks = await discordTextSplit(text);
+
+		for (const chunk of chunks) {
+			await discordMessage.send({
+				token: env.DISCORD_BOT_TOKEN,
+				channelId: interaction.channel.id,
+				body: {
+					content: chunk,
+				},
+			});
+		}
 	}
 }
 

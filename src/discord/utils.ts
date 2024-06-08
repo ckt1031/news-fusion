@@ -12,6 +12,8 @@ import {
 	type APIMessageComponentInteraction,
 	MessageType,
 	type RESTGetAPIChannelMessageResult,
+	type RESTPatchAPIWebhookWithTokenMessageJSONBody,
+	type RESTPostAPIApplicationCommandsJSONBody,
 	type RESTPostAPIChannelMessageResult,
 } from 'discord-api-types/v10';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
@@ -51,6 +53,32 @@ async function discordBaseRequest<T>({
 	});
 
 	return response;
+}
+
+export async function editInteractionResponse(
+	interactionId: string,
+	applicationId: string,
+	body: RESTPatchAPIWebhookWithTokenMessageJSONBody,
+) {
+	return await discordBaseRequest<APIMessage>({
+		path: `/webhooks/${applicationId}/${interactionId}/messages/@original`,
+		method: 'PATCH',
+		body,
+	});
+}
+
+export async function registerGuildCommands(
+	token: string,
+	applicationId: string,
+	guildId: string,
+	command: RESTPostAPIApplicationCommandsJSONBody,
+) {
+	return await discordBaseRequest<RESTPostAPIApplicationCommandsJSONBody[]>({
+		token,
+		path: `/applications/${applicationId}/guilds/${guildId}/commands`,
+		method: 'POST',
+		body: command,
+	});
 }
 
 export async function getAllMessagesInDiscordChannel(
