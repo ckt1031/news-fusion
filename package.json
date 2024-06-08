@@ -10,8 +10,8 @@
 		"lint:fix": "tsc && biome format . --write && biome check . --write",
 		"generate": "drizzle-kit generate",
 		"typecheck": "tsc",
-		"register-commands": "bun run scripts/generate-tool-api-schema.ts",
-		"generate-tool-api-schema": "bun scripts/register-commands.ts"
+		"register-commands": "bun scripts/register-commands.ts",
+		"generate-tool-api-schema": "bun scripts/generate-tool-api-schema.ts"
 	},
 	"dependencies": {
 		"@hono/sentry": "^1.1.0",
