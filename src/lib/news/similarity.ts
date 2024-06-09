@@ -25,8 +25,23 @@ export async function getSimilarities(env: ServerEnv, embedding: number[]) {
 	return similarGuides;
 }
 
-export async function isArticleSimilar(env: ServerEnv, embedding: number[]) {
-	const similarities = await getSimilarities(env, embedding);
+export async function isArticleSimilar(
+	env: ServerEnv,
+	embedding: number[],
+	originalContentURL: string,
+) {
+	/**
+	 * Same site would not produce similar articles
+	 * This is to prevent the article from same site to be marked as similar
+	 */
+	const hostOfOriginalContent = new URL(originalContentURL).host;
+
+	const allSimilarities = await getSimilarities(env, embedding);
+
+	// Filter out the original content
+	const similarities = allSimilarities.filter(
+		(similarity) => new URL(similarity.url).host !== hostOfOriginalContent,
+	);
 
 	return {
 		result: similarities.some(

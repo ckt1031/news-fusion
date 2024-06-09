@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 /**
  * This is script to run news fetchinng in full and filter with AI, only find out important news.
  */

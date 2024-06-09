@@ -97,7 +97,7 @@ class FindSimilarArtilesCommand extends CommandStructure {
 			model: DEFAULT_EMBEDDING_MODEL,
 		});
 
-		const similar = await isArticleSimilar(env, embedding);
+		const similar = await isArticleSimilar(env, embedding, url);
 
 		await editInteractionResponse(interaction.id, env.DISCORD_APPLICATION_ID, {
 			content: similar.result

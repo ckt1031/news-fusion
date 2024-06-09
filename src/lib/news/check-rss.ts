@@ -7,7 +7,11 @@ import {
 } from '@/config/news-sources';
 import type { ServerEnv } from '@/types/env';
 import consola from 'consola';
-import { checkIfNewsIsNew, createArticleDatabase } from '../db';
+import {
+	addSimilarArticleToDatabase,
+	checkIfNewsIsNew,
+	createArticleDatabase,
+} from '../db';
 import { requestEmbeddingsAPI } from '../llm/api';
 import {
 	checkArticleImportance,
@@ -111,7 +115,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						timeout: 5 * 1000,
 					});
 
-					const similar = await isArticleSimilar(env, embedding);
+					const similar = await isArticleSimilar(env, embedding, item.link);
 
 					// Reject if similar article found
 					if (
@@ -119,9 +123,14 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						similar.result &&
 						similar.similarities[0]
 					) {
+						const topSimilar = similar.similarities[0];
+
 						consola.box(
-							`Similar article found: ${item.link} -> ${similar.similarities[0].url} (${similar.similarities[0].similarity})`,
+							`Similar article found: ${item.link} -> ${topSimilar.url} (${topSimilar.similarity})`,
 						);
+
+						await addSimilarArticleToDatabase(env, item.link, topSimilar.url);
+
 						continue;
 					}
 

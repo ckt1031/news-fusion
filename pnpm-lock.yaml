@@ -32,6 +32,9 @@ importers:
       discord-interactions:
         specifier: ^3.4.0
         version: 3.4.0
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
       drizzle-orm:
         specifier: ^0.31.2
         version: 0.31.2(@cloudflare/workers-types@4.20240605.0)(@types/react@18.3.3)(bun-types@1.1.12)(postgres@3.4.4)(react@18.3.1)
@@ -1397,6 +1400,10 @@ packages:
 
   discord-interactions@3.4.0:
     resolution: {integrity: sha512-DG0Jxdd/FcK8liAPhIP4u5YHpnz50JWn9DK4OavxsLD49/WGimXtP3EdOY439MaWyCgQfsfFkA1GsTEyu63RzA==}
+    engines: {node: '>=12'}
+
+  dotenv@16.4.5:
+    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
     engines: {node: '>=12'}
 
   drizzle-kit@0.22.6:
@@ -3425,6 +3432,8 @@ snapshots:
   discord-interactions@3.4.0:
     dependencies:
       tweetnacl: 1.0.3
+
+  dotenv@16.4.5: {}
 
   drizzle-kit@0.22.6:
     dependencies:
