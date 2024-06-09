@@ -67,7 +67,7 @@ class FindSimilarArtilesCommand extends CommandStructure {
 			body: RESTPatchAPIWebhookWithTokenMessageJSONBody,
 		) {
 			await editInteractionResponse({
-				interactionId: interaction.id,
+				interactionToken: interaction.token,
 				applicationId: env.DISCORD_APPLICATION_ID,
 				body,
 			});

@@ -57,7 +57,7 @@ async function discordBaseRequest<T>({
 }
 
 type EditInteractionResponseProp = {
-	interactionId: string;
+	interactionToken: string;
 	applicationId: string;
 	body: RESTPatchAPIWebhookWithTokenMessageJSONBody;
 };
@@ -66,7 +66,7 @@ export async function editInteractionResponse(
 	props: EditInteractionResponseProp,
 ) {
 	return await discordBaseRequest<APIMessage>({
-		path: `/webhooks/${props.applicationId}/${props.interactionId}/messages/@original`,
+		path: `/webhooks/${props.applicationId}/${props.interactionToken}/messages/@original`,
 		method: 'PATCH',
 		body: props.body,
 	});
