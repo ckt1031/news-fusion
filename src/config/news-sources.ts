@@ -111,7 +111,7 @@ export const RSS_TECH: RSSCatacory = {
 		'https://www.zdnet.com/news/rss.xml',
 		'https://www.theverge.com/rss/index.xml',
 		'https://www.theregister.com/headlines.rss',
-		'https://rss.slashdot.org/Slashdot/slashdot',
+		'https://rss.slashdot.org/Slashdot/slashdotMainatom', // Only Atom 1.0 is parsable in my code
 		{
 			url: 'https://research.microsoft.com/rss/news.xml',
 			checkImportance: false,
