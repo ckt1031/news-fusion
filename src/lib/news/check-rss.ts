@@ -93,14 +93,16 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 				let thumbnail: string | undefined = item?.thumbnail;
 
-				const content = await getContentMakrdownFromURL(env, item.link);
+				let content = await getContentMakrdownFromURL(env, item.link);
 
 				if (content.length === 0) {
-					consola.error('Failed to get content for', item.link);
+					consola.error('Got empty content from', item.link);
 
 					// If content, importance check and auto summarize are meaningless
 					autoSummarize = false;
 					checkImportance = false;
+
+					content = item.link;
 				}
 
 				let embedding: number[] = [];
