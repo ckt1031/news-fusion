@@ -49,7 +49,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 		if (!url) continue;
 
-		consola.start(`Checking RSS: ${url}`);
+		console.debug(`Checking RSS: ${url}`);
 
 		try {
 			const feed = await parseRSS(url, EARLIEST_HOURS);
