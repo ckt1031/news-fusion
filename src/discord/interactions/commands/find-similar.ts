@@ -76,7 +76,7 @@ class FindSimilarArtilesCommand extends CommandStructure {
 		const url = interaction.data.options[0].value;
 
 		// Check if the content is a URL
-		if (url.length === 0 || url.startsWith('http')) {
+		if (url.length === 0 || !url.startsWith('http')) {
 			await editResponse({
 				content: 'Invalid URL.',
 			});
