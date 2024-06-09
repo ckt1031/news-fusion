@@ -5,9 +5,9 @@ import type {
 	RESTPostAPIApplicationCommandsJSONBody,
 	RESTPostAPIChannelMessageJSONBody,
 } from 'discord-api-types/v10';
-import type { Context, Env } from 'hono';
-import type { BlankInput, TypedResponse } from 'hono/types';
+import type { TypedResponse } from 'hono/types';
 import type { ServerEnv } from './env';
+import type { DiscordInteractionPostContext } from './hono';
 
 export enum DiscordBotInteractionButtons {
 	Summarize = 'summarize',
@@ -49,7 +49,7 @@ export type DiscordMessageProp =
 export abstract class CommandStructure {
 	info!: RESTPostAPIApplicationCommandsJSONBody;
 	abstract execute(
-		c: Context<Env, '/', BlankInput>,
+		c: DiscordInteractionPostContext,
 		interaction: APIMessageApplicationCommandInteraction,
 	): Promise<TypedResponse>;
 	abstract handleLogic(
@@ -61,7 +61,7 @@ export abstract class CommandStructure {
 export abstract class ButtonStructure {
 	readonly id!: DiscordBotInteractionButtons;
 	abstract execute(
-		c: Context<Env, '/', BlankInput>,
+		c: DiscordInteractionPostContext,
 		interaction: APIMessageComponentInteraction,
 	): Promise<TypedResponse>;
 	abstract handleLogic(

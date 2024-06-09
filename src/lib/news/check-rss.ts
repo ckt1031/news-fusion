@@ -1,4 +1,3 @@
-import { DEFAULT_EMBEDDING_MODEL } from '@/config/api';
 import {
 	EARLIEST_HOURS,
 	type RSSCatacory,
@@ -111,7 +110,6 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					embedding = await requestEmbeddingsAPI({
 						env,
 						text: content,
-						model: DEFAULT_EMBEDDING_MODEL,
 						timeout: 5 * 1000,
 					});
 
@@ -137,7 +135,6 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					if (checkImportance) {
 						important = await checkArticleImportance(env, content, {
 							trace: true,
-							useAdvancedModel: true,
 						});
 					}
 

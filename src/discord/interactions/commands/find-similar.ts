@@ -1,4 +1,3 @@
-import { DEFAULT_EMBEDDING_MODEL } from '@/config/api';
 import { editInteractionResponse } from '@/discord/utils';
 import { getContentMarkdownParallel } from '@/lib/get-urls';
 import { requestEmbeddingsAPI } from '@/lib/llm/api';
@@ -6,6 +5,7 @@ import { isArticleSimilar } from '@/lib/news/similarity';
 import { waitUntil } from '@/lib/wait-until';
 import { CommandStructure } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
+import type { DiscordInteractionPostContext } from '@/types/hono';
 import consola from 'consola';
 import {
 	type APIApplicationCommandInteraction,
@@ -15,8 +15,6 @@ import {
 	type RESTPostAPIApplicationCommandsJSONBody,
 	type RESTPostAPIInteractionCallbackJSONBody,
 } from 'discord-api-types/v10';
-import type { Context, Env } from 'hono';
-import type { BlankInput } from 'hono/types';
 
 class FindSimilarArtilesCommand extends CommandStructure {
 	info = {
@@ -34,7 +32,7 @@ class FindSimilarArtilesCommand extends CommandStructure {
 	} satisfies RESTPostAPIApplicationCommandsJSONBody;
 
 	async execute(
-		c: Context<Env, '/', BlankInput>,
+		c: DiscordInteractionPostContext,
 		interaction: APIApplicationCommandInteraction,
 	) {
 		waitUntil(c, this.handleLogic(c.env, interaction));
@@ -94,7 +92,6 @@ class FindSimilarArtilesCommand extends CommandStructure {
 		const embedding = await requestEmbeddingsAPI({
 			env,
 			text: fetchedContent.content,
-			model: DEFAULT_EMBEDDING_MODEL,
 		});
 
 		const similar = await isArticleSimilar(env, embedding, url);

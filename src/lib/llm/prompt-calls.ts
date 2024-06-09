@@ -1,5 +1,6 @@
 import {
 	DEFAULT_CHECK_IMPORTANCE_MODEL,
+	DEFAULT_SEARCH_QUERY_GENERATE_MODEL,
 	DEFAULT_SUMMARIZE_MODEL,
 	DEFAULT_TITLE_GENERATE_MODEL,
 	DEFAULT_TRANSLATE_MODEL,
@@ -21,7 +22,7 @@ export async function summarizeText(
 ) {
 	return await requestChatCompletionAPI({
 		env,
-		model: DEFAULT_SUMMARIZE_MODEL,
+		model: env.DEFAULT_SUMMARIZE_MODEL ?? DEFAULT_SUMMARIZE_MODEL,
 		temperature: 0.4,
 		message: {
 			system: summarizePrompt,
@@ -39,7 +40,7 @@ export async function summarizeIntoShortText(
 ) {
 	return await requestChatCompletionAPI({
 		env,
-		model: DEFAULT_SUMMARIZE_MODEL,
+		model: env.DEFAULT_SUMMARIZE_MODEL ?? DEFAULT_SUMMARIZE_MODEL,
 		temperature: 0.2,
 		message: {
 			system: summarizeInfoShortTextPrompt,
@@ -57,7 +58,7 @@ export async function translateText(
 ) {
 	const content = await requestChatCompletionAPI({
 		env,
-		model: DEFAULT_TRANSLATE_MODEL,
+		model: env.DEFAULT_TRANSLATE_MODEL ?? DEFAULT_TRANSLATE_MODEL,
 		temperature: 0.2,
 		message: {
 			system: translatePrompt,
@@ -77,7 +78,9 @@ export async function generateSearchQuery(
 ) {
 	return await requestChatCompletionAPI({
 		env,
-		model: 'gpt-3.5-turbo-0125',
+		model:
+			env.DEFAULT_SEARCH_QUERY_GENERATE_MODEL ??
+			DEFAULT_SEARCH_QUERY_GENERATE_MODEL,
 		temperature: 0.2,
 		message: {
 			system: queryGenPrompt,
@@ -99,7 +102,7 @@ export async function generateTitle(
 
 	return await requestChatCompletionAPI({
 		env,
-		model: DEFAULT_TITLE_GENERATE_MODEL,
+		model: env.DEFAULT_TITLE_GENERATE_MODEL ?? DEFAULT_TITLE_GENERATE_MODEL,
 		temperature: 0,
 		message: {
 			system: titleGenPrompt,
@@ -116,15 +119,12 @@ export async function checkArticleImportance(
 	env: TextCompletionsGenerateProps['env'],
 	content: string,
 	custom?: {
-		useAdvancedModel?: boolean;
 		trace?: boolean;
 	},
 ) {
 	const result = await requestChatCompletionAPI({
 		env,
-		model: custom?.useAdvancedModel
-			? DEFAULT_CHECK_IMPORTANCE_MODEL
-			: 'command-r-plus',
+		model: env.DEFAULT_CHECK_IMPORTANCE_MODEL ?? DEFAULT_CHECK_IMPORTANCE_MODEL,
 		temperature: 0.1,
 		message: {
 			system: filterImportancePrompt,

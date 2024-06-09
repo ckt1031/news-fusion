@@ -9,6 +9,7 @@ import { webSearch } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
 import { CommandStructure } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
+import type { DiscordInteractionPostContext } from '@/types/hono';
 import {
 	type APIApplicationCommandInteraction,
 	ApplicationCommandOptionType,
@@ -18,8 +19,6 @@ import {
 	type RESTPostAPIApplicationCommandsJSONBody,
 	type RESTPostAPIInteractionCallbackJSONBody,
 } from 'discord-api-types/v10';
-import type { Context, Env } from 'hono';
-import type { BlankInput } from 'hono/types';
 
 class WebSearchCommand extends CommandStructure {
 	info = {
@@ -37,7 +36,7 @@ class WebSearchCommand extends CommandStructure {
 	} satisfies RESTPostAPIApplicationCommandsJSONBody;
 
 	async execute(
-		c: Context<Env, '/', BlankInput>,
+		c: DiscordInteractionPostContext,
 		interaction: APIApplicationCommandInteraction,
 	) {
 		waitUntil(c, this.handleLogic(c.env, interaction));

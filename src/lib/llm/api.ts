@@ -1,3 +1,4 @@
+import { DEFAULT_EMBEDDING_MODEL } from '@/config/api';
 import type { ServerEnv } from '@/types/env';
 import type { MessageContentText } from '@langchain/core/messages';
 import { HumanMessage, SystemMessage } from '@langchain/core/messages';
@@ -9,15 +10,15 @@ import {
 	Langfuse,
 } from 'langfuse-langchain';
 
+// DEFAULT_SUMMARIZE_MODEL: z.string().optional(),
+// 	DEFAULT_TRANSLATE_MODEL: z.string().optional(),
+// 	DEFAULT_TITLE_GENERATE_MODEL: z.string().optional(),
+// 	DEFAULT_CHECK_IMPORTANCE_MODEL: z.string().optional(),
+// 	DEFAULT_SEARCH_QUERY_GENERATE_MODEL: z.string().optional(),
+
 export type TextCompletionsGenerateProps = {
-	env: Pick<
-		ServerEnv,
-		| 'LANGFUSE_SECRET_KEY'
-		| 'LANGFUSE_PUBLIC_KEY'
-		| 'LANGFUSE_BASE_URL'
-		| 'OPENAI_API_KEY'
-		| 'OPENAI_API_BASE_URL'
-	>;
+	env: Pick<ServerEnv, 'OPENAI_API_KEY' | 'OPENAI_API_BASE_URL'> &
+		Partial<ServerEnv>;
 	model: string;
 	message: {
 		system?: string;
@@ -35,14 +36,14 @@ export type TextCompletionsGenerateProps = {
 export interface EmbeddingsProp {
 	env: Pick<ServerEnv, 'OPENAI_API_KEY' | 'OPENAI_API_BASE_URL'>;
 	text: string;
-	model: string;
+	model?: string;
 	timeout?: number;
 }
 
 export function getLangfuse(env: TextCompletionsGenerateProps['env']) {
 	return new Langfuse({
-		secretKey: env.LANGFUSE_SECRET_KEY,
-		publicKey: env.LANGFUSE_PUBLIC_KEY,
+		secretKey: env.LANGFUSE_SECRET_KEY ?? '',
+		publicKey: env.LANGFUSE_PUBLIC_KEY ?? '',
 		baseUrl: env.LANGFUSE_BASE_URL ?? 'https://us.cloud.langfuse.com',
 	});
 }
@@ -50,7 +51,7 @@ export function getLangfuse(env: TextCompletionsGenerateProps['env']) {
 export async function requestEmbeddingsAPI({
 	env,
 	text,
-	model,
+	model = DEFAULT_EMBEDDING_MODEL,
 }: EmbeddingsProp) {
 	consola.start('Request Embeddings API', {
 		model,

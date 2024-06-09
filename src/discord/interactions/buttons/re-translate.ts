@@ -7,18 +7,17 @@ import { getContentMakrdownFromURL } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
 import { ButtonStructure, DiscordBotInteractionButtons } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
+import type { DiscordInteractionPostContext } from '@/types/hono';
 import {
 	type APIMessageComponentInteraction,
 	InteractionResponseType,
 	MessageType,
 } from 'discord-api-types/v10';
-import type { Context, Env } from 'hono';
-import type { BlankInput } from 'hono/types';
 
 class ReTranslationButton extends ButtonStructure {
 	id = DiscordBotInteractionButtons.ReTranslate;
 	async execute(
-		c: Context<Env, '/', BlankInput>,
+		c: DiscordInteractionPostContext,
 		interaction: APIMessageComponentInteraction,
 	) {
 		waitUntil(c, this.handleLogic(c.env, interaction));

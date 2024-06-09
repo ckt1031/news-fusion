@@ -35,9 +35,7 @@ describe(
 			for (const news of list) {
 				const content = await getContentMakrdownFromURL(env, news);
 
-				const importantEnough = await checkArticleImportance(env, content, {
-					useAdvancedModel: false,
-				});
+				const importantEnough = await checkArticleImportance(env, content);
 
 				consola.box(`${news} ${importantEnough ? 'is' : 'is not'} important.`);
 				expect(importantEnough).toBe(true);
@@ -58,9 +56,7 @@ describe(
 			for (const news of list) {
 				const content = await getContentMakrdownFromURL(env, news);
 
-				const importantEnough = await checkArticleImportance(env, content, {
-					useAdvancedModel: false,
-				});
+				const importantEnough = await checkArticleImportance(env, content);
 
 				console.log(`Is ${news} important? ${importantEnough ? 'Yes' : 'No'}`);
 				expect(importantEnough).toBe(false);

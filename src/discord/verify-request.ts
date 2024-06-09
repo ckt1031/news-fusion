@@ -1,10 +1,9 @@
+import type { DiscordInteractionPostContext } from '@/types/hono';
 import type { APIInteraction } from 'discord-api-types/v10';
 import { verifyKey } from 'discord-interactions';
-import type { Context, Env } from 'hono';
-import type { BlankInput } from 'hono/types';
 
 export default async function verifyDiscordRequest(
-	c: Context<Env, '/', BlankInput>,
+	c: DiscordInteractionPostContext,
 ) {
 	const signature = c.req.header('x-signature-ed25519');
 	const timestamp = c.req.header('x-signature-timestamp');

@@ -26,6 +26,13 @@ export const envSchema = z.object({
 
 	// Vercel CRON secret
 	CRON_SECRET: z.string().optional(),
+
+	// Some Default AI Model IDs
+	DEFAULT_SUMMARIZE_MODEL: z.string().optional(),
+	DEFAULT_TRANSLATE_MODEL: z.string().optional(),
+	DEFAULT_TITLE_GENERATE_MODEL: z.string().optional(),
+	DEFAULT_CHECK_IMPORTANCE_MODEL: z.string().optional(),
+	DEFAULT_SEARCH_QUERY_GENERATE_MODEL: z.string().optional(),
 });
 
 export type ServerEnv = z.infer<typeof envSchema>;

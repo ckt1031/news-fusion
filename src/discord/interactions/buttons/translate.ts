@@ -9,6 +9,7 @@ import { getContentMakrdownFromURL } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
 import { ButtonStructure, DiscordBotInteractionButtons } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
+import type { DiscordInteractionPostContext } from '@/types/hono';
 import consola from 'consola';
 import {
 	type APIActionRowComponent,
@@ -18,13 +19,11 @@ import {
 	ComponentType,
 	InteractionResponseType,
 } from 'discord-api-types/v10';
-import type { Context, Env } from 'hono';
-import type { BlankInput } from 'hono/types';
 
 class TranslateButton extends ButtonStructure {
 	id = DiscordBotInteractionButtons.Translate;
 	async execute(
-		c: Context<Env, '/', BlankInput>,
+		c: DiscordInteractionPostContext,
 		interaction: APIMessageComponentInteraction,
 	) {
 		waitUntil(c, this.handleLogic(c.env, interaction));

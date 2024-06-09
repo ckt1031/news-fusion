@@ -1,10 +1,9 @@
+import type { DiscordInteractionPostContext } from '@/types/hono';
 import { waitUntil as vercelWaitUntil } from '@vercel/functions';
-import type { Context, Env } from 'hono';
 import { getRuntimeKey } from 'hono/adapter';
-import type { BlankInput } from 'hono/types';
 
 export function waitUntil(
-	c: Context<Env, '/', BlankInput>,
+	c: DiscordInteractionPostContext,
 	func: Promise<unknown>,
 ) {
 	if (getRuntimeKey() === 'workerd') {
