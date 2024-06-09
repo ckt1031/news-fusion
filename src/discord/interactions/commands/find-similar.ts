@@ -12,6 +12,7 @@ import {
 	ApplicationCommandOptionType,
 	ApplicationCommandType,
 	InteractionResponseType,
+	type RESTPatchAPIWebhookWithTokenMessageJSONBody,
 	type RESTPostAPIApplicationCommandsJSONBody,
 	type RESTPostAPIInteractionCallbackJSONBody,
 } from 'discord-api-types/v10';
@@ -61,17 +62,24 @@ class FindSimilarArtilesCommand extends CommandStructure {
 		) {
 			throw new Error('Invalid option type');
 		}
+
+		async function editResponse(
+			body: RESTPatchAPIWebhookWithTokenMessageJSONBody,
+		) {
+			await editInteractionResponse({
+				interactionId: interaction.id,
+				applicationId: env.DISCORD_APPLICATION_ID,
+				body,
+			});
+		}
+
 		const url = interaction.data.options[0].value;
 
 		// Check if the content is a URL
 		if (url.length === 0 || url.startsWith('http')) {
-			await editInteractionResponse(
-				interaction.id,
-				env.DISCORD_APPLICATION_ID,
-				{
-					content: 'Invalid URL.',
-				},
-			);
+			await editResponse({
+				content: 'Invalid URL.',
+			});
 			consola.error('Invalid URL', url);
 			return;
 		}
@@ -79,13 +87,9 @@ class FindSimilarArtilesCommand extends CommandStructure {
 		const fetchedContent = (await getContentMarkdownParallel(env, [url]))[0];
 
 		if (!fetchedContent) {
-			await editInteractionResponse(
-				interaction.id,
-				env.DISCORD_APPLICATION_ID,
-				{
-					content: 'Failed to fetch content.',
-				},
-			);
+			await editResponse({
+				content: 'Failed to fetch content.',
+			});
 			return;
 		}
 
@@ -96,7 +100,7 @@ class FindSimilarArtilesCommand extends CommandStructure {
 
 		const similar = await isArticleSimilar(env, embedding, url);
 
-		await editInteractionResponse(interaction.id, env.DISCORD_APPLICATION_ID, {
+		await editResponse({
 			content: similar.result
 				? 'Similar articles found.'
 				: 'No similar articles found.',

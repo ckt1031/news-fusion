@@ -15,10 +15,19 @@ if (!token || !applicationId || !guildId) {
 const mode = process.argv[2];
 
 if (mode === 'delete') {
-	await deleteAllGuildCommands(token, applicationId, guildId);
+	await deleteAllGuildCommands({
+		token: token,
+		applicationId: applicationId,
+		guildId: guildId,
+	});
 } else {
 	for (const command of commands) {
-		await registerGuildCommands(token, applicationId, guildId, command.info);
+		await registerGuildCommands({
+			token: token,
+			applicationId: applicationId,
+			guildId: guildId,
+			command: command.info,
+		});
 	}
 }
 

@@ -56,74 +56,86 @@ async function discordBaseRequest<T>({
 	return response;
 }
 
+type EditInteractionResponseProp = {
+	interactionId: string;
+	applicationId: string;
+	body: RESTPatchAPIWebhookWithTokenMessageJSONBody;
+};
+
 export async function editInteractionResponse(
-	interactionId: string,
-	applicationId: string,
-	body: RESTPatchAPIWebhookWithTokenMessageJSONBody,
+	props: EditInteractionResponseProp,
 ) {
 	return await discordBaseRequest<APIMessage>({
-		path: `/webhooks/${applicationId}/${interactionId}/messages/@original`,
+		path: `/webhooks/${props.applicationId}/${props.interactionId}/messages/@original`,
 		method: 'PATCH',
-		body,
+		body: props.body,
 	});
 }
 
-export async function registerGuildCommands(
-	token: string,
-	applicationId: string,
-	guildId: string,
-	command: RESTPostAPIApplicationCommandsJSONBody,
-) {
+interface RegisterGlobalCommandsProp {
+	token: string;
+	applicationId: string;
+	guildId: string;
+	command: RESTPostAPIApplicationCommandsJSONBody;
+}
+
+export async function registerGuildCommands(d: RegisterGlobalCommandsProp) {
 	return await discordBaseRequest<RESTPostAPIApplicationCommandsJSONBody[]>({
-		token,
-		path: `/applications/${applicationId}/guilds/${guildId}/commands`,
+		token: d.token,
+		path: `/applications/${d.applicationId}/guilds/${d.guildId}/commands`,
 		method: 'POST',
-		body: command,
+		body: d.command,
 	});
 }
 
-export async function deleteAllGuildCommands(
-	token: string,
-	applicationId: string,
-	guildId: string,
-) {
+interface DeleteAllGuildCommandsProp {
+	token: string;
+	applicationId: string;
+	guildId: string;
+}
+
+export async function deleteAllGuildCommands(d: DeleteAllGuildCommandsProp) {
 	const commands =
 		await discordBaseRequest<RESTGetAPIApplicationGuildCommandsResult>({
-			token,
-			path: `/applications/${applicationId}/guilds/${guildId}/commands`,
+			token: d.token,
+			path: `/applications/${d.applicationId}/guilds/${d.guildId}/commands`,
 			method: 'GET',
 		});
 
 	for (const command of commands) {
 		await discordBaseRequest({
-			token,
-			path: `/applications/${applicationId}/guilds/${guildId}/commands/${command.id}`,
+			token: d.token,
+			path: `/applications/${d.applicationId}/guilds/${d.guildId}/commands/${command.id}`,
 			method: 'DELETE',
 		});
 	}
 }
 
-export async function getAllMessagesInDiscordChannel(
-	token: string,
-	channelId: string,
-	props?: {
+interface GetAllMessagesInDiscordChannelProp {
+	token: string;
+	channelId: string;
+	filter?: {
 		before?: string;
 		after?: string;
 		limit?: number;
-	},
+	};
+}
+
+export async function getAllMessagesInDiscordChannel(
+	d: GetAllMessagesInDiscordChannelProp,
 ) {
-	let path = `/channels/${channelId}/messages`;
+	let path = `/channels/${d.channelId}/messages`;
 
 	// Dynamically create query string
 	const query = new URLSearchParams();
-	if (props?.before) query.append('before', props.before);
-	if (props?.after) query.append('after', props.after);
-	if (props?.limit) query.append('limit', props.limit.toString());
+	if (d.filter?.before) query.append('before', d.filter.before);
+	if (d.filter?.after) query.append('after', d.filter.after);
+	if (d.filter?.limit) query.append('limit', d.filter.limit.toString());
 
 	if (query.toString()) path += `?${query.toString()}`;
 
 	return await discordBaseRequest<RESTGetAPIChannelMessageResult[]>({
-		token,
+		token: d.token,
 		path,
 		method: 'GET',
 	});
@@ -163,33 +175,39 @@ export const discordMessage = {
 	},
 };
 
-export async function createDiscordThread(
-	token: ServerEnv['DISCORD_BOT_TOKEN'],
-	channelId: string,
-	messageId: string,
-	name: string,
-) {
-	const path = `/channels/${channelId}/messages/${messageId}/threads`;
+interface CreateDiscordThreadProp {
+	token: string;
+	channelId: string;
+	messageId: string;
+	name: string;
+}
+
+export async function createDiscordThread(d: CreateDiscordThreadProp) {
+	const path = `/channels/${d.channelId}/messages/${d.messageId}/threads`;
 
 	return await discordBaseRequest<RESTPostAPIChannelMessageResult>({
-		token,
+		token: d.token,
 		path,
 		method: 'POST',
-		body: { name },
+		body: { name: d.name },
 	});
 }
 
+interface CreateNewsInfoDiscordThreadProp {
+	env: ServerEnv;
+	interaction: APIMessageComponentInteraction;
+	content: string;
+}
+
 export async function createNewsInfoDiscordThread(
-	env: ServerEnv,
-	interaction: APIMessageComponentInteraction,
-	content: string,
+	d: CreateNewsInfoDiscordThreadProp,
 ) {
 	// Check if message has a thread
-	if (interaction.message.thread) {
-		return interaction.message.thread;
+	if (d.interaction.message.thread) {
+		return d.interaction.message.thread;
 	}
 
-	let title = await generateTitle(env, content);
+	let title = await generateTitle(d.env, d.content);
 
 	if (!title) {
 		title = 'Article Info';
@@ -198,30 +216,38 @@ export async function createNewsInfoDiscordThread(
 		title = title.slice(0, 100);
 	}
 
-	const thread = await createDiscordThread(
-		env.DISCORD_BOT_TOKEN,
-		interaction.channel.id,
-		interaction.message.id,
-		title,
-	);
+	const thread = await createDiscordThread({
+		token: d.env.DISCORD_BOT_TOKEN,
+		channelId: d.interaction.channel_id,
+		messageId: d.interaction.message.id,
+		name: title,
+	});
 
 	return thread;
 }
 
+interface DeleteThreadCreatedMessageProp {
+	token: string;
+	channelId: string;
+}
+
 export async function deleteThreadCreatedMessage(
-	token: string,
-	channelId: string,
+	d: DeleteThreadCreatedMessageProp,
 ) {
-	const messages = await getAllMessagesInDiscordChannel(token, channelId, {
-		limit: 4,
+	const messages = await getAllMessagesInDiscordChannel({
+		token: d.token,
+		channelId: d.channelId,
+		filter: {
+			limit: 4,
+		},
 	});
 
 	for (const message of messages) {
 		// Check if message.type === 18
 		if (message.type !== MessageType.ThreadCreated) continue;
 		await discordMessage.delete({
-			token,
-			channelId,
+			token: d.token,
+			channelId: d.channelId,
 			messageId: message.id,
 		});
 	}

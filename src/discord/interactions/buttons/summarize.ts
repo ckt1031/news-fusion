@@ -54,7 +54,11 @@ class SummarizeButton extends ButtonStructure {
 
 		const chunks = await discordTextSplit(text);
 
-		const thread = await createNewsInfoDiscordThread(env, interaction, text);
+		const thread = await createNewsInfoDiscordThread({
+			env: env,
+			interaction: interaction,
+			content: text,
+		});
 
 		const components: APIActionRowComponent<APIMessageActionRowComponent>[] = [
 			{
@@ -90,10 +94,10 @@ class SummarizeButton extends ButtonStructure {
 			});
 		}
 
-		await deleteThreadCreatedMessage(
-			env.DISCORD_BOT_TOKEN,
-			parentMessage.channel_id,
-		);
+		await deleteThreadCreatedMessage({
+			token: env.DISCORD_BOT_TOKEN,
+			channelId: parentMessage.channel_id,
+		});
 	}
 }
 

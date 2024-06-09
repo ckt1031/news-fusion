@@ -99,11 +99,11 @@ class TranslateButton extends ButtonStructure {
 			const chunks = await discordTextSplit(translation);
 
 			// Send to thread
-			const thread = await createNewsInfoDiscordThread(
+			const thread = await createNewsInfoDiscordThread({
 				env,
 				interaction,
-				content,
-			);
+				content: translation,
+			});
 
 			for (const chunk of chunks) {
 				const isOnlyOne = chunks.length === 1;
@@ -119,10 +119,10 @@ class TranslateButton extends ButtonStructure {
 				});
 			}
 
-			await deleteThreadCreatedMessage(
-				env.DISCORD_BOT_TOKEN,
-				interaction.message.channel_id,
-			);
+			await deleteThreadCreatedMessage({
+				token: env.DISCORD_BOT_TOKEN,
+				channelId: interaction.message.channel_id,
+			});
 		}
 	}
 }

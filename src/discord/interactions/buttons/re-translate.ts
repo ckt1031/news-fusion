@@ -45,13 +45,13 @@ class ReTranslationButton extends ButtonStructure {
 			// This is replied message, so use the content of the replied message
 			content = refMsg.content;
 		} else {
-			const allMessagesInThread = await getAllMessagesInDiscordChannel(
-				env.DISCORD_BOT_TOKEN,
-				interaction.message.channel_id,
-				{
+			const allMessagesInThread = await getAllMessagesInDiscordChannel({
+				token: env.DISCORD_BOT_TOKEN,
+				channelId: interaction.message.channel_id,
+				filter: {
 					before: interaction.message.id,
 				},
-			);
+			});
 
 			// Find one that message.type === MessageType.ThreadStarterMessage
 			const parentMessage = allMessagesInThread.find(
