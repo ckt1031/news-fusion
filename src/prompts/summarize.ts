@@ -22,7 +22,7 @@ To condense provided articles or text into concise and clear summaries, capturin
 
 - **Special Cases**:
   - If the provided content is purely text to be summarized, simply summarize the text.
-  - If the content is a mix of instructions and text, respond with the summarized text followed by the instructions.`;
+  - If the content is a mix of instructions and text, follow the instructions, respond with the summarized or required text only.`;
 
 export const instructionIncludedPrompt = `# Special Instructions or content
 
