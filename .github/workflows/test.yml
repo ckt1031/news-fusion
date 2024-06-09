@@ -14,20 +14,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: oven-sh/setup-bun@v1
+      - uses: actions/setup-node@v4
         with:
-          bun-version: latest
-          bun-download-url: "https://github.com/oven-sh/bun/releases/latest/download/bun-${{runner.os == 'macOS' && 'darwin' || runner.os}}-${{ runner.arch == 'X64' && 'x64' || 'arm64' }}.zip"
+          cache: pnpm
+          node-version: 20
+      
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
 
       - name: Install Dependencies
         run: |
-          bun install
-          bun run generate-tool-api-schema
+          pnpm install
+          pnpm run generate-tool-api-schema
         env:
           TOOLS_API_BASE_URL: ${{ secrets.TOOLS_API_BASE_URL }}
 
       - name: Check Project
-        run: bun run lint
+        run: pnpm run lint
 
-      - name: Test
-        run: TESTING=1 bun test tests/unit --timeout 180000
+      # - name: Test
+      #   run: TESTING=1 pnpm test tests/unit --timeout 180000

@@ -130,7 +130,7 @@ export async function requestChatCompletionAPI({
 
 	if (
 		typeof process === 'undefined' ||
-		(env.LANGFUSE_SECRET_KEY && !('bun' in process.versions))
+		(env.LANGFUSE_SECRET_KEY && process.env.NODE === '1')
 	) {
 		await langfuse.flushAsync();
 	}

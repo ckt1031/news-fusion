@@ -1,11 +1,16 @@
-import { $ } from 'bun';
+import { exec } from 'node:child_process';
+import fs from 'node:fs';
 
-const baseURL = process.env.TOOLS_API_BASE_URL;
+const baseURL =
+	process.env.TOOLS_API_BASE_URL ?? 'https://tool-api.tsun1031.xyz';
 
 const filePath = './src/types/tool-apis.d.ts';
 
 // Remove the existing schema file
-await $`rm -f ${filePath}`;
+if (fs.existsSync(filePath)) {
+	fs.unlinkSync(filePath);
+	console.log(`${filePath} deleted successfully`);
+}
 
 // Generate the OpenAPI schema for the tool APIs
-await $`bunx openapi-typescript ${baseURL}/openapi.json -o ${filePath}`;
+exec(`pnpm dlx openapi-typescript ${baseURL}/openapi.json -o ${filePath}`);
