@@ -1,5 +1,5 @@
-import { expect, test } from 'bun:test';
 import pickRandom from '@/lib/pick-random';
+import { expect, test } from 'vitest';
 
 test('Pick Random', async () => {
 	const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];

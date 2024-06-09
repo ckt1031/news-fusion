@@ -187,6 +187,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 			}
 		} catch (error) {
 			consola.error(error);
+			if (isTesting) throw error;
 		}
 	}
 }
