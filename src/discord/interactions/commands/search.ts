@@ -32,6 +32,12 @@ class WebSearchCommand extends CommandStructure {
 				type: ApplicationCommandOptionType.String,
 				required: true,
 			},
+			{
+				name: 'limit',
+				description: 'Maxmium number of search queries to be injected.',
+				type: ApplicationCommandOptionType.Integer,
+				required: false,
+			},
 		],
 	} satisfies RESTPostAPIApplicationCommandsJSONBody;
 
@@ -62,18 +68,23 @@ class WebSearchCommand extends CommandStructure {
 			throw new Error('Invalid interaction type');
 		}
 		if (
-			interaction.data.options[0].type !== ApplicationCommandOptionType.String
+			interaction.data.options[0].type !==
+				ApplicationCommandOptionType.String ||
+			(interaction.data.options[1] &&
+				interaction.data.options[1].type !==
+					ApplicationCommandOptionType.Integer)
 		) {
 			throw new Error('Invalid option type');
 		}
 
 		const content = interaction.data.options[0].value;
+		const limit = interaction.data.options[1]?.value ?? 3;
 
 		const urls = getUrlFromText(content);
 
 		async function webQuery() {
 			const query = await generateSearchQuery(env, content);
-			const queryResults = await webSearch(env, query);
+			const queryResults = await webSearch(env, query, limit);
 
 			// Remove all existing URLs from the search results
 			const filteredResults = urls
