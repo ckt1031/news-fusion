@@ -18,7 +18,7 @@ export async function getSimilarities(env: ServerEnv, embedding: number[]) {
 	const similarGuides = await getDB(env.DATABASE_URL)
 		.select({ name: articles.title, url: articles.url, similarity })
 		.from(articles)
-		.where(gt(similarity, 0.5))
+		.where(gt(similarity, DEFAULT_MINIMUM_SIMILARITY_SCORE))
 		.orderBy((t) => desc(t.similarity))
 		.limit(4);
 
@@ -44,9 +44,7 @@ export async function isArticleSimilar(
 	);
 
 	return {
-		result: similarities.some(
-			(similarity) => similarity.similarity > DEFAULT_MINIMUM_SIMILARITY_SCORE,
-		),
+		result: similarities.length > 0,
 
 		// Sort by decenting order of similarity
 		similarities: similarities.sort((a, b) => b.similarity - a.similarity),
