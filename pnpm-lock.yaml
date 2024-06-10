@@ -14,6 +14,9 @@ importers:
       '@hono/zod-validator':
         specifier: ^0.2.2
         version: 0.2.2(hono@4.4.4)(zod@3.23.8)
+      '@iamtraction/google-translate':
+        specifier: ^2.0.1
+        version: 2.0.1
       '@langchain/core':
         specifier: ^0.2.6
         version: 0.2.6(langchain@0.2.5(fast-xml-parser@4.4.0)(openai@4.49.1)(ws@8.17.0))(openai@4.49.1)
@@ -50,6 +53,9 @@ importers:
       html-entities:
         specifier: ^2.5.2
         version: 2.5.2
+      js-tiktoken:
+        specifier: ^1.0.12
+        version: 1.0.12
       langchain:
         specifier: ^0.2.5
         version: 0.2.5(fast-xml-parser@4.4.0)(openai@4.49.1)(ws@8.17.0)
@@ -922,6 +928,10 @@ packages:
     peerDependencies:
       hono: '>=3.9.0'
       zod: ^3.19.1
+
+  '@iamtraction/google-translate@2.0.1':
+    resolution: {integrity: sha512-kOTkt23zflxpgxLIe9tLvDU8IvNscXYbgMSXydNkZGWDtJ75YJiU3v7EBz+t7h/gSiY7sT5r4dlFkMrHCl+N6A==}
+    engines: {node: '>=16.0.0'}
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -2994,6 +3004,10 @@ snapshots:
     dependencies:
       hono: 4.4.4
       zod: 3.23.8
+
+  '@iamtraction/google-translate@2.0.1':
+    dependencies:
+      undici: 5.28.4
 
   '@isaacs/cliui@8.0.2':
     dependencies:

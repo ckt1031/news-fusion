@@ -105,7 +105,6 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					checkImportance = false;
 				}
 
-				let embedding: number[] = [];
 				let important = !checkImportance;
 
 				const embeddingText = Mustache.render(embeddingTemplate, {
@@ -115,7 +114,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					content,
 				});
 
-				embedding = await requestEmbeddingsAPI({
+				const embedding = await requestEmbeddingsAPI({
 					env,
 					text: embeddingText,
 					timeout: 5 * 1000,

@@ -120,6 +120,7 @@ export async function checkArticleImportance(
 	content: string,
 	custom?: {
 		trace?: boolean;
+		customSystemPrompt?: string;
 	},
 ) {
 	const result = await requestChatCompletionAPI({
@@ -127,7 +128,7 @@ export async function checkArticleImportance(
 		model: env.DEFAULT_CHECK_IMPORTANCE_MODEL ?? DEFAULT_CHECK_IMPORTANCE_MODEL,
 		temperature: 0.1,
 		message: {
-			system: filterImportancePrompt,
+			system: custom?.customSystemPrompt ?? filterImportancePrompt,
 			user: content,
 		},
 		trace: {

@@ -28,13 +28,18 @@ export async function getSimilarities(env: ServerEnv, embedding: number[]) {
 export async function isArticleSimilar(
 	env: ServerEnv,
 	embedding: number[],
-	originalContentURL: string,
+	/**
+	 * If the original content URL is provided, content from the same site will not be marked as similar
+	 */
+	originalContentURL?: string,
 ) {
 	/**
 	 * Same site would not produce similar articles
 	 * This is to prevent the article from same site to be marked as similar
 	 */
-	const hostOfOriginalContent = new URL(originalContentURL).host;
+	const hostOfOriginalContent = originalContentURL
+		? new URL(originalContentURL).host
+		: '';
 
 	const allSimilarities = await getSimilarities(env, embedding);
 
