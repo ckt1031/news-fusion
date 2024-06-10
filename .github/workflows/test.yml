@@ -21,15 +21,18 @@ jobs:
           cache: pnpm
           node-version: 20
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: |
           pnpm install
-          pnpm run generate-tool-api-schema
+          pnpm run prebuild
         env:
           TOOLS_API_BASE_URL: ${{ secrets.TOOLS_API_BASE_URL }}
 
-      - name: Check Project
+      - name: Run lint
         run: pnpm run lint
+
+      - name: Test build
+        run: pnpm run build
 
       - name: Test
         run: TESTING=1 pnpm test

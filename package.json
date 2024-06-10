@@ -4,7 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "wrangler dev src/index.ts",
-		"vercel-build": "pnpm run generate-tool-api-schema && next build && pnpm run register-commands",
+		"build": "next build",
 		"deploy": "wrangler deploy --minify",
 		"lint": "tsc && biome check .",
 		"lint:fix": "tsc && biome format . --write && biome check . --write",
@@ -13,7 +13,8 @@
 		"typecheck": "tsc",
 		"test": "vitest run tests/unit",
 		"register-commands": "tsx scripts/register-commands.ts",
-		"generate-tool-api-schema": "tsx scripts/generate-tool-api-schema.ts"
+		"prebuild": "tsx scripts/generate-tool-api-schema.ts",
+		"news-check": "tsx scripts/news-check.ts"
 	},
 	"dependencies": {
 		"@hono/sentry": "^1.1.0",
