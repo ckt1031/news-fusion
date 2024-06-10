@@ -80,6 +80,10 @@ class WebSearchCommand extends CommandStructure {
 		const content = interaction.data.options[0].value;
 		const limit = interaction.data.options[1]?.value ?? 3;
 
+		if (limit < 1 || limit > 10) {
+			throw new Error('Limit must be between 1 and 10');
+		}
+
 		const urls = getUrlFromText(content);
 
 		async function webQuery() {
