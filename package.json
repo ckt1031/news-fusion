@@ -12,9 +12,9 @@
 		"migrate": "drizzle-kit migrate",
 		"typecheck": "tsc",
 		"test": "vitest run tests/unit",
-		"register-commands": "tsx --env-file=.env scripts/register-commands.ts",
-		"prebuild": "tsx --env-file=.env scripts/generate-tool-api-schema.ts",
-		"news-check": "tsx --env-file=.env scripts/news-check.ts"
+		"register-commands": "tsx scripts/register-commands.ts",
+		"prebuild": "tsx scripts/generate-tool-api-schema.ts",
+		"news-check": "tsx scripts/news-check.ts"
 	},
 	"dependencies": {
 		"@hono/sentry": "^1.1.0",
