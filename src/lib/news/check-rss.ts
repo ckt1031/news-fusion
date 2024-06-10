@@ -4,8 +4,10 @@ import {
 	type RSSChannelItem,
 	type RSSConfig,
 } from '@/config/news-sources';
+import embeddingTemplate from '@/prompts/embedding-template';
 import type { ServerEnv } from '@/types/env';
 import consola from 'consola';
+import Mustache from 'mustache';
 import {
 	addSimilarArticleToDatabase,
 	checkIfNewsIsNew,
@@ -93,7 +95,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 				let thumbnail: string | undefined = item?.thumbnail;
 
-				let content = await getContentMakrdownFromURL(env, item.link);
+				const content = await getContentMakrdownFromURL(env, item.link);
 
 				if (content.length === 0) {
 					consola.error('Got empty content from', item.link);
@@ -101,44 +103,47 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					// If content, importance check and auto summarize are meaningless
 					autoSummarize = false;
 					checkImportance = false;
-
-					content = item.link;
 				}
 
 				let embedding: number[] = [];
 				let important = !checkImportance;
 
-				if (content.length !== 0) {
-					embedding = await requestEmbeddingsAPI({
-						env,
-						text: content,
-						timeout: 5 * 1000,
+				const embeddingText = Mustache.render(embeddingTemplate, {
+					title: item.title,
+					link: item.link,
+					pubDate: item.pubDate,
+					content,
+				});
+
+				embedding = await requestEmbeddingsAPI({
+					env,
+					text: embeddingText,
+					timeout: 5 * 1000,
+				});
+
+				const similar = await isArticleSimilar(env, embedding, item.link);
+
+				// Reject if similar article found
+				if (
+					similar.similarities.length > 0 &&
+					similar.result &&
+					similar.similarities[0]
+				) {
+					const topSimilar = similar.similarities[0];
+
+					consola.box(
+						`Similar article found: ${item.link} -> ${topSimilar.url} (${topSimilar.similarity})`,
+					);
+
+					await addSimilarArticleToDatabase(env, item.link, topSimilar.url);
+
+					continue;
+				}
+
+				if (checkImportance) {
+					important = await checkArticleImportance(env, content, {
+						trace: true,
 					});
-
-					const similar = await isArticleSimilar(env, embedding, item.link);
-
-					// Reject if similar article found
-					if (
-						similar.similarities.length > 0 &&
-						similar.result &&
-						similar.similarities[0]
-					) {
-						const topSimilar = similar.similarities[0];
-
-						consola.box(
-							`Similar article found: ${item.link} -> ${topSimilar.url} (${topSimilar.similarity})`,
-						);
-
-						await addSimilarArticleToDatabase(env, item.link, topSimilar.url);
-
-						continue;
-					}
-
-					if (checkImportance) {
-						important = await checkArticleImportance(env, content, {
-							trace: true,
-						});
-					}
 
 					consola.success(
 						`${item.link} : `,

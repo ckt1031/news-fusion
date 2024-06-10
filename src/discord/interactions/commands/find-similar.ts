@@ -2,7 +2,9 @@ import { editInteractionResponse } from '@/discord/utils';
 import { getContentMarkdownParallel } from '@/lib/get-urls';
 import { requestEmbeddingsAPI } from '@/lib/llm/api';
 import { isArticleSimilar } from '@/lib/news/similarity';
+import { scrapeMetaData } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
+import embeddingTemplate from '@/prompts/embedding-template';
 import { CommandStructure } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
 import type { DiscordInteractionPostContext } from '@/types/hono';
@@ -16,6 +18,7 @@ import {
 	type RESTPostAPIApplicationCommandsJSONBody,
 	type RESTPostAPIInteractionCallbackJSONBody,
 } from 'discord-api-types/v10';
+import Mustache from 'mustache';
 
 class FindSimilarArtilesCommand extends CommandStructure {
 	info = {
@@ -93,9 +96,17 @@ class FindSimilarArtilesCommand extends CommandStructure {
 			return;
 		}
 
+		const metaData = await scrapeMetaData(env, url);
+
+		const embeddingText = Mustache.render(embeddingTemplate, {
+			title: metaData.title,
+			link: url,
+			content: fetchedContent.content,
+		});
+
 		const embedding = await requestEmbeddingsAPI({
 			env,
-			text: fetchedContent.content,
+			text: embeddingText,
 		});
 
 		const similar = await isArticleSimilar(env, embedding, url);
