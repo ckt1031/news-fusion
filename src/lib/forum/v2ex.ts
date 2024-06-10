@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 import { V2EX } from '@/config/forum-sources';
 import embeddingTemplate from '@/prompts/embedding-template';
 import { envSchema } from '@/types/env';
