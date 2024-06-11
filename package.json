@@ -24,6 +24,7 @@
 		"@langchain/openai": "^0.1.2",
 		"@vercel/functions": "^1.0.2",
 		"consola": "^3.2.3",
+		"dax-sh": "^0.41.0",
 		"discord-api-types": "^0.37.88",
 		"discord-interactions": "^3.4.0",
 		"drizzle-orm": "^0.31.2",
