@@ -255,4 +255,4 @@ export const ALL_RSS_CATAGORIES = [
 	RSS_UPDATES,
 ];
 
-export const EARLIEST_HOURS = 6;
+export const EARLIEST_HOURS = 3;

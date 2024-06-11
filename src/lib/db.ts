@@ -17,12 +17,15 @@ export async function clearUnusedDatabaseData() {
 	);
 }
 
-export async function checkIfNewsIsNew(guid: string): Promise<boolean> {
+export async function checkIfNewsIsNew(
+	guid: string,
+	url: string,
+): Promise<boolean> {
 	const result = await db.query.articles.findFirst({
 		where: (d, { eq, or }) =>
 			or(
 				eq(d.guid, guid),
-				arrayOverlaps(schema.articles.similarArticles, [guid]),
+				arrayOverlaps(schema.articles.similarArticles, [url]),
 			),
 	});
 
@@ -30,15 +33,15 @@ export async function checkIfNewsIsNew(guid: string): Promise<boolean> {
 }
 
 export async function addSimilarArticleToDatabase(
-	url: string,
-	similarUrl: string,
+	databaseExistedURL: string,
+	incomingSimilarURL: string,
 ) {
 	await db
 		.update(schema.articles)
 		.set({
-			similarArticles: sql`array_append(${schema.articles.similarArticles}, ${similarUrl})`,
+			similarArticles: sql`array_append(${schema.articles.similarArticles}, ${incomingSimilarURL})`,
 		})
-		.where(eq(schema.articles.url, url));
+		.where(eq(schema.articles.url, databaseExistedURL));
 }
 
 export async function createArticleDatabase(data: NewArticle) {

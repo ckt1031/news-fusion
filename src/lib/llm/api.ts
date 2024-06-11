@@ -10,12 +10,6 @@ import {
 	Langfuse,
 } from 'langfuse-langchain';
 
-// DEFAULT_SUMMARIZE_MODEL: z.string().optional(),
-// 	DEFAULT_TRANSLATE_MODEL: z.string().optional(),
-// 	DEFAULT_TITLE_GENERATE_MODEL: z.string().optional(),
-// 	DEFAULT_CHECK_IMPORTANCE_MODEL: z.string().optional(),
-// 	DEFAULT_SEARCH_QUERY_GENERATE_MODEL: z.string().optional(),
-
 export type TextCompletionsGenerateProps = {
 	env: Pick<ServerEnv, 'OPENAI_API_KEY' | 'OPENAI_API_BASE_URL'> &
 		Partial<ServerEnv>;

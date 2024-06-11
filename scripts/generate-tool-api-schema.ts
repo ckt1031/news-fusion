@@ -1,4 +1,4 @@
-import $ from "dax-sh";
+import $ from 'dax-sh';
 
 const baseURL =
 	process.env.TOOLS_API_BASE_URL ?? 'https://tool-api.tsun1031.xyz';
