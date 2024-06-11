@@ -106,7 +106,7 @@ async function checkV2EXDission(props: {
 		return;
 	}
 
-	const isNew = await checkIfNewsIsNew(env, props.guid);
+	const isNew = await checkIfNewsIsNew(props.guid);
 
 	if (!isNew) {
 		consola.info('Skip', props.title);
@@ -135,16 +135,12 @@ async function checkV2EXDission(props: {
 		timeout: 5 * 1000,
 	});
 
-	const similar = await isArticleSimilar(env, embedding, props.link);
+	const similar = await isArticleSimilar(embedding, props.link);
 
 	if (similar.result && similar.similarities[0]) {
 		consola.success('Similar article found for', props.title);
 
-		await addSimilarArticleToDatabase(
-			env,
-			props.link,
-			similar.similarities[0].url,
-		);
+		await addSimilarArticleToDatabase(props.link, similar.similarities[0].url);
 
 		return;
 	}
@@ -175,7 +171,7 @@ async function checkV2EXDission(props: {
 		});
 	}
 
-	await createArticleDatabase(env, {
+	await createArticleDatabase({
 		important,
 		title: props.title,
 		url: props.link,

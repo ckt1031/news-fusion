@@ -1,8 +1,7 @@
 import { DEFAULT_MINIMUM_SIMILARITY_SCORE } from '@/config/api';
 import { articles } from '@/db/schema';
-import type { ServerEnv } from '@/types/env';
 import { cosineDistance, desc, gt, sql } from 'drizzle-orm';
-import { getDB } from '../db';
+import { db } from '../db';
 
 /**
  * Drizzle ORM with vector for PostgreSQL
@@ -12,10 +11,10 @@ import { getDB } from '../db';
 /**
  * Get a list of similar articles based on the text
  */
-export async function getSimilarities(env: ServerEnv, embedding: number[]) {
+export async function getSimilarities(embedding: number[]) {
 	const similarity = sql<number>`1 - (${cosineDistance(articles.embedding, embedding)})`;
 
-	const similarGuides = await getDB(env.DATABASE_URL)
+	const similarGuides = db
 		.select({ name: articles.title, url: articles.url, similarity })
 		.from(articles)
 		.where(gt(similarity, DEFAULT_MINIMUM_SIMILARITY_SCORE))
@@ -26,7 +25,6 @@ export async function getSimilarities(env: ServerEnv, embedding: number[]) {
 }
 
 export async function isArticleSimilar(
-	env: ServerEnv,
 	embedding: number[],
 	/**
 	 * If the original content URL is provided, content from the same site will not be marked as similar
@@ -41,7 +39,7 @@ export async function isArticleSimilar(
 		? new URL(originalContentURL).host
 		: '';
 
-	const allSimilarities = await getSimilarities(env, embedding);
+	const allSimilarities = await getSimilarities(embedding);
 
 	// Filter out the original content
 	const similarities = allSimilarities.filter(

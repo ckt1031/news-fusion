@@ -109,7 +109,7 @@ class FindSimilarArtilesCommand extends CommandStructure {
 			text: embeddingText,
 		});
 
-		const similar = await isArticleSimilar(env, embedding, url);
+		const similar = await isArticleSimilar(embedding, url);
 
 		await editResponse({
 			content: similar.result

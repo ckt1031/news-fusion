@@ -4,7 +4,7 @@ import type { ServerEnv } from '@/types/env';
 import { sentry } from '@hono/sentry';
 import consola from 'consola';
 import { Hono } from 'hono';
-import { env, getRuntimeKey } from 'hono/adapter';
+import { getRuntimeKey } from 'hono/adapter';
 import { HTTPException } from 'hono/http-exception';
 import { reportToSentryOnHono } from './on-error';
 
@@ -35,13 +35,11 @@ app.get('/versions', (c) => {
 
 // Vercel Cron Job
 app.get('/cron/vercel', async (c) => {
-	const environment = env(c);
-
 	if (c.req.header('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
 		return c.text('Unauthorized', 401);
 	}
 
-	await clearUnusedDatabaseData(environment);
+	await clearUnusedDatabaseData();
 
 	return c.text('Cron job done');
 });

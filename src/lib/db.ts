@@ -1,19 +1,15 @@
 import * as schema from '@/db/schema';
 import type { NewArticle } from '@/db/schema';
-import type { ServerEnv } from '@/types/env';
 import { arrayOverlaps, eq, lt, sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import removeTrailingSlash from './remove-trailing-slash';
 
-export function getDB(connectionString: string) {
-	const client = postgres(connectionString, { prepare: false });
-	return drizzle(client, { schema });
-}
+const client = postgres(process.env.DATABASE_URL ?? '', { prepare: false });
 
-export async function clearUnusedDatabaseData(env: ServerEnv) {
-	const db = getDB(env.DATABASE_URL);
+export const db = drizzle(client, { schema });
 
+export async function clearUnusedDatabaseData() {
 	// Delete articles that are 7 days old
 	await db.delete(schema.articles).where(
 		// 604800000 = 7 days
@@ -21,12 +17,7 @@ export async function clearUnusedDatabaseData(env: ServerEnv) {
 	);
 }
 
-export async function checkIfNewsIsNew(
-	env: ServerEnv,
-	guid: string,
-): Promise<boolean> {
-	const db = getDB(env.DATABASE_URL);
-
+export async function checkIfNewsIsNew(guid: string): Promise<boolean> {
 	const result = await db.query.articles.findFirst({
 		where: (d, { eq, or }) =>
 			or(
@@ -39,12 +30,9 @@ export async function checkIfNewsIsNew(
 }
 
 export async function addSimilarArticleToDatabase(
-	env: ServerEnv,
 	url: string,
 	similarUrl: string,
 ) {
-	const db = getDB(env.DATABASE_URL);
-
 	await db
 		.update(schema.articles)
 		.set({
@@ -53,19 +41,14 @@ export async function addSimilarArticleToDatabase(
 		.where(eq(schema.articles.url, url));
 }
 
-export async function createArticleDatabase(env: ServerEnv, data: NewArticle) {
-	const db = getDB(env.DATABASE_URL);
-
+export async function createArticleDatabase(data: NewArticle) {
 	await db.insert(schema.articles).values(data);
 }
 
 export async function updateArticleDatabase(
-	env: ServerEnv,
 	url: string,
 	data: Partial<NewArticle>,
 ) {
-	const db = getDB(env.DATABASE_URL);
-
 	await db
 		.update(schema.articles)
 		.set(data)

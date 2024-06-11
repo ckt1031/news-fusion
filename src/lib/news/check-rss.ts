@@ -69,7 +69,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 				if (!filterRSS({ url, title: item.title })) continue;
 
-				const isNew = await checkIfNewsIsNew(env, item.guid);
+				const isNew = await checkIfNewsIsNew(item.guid);
 
 				// Rejected if the news was already checked
 				if (!isNew) continue;
@@ -120,7 +120,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					timeout: 5 * 1000,
 				});
 
-				const similar = await isArticleSimilar(env, embedding, item.link);
+				const similar = await isArticleSimilar(embedding, item.link);
 
 				// Reject if similar article found
 				if (
@@ -134,7 +134,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						`Similar article found: ${item.link} -> ${topSimilar.url} (${topSimilar.similarity})`,
 					);
 
-					await addSimilarArticleToDatabase(env, item.link, topSimilar.url);
+					await addSimilarArticleToDatabase(item.link, topSimilar.url);
 
 					continue;
 				}
@@ -186,7 +186,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					});
 				}
 
-				await createArticleDatabase(env, {
+				await createArticleDatabase({
 					important,
 					title: item.title,
 					url: item.link,

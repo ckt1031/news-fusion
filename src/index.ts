@@ -22,7 +22,7 @@ export default {
 
 		// Every 2 days
 		if (event.cron === '0 0 */2 * *') {
-			ctx.waitUntil(clearUnusedDatabaseData(env).catch(handleCrash));
+			ctx.waitUntil(clearUnusedDatabaseData().catch(handleCrash));
 		}
 	},
 	fetch: app.fetch,
