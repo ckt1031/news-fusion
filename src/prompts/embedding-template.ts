@@ -1,7 +1,7 @@
 const embeddingTemplate = `
 Title: {{title}}
 Link: {{link}}
-PubDate: {{pubDate}}
+Publication Date: {{pubDate}}
 {{content}}
 `;
 

@@ -45,7 +45,6 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.8.1",
-		"@cloudflare/workers-types": "^4.20240605.0",
 		"@types/mustache": "^4.2.5",
 		"@types/node": "^20.14.2",
 		"@types/react": "^18.3.3",
@@ -54,8 +53,7 @@
 		"supabase": "^1.172.2",
 		"tsx": "^4.15.1",
 		"typescript": "5.4.5",
-		"vitest": "^1.6.0",
-		"wrangler": "^3.60.0"
+		"vitest": "^1.6.0"
 	},
 	"packageManager": "pnpm@9.3.0"
 }

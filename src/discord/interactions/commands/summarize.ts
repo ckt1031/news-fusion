@@ -38,7 +38,7 @@ class SummarizeCommand extends CommandStructure {
 		c: DiscordInteractionPostContext,
 		interaction: APIApplicationCommandInteraction,
 	) {
-		waitUntil(c, this.handleLogic(c.env, interaction));
+		waitUntil(this.handleLogic(c.env, interaction));
 
 		return c.json({
 			type: InteractionResponseType.ChannelMessageWithSource,

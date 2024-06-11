@@ -20,7 +20,7 @@ class ReTranslationButton extends ButtonStructure {
 		c: DiscordInteractionPostContext,
 		interaction: APIMessageComponentInteraction,
 	) {
-		waitUntil(c, this.handleLogic(c.env, interaction));
+		waitUntil(this.handleLogic(c.env, interaction));
 
 		return c.json({
 			type: InteractionResponseType.DeferredMessageUpdate,

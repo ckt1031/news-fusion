@@ -127,6 +127,7 @@ async function checkV2EXDission(props: {
 		title: props.title,
 		link: props.link,
 		content: markdown,
+		pubdDate: props.pubDate,
 	});
 
 	const embedding = await requestEmbeddingsAPI({
