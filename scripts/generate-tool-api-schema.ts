@@ -6,7 +6,7 @@ const baseURL =
 const filePath = './src/types/tool-apis.d.ts';
 
 // Remove the existing schema file
-await $`rm -f ${filePath}`;
+// await $`rm -f ${filePath}`;
 
 // Generate the OpenAPI schema for the tool APIs
 await $`pnpm dlx openapi-typescript ${baseURL}/openapi.json -o ${filePath}`;
