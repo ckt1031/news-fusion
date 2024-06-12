@@ -19,7 +19,7 @@ import {
 	summarizeIntoShortText,
 } from '../llm/prompt-calls';
 import { parseRSS } from '../parse-news';
-import { getContentMakrdownFromURL, scrapeMetaData } from '../tool-apis';
+import { getContentMarkdownFromURL, scrapeMetaData } from '../tool-apis';
 import filterRSS from './filter-news';
 import { getRSSHubURL } from './rsshub';
 import sendNewsToDiscord from './send-discord-news';
@@ -63,6 +63,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 			if (!feed || isTesting) continue;
 
 			for (const item of feed.item) {
+				try {
 				/**
 				 * Single Item Area
 				 */
@@ -95,7 +96,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 				let thumbnail: string | undefined = item?.thumbnail;
 
-				const content = await getContentMakrdownFromURL(env, item.link);
+				const content = await getContentMarkdownFromURL(env, item.link);
 
 				if (content.length === 0) {
 					consola.error('Got empty content from', item.link);
@@ -196,6 +197,9 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					publishedAt: new Date(item.pubDate),
 					embedding,
 				});
+			} catch (error) {
+				consola.error(error);
+			}
 			}
 		} catch (error) {
 			consola.error(error);

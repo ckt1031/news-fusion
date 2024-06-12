@@ -24,7 +24,7 @@ function getClient(env: ScrapeMarkdownVar) {
 	return client;
 }
 
-export async function getContentMakrdownFromURL(
+export async function getContentMarkdownFromURL(
 	env: ScrapeMarkdownVar,
 	url: string,
 ) {

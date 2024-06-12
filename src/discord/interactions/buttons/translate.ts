@@ -6,7 +6,7 @@ import {
 	discordTextSplit,
 } from '@/discord/utils';
 import { translateText } from '@/lib/llm/prompt-calls';
-import { getContentMakrdownFromURL } from '@/lib/tool-apis';
+import { getContentMarkdownFromURL } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
 import { ButtonStructure, DiscordBotInteractionButtons } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
@@ -90,7 +90,7 @@ class TranslateButton extends ButtonStructure {
 				throw new Error('No URL found');
 			}
 
-			const content = await getContentMakrdownFromURL(env, url);
+			const content = await getContentMarkdownFromURL(env, url);
 
 			const translation = await translateText(env, content);
 

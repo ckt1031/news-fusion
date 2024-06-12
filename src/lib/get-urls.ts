@@ -1,7 +1,7 @@
 import { instructionIncludedPrompt } from '@/prompts/summarize';
 import type { ServerEnv } from '@/types/env';
 import Mustache from 'mustache';
-import { getContentMakrdownFromURL } from './tool-apis';
+import { getContentMarkdownFromURL } from './tool-apis';
 
 export function getUrlFromText(text: string) {
 	const urlPattern = /(https?:\/\/[^\s)]+)/g;
@@ -22,7 +22,7 @@ export async function getContentMarkdownParallel(
 	// Use Promise.all to summarize multiple URLs
 	const summaries = await Promise.all(
 		urls.map((url) =>
-			getContentMakrdownFromURL(env, url)
+			getContentMarkdownFromURL(env, url)
 				.then((d) => ({
 					url,
 					content: d,

@@ -6,7 +6,7 @@ import {
 	discordTextSplit,
 } from '@/discord/utils';
 import { summarizeText } from '@/lib/llm/prompt-calls';
-import { getContentMakrdownFromURL } from '@/lib/tool-apis';
+import { getContentMarkdownFromURL } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
 import { ButtonStructure, DiscordBotInteractionButtons } from '@/types/discord';
 import type { ServerEnv } from '@/types/env';
@@ -48,7 +48,7 @@ class SummarizeButton extends ButtonStructure {
 
 		const url = parentMessage.embeds[0].url;
 
-		const content = await getContentMakrdownFromURL(env, url);
+		const content = await getContentMarkdownFromURL(env, url);
 
 		const text = await summarizeText(env, content);
 

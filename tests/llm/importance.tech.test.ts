@@ -1,5 +1,5 @@
 import { checkArticleImportance } from '@/lib/llm/prompt-calls';
-import { getContentMakrdownFromURL } from '@/lib/tool-apis';
+import { getContentMarkdownFromURL } from '@/lib/tool-apis';
 import { envSchema } from '@/types/env';
 import consola from 'consola';
 import { describe, expect, test } from 'vitest';
@@ -33,7 +33,7 @@ describe(
 			];
 
 			for (const news of list) {
-				const content = await getContentMakrdownFromURL(env, news);
+				const content = await getContentMarkdownFromURL(env, news);
 
 				const importantEnough = await checkArticleImportance(env, content);
 
@@ -54,7 +54,7 @@ describe(
 			];
 
 			for (const news of list) {
-				const content = await getContentMakrdownFromURL(env, news);
+				const content = await getContentMarkdownFromURL(env, news);
 
 				const importantEnough = await checkArticleImportance(env, content);
 

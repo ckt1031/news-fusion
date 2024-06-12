@@ -18,7 +18,7 @@ import {
 import sendNewsToDiscord from '../news/send-discord-news';
 import { isArticleSimilar } from '../news/similarity';
 import { parseRSS } from '../parse-news';
-import { getContentMakrdownFromURL } from '../tool-apis';
+import { getContentMarkdownFromURL } from '../tool-apis';
 import { checkPrompt } from './prompt';
 
 async function checkForumItem(props: {
@@ -44,7 +44,7 @@ async function checkForumItem(props: {
 		return;
 	}
 
-	let markdown = await getContentMakrdownFromURL(props.env, props.link);
+	let markdown = await getContentMarkdownFromURL(props.env, props.link);
 
 	const enc = getEncoding('cl100k_base');
 	const tokens = enc.encode(markdown).length;
