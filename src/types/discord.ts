@@ -47,7 +47,8 @@ export type DiscordMessageProp =
 	| PatchDiscordMessageProp;
 
 export abstract class CommandStructure {
-	info!: RESTPostAPIApplicationCommandsJSONBody;
+	abstract info: RESTPostAPIApplicationCommandsJSONBody;
+	abstract allowedRoles?: string[];
 	abstract execute(
 		c: DiscordInteractionPostContext,
 		interaction: APIMessageApplicationCommandInteraction,
@@ -59,7 +60,8 @@ export abstract class CommandStructure {
 }
 
 export abstract class ButtonStructure {
-	readonly id!: DiscordBotInteractionButtons;
+	abstract id: DiscordBotInteractionButtons;
+	abstract allowedRoles?: string[];
 	abstract execute(
 		c: DiscordInteractionPostContext,
 		interaction: APIMessageComponentInteraction,

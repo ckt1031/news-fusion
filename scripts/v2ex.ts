@@ -1,8 +1,8 @@
 import { exit } from 'node:process';
 import { V2EX } from '@/config/forum-sources';
+import { getLangfuse } from '@/lib/llm/api';
 import { envSchema } from '@/types/env';
 import { checkForum } from '../src/lib/forum';
-import { getLangfuse } from '@/lib/llm/api';
 
 process.env.DEFAULT_SUMMARIZE_MODEL = 'yi-medium';
 process.env.DEFAULT_CHECK_IMPORTANCE_MODEL = 'yi-large';

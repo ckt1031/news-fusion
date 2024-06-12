@@ -1,3 +1,4 @@
+import { BOT_ALLOWED_ROLES_ID } from '@/config/api';
 import { discordMessage, discordTextSplit } from '@/discord/utils';
 import {
 	contentToSummarizePromptTemplate,
@@ -20,7 +21,7 @@ import {
 } from 'discord-api-types/v10';
 
 class SummarizeCommand extends CommandStructure {
-	info = {
+	info: RESTPostAPIApplicationCommandsJSONBody = {
 		name: 'summarize',
 		description: 'Summarize articles or text.',
 		type: ApplicationCommandType.ChatInput,
@@ -32,7 +33,9 @@ class SummarizeCommand extends CommandStructure {
 				required: true,
 			},
 		],
-	} satisfies RESTPostAPIApplicationCommandsJSONBody;
+	};
+
+	allowedRoles = BOT_ALLOWED_ROLES_ID;
 
 	async execute(
 		c: DiscordInteractionPostContext,

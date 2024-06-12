@@ -1,3 +1,4 @@
+import { BOT_ALLOWED_ROLES_ID } from '@/config/api';
 import { discordMessage, discordTextSplit } from '@/discord/utils';
 import {
 	contentToSummarizePromptTemplate,
@@ -21,7 +22,7 @@ import {
 } from 'discord-api-types/v10';
 
 class WebSearchCommand extends CommandStructure {
-	info = {
+	info: RESTPostAPIApplicationCommandsJSONBody = {
 		name: 'web-search',
 		description: 'Search the web for information.',
 		type: ApplicationCommandType.ChatInput,
@@ -39,7 +40,9 @@ class WebSearchCommand extends CommandStructure {
 				required: false,
 			},
 		],
-	} satisfies RESTPostAPIApplicationCommandsJSONBody;
+	};
+
+	allowedRoles = BOT_ALLOWED_ROLES_ID;
 
 	async execute(
 		c: DiscordInteractionPostContext,

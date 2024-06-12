@@ -1,3 +1,4 @@
+import { BOT_ALLOWED_ROLES_ID } from '@/config/api';
 import {
 	discordMessage,
 	getAllMessagesInDiscordChannel,
@@ -16,6 +17,9 @@ import {
 
 class ReTranslationButton extends ButtonStructure {
 	id = DiscordBotInteractionButtons.ReTranslate;
+
+	allowedRoles = BOT_ALLOWED_ROLES_ID;
+
 	async execute(
 		c: DiscordInteractionPostContext,
 		interaction: APIMessageComponentInteraction,

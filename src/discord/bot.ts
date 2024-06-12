@@ -45,6 +45,17 @@ app.post('/', async (c) => {
 			throw new Error(`Invalid command name: ${interaction.data.name}`);
 		}
 
+		if (
+			command.allowedRoles &&
+			command.allowedRoles.filter((value) =>
+				interaction.member?.roles.includes(value),
+			).length === 0
+		) {
+			throw new Error(
+				`User does not have the required role to run this command: ${interaction.data.name}`,
+			);
+		}
+
 		consola.info(`Button Run: ${command.info.name}`);
 
 		return await command.execute(c, interaction);
@@ -60,6 +71,17 @@ app.post('/', async (c) => {
 
 			if (!button) {
 				throw new Error(`Invalid button ID: ${interaction.data.custom_id}`);
+			}
+
+			if (
+				button.allowedRoles &&
+				button.allowedRoles.filter((value) =>
+					interaction.member?.roles.includes(value),
+				).length === 0
+			) {
+				throw new Error(
+					`User does not have the required role to run this button: ${interaction.data.custom_id}`,
+				);
 			}
 
 			consola.info(`Button Run: ${button.id}`);

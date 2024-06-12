@@ -1,3 +1,4 @@
+import { BOT_ALLOWED_ROLES_ID } from '@/config/api';
 import {
 	discordMessage,
 	getAllMessagesInDiscordChannel,
@@ -13,6 +14,9 @@ import { InteractionResponseType, MessageType } from 'discord-api-types/v10';
 
 class ReSummarizeButton extends ButtonStructure {
 	id = DiscordBotInteractionButtons.ReSummarize;
+
+	allowedRoles = BOT_ALLOWED_ROLES_ID;
+
 	async execute(
 		c: DiscordInteractionPostContext,
 		interaction: APIMessageComponentInteraction,

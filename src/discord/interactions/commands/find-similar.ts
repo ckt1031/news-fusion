@@ -1,3 +1,4 @@
+import { BOT_ALLOWED_ROLES_ID } from '@/config/api';
 import { editInteractionResponse } from '@/discord/utils';
 import { getContentMarkdownParallel } from '@/lib/get-urls';
 import { requestEmbeddingsAPI } from '@/lib/llm/api';
@@ -21,7 +22,7 @@ import {
 import Mustache from 'mustache';
 
 class FindSimilarArtilesCommand extends CommandStructure {
-	info = {
+	info: RESTPostAPIApplicationCommandsJSONBody = {
 		name: 'find-similar',
 		description: 'Find similar articles from the given URL.',
 		type: ApplicationCommandType.ChatInput,
@@ -33,7 +34,9 @@ class FindSimilarArtilesCommand extends CommandStructure {
 				required: true,
 			},
 		],
-	} satisfies RESTPostAPIApplicationCommandsJSONBody;
+	};
+
+	allowedRoles = BOT_ALLOWED_ROLES_ID;
 
 	async execute(
 		c: DiscordInteractionPostContext,

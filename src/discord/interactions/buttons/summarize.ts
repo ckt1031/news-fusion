@@ -1,3 +1,4 @@
+import { BOT_ALLOWED_ROLES_ID } from '@/config/api';
 import {
 	createNewsInfoDiscordThread,
 	deleteThreadCreatedMessage,
@@ -21,6 +22,9 @@ import {
 
 class SummarizeButton extends ButtonStructure {
 	id = DiscordBotInteractionButtons.Summarize;
+
+	allowedRoles = BOT_ALLOWED_ROLES_ID;
+
 	async execute(
 		c: DiscordInteractionPostContext,
 		interaction: APIMessageComponentInteraction,
