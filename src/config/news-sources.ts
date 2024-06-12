@@ -144,6 +144,7 @@ export const RSS_DEV: RSSCatacory = {
 	discordChannelId: '1245006701812387890',
 	checkImportance: false,
 	channels: [
+		'https://stability.ai/news?format=rss',
 		'https://blog.cloudflare.com/rss',
 		'https://github.blog/feed',
 		// AI
@@ -243,16 +244,16 @@ export const RSS_UPDATES: RSSCatacory = {
 };
 
 export const ALL_RSS_CATAGORIES = [
-	RSS_GENERAL,
-	RSS_HKG,
+	RSS_ALERTS,
+	RSS_TECH,
 	RSS_SCIENCE,
 	RSS_THINKING,
 	RSS_VIDEOS,
-	RSS_TECH,
 	RSS_DEV,
-	RSS_ALERTS,
 	RSS_BLOGS,
 	RSS_UPDATES,
+	RSS_GENERAL,
+	RSS_HKG,
 ];
 
 export const EARLIEST_HOURS = 3;

@@ -64,142 +64,142 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 			for (const item of feed.item) {
 				try {
-				/**
-				 * Single Item Area
-				 */
+					/**
+					 * Single Item Area
+					 */
 
-				if (!filterRSS({ url, title: item.title })) continue;
+					if (!filterRSS({ url, title: item.title })) continue;
 
-				const isNew = await checkIfNewsIsNew(item.guid, item.link);
+					const isNew = await checkIfNewsIsNew(item.guid, item.link);
 
-				// Rejected if the news was already checked
-				if (!isNew) continue;
+					// Rejected if the news was already checked
+					if (!isNew) continue;
 
-				let autoSummarize = getConfiguration(
-					catagory,
-					channel,
-					'autoSummarize',
-					true,
-				);
-				const includeAIButtons = getConfiguration(
-					catagory,
-					channel,
-					'includeAIButtons',
-					true,
-				);
-				let checkImportance = getConfiguration(
-					catagory,
-					channel,
-					'checkImportance',
-					true,
-				);
-
-				let thumbnail: string | undefined = item?.thumbnail;
-
-				const content = await getContentMarkdownFromURL(env, item.link);
-
-				if (content.length === 0) {
-					consola.error('Got empty content from', item.link);
-
-					// If content, importance check and auto summarize are meaningless
-					autoSummarize = false;
-					checkImportance = false;
-				}
-
-				let important = !checkImportance;
-
-				const embeddingText = Mustache.render(embeddingTemplate, {
-					title: item.title,
-					link: item.link,
-					pubDate: item.pubDate,
-					content,
-				});
-
-				const embedding = await requestEmbeddingsAPI({
-					env,
-					text: embeddingText,
-					timeout: 5 * 1000,
-				});
-
-				const similar = await isArticleSimilar(embedding, item.link);
-
-				// Reject if similar article found
-				if (
-					similar.similarities.length > 0 &&
-					similar.result &&
-					similar.similarities[0]
-				) {
-					const topSimilar = similar.similarities[0];
-
-					consola.box(
-						`Similar article found: ${item.link} -> ${topSimilar.url} (${topSimilar.similarity})`,
+					let autoSummarize = getConfiguration(
+						catagory,
+						channel,
+						'autoSummarize',
+						true,
+					);
+					const includeAIButtons = getConfiguration(
+						catagory,
+						channel,
+						'includeAIButtons',
+						true,
+					);
+					let checkImportance = getConfiguration(
+						catagory,
+						channel,
+						'checkImportance',
+						true,
 					);
 
-					await addSimilarArticleToDatabase(topSimilar.url, item.link);
+					let thumbnail: string | undefined = item?.thumbnail;
 
-					continue;
-				}
+					const content = await getContentMarkdownFromURL(env, item.link);
 
-				if (checkImportance) {
-					important = await checkArticleImportance(env, content, {
-						trace: true,
+					if (content.length === 0) {
+						consola.error('Got empty content from', item.link);
+
+						// If content, importance check and auto summarize are meaningless
+						autoSummarize = false;
+						checkImportance = false;
+					}
+
+					let important = !checkImportance;
+
+					const embeddingText = Mustache.render(embeddingTemplate, {
+						title: item.title,
+						link: item.link,
+						pubDate: item.pubDate,
+						content,
 					});
 
-					consola.success(
-						`${item.link} : `,
-						`${important ? 'Important' : 'Not Important'}`,
-					);
-				}
-
-				if (important) {
-					let shortSummary: string | undefined = undefined;
-
-					if (autoSummarize && content.length !== 0) {
-						shortSummary = await summarizeIntoShortText(env, content);
-						consola.success(`Short Summary ( ${item.link} ):`, shortSummary);
-					}
-
-					if (!thumbnail) {
-						try {
-							thumbnail = (await scrapeMetaData(env, item.link)).image;
-						} catch (error) {
-							consola.error('Failed to get thumbnail:', error);
-						}
-					}
-
-					await sendNewsToDiscord({
+					const embedding = await requestEmbeddingsAPI({
 						env,
-						data: {
-							...(autoSummarize &&
-								shortSummary && { description: shortSummary }),
-							feed: {
-								title: feed.title,
-							},
-							news: {
-								title: item.title,
-								link: item.link,
-								pubDate: item.pubDate,
-							},
-							channelId: catagory.discordChannelId,
-							includeAIButtons,
-							thumbnail,
-						},
+						text: embeddingText,
+						timeout: 5 * 1000,
 					});
-				}
 
-				await createArticleDatabase({
-					important,
-					title: item.title,
-					url: item.link,
-					publisher: feed.title,
-					category: catagory.name,
-					guid: item.guid,
-					publishedAt: new Date(item.pubDate),
-					embedding,
-				});
-			} catch (error) {
-				consola.error(error);
-			}
+					const similar = await isArticleSimilar(embedding, item.link);
+
+					// Reject if similar article found
+					if (
+						similar.similarities.length > 0 &&
+						similar.result &&
+						similar.similarities[0]
+					) {
+						const topSimilar = similar.similarities[0];
+
+						consola.box(
+							`Similar article found: ${item.link} -> ${topSimilar.url} (${topSimilar.similarity})`,
+						);
+
+						await addSimilarArticleToDatabase(topSimilar.url, item.link);
+
+						continue;
+					}
+
+					if (checkImportance) {
+						important = await checkArticleImportance(env, content, {
+							trace: true,
+						});
+
+						consola.success(
+							`${item.link} : `,
+							`${important ? 'Important' : 'Not Important'}`,
+						);
+					}
+
+					if (important) {
+						let shortSummary: string | undefined = undefined;
+
+						if (autoSummarize && content.length !== 0) {
+							shortSummary = await summarizeIntoShortText(env, content);
+							consola.success(`Short Summary ( ${item.link} ):`, shortSummary);
+						}
+
+						if (!thumbnail) {
+							try {
+								thumbnail = (await scrapeMetaData(env, item.link)).image;
+							} catch (error) {
+								consola.error('Failed to get thumbnail:', error);
+							}
+						}
+
+						await sendNewsToDiscord({
+							env,
+							data: {
+								...(autoSummarize &&
+									shortSummary && { description: shortSummary }),
+								feed: {
+									title: feed.title,
+								},
+								news: {
+									title: item.title,
+									link: item.link,
+									pubDate: item.pubDate,
+								},
+								channelId: catagory.discordChannelId,
+								includeAIButtons,
+								thumbnail,
+							},
+						});
+					}
+
+					await createArticleDatabase({
+						important,
+						title: item.title,
+						url: item.link,
+						publisher: feed.title,
+						category: catagory.name,
+						guid: item.guid,
+						publishedAt: new Date(item.pubDate),
+						embedding,
+					});
+				} catch (error) {
+					consola.error(error);
+				}
 			}
 		} catch (error) {
 			consola.error(error);
