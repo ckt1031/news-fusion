@@ -22,7 +22,7 @@ importers:
         version: 0.2.6(langchain@0.2.5(fast-xml-parser@4.4.0)(openai@4.50.0)(ws@8.17.0))(openai@4.50.0)
       '@langchain/openai':
         specifier: ^0.1.2
-        version: 0.1.2(langchain@0.2.5(fast-xml-parser@4.4.0)(openai@4.50.0)(ws@8.17.0))
+        version: 0.1.3(langchain@0.2.5(fast-xml-parser@4.4.0)(openai@4.50.0)(ws@8.17.0))
       '@vercel/functions':
         specifier: ^1.0.2
         version: 1.0.2
@@ -772,8 +772,8 @@ packages:
     resolution: {integrity: sha512-YB9F0vdi/PcgBLSKtDwQ3gV6w4xVfk4ph0U43Okz2dAapKfBkVVB0rzr/afYUt/WHs864MuaO8uLN64egSDtIA==}
     engines: {node: '>=18'}
 
-  '@langchain/openai@0.1.2':
-    resolution: {integrity: sha512-giydNZyEzUBrjZrmQRfnc2SI0+TyAjaVMd8wMKq8O4X/Y3BJd0LFlfD+3MM6Lyu/qaphZ1Ycfr7XR5hY0EcGqQ==}
+  '@langchain/openai@0.1.3':
+    resolution: {integrity: sha512-riv/JC9x2A8b7GcHu8sx+mlZJ8KAwSSi231IPTlcciYnKozmrQ5H0vrtiD31fxiDbaRsk7tyCpkSBIOQEo7CyQ==}
     engines: {node: '>=18'}
 
   '@langchain/textsplitters@0.0.3':
@@ -2618,7 +2618,7 @@ snapshots:
       - langchain
       - openai
 
-  '@langchain/openai@0.1.2(langchain@0.2.5(fast-xml-parser@4.4.0)(openai@4.50.0)(ws@8.17.0))':
+  '@langchain/openai@0.1.3(langchain@0.2.5(fast-xml-parser@4.4.0)(openai@4.50.0)(ws@8.17.0))':
     dependencies:
       '@langchain/core': 0.2.6(langchain@0.2.5(fast-xml-parser@4.4.0)(openai@4.50.0)(ws@8.17.0))(openai@4.50.0)
       js-tiktoken: 1.0.12
@@ -3268,7 +3268,7 @@ snapshots:
   langchain@0.2.5(fast-xml-parser@4.4.0)(openai@4.50.0)(ws@8.17.0):
     dependencies:
       '@langchain/core': 0.2.6(langchain@0.2.5(fast-xml-parser@4.4.0)(openai@4.50.0)(ws@8.17.0))(openai@4.50.0)
-      '@langchain/openai': 0.1.2(langchain@0.2.5(fast-xml-parser@4.4.0)(openai@4.50.0)(ws@8.17.0))
+      '@langchain/openai': 0.1.3(langchain@0.2.5(fast-xml-parser@4.4.0)(openai@4.50.0)(ws@8.17.0))
       '@langchain/textsplitters': 0.0.3(langchain@0.2.5(fast-xml-parser@4.4.0)(openai@4.50.0)(ws@8.17.0))(openai@4.50.0)
       binary-extensions: 2.3.0
       js-tiktoken: 1.0.12
