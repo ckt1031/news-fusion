@@ -37,7 +37,7 @@ export const RSS_GENERAL: RSSCatacory = {
 	name: RSS_CATEGORY.GENERAL,
 	discordChannelId: '1245738873787645962',
 	channels: [
-		'https://rss.politico.com/politics-news.xml',
+		//'https://rss.politico.com/politics-news.xml',
 		'https://feeds.bbci.co.uk/news/world/rss.xml',
 	],
 };
