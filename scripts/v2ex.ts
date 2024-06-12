@@ -1,7 +1,8 @@
 import { exit } from 'node:process';
 import { V2EX } from '@/config/forum-sources';
 import { envSchema } from '@/types/env';
-import { checkForum } from '.';
+import { checkForum } from '../src/lib/forum';
+import { getLangfuse } from '@/lib/llm/api';
 
 process.env.DEFAULT_SUMMARIZE_MODEL = 'yi-medium';
 process.env.DEFAULT_CHECK_IMPORTANCE_MODEL = 'yi-large';
@@ -42,5 +43,7 @@ await checkForum({
   - e.g. Buy ChatGPT Plus team 5 people, xx 人车`,
 	},
 });
+
+await getLangfuse(env).shutdownAsync();
 
 exit(0);

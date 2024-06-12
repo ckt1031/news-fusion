@@ -1,13 +1,13 @@
-name: News Check
+name: HN + Lobsters Check
 
 on:
   workflow_dispatch: 
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "35 */5 * * *"
 
 jobs:
-  news-check:
-    timeout-minutes: 15
+  hn-lobsters-check:
+    timeout-minutes: 25
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
@@ -18,7 +18,11 @@ jobs:
           TOOLS_API_BASE_URL: ${{ secrets.TOOLS_API_BASE_URL }}
 
       - name: Run script
-        run: pnpm run news-check
+        run: |
+          export NODE=1
+          pnpm dlx tsx scripts/hackernews.ts
+          sleep 5
+          pnpm dlx tsx scripts/hackernews.ts lobsters
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           OPENAI_API_BASE_URL: ${{ secrets.OPENAI_API_BASE_URL }}
@@ -36,8 +40,8 @@ jobs:
           LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
           LANGFUSE_BASE_URL: ${{ secrets.LANGFUSE_BASE_URL }}
 
-          DEFAULT_SUMMARIZE_MODEL: ${{ secrets.DEFAULT_SUMMARIZE_MODEL }}
-          DEFAULT_TRANSLATE_MODEL: ${{ secrets.DEFAULT_TRANSLATE_MODEL }}
+          # DEFAULT_SUMMARIZE_MODEL: ${{ secrets.DEFAULT_SUMMARIZE_MODEL }}
+          # DEFAULT_TRANSLATE_MODEL: ${{ secrets.DEFAULT_TRANSLATE_MODEL }}
           # DEFAULT_TITLE_GENERATE_MODEL: ${{ secrets.DEFAULT_TITLE_GENERATE_MODEL }}
-          DEFAULT_CHECK_IMPORTANCE_MODEL: ${{ secrets.DEFAULT_CHECK_IMPORTANCE_MODEL }}
+          # DEFAULT_CHECK_IMPORTANCE_MODEL: ${{ secrets.DEFAULT_CHECK_IMPORTANCE_MODEL }}
           # DEFAULT_SEARCH_QUERY_GENERATE_MODEL: ${{ secrets.DEFAULT_SEARCH_QUERY_GENERATE_MODEL }}

@@ -1,7 +1,8 @@
 import { exit } from 'node:process';
 import { HACKER_NEWS, LOBSTE_RS } from '@/config/forum-sources';
 import { envSchema } from '@/types/env';
-import { checkForum } from '.';
+import { checkForum } from '@/lib/forum';
+import { getLangfuse } from '@/lib/llm/api';
 
 process.env.DEFAULT_SUMMARIZE_MODEL = 'gpt-3.5-turbo-0125';
 process.env.DEFAULT_CHECK_IMPORTANCE_MODEL = 'command-r-plus';
@@ -48,5 +49,7 @@ await checkForum({
 - My favourite, or my best, or my worst [Music, Movie, etc.] (Leave book reviews as they are useful)`,
 	},
 });
+
+await getLangfuse(env).shutdownAsync();
 
 exit(0);
