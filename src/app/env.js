@@ -6,7 +6,10 @@ export const nextEnv = createEnv({
 	 * Serverside Environment variables, not available on the client.
 	 * Will throw if you access these variables on the client.
 	 */
-	server: {},
+	server: {
+		UPSTASH_REDIS_REST_URL: z.string(),
+		UPSTASH_REDIS_REST_TOKEN: z.string(),
+	},
 
 	/*
 	 * Environment variables available on the client (and server).
@@ -30,5 +33,8 @@ export const nextEnv = createEnv({
 		NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
 		NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
 		NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+
+		UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
+		UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
 	},
 });

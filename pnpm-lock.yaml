@@ -50,6 +50,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.45.0
         version: 5.45.0(react@18.3.1)
+      '@upstash/redis':
+        specifier: ^1.31.5
+        version: 1.31.5
       '@vercel/functions':
         specifier: ^1.0.2
         version: 1.0.2
@@ -1501,6 +1504,9 @@ packages:
   '@types/ws@8.5.10':
     resolution: {integrity: sha512-vmQSUcfalpIq0R9q7uTo2lXs6eGIpt9wtnLdMv9LVpIjCA/+ufZRozlVoVelIYixx1ugCBKDhn89vnsEGOCx9A==}
 
+  '@upstash/redis@1.31.5':
+    resolution: {integrity: sha512-2MatqeqftroSJ9Q+pqbyGAIwXX6KEPtUTUna2c/fq09h12ffwvltDTgfppeF+NzJo/SyZfHY8e1RoflduMbz1A==}
+
   '@vercel/functions@1.0.2':
     resolution: {integrity: sha512-j3udyHOv/05Y8o3WQ/ANMWa1aYagsY5B3ouImiwgYsz5z4CBUHTY5dk74oQAXYr+bgoVDpdDlmxkpnxGzKEdLQ==}
     engines: {node: '>= 16'}
@@ -1719,6 +1725,9 @@ packages:
   crypto-hash@3.0.0:
     resolution: {integrity: sha512-5l5xGtzuvGTU28GXxGV1JYVFou68buZWpkV1Fx5hIDRPnfbQ8KzabTlNIuDIeSCYGVPFehupzDqlnbXm2IXmdQ==}
     engines: {node: '>=18'}
+
+  crypto-js@4.2.0:
+    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
 
   cssesc@3.0.0:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
@@ -4035,6 +4044,10 @@ snapshots:
     dependencies:
       '@types/node': 20.14.2
 
+  '@upstash/redis@1.31.5':
+    dependencies:
+      crypto-js: 4.2.0
+
   '@vercel/functions@1.0.2': {}
 
   '@vitest/expect@1.6.0':
@@ -4244,6 +4257,8 @@ snapshots:
       which: 2.0.2
 
   crypto-hash@3.0.0: {}
+
+  crypto-js@4.2.0: {}
 
   cssesc@3.0.0: {}
 

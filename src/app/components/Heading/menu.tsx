@@ -1,8 +1,8 @@
 import { EllipsisVertical, LogIn } from 'lucide-react';
 
-import crypto from 'node:crypto';
 import { Button } from '@/app/components/ui/button';
 import { userState } from '@/app/hooks/auth';
+import getSHA256 from '@/app/utils/sha256';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -15,9 +15,7 @@ import { ModeToggleMenuItem } from './ModeToggle';
 import LogOutMenuItem from './logout';
 
 async function getGavatarUrl(email: string) {
-	const hash = crypto.createHash('sha256');
-	hash.update(email);
-	const SHA256 = hash.digest('hex');
+	const SHA256 = getSHA256(email);
 	return `https://www.gravatar.com/avatar/${SHA256}?d=identicon`;
 }
 

@@ -38,3 +38,4 @@ export const articles = pgTable(
 );
 
 export type NewArticle = typeof articles.$inferInsert;
+export type Article = typeof articles.$inferSelect;

@@ -1,4 +1,7 @@
+import getSHA256 from '@/app/utils/sha256';
+import { redis } from '@/app/utils/upstash';
 import type { RSS_CATEGORY } from '@/config/news-sources';
+import type { Article } from '@/db/schema';
 import { getNewsBasedOnDateAndCategory } from '@/lib/db';
 import ago from 's-ago';
 
@@ -7,13 +10,45 @@ interface Props {
 	date: string;
 }
 
-export default async function NewsList({ topic, date }: Props) {
+async function fetchNews({ topic, date }: Props) {
+	const cacheHash = getSHA256(`NEWS_${date}_${topic}`);
+
+	const cache = await redis.get<Article[]>(cacheHash);
+
+	if (cache)
+		return cache.map((article) => {
+			return {
+				...article,
+				publishedAt: new Date(article.publishedAt),
+			};
+		});
+
 	const articles = await getNewsBasedOnDateAndCategory(date, topic);
-	const sortedArticles = articles.sort((a, b) => {
-		return (
-			new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-		);
-	});
+	const sortedArticles = articles
+		.sort((a, b) => {
+			return (
+				new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+			);
+		})
+		.map((article) => {
+			return {
+				id: article.id,
+				title: article.title,
+				url: article.url,
+				publisher: article.publisher,
+				publishedAt: article.publishedAt,
+			};
+		});
+
+	await redis.set(cacheHash, sortedArticles);
+	// 15 minutes
+	await redis.expire(cacheHash, 60 * 15);
+
+	return sortedArticles;
+}
+
+export default async function NewsList({ topic, date }: Props) {
+	const sortedArticles = await fetchNews({ topic, date });
 
 	return (
 		<div className="mb-4 flex flex-col divide-y divide-gray-300 dark:divide-gray-700">
