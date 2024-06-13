@@ -30,9 +30,12 @@ You are designed to evaluate the significance of articles for global, tech innov
 
 ### Unimportant News (False)
 
+- Comparison, which is the best of something
+- New movie or new seasons of movies, unless extremely popular
 - Unpopular expo
+- ... is on sale (+ low price to $xxx rn)
 - Who else warns AI bla bla bla
-- Company acquisitions.
+- Company acquisitions
 - What to expect from a new product, service, technology or event.
   - e.g. What to expect from the new iPhone 13, or the WWDC 2030.
 - Any RPG, MMORPG, or game updates (unless extremely popular).
@@ -50,7 +53,7 @@ You are designed to evaluate the significance of articles for global, tech innov
 - Songs, Production, Series (Unless extremely popular)
 - Sports (Club) or people about it, unless big event or super popular people
 - Product discussions
-- Quizes
+- Quizes, Tests (e.g. Test your knowledge)
 - Love
 - Sex (ual), LGBTQ+, transgender news
 
