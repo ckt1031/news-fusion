@@ -1,8 +1,8 @@
 {
 	"crons": [
 		{
-			"path": "/cron/vercel",
-			"schedule": "0 0 */2 * *"
+			"path": "/api/cron/clear-unused-database-data",
+			"schedule": "0 0 1 * *"
 		}
 	]
 }

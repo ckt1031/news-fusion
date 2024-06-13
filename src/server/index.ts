@@ -4,44 +4,29 @@ import type { ServerEnv } from '@/types/env';
 import { sentry } from '@hono/sentry';
 import consola from 'consola';
 import { Hono } from 'hono';
-import { getRuntimeKey } from 'hono/adapter';
 import { HTTPException } from 'hono/http-exception';
 import { reportToSentryOnHono } from './on-error';
 
-const app = new Hono<{ Bindings: ServerEnv }>();
+const app = new Hono<{ Bindings: ServerEnv }>().basePath('/api');
 
 app.use('*', sentry());
 
-app.get('/', (c) => {
-	return c.text('Hey Here!');
-});
-
-app.route('/discord', discordBot);
+app.route('/discord/interactions', discordBot);
 
 // robots.txt, disallow all
 app.get('/robots.txt', (c) => {
 	return c.text('User-agent: *\nDisallow: /');
 });
 
-// robots.txt, disallow all
-app.get('/versions', (c) => {
-	return c.json({
-		runtime: getRuntimeKey(),
-		...(typeof process !== 'undefined' && {
-			server: process.versions,
-		}),
-	});
-});
-
-// Vercel Cron Job
-app.get('/cron/vercel', async (c) => {
+// Runs every month
+app.get('/cron/clear-unused-database-data', async (c) => {
 	if (c.req.header('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
 		return c.text('Unauthorized', 401);
 	}
 
 	await clearUnusedDatabaseData();
 
-	return c.text('Cron job done');
+	return c.json({ success: true });
 });
 
 app.onError((e, c) => {
