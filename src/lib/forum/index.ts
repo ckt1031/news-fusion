@@ -1,3 +1,4 @@
+import { RSS_CATEGORY } from '@/config/news-sources';
 import embeddingTemplate from '@/prompts/embedding-template';
 import type { ServerEnv } from '@/types/env';
 import consola from 'consola';
@@ -17,7 +18,6 @@ import { isArticleSimilar } from '../news/similarity';
 import { parseRSS } from '../parse-news';
 import { getContentMarkdownFromURL } from '../tool-apis';
 import { checkPrompt } from './prompt';
-import { RSS_CATEGORY } from '@/config/news-sources';
 
 async function checkForumItem(props: {
 	env: ServerEnv;

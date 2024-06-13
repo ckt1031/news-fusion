@@ -23,6 +23,7 @@ export interface RSSCatacory extends RSSConfig {
 
 export enum RSS_CATEGORY {
 	GENERAL = 'general',
+	AI = 'ai',
 	TECHNOLOGY = 'technology',
 	SCIENCE = 'science',
 	HKG = 'hkg',
@@ -113,21 +114,24 @@ export const RSS_TECH: RSSCatacory = {
 		'https://www.zdnet.com/news/rss.xml',
 		'https://www.theverge.com/rss/index.xml',
 		'https://www.theregister.com/headlines.rss',
+		'https://www.tomsguide.com/feeds/all',
+		'https://www.techradar.com/feeds/articletype/news',
 		'https://rss.slashdot.org/Slashdot/slashdotMainatom', // Only Atom 1.0 is parsable in my code
-		{
-			url: 'https://research.microsoft.com/rss/news.xml',
-			checkImportance: false,
-		},
-		// AI
-		'https://lastweekin.ai/feed',
-		{
-			url: 'https://huggingface.co/blog/feed.xml',
-			checkImportance: false,
-		},
-		'https://jina.ai/feed.rss',
+	],
+};
 
-		// Chinese:
-		'https://feeds.feedburner.com/unwirelife',
+export const RSS_AI: RSSCatacory = {
+	name: RSS_CATEGORY.AI,
+	discordChannelId: '1250790199219196037',
+	checkImportance: false,
+	channels: [
+		'https://lastweekin.ai/feed',
+		'https://research.microsoft.com/rss/news.xml',
+		'https://huggingface.co/blog/feed.xml',
+		'https://jina.ai/feed.rss',
+		'https://stability.ai/news?format=rss',
+		'https://blog.langchain.dev/rss',
+		'https://qwenlm.github.io/blog/index.xml',
 	],
 };
 
@@ -146,7 +150,6 @@ export const RSS_DEV: RSSCatacory = {
 	discordChannelId: '1245006701812387890',
 	checkImportance: false,
 	channels: [
-		'https://stability.ai/news?format=rss',
 		'https://blog.cloudflare.com/rss',
 		'https://github.blog/feed',
 		// AI
@@ -180,9 +183,6 @@ export const RSS_DEV: RSSCatacory = {
 		'https://web.dev/static/blog/feed.xml',
 		'https://turbo.build/feed.xml',
 		'https://blog.google/products/chrome/rss',
-		// AI
-		'https://blog.langchain.dev/rss',
-		'https://qwenlm.github.io/blog/index.xml',
 		// Developer Platform
 		'https://vercel.com/atom',
 		'https://stackoverflow.blog/feed',
@@ -237,6 +237,7 @@ export const RSS_BLOGS: RSSCatacory = {
 export const RSS_UPDATES: RSSCatacory = {
 	name: RSS_CATEGORY.UPDATES,
 	discordChannelId: '1245045959570755584',
+	checkImportance: false,
 	channels: [
 		'https://obsidian.md/feed.xml',
 		'https://discord.com/blog/rss.xml',
@@ -246,12 +247,13 @@ export const RSS_UPDATES: RSSCatacory = {
 };
 
 export const ALL_RSS_CATAGORIES = [
-	RSS_ALERTS,
-	RSS_TECH,
+	RSS_AI,
+	RSS_DEV,
 	RSS_SCIENCE,
+	RSS_TECH,
+	RSS_ALERTS,
 	RSS_THINKING,
 	RSS_VIDEOS,
-	RSS_DEV,
 	RSS_BLOGS,
 	RSS_UPDATES,
 	RSS_GENERAL,
