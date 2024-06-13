@@ -32,6 +32,7 @@ export enum RSS_CATEGORY {
 	DEVELOPER = 'developer',
 	UPDATES = 'updates',
 	BLOGS = 'blogs',
+	FORUM = 'forum',
 }
 
 export const RSS_GENERAL: RSSCatacory = {

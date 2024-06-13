@@ -13,11 +13,13 @@ export default function Page({ params }: { params: { slug: RSS_CATEGORY } }) {
 	// biome-ignore lint/style/noNonNullAssertion: <explanation>
 	const date = new Date().toISOString().split('T')[0]!;
 
+	const topic = decodeURIComponent(params.slug) as RSS_CATEGORY;
+
 	return (
 		<>
-			<TopicSelection topic={params.slug} />
+			<TopicSelection topic={topic} />
 			<Suspense fallback={<div>Loading...</div>}>
-				<NewsList topic={params.slug} date={date} />
+				<NewsList topic={topic} date={date} />
 			</Suspense>
 		</>
 	);

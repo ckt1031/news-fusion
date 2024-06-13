@@ -17,6 +17,7 @@ import { isArticleSimilar } from '../news/similarity';
 import { parseRSS } from '../parse-news';
 import { getContentMarkdownFromURL } from '../tool-apis';
 import { checkPrompt } from './prompt';
+import { RSS_CATEGORY } from '@/config/news-sources';
 
 async function checkForumItem(props: {
 	env: ServerEnv;
@@ -116,8 +117,8 @@ async function checkForumItem(props: {
 		important,
 		title: props.title,
 		url: props.link,
-		publisher: props.title,
-		category: 'forum',
+		publisher: props.sourceName,
+		category: RSS_CATEGORY.FORUM,
 		guid: props.guid,
 		publishedAt: new Date(props.pubDate),
 		embedding,
