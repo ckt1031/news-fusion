@@ -11,8 +11,8 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import LogOutMenuItem from './logout';
 import { ModeToggleMenuItem } from './ModeToggle';
+import LogOutMenuItem from './logout';
 
 async function getGavatarUrl(email: string) {
 	const hash = crypto.createHash('sha256');
@@ -56,7 +56,7 @@ export async function HeaderMenu() {
 							<DropdownMenuItem>
 								<LogIn className="mr-2 h-4 w-4" />
 								<span>Log In</span>
-							</DropdownMenuItem>	
+							</DropdownMenuItem>
 						</a>
 					</>
 				)}
