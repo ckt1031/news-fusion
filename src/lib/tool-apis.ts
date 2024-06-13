@@ -1,7 +1,9 @@
 import type { ServerEnv } from '@/types/env';
 import type { paths } from '@/types/tool-apis';
+import translate from '@iamtraction/google-translate';
 import consola from 'consola';
 import createClient, { type Middleware } from 'openapi-fetch';
+import { isMostlyChinese } from './detect-chinese';
 
 export type ScrapeMarkdownVar = Pick<
 	ServerEnv,
@@ -29,12 +31,22 @@ export async function getContentMarkdownFromURL(
 	url: string,
 ) {
 	const host = new URL(url).host;
+	let content = '';
 
 	if (host.includes('youtube.com')) {
-		return (await scrapeYouTube(env, url)).captions?.text ?? '';
+		const ytInfo = await scrapeYouTube(env, url);
+		content = ytInfo.captions?.text ?? '';
+	} else {
+		content = await scrapeToMarkdown(env, url);
 	}
 
-	return await scrapeToMarkdown(env, url);
+	// Save even more tokens
+	if (content.length > 0 && isMostlyChinese(content)) {
+		const { text } = await translate(content, { to: 'en' });
+		content = text;
+	}
+
+	return content;
 }
 
 /** Get website major content in markdown format from personal API */

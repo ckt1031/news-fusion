@@ -1,15 +1,12 @@
 import embeddingTemplate from '@/prompts/embedding-template';
 import type { ServerEnv } from '@/types/env';
-import translate from '@iamtraction/google-translate';
 import consola from 'consola';
-import { getEncoding } from 'js-tiktoken';
 import Mustache from 'mustache';
 import {
 	addSimilarArticleToDatabase,
 	checkIfNewsIsNew,
 	createArticleDatabase,
 } from '../db';
-import { isMostlyChinese } from '../detect-chinese';
 import { requestEmbeddingsAPI } from '../llm/api';
 import {
 	checkArticleImportance,
@@ -44,15 +41,15 @@ async function checkForumItem(props: {
 		return;
 	}
 
-	let markdown = await getContentMarkdownFromURL(props.env, props.link);
+	const markdown = await getContentMarkdownFromURL(props.env, props.link);
 
-	const enc = getEncoding('cl100k_base');
-	const tokens = enc.encode(markdown).length;
+	// const enc = getEncoding('cl100k_base');
+	// const tokens = enc.encode(markdown).length;
 
-	if (tokens > 8000 && isMostlyChinese(markdown)) {
-		const { text } = await translate(markdown, { to: 'en' });
-		markdown = text;
-	}
+	// if (tokens > 8000 && isMostlyChinese(markdown)) {
+	// 	const { text } = await translate(markdown, { to: 'en' });
+	// 	markdown = text;
+	// }
 
 	const embeddingText = Mustache.render(embeddingTemplate, {
 		title: props.title,
