@@ -3,11 +3,11 @@ name: News Check
 on:
   workflow_dispatch: 
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "*/30 * * * *"
 
 jobs:
   news-check:
-    timeout-minutes: 15
+    timeout-minutes: 30
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
