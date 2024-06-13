@@ -184,14 +184,14 @@ importers:
         specifier: ^8.4.38
         version: 8.4.38
       supabase:
-        specifier: ^1.176.4
-        version: 1.176.4
+        specifier: ^1.176.9
+        version: 1.176.9
       tailwindcss:
         specifier: ^3.4.4
         version: 3.4.4
       tsx:
-        specifier: ^4.15.2
-        version: 4.15.2
+        specifier: ^4.15.4
+        version: 4.15.4
       typescript:
         specifier: 5.4.5
         version: 5.4.5
@@ -2829,8 +2829,8 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     hasBin: true
 
-  supabase@1.176.4:
-    resolution: {integrity: sha512-Y7r5RDs+6+WyFPrmBB4Zmcfz0A4WrU0+hJPspgW9ZjRkho9gpRnxIknV4bExYAclm12gbLDU5gc/TDhjE5dVTg==}
+  supabase@1.176.9:
+    resolution: {integrity: sha512-VmMgKsbwBf7IjZ6HUV7YRteYYmrBKhguRCX6JPyDizj9Ui/dd/4sZ31z2cVkuCDePChaCDeNF1bogIBC6822GQ==}
     engines: {npm: '>=8'}
     hasBin: true
 
@@ -2893,8 +2893,8 @@ packages:
   tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
 
-  tsx@4.15.2:
-    resolution: {integrity: sha512-kIZTOCmR37nEw0qxQks2dR+eZWSXydhTGmz7yx94vEiJtJGBTkUl0D/jt/5fey+CNdm6i3Cp+29WKRay9ScQUw==}
+  tsx@4.15.4:
+    resolution: {integrity: sha512-d++FLCwJLrXaBFtRcqdPBzu6FiVOJ2j+UsvUZPtoTrnYtCGU5CEW7iHXtNZfA2fcRTvJFWPqA6SWBuB0GSva9w==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -5198,7 +5198,7 @@ snapshots:
       pirates: 4.0.6
       ts-interface-checker: 0.1.13
 
-  supabase@1.176.4:
+  supabase@1.176.9:
     dependencies:
       bin-links: 4.0.4
       https-proxy-agent: 7.0.4
@@ -5286,7 +5286,7 @@ snapshots:
 
   tslib@2.6.3: {}
 
-  tsx@4.15.2:
+  tsx@4.15.4:
     dependencies:
       esbuild: 0.21.5
       get-tsconfig: 4.7.5
