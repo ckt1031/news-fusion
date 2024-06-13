@@ -1,22 +1,28 @@
 import { z } from 'zod';
 
 export const envSchema = z.object({
+	// AI LLM and Embedding API
 	OPENAI_API_BASE_URL: z.string().optional(),
 	OPENAI_API_KEY: z.string(),
 
+	// RSS Combination API, to fetch social media feeds like X (Twitter)
+	RSSHUB_BASE_URL: z.string().optional(),
+	RSSHUB_ACCESS_KEY: z.string().optional(),
+
+	// Discord Bot Config
 	DISCORD_GUILD_ID: z.string(),
 	DISCORD_BOT_TOKEN: z.string(),
 	DISCORD_APPLICATION_ID: z.string(),
 	DISCORD_PUBLIC_KEY: z.string(),
 
-	RSSHUB_BASE_URL: z.string().optional(),
-	RSSHUB_ACCESS_KEY: z.string().optional(),
-
+	// Private API
 	TOOLS_API_BASE_URL: z.string(),
 	TOOLS_API_KEY: z.string(),
 
+	// Sentry DSN, error tracking
 	SENTRY_DSN: z.string().optional(),
 
+	// LangFuse API, LLM tracing platform
 	LANGFUSE_SECRET_KEY: z.string().optional(),
 	LANGFUSE_PUBLIC_KEY: z.string().optional(),
 	LANGFUSE_BASE_URL: z.string().optional(),
@@ -27,7 +33,7 @@ export const envSchema = z.object({
 	// Vercel CRON secret
 	CRON_SECRET: z.string().optional(),
 
-	// Some Default AI Model IDs
+	// Some Default AI Model IDs, optional
 	DEFAULT_SUMMARIZE_MODEL: z.string().optional(),
 	DEFAULT_TRANSLATE_MODEL: z.string().optional(),
 	DEFAULT_TITLE_GENERATE_MODEL: z.string().optional(),

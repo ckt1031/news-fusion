@@ -5,6 +5,7 @@ dist
 .drizzle
 .wrangler
 supabase
+!src/app/utils/supabase
 .vercel
 .next
 tsconfig.tsbuildinfo

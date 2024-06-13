@@ -22,15 +22,15 @@ export interface RSSCatacory extends RSSConfig {
 }
 
 export enum RSS_CATEGORY {
-	BLOGS = 'blogs',
+	GENERAL = 'general',
+	TECHNOLOGY = 'technology',
 	HKG = 'hkg',
 	THINKING = 'thinking',
 	VIDEOS = 'videos',
 	ALERTS = 'alerts',
-	GENERAL = 'general',
 	DEVELOPER = 'developer',
 	UPDATES = 'updates',
-	TECHNOLOGY = 'technology',
+	BLOGS = 'blogs',
 }
 
 export const RSS_GENERAL: RSSCatacory = {

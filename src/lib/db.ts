@@ -10,11 +10,15 @@ const client = postgres(process.env.DATABASE_URL ?? '', { prepare: false });
 export const db = drizzle(client, { schema });
 
 export async function clearUnusedDatabaseData() {
-	// Delete articles that are 7 days old
-	await db.delete(schema.articles).where(
-		// 604800000 = 7 days
-		lt(schema.articles.publishedAt, new Date(Date.now() - 604800000)),
-	);
+	// Delete articles that are 30 days old
+	await db
+		.delete(schema.articles)
+		.where(
+			lt(
+				schema.articles.publishedAt,
+				new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+			),
+		);
 }
 
 export async function checkIfNewsIsNew(
@@ -56,4 +60,24 @@ export async function updateArticleDatabase(
 		.update(schema.articles)
 		.set(data)
 		.where(eq(schema.articles.url, removeTrailingSlash(url)));
+}
+
+// Date format: YYYY-MM-DD
+export async function getNewsBasedOnDateAndCategory(
+	date: string,
+	category: string,
+) {
+	const dayStart = new Date(date);
+
+	const oneDay = 24 * 60 * 60 * 1000;
+	const dayEnd = new Date(dayStart.getTime() + oneDay);
+
+	return db.query.articles.findMany({
+		where: (d, { and, lte, gte }) =>
+			and(
+				eq(d.category, category),
+				gte(schema.articles.publishedAt, dayStart),
+				lte(schema.articles.publishedAt, dayEnd),
+			),
+	});
 }
