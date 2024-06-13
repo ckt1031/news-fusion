@@ -24,6 +24,7 @@ export interface RSSCatacory extends RSSConfig {
 export enum RSS_CATEGORY {
 	GENERAL = 'general',
 	TECHNOLOGY = 'technology',
+	SCIENCE = 'science',
 	HKG = 'hkg',
 	THINKING = 'thinking',
 	VIDEOS = 'videos',
@@ -130,7 +131,7 @@ export const RSS_TECH: RSSCatacory = {
 };
 
 export const RSS_SCIENCE: RSSCatacory = {
-	name: RSS_CATEGORY.TECHNOLOGY,
+	name: RSS_CATEGORY.SCIENCE,
 	discordChannelId: '1248298490170441728',
 	channels: [
 		'https://rss.sciencedaily.com/all.xml',
