@@ -29,7 +29,7 @@ export async function checkIfNewsIsNew(
 		where: (d, { eq, or }) =>
 			or(
 				eq(d.guid, guid),
-				arrayOverlaps(schema.articles.similarArticles, [url]),
+				arrayOverlaps(d.similarArticles, [url]),
 			),
 	});
 
@@ -76,8 +76,9 @@ export async function getNewsBasedOnDateAndCategory(
 		where: (d, { and, lte, gte }) =>
 			and(
 				eq(d.category, category),
-				gte(schema.articles.publishedAt, dayStart),
-				lte(schema.articles.publishedAt, dayEnd),
+				gte(d.publishedAt, dayStart),
+				lte(d.publishedAt, dayEnd),
+				eq(d.important, true),
 			),
 	});
 }
