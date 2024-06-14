@@ -18,3 +18,5 @@ export const DEFAULT_SEARCH_QUERY_GENERATE_MODEL =
 	process.env.DEFAULT_SEARCH_QUERY_GENERATE_MODEL ?? 'gpt-3.5-turbo-0125';
 
 export const BOT_ALLOWED_ROLES_ID = ['1250437137522884678'];
+
+export const FAVICON_BASE_URL = 'https://www.google.com/s2/favicons?domain_url=';

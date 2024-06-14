@@ -1,31 +1,41 @@
+'use client';
+
 import { RSS_CATEGORY } from '@/config/news-sources';
+import { useRouter } from 'next/navigation';
+import { Button } from '../ui/button';
 
 interface Props {
 	topic: RSS_CATEGORY;
 }
 
 function captialFirstLetter(str: string) {
+	// If length is 0 - 3, make it full uppercase
+	if (str.length <= 3) {
+		return str.toUpperCase();
+	}
+
 	return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 export default function TopicSelection({ topic }: Props) {
+	const router = useRouter();
+
 	return (
 		<div className="flex flex-col">
-			<div className="flex flex-wrap py-2">
+			<div className="flex flex-wrap py-2 gap-3">
 				{Object.values(RSS_CATEGORY).map((category) => (
-					<a
+					<Button
 						key={category}
-						className={`${
-							category === topic
-								? 'bg-gray-800 text-white dark:bg-gray-200 dark:text-gray-800'
-								: 'bg-gray-300 text-gray-800 dark:bg-gray-800 dark:text-white'
-						} rounded-full py-0.5 px-3 mr-2 mb-2`}
-						href={
-							category === RSS_CATEGORY.GENERAL ? '/' : `/topic/${category}`
-						}
+						variant={category === topic ? 'secondary' : 'outline'}
+						className="py-0.5 px-3 rounded-lg"
+						onClick={() => {
+							router.push(
+								category === RSS_CATEGORY.GENERAL ? '/' : `/topic/${category}`,
+							);
+						}}
 					>
 						{captialFirstLetter(category)}
-					</a>
+					</Button>
 				))}
 			</div>
 		</div>

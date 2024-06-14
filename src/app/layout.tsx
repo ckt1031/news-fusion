@@ -2,7 +2,7 @@ import type { PropsWithChildren } from 'react';
 import './globals.css';
 import { Toaster } from '@/app/components/ui/toaster';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Noto_Sans_SC, Noto_Sans_TC } from 'next/font/google';
 import { ThemeProvider } from './components/Theme';
 import Heading from './components/heading';
 import { cn } from './utils/cn';
@@ -13,32 +13,33 @@ export const metadata: Metadata = {
 };
 
 const inter = Inter({
-	subsets: ['latin'],
 	variable: '--font-inter',
+	display: 'swap',
+});
+const notoSansSC = Noto_Sans_SC({
+	variable: '--font-noto-sans-sc',
+});
+const notoSansTC = Noto_Sans_TC({
+	variable: '--font-noto-sans-tc',
 });
 
 export default function RootLayout({ children }: PropsWithChildren) {
 	return (
-		<html lang="en" className={inter.className} suppressHydrationWarning>
-			<ThemeProvider
-				attribute="class"
-				defaultTheme="system"
-				enableSystem
-				disableTransitionOnChange
-			>
-				<body
-					className={cn(
-						'bg-neutral-50 dark:bg-neutral-950 flex h-screen flex-col justify-between overflow-x-hidden',
-						inter.variable,
-					)}
+		<html lang="en" suppressHydrationWarning className={cn(inter.variable, notoSansSC.variable, notoSansTC.variable)}>
+			<body className="bg-neutral-50 dark:bg-neutral-950 flex h-screen flex-col justify-between overflow-x-hidden">
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
 				>
 					<Toaster />
 					<Heading />
 					<main className="root-container flex flex-1 flex-col">
 						{children}
 					</main>
-				</body>
-			</ThemeProvider>
+				</ThemeProvider>
+			</body>
 		</html>
 	);
 }

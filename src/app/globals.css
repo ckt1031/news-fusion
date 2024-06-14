@@ -76,5 +76,10 @@
   }
 
 .root-container {
-    @apply w-full max-w-[800px] px-5 m-auto;
+    @apply w-full max-w-[1000px] px-5 m-auto;
+}
+
+html *
+{
+   font-family: var(--font-inter), var(--font-noto-sans-tc), var(--font-noto-sans-sc), sans-serif;
 }

@@ -4,6 +4,7 @@ import type { RSS_CATEGORY } from '@/config/news-sources';
 import type { Article } from '@/db/schema';
 import { getNewsBasedOnDateAndCategory } from '@/lib/db';
 import TimeComponent from './time-component';
+import PublisherComponent from './publisher';
 
 interface Props {
 	topic: RSS_CATEGORY;
@@ -57,6 +58,8 @@ async function fetchNews({ topic, date }: Props) {
 	return sortedArticles;
 }
 
+
+
 export default async function NewsList({ topic, date }: Props) {
 	const sortedArticles = await fetchNews({ topic, date });
 
@@ -83,14 +86,10 @@ export default async function NewsList({ topic, date }: Props) {
 								>
 									{article.title}
 								</a>
-								<p className="text-gray-500 dark:text-gray-400 text-sm hidden lg:block">
-									{article.publisher}
-								</p>
+								<PublisherComponent className="mt-1 text-gray-500 dark:text-gray-400 text-sm hidden lg:block" publisher={article.publisher} url={article.url} />
 							</div>
-							<div className="flex flex-row gap-2 lg:flex-col lg:ml-2 items-center">
-								<p className="text-gray-500 dark:text-gray-400 text-sm lg:hidden">
-									{article.publisher}
-								</p>
+							<div className="flex flex-row gap-2 lg:flex-col lg:ml-2 items-center mt-1">
+								<PublisherComponent className="text-gray-500 dark:text-gray-400 text-sm visible lg:hidden" publisher={article.publisher} url={article.url} />
 								<TimeComponent
 									className="text-gray-400 dark:text-gray-500 text-sm text-nowrap"
 									time={article.publishedAt}
