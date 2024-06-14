@@ -14,7 +14,7 @@ export const articles = pgTable(
 	{
 		id: serial('id').primaryKey(),
 		url: text('url').notNull(),
-		guid: text('guid').notNull(),
+		guid: text('guid').notNull().unique(),
 		title: text('title').notNull(),
 		publisher: text('publisher').notNull(),
 		category: text('category').notNull(),
