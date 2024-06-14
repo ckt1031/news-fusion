@@ -58,6 +58,10 @@ export async function fetchNews({ topic, date }: Omit<Props, 'userStatus'>) {
 		if (publisher.includes('Engadget')) {
 			return 'Engadget';
 		}
+		// The Verge - All Posts -> The Verge
+		if (publisher.includes('The Verge')) {
+			return 'The Verge';
+		}
 		return publisher;
 	}
 

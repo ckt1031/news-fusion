@@ -1,6 +1,6 @@
 'use client';
 
-import { ExternalLink, RotateCw } from 'lucide-react';
+import { ExternalLink, Languages, RotateCw } from 'lucide-react';
 import { useState } from 'react';
 import Markdown from 'react-markdown';
 import { Button } from '../ui/button';
@@ -8,8 +8,15 @@ import type { fetchNews } from './news-list';
 import PublisherComponent from './publisher';
 import TimeComponent from './time-component';
 import '@/app/styles/markdown.css';
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from '@/app/components/ui/tooltip';
 import { useToast } from '../ui/use-toast';
 import { reGenerateSummary } from './actions/re-generate-summary';
+import { translateNewsInfo } from './actions/translate';
 
 interface Props {
 	date: string;
@@ -28,14 +35,11 @@ export default function NewsSection({
 
 	const [displayDetail, setDisplayDetail] = useState(false);
 	const [summary, setSummary] = useState(article.summary);
+	const [title, setTitle] = useState(article.title);
+	const [translated, setTranslated] = useState(false);
 
-	const onGenerateSummary = async () => {
-		const result = await reGenerateSummary({
-			guid: article.guid,
-			url: article.url,
-			date,
-			topic,
-		});
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const onActionError = (result: any) => {
 		if (result?.serverError || result?.validationErrors || !result?.data) {
 			toast({
 				variant: 'destructive',
@@ -44,10 +48,45 @@ export default function NewsSection({
 					result?.serverError ||
 					'An error occurred while summarizing the article',
 			});
+			return true;
+		}
+		return false;
+	};
+
+	const onGenerateSummary = async () => {
+		const result = await reGenerateSummary({
+			guid: article.guid,
+			url: article.url,
+			date,
+			topic,
+		});
+		if (onActionError(result)) return;
+		// biome-ignore lint/style/noNonNullAssertion: <explanation>
+		setSummary(result?.data!);
+	};
+
+	const onTranslate = async () => {
+		if (translated) {
+			setTitle(article.title);
+			setSummary(article.summary);
+			setTranslated(false);
 			return;
 		}
 
-		setSummary(result.data);
+		const result = await translateNewsInfo({
+			title,
+			summary: summary,
+		});
+		if (onActionError(result)) return;
+		// biome-ignore lint/style/noNonNullAssertion: <explanation>
+		setTitle(result?.data?.title!);
+		// biome-ignore lint/style/noNonNullAssertion: <explanation>
+		setSummary(result?.data?.summary!);
+
+		setTranslated(true);
+		toast({
+			description: `"${article.title}" has been translated to Chinese`,
+		});
 	};
 
 	return (
@@ -60,7 +99,7 @@ export default function NewsSection({
 						onClick={() => setDisplayDetail(!displayDetail)}
 					>
 						<p className="text-gray-700 dark:text-gray-300 font-medium">
-							{article.title}
+							{title}
 						</p>
 					</button>
 					<PublisherComponent
@@ -88,22 +127,37 @@ export default function NewsSection({
 							{summary}
 						</Markdown>
 					)}
-					<div className="flex flex-row gap-2 mt-2">
-						<Button
-							variant="ghost"
-							className=""
-							onClick={() => {
-								window.open(article.url, '_blank');
-							}}
-						>
-							<ExternalLink className="h-4 w-4 mr-2" />
-							Read more
-						</Button>
+					<div className="flex flex-row gap-2 mt-2 flex-wrap">
+						<TooltipProvider>
+							<Tooltip>
+								<TooltipTrigger>
+									<Button
+										variant="ghost"
+										onClick={() => {
+											window.open(article.url, '_blank');
+										}}
+									>
+										<ExternalLink className="h-4 w-4 mr-2" />
+										Read more
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent>
+									<p>{article.url}</p>
+								</TooltipContent>
+							</Tooltip>
+						</TooltipProvider>
 						{isLoggedIn && (
-							<Button variant="ghost" className="" onClick={onGenerateSummary}>
-								<RotateCw className="h-4 w-4 mr-2" />
-								Generate summary
-							</Button>
+							<>
+								<Button variant="ghost" onClick={onGenerateSummary}>
+									<RotateCw className="h-4 w-4 mr-2" />
+									Generate summary
+								</Button>
+
+								<Button variant="ghost" onClick={onTranslate}>
+									<Languages className="h-4 w-4 mr-2" />
+									{translated ? 'Revert' : 'Translate (zh-tw)'}
+								</Button>
+							</>
 						)}
 					</div>
 				</div>

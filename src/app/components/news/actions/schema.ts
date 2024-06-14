@@ -6,3 +6,8 @@ export const ReGenSummaryActionSchema = z.object({
 	date: z.string(),
 	topic: z.string(),
 });
+
+export const TranslateActionSchema = z.object({
+	title: z.string(),
+	summary: z.string(),
+});
