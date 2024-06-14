@@ -11,7 +11,7 @@
 		"noUnusedLocals": true,
 		"allowSyntheticDefaultImports": true,
 		"noUncheckedIndexedAccess": true,
-		"lib": ["ESNext"],
+		"lib": ["ESNext", "dom"],
 		"types": ["./src/global.d.ts"],
 		"strict": true,
 		"skipLibCheck": true,

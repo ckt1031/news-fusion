@@ -1,0 +1,31 @@
+.markdown-style {
+  @apply flex flex-col gap-3 dark:prose-invert;
+}
+
+.markdown-style h1 {
+  @apply text-2xl font-bold;
+}
+
+.markdown-style h2 {
+  @apply text-xl font-bold;
+}
+
+.markdown-style h3 {
+  @apply text-lg font-bold;
+}
+
+.markdown-style h4 {
+  @apply text-base font-bold;
+}
+
+.markdown-style h5 {
+  @apply text-base font-bold;
+}
+
+.markdown-style h6 {
+  @apply font-semibold;
+}
+
+.markdown-style p {
+  @apply text-base;
+}

@@ -29,7 +29,7 @@ export const articles = pgTable(
 			.array()
 			.notNull()
 			.default(sql`ARRAY[]::text[]`),
-		
+
 		summary: text('summary').notNull().default(sql`''`),
 	},
 	(table) => ({

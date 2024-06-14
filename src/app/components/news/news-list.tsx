@@ -3,15 +3,14 @@ import { redis } from '@/app/utils/upstash';
 import type { RSS_CATEGORY } from '@/config/news-sources';
 import type { Article } from '@/db/schema';
 import { getNewsBasedOnDateAndCategory } from '@/lib/db';
-import PublisherComponent from './publisher';
-import TimeComponent from './time-component';
+import NewsSection from './news-section';
 
 interface Props {
 	topic: RSS_CATEGORY;
 	date: string;
 }
 
-async function fetchNews({ topic, date }: Props) {
+export async function fetchNews({ topic, date }: Props) {
 	const cacheHash = getSHA256(`NEWS_${date}_${topic}`);
 
 	const cache = await redis.get<Article[]>(cacheHash);
@@ -46,10 +45,21 @@ async function fetchNews({ topic, date }: Props) {
 				id: article.id,
 				title: article.title,
 				url: article.url,
-				publisher: article.publisher,
+				summary: article.summary,
+				publisher: reWritePublisherName(article.publisher),
 				publishedAt: article.publishedAt,
+				similarArticles: article.similarArticles,
 			};
 		});
+
+	function reWritePublisherName(publisher: string) {
+		// Engadget is a web magazine with obsessive daily coverage of everything new in gadgets and consumer electronics
+		// Too long, let's just use Engadget
+		if (publisher.includes('Engadget')) {
+			return 'Engadget';
+		}
+		return publisher;
+	}
 
 	await redis.set(cacheHash, sortedArticles);
 	// 15 minutes
@@ -74,34 +84,7 @@ export default async function NewsList({ topic, date }: Props) {
 				)}
 				{sortedArticles?.map((article) => (
 					<div key={article.id} className="py-2 align-middle">
-						<div className="flex flex-col lg:flex-row justify-between lg:items-center">
-							<div className="flex flex-col">
-								<a
-									className="text-gray-700 dark:text-gray-300 font-medium"
-									href={article.url}
-									target="_blank"
-									rel="noreferrer"
-								>
-									{article.title}
-								</a>
-								<PublisherComponent
-									className="mt-1 text-gray-500 dark:text-gray-400 text-sm hidden lg:block"
-									publisher={article.publisher}
-									url={article.url}
-								/>
-							</div>
-							<div className="flex flex-row gap-2 lg:flex-col lg:ml-2 items-center mt-1">
-								<PublisherComponent
-									className="text-gray-500 dark:text-gray-400 text-sm visible lg:hidden"
-									publisher={article.publisher}
-									url={article.url}
-								/>
-								<TimeComponent
-									className="text-gray-400 dark:text-gray-500 text-sm text-nowrap"
-									time={article.publishedAt}
-								/>
-							</div>
-						</div>
+						<NewsSection article={article} />
 					</div>
 				))}
 			</div>
