@@ -11,8 +11,8 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { ModeToggleMenuItem } from './ModeToggle';
 import LogOutMenuItem from './logout';
+import { ModeToggleMenuItem } from './mode-toggle';
 
 async function getGavatarUrl(email: string) {
 	const SHA256 = getSHA256(email);

@@ -1,10 +1,10 @@
 import type { PropsWithChildren } from 'react';
 import './globals.css';
+import { Toaster } from '@/app/components/ui/toaster';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { Toaster } from 'react-hot-toast';
-import Heading from './components/Heading';
 import { ThemeProvider } from './components/Theme';
+import Heading from './components/heading';
 import { cn } from './utils/cn';
 
 export const metadata: Metadata = {

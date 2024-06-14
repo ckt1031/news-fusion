@@ -26,6 +26,7 @@
 	},
 	"linter": {
 		"enabled": true,
+		"ignore": ["./src/app/components/ui"],
 		"rules": {
 			"recommended": true,
 			"correctness": {

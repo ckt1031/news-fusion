@@ -3,17 +3,20 @@
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
+import { useToast } from '@/app/components/ui/use-toast';
 import { nextEnv } from '@/app/env';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
+import { useTheme } from 'next-themes';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import type { z } from 'zod';
 import { login } from './actions';
 import { LoginActionSchema } from './schema';
 
 export default function LoginPage() {
+	const { theme } = useTheme();
+	const { toast } = useToast();
 	const ref = useRef<TurnstileInstance>();
 	const [captchaToken, setCaptchaToken] = useState<string>();
 	const { register, handleSubmit } = useForm<z.infer<typeof LoginActionSchema>>(
@@ -25,14 +28,26 @@ export default function LoginPage() {
 	return (
 		<form
 			onSubmit={handleSubmit(async (data) => {
+				if (!captchaToken && nextEnv.NEXT_PUBLIC_TURNSTILE_SITE_KEY) {
+					toast({
+						description: 'Please complete the captcha challenge first',
+					});
+					return;
+				}
+
 				const status = await login({
 					...data,
 					captchaToken,
 				});
 
 				if (status.data && !status.data.success) {
-					toast.error(status.data.error);
+					toast({
+						variant: 'destructive',
+						title: 'Error',
+						description: status.data.error,
+					});
 					ref.current?.reset();
+					setCaptchaToken(undefined);
 				}
 			})}
 			className="flex flex-col gap-4 py-6"
@@ -63,6 +78,10 @@ export default function LoginPage() {
 					ref={ref}
 					siteKey={nextEnv.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
 					onSuccess={setCaptchaToken}
+					options={{
+						theme:
+							theme === 'dark' ? 'dark' : theme === 'system' ? 'auto' : 'light',
+					}}
 				/>
 			)}
 

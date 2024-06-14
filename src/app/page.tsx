@@ -1,7 +1,7 @@
 import { RSS_CATEGORY } from '@/config/news-sources';
 import { Suspense } from 'react';
-import NewsList from './components/news/NewsList';
-import TopicSelection from './components/news/TopicSelection';
+import NewsList from './components/news/news-list';
+import TopicSelection from './components/news/topic-selection';
 
 export default function Home() {
 	// biome-ignore lint/style/noNonNullAssertion: <explanation>

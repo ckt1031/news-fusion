@@ -1,5 +1,5 @@
-import NewsList from '@/app/components/news/NewsList';
-import TopicSelection from '@/app/components/news/TopicSelection';
+import NewsList from '@/app/components/news/news-list';
+import TopicSelection from '@/app/components/news/topic-selection';
 import { RSS_CATEGORY } from '@/config/news-sources';
 import { Suspense } from 'react';
 

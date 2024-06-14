@@ -27,10 +27,7 @@ export async function checkIfNewsIsNew(
 ): Promise<boolean> {
 	const result = await db.query.articles.findFirst({
 		where: (d, { eq, or }) =>
-			or(
-				eq(d.guid, guid),
-				arrayOverlaps(d.similarArticles, [url]),
-			),
+			or(eq(d.guid, guid), arrayOverlaps(d.similarArticles, [url])),
 	});
 
 	return !result;
