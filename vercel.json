@@ -4,5 +4,10 @@
 			"path": "/api/cron/clear-unused-database-data",
 			"schedule": "0 0 1 * *"
 		}
-	]
+	],
+	"functions": {
+		"**/*": {
+                        "maxDuration": 60
+                }
+        }
 }
