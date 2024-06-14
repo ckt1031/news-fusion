@@ -3,7 +3,6 @@ import type { NewArticle } from '@/db/schema';
 import { arrayOverlaps, eq, lt, sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
-import removeTrailingSlash from './remove-trailing-slash';
 
 const client = postgres(process.env.DATABASE_URL ?? '', { prepare: false });
 
@@ -50,13 +49,13 @@ export async function createArticleDatabase(data: NewArticle) {
 }
 
 export async function updateArticleDatabase(
-	url: string,
+	guid: string,
 	data: Partial<NewArticle>,
 ) {
 	await db
 		.update(schema.articles)
 		.set(data)
-		.where(eq(schema.articles.url, removeTrailingSlash(url)));
+		.where(eq(schema.articles.guid, guid));
 }
 
 // Date format: YYYY-MM-DD

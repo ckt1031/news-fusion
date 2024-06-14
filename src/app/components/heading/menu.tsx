@@ -1,7 +1,7 @@
 import { EllipsisVertical, LogIn } from 'lucide-react';
 
 import { Button } from '@/app/components/ui/button';
-import { userState } from '@/app/hooks/auth';
+import { authState } from '@/app/hooks/auth';
 import getSHA256 from '@/app/utils/sha256';
 import {
 	DropdownMenu,
@@ -20,7 +20,7 @@ async function getGavatarUrl(email: string) {
 }
 
 export async function HeaderMenu() {
-	const { isLoggedIn, user } = await userState();
+	const { isLoggedIn, user } = await authState();
 	const avatarUrl = user?.email ? await getGavatarUrl(user.email) : null;
 
 	return (
@@ -31,10 +31,10 @@ export async function HeaderMenu() {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" className="w-[170px] lg:w-[200px]">
+				<DropdownMenuLabel>My Account</DropdownMenuLabel>
+				<DropdownMenuSeparator />
 				{isLoggedIn ? (
 					<>
-						<DropdownMenuLabel>My Account</DropdownMenuLabel>
-						<DropdownMenuSeparator />
 						<DropdownMenuItem>
 							{user?.email && (
 								<img

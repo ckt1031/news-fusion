@@ -9,7 +9,9 @@ export async function generateStaticParams() {
 	}));
 }
 
-export default function Page({ params }: { params: { slug: RSS_CATEGORY } }) {
+export default async function Page({
+	params,
+}: { params: { slug: RSS_CATEGORY } }) {
 	// biome-ignore lint/style/noNonNullAssertion: <explanation>
 	const date = new Date().toISOString().split('T')[0]!;
 

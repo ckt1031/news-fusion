@@ -29,6 +29,4 @@ export const login = action
 
 		revalidatePath('/', 'layout');
 		redirect('/');
-
-		return { success: true };
 	});

@@ -1,8 +1,9 @@
-import getSHA256 from '@/app/utils/sha256';
+import { authState } from '@/app/hooks/auth';
 import { redis } from '@/app/utils/upstash';
 import type { RSS_CATEGORY } from '@/config/news-sources';
 import type { Article } from '@/db/schema';
 import { getNewsBasedOnDateAndCategory } from '@/lib/db';
+import getCacheKey from './actions/get-cache-key';
 import NewsSection from './news-section';
 
 interface Props {
@@ -10,9 +11,8 @@ interface Props {
 	date: string;
 }
 
-export async function fetchNews({ topic, date }: Props) {
-	const cacheHash = getSHA256(`NEWS_${date}_${topic}`);
-
+export async function fetchNews({ topic, date }: Omit<Props, 'userStatus'>) {
+	const cacheHash = getCacheKey(date, topic);
 	const cache = await redis.get<Article[]>(cacheHash);
 
 	if (cache) {
@@ -42,7 +42,7 @@ export async function fetchNews({ topic, date }: Props) {
 		// Structure the data
 		.map((article) => {
 			return {
-				id: article.id,
+				guid: article.guid,
 				title: article.title,
 				url: article.url,
 				summary: article.summary,
@@ -70,6 +70,7 @@ export async function fetchNews({ topic, date }: Props) {
 
 export default async function NewsList({ topic, date }: Props) {
 	const sortedArticles = await fetchNews({ topic, date });
+	const { isLoggedIn } = await authState();
 
 	return (
 		<>
@@ -83,8 +84,13 @@ export default async function NewsList({ topic, date }: Props) {
 					</p>
 				)}
 				{sortedArticles?.map((article) => (
-					<div key={article.id} className="py-2 align-middle">
-						<NewsSection article={article} />
+					<div key={article.guid} className="py-2 align-middle">
+						<NewsSection
+							article={article}
+							date={date}
+							topic={topic}
+							isLoggedIn={isLoggedIn}
+						/>
 					</div>
 				))}
 			</div>
