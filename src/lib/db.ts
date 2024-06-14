@@ -67,7 +67,8 @@ export async function getNewsBasedOnDateAndCategory(
 	date: string,
 	category: string,
 ) {
-	const dayStart = new Date(date);
+	const HKGOffset = 8 * 60 * 60 * 1000;
+	const dayStart = new Date(new Date(date).getTime() - HKGOffset);
 
 	const oneDay = 24 * 60 * 60 * 1000;
 	const dayEnd = new Date(dayStart.getTime() + oneDay);
