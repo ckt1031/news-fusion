@@ -15,12 +15,15 @@ export const metadata: Metadata = {
 const inter = Inter({
 	variable: '--font-inter',
 	display: 'swap',
+	subsets: ['latin'],
 });
 const notoSansSC = Noto_Sans_SC({
 	variable: '--font-noto-sans-sc',
+	subsets: ['latin'],
 });
 const notoSansTC = Noto_Sans_TC({
 	variable: '--font-noto-sans-tc',
+	subsets: ['latin'],
 });
 
 export default function RootLayout({ children }: PropsWithChildren) {
