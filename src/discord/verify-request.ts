@@ -8,10 +8,17 @@ export default async function verifyDiscordRequest(
 	const signature = c.req.header('x-signature-ed25519');
 	const timestamp = c.req.header('x-signature-timestamp');
 	const body = await c.req.text();
-	const isValidRequest =
-		signature &&
-		timestamp &&
-		verifyKey(body, signature, timestamp, c.env.DISCORD_PUBLIC_KEY);
+
+	if (!signature || !timestamp || !body) {
+		return { isValid: false };
+	}
+
+	const isValidRequest = await verifyKey(
+		body,
+		signature,
+		timestamp,
+		c.env.DISCORD_PUBLIC_KEY,
+	);
 
 	if (!isValidRequest) {
 		return { isValid: false };

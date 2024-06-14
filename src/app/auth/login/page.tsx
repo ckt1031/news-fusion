@@ -40,6 +40,8 @@ export default function LoginPage() {
 					captchaToken,
 				});
 
+				if (!status) return;
+
 				if (status.data && !status.data.success) {
 					toast({
 						variant: 'destructive',

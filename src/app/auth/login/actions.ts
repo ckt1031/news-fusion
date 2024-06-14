@@ -8,25 +8,27 @@ import { createSupabaseServerClient } from '@/app/utils/supabase/server';
 import type { SignInWithPasswordCredentials } from '@supabase/supabase-js';
 import { LoginActionSchema } from './schema';
 
-export const login = action(LoginActionSchema, async (formData) => {
-	const supabase = await createSupabaseServerClient();
+export const login = action
+	.schema(LoginActionSchema)
+	.action(async ({ parsedInput: formData }) => {
+		const supabase = await createSupabaseServerClient();
 
-	const data: SignInWithPasswordCredentials = {
-		email: formData.email,
-		password: formData.password,
-		options: {
-			captchaToken: formData.captchaToken,
-		},
-	};
+		const data: SignInWithPasswordCredentials = {
+			email: formData.email,
+			password: formData.password,
+			options: {
+				captchaToken: formData.captchaToken,
+			},
+		};
 
-	const { error } = await supabase.auth.signInWithPassword(data);
+		const { error } = await supabase.auth.signInWithPassword(data);
 
-	if (error) {
-		return { success: false, error: error.message };
-	}
+		if (error) {
+			return { success: false, error: error.message };
+		}
 
-	revalidatePath('/', 'layout');
-	redirect('/');
+		revalidatePath('/', 'layout');
+		redirect('/');
 
-	return { success: true };
-});
+		return { success: true };
+	});
