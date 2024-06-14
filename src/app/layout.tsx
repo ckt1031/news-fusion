@@ -25,7 +25,11 @@ const notoSansTC = Noto_Sans_TC({
 
 export default function RootLayout({ children }: PropsWithChildren) {
 	return (
-		<html lang="en" suppressHydrationWarning className={cn(inter.variable, notoSansSC.variable, notoSansTC.variable)}>
+		<html
+			lang="en"
+			suppressHydrationWarning
+			className={cn(inter.variable, notoSansSC.variable, notoSansTC.variable)}
+		>
 			<body className="bg-neutral-50 dark:bg-neutral-950 flex h-screen flex-col justify-between overflow-x-hidden">
 				<ThemeProvider
 					attribute="class"

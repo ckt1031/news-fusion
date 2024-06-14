@@ -1,5 +1,5 @@
-import app from '@/server';
 import { handle } from 'hono/vercel';
+import app from './app';
 
 // Now use Node.js runtime for the app
 export const runtime = 'nodejs'; // "edge"

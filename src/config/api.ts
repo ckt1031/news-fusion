@@ -19,4 +19,5 @@ export const DEFAULT_SEARCH_QUERY_GENERATE_MODEL =
 
 export const BOT_ALLOWED_ROLES_ID = ['1250437137522884678'];
 
-export const FAVICON_BASE_URL = 'https://www.google.com/s2/favicons?domain_url=';
+export const FAVICON_BASE_URL =
+	'https://www.google.com/s2/favicons?domain_url=';

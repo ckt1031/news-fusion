@@ -63,6 +63,7 @@ export async function updateArticleDatabase(
 export async function getNewsBasedOnDateAndCategory(
 	date: string,
 	category: string,
+	important: boolean,
 ) {
 	const HKGOffset = 8 * 60 * 60 * 1000;
 	const dayStart = new Date(new Date(date).getTime() - HKGOffset);
@@ -76,7 +77,7 @@ export async function getNewsBasedOnDateAndCategory(
 				eq(d.category, category),
 				gte(d.publishedAt, dayStart),
 				lte(d.publishedAt, dayEnd),
-				eq(d.important, true),
+				...(important ? [eq(d.important, important)] : []),
 			),
 	});
 }
