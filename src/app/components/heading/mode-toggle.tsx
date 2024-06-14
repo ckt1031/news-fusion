@@ -5,7 +5,9 @@ import { useTheme } from 'next-themes';
 
 import {
 	DropdownMenuItem,
+	DropdownMenuLabel,
 	DropdownMenuPortal,
+	DropdownMenuSeparator,
 	DropdownMenuSub,
 	DropdownMenuSubContent,
 	DropdownMenuSubTrigger,
@@ -16,6 +18,8 @@ export function ModeToggleMenuItem() {
 
 	return (
 		<DropdownMenuSub>
+			<DropdownMenuLabel>Theme</DropdownMenuLabel>
+			<DropdownMenuSeparator />
 			<DropdownMenuSubTrigger>
 				<Sun className="mr-2 h-4 w-4 scale-100 transition-all dark:scale-0" />
 				<Moon className="mr-2 h-4 w-4 absolute scale-0 transition-all dark:scale-100" />

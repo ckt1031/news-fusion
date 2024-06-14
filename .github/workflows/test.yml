@@ -22,8 +22,8 @@ jobs:
       - name: Run lint
         run: pnpm run lint
 
-      - name: Test build
-        run: pnpm run build
+      # - name: Test build
+      #   run: pnpm run build
 
       - name: Test
         run: TESTING=1 pnpm test

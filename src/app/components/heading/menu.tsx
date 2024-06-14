@@ -41,7 +41,7 @@ export async function HeaderMenu() {
 									alt="Profile"
 									// biome-ignore lint/style/noNonNullAssertion: <explanation>
 									src={avatarUrl!}
-									className="rounded-full h-6 w-6 mr-2"
+									className="rounded-full h-4 w-4 mr-2"
 								/>
 							)}
 							<span>Profile</span>
