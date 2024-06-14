@@ -92,8 +92,10 @@ async function checkForumItem(props: {
 
 	consola.box('Result', props.title, important);
 
+	let shortSummary: string | undefined = undefined;
+
 	if (important) {
-		const shortSummary = await summarizeIntoShortText(props.env, markdown);
+		shortSummary = await summarizeIntoShortText(props.env, markdown);
 
 		await sendNewsToDiscord({
 			env: props.env,
@@ -122,6 +124,7 @@ async function checkForumItem(props: {
 		guid: props.guid,
 		publishedAt: new Date(props.pubDate),
 		embedding,
+		summary: important && shortSummary ? shortSummary : '',
 	});
 }
 

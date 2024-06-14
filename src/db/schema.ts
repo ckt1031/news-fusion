@@ -19,6 +19,7 @@ export const articles = pgTable(
 		publisher: text('publisher').notNull(),
 		category: text('category').notNull(),
 		publishedAt: timestamp('publishedAt', { mode: 'date' }).notNull(),
+
 		important: boolean('important').notNull(),
 
 		// OpenAI: text-embedding-3-small
@@ -28,6 +29,8 @@ export const articles = pgTable(
 			.array()
 			.notNull()
 			.default(sql`ARRAY[]::text[]`),
+		
+		summary: text('summary').notNull().default(sql`''`),
 	},
 	(table) => ({
 		embeddingIndex: index('embeddingIndex').using(

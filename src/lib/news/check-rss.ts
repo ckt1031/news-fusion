@@ -151,9 +151,9 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						);
 					}
 
-					if (important) {
-						let shortSummary: string | undefined = undefined;
+					let shortSummary: string | undefined = undefined;
 
+					if (important) {
 						if (autoSummarize && content.length !== 0) {
 							shortSummary = await summarizeIntoShortText(env, content);
 							consola.success(`Short Summary ( ${item.link} ):`, shortSummary);
@@ -196,6 +196,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						guid: item.guid,
 						publishedAt: new Date(item.pubDate),
 						embedding,
+						summary: autoSummarize && shortSummary ? shortSummary : '',
 					});
 				} catch (error) {
 					consola.error(error);
