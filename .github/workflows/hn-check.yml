@@ -3,12 +3,12 @@ name: HN + Lobsters Check
 on:
   workflow_dispatch: 
   schedule:
-    - cron: "35 */5 * * *"
+    - cron: "40 */3 * * *"
 
 jobs:
   hn-lobsters-check:
     timeout-minutes: 25
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
