@@ -53,8 +53,6 @@ async function checkForumItem(props: {
 	// }
 
 	const embeddingText = Mustache.render(embeddingTemplate, {
-		title: props.title,
-		link: props.link,
 		content: markdown,
 		pubdDate: props.pubDate,
 	});

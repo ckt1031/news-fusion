@@ -1,8 +1,3 @@
-const embeddingTemplate = `
-Title: {{title}}
-Link: {{link}}
-Publication Date: {{pubDate}}
-{{content}}
-`;
+const embeddingTemplate = 'Date: {{pubDate}}\n\n{{content}}';
 
 export default embeddingTemplate;

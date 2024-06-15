@@ -109,8 +109,8 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					let important = !checkImportance;
 
 					const embeddingText = Mustache.render(embeddingTemplate, {
-						title: item.title,
-						link: item.link,
+						//title: item.title,
+						//link: item.link,
 						pubDate: item.pubDate,
 						content,
 					});
