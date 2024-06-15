@@ -29,7 +29,7 @@ export enum RSS_CATEGORY {
 	HKG = 'hkg',
 	THINKING = 'thinking',
 	VIDEOS = 'videos',
-	ALERTS = 'alerts',
+	// ALERTS = 'alerts',
 	DEVELOPER = 'developer',
 	UPDATES = 'updates',
 	BLOGS = 'blogs',
@@ -197,12 +197,12 @@ export const RSS_DEV: RSSCatacory = {
 	],
 };
 
-export const RSS_ALERTS: RSSCatacory = {
-	name: RSS_CATEGORY.ALERTS,
-	discordChannelId: '1245007194064293929',
-	checkImportance: false,
-	channels: ['https://rss.weather.gov.hk/rss/WeatherWarningBulletin.xml'],
-};
+//export const RSS_ALERTS: RSSCatacory = {
+//	name: RSS_CATEGORY.ALERTS,
+//	discordChannelId: '1245007194064293929',
+//	checkImportance: false,
+//	channels: ['https://rss.weather.gov.hk/rss/WeatherWarningBulletin.xml'],
+//};
 
 export const RSS_BLOGS: RSSCatacory = {
 	name: RSS_CATEGORY.BLOGS,
@@ -251,7 +251,7 @@ export const ALL_RSS_CATAGORIES = [
 	RSS_DEV,
 	RSS_SCIENCE,
 	RSS_TECH,
-	RSS_ALERTS,
+	// RSS_ALERTS,
 	RSS_THINKING,
 	RSS_VIDEOS,
 	RSS_BLOGS,
