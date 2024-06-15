@@ -20,13 +20,23 @@ export async function clearUnusedDatabaseData() {
 		);
 }
 
+interface CheckNewsExistance {
+	guid: string;
+	url: string;
+	title: string;
+}
+
 export async function checkIfNewsIsNew(
-	guid: string,
-	url: string,
+	props: CheckNewsExistance,
 ): Promise<boolean> {
 	const result = await db.query.articles.findFirst({
 		where: (d, { eq, or }) =>
-			or(eq(d.guid, guid), arrayOverlaps(d.similarArticles, [url])),
+			or(
+				eq(d.guid, props.guid),
+				eq(d.url, props.url),
+				eq(d.title, props.title),
+				arrayOverlaps(d.similarArticles, [props.url]),
+			),
 	});
 
 	return !result;

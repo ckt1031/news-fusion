@@ -35,7 +35,11 @@ async function checkForumItem(props: {
 		return;
 	}
 
-	const isNew = await checkIfNewsIsNew(props.guid, props.link);
+	const isNew = await checkIfNewsIsNew({
+		guid: props.guid,
+		url: props.link,
+		title: props.title,
+	});
 
 	if (!isNew) {
 		consola.info('Skip', props.title);

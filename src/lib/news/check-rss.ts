@@ -70,7 +70,11 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 					if (!filterRSS({ url, title: item.title })) continue;
 
-					const isNew = await checkIfNewsIsNew(item.guid, item.link);
+					const isNew = await checkIfNewsIsNew({
+						guid: item.guid,
+						url: item.link,
+						title: item.title,
+					});
 
 					// Rejected if the news was already checked
 					if (!isNew) continue;
