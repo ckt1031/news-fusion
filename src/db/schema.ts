@@ -12,10 +12,10 @@ import {
 export const articles = pgTable(
 	'articles',
 	{
-		id: serial('id').primaryKey(),
+		id: serial('id').primaryKey().unique(),
 		url: text('url').notNull(),
 		guid: text('guid').notNull().unique(),
-		title: text('title').notNull(),
+		title: text('title').notNull().unique(),
 		publisher: text('publisher').notNull(),
 		category: text('category').notNull(),
 		publishedAt: timestamp('publishedAt', { mode: 'date' }).notNull(),
