@@ -5,7 +5,7 @@ import {
 	discordMessage,
 	discordTextSplit,
 } from '@/discord/utils';
-import { translateText } from '@/lib/llm/prompt-calls';
+import { llmTranslateText } from '@/lib/llm/prompt-calls';
 import { getContentMarkdownFromURL } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
 import { ButtonStructure, DiscordBotInteractionButtons } from '@/types/discord';
@@ -61,7 +61,7 @@ class TranslateButton extends ButtonStructure {
 			// Use message content to translate
 			const content = interaction.message.content;
 
-			const translation = await translateText(env, content);
+			const translation = await llmTranslateText(env, content);
 
 			if (!translation) {
 				throw new Error('Failed to translate content');
@@ -92,7 +92,7 @@ class TranslateButton extends ButtonStructure {
 
 			const content = await getContentMarkdownFromURL(env, url);
 
-			const translation = await translateText(env, content);
+			const translation = await llmTranslateText(env, content);
 
 			if (!translation) {
 				throw new Error('Failed to translate content');

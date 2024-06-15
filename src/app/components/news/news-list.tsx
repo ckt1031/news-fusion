@@ -4,6 +4,7 @@ import type { RSS_CATEGORY } from '@/config/news-sources';
 import type { Article } from '@/db/schema';
 import { getNewsBasedOnDateAndCategory } from '@/lib/db';
 import getCacheKey from './actions/get-cache-key';
+import ClearCache from './clear-cache';
 import NewsSection from './news-section';
 
 interface Props {
@@ -78,9 +79,12 @@ export default async function NewsList({ topic, date }: Props) {
 
 	return (
 		<>
-			<p className="text-gray-500 dark:text-gray-400 text-sm">
-				{sortedArticles?.length} articles found
-			</p>
+			<div className="flex flex-row justify-between items-center mb-1">
+				<p className="text-gray-500 dark:text-gray-400 text-sm">
+					{sortedArticles?.length} articles found
+				</p>
+				{isLoggedIn && <ClearCache date={date} topic={topic} />}
+			</div>
 			<div className="mb-4 flex flex-col divide-y divide-gray-300 dark:divide-gray-700">
 				{!sortedArticles?.length && (
 					<p className="text-gray-500 dark:text-gray-400 text-center py-4">

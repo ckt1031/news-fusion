@@ -3,7 +3,7 @@ import {
 	discordMessage,
 	getAllMessagesInDiscordChannel,
 } from '@/discord/utils';
-import { translateText } from '@/lib/llm/prompt-calls';
+import { llmTranslateText } from '@/lib/llm/prompt-calls';
 import { getContentMarkdownFromURL } from '@/lib/tool-apis';
 import { waitUntil } from '@/lib/wait-until';
 import { ButtonStructure, DiscordBotInteractionButtons } from '@/types/discord';
@@ -75,7 +75,7 @@ class ReTranslationButton extends ButtonStructure {
 			content = await getContentMarkdownFromURL(env, url);
 		}
 
-		const translation = await translateText(env, content);
+		const translation = await llmTranslateText(env, content);
 
 		if (!translation) {
 			throw new Error('Failed to translate content');

@@ -5,8 +5,11 @@ import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
 import { useToast } from '@/app/components/ui/use-toast';
 import { nextEnv } from '@/app/env';
+import { cn } from '@/app/utils/cn';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
+import { Loader2 } from 'lucide-react';
+import { useAction } from 'next-safe-action/hooks';
 import { useTheme } from 'next-themes';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -25,6 +28,8 @@ export default function LoginPageComponent() {
 		},
 	);
 
+	const { isExecuting, executeAsync } = useAction(login);
+
 	return (
 		<form
 			onSubmit={handleSubmit(async (data) => {
@@ -35,7 +40,7 @@ export default function LoginPageComponent() {
 					return;
 				}
 
-				const status = await login({
+				const status = await executeAsync({
 					...data,
 					captchaToken,
 				});
@@ -87,7 +92,12 @@ export default function LoginPageComponent() {
 				/>
 			)}
 
-			<Button type="submit">Log in</Button>
+			<Button type="submit" disabled={isExecuting}>
+				<Loader2
+					className={cn('mr-2 h-4 w-4 animate-spin', !isExecuting && 'hidden')}
+				/>
+				Log in
+			</Button>
 		</form>
 	);
 }

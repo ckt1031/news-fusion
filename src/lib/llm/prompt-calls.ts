@@ -52,7 +52,7 @@ export async function summarizeIntoShortText(
 	});
 }
 
-export async function translateText(
+export async function llmTranslateText(
 	env: TextCompletionsGenerateProps['env'],
 	originalContent: string,
 ) {

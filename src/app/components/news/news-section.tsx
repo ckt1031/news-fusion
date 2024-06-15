@@ -1,6 +1,6 @@
 'use client';
 
-import { ExternalLink, Languages, RotateCw } from 'lucide-react';
+import { ExternalLink, Loader2, RotateCw } from 'lucide-react';
 import { useState } from 'react';
 import Markdown from 'react-markdown';
 import { Button } from '../ui/button';
@@ -14,9 +14,11 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from '@/app/components/ui/tooltip';
+import { useAction } from 'next-safe-action/hooks';
+import Link from 'next/link';
 import { useToast } from '../ui/use-toast';
 import { reGenerateSummary } from './actions/re-generate-summary';
-import { translateNewsInfo } from './actions/translate';
+import TranslateButton from './translate-button';
 
 interface Props {
 	date: string;
@@ -36,7 +38,9 @@ export default function NewsSection({
 	const [displayDetail, setDisplayDetail] = useState(false);
 	const [summary, setSummary] = useState(article.summary);
 	const [title, setTitle] = useState(article.title);
-	const [translated, setTranslated] = useState(false);
+
+	const { isExecuting: isGeneratingSummary, executeAsync: executeSummarize } =
+		useAction(reGenerateSummary);
 
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const onActionError = (result: any) => {
@@ -54,7 +58,10 @@ export default function NewsSection({
 	};
 
 	const onGenerateSummary = async () => {
-		const result = await reGenerateSummary({
+		toast({
+			description: `Generating summary for "${article.title}"...`,
+		});
+		const result = await executeSummarize({
 			guid: article.guid,
 			url: article.url,
 			date,
@@ -63,30 +70,6 @@ export default function NewsSection({
 		if (onActionError(result)) return;
 		// biome-ignore lint/style/noNonNullAssertion: <explanation>
 		setSummary(result?.data!);
-	};
-
-	const onTranslate = async () => {
-		if (translated) {
-			setTitle(article.title);
-			setSummary(article.summary);
-			setTranslated(false);
-			return;
-		}
-
-		const result = await translateNewsInfo({
-			title,
-			summary: summary,
-		});
-		if (onActionError(result)) return;
-		// biome-ignore lint/style/noNonNullAssertion: <explanation>
-		setTitle(result?.data?.title!);
-		// biome-ignore lint/style/noNonNullAssertion: <explanation>
-		setSummary(result?.data?.summary!);
-
-		setTranslated(true);
-		toast({
-			description: `"${article.title}" has been translated to Chinese`,
-		});
 	};
 
 	return (
@@ -122,41 +105,49 @@ export default function NewsSection({
 			</div>
 			{displayDetail && (
 				<div className="mt-2">
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger>
+								<Link
+									href={article.url}
+									passHref
+									target="_blank"
+									rel="noopener noreferrer"
+									className="underline flex flex-row items-center mb-1"
+								>
+									<ExternalLink className="h-4 w-4 mr-2" />
+									Read more
+								</Link>
+							</TooltipTrigger>
+							<TooltipContent>
+								<p>{article.url}</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
 					{summary.length > 0 && (
-						<Markdown className="text-gray-600 dark:text-gray-400 prose prose-sm prose-neutral markdown-style">
+						<Markdown className="text-gray-600 dark:text-gray-400 prose prose-sm prose-neutral markdown-style max-w-full">
 							{summary}
 						</Markdown>
 					)}
 					<div className="flex flex-row gap-2 mt-2 flex-wrap">
-						<TooltipProvider>
-							<Tooltip>
-								<TooltipTrigger>
-									<Button
-										variant="ghost"
-										onClick={() => {
-											window.open(article.url, '_blank');
-										}}
-									>
-										<ExternalLink className="h-4 w-4 mr-2" />
-										Read more
-									</Button>
-								</TooltipTrigger>
-								<TooltipContent>
-									<p>{article.url}</p>
-								</TooltipContent>
-							</Tooltip>
-						</TooltipProvider>
 						{isLoggedIn && (
 							<>
-								<Button variant="ghost" onClick={onGenerateSummary}>
-									<RotateCw className="h-4 w-4 mr-2" />
+								<Button
+									variant="ghost"
+									onClick={onGenerateSummary}
+									disabled={isGeneratingSummary}
+								>
+									{isGeneratingSummary ? (
+										<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+									) : (
+										<RotateCw className="h-4 w-4 mr-2" />
+									)}
 									Generate summary
 								</Button>
-
-								<Button variant="ghost" onClick={onTranslate}>
-									<Languages className="h-4 w-4 mr-2" />
-									{translated ? 'Revert' : 'Translate (zh-tw)'}
-								</Button>
+								<TranslateButton
+									article={article}
+									{...{ title, summary, setSummary, setTitle, onActionError }}
+								/>
 							</>
 						)}
 					</div>
