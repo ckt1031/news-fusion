@@ -74,18 +74,18 @@ export async function getNewsBasedOnDateAndCategory(
 	category: string,
 	important: boolean,
 ) {
-	const HKGOffset = 8 * 60 * 60 * 1000;
-	const dayStart = new Date(new Date(date).getTime() - HKGOffset);
-
 	const oneDay = 24 * 60 * 60 * 1000;
-	const dayEnd = new Date(dayStart.getTime() + oneDay);
+	const HKGOffset = 8 * 60 * 60 * 1000;
+	const dayStart = new Date(new Date(date).getTime() - HKGOffset - 3 * oneDay);
+
+	// const dayEnd = new Date(dayStart.getTime() + oneDay);
 
 	return db.query.articles.findMany({
-		where: (d, { and, lte, gte }) =>
+		where: (d, { and, gte }) =>
 			and(
 				eq(d.category, category),
 				gte(d.publishedAt, dayStart),
-				lte(d.publishedAt, dayEnd),
+				// lte(d.publishedAt, dayEnd),
 				...(important ? [eq(d.important, important)] : []),
 			),
 	});
