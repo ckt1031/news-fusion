@@ -1,15 +1,15 @@
 'use client';
 
-import { Eraser, Loader2 } from 'lucide-react';
-import { useAction } from 'next-safe-action/hooks';
-import { Button } from '../ui/button';
+import { Button } from '@/app/components/ui/button';
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from '../ui/tooltip';
-import { toast } from '../ui/use-toast';
+} from '@/app/components/ui/tooltip';
+import { toast } from '@/app/components/ui/use-toast';
+import { Eraser, Loader2 } from 'lucide-react';
+import { useAction } from 'next-safe-action/hooks';
 import { clearCacheAction } from './actions/clear-cache';
 
 export default function ClearCache({

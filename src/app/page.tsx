@@ -1,5 +1,6 @@
 import { RSS_CATEGORY } from '@/config/news-sources';
 import { Suspense } from 'react';
+import LoadingComponent from './components/loading';
 import NewsList from './components/news/news-list';
 import TopicSelection from './components/news/topic-selection';
 
@@ -10,7 +11,7 @@ export default function Home() {
 	return (
 		<>
 			<TopicSelection topic={RSS_CATEGORY.GENERAL} />
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<LoadingComponent />}>
 				<NewsList topic={RSS_CATEGORY.GENERAL} date={date} />
 			</Suspense>
 		</>

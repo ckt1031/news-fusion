@@ -1,8 +1,6 @@
 import { EllipsisVertical, LogIn } from 'lucide-react';
 
 import { Button } from '@/app/components/ui/button';
-import { authState } from '@/app/hooks/auth';
-import getSHA256 from '@/app/utils/sha256';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -10,7 +8,9 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
+} from '@/app/components/ui/dropdown-menu';
+import { authState } from '@/app/hooks/auth';
+import getSHA256 from '@/app/utils/sha256';
 import LogOutMenuItem from './logout';
 import { ModeToggleMenuItem } from './mode-toggle';
 

@@ -1,3 +1,4 @@
+import LoadingComponent from '@/app/components/loading';
 import NewsList from '@/app/components/news/news-list';
 import TopicSelection from '@/app/components/news/topic-selection';
 import { RSS_CATEGORY } from '@/config/news-sources';
@@ -20,7 +21,7 @@ export default async function Page({
 	return (
 		<>
 			<TopicSelection topic={topic} />
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<LoadingComponent />}>
 				<NewsList topic={topic} date={date} />
 			</Suspense>
 		</>

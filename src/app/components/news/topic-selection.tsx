@@ -1,8 +1,8 @@
 'use client';
 
+import { Button } from '@/app/components/ui/button';
 import { RSS_CATEGORY } from '@/config/news-sources';
 import { useRouter } from 'next/navigation';
-import { Button } from '../ui/button';
 
 interface Props {
 	topic: RSS_CATEGORY;

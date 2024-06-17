@@ -1,9 +1,9 @@
 'use client';
 
+import { Button } from '@/app/components/ui/button';
 import { ExternalLink, Loader2, RotateCw } from 'lucide-react';
 import { useState } from 'react';
 import Markdown from 'react-markdown';
-import { Button } from '../ui/button';
 import type { fetchNews } from './news-list';
 import PublisherComponent from './publisher';
 import TimeComponent from './time-component';
@@ -14,9 +14,9 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from '@/app/components/ui/tooltip';
+import { useToast } from '@/app/components/ui/use-toast';
 import { useAction } from 'next-safe-action/hooks';
 import Link from 'next/link';
-import { useToast } from '../ui/use-toast';
 import { reGenerateSummary } from './actions/re-generate-summary';
 import TranslateButton from './translate-button';
 
