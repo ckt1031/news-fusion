@@ -130,9 +130,9 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						title = await generateTitle(env, content);
 
 						const embeddingText = Mustache.render(embeddingTemplate, {
-							//title: item.title,
-							//link: item.link,
-							pubDate: item.pubDate,
+							// title: item.title,
+							// link: item.link,
+							pubDate: new Date(),
 							content,
 						});
 
@@ -218,7 +218,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						publisher: feed.title,
 						category: catagory.name,
 						guid: item.guid,
-						publishedAt: new Date(item.pubDate),
+						publishedAt: new Date(),
 						embedding: scrapable ? embedding : null,
 						summary: autoSummarize && shortSummary ? shortSummary : '',
 					});
