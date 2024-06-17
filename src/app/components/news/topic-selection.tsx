@@ -29,9 +29,10 @@ export default function TopicSelection({ topic }: Props) {
 						variant={category === topic ? 'secondary' : 'outline'}
 						className="py-0.5 px-3 rounded-lg"
 						onClick={() => {
-							router.push(
-								category === RSS_CATEGORY.GENERAL ? '/' : `/topic/${category}`,
-							);
+							const basePath =
+								category === RSS_CATEGORY.GENERAL ? '/' : `/topic/${category}`;
+
+							router.push(`${basePath}${location.search}`);
 						}}
 					>
 						{captialFirstLetter(category)}
