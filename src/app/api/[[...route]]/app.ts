@@ -13,11 +13,6 @@ app.use('*', sentry());
 
 app.route('/discord/interactions', discordBot);
 
-// robots.txt, disallow all
-app.get('/robots.txt', (c) => {
-	return c.text('User-agent: *\nDisallow: /');
-});
-
 // Runs every month
 app.get('/cron/clear-unused-database-data', async (c) => {
 	if (c.req.header('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
