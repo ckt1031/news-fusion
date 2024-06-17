@@ -16,13 +16,14 @@ import {
 import { requestEmbeddingsAPI } from '../llm/api';
 import {
 	checkArticleImportance,
+	generateTitle,
 	summarizeIntoShortText,
 } from '../llm/prompt-calls';
 import { parseRSS } from '../parse-news';
 import { getContentMarkdownFromURL, scrapeMetaData } from '../tool-apis';
 import filterRSS from './filter-news';
 import { getRSSHubURL } from './rsshub';
-import sendNewsToDiscord from './send-discord-news';
+// import sendNewsToDiscord from './send-discord-news';
 import { isArticleSimilar } from './similarity';
 
 type Props = {
@@ -85,12 +86,12 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						'autoSummarize',
 						true,
 					);
-					const includeAIButtons = getConfiguration(
-						catagory,
-						channel,
-						'includeAIButtons',
-						true,
-					);
+					// const includeAIButtons = getConfiguration(
+					// 	catagory,
+					// 	channel,
+					// 	'includeAIButtons',
+					// 	true,
+					// );
 					let checkImportance = getConfiguration(
 						catagory,
 						channel,
@@ -106,6 +107,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 					let thumbnail: string | undefined = item?.thumbnail;
 
+					let title = item.title;
 					let content = '';
 
 					if (scrapable) {
@@ -125,6 +127,8 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 					let embedding: number[] | null = null;
 
 					if (scrapable && content.length > 0) {
+						title = await generateTitle(env, content);
+
 						const embeddingText = Mustache.render(embeddingTemplate, {
 							//title: item.title,
 							//link: item.link,
@@ -187,29 +191,29 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 							}
 						}
 
-						await sendNewsToDiscord({
-							env,
-							data: {
-								...(autoSummarize &&
-									shortSummary && { description: shortSummary }),
-								feed: {
-									title: feed.title,
-								},
-								news: {
-									title: item.title,
-									link: item.link,
-									pubDate: item.pubDate,
-								},
-								channelId: catagory.discordChannelId,
-								includeAIButtons,
-								thumbnail,
-							},
-						});
+						// await sendNewsToDiscord({
+						// 	env,
+						// 	data: {
+						// 		...(autoSummarize &&
+						// 			shortSummary && { description: shortSummary }),
+						// 		feed: {
+						// 			title: feed.title,
+						// 		},
+						// 		news: {
+						// 			title: item.title,
+						// 			link: item.link,
+						// 			pubDate: item.pubDate,
+						// 		},
+						// 		channelId: catagory.discordChannelId,
+						// 		includeAIButtons,
+						// 		thumbnail,
+						// 	},
+						// });
 					}
 
 					await createArticleDatabase({
 						important,
-						title: item.title,
+						title: title,
 						url: item.link,
 						publisher: feed.title,
 						category: catagory.name,

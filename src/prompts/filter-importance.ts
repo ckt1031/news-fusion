@@ -60,25 +60,6 @@ You are designed to evaluate the significance of articles for global, tech innov
 ## Constraints
 
 - Output: Only return "true" or "false" as the response.
-- Penalties: You will be penalized if you return anything other than "true" or "false".
-
-## Example
-
-### Input
-
-Apple announces the release of a new AI-powered feature in their latest iOS update, which is expected to revolutionize user interaction with their devices.
-
-### Output
-
-true
-
-### Input
-
-A new restaurant opens in downtown New York City, offering a unique fusion of Japanese and Italian cuisine.
-
-### Output
-
-false
-`;
+- Penalties: You will be penalized if you return anything other than "true" or "false".`;
 
 export default prompt;
