@@ -6,6 +6,9 @@ export type RSSConfig = {
 	autoSummarize?: boolean;
 	/** Default to ture, this will include buttons such as "Translate" or "Summarize" buttons */
 	includeAIButtons?: boolean;
+
+	/** Specify if the content is scrapable or not */
+	scrapable?: boolean;
 };
 
 export type RSSChannelItem =
@@ -89,12 +92,12 @@ export const RSS_VIDEOS: RSSCatacory = {
 		/**
 		 * Chinese High Quality Channels below
 		 */
-		`${YOUTUBE_RSS}UC4dtpugIYK56S_7btf5a-iQ`, // lyi 林亦LYi
+		{ url: `${YOUTUBE_RSS}UC4dtpugIYK56S_7btf5a-iQ`, scrapable: false }, // lyi 林亦LYi
 		`${YOUTUBE_RSS}UCQtwvRQWnT5Buh9hpvNNryQ`, // chaiknowsofficialchannel982 柴知道
 		`${YOUTUBE_RSS}UCilwQlk62k1z7aUEZPOB6yw`, // xiao_lin_shuo 小Lin说
 		`${YOUTUBE_RSS}UCeUJO1H3TEXu2syfAAPjYKQ`, // geekerwan1024 极客湾 Geekerwan
 		`${YOUTUBE_RSS}UCBj9S8TBRlCU4QnhTEOdWZQ`, // axtonliu 回到 Axton
-		`${YOUTUBE_RSS}UC2tQpW0dPiyWPebwBSksJ_g`, // NDWTB 脑洞乌托邦
+		{ url: `${YOUTUBE_RSS}UC2tQpW0dPiyWPebwBSksJ_g`, scrapable: false }, // NDWTB 脑洞乌托邦
 	],
 };
 
@@ -211,7 +214,7 @@ export const RSS_BLOGS: RSSCatacory = {
 	channels: [
 		'https://baoyu.io/feed.xml',
 		'https://www.appinn.com/feed',
-		'https://www.wainao.me/rss.xml',
+		{ url: 'https://www.wainao.me/rss.xml', scrapable: false },
 		'https://codechina.org/feed',
 		'https://weekly.tw93.fun/rss.xml',
 		'https://feeds.feedburner.com/ruanyifeng',

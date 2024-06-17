@@ -23,7 +23,7 @@ export const articles = pgTable(
 		important: boolean('important').notNull(),
 
 		// OpenAI: text-embedding-3-small
-		embedding: vector('embedding', { dimensions: 1536 }).notNull(),
+		embedding: vector('embedding', { dimensions: 1536 }),
 
 		similarArticles: text('similarArticles')
 			.array()

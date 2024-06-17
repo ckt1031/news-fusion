@@ -97,10 +97,20 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						'checkImportance',
 						true,
 					);
+					const scrapable = getConfiguration(
+						catagory,
+						channel,
+						'scrapable',
+						true,
+					);
 
 					let thumbnail: string | undefined = item?.thumbnail;
 
-					const content = await getContentMarkdownFromURL(env, item.link);
+					let content = '';
+
+					if (scrapable) {
+						content = await getContentMarkdownFromURL(env, item.link);
+					}
 
 					if (content.length === 0) {
 						consola.error('Got empty content from', item.link);
@@ -112,36 +122,42 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 					let important = !checkImportance;
 
-					const embeddingText = Mustache.render(embeddingTemplate, {
-						//title: item.title,
-						//link: item.link,
-						pubDate: item.pubDate,
-						content,
-					});
+					let embedding: number[] | null = null;
 
-					const embedding = await requestEmbeddingsAPI({
-						env,
-						text: embeddingText,
-						timeout: 5 * 1000,
-					});
+					if (scrapable && content.length > 0) {
+						const embeddingText = Mustache.render(embeddingTemplate, {
+							//title: item.title,
+							//link: item.link,
+							pubDate: item.pubDate,
+							content,
+						});
 
-					const similar = await isArticleSimilar(embedding, item.link);
+						embedding = await requestEmbeddingsAPI({
+							env,
+							text: embeddingText,
+							timeout: 5 * 1000,
+						});
 
-					// Reject if similar article found
-					if (
-						similar.similarities.length > 0 &&
-						similar.result &&
-						similar.similarities[0]
-					) {
-						const topSimilar = similar.similarities[0];
+						if (embedding) {
+							const similar = await isArticleSimilar(embedding, item.link);
 
-						consola.box(
-							`Similar article found: ${item.link} -> ${topSimilar.url} (${topSimilar.similarity})`,
-						);
+							// Reject if similar article found
+							if (
+								similar.similarities.length > 0 &&
+								similar.result &&
+								similar.similarities[0]
+							) {
+								const topSimilar = similar.similarities[0];
 
-						await addSimilarArticleToDatabase(topSimilar.url, item.link);
+								consola.box(
+									`Similar article found: ${item.link} -> ${topSimilar.url} (${topSimilar.similarity})`,
+								);
 
-						continue;
+								await addSimilarArticleToDatabase(topSimilar.url, item.link);
+
+								continue;
+							}
+						}
 					}
 
 					if (checkImportance) {
@@ -199,7 +215,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						category: catagory.name,
 						guid: item.guid,
 						publishedAt: new Date(item.pubDate),
-						embedding,
+						embedding: scrapable ? embedding : null,
 						summary: autoSummarize && shortSummary ? shortSummary : '',
 					});
 				} catch (error) {
