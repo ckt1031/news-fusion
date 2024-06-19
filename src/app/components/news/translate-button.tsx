@@ -75,11 +75,11 @@ export default function TranslateButton({
 	const revertTranslation = async () => {
 		setIsTranslating(true);
 
-		setTitle(article.title);
-		setSummary(article.summary);
-
 		// Wait for 500ms to ensure the title and summary are updated
 		await new Promise((resolve) => setTimeout(resolve, 500));
+
+		setTitle(article.title);
+		setSummary(article.summary);
 
 		setIsTranslated(false);
 		setIsTranslating(false);

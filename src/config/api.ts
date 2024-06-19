@@ -1,5 +1,3 @@
-export const DISCORD_API_BASE = 'https://discord.com/api/v10';
-
 export const YOUTUBE_RSS =
 	'https://www.youtube.com/feeds/videos.xml?channel_id=';
 

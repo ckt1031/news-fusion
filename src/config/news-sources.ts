@@ -19,9 +19,6 @@ export type RSSChannelItem =
 export interface RSSCatacory extends RSSConfig {
 	name: RSS_CATEGORY;
 	channels: RSSChannelItem[];
-
-	// Push to this channel
-	discordChannelId: string;
 }
 
 export enum RSS_CATEGORY {
@@ -41,7 +38,6 @@ export enum RSS_CATEGORY {
 
 export const RSS_GENERAL: RSSCatacory = {
 	name: RSS_CATEGORY.GENERAL,
-	discordChannelId: '1245738873787645962',
 	channels: [
 		//'https://rss.politico.com/politics-news.xml',
 		'https://feeds.bbci.co.uk/news/world/rss.xml',
@@ -50,13 +46,11 @@ export const RSS_GENERAL: RSSCatacory = {
 
 export const RSS_HKG: RSSCatacory = {
 	name: RSS_CATEGORY.HKG,
-	discordChannelId: '1245731477048660021',
 	channels: ['https://www.scmp.com/rss/2/feed'],
 };
 
 export const RSS_THINKING: RSSCatacory = {
 	name: RSS_CATEGORY.THINKING,
-	discordChannelId: '1245734549879525546',
 	checkImportance: false,
 	channels: [
 		'https://asteriskmag.com/feed',
@@ -69,7 +63,6 @@ export const RSS_THINKING: RSSCatacory = {
 
 export const RSS_VIDEOS: RSSCatacory = {
 	name: RSS_CATEGORY.VIDEOS,
-	discordChannelId: '1245004330868674591',
 	checkImportance: false,
 	channels: [
 		// Science and Education
@@ -103,7 +96,6 @@ export const RSS_VIDEOS: RSSCatacory = {
 
 export const RSS_TECH: RSSCatacory = {
 	name: RSS_CATEGORY.TECHNOLOGY,
-	discordChannelId: '1245004214678061096',
 	channels: [
 		'https://blog.google/rss',
 		'https://9to5mac.com/feed',
@@ -125,7 +117,6 @@ export const RSS_TECH: RSSCatacory = {
 
 export const RSS_AI: RSSCatacory = {
 	name: RSS_CATEGORY.AI,
-	discordChannelId: '1250790199219196037',
 	checkImportance: false,
 	channels: [
 		'https://lastweekin.ai/feed',
@@ -140,7 +131,6 @@ export const RSS_AI: RSSCatacory = {
 
 export const RSS_SCIENCE: RSSCatacory = {
 	name: RSS_CATEGORY.SCIENCE,
-	discordChannelId: '1248298490170441728',
 	channels: [
 		'https://rss.sciencedaily.com/all.xml',
 		'https://www.newscientist.com/feed/home',
@@ -150,7 +140,6 @@ export const RSS_SCIENCE: RSSCatacory = {
 
 export const RSS_DEV: RSSCatacory = {
 	name: RSS_CATEGORY.DEVELOPER,
-	discordChannelId: '1245006701812387890',
 	checkImportance: false,
 	channels: [
 		'https://blog.cloudflare.com/rss',
@@ -200,16 +189,8 @@ export const RSS_DEV: RSSCatacory = {
 	],
 };
 
-//export const RSS_ALERTS: RSSCatacory = {
-//	name: RSS_CATEGORY.ALERTS,
-//	discordChannelId: '1245007194064293929',
-//	checkImportance: false,
-//	channels: ['https://rss.weather.gov.hk/rss/WeatherWarningBulletin.xml'],
-//};
-
 export const RSS_BLOGS: RSSCatacory = {
 	name: RSS_CATEGORY.BLOGS,
-	discordChannelId: '1245004300300587018',
 	checkImportance: false,
 	channels: [
 		'https://baoyu.io/feed.xml',
@@ -239,7 +220,6 @@ export const RSS_BLOGS: RSSCatacory = {
 
 export const RSS_UPDATES: RSSCatacory = {
 	name: RSS_CATEGORY.UPDATES,
-	discordChannelId: '1245045959570755584',
 	checkImportance: false,
 	channels: [
 		'https://obsidian.md/feed.xml',

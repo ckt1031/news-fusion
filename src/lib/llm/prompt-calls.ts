@@ -11,11 +11,11 @@ import summarizePrompt from '@/prompts/summarize';
 import summarizeInfoShortTextPrompt from '@/prompts/summarize-to-short-text';
 import titleGenPrompt from '@/prompts/title-generate';
 import translatePrompt from '@/prompts/translate';
+import Mustache from 'mustache';
 import {
 	type TextCompletionsGenerateProps,
 	requestChatCompletionAPI,
 } from './api';
-import Mustache from 'mustache';
 
 export async function summarizeText(
 	env: TextCompletionsGenerateProps['env'],

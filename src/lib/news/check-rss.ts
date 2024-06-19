@@ -23,7 +23,6 @@ import { parseRSS } from '../parse-news';
 import { getContentMarkdownFromURL, scrapeMetaData } from '../tool-apis';
 import filterRSS from './filter-news';
 import { getRSSHubURL } from './rsshub';
-// import sendNewsToDiscord from './send-discord-news';
 import { isArticleSimilar } from './similarity';
 
 type Props = {
@@ -190,25 +189,6 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 								consola.error('Failed to get thumbnail:', error);
 							}
 						}
-
-						// await sendNewsToDiscord({
-						// 	env,
-						// 	data: {
-						// 		...(autoSummarize &&
-						// 			shortSummary && { description: shortSummary }),
-						// 		feed: {
-						// 			title: feed.title,
-						// 		},
-						// 		news: {
-						// 			title: item.title,
-						// 			link: item.link,
-						// 			pubDate: item.pubDate,
-						// 		},
-						// 		channelId: catagory.discordChannelId,
-						// 		includeAIButtons,
-						// 		thumbnail,
-						// 	},
-						// });
 					}
 
 					await createArticleDatabase({

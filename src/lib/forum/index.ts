@@ -13,7 +13,6 @@ import {
 	checkArticleImportance,
 	summarizeIntoShortText,
 } from '../llm/prompt-calls';
-import sendNewsToDiscord from '../news/send-discord-news';
 import { isArticleSimilar } from '../news/similarity';
 import { parseRSS } from '../parse-news';
 import { getContentMarkdownFromURL } from '../tool-apis';
@@ -98,23 +97,6 @@ async function checkForumItem(props: {
 
 	if (important) {
 		shortSummary = await summarizeIntoShortText(props.env, markdown);
-
-		await sendNewsToDiscord({
-			env: props.env,
-			data: {
-				description: shortSummary,
-				feed: {
-					title: props.sourceName,
-				},
-				news: {
-					title: props.title,
-					link: props.link,
-					pubDate: props.pubDate,
-				},
-				channelId: props.channelID,
-				includeAIButtons: true,
-			},
-		});
 	}
 
 	await createArticleDatabase({

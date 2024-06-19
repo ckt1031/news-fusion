@@ -9,12 +9,6 @@ export const envSchema = z.object({
 	RSSHUB_BASE_URL: z.string().optional(),
 	RSSHUB_ACCESS_KEY: z.string().optional(),
 
-	// Discord Bot Config
-	DISCORD_GUILD_ID: z.string(),
-	DISCORD_BOT_TOKEN: z.string(),
-	DISCORD_APPLICATION_ID: z.string(),
-	DISCORD_PUBLIC_KEY: z.string(),
-
 	// Private API
 	TOOLS_API_BASE_URL: z.string(),
 	TOOLS_API_KEY: z.string(),

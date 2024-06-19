@@ -1,4 +1,3 @@
-import discordBot from '@/discord/bot';
 import { clearUnusedDatabaseData } from '@/lib/db';
 import type { ServerEnv } from '@/types/env';
 import { sentry } from '@hono/sentry';
@@ -10,8 +9,6 @@ import { reportToSentryOnHono } from './on-error';
 const app = new Hono<{ Bindings: ServerEnv }>().basePath('/api');
 
 app.use('*', sentry());
-
-app.route('/discord/interactions', discordBot);
 
 // Runs every month
 app.get('/cron/clear-unused-database-data', async (c) => {
