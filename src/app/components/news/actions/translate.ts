@@ -13,7 +13,13 @@ export const translateNewsInfo = authActionClient
 
 		async function _translateText(t: string) {
 			if (formData.useLLM) {
-				return await llmTranslateText(env, t);
+				return await llmTranslateText(
+					env,
+					t,
+					formData.targetLanguage === 'en'
+						? 'English'
+						: 'Traditional Chinese (Hong Kong)',
+				);
 			}
 
 			const { text } = await translate(t, {

@@ -15,6 +15,7 @@ import {
 	type TextCompletionsGenerateProps,
 	requestChatCompletionAPI,
 } from './api';
+import Mustache from 'mustache';
 
 export async function summarizeText(
 	env: TextCompletionsGenerateProps['env'],
@@ -55,13 +56,18 @@ export async function summarizeIntoShortText(
 export async function llmTranslateText(
 	env: TextCompletionsGenerateProps['env'],
 	originalContent: string,
+	targetLanguage: 'Traditional Chinese (Hong Kong)' | 'English',
 ) {
+	const _translatePrompt = Mustache.render(translatePrompt, {
+		language: targetLanguage,
+	});
+
 	const content = await requestChatCompletionAPI({
 		env,
 		model: env.DEFAULT_TRANSLATE_MODEL ?? DEFAULT_TRANSLATE_MODEL,
 		temperature: 0.2,
 		message: {
-			system: translatePrompt,
+			system: _translatePrompt,
 			user: originalContent,
 		},
 		trace: {
