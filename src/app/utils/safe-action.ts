@@ -10,7 +10,7 @@ export const authActionClient = action.use(async ({ next }) => {
 	const user = await supabase.auth.getUser();
 
 	if (!user.data || user.error) {
-		throw new Error('User not found!');
+		throw new Error('Client is not authenticated');
 	}
 
 	return next({ ctx: { user: user.data } });

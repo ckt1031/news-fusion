@@ -24,13 +24,22 @@ export async function getSimilarities(embedding: number[]) {
 	return similarGuides;
 }
 
+interface SimilarArticleProp {
+	result: boolean;
+	similarities: {
+		name: string;
+		url: string;
+		similarity: number;
+	}[];
+}
+
 export async function isArticleSimilar(
 	embedding: number[],
 	/**
 	 * If the original content URL is provided, content from the same site will not be marked as similar
 	 */
 	originalContentURL?: string,
-) {
+): Promise<SimilarArticleProp> {
 	/**
 	 * Same site would not produce similar articles
 	 * This is to prevent the article from same site to be marked as similar

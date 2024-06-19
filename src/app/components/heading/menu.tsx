@@ -1,4 +1,4 @@
-import { EllipsisVertical, LogIn } from 'lucide-react';
+import { EllipsisVertical, LogIn, ScanEye } from 'lucide-react';
 
 import { Button } from '@/app/components/ui/button';
 import {
@@ -11,6 +11,7 @@ import {
 } from '@/app/components/ui/dropdown-menu';
 import { authState } from '@/app/hooks/auth';
 import getSHA256 from '@/app/utils/sha256';
+import Link from 'next/link';
 import LogOutMenuItem from './logout';
 import { ModeToggleMenuItem } from './mode-toggle';
 
@@ -50,12 +51,24 @@ export async function HeaderMenu() {
 					</>
 				) : (
 					<>
-						<a href="/auth/login">
+						<Link href="/auth/login">
 							<DropdownMenuItem>
 								<LogIn className="mr-2 h-4 w-4" />
 								<span>Log In</span>
 							</DropdownMenuItem>
-						</a>
+						</Link>
+					</>
+				)}
+				{isLoggedIn && (
+					<>
+						<DropdownMenuLabel>Tools</DropdownMenuLabel>
+						<DropdownMenuSeparator />
+						<Link href="/tools/similarities">
+							<DropdownMenuItem>
+								<ScanEye className="mr-2 h-4 w-4" />
+								<span>Similarities</span>
+							</DropdownMenuItem>
+						</Link>
 					</>
 				)}
 				<ModeToggleMenuItem />
