@@ -14,10 +14,10 @@ function getClient(env: ScrapeMarkdownVar) {
 	const client = createClient<paths>({ baseUrl: env.TOOLS_API_BASE_URL });
 
 	const authMiddleware: Middleware = {
-		async onRequest(req) {
+		async onRequest({ request }) {
 			// set "foo" header
-			req.headers.set('Authorization', `Bearer ${env.TOOLS_API_KEY}`);
-			return req;
+			request.headers.set('Authorization', `Bearer ${env.TOOLS_API_KEY}`);
+			return request;
 		},
 	};
 
