@@ -3,6 +3,9 @@ import { redis } from '@/app/utils/upstash';
 import type { RSS_CATEGORY } from '@/config/news-sources';
 import type { Article } from '@/db/schema';
 import { getNewsBasedOnDateAndCategory } from '@/lib/db';
+import dayjs from 'dayjs';
+import { ShieldX } from 'lucide-react';
+import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import getCacheKey from './actions/get-cache-key';
 import ClearCache from './clear-cache';
 import NewsSection from './news-section';
@@ -73,7 +76,36 @@ export async function fetchNews({ topic, date }: Omit<Props, 'userStatus'>) {
 	return sortedArticles;
 }
 
+const ALLOWED_DAYS = 30;
+
+function isDateInAllowedDayRange(date: string) {
+	const currentDate = dayjs().format('YYYY-MM-DD');
+	const dateToCheck = dayjs(date).format('YYYY-MM-DD');
+
+	return (
+		dayjs(dateToCheck).isAfter(
+			dayjs(currentDate).subtract(ALLOWED_DAYS, 'day'),
+		) && dayjs(dateToCheck).isBefore(dayjs(currentDate).add(1, 'day'))
+	);
+}
+
 export default async function NewsList({ topic, date }: Props) {
+	if (!isDateInAllowedDayRange(date)) {
+		return (
+			<Card className="my-3">
+				<CardHeader>
+					<CardTitle className="flex flex-row gap-2">
+						<ShieldX className="w-6 h-6" />
+						Invalid Date
+					</CardTitle>
+					<CardDescription>
+						You can only view news from the past 30 days
+					</CardDescription>
+				</CardHeader>
+			</Card>
+		);
+	}
+
 	const sortedArticles = await fetchNews({ topic, date });
 	const { isLoggedIn } = await authState();
 

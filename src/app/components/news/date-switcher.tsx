@@ -20,19 +20,18 @@ import { Calendar } from '../ui/calendar';
 import { useToast } from '../ui/use-toast';
 
 export default function DateSwitcher() {
-	const clientCurrentDate = dayjs().format('YYYY-MM-DD');
-
+	const { toast } = useToast();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 	const router = useRouter();
 
-	const { toast } = useToast();
-
+	const clientCurrentDate = dayjs().format('YYYY-MM-DD');
 	const queryDate = searchParams.get('date');
-
 	const date = queryDate
 		? dayjs(queryDate).format('YYYY-MM-DD')
 		: clientCurrentDate;
+
+	const isToday = queryDate === clientCurrentDate;
 
 	const getAllQueriesRequired = (date: string) => {
 		const all = queryString.parse(location.search);
@@ -66,7 +65,7 @@ export default function DateSwitcher() {
 		// If the selected Date is after the current date, reject it
 		if (dayjs(_date).isAfter(clientCurrentDate)) {
 			toast({
-				description: `You can only view news from ${clientCurrentDate} onwards`,
+				description: `You can only view news on or before ${clientCurrentDate}`,
 			});
 			return;
 		}
@@ -83,8 +82,6 @@ export default function DateSwitcher() {
 
 		router.push(`${pathname}?${getAllQueriesRequired(_date)}`);
 	};
-
-	const isToday = queryDate === clientCurrentDate;
 
 	return (
 		<TooltipProvider>

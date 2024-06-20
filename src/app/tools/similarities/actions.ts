@@ -17,7 +17,7 @@ export const findSimilaritiesAction = authActionClient
 		if (url) {
 			const fetchedContent = (await getContentMarkdownParallel(env, [url]))[0];
 
-			if (!fetchedContent) {
+			if (!fetchedContent || fetchedContent.content.length === 0) {
 				throw new Error(`Failed to fetch content for ${url}`);
 			}
 

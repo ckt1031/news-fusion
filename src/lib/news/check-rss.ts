@@ -131,7 +131,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						const embeddingText = Mustache.render(embeddingTemplate, {
 							// title: item.title,
 							// link: item.link,
-							pubDate: new Date(),
+							//pubDate: new Date(),
 							content,
 						});
 

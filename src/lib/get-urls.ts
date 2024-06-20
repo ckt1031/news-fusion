@@ -29,7 +29,7 @@ export async function getContentMarkdownParallel(
 				}))
 				.catch(() => ({
 					url,
-					content: 'Failed to fetch content',
+					content: '',
 				})),
 		),
 	);

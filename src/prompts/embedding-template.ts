@@ -1,3 +1,3 @@
-const embeddingTemplate = 'Date: {{pubDate}}\n\n{{content}}';
+const embeddingTemplate = '{{content}}';
 
 export default embeddingTemplate;

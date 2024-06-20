@@ -1,9 +1,9 @@
 import type { ServerEnv } from '@/types/env';
 import type { paths } from '@/types/tool-apis';
-import translate from '@iamtraction/google-translate';
+//import translate from '@iamtraction/google-translate';
 import consola from 'consola';
-import createClient, { type Middleware } from 'openapi-fetch';
-import { isMostlyChinese } from './detect-chinese';
+import createClient from 'openapi-fetch';
+//import { isMostlyChinese } from './detect-chinese';
 
 export type ScrapeMarkdownVar = Pick<
 	ServerEnv,
@@ -11,17 +11,13 @@ export type ScrapeMarkdownVar = Pick<
 >;
 
 function getClient(env: ScrapeMarkdownVar) {
-	const client = createClient<paths>({ baseUrl: env.TOOLS_API_BASE_URL });
-
-	const authMiddleware: Middleware = {
-		async onRequest({ request }) {
-			// set "foo" header
-			request.headers.set('Authorization', `Bearer ${env.TOOLS_API_KEY}`);
-			return request;
+	const client = createClient<paths>({
+		baseUrl: env.TOOLS_API_BASE_URL,
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${env.TOOLS_API_KEY}`,
 		},
-	};
-
-	client.use(authMiddleware);
+	});
 
 	return client;
 }
@@ -38,12 +34,6 @@ export async function getContentMarkdownFromURL(
 		content = ytInfo.captions?.text ?? '';
 	} else {
 		content = await scrapeToMarkdown(env, url);
-	}
-
-	// Save even more tokens
-	if (content.length > 0 && isMostlyChinese(content)) {
-		const { text } = await translate(content, { to: 'en' });
-		content = text;
 	}
 
 	return content;

@@ -1,5 +1,10 @@
 import { EllipsisVertical, LogIn, ScanEye } from 'lucide-react';
 
+import {
+	Avatar,
+	AvatarFallback,
+	AvatarImage,
+} from '@/app/components/ui/avatar';
 import { Button } from '@/app/components/ui/button';
 import {
 	DropdownMenu,
@@ -15,14 +20,14 @@ import Link from 'next/link';
 import LogOutMenuItem from './logout';
 import { ModeToggleMenuItem } from './mode-toggle';
 
-async function getGavatarUrl(email: string) {
+function getGavatarUrl(email: string) {
 	const SHA256 = getSHA256(email);
 	return `https://www.gravatar.com/avatar/${SHA256}?d=identicon`;
 }
 
 export async function HeaderMenu() {
 	const { isLoggedIn, user } = await authState();
-	const avatarUrl = user?.email ? await getGavatarUrl(user.email) : null;
+	const avatarUrl = user?.email ? getGavatarUrl(user.email) : null;
 
 	return (
 		<DropdownMenu>
@@ -37,14 +42,14 @@ export async function HeaderMenu() {
 				{isLoggedIn ? (
 					<>
 						<DropdownMenuItem>
-							{user?.email && (
-								<img
-									alt="Profile"
+							<Avatar className="h-4 w-4 mr-2">
+								<AvatarImage
 									// biome-ignore lint/style/noNonNullAssertion: <explanation>
 									src={avatarUrl!}
-									className="rounded-full h-4 w-4 mr-2"
+									alt="Profile"
 								/>
-							)}
+								<AvatarFallback>User</AvatarFallback>
+							</Avatar>
 							<span>Profile</span>
 						</DropdownMenuItem>
 						<LogOutMenuItem />

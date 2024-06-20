@@ -57,7 +57,7 @@ async function checkForumItem(props: {
 
 	const embeddingText = Mustache.render(embeddingTemplate, {
 		content: markdown,
-		pubdDate: props.pubDate,
+		// pubDate: props.pubDate,
 	});
 
 	const embedding = await requestEmbeddingsAPI({
