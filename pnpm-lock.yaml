@@ -136,7 +136,7 @@ importers:
         version: 0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3))
       langfuse-langchain:
         specifier: ^3.12.1
-        version: 3.12.1(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))
+        version: 3.12.2(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))
       lucide-react:
         specifier: ^0.395.0
         version: 0.395.0(react@18.3.1)
@@ -2469,18 +2469,18 @@ packages:
   langchainhub@0.0.11:
     resolution: {integrity: sha512-WnKI4g9kU2bHQP136orXr2bcRdgz9iiTBpTN0jWt9IlScUKnJBoD0aa2HOzHURQKeQDnt2JwqVmQ6Depf5uDLQ==}
 
-  langfuse-core@3.12.1:
-    resolution: {integrity: sha512-TTNrs0s88Fl4LJ2RNiimoV6muFZcrTNxt9DY45YrORH+zo+M7VHNX0MJvI96xk4zA6bxKFy0ONxFC75+ipsBRw==}
+  langfuse-core@3.12.2:
+    resolution: {integrity: sha512-9YzaHKinivgn9u9sj6j3DlmAAc6GuPZgup2EdQ6ZDnycaQPtBEG7LZWt5X3hgMLO4EpGGoeogXiK+2+Ektuqlw==}
     engines: {node: '>=18'}
 
-  langfuse-langchain@3.12.1:
-    resolution: {integrity: sha512-N3Dw7oItpxB2OiQYms/0nQaGYxaiAMTUewGD0unDivSobMjRTHd4BxSpz7+EgxhJvqsuQ5ZjHnDGBVHeD8qzWw==}
+  langfuse-langchain@3.12.2:
+    resolution: {integrity: sha512-wf31kjOf6A9ARvNj5tBCwyUb45S2z8so281dO7zkoQu8L5eY/NlqyX+i7rWmiiJqIm/Tdx4BbuB4ub+1TN053g==}
     engines: {node: '>=18'}
     peerDependencies:
       langchain: '>=0.0.157 <0.3.0'
 
-  langfuse@3.12.1:
-    resolution: {integrity: sha512-hzhth+lGyVhJgmSKaGVTBCg+GnILMdUKK0jgN5hFvwkKcLZRRQl3VZMA53mfj9PIMMU4QIJkwU9GvUpH42qIoA==}
+  langfuse@3.12.2:
+    resolution: {integrity: sha512-PlRsat0cey80nSKGiw2vI7BR7aIBhv88ROhXwOOZvI8JNLLOyq0bMaz5/AOjVrAceRkPne3YNw9QF0vq1i7s5g==}
     engines: {node: '>=18'}
 
   langsmith@0.1.32:
@@ -5301,19 +5301,19 @@ snapshots:
 
   langchainhub@0.0.11: {}
 
-  langfuse-core@3.12.1:
+  langfuse-core@3.12.2:
     dependencies:
       mustache: 4.2.0
 
-  langfuse-langchain@3.12.1(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3))):
+  langfuse-langchain@3.12.2(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3))):
     dependencies:
       langchain: 0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3))
-      langfuse: 3.12.1
-      langfuse-core: 3.12.1
+      langfuse: 3.12.2
+      langfuse-core: 3.12.2
 
-  langfuse@3.12.1:
+  langfuse@3.12.2:
     dependencies:
-      langfuse-core: 3.12.1
+      langfuse-core: 3.12.2
 
   langsmith@0.1.32(@langchain/core@0.2.8(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0))(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0):
     dependencies:
