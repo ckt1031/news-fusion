@@ -119,7 +119,7 @@ export default function NewsSection({
 									Read more
 								</Link>
 							</TooltipTrigger>
-							<TooltipContent>
+							<TooltipContent align="start">
 								<p>{article.url}</p>
 							</TooltipContent>
 						</Tooltip>
