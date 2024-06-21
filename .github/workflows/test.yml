@@ -22,8 +22,8 @@ jobs:
       - name: Run lint
         run: pnpm run lint
 
-      # - name: Test build
-      #   run: pnpm run build
-
       - name: Test
         run: TESTING=1 pnpm test
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_CERT: ${{ secrets.DATABASE_CERT }}

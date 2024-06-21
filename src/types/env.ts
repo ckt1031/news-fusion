@@ -23,6 +23,7 @@ export const envSchema = z.object({
 
 	// Database URL
 	DATABASE_URL: z.string(),
+	DATABASE_CERT: z.string().optional(),
 
 	// Vercel CRON secret
 	CRON_SECRET: z.string().optional(),
