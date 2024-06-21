@@ -39,14 +39,22 @@ export enum RSS_CATEGORY {
 export const RSS_GENERAL: RSSCatacory = {
 	name: RSS_CATEGORY.GENERAL,
 	channels: [
-		//'https://rss.politico.com/politics-news.xml',
+		'https://qz.com/rss',
+		'https://time.com/feed',
+		'https://abcnews.go.com/abcnews/topstories',
 		'https://feeds.bbci.co.uk/news/world/rss.xml',
+		'https://news.un.org/feed/subscribe/en/news/all/rss.xml',
+		'https://feeds.washingtonpost.com/rss/world?itid=lk_inline_manual_35',
+		'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362',
 	],
 };
 
 export const RSS_HKG: RSSCatacory = {
 	name: RSS_CATEGORY.HKG,
-	channels: ['https://www.scmp.com/rss/2/feed'],
+	channels: [
+		'https://www.scmp.com/rss/2/feed',
+		'https://www.epochtimes.com/b5/nsc415.xml',
+	],
 };
 
 export const RSS_THINKING: RSSCatacory = {
@@ -152,8 +160,8 @@ export const RSS_DEV: RSSCatacory = {
 		'https://blog.postman.com/feed',
 
 		'https://www.docker.com/feed',
-		// Open Source
-		'{RSSHUB}/hellogithub/article',
+		// // Open Source
+		// '{RSSHUB}/hellogithub/article',
 		// Microsoft
 		'https://blogs.windows.com/feed',
 		'https://blogs.windows.com/msedgedev/feed',
