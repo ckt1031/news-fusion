@@ -17,7 +17,7 @@ interface PageProps {
 	searchParams: { date?: string };
 }
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 export default async function Page({ params, searchParams }: PageProps) {
 	const topic = decodeURIComponent(params.slug) as RSS_CATEGORY;

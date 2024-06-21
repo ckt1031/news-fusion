@@ -2,7 +2,7 @@ import { handle } from 'hono/vercel';
 import app from './app';
 
 // Now use Node.js runtime for the app
-export const runtime = 'edge'; // "nodejs"
+export const runtime = 'nodejs'; // "nodejs"
 // export const maxDuration = 60;
 // export const preferredRegion = ['sin1', 'kix1'];
 

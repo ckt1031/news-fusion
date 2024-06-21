@@ -6,7 +6,7 @@ import DateSwitcher from './components/news/date-switcher';
 import NewsList from './components/news/news-list';
 import TopicSelection from './components/news/topic-selection';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 export default function Home({
 	searchParams,

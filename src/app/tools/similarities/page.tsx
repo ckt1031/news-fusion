@@ -1,6 +1,6 @@
 import SimilaritiesPageContentComponent from './content';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 export default function SimilaritiesPage() {
 	return (
