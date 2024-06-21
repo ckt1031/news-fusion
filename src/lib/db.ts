@@ -1,12 +1,19 @@
 import * as schema from '@/db/schema';
 import type { NewArticle } from '@/db/schema';
+import { createPool } from '@vercel/postgres';
 import { arrayOverlaps, eq, lt, sql } from 'drizzle-orm';
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/vercel-postgres';
 
-const client = postgres(process.env.DATABASE_URL ?? '', { prepare: false });
+const client = createPool({
+	connectionString: process.env.DATABASE_URL,
+	ssl: {
+		cert: process.env.DATABASE_CERT,
+	},
+});
 
-export const db = drizzle(client, { schema });
+export const db = drizzle(client, {
+	schema,
+});
 
 export async function clearUnusedDatabaseData() {
 	// Delete articles that are 30 days old

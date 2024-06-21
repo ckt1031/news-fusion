@@ -3,6 +3,8 @@ import { type NextRequest, NextResponse } from 'next/server';
 
 import { createSupabaseServerClient } from '@/app/utils/supabase/server';
 
+export const runtime = 'edge';
+
 export async function GET(request: NextRequest) {
 	const { searchParams } = new URL(request.url);
 	const token_hash = searchParams.get('token_hash');

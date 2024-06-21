@@ -1,5 +1,7 @@
 import SimilaritiesPageContentComponent from './content';
 
+export const runtime = 'edge';
+
 export default function SimilaritiesPage() {
 	return (
 		<div className="mt-3">

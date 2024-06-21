@@ -1,7 +1,7 @@
-import crypto from 'node:crypto';
+import hash from 'hash.js';
 
-export default function getSHA256(input: string) {
-	const hash = crypto.createHash('sha256');
-	hash.update(input);
-	return hash.digest('hex');
+export default function getSHA256(input: string | string[]) {
+	const text = Array.isArray(input) ? input.join('') : input;
+
+	return hash.sha256().update(text).digest('hex');
 }

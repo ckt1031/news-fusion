@@ -2,8 +2,8 @@
 
 import { authActionClient } from '@/app/utils/safe-action';
 import { llmTranslateText } from '@/lib/llm/prompt-calls';
+import { googleTranslate } from '@/lib/tool-apis';
 import type { ServerEnv } from '@/types/env';
-import translate from '@iamtraction/google-translate';
 import { TranslateActionSchema } from './schema';
 
 export const translateNewsInfo = authActionClient
@@ -22,10 +22,12 @@ export const translateNewsInfo = authActionClient
 				);
 			}
 
-			const { text } = await translate(t, {
-				to: formData.targetLanguage ?? 'zh-tw',
-			});
-			return text;
+			const { result } = await googleTranslate(
+				env,
+				t,
+				formData.targetLanguage ?? 'zh-tw',
+			);
+			return result;
 		}
 
 		const [title, summary] = await Promise.all([

@@ -11,3 +11,5 @@ export default async function Login() {
 
 	return <LoginPageComponent />;
 }
+
+export const runtime = 'edge';
