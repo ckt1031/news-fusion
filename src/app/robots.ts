@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { SITE_URL } from './sitemap';
+import { SITE_URL } from './sitemap-index.xml/route';
 
 export default function robots(): MetadataRoute.Robots {
 	const ALL_AI_AGENTS = [
@@ -31,14 +31,14 @@ export default function robots(): MetadataRoute.Robots {
 
 	return {
 		rules: [
-			...ALL_AI_RULES,
 			{
 				userAgent: '*',
-				crawlDelay: 10,
 				allow: '/',
 				disallow: ['/api', '/404', '/500', '/_next'],
 			},
+			...ALL_AI_RULES,
 		],
 		sitemap: `${SITE_URL}/sitemap.xml`,
+		host: SITE_URL,
 	};
 }
