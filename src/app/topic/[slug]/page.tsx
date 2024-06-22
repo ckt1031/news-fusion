@@ -4,6 +4,7 @@ import NewsList from '@/app/components/news/news-list';
 import TopicSelection from '@/app/components/news/topic-selection';
 import { RSS_CATEGORY } from '@/config/news-sources';
 import dayjs from 'dayjs';
+import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
 export async function generateStaticParams() {
@@ -15,6 +16,31 @@ export async function generateStaticParams() {
 interface PageProps {
 	params: { slug: RSS_CATEGORY };
 	searchParams: { date?: string };
+}
+
+export async function generateMetadata(
+	{ params }: PageProps,
+	// parent: ResolvingMetadata
+): Promise<Metadata> {
+	// read route params
+	const topic = params.slug;
+
+	const title = `Topic: ${topic}`;
+	const description = `AI News about ${topic}`;
+
+	return {
+		title,
+		description,
+		openGraph: {
+			title,
+			description,
+		},
+		twitter: {
+			title,
+			description,
+			creator: '@cktsun1031',
+		},
+	};
 }
 
 export const runtime = 'nodejs';

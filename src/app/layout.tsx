@@ -1,16 +1,11 @@
 import type { PropsWithChildren } from 'react';
 import './globals.css';
 import { Toaster } from '@/app/components/ui/toaster';
-import type { Metadata } from 'next';
+import type { Viewport } from 'next';
 import { Inter, Noto_Sans_SC, Noto_Sans_TC } from 'next/font/google';
 import { ThemeProvider } from './components/Theme';
 import Heading from './components/heading';
 import { cn } from './utils/cn';
-
-export const metadata: Metadata = {
-	title: 'AI News',
-	description: 'Hassle-free news reading experience',
-};
 
 const inter = Inter({
 	variable: '--font-inter',
@@ -25,6 +20,13 @@ const notoSansTC = Noto_Sans_TC({
 	variable: '--font-noto-sans-tc',
 	subsets: ['latin'],
 });
+
+export const viewport: Viewport = {
+	width: 'device-width',
+	initialScale: 1,
+	minimumScale: 1,
+	maximumScale: 1,
+};
 
 export default function RootLayout({ children }: PropsWithChildren) {
 	return (
