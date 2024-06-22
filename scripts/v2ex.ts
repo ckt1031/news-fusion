@@ -1,6 +1,5 @@
 import { exit } from 'node:process';
 import { V2EX } from '@/config/forum-sources';
-import { getLangfuse } from '@/lib/llm/api';
 import { envSchema } from '@/types/env';
 import { checkForum } from '../src/lib/forum';
 
@@ -43,7 +42,5 @@ await checkForum({
   - e.g. Buy ChatGPT Plus team 5 people, xx 人车`,
 	},
 });
-
-await getLangfuse(env).shutdownAsync();
 
 exit(0);

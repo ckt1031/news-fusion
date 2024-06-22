@@ -16,10 +16,10 @@ export const envSchema = z.object({
 	// Sentry DSN, error tracking
 	SENTRY_DSN: z.string().optional(),
 
-	// LangFuse API, LLM tracing platform
-	LANGFUSE_SECRET_KEY: z.string().optional(),
-	LANGFUSE_PUBLIC_KEY: z.string().optional(),
-	LANGFUSE_BASE_URL: z.string().optional(),
+	// // LangFuse API, LLM tracing platform
+	// LANGFUSE_SECRET_KEY: z.string().optional(),
+	// LANGFUSE_PUBLIC_KEY: z.string().optional(),
+	// LANGFUSE_BASE_URL: z.string().optional(),
 
 	// Database URL
 	DATABASE_URL: z.string(),

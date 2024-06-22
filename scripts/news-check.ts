@@ -4,7 +4,6 @@
 
 import { exit } from 'node:process';
 import { ALL_RSS_CATAGORIES, type RSSCatacory } from '@/config/news-sources';
-import { getLangfuse } from '@/lib/llm/api';
 import checkRSS from '@/lib/news/check-rss';
 import { envSchema } from '@/types/env';
 import consola from 'consola';
@@ -45,8 +44,6 @@ for (const catagory of allCatagories) {
 }
 
 consola.success('All RSS checked');
-
-await getLangfuse(env).shutdownAsync();
 
 consola.success('Langfuse shutdown');
 

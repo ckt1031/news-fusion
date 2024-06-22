@@ -1,16 +1,9 @@
 import { checkArticleImportance } from '@/lib/llm/prompt-calls';
 import { getContentMarkdownFromURL } from '@/lib/tool-apis';
-import { envSchema } from '@/types/env';
+import type { ServerEnv } from '@/types/env';
 import { describe, expect, test } from 'vitest';
 
-const env = await envSchema
-	.pick({
-		OPENAI_API_KEY: true,
-		OPENAI_API_BASE_URL: true,
-		TOOLS_API_BASE_URL: true,
-		TOOLS_API_KEY: true,
-	})
-	.parseAsync(process.env);
+const env = process.env as unknown as ServerEnv;
 
 describe(
 	'News Importance Prompt Accuracy for General',

@@ -7,11 +7,11 @@ import {
 	getContentMarkdownParallel,
 	getUrlFromText,
 } from '@/lib/get-urls';
+import { getOpenAI } from '@/lib/llm/api';
 import { generateSearchQuery } from '@/lib/llm/prompt-calls';
 import { webSearch } from '@/lib/tool-apis';
 import summarizePrompt from '@/prompts/summarize';
 import type { ServerEnv } from '@/types/env';
-import { createOpenAI } from '@ai-sdk/openai';
 import { streamText } from 'ai';
 import { createStreamableValue } from 'ai/rsc';
 import { summarizeSchema } from './schema';
@@ -52,9 +52,7 @@ export const summarizeDetailAction = authActionClient
 			content: formData.content,
 		});
 
-		const openai = createOpenAI({
-			baseURL: env.OPENAI_API_BASE_URL ?? 'https://api.openai.com/v1',
-		});
+		const openai = getOpenAI(env);
 
 		const result = await streamText({
 			model: openai(env.DEFAULT_SUMMARIZE_MODEL ?? DEFAULT_SUMMARIZE_MODEL),

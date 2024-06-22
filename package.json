@@ -60,8 +60,6 @@
 		"hono": "^4.4.7",
 		"html-entities": "^2.5.2",
 		"js-tiktoken": "^1.0.12",
-		"langchain": "^0.2.6",
-		"langfuse-langchain": "^3.12.2",
 		"lucide-react": "^0.396.0",
 		"mustache": "^4.2.0",
 		"nanoid": "^5.0.7",
