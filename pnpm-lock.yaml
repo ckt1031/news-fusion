@@ -18,11 +18,11 @@ importers:
         specifier: ^3.6.0
         version: 3.6.0(react-hook-form@7.52.0(react@18.3.1))
       '@langchain/core':
-        specifier: ^0.2.8
-        version: 0.2.8(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)
+        specifier: ^0.2.9
+        version: 0.2.9(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)
       '@langchain/openai':
-        specifier: ^0.1.3
-        version: 0.1.3(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))
+        specifier: ^0.2.0
+        version: 0.2.0(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))
       '@marsidev/react-turnstile':
         specifier: ^0.7.1
         version: 0.7.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -132,11 +132,11 @@ importers:
         specifier: ^1.0.12
         version: 1.0.12
       langchain:
-        specifier: ^0.2.5
-        version: 0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3))
+        specifier: ^0.2.6
+        version: 0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3))
       langfuse-langchain:
         specifier: ^3.12.2
-        version: 3.12.2(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))
+        version: 3.12.2(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))
       lucide-react:
         specifier: ^0.396.0
         version: 0.396.0(react@18.3.1)
@@ -150,8 +150,8 @@ importers:
         specifier: ^14.2.4
         version: 14.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-safe-action:
-        specifier: ^7.1.0
-        version: 7.1.0(next@14.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.23.1(zod@3.23.8))(zod@3.23.8)
+        specifier: ^7.1.1
+        version: 7.1.1(next@14.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.23.1(zod@3.23.8))(zod@3.23.8)
       next-themes:
         specifier: ^0.3.0
         version: 0.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -795,12 +795,12 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@langchain/core@0.2.8':
-    resolution: {integrity: sha512-OCho08UR07ET/dD+7cIkpX6Hz3j4u7Df8wxzvkScSiK/pvmtJogrWLj9Xsjfk+Px/pkMyRRBfG2BCf7SIkbAaQ==}
+  '@langchain/core@0.2.9':
+    resolution: {integrity: sha512-pJshopBZqMNF020q0OrrO+vfApWTZUlZecRYMM7TWA5M8/zvEyU/mgA9DlzeRjjDmG6pwF6dIKVjpl6fIGVXlQ==}
     engines: {node: '>=18'}
 
-  '@langchain/openai@0.1.3':
-    resolution: {integrity: sha512-riv/JC9x2A8b7GcHu8sx+mlZJ8KAwSSi231IPTlcciYnKozmrQ5H0vrtiD31fxiDbaRsk7tyCpkSBIOQEo7CyQ==}
+  '@langchain/openai@0.2.0':
+    resolution: {integrity: sha512-gZd+0IOxpiKuh1m6KTT5vtUoOO72GEYyoU4+c6qAUucOEqQS0Vvz3lMGyNWLjK4x4Xpd+r8GAF5mj/jvghwP1A==}
     engines: {node: '>=18'}
 
   '@langchain/textsplitters@0.0.3':
@@ -2310,8 +2310,8 @@ packages:
     resolution: {integrity: sha512-p/nXbhSEcu3pZRdkW1OfJhpsVtW1gd4Wa1fnQc9YLiTfAjn0312eMKimbdIQzuZl9aa9xUGaRlP9T/CJE/ditQ==}
     engines: {node: '>=0.10.0'}
 
-  langchain@0.2.5:
-    resolution: {integrity: sha512-H5WL0NanCdQ+tzoeEt7Fyz9YGdR3wbfDvfQrJvxAO95istKo5JraRh24dzyvqxM9439xwRMNaMIpMwsyqtWDtQ==}
+  langchain@0.2.6:
+    resolution: {integrity: sha512-vDAJHGu/lA4pn3hkyzSC6RiaZhtj0ozfRyG8L6J2vCnXyJV/lgk9uGMP2x645EBrSozBMHJBng1UYeaUR/1fQQ==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-s3': ^3.310.0
@@ -2358,7 +2358,7 @@ packages:
       redis: ^4.6.4
       sonix-speech-recognition: ^2.1.1
       srt-parser-2: ^1.2.3
-      typeorm: ^0.3.12
+      typeorm: ^0.3.20
       weaviate-ts-client: '*'
       web-auth-library: ^1.0.3
       ws: ^8.14.2
@@ -2720,8 +2720,8 @@ packages:
     engines: {node: ^18 || >=20}
     hasBin: true
 
-  next-safe-action@7.1.0:
-    resolution: {integrity: sha512-m9U+MKxjNJztZJvyW6XCiKYMTKq/uz9XlWmC+er0hjt1I2RqBUNn4TXUuVmzFS6AIu2TDfqiODvAD8F7kVlYqw==}
+  next-safe-action@7.1.1:
+    resolution: {integrity: sha512-zetoVC/+DfPGRPAesKRaeDqqh4cJB/oY+AZQrUHMffeDDUewy2az0/VHuwbd+cX+Tl1cLlJXIi3wOpVVEA47LQ==}
     engines: {node: '>=18.17'}
     peerDependencies:
       next: '>= 14.0.0'
@@ -3854,13 +3854,13 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  '@langchain/core@0.2.8(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)':
+  '@langchain/core@0.2.9(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.12
-      langsmith: 0.1.32(@langchain/core@0.2.8(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0))(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)
+      langsmith: 0.1.32(@langchain/core@0.2.9(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0))(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)
       ml-distance: 4.0.1
       mustache: 4.2.0
       p-queue: 6.6.2
@@ -3872,9 +3872,9 @@ snapshots:
       - langchain
       - openai
 
-  '@langchain/openai@0.1.3(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))':
+  '@langchain/openai@0.2.0(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))':
     dependencies:
-      '@langchain/core': 0.2.8(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)
+      '@langchain/core': 0.2.9(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)
       js-tiktoken: 1.0.12
       openai: 4.51.0
       zod: 3.23.8
@@ -3883,9 +3883,9 @@ snapshots:
       - encoding
       - langchain
 
-  '@langchain/textsplitters@0.0.3(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)':
+  '@langchain/textsplitters@0.0.3(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)':
     dependencies:
-      '@langchain/core': 0.2.8(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)
+      '@langchain/core': 0.2.9(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)
       js-tiktoken: 1.0.12
     transitivePeerDependencies:
       - langchain
@@ -5274,17 +5274,17 @@ snapshots:
 
   jsonpointer@5.0.1: {}
 
-  langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)):
+  langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)):
     dependencies:
-      '@langchain/core': 0.2.8(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)
-      '@langchain/openai': 0.1.3(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))
-      '@langchain/textsplitters': 0.0.3(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)
+      '@langchain/core': 0.2.9(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)
+      '@langchain/openai': 0.2.0(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))
+      '@langchain/textsplitters': 0.0.3(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)
       binary-extensions: 2.3.0
       js-tiktoken: 1.0.12
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
       langchainhub: 0.0.11
-      langsmith: 0.1.32(@langchain/core@0.2.8(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0))(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)
+      langsmith: 0.1.32(@langchain/core@0.2.9(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0))(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)
       ml-distance: 4.0.1
       openapi-types: 12.1.3
       p-retry: 4.6.2
@@ -5306,9 +5306,9 @@ snapshots:
     dependencies:
       mustache: 4.2.0
 
-  langfuse-langchain@3.12.2(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3))):
+  langfuse-langchain@3.12.2(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3))):
     dependencies:
-      langchain: 0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3))
+      langchain: 0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3))
       langfuse: 3.12.2
       langfuse-core: 3.12.2
 
@@ -5316,7 +5316,7 @@ snapshots:
     dependencies:
       langfuse-core: 3.12.2
 
-  langsmith@0.1.32(@langchain/core@0.2.8(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0))(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0):
+  langsmith@0.1.32(@langchain/core@0.2.9(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0))(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0):
     dependencies:
       '@types/uuid': 9.0.8
       commander: 10.0.1
@@ -5324,8 +5324,8 @@ snapshots:
       p-retry: 4.6.2
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.2.8(langchain@0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)
-      langchain: 0.2.5(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3))
+      '@langchain/core': 0.2.9(langchain@0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)))(openai@4.51.0)
+      langchain: 0.2.6(@supabase/supabase-js@2.43.5(bufferutil@4.0.8)(utf-8-validate@6.0.3))(fast-xml-parser@4.4.0)(openai@4.51.0)(ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.3))
       openai: 4.51.0
 
   lie@3.1.1:
@@ -5671,7 +5671,7 @@ snapshots:
 
   nanoid@5.0.7: {}
 
-  next-safe-action@7.1.0(next@14.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.23.1(zod@3.23.8))(zod@3.23.8):
+  next-safe-action@7.1.1(next@14.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.23.1(zod@3.23.8))(zod@3.23.8):
     dependencies:
       '@typeschema/main': 0.13.10(@typeschema/zod@0.13.3(zod-to-json-schema@3.23.1(zod@3.23.8))(zod@3.23.8))
       '@typeschema/zod': 0.13.3(zod-to-json-schema@3.23.1(zod@3.23.8))(zod@3.23.8)

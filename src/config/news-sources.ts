@@ -217,7 +217,7 @@ export const RSS_BLOGS: RSSCatacory = {
 			checkImportance: true,
 		},
 		'https://feed.miantiao.me',
-		'https://blog.krdw.site/rss.xml',
+		// 'https://blog.krdw.site/rss.xml',
 		'https://diygod.cc/feed',
 		{
 			url: 'https://www.ifanr.com/feed',
