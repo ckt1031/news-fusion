@@ -6,9 +6,6 @@ import { drizzle } from 'drizzle-orm/vercel-postgres';
 
 const client = createPool({
 	connectionString: process.env.DATABASE_URL,
-	ssl: {
-		cert: process.env.DATABASE_CERT,
-	},
 });
 
 export const db = drizzle(client, {

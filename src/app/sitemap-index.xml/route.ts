@@ -1,6 +1,6 @@
 import { type ISitemapField, getServerSideSitemap } from 'next-sitemap';
-import { generateStaticParams } from '../topic/[slug]/page';
 import { nextEnv } from '../env';
+import { generateStaticParams } from '../topic/[slug]/page';
 
 export async function GET() {
 	const getAllTopics = await generateStaticParams();

@@ -26,4 +26,3 @@ jobs:
         run: TESTING=1 pnpm test
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DATABASE_CERT: ${{ secrets.DATABASE_CERT }}

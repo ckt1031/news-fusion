@@ -25,7 +25,6 @@ jobs:
           pnpm dlx tsx scripts/hackernews.ts lobsters
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DATABASE_CERT: ${{ secrets.DATABASE_CERT }}
           OPENAI_API_BASE_URL: ${{ secrets.OPENAI_API_BASE_URL }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           RSSHUB_ACCESS_KEY: ${{ secrets.RSSHUB_ACCESS_KEY }}

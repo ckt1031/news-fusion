@@ -12,13 +12,13 @@ app.use('*', sentry());
 
 // Runs every month
 app.get('/cron/clear-unused-database-data', async (c) => {
-	if (c.req.header('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
+	if (c.req.header('Authorization') !== `Bearer ${c.env.CRON_SECRET}`) {
 		return c.text('Unauthorized', 401);
 	}
 
 	await clearUnusedDatabaseData();
 
-	return c.json({ success: true });
+	return c.json({ success: true }, 200);
 });
 
 app.onError((e, c) => {
