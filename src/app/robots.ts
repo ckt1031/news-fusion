@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { SITE_URL } from './sitemap-index.xml/route';
+import { nextEnv } from './env';
 
 export default function robots(): MetadataRoute.Robots {
 	const ALL_AI_AGENTS = [
@@ -38,7 +38,7 @@ export default function robots(): MetadataRoute.Robots {
 			},
 			...ALL_AI_RULES,
 		],
-		sitemap: `${SITE_URL}/sitemap.xml`,
-		host: SITE_URL,
+		sitemap: `${nextEnv.SITE_URL}/sitemap.xml`,
+		host: nextEnv.SITE_URL,
 	};
 }
