@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from '@/app/components/ui/toaster';
 import type { Viewport } from 'next';
 import { Inter, Noto_Sans_SC, Noto_Sans_TC } from 'next/font/google';
-import { ThemeProvider } from './components/Theme';
 import Heading from './components/heading';
+import { ThemeProvider } from './components/theme';
 import { cn } from './utils/cn';
 
 const inter = Inter({

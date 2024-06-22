@@ -1,15 +1,12 @@
-import { authState } from '@/app/hooks/auth';
-import { redirect } from 'next/navigation';
+import Auth from '@/app/components/auth';
 import LoginPageComponent from './login-component';
 
 export default async function Login() {
-	const { isLoggedIn } = await authState();
-
-	if (isLoggedIn) {
-		return redirect('/');
-	}
-
-	return <LoginPageComponent />;
+	return (
+		<Auth reversed>
+			<LoginPageComponent />
+		</Auth>
+	);
 }
 
 export const runtime = 'edge';
