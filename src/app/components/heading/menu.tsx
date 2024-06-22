@@ -1,4 +1,4 @@
-import { EllipsisVertical, LogIn, ScanEye } from 'lucide-react';
+import { BookOpenText, EllipsisVertical, LogIn, ScanEye } from 'lucide-react';
 
 import {
 	Avatar,
@@ -72,6 +72,12 @@ export async function HeaderMenu() {
 							<DropdownMenuItem>
 								<ScanEye className="mr-2 h-4 w-4" />
 								<span>Similarities</span>
+							</DropdownMenuItem>
+						</Link>
+						<Link href="/tools/summarize">
+							<DropdownMenuItem>
+								<BookOpenText className="mr-2 h-4 w-4" />
+								<span>Summarize</span>
 							</DropdownMenuItem>
 						</Link>
 					</>
