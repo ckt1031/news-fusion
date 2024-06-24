@@ -8,7 +8,8 @@ import { ShieldX } from 'lucide-react';
 import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import getCacheKey from './actions/get-cache-key';
 import ClearCache from './clear-cache';
-import NewsSection from './news-section';
+import AppInitializer from './list/initializer';
+import NewsSection from './section';
 
 interface Props {
 	topic: RSS_CATEGORY;
@@ -16,6 +17,8 @@ interface Props {
 }
 
 export async function fetchNews({ topic, date }: Omit<Props, 'userStatus'>) {
+	'use server';
+
 	const cacheHash = getCacheKey(date, topic);
 	const cache = await redis.get<Article[]>(cacheHash);
 
@@ -72,7 +75,7 @@ function isDateInAllowedDayRange(date: string) {
 	return (
 		dayjs(dateToCheck).isAfter(
 			dayjs(currentDate).subtract(ALLOWED_DAYS, 'day'),
-		) && dayjs(dateToCheck).isBefore(dayjs(currentDate).add(1, 'day'))
+		) && dayjs(dateToCheck).isBefore(dayjs(currentDate).add(2, 'day')) // Timezone issue
 	);
 }
 
@@ -94,10 +97,11 @@ export default async function NewsList({ topic, date }: Props) {
 	}
 
 	const sortedArticles = await fetchNews({ topic, date });
+
 	const { isLoggedIn } = await authState();
 
 	return (
-		<>
+		<AppInitializer news={sortedArticles} pageData={{ date, topic }}>
 			<div className="flex flex-row justify-between items-center mb-1">
 				<p className="text-gray-500 dark:text-gray-400 text-sm">
 					{sortedArticles?.length} articles found
@@ -112,15 +116,10 @@ export default async function NewsList({ topic, date }: Props) {
 				)}
 				{sortedArticles?.map((article) => (
 					<div key={article.guid} className="py-2 align-middle">
-						<NewsSection
-							article={article}
-							date={date}
-							topic={topic}
-							isLoggedIn={isLoggedIn}
-						/>
+						<NewsSection guid={article.guid} isLoggedIn={isLoggedIn} />
 					</div>
 				))}
 			</div>
-		</>
+		</AppInitializer>
 	);
 }

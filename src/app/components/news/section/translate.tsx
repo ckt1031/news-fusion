@@ -21,6 +21,7 @@ import {
 } from '@/app/components/ui/select';
 import { Switch } from '@/app/components/ui/switch';
 import { useToast } from '@/app/components/ui/use-toast';
+import { useNewsStore } from '@/app/store/news';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Languages, Loader2, Undo2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
@@ -30,37 +31,24 @@ import type { z } from 'zod';
 import {
 	TranslateActionSchema,
 	supportedTargetLanguages,
-} from './actions/schema';
-import { translateNewsInfo } from './actions/translate';
-import type { fetchNews } from './news-list';
+} from '../actions/schema';
+import { translateNewsInfo } from '../actions/translate';
 
 interface Props {
-	title: string;
-	summary: string;
-	article: Awaited<ReturnType<typeof fetchNews>>[0];
-	setTitle: (title: string) => void;
-	setSummary: (summary: string) => void;
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	onActionError: (result: any) => boolean;
+	guid: string;
 }
 
-export default function TranslateButton({
-	title,
-	summary,
-	article,
-	onActionError,
-	setTitle,
-	setSummary,
-}: Props) {
+const TranslateActionFormSchema = TranslateActionSchema.pick({
+	useLLM: true,
+	targetLanguage: true,
+});
+
+export default function TranslateButton({ guid }: Props) {
 	const { toast } = useToast();
 
-	const TranslateActionFormSchema = TranslateActionSchema.pick({
-		useLLM: true,
-		targetLanguage: true,
-	});
-
-	const [translated, setIsTranslated] = useState(article.title !== title);
-	const [isTranslating, setIsTranslating] = useState(false);
+	/**
+	 * Form and Actions
+	 */
 
 	const form = useForm<z.infer<typeof TranslateActionFormSchema>>({
 		resolver: zodResolver(TranslateActionFormSchema),
@@ -72,16 +60,29 @@ export default function TranslateButton({
 
 	const { executeAsync: executeTranslate } = useAction(translateNewsInfo);
 
+	/**
+	 * State
+	 */
+
+	const translated = useNewsStore((state) => state.isItemTranslated(guid));
+	const baseItem = useNewsStore((state) => state.getItem(guid));
+
+	const setShowingItem = useNewsStore((state) => state.setShowingItem);
+
+	const [isTranslating, setIsTranslating] = useState(false);
+
 	const revertTranslation = async () => {
 		setIsTranslating(true);
 
 		// Wait for 500ms to ensure the title and summary are updated
 		await new Promise((resolve) => setTimeout(resolve, 500));
 
-		setTitle(article.title);
-		setSummary(article.summary);
+		// Revert the translation
+		setShowingItem(guid, {
+			title: baseItem.title,
+			summary: baseItem.summary,
+		});
 
-		setIsTranslated(false);
 		setIsTranslating(false);
 	};
 
@@ -90,33 +91,32 @@ export default function TranslateButton({
 	) => {
 		setIsTranslating(true);
 
+		// Send the translation request
 		const result = await executeTranslate({
-			title,
-			summary: summary,
+			title: baseItem.title,
+			summary: baseItem.summary,
 			useLLM: values.useLLM,
 			targetLanguage: values.targetLanguage,
 		});
 		setIsTranslating(false);
 
-		if (onActionError(result)) return;
-		// biome-ignore lint/style/noNonNullAssertion: <explanation>
-		setTitle(result?.data?.title!);
-		// biome-ignore lint/style/noNonNullAssertion: <explanation>
-		setSummary(result?.data?.summary!);
+		if (!result?.data) return;
 
-		toast({
-			description: `"${article.title}" has been translated to Chinese`,
+		setShowingItem(guid, {
+			title: result.data.title,
+			summary: result.data.summary,
 		});
 
-		setIsTranslated(true);
+		toast({
+			description: `"${baseItem.title}" has been translated to Chinese`,
+		});
 	};
 
 	return (
 		<Popover>
 			<PopoverTrigger>
 				<Button variant="ghost">
-					<Languages className="h-4 w-4 mr-2" />
-					Translate
+					<Languages className="h-4 w-4" />
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent>
