@@ -16,7 +16,7 @@ const CommonRssFeedItemSchema = z
 			.string()
 			.or(
 				z.object({
-					'#text': z.string().optional(),
+					'#text': z.string().or(z.number()).optional(),
 				}),
 			)
 			.transform((guid) => (typeof guid === 'object' ? guid['#text'] : guid))
@@ -31,9 +31,9 @@ const CommonRssFeedItemSchema = z
 	.transform((item) => ({
 		// Make format to common format
 		title: item.title,
-		link: removeTrailingSlash(item.link || item.guid || ''),
+		link: removeTrailingSlash(String(item.link || item.guid || '')),
 		pubDate: item.pubDate,
-		guid: removeTrailingSlash(item.guid || item.link || ''),
+		guid: removeTrailingSlash(String(item.guid || item.link || '')),
 		thumbnail:
 			(typeof item['media:content'] !== 'string' &&
 				typeof item['media:content'] !== 'undefined' &&
