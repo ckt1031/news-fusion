@@ -74,7 +74,7 @@ export const RSS_THINKING: RSSCatacory = {
 	channels: [
 		'https://asteriskmag.com/feed',
 		'https://www.nplusonemag.com/feed',
-		'https://www.newyorker.com/feed/news',
+		{ url: 'https://www.newyorker.com/feed/news', specificName: 'New Yorker' },
 		'https://api.quantamagazine.org/feed',
 		'https://www.noemamag.com/?feed=noemarss',
 	],
@@ -105,7 +105,7 @@ export const RSS_VIDEOS: RSSCatacory = {
 		 * Chinese High Quality Channels below
 		 */
 		{ url: `${YOUTUBE_RSS}UC4dtpugIYK56S_7btf5a-iQ`, scrapable: false }, // lyi 林亦LYi
-		`${YOUTUBE_RSS}UCQtwvRQWnT5Buh9hpvNNryQ`, // chaiknowsofficialchannel982 柴知道
+		{ url: `${YOUTUBE_RSS}UCQtwvRQWnT5Buh9hpvNNryQ`, specificName: '柴知道' }, // chaiknowsofficialchannel982 柴知道
 		`${YOUTUBE_RSS}UCilwQlk62k1z7aUEZPOB6yw`, // xiao_lin_shuo 小Lin说
 		`${YOUTUBE_RSS}UCeUJO1H3TEXu2syfAAPjYKQ`, // geekerwan1024 极客湾 Geekerwan
 		`${YOUTUBE_RSS}UCBj9S8TBRlCU4QnhTEOdWZQ`, // axtonliu 回到 Axton
@@ -158,7 +158,10 @@ export const RSS_SCIENCE: RSSCatacory = {
 			url: 'https://rss.sciencedaily.com/all.xml',
 			specificName: 'Science Daily',
 		},
-		'https://www.newscientist.com/feed/home',
+		{
+			url: 'https://www.newscientist.com/feed/home',
+			specificName: 'New Scientist',
+		},
 		{
 			url: 'https://www.scientificamerican.com/platform/syndication/rss',
 			specificName: 'Scientific American',
