@@ -1,6 +1,6 @@
 const prompt = `Generate titles for news articles using no more than 7 words, capturing the core message of the provided content. Return the text only.
-If the content lacks focus or clarity, return "Article".
 If the content has different topics, give in diffent titles seperated by comma, total length should not exceed 15 words.
+You must respond with a valid and readable short title.
 
 ## Example Responses:
 
