@@ -6,7 +6,7 @@ import { getNewsBasedOnDateAndCategory } from '@/lib/db';
 import dayjs from 'dayjs';
 import { ShieldX } from 'lucide-react';
 import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import getCacheKey from './actions/get-cache-key';
+import getNewsPageRedisCacheKey from './actions/get-cache-key';
 import ClearCache from './clear-cache';
 import AppInitializer from './list/initializer';
 import NewsSection from './section';
@@ -19,7 +19,7 @@ interface Props {
 export async function fetchNews({ topic, date }: Omit<Props, 'userStatus'>) {
 	'use server';
 
-	const cacheHash = getCacheKey(date, topic);
+	const cacheHash = getNewsPageRedisCacheKey(date, topic);
 	const cache = await redis.get<Article[]>(cacheHash);
 
 	if (cache) {

@@ -1,6 +1,6 @@
 import LoadingComponent from '@/app/components/loading';
 import DateSwitcher from '@/app/components/news/date-switcher';
-import NewsList from '@/app/components/news/news-list';
+import NewsList from '@/app/components/news/list';
 import TopicSelection from '@/app/components/news/topic-selection';
 import { RSS_CATEGORY } from '@/config/news-sources';
 import dayjs from 'dayjs';

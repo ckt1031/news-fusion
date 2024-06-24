@@ -6,7 +6,7 @@ import { updateArticleDatabase } from '@/lib/db';
 import { summarizeIntoShortText } from '@/lib/llm/prompt-calls';
 import { getContentMarkdownFromURL } from '@/lib/tool-apis';
 import type { ServerEnv } from '@/types/env';
-import getCacheKey from './get-cache-key';
+import getNewsPageRedisCacheKey from './get-cache-key';
 import { ReGenSummaryActionSchema } from './schema';
 
 export const reGenerateSummary = authActionClient
@@ -20,7 +20,7 @@ export const reGenerateSummary = authActionClient
 			summary: shortSummary,
 		});
 
-		const cacheHash = getCacheKey(formData.date, formData.topic);
+		const cacheHash = getNewsPageRedisCacheKey(formData.date, formData.topic);
 		const cache = await redis.exists(cacheHash);
 
 		if (cache > 0) {

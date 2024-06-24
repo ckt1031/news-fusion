@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import LoadingComponent from './components/loading';
 import DateSwitcher from './components/news/date-switcher';
-import NewsList from './components/news/news-list';
+import NewsList from './components/news/list';
 import TopicSelection from './components/news/topic-selection';
 
 export const runtime = 'nodejs';

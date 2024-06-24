@@ -1,16 +1,5 @@
 import { create } from 'zustand';
-import type { fetchNews } from '../components/news/news-list';
-
-export interface NewsModalStore {
-	translateDialogOpen: boolean;
-
-	setTranslateDialogOpen: (open: boolean) => void;
-}
-
-export const useNewsModalStore = create<NewsModalStore>((set) => ({
-	translateDialogOpen: false,
-	setTranslateDialogOpen: (open) => set({ translateDialogOpen: open }),
-}));
+import type { fetchNewsForPage } from '../components/news/list/fetch';
 
 export interface NewsStore {
 	pageData: {
@@ -18,7 +7,7 @@ export interface NewsStore {
 		topic: string;
 	};
 
-	news: Awaited<ReturnType<typeof fetchNews>>;
+	news: Awaited<ReturnType<typeof fetchNewsForPage>>;
 	displayingNews: NewsStore['news'];
 
 	setPageData: (data: NewsStore['pageData']) => void;
