@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import Markdown from 'react-markdown';
-import PublisherComponent from '../publisher';
-import TimeComponent from '../time-component';
+import PublisherComponent from '../list/publisher';
+import TimeComponent from '../list/time-component';
 import '@/app/styles/markdown.css';
 import { useNewsStore } from '@/app/store/news';
 import ReadMore from './read-more';

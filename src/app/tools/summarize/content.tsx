@@ -148,7 +148,7 @@ export default function Component() {
 										</Markdown>
 										<div className="flex flex-row gap-2 mt-2 flex-wrap">
 											<Tooltip>
-												<TooltipTrigger>
+												<TooltipTrigger asChild>
 													<Button
 														variant="outline"
 														size="icon"
@@ -163,7 +163,7 @@ export default function Component() {
 												</TooltipContent>
 											</Tooltip>
 											<Tooltip>
-												<TooltipTrigger>
+												<TooltipTrigger asChild>
 													<Button
 														variant="outline"
 														size="icon"

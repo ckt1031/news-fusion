@@ -5,6 +5,8 @@ export interface NewsStore {
 	pageData: {
 		date: string;
 		topic: string;
+		from?: string;
+		to?: string;
 	};
 
 	news: Awaited<ReturnType<typeof fetchNewsForPage>>;

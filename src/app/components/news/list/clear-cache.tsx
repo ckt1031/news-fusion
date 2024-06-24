@@ -10,19 +10,24 @@ import {
 import { toast } from '@/app/components/ui/use-toast';
 import { Eraser, Loader2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
-import { clearCacheAction } from './actions/clear-cache';
+import { clearCacheAction } from '../actions/clear-cache';
 
-export default function ClearCache({
-	date,
-	topic,
-}: { date: string; topic: string }) {
-	const { isExecuting: isClearingCache, executeAsync: executeClearCache } =
-		useAction(clearCacheAction);
+interface ClearCacheProps {
+	date: string;
+	topic: string;
+	to?: string;
+	from?: string;
+}
+
+export default function ClearCache({ date, topic, to, from }: ClearCacheProps) {
+	const { isExecuting, executeAsync } = useAction(clearCacheAction);
 
 	const onClearCache = async () => {
-		const result = await executeClearCache({
+		const result = await executeAsync({
 			date,
 			topic,
+			to,
+			from,
 		});
 
 		if (result?.serverError || result?.validationErrors) {
@@ -43,10 +48,10 @@ export default function ClearCache({
 	return (
 		<TooltipProvider>
 			<Tooltip>
-				<TooltipTrigger>
+				<TooltipTrigger asChild>
 					<Button size="sm" className="mt-2" onClick={onClearCache}>
-						{isClearingCache ? (
-							<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+						{isExecuting ? (
+							<Loader2 className="h-4 w-4 animate-spin lg:mr-2" />
 						) : (
 							<Eraser className="h-4 w-4 lg:mr-2" />
 						)}

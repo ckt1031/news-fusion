@@ -8,7 +8,12 @@ import { clearCacheActionSchema } from './schema';
 export const clearCacheAction = authActionClient
 	.schema(clearCacheActionSchema)
 	.action(async ({ parsedInput: formData }) => {
-		const cacheHash = getNewsPageRedisCacheKey(formData.date, formData.topic);
+		const cacheHash = getNewsPageRedisCacheKey(
+			formData.to && formData.from
+				? `${formData.from}-${formData.to}`
+				: formData.date,
+			formData.topic,
+		);
 		const cache = await redis.exists(cacheHash);
 
 		if (cache > 0) await redis.del(cacheHash);

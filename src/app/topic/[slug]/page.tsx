@@ -2,6 +2,7 @@ import LoadingComponent from '@/app/components/loading';
 import DateSwitcher from '@/app/components/news/date-switcher';
 import NewsList from '@/app/components/news/list';
 import TopicSelection from '@/app/components/news/topic-selection';
+import type { HomeSearchParamsProps } from '@/app/page';
 import { RSS_CATEGORY } from '@/config/news-sources';
 import dayjs from 'dayjs';
 import type { Metadata } from 'next';
@@ -15,7 +16,7 @@ export async function generateStaticParams() {
 
 interface PageProps {
 	params: { slug: RSS_CATEGORY };
-	searchParams: { date?: string };
+	searchParams: HomeSearchParamsProps;
 }
 
 export async function generateMetadata(
@@ -61,7 +62,12 @@ export default async function Page({ params, searchParams }: PageProps) {
 			<DateSwitcher />
 			<TopicSelection topic={topic} />
 			<Suspense fallback={<LoadingComponent />}>
-				<NewsList topic={topic} date={date} />
+				<NewsList
+					topic={topic}
+					date={date}
+					to={searchParams.to}
+					from={searchParams.from}
+				/>
 			</Suspense>
 		</>
 	);

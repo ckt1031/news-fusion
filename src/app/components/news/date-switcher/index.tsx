@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@/app/components/ui/button';
 import {
 	Popover,
 	PopoverContent,
@@ -15,15 +16,18 @@ import dayjs from 'dayjs';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import queryString from 'query-string';
-import { Button } from '../ui/button';
-import { Calendar } from '../ui/calendar';
-import { useToast } from '../ui/use-toast';
+import { useState } from 'react';
+import { Label } from '../../ui/label';
+import { Switch } from '../../ui/switch';
+import RangeDateSelect from './range';
+import SingleDateSelect from './single';
 
 export default function DateSwitcher() {
-	const { toast } = useToast();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 	const router = useRouter();
+
+	const [rangeMode, setRangeMode] = useState(false);
 
 	const clientCurrentDate = dayjs().format('YYYY-MM-DD');
 	const queryDate = searchParams.get('date');
@@ -31,10 +35,12 @@ export default function DateSwitcher() {
 		? dayjs(queryDate).format('YYYY-MM-DD')
 		: clientCurrentDate;
 
+	const [to, from] = [searchParams.get('to'), searchParams.get('from')];
+
 	const isToday = queryDate === clientCurrentDate;
 
 	const getAllQueriesRequired = (date: string) => {
-		const all = queryString.parse(location.search);
+		const { to, from, ...all } = queryString.parse(location.search);
 
 		return queryString.stringify({
 			...all,
@@ -57,37 +63,11 @@ export default function DateSwitcher() {
 		router.push(`${pathname}?${getAllQueriesRequired(_date)}`);
 	};
 
-	const setDate = (date: Date | undefined) => {
-		if (!date) return;
-
-		const _date = dayjs(date).format('YYYY-MM-DD');
-
-		// If the selected Date is after the current date, reject it
-		if (dayjs(_date).isAfter(clientCurrentDate)) {
-			toast({
-				description: `You can only view news on or before ${clientCurrentDate}`,
-			});
-			return;
-		}
-
-		// Only allow maximum of 25 days in the past
-		if (dayjs(_date).isBefore(dayjs(clientCurrentDate).subtract(25, 'day'))) {
-			toast({
-				description: `You can only view news from ${dayjs(clientCurrentDate)
-					.subtract(25, 'day')
-					.format('YYYY-MM-DD')} onwards`,
-			});
-			return;
-		}
-
-		router.push(`${pathname}?${getAllQueriesRequired(_date)}`);
-	};
-
 	return (
 		<TooltipProvider>
 			<div className="flex flex-row justify-between items-center py-2">
 				<Tooltip>
-					<TooltipTrigger>
+					<TooltipTrigger asChild>
 						<Button variant="ghost" size="icon" onClick={switchToPreviousDate}>
 							<ChevronLeft className="h-4 w-4" />
 						</Button>
@@ -98,20 +78,32 @@ export default function DateSwitcher() {
 				</Tooltip>
 				<Popover>
 					<PopoverTrigger asChild>
-						<Button variant="ghost">{date}</Button>
+						<Button variant="ghost">
+							{to && from ? `${from} - ${to}` : date}
+						</Button>
 					</PopoverTrigger>
 					<PopoverContent className="w-full">
-						<Calendar
-							mode="single"
-							selected={new Date(date)}
-							onSelect={setDate}
-							className="rounded-md border"
-						/>
+						<div className="flex items-center space-x-2 mb-3">
+							<Switch
+								id="range-mode"
+								checked={rangeMode}
+								onCheckedChange={() => setRangeMode(!rangeMode)}
+							/>
+							<Label htmlFor="range-mode">Range Mode</Label>
+						</div>
+						{rangeMode ? (
+							<RangeDateSelect />
+						) : (
+							<SingleDateSelect
+								clientCurrentDate={clientCurrentDate}
+								date={date}
+							/>
+						)}
 					</PopoverContent>
 				</Popover>
 
 				<Tooltip>
-					<TooltipTrigger>
+					<TooltipTrigger asChild>
 						<Button
 							variant="ghost"
 							size="icon"

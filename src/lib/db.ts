@@ -74,15 +74,26 @@ export async function updateArticleDatabase(
 
 // Date format: YYYY-MM-DD
 export async function getNewsBasedOnDateAndCategory(
-	date: string,
+	date:
+		| string
+		| {
+				to: string;
+				from: string;
+		  },
 	category: string,
 	important: boolean,
 ) {
 	const oneDay = 24 * 60 * 60 * 1000;
 	const HKGOffset = 8 * 60 * 60 * 1000;
-	const dayStart = new Date(new Date(date).getTime() - HKGOffset);
 
-	const dayEnd = new Date(dayStart.getTime() + oneDay);
+	const dayStart = new Date(
+		new Date(typeof date !== 'string' ? date.from : date).getTime() - HKGOffset,
+	);
+
+	const dayEnd =
+		typeof date === 'string'
+			? new Date(dayStart.getTime() + oneDay)
+			: new Date(new Date(date.to).getTime() - HKGOffset);
 
 	return db.query.articles.findMany({
 		where: (d, { and, gte, lte }) =>

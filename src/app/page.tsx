@@ -1,8 +1,6 @@
 import { RSS_CATEGORY } from '@/config/news-sources';
 import dayjs from 'dayjs';
 import type { Metadata } from 'next';
-import { Suspense } from 'react';
-import LoadingComponent from './components/loading';
 import DateSwitcher from './components/news/date-switcher';
 import NewsList from './components/news/list';
 import TopicSelection from './components/news/topic-selection';
@@ -26,9 +24,15 @@ export const metadata: Metadata = {
 	},
 };
 
+export interface HomeSearchParamsProps {
+	date?: string;
+	to?: string;
+	from?: string;
+}
+
 export default function Home({
 	searchParams,
-}: { searchParams: { date?: string } }) {
+}: { searchParams: HomeSearchParamsProps }) {
 	const serverCurrentDate = dayjs().format('YYYY-MM-DD');
 
 	const queryDate = searchParams.date;
@@ -41,9 +45,12 @@ export default function Home({
 		<>
 			<DateSwitcher />
 			<TopicSelection topic={RSS_CATEGORY.GENERAL} />
-			<Suspense fallback={<LoadingComponent />}>
-				<NewsList topic={RSS_CATEGORY.GENERAL} date={date} />
-			</Suspense>
+			<NewsList
+				topic={RSS_CATEGORY.GENERAL}
+				date={date}
+				from={searchParams.from}
+				to={searchParams.to}
+			/>
 		</>
 	);
 }

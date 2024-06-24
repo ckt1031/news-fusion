@@ -1,17 +1,26 @@
+import {
+	Card,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from '@/app/components/ui/card';
 import { authState } from '@/app/hooks/auth';
 import dayjs from 'dayjs';
 import { ShieldX } from 'lucide-react';
-import { Card, CardDescription, CardHeader, CardTitle } from '../../ui/card';
-import ClearCache from '../clear-cache';
-import NewsSection from '../section';
+import { Suspense } from 'react';
+import type { DateRange } from 'react-day-picker';
+import LoadingComponent from '../../loading';
+import Content from './content';
 import { type FetchNewsPageProps, fetchNewsForPage } from './fetch';
 import AppInitializer from './initializer';
 
 const ALLOWED_DAYS = 30;
 
-function isDateInAllowedDayRange(date: string) {
+function isDateInAllowedDayRange(date: string | DateRange) {
 	const currentDate = dayjs().format('YYYY-MM-DD');
-	const dateToCheck = dayjs(date).format('YYYY-MM-DD');
+	const dateToCheck = dayjs(typeof date === 'string' ? date : date.from).format(
+		'YYYY-MM-DD',
+	);
 
 	return (
 		dayjs(dateToCheck).isAfter(
@@ -20,7 +29,12 @@ function isDateInAllowedDayRange(date: string) {
 	);
 }
 
-export default async function NewsList({ topic, date }: FetchNewsPageProps) {
+export default async function NewsList({
+	topic,
+	date,
+	from,
+	to,
+}: FetchNewsPageProps) {
 	if (!isDateInAllowedDayRange(date)) {
 		return (
 			<Card className="my-3">
@@ -37,30 +51,18 @@ export default async function NewsList({ topic, date }: FetchNewsPageProps) {
 		);
 	}
 
-	const sortedArticles = await fetchNewsForPage({ topic, date });
+	const sortedArticles = await fetchNewsForPage({ topic, date, from, to });
 
 	const { isLoggedIn } = await authState();
 
 	return (
-		<AppInitializer news={sortedArticles} pageData={{ date, topic }}>
-			<div className="flex flex-row justify-between items-center mb-1">
-				<p className="text-gray-500 dark:text-gray-400 text-sm">
-					{sortedArticles?.length} articles found
-				</p>
-				{isLoggedIn && <ClearCache date={date} topic={topic} />}
-			</div>
-			<div className="mb-4 flex flex-col divide-y divide-gray-300 dark:divide-gray-700">
-				{!sortedArticles?.length && (
-					<p className="text-gray-500 dark:text-gray-400 text-center py-4">
-						No news found for this topic and date
-					</p>
-				)}
-				{sortedArticles?.map((article) => (
-					<div key={article.guid} className="py-2 align-middle">
-						<NewsSection guid={article.guid} isLoggedIn={isLoggedIn} />
-					</div>
-				))}
-			</div>
-		</AppInitializer>
+		<Suspense fallback={<LoadingComponent />}>
+			<AppInitializer
+				news={sortedArticles}
+				pageData={{ topic, date, from, to }}
+			>
+				<Content isLoggedIn={isLoggedIn} />
+			</AppInitializer>
+		</Suspense>
 	);
 }

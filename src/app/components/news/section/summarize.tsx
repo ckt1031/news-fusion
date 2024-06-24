@@ -48,7 +48,7 @@ export default function SummarizeButton({ guid }: Props) {
 	return (
 		<TooltipProvider>
 			<Tooltip>
-				<TooltipTrigger>
+				<TooltipTrigger asChild>
 					<Button
 						variant="ghost"
 						onClick={onGenerateSummary}

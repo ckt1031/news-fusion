@@ -19,4 +19,6 @@ export const TranslateActionSchema = z.object({
 export const clearCacheActionSchema = z.object({
 	date: z.string(),
 	topic: z.string(),
+	from: z.string().optional(),
+	to: z.string().optional(),
 });
