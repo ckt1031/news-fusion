@@ -35,7 +35,7 @@ function getConfiguration(
 	catagory: RSSCatacory,
 	channel: RSSChannelItem,
 	key: keyof RSSConfig,
-	defaultValue = false,
+	defaultValue: boolean | string,
 ) {
 	return (
 		(typeof channel === 'string' ? undefined : channel[key]) ??
@@ -85,12 +85,6 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						'autoSummarize',
 						true,
 					);
-					// const includeAIButtons = getConfiguration(
-					// 	catagory,
-					// 	channel,
-					// 	'includeAIButtons',
-					// 	true,
-					// );
 					let checkImportance = getConfiguration(
 						catagory,
 						channel,
@@ -102,6 +96,12 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						channel,
 						'scrapable',
 						true,
+					);
+					const publisherName = getConfiguration(
+						catagory,
+						channel,
+						'specificName',
+						feed.title,
 					);
 
 					let thumbnail: string | undefined = item?.thumbnail;
@@ -195,7 +195,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						important,
 						title: title,
 						url: item.link,
-						publisher: feed.title,
+						publisher: publisherName as string,
 						category: catagory.name,
 						guid: item.guid,
 						publishedAt: new Date(),

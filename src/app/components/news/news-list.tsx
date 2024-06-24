@@ -50,24 +50,11 @@ export async function fetchNews({ topic, date }: Omit<Props, 'userStatus'>) {
 				title: article.title,
 				url: article.url,
 				summary: article.summary,
-				publisher: reWritePublisherName(article.publisher),
+				publisher: article.publisher,
 				publishedAt: article.publishedAt,
 				similarArticles: article.similarArticles,
 			};
 		});
-
-	function reWritePublisherName(publisher: string) {
-		// Engadget is a web magazine with obsessive daily coverage of everything new in gadgets and consumer electronics
-		// Too long, let's just use Engadget
-		if (publisher.includes('Engadget')) {
-			return 'Engadget';
-		}
-		// The Verge - All Posts -> The Verge
-		if (publisher.includes('The Verge')) {
-			return 'The Verge';
-		}
-		return publisher;
-	}
 
 	await redis.set(cacheHash, sortedArticles);
 	// 15 minutes

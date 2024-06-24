@@ -1,7 +1,6 @@
 import $ from 'dax-sh';
 
-const baseURL =
-	process.env.TOOLS_API_BASE_URL ?? 'https://api.tsun1031.xyz';
+const baseURL = process.env.TOOLS_API_BASE_URL ?? 'https://api.tsun1031.xyz';
 
 const filePath = './src/types/tool-apis.d.ts';
 

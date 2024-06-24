@@ -1,6 +1,8 @@
 import { YOUTUBE_RSS } from './api';
 
 export type RSSConfig = {
+	specificName?: string;
+
 	checkImportance?: boolean;
 	/** Default to ture, check importance of income content */
 	autoSummarize?: boolean;
@@ -45,7 +47,10 @@ export const RSS_GENERAL: RSSCatacory = {
 		'https://feeds.bbci.co.uk/news/world/rss.xml',
 		'https://news.un.org/feed/subscribe/en/news/all/rss.xml',
 		'https://feeds.washingtonpost.com/rss/world?itid=lk_inline_manual_35',
-		'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362',
+		{
+			url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362',
+			specificName: 'CNBC',
+		},
 	],
 };
 
@@ -53,7 +58,10 @@ export const RSS_HKG: RSSCatacory = {
 	name: RSS_CATEGORY.HKG,
 	channels: [
 		'https://www.scmp.com/rss/2/feed',
-		'https://www.epochtimes.com/b5/nsc415.xml',
+		{
+			url: 'https://www.epochtimes.com/b5/nsc415.xml',
+			specificName: 'Epoch Times HK',
+		},
 	],
 };
 
@@ -111,11 +119,14 @@ export const RSS_TECH: RSSCatacory = {
 		'https://9to5google.com/feed',
 		'https://techcrunch.com/feed',
 		'https://www.geekwire.com/feed',
-		'https://www.engadget.com/rss.xml',
+		{ url: 'https://www.engadget.com/rss.xml', specificName: 'Engadget' },
 		'https://arstechnica.com/feed',
 		'https://www.wired.com/feed/rss',
 		'https://www.zdnet.com/news/rss.xml',
-		'https://www.theverge.com/rss/index.xml',
+		{
+			url: 'https://www.theverge.com/rss/index.xml',
+			specificName: 'The Verge',
+		},
 		'https://www.theregister.com/headlines.rss',
 		'https://www.tomsguide.com/feeds/all',
 		'https://www.techradar.com/feeds/articletype/news',
