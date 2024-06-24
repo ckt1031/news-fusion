@@ -27,8 +27,6 @@ export default function DateSwitcher() {
 	const searchParams = useSearchParams();
 	const router = useRouter();
 
-	const [rangeMode, setRangeMode] = useState(false);
-
 	const clientCurrentDate = dayjs().format('YYYY-MM-DD');
 	const queryDate = searchParams.get('date');
 	const date = queryDate
@@ -36,6 +34,8 @@ export default function DateSwitcher() {
 		: clientCurrentDate;
 
 	const [to, from] = [searchParams.get('to'), searchParams.get('from')];
+
+	const [rangeMode, setRangeMode] = useState(!!(to && from));
 
 	const isToday = queryDate === clientCurrentDate;
 

@@ -6,16 +6,21 @@ import { useState } from 'react';
 import type { DateRange } from 'react-day-picker';
 import { useToast } from '../../ui/use-toast';
 
-export default function RangeDateSelect() {
+interface RangeDateSelectProps {
+	to?: string;
+	from?: string;
+}
+
+export default function RangeDateSelect({ to, from }: RangeDateSelectProps) {
 	const { toast } = useToast();
 
 	const pathname = usePathname();
 	const router = useRouter();
 
-	const [date] = useState<DateRange>({
+	const [date, setDate] = useState<DateRange>({
 		// Dayjs subtracts 1 day from the current date
-		from: dayjs().subtract(1, 'day').toDate(),
-		to: dayjs().toDate(),
+		from: from ? dayjs(from).toDate() : dayjs().subtract(1, 'day').toDate(),
+		to: to ? dayjs(to).toDate() : dayjs().toDate(),
 	});
 
 	const getAllQueriesRequired = (range: DateRange) => {
@@ -41,6 +46,8 @@ export default function RangeDateSelect() {
 			});
 			return;
 		}
+
+		setDate(range);
 
 		router.push(`${pathname}?${getAllQueriesRequired(range)}`);
 	};
