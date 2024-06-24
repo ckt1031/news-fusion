@@ -57,7 +57,10 @@ export const RSS_GENERAL: RSSCatacory = {
 export const RSS_HKG: RSSCatacory = {
 	name: RSS_CATEGORY.HKG,
 	channels: [
-		'https://www.scmp.com/rss/2/feed',
+		{
+			url: 'https://www.scmp.com/rss/2/feed',
+			specificName: 'SCMP',
+		},
 		{
 			url: 'https://www.epochtimes.com/b5/nsc415.xml',
 			specificName: 'Epoch Times HK',
@@ -122,7 +125,7 @@ export const RSS_TECH: RSSCatacory = {
 		{ url: 'https://www.engadget.com/rss.xml', specificName: 'Engadget' },
 		'https://arstechnica.com/feed',
 		'https://www.wired.com/feed/rss',
-		'https://www.zdnet.com/news/rss.xml',
+		{ url: 'https://www.zdnet.com/news/rss.xml', specificName: 'ZDNet' },
 		{
 			url: 'https://www.theverge.com/rss/index.xml',
 			specificName: 'The Verge',
@@ -151,9 +154,15 @@ export const RSS_AI: RSSCatacory = {
 export const RSS_SCIENCE: RSSCatacory = {
 	name: RSS_CATEGORY.SCIENCE,
 	channels: [
-		'https://rss.sciencedaily.com/all.xml',
+		{
+			url: 'https://rss.sciencedaily.com/all.xml',
+			specificName: 'Science Daily',
+		},
 		'https://www.newscientist.com/feed/home',
-		'https://www.scientificamerican.com/platform/syndication/rss',
+		{
+			url: 'https://www.scientificamerican.com/platform/syndication/rss',
+			specificName: 'Scientific American',
+		},
 	],
 };
 
