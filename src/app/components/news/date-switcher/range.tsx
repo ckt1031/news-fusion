@@ -7,8 +7,8 @@ import type { DateRange } from 'react-day-picker';
 import { useToast } from '../../ui/use-toast';
 
 interface RangeDateSelectProps {
-	to?: string;
-	from?: string;
+	to?: string | null;
+	from?: string | null;
 }
 
 export default function RangeDateSelect({ to, from }: RangeDateSelectProps) {

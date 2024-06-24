@@ -92,7 +92,7 @@ export default function DateSwitcher() {
 							<Label htmlFor="range-mode">Range Mode</Label>
 						</div>
 						{rangeMode ? (
-							<RangeDateSelect />
+							<RangeDateSelect to={to} from={from} />
 						) : (
 							<SingleDateSelect
 								clientCurrentDate={clientCurrentDate}
