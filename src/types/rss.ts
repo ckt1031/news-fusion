@@ -3,9 +3,9 @@ import { decode as decodeHtmlEntities } from 'html-entities';
 import { z } from 'zod';
 
 // Schema for the first type of thumbnail (media:content)
-const MediaContentSchema = z.object({
-	'@_url': z.string().url(),
-});
+// const MediaContentSchema = z.object({
+// 	'@_url': z.string().url(),
+// });
 
 const CommonRssFeedItemSchema = z
 	.object({
@@ -23,10 +23,10 @@ const CommonRssFeedItemSchema = z
 			.optional(),
 
 		// Additions
-		'media:content': MediaContentSchema.or(z.string())
-			.or(MediaContentSchema.array())
-			.optional(),
-		'media:thumbnail': MediaContentSchema.optional(),
+		// 'media:content': MediaContentSchema.or(z.string())
+		// 	.or(MediaContentSchema.array())
+		// 	.optional(),
+		// 'media:thumbnail': MediaContentSchema.optional(),
 	})
 	.transform((item) => ({
 		// Make format to common format
@@ -34,15 +34,15 @@ const CommonRssFeedItemSchema = z
 		link: removeTrailingSlash(String(item.link || item.guid || '')),
 		pubDate: item.pubDate,
 		guid: removeTrailingSlash(String(item.guid || item.link || '')),
-		thumbnail:
-			(typeof item['media:content'] !== 'string' &&
-				typeof item['media:content'] !== 'undefined' &&
-				(Array.isArray(item['media:content'])
-					? item['media:content'][0]?.['@_url']
-					: typeof item['media:content'] === 'object'
-						? item['media:content']['@_url']
-						: item['media:content'])) ||
-			item['media:thumbnail']?.['@_url'],
+		// thumbnail:
+		// 	(typeof item['media:content'] !== 'string' &&
+		// 		typeof item['media:content'] !== 'undefined' &&
+		// 		(Array.isArray(item['media:content'])
+		// 			? item['media:content'][0]?.['@_url']
+		// 			: typeof item['media:content'] === 'object'
+		// 				? item['media:content']['@_url']
+		// 				: item['media:content'])) ||
+		// 	item['media:thumbnail']?.['@_url'],
 	}));
 
 const CommonRssFeedSchema = z.object({

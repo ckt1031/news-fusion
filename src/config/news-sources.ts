@@ -175,16 +175,12 @@ export const RSS_DEV: RSSCatacory = {
 	channels: [
 		'https://blog.cloudflare.com/rss',
 		'https://github.blog/feed',
-		// AI
-		'https://rsshub.bestblogs.dev/deeplearning/thebatch',
 
 		'https://www.netlify.com/community-feed.xml',
 		'https://www.koyeb.com/feed.xml',
 		'https://blog.postman.com/feed',
 
 		'https://www.docker.com/feed',
-		// // Open Source
-		// '{RSSHUB}/hellogithub/article',
 		// Microsoft
 		'https://blogs.windows.com/feed',
 		'https://blogs.windows.com/msedgedev/feed',
