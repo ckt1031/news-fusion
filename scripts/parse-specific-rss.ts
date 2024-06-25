@@ -1,5 +1,5 @@
 import { EARLIEST_HOURS } from '@/config/news-sources';
-import { parseRSS } from '@/lib/parse-news';
+import { parseRSS } from '@/lib/news/parse-news';
 
 const rssURL = process.argv[2];
 

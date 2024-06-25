@@ -41,19 +41,24 @@ export async function requestEmbeddingsAPI({
 	model = DEFAULT_EMBEDDING_MODEL,
 	timeout = 10 * 1000,
 }: EmbeddingsProp) {
-	consola.start('Request Embeddings API', {
-		model,
-	});
+	try {
+		consola.start('Request Embeddings API', {
+			model,
+		});
 
-	const openai = getOpenAI(env);
+		const openai = getOpenAI(env);
 
-	const { embedding } = await embed({
-		model: openai.embedding('text-embedding-3-small'),
-		value: text,
-		abortSignal: AbortSignal.timeout(timeout),
-	});
+		const { embedding } = await embed({
+			model: openai.embedding('text-embedding-3-small'),
+			value: text,
+			abortSignal: AbortSignal.timeout(timeout),
+		});
 
-	return embedding;
+		return embedding;
+	} catch (error) {
+		consola.error('Failed to request embeddings API', error);
+		return null;
+	}
 }
 
 export async function requestChatCompletionAPI({

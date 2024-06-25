@@ -7,6 +7,7 @@ import {
 import embeddingTemplate from '@/prompts/embedding-template';
 import type { ServerEnv } from '@/types/env';
 import consola from 'consola';
+import { getEncoding } from 'js-tiktoken';
 import Mustache from 'mustache';
 import {
 	addSimilarArticleToDatabase,
@@ -19,17 +20,19 @@ import {
 	generateTitle,
 	summarizeIntoShortText,
 } from '../llm/prompt-calls';
-import { parseRSS } from '../parse-news';
 import { getContentMarkdownFromURL, scrapeMetaData } from '../tool-apis';
 import filterRSS from './filter-news';
+import { parseRSS } from './parse-news';
 import { getRSSHubURL } from './rsshub';
 import { isArticleSimilar } from './similarity';
 
-type Props = {
+interface Props {
 	env: ServerEnv;
 	catagory: RSSCatacory;
 	isTesting?: boolean;
-};
+
+	customCheckImportancePrompt?: string;
+}
 
 function getConfiguration(
 	catagory: RSSCatacory,
@@ -44,7 +47,19 @@ function getConfiguration(
 	);
 }
 
-export default async function checkRSS({ env, catagory, isTesting }: Props) {
+function getToken(markdown: string) {
+	const enc = getEncoding('cl100k_base');
+	const tokens = enc.encode(markdown).length;
+
+	return tokens;
+}
+
+export default async function checkRSS({
+	env,
+	catagory,
+	isTesting,
+	customCheckImportancePrompt,
+}: Props) {
 	for (const channel of catagory.channels) {
 		let url: string | undefined =
 			typeof channel === 'string' ? channel : channel.url;
@@ -129,17 +144,19 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 						title = await generateTitle(env, content);
 
 						const embeddingText = Mustache.render(embeddingTemplate, {
-							// title: item.title,
-							// link: item.link,
-							//pubDate: new Date(),
-							content,
+							// Send maxmium 8000 chars
+							content: content.slice(0, 8000),
 						});
 
-						embedding = await requestEmbeddingsAPI({
-							env,
-							text: embeddingText,
-							timeout: 5 * 1000,
-						});
+						const tokens = getToken(content);
+
+						if (tokens < 8000) {
+							embedding = await requestEmbeddingsAPI({
+								env,
+								text: embeddingText,
+								timeout: 5 * 1000,
+							});
+						}
 
 						if (embedding) {
 							const similar = await isArticleSimilar(embedding, item.link);
@@ -165,7 +182,7 @@ export default async function checkRSS({ env, catagory, isTesting }: Props) {
 
 					if (checkImportance) {
 						important = await checkArticleImportance(env, content, {
-							trace: true,
+							customSystemPrompt: customCheckImportancePrompt,
 						});
 
 						consola.success(

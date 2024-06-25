@@ -8,20 +8,18 @@ process.env.DEFAULT_CHECK_IMPORTANCE_MODEL = 'yi-large';
 
 const env = await envSchema.parseAsync(process.env);
 
-function specialFilter(title: string) {
-	if (title.includes('工作')) return false;
+// function specialFilter(title: string) {
+// 	if (title.includes('工作')) return false;
 
-	if (title.includes('优惠信息')) return false;
+// 	if (title.includes('优惠信息')) return false;
 
-	return true;
-}
+// 	return true;
+// }
 
 await checkForum({
 	env,
-	urls: V2EX,
-	sourceName: 'V2EX',
-	specialFilter,
-	channelID: '1246408890229194772',
+	source: V2EX,
+	// specialFilter,
 	criteriaPrompt: {
 		importantCriteria: `- Truely useful
 - Security issue, leaks

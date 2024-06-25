@@ -11,7 +11,7 @@ export const findSimilaritiesAction = authActionClient
 	.schema(similaritySchema)
 	.action(async ({ parsedInput: formData }) => {
 		const url = formData.url;
-		let embedding: number[] | undefined;
+		let embedding: number[] | undefined | null = null;
 		const env = process.env as unknown as ServerEnv;
 
 		if (url) {

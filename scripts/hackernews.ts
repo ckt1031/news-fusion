@@ -14,9 +14,7 @@ const accessLobsters = process.argv[2] === 'lobsters';
 
 await checkForum({
 	env,
-	urls: accessLobsters ? LOBSTE_RS : HACKER_NEWS,
-	sourceName: accessLobsters ? 'Lobsters' : 'Hacker News',
-	channelID: accessLobsters ? '1250079186475814932' : '1246408976506028064',
+	source: accessLobsters ? LOBSTE_RS : HACKER_NEWS,
 	criteriaPrompt: {
 		importantCriteria: `- Topics: General topics include but not limited to: tech, science, programming, or business (Apply to all below criteria)
 - Significant tech innovations, or breakthroughs

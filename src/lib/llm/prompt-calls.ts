@@ -29,9 +29,6 @@ export async function summarizeText(
 			system: summarizePrompt,
 			user: originalContent,
 		},
-		trace: {
-			name: 'summarize-article',
-		},
 	});
 }
 
@@ -46,9 +43,6 @@ export async function summarizeIntoShortText(
 		message: {
 			system: summarizeInfoShortTextPrompt,
 			user: originalContent,
-		},
-		trace: {
-			name: 'summarize-article-briefly',
 		},
 	});
 }
@@ -92,9 +86,6 @@ export async function generateSearchQuery(
 			system: queryGenPrompt,
 			user: content,
 		},
-		trace: {
-			name: 'generate-search-query',
-		},
 	});
 }
 
@@ -114,9 +105,6 @@ export async function generateTitle(
 			system: titleGenPrompt,
 			user: truncatedContent,
 		},
-		trace: {
-			name: 'generate-title',
-		},
 		timeout: 10 * 1000,
 	});
 }
@@ -125,7 +113,6 @@ export async function checkArticleImportance(
 	env: TextCompletionsGenerateProps['env'],
 	content: string,
 	custom?: {
-		trace?: boolean;
 		customSystemPrompt?: string;
 	},
 ) {
@@ -136,10 +123,6 @@ export async function checkArticleImportance(
 		message: {
 			system: custom?.customSystemPrompt ?? filterImportancePrompt,
 			user: content,
-		},
-		trace: {
-			enabled: custom?.trace ?? true,
-			name: 'check-article-importance',
 		},
 		timeout: 10 * 1000,
 	});
