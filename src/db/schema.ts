@@ -43,10 +43,20 @@ export const articles = pgTable(
 	}),
 );
 
-export const users = pgTable('users', {
-	id: serial('id').primaryKey().unique(),
-	role: integer('role').notNull(),
-});
+export const users = pgTable(
+	'users',
+	{
+		id: text('id').primaryKey().unique(),
+		role: integer('role').notNull(),
+	},
+	(table) => ({
+		userIdIndex: index('userIdIndex').on(table.id),
+	}),
+);
+
+/**
+ * Relations
+ */
 
 export const usersRelations = relations(users, ({ many }) => ({
 	usersToArticles: many(usersToArticles),
@@ -59,7 +69,7 @@ export const articlesRelations = relations(articles, ({ many }) => ({
 export const usersToArticles = pgTable(
 	'users_to_articles',
 	{
-		userId: integer('user_id')
+		userId: text('user_id')
 			.notNull()
 			.references(() => users.id),
 		articleId: integer('article_id')

@@ -1,7 +1,7 @@
 import * as schema from '@/db/schema';
 import type { NewArticle } from '@/db/schema';
 import { createPool } from '@vercel/postgres';
-import { arrayOverlaps, eq, lt, sql } from 'drizzle-orm';
+import { and, arrayOverlaps, eq, lt, or, sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/vercel-postgres';
 
 const client = createPool({
@@ -13,15 +13,18 @@ export const db = drizzle(client, {
 });
 
 export async function clearUnusedDatabaseData() {
+	const day = 24 * 60 * 60 * 1000;
 	// Delete articles that are 30 days old
-	await db
-		.delete(schema.articles)
-		.where(
-			lt(
-				schema.articles.publishedAt,
-				new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+	await db.delete(schema.articles).where(
+		or(
+			and(
+				lt(schema.articles.publishedAt, new Date(Date.now() - 30 * day)),
+				eq(schema.articles.important, false),
 			),
-		);
+			// Delete articles that are 90 days old
+			lt(schema.articles.publishedAt, new Date(Date.now() - 90 * day)),
+		),
+	);
 }
 
 interface CheckNewsExistance {
