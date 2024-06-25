@@ -17,8 +17,9 @@ export async function clearUnusedDatabaseData() {
 	// Delete articles that are 30 days old
 	await db.delete(schema.articles).where(
 		or(
+			// Delete articles that are not important and are 20 days old
 			and(
-				lt(schema.articles.publishedAt, new Date(Date.now() - 30 * day)),
+				lt(schema.articles.publishedAt, new Date(Date.now() - 20 * day)),
 				eq(schema.articles.important, false),
 			),
 			// Delete articles that are 90 days old
@@ -63,6 +64,31 @@ export async function addSimilarArticleToDatabase(
 
 export async function createArticleDatabase(data: NewArticle) {
 	await db.insert(schema.articles).values(data);
+}
+
+export enum AddArticleUserRelationStatus {
+	AlreadyExists = 1,
+	Success = 2,
+}
+
+export async function addArticleUserRelation(
+	userId: string,
+	articleId: number,
+) {
+	// Find if the relation already exists
+	const result = await db.query.usersToArticles.findFirst({
+		where: (d, { and, eq }) =>
+			and(eq(d.userId, userId), eq(d.articleId, articleId)),
+	});
+
+	if (result) return AddArticleUserRelationStatus.AlreadyExists;
+
+	await db.insert(schema.usersToArticles).values({
+		articleId,
+		userId,
+	});
+
+	return AddArticleUserRelationStatus.Success;
 }
 
 export async function updateArticleDatabase(

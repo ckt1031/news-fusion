@@ -123,6 +123,8 @@ export async function googleTranslate(
 		body: { text, to: targetLanguage },
 	});
 
+	console.log(error);
+
 	if (error || !data) {
 		throw new Error(`Failed to translate ${text}`);
 	}

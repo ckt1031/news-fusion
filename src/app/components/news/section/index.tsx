@@ -6,6 +6,7 @@ import PublisherComponent from '../list/publisher';
 import TimeComponent from '../list/time-component';
 import '@/app/styles/markdown.css';
 import { useNewsStore } from '@/app/store/news';
+import Bookmark from './bookmark';
 import ReadMore from './read-more';
 import SummarizeButton from './summarize';
 import TranslateButton from './translate';
@@ -65,6 +66,7 @@ export default function NewsSection({ isLoggedIn, guid }: Props) {
 							<>
 								<SummarizeButton guid={guid} />
 								<TranslateButton guid={guid} />
+								<Bookmark guid={guid} />
 							</>
 						)}
 					</div>

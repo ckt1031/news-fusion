@@ -23,3 +23,7 @@ export const clearCacheActionSchema = z.object({
 	from: z.string().optional(),
 	to: z.string().optional(),
 });
+
+export const BookmarkActionSchema = z.object({
+	articleId: z.number(),
+});

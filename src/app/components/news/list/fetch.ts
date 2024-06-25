@@ -65,6 +65,7 @@ export async function fetchNewsForPage({
 		// Structure the data
 		.map((article) => {
 			return {
+				id: article.id,
 				guid: article.guid,
 				title: article.title,
 				url: article.url,
