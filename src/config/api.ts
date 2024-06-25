@@ -10,5 +10,4 @@ export const DEFAULT_TITLE_GENERATE_MODEL = 'gpt-3.5-turbo-0125';
 export const DEFAULT_CHECK_IMPORTANCE_MODEL = 'gpt-4o';
 export const DEFAULT_SEARCH_QUERY_GENERATE_MODEL = 'gpt-3.5-turbo-0125';
 
-export const FAVICON_BASE_URL =
-	'https://www.google.com/s2/favicons?domain_url=';
+export const FAVICON_BASE_URL = 'https://www.google.com/s2/favicons';

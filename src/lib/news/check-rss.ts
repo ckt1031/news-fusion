@@ -218,6 +218,7 @@ export default async function checkRSS({
 						publishedAt: new Date(),
 						embedding: scrapable ? embedding : null,
 						summary: autoSummarize && shortSummary ? shortSummary : '',
+						similarArticles: [],
 					});
 				} catch (error) {
 					consola.error(error);

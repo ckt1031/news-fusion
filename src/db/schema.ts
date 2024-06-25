@@ -1,8 +1,10 @@
-import { sql } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import {
 	boolean,
 	index,
+	integer,
 	pgTable,
+	primaryKey,
 	serial,
 	text,
 	timestamp,
@@ -25,10 +27,7 @@ export const articles = pgTable(
 		// OpenAI: text-embedding-3-small
 		embedding: vector('embedding', { dimensions: 1536 }),
 
-		similarArticles: text('similarArticles')
-			.array()
-			.notNull()
-			.default(sql`ARRAY[]::text[]`),
+		similarArticles: text('similarArticles').array().notNull(),
 
 		summary: text('summary').notNull().default(sql`''`),
 	},
@@ -37,6 +36,52 @@ export const articles = pgTable(
 			'hnsw',
 			table.embedding.op('vector_cosine_ops'),
 		),
+		// More indexes
+		guidIndex: index('guidIndex').on(table.guid),
+		titleIndex: index('titleIndex').on(table.title),
+		urlIndex: index('urlIndex').on(table.url),
+	}),
+);
+
+export const users = pgTable('users', {
+	id: serial('id').primaryKey().unique(),
+	role: integer('role').notNull(),
+});
+
+export const usersRelations = relations(users, ({ many }) => ({
+	usersToArticles: many(usersToArticles),
+}));
+
+export const articlesRelations = relations(articles, ({ many }) => ({
+	usersToArticles: many(usersToArticles),
+}));
+
+export const usersToArticles = pgTable(
+	'users_to_articles',
+	{
+		userId: integer('user_id')
+			.notNull()
+			.references(() => users.id),
+		articleId: integer('article_id')
+			.notNull()
+			.references(() => articles.id),
+	},
+	(t) => ({
+		pk: primaryKey({ columns: [t.userId, t.articleId] }),
+	}),
+);
+
+export const usersToArticlesRelations = relations(
+	usersToArticles,
+	({ one }) => ({
+		article: one(articles, {
+			fields: [usersToArticles.articleId],
+			references: [articles.id],
+		}),
+		user: one(users, {
+			fields: [usersToArticles.userId],
+			references: [users.id],
+		}),
 	}),
 );
 
