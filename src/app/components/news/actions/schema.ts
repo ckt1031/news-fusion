@@ -1,10 +1,11 @@
 import { z } from 'zod';
 
-export const ReGenSummaryActionSchema = z.object({
+export const GenerateContentActionSchema = z.object({
 	url: z.string().url(),
 	guid: z.string(),
-	date: z.string(),
-	topic: z.string(),
+
+	generateSummary: z.boolean().optional(),
+	generateTitle: z.boolean().optional(),
 });
 
 export const supportedTargetLanguages = ['zh-tw', 'en'] as const;

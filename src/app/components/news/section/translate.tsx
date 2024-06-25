@@ -117,6 +117,7 @@ export default function TranslateButton({ guid }: Props) {
 			<PopoverTrigger asChild>
 				<Button variant="ghost">
 					<Languages className="h-4 w-4" />
+					<span className="ml-2 hidden lg:block">Translate</span>
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent align="start">
