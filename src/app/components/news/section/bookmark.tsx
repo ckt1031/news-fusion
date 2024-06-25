@@ -1,5 +1,4 @@
 import { useNewsStore } from '@/app/store/news';
-import { AddArticleUserRelationStatus } from '@/lib/db';
 import { BookmarkPlus } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { Button } from '../../ui/button';
@@ -21,11 +20,11 @@ export default function Bookmark({ guid }: Props) {
 			articleId: baseItem.id,
 		});
 
-		if (status?.data?.status === AddArticleUserRelationStatus.AlreadyExists) {
+		if (status?.data?.status === 1) {
 			toast({
 				description: 'Bookmark already exists',
 			});
-		} else if (status?.data?.status !== AddArticleUserRelationStatus.Success) {
+		} else if (status?.data?.status === 2) {
 			toast({
 				description: 'Bookmark added',
 			});
