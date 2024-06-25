@@ -119,7 +119,7 @@ export default function TranslateButton({ guid }: Props) {
 					<Languages className="h-4 w-4" />
 				</Button>
 			</PopoverTrigger>
-			<PopoverContent>
+			<PopoverContent align="start">
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onTranslate)}>
 						{!translated && (
