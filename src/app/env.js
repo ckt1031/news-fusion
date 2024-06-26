@@ -7,6 +7,7 @@ export const nextEnv = createEnv({
 	 * Will throw if you access these variables on the client.
 	 */
 	server: {
+		ENABLE_VERCEL_ANALYTICS: z.string().optional(), // 1 or 0, 1 is enabled
 		UPSTASH_REDIS_REST_URL: z.string(),
 		UPSTASH_REDIS_REST_TOKEN: z.string(),
 		SITE_URL: z.string().default('http://localhost:3000'),
@@ -32,6 +33,8 @@ export const nextEnv = createEnv({
 	 */
 	runtimeEnv: {
 		SITE_URL: process.env.SITE_URL,
+
+		ENABLE_VERCEL_ANALYTICS: process.env.ENABLE_VERCEL_ANALYTICS,
 
 		NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
 		NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,

@@ -5,6 +5,7 @@ import type { Viewport } from 'next';
 import { Inter, Noto_Sans_SC, Noto_Sans_TC } from 'next/font/google';
 import Heading from './components/heading';
 import { ThemeProvider } from './components/theme';
+import VercelAnalytics from './components/vercel-analytics';
 import { cn } from './utils/cn';
 
 const inter = Inter({
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
 			suppressHydrationWarning
 			className={cn(inter.variable, notoSansSC.variable, notoSansTC.variable)}
 		>
+			<VercelAnalytics />
 			<body className="bg-neutral-50 dark:bg-neutral-950 flex h-screen flex-col justify-between overflow-x-hidden">
 				<ThemeProvider
 					attribute="class"
