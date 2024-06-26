@@ -12,27 +12,24 @@ export function getOpenAI(env: ServerEnv) {
 	return openai;
 }
 
-export type TextCompletionsGenerateProps = {
+export interface AIBaseProps {
 	env: ServerEnv;
-	model: string;
+	timeout?: number;
+	taskName?: string;
+	model?: string;
+}
+
+export interface TextCompletionsGenerateProps extends AIBaseProps {
+	temperature?: number;
 	message: {
 		system?: string;
 		user: string;
 	};
-	temperature?: number;
-	trace?: {
-		enabled?: boolean;
-		name?: string;
-		id?: string;
-	};
-	timeout?: number;
-};
+	model: string;
+}
 
-export interface EmbeddingsProp {
-	env: ServerEnv;
+export interface EmbeddingsProp extends AIBaseProps {
 	text: string;
-	model?: string;
-	timeout?: number;
 }
 
 export async function requestEmbeddingsAPI({
@@ -40,17 +37,20 @@ export async function requestEmbeddingsAPI({
 	text,
 	model = DEFAULT_EMBEDDING_MODEL,
 	timeout = 10 * 1000,
+	taskName,
 }: EmbeddingsProp) {
 	try {
 		consola.start('Request Embeddings API', {
 			model,
+			task: taskName,
 		});
 
 		const openai = getOpenAI(env);
 
 		const { embedding } = await embed({
-			model: openai.embedding('text-embedding-3-small'),
+			model: openai.embedding(DEFAULT_EMBEDDING_MODEL),
 			value: text,
+			maxRetries: 3,
 			abortSignal: AbortSignal.timeout(timeout),
 		});
 
@@ -66,12 +66,12 @@ export async function requestChatCompletionAPI({
 	model,
 	message,
 	temperature,
-	trace,
 	timeout = 60 * 1000,
+	taskName,
 }: TextCompletionsGenerateProps): Promise<string> {
 	consola.start('Request Chat Completion API', {
 		model,
-		...trace,
+		task: taskName,
 	});
 
 	const openai = getOpenAI(env);
@@ -82,6 +82,7 @@ export async function requestChatCompletionAPI({
 		prompt: message.user,
 		system: message.system,
 		abortSignal: AbortSignal.timeout(timeout),
+		maxRetries: 4,
 	});
 
 	return text;

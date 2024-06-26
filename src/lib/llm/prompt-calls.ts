@@ -29,6 +29,7 @@ export async function summarizeText(
 			system: summarizePrompt,
 			user: originalContent,
 		},
+		taskName: 'Summarize Text',
 	});
 }
 
@@ -44,6 +45,8 @@ export async function summarizeIntoShortText(
 			system: summarizeInfoShortTextPrompt,
 			user: originalContent,
 		},
+		timeout: 20 * 1000,
+		taskName: 'Summarize Into Short Text',
 	});
 }
 
@@ -64,9 +67,7 @@ export async function llmTranslateText(
 			system: _translatePrompt,
 			user: originalContent,
 		},
-		trace: {
-			name: 'translate-text',
-		},
+		taskName: 'Translate Text',
 	});
 
 	return content;
@@ -86,6 +87,8 @@ export async function generateSearchQuery(
 			system: queryGenPrompt,
 			user: content,
 		},
+		timeout: 10 * 1000,
+		taskName: 'Generate Search Query',
 	});
 }
 
@@ -106,6 +109,7 @@ export async function generateTitle(
 			user: truncatedContent,
 		},
 		timeout: 10 * 1000,
+		taskName: 'Generate Title',
 	});
 }
 
@@ -125,6 +129,7 @@ export async function checkArticleImportance(
 			user: content,
 		},
 		timeout: 10 * 1000,
+		taskName: 'Check Article Importance',
 	});
 	return result.toLowerCase().includes('true');
 }
