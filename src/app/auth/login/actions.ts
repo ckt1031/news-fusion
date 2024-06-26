@@ -41,6 +41,7 @@ export const forgotPassword = action
 			formData.email,
 			{
 				redirectTo: `${nextEnv.SITE_URL}/auth/reset-password`,
+				captchaToken: formData.captchaToken,
 			},
 		);
 
