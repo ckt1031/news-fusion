@@ -1,15 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import Markdown from 'react-markdown';
 import PublisherComponent from '../list/publisher';
 import TimeComponent from '../list/time-component';
 import '@/app/styles/markdown.css';
 import { useNewsStore } from '@/app/store/news';
-import Bookmark from './bookmark';
+import dynamic from 'next/dynamic';
+import LoadingComponent from '../../loading';
 import ReadMore from './read-more';
-import SummarizeButton from './summarize';
-import TranslateButton from './translate';
+
+const Bookmark = dynamic(() => import('./bookmark'), {
+	ssr: false,
+});
+const SummarizeButton = dynamic(() => import('./summarize'), {
+	ssr: false,
+});
+const TranslateButton = dynamic(() => import('./translate'), {
+	ssr: false,
+});
 
 interface Props {
 	guid: string;
@@ -61,15 +70,17 @@ export default function NewsSection({ isLoggedIn, guid }: Props) {
 							{displayingItem.summary}
 						</Markdown>
 					)}
-					<div className="flex flex-row gap-2 mt-2 flex-wrap">
-						{isLoggedIn && (
-							<>
-								<SummarizeButton guid={guid} />
-								<TranslateButton guid={guid} />
-								<Bookmark guid={guid} />
-							</>
-						)}
-					</div>
+					<Suspense fallback={<LoadingComponent />}>
+						<div className="flex flex-row gap-2 mt-2 flex-wrap">
+							{isLoggedIn && (
+								<>
+									<SummarizeButton guid={guid} />
+									<TranslateButton guid={guid} />
+									<Bookmark guid={guid} />
+								</>
+							)}
+						</div>
+					</Suspense>
 				</div>
 			)}
 		</>
