@@ -4,11 +4,9 @@ import {
 	type RSSChannelItem,
 	type RSSConfig,
 } from '@/config/news-sources';
-import embeddingTemplate from '@/prompts/embedding-template';
 import type { ServerEnv } from '@/types/env';
 import consola from 'consola';
 import { getEncoding } from 'js-tiktoken';
-import Mustache from 'mustache';
 import {
 	addSimilarArticleToDatabase,
 	checkIfNewsIsNew,
@@ -143,10 +141,12 @@ export default async function checkRSS({
 					if (scrapable && content.length > 0) {
 						title = await generateTitle(env, content);
 
-						const embeddingText = Mustache.render(embeddingTemplate, {
-							// Send maxmium 8000 chars
-							content: content.slice(0, 8000),
-						});
+						// const embeddingText = Mustache.render(embeddingTemplate, {
+						// 	// Send maxmium 8000 chars
+						// 	content: content.slice(0, 8000),
+						// });
+
+						const embeddingText = content.slice(0, 8000);
 
 						const tokens = getToken(content);
 
