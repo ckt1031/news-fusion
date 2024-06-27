@@ -83,7 +83,7 @@
 		"zustand": "^4.5.4"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.8.2",
+		"@biomejs/biome": "1.8.3",
 		"@types/mustache": "^4.2.5",
 		"@types/node": "^20.14.9",
 		"@types/react": "^18.3.3",
