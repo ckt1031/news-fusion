@@ -38,7 +38,7 @@ export default function robots(): MetadataRoute.Robots {
 			},
 			...ALL_AI_RULES,
 		],
-		sitemap: `${nextEnv.SITE_URL}/sitemap.xml`,
+		sitemap: `${nextEnv.SITE_URL}/sitemap-index.xml`,
 		host: nextEnv.SITE_URL,
 	};
 }

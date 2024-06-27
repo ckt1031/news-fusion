@@ -1,11 +1,13 @@
 'use client';
 
 import { Button } from '@/app/components/ui/button';
+import { Label } from '@/app/components/ui/label';
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
 } from '@/app/components/ui/popover';
+import { Switch } from '@/app/components/ui/switch';
 import {
 	Tooltip,
 	TooltipContent,
@@ -17,8 +19,6 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import queryString from 'query-string';
 import { useState } from 'react';
-import { Label } from '../../ui/label';
-import { Switch } from '../../ui/switch';
 import RangeDateSelect from './range';
 import SingleDateSelect from './single';
 

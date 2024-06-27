@@ -1,8 +1,8 @@
+import { Calendar } from '@/app/components/ui/calendar';
+import { useToast } from '@/app/components/ui/use-toast';
 import dayjs from 'dayjs';
 import { usePathname, useRouter } from 'next/navigation';
 import queryString from 'query-string';
-import { Calendar } from '../../ui/calendar';
-import { useToast } from '../../ui/use-toast';
 
 interface Props {
 	date: string;

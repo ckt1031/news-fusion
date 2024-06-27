@@ -1,8 +1,8 @@
+import { Button } from '@/app/components/ui/button';
+import { useToast } from '@/app/components/ui/use-toast';
 import { useNewsStore } from '@/app/store/news';
 import { BookmarkPlus } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
-import { Button } from '../../ui/button';
-import { useToast } from '../../ui/use-toast';
 import { addBookmarkAction } from '../actions/bookmark';
 
 interface Props {

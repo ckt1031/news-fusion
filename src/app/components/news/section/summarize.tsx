@@ -11,6 +11,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/app/components/ui/popover';
+import { Switch } from '@/app/components/ui/switch';
 import { useToast } from '@/app/components/ui/use-toast';
 import { useNewsStore } from '@/app/store/news';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,7 +19,6 @@ import { Loader2, RotateCw } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
-import { Switch } from '../../ui/switch';
 import { generateShortSummary } from '../actions/generate-short-summary';
 import { GenerateContentActionSchema } from '../actions/schema';
 
