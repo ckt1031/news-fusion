@@ -7,7 +7,6 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/app/components/ui/popover';
-import { Switch } from '@/app/components/ui/switch';
 import {
 	Tooltip,
 	TooltipContent,
@@ -16,11 +15,24 @@ import {
 } from '@/app/components/ui/tooltip';
 import dayjs from 'dayjs';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import queryString from 'query-string';
-import { useState } from 'react';
-import RangeDateSelect from './range';
-import SingleDateSelect from './single';
+import { Suspense, useState } from 'react';
+import LoadingComponent from '../../loading';
+
+const Switch = dynamic(
+	() => import('@/app/components/ui/switch').then((mod) => mod.Switch),
+	{
+		ssr: false,
+	},
+);
+const RangeDateSelect = dynamic(() => import('./range'), {
+	ssr: false,
+});
+const SingleDateSelect = dynamic(() => import('./single'), {
+	ssr: false,
+});
 
 export default function DateSwitcher() {
 	const pathname = usePathname();
@@ -83,22 +95,24 @@ export default function DateSwitcher() {
 						</Button>
 					</PopoverTrigger>
 					<PopoverContent className="w-full">
-						<div className="flex items-center space-x-2 mb-3">
-							<Switch
-								id="range-mode"
-								checked={rangeMode}
-								onCheckedChange={() => setRangeMode(!rangeMode)}
-							/>
-							<Label htmlFor="range-mode">Range Mode</Label>
-						</div>
-						{rangeMode ? (
-							<RangeDateSelect to={to} from={from} />
-						) : (
-							<SingleDateSelect
-								clientCurrentDate={clientCurrentDate}
-								date={date}
-							/>
-						)}
+						<Suspense fallback={<LoadingComponent />}>
+							<div className="flex items-center space-x-2 mb-3">
+								<Switch
+									id="range-mode"
+									checked={rangeMode}
+									onCheckedChange={() => setRangeMode(!rangeMode)}
+								/>
+								<Label htmlFor="range-mode">Range Mode</Label>
+							</div>
+							{rangeMode ? (
+								<RangeDateSelect to={to} from={from} />
+							) : (
+								<SingleDateSelect
+									clientCurrentDate={clientCurrentDate}
+									date={date}
+								/>
+							)}
+						</Suspense>
 					</PopoverContent>
 				</Popover>
 
