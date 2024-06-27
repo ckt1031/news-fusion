@@ -37,7 +37,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
 			className={cn(inter.variable, notoSansSC.variable, notoSansTC.variable)}
 		>
 			<VercelAnalytics />
-			<body className="bg-neutral-50 dark:bg-neutral-950 flex h-screen flex-col justify-between overflow-x-hidden">
+			<body className="subpixel-antialiased bg-neutral-50 dark:bg-neutral-950 flex h-screen flex-col justify-between overflow-x-hidden">
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="system"
