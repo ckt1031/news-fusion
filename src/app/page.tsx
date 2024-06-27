@@ -1,28 +1,10 @@
 import { RSS_CATEGORY } from '@/config/news-sources';
 import dayjs from 'dayjs';
-import type { Metadata } from 'next';
 import DateSwitcher from './components/news/date-switcher';
 import NewsList from './components/news/list';
 import TopicSelection from './components/news/topic-selection';
 
 export const runtime = 'nodejs';
-
-const title = 'AI News';
-const description = 'Hassle-free news reading experience';
-
-export const metadata: Metadata = {
-	title: 'AI News',
-	description: 'Hassle-free news reading experience',
-	openGraph: {
-		title,
-		description,
-	},
-	twitter: {
-		title,
-		description,
-		creator: '@cktsun1031',
-	},
-};
 
 export interface HomeSearchParamsProps {
 	date?: string;
@@ -30,9 +12,11 @@ export interface HomeSearchParamsProps {
 	from?: string;
 }
 
-export default function Home({
-	searchParams,
-}: { searchParams: HomeSearchParamsProps }) {
+interface PageProps {
+	searchParams: HomeSearchParamsProps;
+}
+
+export default function Home({ searchParams }: PageProps) {
 	const serverCurrentDate = dayjs().format('YYYY-MM-DD');
 
 	const queryDate = searchParams.date;

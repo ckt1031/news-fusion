@@ -1,6 +1,19 @@
+import type { Metadata } from 'next';
 import Component from './content';
 
 export const runtime = 'edge';
+
+const title = 'Tool: Summarize';
+
+export const metadata: Metadata = {
+	title,
+	openGraph: {
+		title,
+	},
+	twitter: {
+		title,
+	},
+};
 
 export default function SummarizePage() {
 	return (

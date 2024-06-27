@@ -13,9 +13,21 @@ import { Input } from '@/app/components/ui/input';
 import { useToast } from '@/app/components/ui/use-toast';
 import { createSupabaseBrowserClient } from '@/app/utils/supabase/client';
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { Metadata } from 'next';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+
+export const runtime = 'edge';
+
+const title = 'Reset Password';
+
+export const metadata: Metadata = {
+	title,
+	openGraph: {
+		title,
+	},
+};
 
 const ResetPasswordActionSchema = z
 	.object({

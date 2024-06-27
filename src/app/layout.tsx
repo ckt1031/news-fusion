@@ -1,7 +1,12 @@
 import type { PropsWithChildren } from 'react';
 import './globals.css';
 import { Toaster } from '@/app/components/ui/toaster';
-import type { Viewport } from 'next';
+import {
+	DEFAULT_SITE_DESCRIPTION,
+	DEFAULT_SITE_TITLE,
+	TWITTER_USER,
+} from '@/config';
+import type { Metadata, Viewport } from 'next';
 import { Inter, Noto_Sans_SC, Noto_Sans_TC } from 'next/font/google';
 import Heading from './components/heading';
 import { ThemeProvider } from './components/theme';
@@ -27,6 +32,20 @@ export const viewport: Viewport = {
 	initialScale: 1,
 	minimumScale: 1,
 	maximumScale: 1,
+};
+
+export const metadata: Metadata = {
+	title: DEFAULT_SITE_TITLE,
+	description: DEFAULT_SITE_DESCRIPTION,
+	openGraph: {
+		title: DEFAULT_SITE_TITLE,
+		description: DEFAULT_SITE_DESCRIPTION,
+	},
+	twitter: {
+		title: DEFAULT_SITE_TITLE,
+		description: DEFAULT_SITE_DESCRIPTION,
+		creator: TWITTER_USER,
+	},
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {

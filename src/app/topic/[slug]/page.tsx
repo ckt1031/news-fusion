@@ -19,34 +19,28 @@ interface PageProps {
 	searchParams: HomeSearchParamsProps;
 }
 
-export async function generateMetadata(
-	{ params }: PageProps,
-	// parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({
+	params,
+}: PageProps): Promise<Metadata> {
 	// read route params
 	const topic = params.slug;
 
 	const title = `Topic: ${topic}`;
-	const description = `AI News about ${topic}`;
 
 	return {
 		title,
-		description,
 		openGraph: {
 			title,
-			description,
 		},
 		twitter: {
 			title,
-			description,
-			creator: '@cktsun1031',
 		},
 	};
 }
 
 export const runtime = 'nodejs';
 
-export default async function Page({ params, searchParams }: PageProps) {
+export default async function TopicPage({ params, searchParams }: PageProps) {
 	const topic = decodeURIComponent(params.slug) as RSS_CATEGORY;
 
 	const serverCurrentDate = dayjs().format('YYYY-MM-DD');

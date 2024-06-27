@@ -5,6 +5,16 @@ import {
 	CardTitle,
 } from '@/app/components/ui/card';
 import { CircleHelp } from 'lucide-react';
+import type { Metadata } from 'next';
+
+const title = '404 Not Found';
+
+export const metadata: Metadata = {
+	title,
+	openGraph: {
+		title,
+	},
+};
 
 export default function NotFoundPage() {
 	return (
