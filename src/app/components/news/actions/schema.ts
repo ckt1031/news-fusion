@@ -14,7 +14,6 @@ export const TranslateActionSchema = z.object({
 	title: z.string(),
 	summary: z.string(),
 	targetLanguage: z.enum(supportedTargetLanguages),
-	useLLM: z.boolean(),
 });
 
 export const clearCacheActionSchema = z.object({

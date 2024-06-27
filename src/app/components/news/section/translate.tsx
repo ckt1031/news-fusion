@@ -19,7 +19,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/app/components/ui/select';
-import { Switch } from '@/app/components/ui/switch';
 import { useToast } from '@/app/components/ui/use-toast';
 import { useNewsStore } from '@/app/store/news';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -39,7 +38,6 @@ interface Props {
 }
 
 const TranslateActionFormSchema = TranslateActionSchema.pick({
-	useLLM: true,
 	targetLanguage: true,
 });
 
@@ -53,7 +51,6 @@ export default function TranslateButton({ guid }: Props) {
 	const form = useForm<z.infer<typeof TranslateActionFormSchema>>({
 		resolver: zodResolver(TranslateActionFormSchema),
 		defaultValues: {
-			useLLM: false,
 			targetLanguage: 'zh-tw',
 		},
 	});
@@ -95,7 +92,6 @@ export default function TranslateButton({ guid }: Props) {
 		const result = await executeTranslate({
 			title: baseItem.title,
 			summary: baseItem.summary,
-			useLLM: values.useLLM,
 			targetLanguage: values.targetLanguage,
 		});
 		setIsTranslating(false);
@@ -125,26 +121,6 @@ export default function TranslateButton({ guid }: Props) {
 					<form onSubmit={form.handleSubmit(onTranslate)}>
 						{!translated && (
 							<>
-								<FormField
-									control={form.control}
-									name="useLLM"
-									render={({ field }) => (
-										<FormItem className="flex flex-row items-center space-x-2 mb-3">
-											<FormLabel htmlFor={field.name} className="mt-2">
-												Use LLM
-											</FormLabel>
-											<FormControl>
-												<Switch
-													name={field.name}
-													id={field.name}
-													checked={field.value}
-													onCheckedChange={field.onChange}
-												/>
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
 								<FormField
 									control={form.control}
 									name="targetLanguage"
