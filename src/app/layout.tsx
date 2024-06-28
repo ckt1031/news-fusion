@@ -8,9 +8,11 @@ import {
 } from '@/config';
 import type { Metadata, Viewport } from 'next';
 import { Inter, Noto_Sans_SC, Noto_Sans_TC } from 'next/font/google';
+import AuthStateInializer from './components/auth/client';
 import Heading from './components/heading';
 import { ThemeProvider } from './components/theme';
 import VercelAnalytics from './components/vercel-analytics';
+import { serverAuthState } from './hooks/auth';
 import { cn } from './utils/cn';
 
 const inter = Inter({
@@ -48,7 +50,9 @@ export const metadata: Metadata = {
 	},
 };
 
-export default function RootLayout({ children }: PropsWithChildren) {
+export default async function RootLayout({ children }: PropsWithChildren) {
+	const { user, isLoggedIn } = await serverAuthState();
+
 	return (
 		<html
 			lang="en"
@@ -65,9 +69,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
 				>
 					<Toaster />
 					<Heading />
-					<main className="root-container flex flex-1 flex-col">
-						{children}
-					</main>
+					<AuthStateInializer isLoggedIn={isLoggedIn} user={user}>
+						<main className="root-container flex flex-1 flex-col">
+							{children}
+						</main>
+					</AuthStateInializer>
 				</ThemeProvider>
 			</body>
 		</html>

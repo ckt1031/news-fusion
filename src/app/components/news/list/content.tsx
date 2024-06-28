@@ -1,14 +1,12 @@
 'use client';
 
+import { useAuthStore } from '@/app/store/auth';
 import { useNewsStore } from '@/app/store/news';
 import NewsSection from '../section';
 import ClearCache from './clear-cache';
 
-interface ContentProps {
-	isLoggedIn: boolean;
-}
-
-export default function Content({ isLoggedIn }: ContentProps) {
+export default function Content() {
+	const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 	const news = useNewsStore((state) => state.news);
 	const pageData = useNewsStore((state) => state.pageData);
 
@@ -35,7 +33,7 @@ export default function Content({ isLoggedIn }: ContentProps) {
 				)}
 				{news.map((article) => (
 					<div key={article.guid} className="py-2 align-middle">
-						<NewsSection guid={article.guid} isLoggedIn={isLoggedIn} />
+						<NewsSection guid={article.guid} />
 					</div>
 				))}
 			</div>

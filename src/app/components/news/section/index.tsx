@@ -1,31 +1,19 @@
 'use client';
 
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 import Markdown from 'react-markdown';
 import PublisherComponent from '../list/publisher';
 import TimeComponent from '../list/time-component';
 import '@/app/styles/markdown.css';
 import { useNewsStore } from '@/app/store/news';
-import dynamic from 'next/dynamic';
-import LoadingComponent from '../../loading';
+import NewsSectionDropdownMenu from './menu';
 import ReadMore from './read-more';
-
-const Bookmark = dynamic(() => import('./bookmark'), {
-	ssr: false,
-});
-const SummarizeButton = dynamic(() => import('./summarize'), {
-	ssr: false,
-});
-const TranslateButton = dynamic(() => import('./translate'), {
-	ssr: false,
-});
 
 interface Props {
 	guid: string;
-	isLoggedIn: boolean;
 }
 
-export default function NewsSection({ isLoggedIn, guid }: Props) {
+export default function NewsSection({ guid }: Props) {
 	const [displayDetail, setDisplayDetail] = useState(false);
 
 	const baseItem = useNewsStore((state) => state.getItem(guid));
@@ -56,10 +44,13 @@ export default function NewsSection({ isLoggedIn, guid }: Props) {
 						publisher={baseItem.publisher}
 						url={baseItem.url}
 					/>
-					<TimeComponent
-						className="text-gray-400 dark:text-gray-500 text-sm text-nowrap"
-						time={baseItem.publishedAt}
-					/>
+					<div className="flex flex-row gap-2">
+						<TimeComponent
+							className="text-gray-400 dark:text-gray-500 text-sm text-nowrap"
+							time={baseItem.publishedAt}
+						/>
+						<NewsSectionDropdownMenu guid={guid} />
+					</div>
 				</div>
 			</div>
 			{displayDetail && (
@@ -70,17 +61,6 @@ export default function NewsSection({ isLoggedIn, guid }: Props) {
 							{displayingItem.summary}
 						</Markdown>
 					)}
-					<Suspense fallback={<LoadingComponent />}>
-						<div className="flex flex-row gap-2 mt-2 flex-wrap">
-							{isLoggedIn && (
-								<>
-									<SummarizeButton guid={guid} />
-									<TranslateButton guid={guid} />
-									<Bookmark guid={guid} />
-								</>
-							)}
-						</div>
-					</Suspense>
 				</div>
 			)}
 		</>

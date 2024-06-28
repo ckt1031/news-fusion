@@ -19,6 +19,8 @@ export interface NewsStore {
 
 	getItem: (guid: string) => NewsStore['news'][0];
 	getDisplayingItem: (guid: string) => NewsStore['news'][0];
+
+	setItem: (guid: string, data: Partial<NewsStore['news'][0]>) => void;
 	setShowingItem: (guid: string, data: Partial<NewsStore['news'][0]>) => void;
 
 	isItemTranslated: (guid: string) => boolean;
@@ -54,6 +56,16 @@ export const useNewsStore = create<NewsStore>((set, get) => ({
 			article?.title !==
 			get().displayingNews.find((article) => article.guid === guid)?.title
 		);
+	},
+
+	setItem: (guid, data) => {
+		const news = get().news.map((article) => {
+			if (article.guid === guid) {
+				return { ...article, ...data };
+			}
+			return article;
+		});
+		set({ news });
 	},
 	setShowingItem: (guid, data) => {
 		const news = get().displayingNews.map((article) => {

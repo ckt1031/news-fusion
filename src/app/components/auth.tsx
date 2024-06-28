@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import type { PropsWithChildren } from 'react';
-import { authState } from '../hooks/auth';
+import { serverAuthState } from '../hooks/auth';
 
 interface Props {
 	/**
@@ -15,7 +15,7 @@ export default async function Auth({
 	children,
 	reversed,
 }: PropsWithChildren<Props>) {
-	const { isLoggedIn } = await authState(false);
+	const { isLoggedIn } = await serverAuthState();
 
 	if (!isLoggedIn && !reversed) {
 		redirect('/auth/login');

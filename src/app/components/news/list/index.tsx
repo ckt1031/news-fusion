@@ -4,7 +4,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/app/components/ui/card';
-import { authState } from '@/app/hooks/auth';
 import dayjs from 'dayjs';
 import { ShieldX } from 'lucide-react';
 import { Suspense } from 'react';
@@ -53,15 +52,13 @@ export default async function NewsList({
 
 	const sortedArticles = await fetchNewsForPage({ topic, date, from, to });
 
-	const { isLoggedIn } = await authState();
-
 	return (
 		<Suspense fallback={<LoadingComponent />}>
 			<AppInitializer
 				news={sortedArticles}
 				pageData={{ topic, date, from, to }}
 			>
-				<Content isLoggedIn={isLoggedIn} />
+				<Content />
 			</AppInitializer>
 		</Suspense>
 	);

@@ -1,4 +1,4 @@
-import { HeaderMenu } from './menu';
+import HeaderMenu from './menu';
 
 export default function Heading() {
 	return (
