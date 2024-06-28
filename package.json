@@ -16,7 +16,7 @@
 		"news-check": "NODE=1 tsx scripts/news-check.ts"
 	},
 	"dependencies": {
-		"@ai-sdk/openai": "^0.0.33",
+		"@ai-sdk/openai": "^0.0.34",
 		"@hookform/resolvers": "^3.6.0",
 		"@marsidev/react-turnstile": "^0.7.1",
 		"@radix-ui/react-accordion": "^1.2.0",
@@ -34,7 +34,7 @@
 		"@radix-ui/react-toast": "^1.2.1",
 		"@radix-ui/react-tooltip": "^1.1.1",
 		"@supabase/ssr": "^0.4.0",
-		"@supabase/supabase-js": "^2.44.0",
+		"@supabase/supabase-js": "^2.44.1",
 		"@t3-oss/env-nextjs": "^0.10.1",
 		"@tailwindcss/typography": "^0.5.13",
 		"@upstash/redis": "^1.31.6",
@@ -42,7 +42,7 @@
 		"@vercel/functions": "^1.0.2",
 		"@vercel/postgres": "^0.9.0",
 		"@vercel/speed-insights": "^1.0.12",
-		"ai": "^3.2.10",
+		"ai": "^3.2.14",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.1",
 		"consola": "^3.2.3",
@@ -80,7 +80,7 @@
 		"zustand": "^4.5.4"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.8.2",
+		"@biomejs/biome": "1.8.3",
 		"@types/mustache": "^4.2.5",
 		"@types/node": "^20.14.9",
 		"@types/react": "^18.3.3",
