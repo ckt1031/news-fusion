@@ -2,8 +2,6 @@ import { type ISitemapField, getServerSideSitemap } from 'next-sitemap';
 import { nextEnv } from '../env';
 import { generateStaticParams } from '../topic/[slug]/page';
 
-export const runtime = 'edge';
-
 export async function GET() {
 	const getAllTopics = await generateStaticParams();
 
