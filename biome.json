@@ -8,7 +8,7 @@
 			".dirzzle",
 			".next",
 			".vercel",
-			"./src/types/tool-apis.d.ts"
+			"*.d.ts"
 		]
 	},
 	"formatter": {

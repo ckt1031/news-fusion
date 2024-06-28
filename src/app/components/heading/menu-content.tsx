@@ -42,7 +42,11 @@ export default function MenuContent() {
 						</Avatar>
 						<span>Profile</span>
 					</DropdownMenuItem>
-					<Link href="/bookmark">
+					<Link
+						href={{
+							pathname: '/bookmarks',
+						}}
+					>
 						<DropdownMenuItem>
 							<Bookmark className="mr-2 h-4 w-4" />
 							<span>Bookmarks</span>

@@ -12,7 +12,7 @@
 		"allowSyntheticDefaultImports": true,
 		"noUncheckedIndexedAccess": true,
 		"lib": ["ESNext", "dom"],
-		"types": ["./src/global.d.ts"],
+		"types": ["./src/global.d.ts", "./src/nextjs-routes.d.ts"],
 		"strict": true,
 		"skipLibCheck": true,
 		"noEmit": true,

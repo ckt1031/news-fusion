@@ -29,7 +29,6 @@ import type { isArticleSimilar } from '@/lib/news/similarity';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, Search } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
-import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
@@ -161,7 +160,7 @@ export default function SimilaritiesPageContentComponent() {
 							<Card key={similarity.url} className="w-full max-w-lg">
 								<CardHeader>
 									<CardTitle>
-										<Link href={similarity.url}>{similarity.name}</Link>
+										<a href={similarity.url}>{similarity.name}</a>
 									</CardTitle>
 									<CardDescription>
 										{Number(similarity.similarity.toFixed(3)) * 100}% similar
