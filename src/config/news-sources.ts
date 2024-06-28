@@ -43,7 +43,10 @@ export const RSS_GENERAL: RSSCatacory = {
 	channels: [
 		'https://qz.com/rss',
 		'https://time.com/feed',
-		'https://abcnews.go.com/abcnews/topstories',
+		{
+			url: 'https://abcnews.go.com/abcnews/topstories',
+			specificName: 'ABC News',
+		},
 		'https://feeds.bbci.co.uk/news/world/rss.xml',
 		'https://news.un.org/feed/subscribe/en/news/all/rss.xml',
 		'https://feeds.washingtonpost.com/rss/world?itid=lk_inline_manual_35',
