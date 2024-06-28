@@ -11,12 +11,6 @@ importers:
       '@ai-sdk/openai':
         specifier: ^0.0.33
         version: 0.0.33(zod@3.23.8)
-      '@hono/sentry':
-        specifier: ^1.1.0
-        version: 1.1.0(hono@4.4.8)
-      '@hono/zod-validator':
-        specifier: ^0.2.2
-        version: 0.2.2(hono@4.4.8)(zod@3.23.8)
       '@hookform/resolvers':
         specifier: ^3.6.0
         version: 3.6.0(react-hook-form@7.52.0(react@18.3.1))
@@ -128,9 +122,6 @@ importers:
       hash.js:
         specifier: ^1.1.7
         version: 1.1.7
-      hono:
-        specifier: ^4.4.8
-        version: 4.4.8
       html-entities:
         specifier: ^2.5.2
         version: 2.5.2
@@ -849,17 +840,6 @@ packages:
 
   '@floating-ui/utils@0.2.2':
     resolution: {integrity: sha512-J4yDIIthosAsRZ5CPYP/jQvUAQtlZTTD/4suA08/FEnlxqW3sKS9iAhgsa9VYLZ6vDHn/ixJgIqRQPotoBjxIw==}
-
-  '@hono/sentry@1.1.0':
-    resolution: {integrity: sha512-sg0hyn3VhQi2IQtHQgHxdyUWgvy+LMdjne0iVkFf0gW2KM3/uZyvMxdTZBlzOPeMq50q6CIEZrxtZJ8TZt8Vcw==}
-    peerDependencies:
-      hono: '>=3.*'
-
-  '@hono/zod-validator@0.2.2':
-    resolution: {integrity: sha512-dSDxaPV70Py8wuIU2QNpoVEIOSzSXZ/6/B/h4xA7eOMz7+AarKTSGV8E6QwrdcCbBLkpqfJ4Q2TmBO0eP1tCBQ==}
-    peerDependencies:
-      hono: '>=3.9.0'
-      zod: ^3.19.1
 
   '@hookform/resolvers@3.6.0':
     resolution: {integrity: sha512-UBcpyOX3+RR+dNnqBd0lchXpoL8p4xC21XP8H6Meb8uve5Br1GCnmg0PcBoKKqPKgGu9GHQ/oygcmPrQhetwqw==}
@@ -2433,10 +2413,6 @@ packages:
 
   hast-util-whitespace@3.0.0:
     resolution: {integrity: sha512-88JUN06ipLwsnv+dVn+OIYOvAuvBMy/Qoi6O7mQHxdPXpjy+Cd6xRkWwux7DKO+4sYILtLBRIKgsdpS2gQc7qw==}
-
-  hono@4.4.8:
-    resolution: {integrity: sha512-eewnSgTzdWgFVn97kPV24h+9UVNUQ+9mj6IRxr7dBseTaTBSHtFo/T/vRNcqJkQFysVoXyecflr3Xe/fdvzEpQ==}
-    engines: {node: '>=16.0.0'}
 
   html-entities@2.5.2:
     resolution: {integrity: sha512-K//PSRMQk4FZ78Kyau+mZurHn3FH0Vwr+H36eE0rPbeYkRRi9YxceYPhuN60UwWorxyKHhqoAJl2OFKa4BVtaA==}
@@ -4053,16 +4029,6 @@ snapshots:
 
   '@floating-ui/utils@0.2.2': {}
 
-  '@hono/sentry@1.1.0(hono@4.4.8)':
-    dependencies:
-      hono: 4.4.8
-      toucan-js: 3.4.0
-
-  '@hono/zod-validator@0.2.2(hono@4.4.8)(zod@3.23.8)':
-    dependencies:
-      hono: 4.4.8
-      zod: 3.23.8
-
   '@hookform/resolvers@3.6.0(react-hook-form@7.52.0(react@18.3.1))':
     dependencies:
       react-hook-form: 7.52.0(react@18.3.1)
@@ -5595,8 +5561,6 @@ snapshots:
   hast-util-whitespace@3.0.0:
     dependencies:
       '@types/hast': 3.0.4
-
-  hono@4.4.8: {}
 
   html-entities@2.5.2: {}
 

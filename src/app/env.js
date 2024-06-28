@@ -11,6 +11,7 @@ export const nextEnv = createEnv({
 		UPSTASH_REDIS_REST_URL: z.string(),
 		UPSTASH_REDIS_REST_TOKEN: z.string(),
 		SITE_URL: z.string().default('http://localhost:3000'),
+		CRON_SECRET: z.string().optional(),
 	},
 
 	/*
@@ -33,6 +34,8 @@ export const nextEnv = createEnv({
 	 */
 	runtimeEnv: {
 		SITE_URL: process.env.SITE_URL,
+
+		CRON_SECRET: process.env.CRON_SECRET,
 
 		ENABLE_VERCEL_ANALYTICS: process.env.ENABLE_VERCEL_ANALYTICS,
 

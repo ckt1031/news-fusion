@@ -17,8 +17,6 @@
 	},
 	"dependencies": {
 		"@ai-sdk/openai": "^0.0.33",
-		"@hono/sentry": "^1.1.0",
-		"@hono/zod-validator": "^0.2.2",
 		"@hookform/resolvers": "^3.6.0",
 		"@marsidev/react-turnstile": "^0.7.1",
 		"@radix-ui/react-accordion": "^1.2.0",
@@ -56,7 +54,6 @@
 		"drizzle-zod": "^0.5.1",
 		"fast-xml-parser": "^4.4.0",
 		"hash.js": "^1.1.7",
-		"hono": "^4.4.8",
 		"html-entities": "^2.5.2",
 		"js-tiktoken": "^1.0.12",
 		"lucide-react": "^0.397.0",
