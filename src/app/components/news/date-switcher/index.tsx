@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/app/components/ui/button';
-import { Label } from '@/app/components/ui/label';
 import {
 	Popover,
 	PopoverContent,
@@ -21,17 +20,8 @@ import queryString from 'query-string';
 import { Suspense, useState } from 'react';
 import LoadingComponent from '../../loading';
 
-const Switch = dynamic(
-	() => import('@/app/components/ui/switch').then((mod) => mod.Switch),
-	{
-		ssr: false,
-	},
-);
-const RangeDateSelect = dynamic(() => import('./range'), {
-	ssr: false,
-});
-const SingleDateSelect = dynamic(() => import('./single'), {
-	ssr: false,
+const DateSwitcherPanel = dynamic(() => import('./panel'), {
+	loading: () => <LoadingComponent />,
 });
 
 export default function DateSwitcher() {
@@ -96,22 +86,16 @@ export default function DateSwitcher() {
 					</PopoverTrigger>
 					<PopoverContent className="w-full">
 						<Suspense fallback={<LoadingComponent />}>
-							<div className="flex items-center space-x-2 mb-3">
-								<Switch
-									id="range-mode"
-									checked={rangeMode}
-									onCheckedChange={() => setRangeMode(!rangeMode)}
-								/>
-								<Label htmlFor="range-mode">Range Mode</Label>
-							</div>
-							{rangeMode ? (
-								<RangeDateSelect to={to} from={from} />
-							) : (
-								<SingleDateSelect
-									clientCurrentDate={clientCurrentDate}
-									date={date}
-								/>
-							)}
+							<DateSwitcherPanel
+								{...{
+									rangeMode,
+									setRangeMode,
+									clientCurrentDate,
+									date,
+									to,
+									from,
+								}}
+							/>
 						</Suspense>
 					</PopoverContent>
 				</Popover>

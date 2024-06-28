@@ -12,6 +12,8 @@ interface Props {
 }
 
 export default function ReadMore({ url }: Props) {
+	const displayingURL = url.length > 25 ? `${url.slice(0, 25)}...` : url;
+
 	return (
 		<TooltipProvider>
 			<Tooltip>
@@ -28,7 +30,7 @@ export default function ReadMore({ url }: Props) {
 					</Link>
 				</TooltipTrigger>
 				<TooltipContent align="start">
-					<p>{url}</p>
+					<p>{displayingURL}</p>
 				</TooltipContent>
 			</Tooltip>
 		</TooltipProvider>

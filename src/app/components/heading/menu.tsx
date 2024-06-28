@@ -1,5 +1,6 @@
 import { BookOpenText, EllipsisVertical, LogIn, ScanEye } from 'lucide-react';
 
+import { AlertDialog } from '@/app/components/ui/alert-dialog';
 import {
 	Avatar,
 	AvatarFallback,
@@ -17,7 +18,7 @@ import {
 import { authState } from '@/app/hooks/auth';
 import getSHA256 from '@/app/utils/sha256';
 import Link from 'next/link';
-import LogOutMenuItem from './logout';
+import { LogOutDialog, LogOutMenuItem } from './logout';
 import { ModeToggleMenuItem } from './mode-toggle';
 
 function getGavatarUrl(email: string) {
@@ -30,60 +31,63 @@ export async function HeaderMenu() {
 	const avatarUrl = user?.email ? getGavatarUrl(user.email) : null;
 
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<Button variant="ghost" size="icon">
-					<EllipsisVertical className="h-4 w-4" />
-				</Button>
-			</DropdownMenuTrigger>
-			<DropdownMenuContent align="end" className="w-[170px] lg:w-[200px]">
-				<DropdownMenuLabel>My Account</DropdownMenuLabel>
-				<DropdownMenuSeparator />
-				{isLoggedIn ? (
-					<>
-						<DropdownMenuItem>
-							<Avatar className="h-4 w-4 mr-2">
-								<AvatarImage
-									// biome-ignore lint/style/noNonNullAssertion: <explanation>
-									src={avatarUrl!}
-									alt="Profile"
-								/>
-								<AvatarFallback>User</AvatarFallback>
-							</Avatar>
-							<span>Profile</span>
-						</DropdownMenuItem>
-						<LogOutMenuItem />
-					</>
-				) : (
-					<>
-						<Link href="/auth/login">
+		<AlertDialog>
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button variant="ghost" size="icon">
+						<EllipsisVertical className="h-4 w-4" />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align="end" className="w-[170px] lg:w-[200px]">
+					<DropdownMenuLabel>My Account</DropdownMenuLabel>
+					<DropdownMenuSeparator />
+					{isLoggedIn ? (
+						<>
 							<DropdownMenuItem>
-								<LogIn className="mr-2 h-4 w-4" />
-								<span>Log In</span>
+								<Avatar className="h-4 w-4 mr-2">
+									<AvatarImage
+										// biome-ignore lint/style/noNonNullAssertion: <explanation>
+										src={avatarUrl!}
+										alt="Profile"
+									/>
+									<AvatarFallback>User</AvatarFallback>
+								</Avatar>
+								<span>Profile</span>
 							</DropdownMenuItem>
-						</Link>
-					</>
-				)}
-				{isLoggedIn && (
-					<>
-						<DropdownMenuLabel>Tools</DropdownMenuLabel>
-						<DropdownMenuSeparator />
-						<Link href="/tools/similarities">
-							<DropdownMenuItem>
-								<ScanEye className="mr-2 h-4 w-4" />
-								<span>Similarities</span>
-							</DropdownMenuItem>
-						</Link>
-						<Link href="/tools/summarize">
-							<DropdownMenuItem>
-								<BookOpenText className="mr-2 h-4 w-4" />
-								<span>Summarize</span>
-							</DropdownMenuItem>
-						</Link>
-					</>
-				)}
-				<ModeToggleMenuItem />
-			</DropdownMenuContent>
-		</DropdownMenu>
+							<LogOutMenuItem />
+						</>
+					) : (
+						<>
+							<Link href="/auth/login">
+								<DropdownMenuItem>
+									<LogIn className="mr-2 h-4 w-4" />
+									<span>Log In</span>
+								</DropdownMenuItem>
+							</Link>
+						</>
+					)}
+					{isLoggedIn && (
+						<>
+							<DropdownMenuLabel>Tools</DropdownMenuLabel>
+							<DropdownMenuSeparator />
+							<Link href="/tools/similarities">
+								<DropdownMenuItem>
+									<ScanEye className="mr-2 h-4 w-4" />
+									<span>Similarities</span>
+								</DropdownMenuItem>
+							</Link>
+							<Link href="/tools/summarize">
+								<DropdownMenuItem>
+									<BookOpenText className="mr-2 h-4 w-4" />
+									<span>Summarize</span>
+								</DropdownMenuItem>
+							</Link>
+						</>
+					)}
+					<ModeToggleMenuItem />
+				</DropdownMenuContent>
+			</DropdownMenu>
+			<LogOutDialog />
+		</AlertDialog>
 	);
 }
