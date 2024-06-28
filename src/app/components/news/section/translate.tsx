@@ -27,6 +27,7 @@ import { useAction } from 'next-safe-action/hooks';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
+import { Switch } from '../../ui/switch';
 import {
 	TranslateActionSchema,
 	supportedTargetLanguages,
@@ -39,6 +40,7 @@ interface Props {
 
 const TranslateActionFormSchema = TranslateActionSchema.pick({
 	targetLanguage: true,
+	cache: true,
 });
 
 export default function TranslateButton({ guid }: Props) {
@@ -52,6 +54,7 @@ export default function TranslateButton({ guid }: Props) {
 		resolver: zodResolver(TranslateActionFormSchema),
 		defaultValues: {
 			targetLanguage: 'zh-tw',
+			cache: true,
 		},
 	});
 
@@ -119,8 +122,28 @@ export default function TranslateButton({ guid }: Props) {
 			<PopoverContent align="start">
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onTranslate)}>
+						<h3 className="text-lg font-semibold mb-3">Translate</h3>
 						{!translated && (
 							<>
+								<FormField
+									control={form.control}
+									name="cache"
+									render={({ field }) => (
+										<FormItem className="flex flex-row items-center mb-3 justify-between">
+											<FormLabel htmlFor={field.name} className="mt-2">
+												Cache
+											</FormLabel>
+											<FormControl>
+												<Switch
+													name={field.name}
+													id={field.name}
+													checked={field.value}
+													onCheckedChange={field.onChange}
+												/>
+											</FormControl>
+										</FormItem>
+									)}
+								/>
 								<FormField
 									control={form.control}
 									name="targetLanguage"

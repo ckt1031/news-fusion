@@ -53,7 +53,7 @@ export async function summarizeIntoShortText(
 export async function llmTranslateText(
 	env: TextCompletionsGenerateProps['env'],
 	originalContent: string,
-	targetLanguage: 'Traditional Chinese (Hong Kong)' | 'English',
+	targetLanguage: string,
 ) {
 	const _translatePrompt = Mustache.render(translatePrompt, {
 		language: targetLanguage,

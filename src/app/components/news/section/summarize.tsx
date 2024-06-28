@@ -1,4 +1,5 @@
 import { Button } from '@/app/components/ui/button';
+import { Checkbox } from '@/app/components/ui/checkbox';
 import {
 	Form,
 	FormControl,
@@ -11,7 +12,6 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/app/components/ui/popover';
-import { Switch } from '@/app/components/ui/switch';
 import { useToast } from '@/app/components/ui/use-toast';
 import { useNewsStore } from '@/app/store/news';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,7 +19,7 @@ import { Loader2, RotateCw } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
-import { generateShortSummary } from '../actions/generate-short-summary';
+import { generateContent } from '../actions/generate-short-summary';
 import { GenerateContentActionSchema } from '../actions/schema';
 
 interface Props {
@@ -41,12 +41,12 @@ export default function SummarizeButton({ guid }: Props) {
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
-			generateSummary: true,
+			generateSummary: false,
 			generateTitle: false,
 		},
 	});
 
-	const { isExecuting, executeAsync } = useAction(generateShortSummary);
+	const { isExecuting, executeAsync } = useAction(generateContent);
 
 	const baseItem = useNewsStore((state) => state.getItem(guid));
 	const setDisplayingItem = useNewsStore((state) => state.setShowingItem);
@@ -92,6 +92,7 @@ export default function SummarizeButton({ guid }: Props) {
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent align="start">
+				<h3 className="text-lg font-semibold mb-3">Generate Content</h3>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onGenerateSummary)}>
 						<FormField
@@ -100,10 +101,10 @@ export default function SummarizeButton({ guid }: Props) {
 							render={({ field }) => (
 								<FormItem className="flex flex-row items-center mb-3 justify-between">
 									<FormLabel htmlFor={field.name} className="mt-2">
-										Generate Title
+										Title
 									</FormLabel>
 									<FormControl>
-										<Switch
+										<Checkbox
 											name={field.name}
 											id={field.name}
 											checked={field.value}
@@ -120,10 +121,10 @@ export default function SummarizeButton({ guid }: Props) {
 							render={({ field }) => (
 								<FormItem className="flex flex-row items-center mb-3 justify-between">
 									<FormLabel htmlFor={field.name} className="mt-2">
-										Generate Summary
+										Summary
 									</FormLabel>
 									<FormControl>
-										<Switch
+										<Checkbox
 											name={field.name}
 											id={field.name}
 											checked={field.value}
@@ -134,7 +135,11 @@ export default function SummarizeButton({ guid }: Props) {
 							)}
 						/>
 
-						<Button type="submit" className="w-full" disabled={isExecuting}>
+						<Button
+							type="submit"
+							className="w-full mt-2"
+							disabled={isExecuting}
+						>
 							{isExecuting ? (
 								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 							) : (

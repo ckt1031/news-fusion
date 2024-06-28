@@ -7,7 +7,7 @@ import { getContentMarkdownFromURL } from '@/lib/tool-apis';
 import type { ServerEnv } from '@/types/env';
 import { GenerateContentActionSchema } from './schema';
 
-export const generateShortSummary = authActionClient
+export const generateContent = authActionClient
 	.schema(GenerateContentActionSchema)
 	.action(async ({ parsedInput: formData }) => {
 		const env = process.env as unknown as ServerEnv;

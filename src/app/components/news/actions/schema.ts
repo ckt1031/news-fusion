@@ -8,11 +8,12 @@ export const GenerateContentActionSchema = z.object({
 	generateTitle: z.boolean().optional(),
 });
 
-export const supportedTargetLanguages = ['zh-tw', 'en'] as const;
+export const supportedTargetLanguages = ['zh-tw', 'zh-cn', 'en'] as const;
 
 export const TranslateActionSchema = z.object({
 	title: z.string(),
 	summary: z.string(),
+	cache: z.boolean().optional(),
 	targetLanguage: z.enum(supportedTargetLanguages),
 });
 
