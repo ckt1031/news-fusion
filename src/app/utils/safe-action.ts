@@ -13,5 +13,5 @@ export const authActionClient = action.use(async ({ next }) => {
 		throw new Error('Client is not authenticated');
 	}
 
-	return next({ ctx: { user: user.data } });
+	return next({ ctx: { user: user.data.user } });
 });

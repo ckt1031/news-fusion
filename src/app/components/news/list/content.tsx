@@ -6,6 +6,7 @@ import NewsSection from '../section';
 import NewsPageDropdownMenu from './menu';
 
 export default function Content() {
+	const type = useNewsStore((state) => state.type);
 	const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 	const news = useNewsStore((state) => state.news);
 
@@ -13,7 +14,7 @@ export default function Content() {
 		<>
 			<div className="flex flex-row items-center mb-1 gap-2 py-2">
 				<p className="text-gray-500 dark:text-gray-400 text-sm">
-					{news.length} articles found
+					{news.length} {type} found
 				</p>
 				{isLoggedIn && <NewsPageDropdownMenu />}
 			</div>

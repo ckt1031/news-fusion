@@ -17,6 +17,7 @@ import { useNewsStore } from '@/app/store/news';
 import { AlertDialogTrigger } from '@radix-ui/react-alert-dialog';
 import { Eraser } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
+import { clearBookmarksCacheAction } from '../../actions/bookmark';
 import { clearCacheAction } from '../../actions/clear-cache';
 import { useUIStore } from './store';
 
@@ -38,16 +39,22 @@ export function ClearCacheButton() {
 }
 
 export function ClearCacheDialog() {
-	const { isExecuting, executeAsync } = useAction(clearCacheAction);
+	const type = useNewsStore((state) => state.type);
+
+	const action =
+		type === 'bookmarks' ? clearBookmarksCacheAction : clearCacheAction;
+
+	// @ts-ignore
+	const { isExecuting, executeAsync } = useAction(action);
 
 	const pageData = useNewsStore((state) => state.pageData);
 
 	const onClearCache = async () => {
 		const result = await executeAsync({
-			date: pageData.date,
-			from: pageData.from,
-			to: pageData.to,
-			topic: pageData.topic,
+			date: pageData?.date,
+			from: pageData?.from,
+			to: pageData?.to,
+			topic: pageData?.topic,
 		});
 
 		if (result?.serverError || result?.validationErrors) {

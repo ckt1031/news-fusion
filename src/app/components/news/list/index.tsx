@@ -55,6 +55,7 @@ export default async function NewsList({
 	return (
 		<Suspense fallback={<LoadingComponent />}>
 			<AppInitializer
+				type="news"
 				news={sortedArticles}
 				pageData={{ topic, date, from, to }}
 			>

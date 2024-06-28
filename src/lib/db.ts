@@ -71,6 +71,20 @@ export enum AddArticleUserRelationStatus {
 	Success = 2,
 }
 
+export async function removeArticleUserRelation(
+	userId: string,
+	articleId: number,
+) {
+	await db
+		.delete(schema.usersToArticles)
+		.where(
+			and(
+				eq(schema.usersToArticles.userId, userId),
+				eq(schema.usersToArticles.articleId, articleId),
+			),
+		);
+}
+
 export async function addArticleUserRelation(
 	userId: string,
 	articleId: number,
@@ -133,4 +147,17 @@ export async function getNewsBasedOnDateAndCategory(
 				...(important ? [eq(d.important, important)] : []),
 			),
 	});
+}
+
+export async function getBookmarksFromUser(userId: string) {
+	const data = await db.query.usersToArticles.findMany({
+		where: (d, { eq }) => eq(d.userId, userId),
+		with: {
+			article: true,
+		},
+	});
+
+	return data.sort(
+		(a, b) => b.article.publishedAt.getTime() - a.article.publishedAt.getTime(),
+	);
 }

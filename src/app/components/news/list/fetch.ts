@@ -15,6 +15,11 @@ export interface FetchNewsPageProps {
 	from?: string;
 }
 
+interface CacheArticle extends Article {
+	embedding: number[] | null;
+	publishedAt: Date;
+}
+
 export async function fetchNewsForPage({
 	topic,
 	date,
@@ -25,18 +30,12 @@ export async function fetchNewsForPage({
 		to && from ? `${from}-${to}` : date,
 		topic,
 	);
-	const cache = await redis.get<Article[]>(cacheHash);
+	const cache = await redis.get<CacheArticle[]>(cacheHash);
 
 	consola.info(`Cache ${cache ? 'hit' : 'miss'}`);
 
-	if (cache) {
-		return cache.map((article) => {
-			return {
-				...article,
-				publishedAt: new Date(article.publishedAt),
-			};
-		});
-	}
+	if (cache)
+		return cache.map((c) => ({ ...c, publishedAt: new Date(c.publishedAt) }));
 
 	const articles = await getNewsBasedOnDateAndCategory(
 		to && from
@@ -71,7 +70,7 @@ export async function fetchNewsForPage({
 				url: article.url,
 				summary: article.summary,
 				publisher: article.publisher,
-				publishedAt: article.publishedAt,
+				publishedAt: new Date(article.publishedAt),
 				similarArticles: article.similarArticles,
 			};
 		});

@@ -23,13 +23,6 @@ export default function TopicSelection({ topic }: Props) {
 
 	const catagoies = Object.values(RSS_CATEGORY);
 
-	console.log(
-		catagoies.map((category) => ({
-			value: category,
-			label: captialFirstLetter(category),
-		})),
-	);
-
 	return (
 		<>
 			<div className="flex w-full justify-center items-center py-2 md:hidden">

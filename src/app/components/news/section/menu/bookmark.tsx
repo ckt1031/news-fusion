@@ -3,7 +3,10 @@ import { useToast } from '@/app/components/ui/use-toast';
 import { useNewsStore } from '@/app/store/news';
 import { BookmarkPlus } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
-import { addBookmarkAction } from '../../actions/bookmark';
+import {
+	addBookmarkAction,
+	removeBookmarkAction,
+} from '../../actions/bookmark';
 
 interface Props {
 	guid: string;
@@ -11,7 +14,14 @@ interface Props {
 
 export default function BookmarkButton({ guid }: Props) {
 	const { toast } = useToast();
-	const { executeAsync, isExecuting } = useAction(addBookmarkAction);
+
+	const type = useNewsStore((state) => state.type);
+
+	const { executeAsync: addBookmark, isExecuting: isAddingBookmark } =
+		useAction(addBookmarkAction);
+
+	const { executeAsync: removeBookmark, isExecuting: isRemovingBookmark } =
+		useAction(removeBookmarkAction);
 
 	const baseItem = useNewsStore((state) => state.getItem(guid));
 
@@ -20,7 +30,7 @@ export default function BookmarkButton({ guid }: Props) {
 			description: `Adding ${baseItem.title} to bookmarks...`,
 		});
 
-		const status = await executeAsync({
+		const status = await addBookmark({
 			articleId: baseItem.id,
 		});
 
@@ -35,10 +45,25 @@ export default function BookmarkButton({ guid }: Props) {
 		}
 	};
 
+	const onDelete = async () => {
+		const status = await removeBookmark({
+			articleId: baseItem.id,
+		});
+
+		if (status?.data?.success) {
+			toast({
+				description: 'Bookmark removed',
+			});
+		}
+	};
+
 	return (
-		<DropdownMenuItem onClick={onAdd} disabled={isExecuting}>
+		<DropdownMenuItem
+			onClick={type === 'bookmarks' ? onDelete : onAdd}
+			disabled={isAddingBookmark || isRemovingBookmark}
+		>
 			<BookmarkPlus className="h-4 w-4 mr-2" />
-			Bookmark
+			{type === 'bookmarks' ? 'Remove' : 'Add'} Bookmark
 		</DropdownMenuItem>
 	);
 }

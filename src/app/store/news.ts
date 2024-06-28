@@ -9,6 +9,8 @@ export interface NewsStore {
 		to?: string;
 	};
 
+	type: 'news' | 'bookmarks';
+
 	news: Awaited<ReturnType<typeof fetchNewsForPage>>;
 	displayingNews: NewsStore['news'];
 
@@ -29,6 +31,7 @@ export interface NewsStore {
 export const useNewsStore = create<NewsStore>((set, get) => ({
 	news: [],
 	displayingNews: [],
+	type: 'news',
 	pageData: {
 		date: '',
 		topic: '',
