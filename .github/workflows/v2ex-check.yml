@@ -27,10 +27,6 @@ jobs:
           RSSHUB_BASE_URL: ${{ secrets.RSSHUB_BASE_URL }}
           TOOLS_API_BASE_URL: ${{ secrets.TOOLS_API_BASE_URL }}
           TOOLS_API_KEY: ${{ secrets.TOOLS_API_KEY }}
-          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-          LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
-          LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
-          LANGFUSE_BASE_URL: ${{ secrets.LANGFUSE_BASE_URL }}
 
           # DEFAULT_SUMMARIZE_MODEL: ${{ secrets.DEFAULT_SUMMARIZE_MODEL }}
           # DEFAULT_TRANSLATE_MODEL: ${{ secrets.DEFAULT_TRANSLATE_MODEL }}

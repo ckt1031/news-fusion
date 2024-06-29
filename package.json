@@ -53,6 +53,7 @@
 		"drizzle-orm": "^0.31.2",
 		"drizzle-zod": "^0.5.1",
 		"fast-xml-parser": "^4.4.0",
+		"fuse.js": "^7.0.0",
 		"hash.js": "^1.1.7",
 		"html-entities": "^2.5.2",
 		"js-tiktoken": "^1.0.12",

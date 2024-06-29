@@ -5,6 +5,8 @@ export interface NewsStore {
 	pageData: {
 		date: DateType;
 		topic: string;
+
+		search?: string;
 	};
 
 	type: 'news' | 'bookmarks';
@@ -13,6 +15,7 @@ export interface NewsStore {
 	displayingNews: NewsStore['news'];
 
 	setPageData: (data: NewsStore['pageData']) => void;
+	setSearching: (search: NewsStore['pageData']['search']) => void;
 
 	setNews: (news: NewsStore['news']) => void;
 	setDisplayingNews: (news: NewsStore['news']) => void;
@@ -35,6 +38,7 @@ export const useNewsStore = create<NewsStore>((set, get) => ({
 		topic: '',
 	},
 	setPageData: (data) => set({ pageData: data }),
+	setSearching: (search) => set({ pageData: { ...get().pageData, search } }),
 	setNews: (news) => set({ news, displayingNews: news }),
 	setDisplayingNews: (news) => set({ displayingNews: news }),
 	getItem: (guid) => {
