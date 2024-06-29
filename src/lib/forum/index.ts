@@ -1,7 +1,7 @@
 import type { RSSCatacory } from '@/config/news-sources';
 import type { ServerEnv } from '@/types/env';
-import consola from 'consola';
 import Mustache from 'mustache';
+import logging from '../console';
 import checkRSS from '../news/check-rss';
 import { checkPrompt } from './prompt';
 
@@ -30,6 +30,6 @@ export async function checkForum(props: checkForumProps) {
 			customCheckImportancePrompt: specialCheckPrompt,
 		});
 	} catch (e) {
-		consola.error(e);
+		logging.error(e);
 	}
 }

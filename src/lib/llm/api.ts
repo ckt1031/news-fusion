@@ -2,7 +2,7 @@ import { DEFAULT_EMBEDDING_MODEL } from '@/config/api';
 import type { ServerEnv } from '@/types/env';
 import { createOpenAI } from '@ai-sdk/openai';
 import { embed, generateText } from 'ai';
-import consola from 'consola';
+import logging from '../console';
 
 export function getOpenAI(env: ServerEnv) {
 	const openai = createOpenAI({
@@ -40,7 +40,7 @@ export async function requestEmbeddingsAPI({
 	taskName,
 }: EmbeddingsProp) {
 	try {
-		consola.start('Request Embeddings API', {
+		logging.info('Request Embeddings API', {
 			model,
 			task: taskName,
 		});
@@ -56,7 +56,7 @@ export async function requestEmbeddingsAPI({
 
 		return embedding;
 	} catch (error) {
-		consola.error('Failed to request embeddings API', error);
+		logging.error('Failed to request embeddings API', error);
 		return null;
 	}
 }
@@ -69,7 +69,7 @@ export async function requestChatCompletionAPI({
 	timeout = 60 * 1000,
 	taskName,
 }: TextCompletionsGenerateProps): Promise<string> {
-	consola.start('Request Chat Completion API', {
+	logging.info('Request Chat Completion API', {
 		model,
 		task: taskName,
 	});

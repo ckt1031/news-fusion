@@ -1,7 +1,7 @@
 import { type RssFeed, RssFeedSchema } from '@/types/rss';
-import consola from 'consola';
 import { XMLParser } from 'fast-xml-parser';
 import { ofetch } from 'ofetch';
+import logging from '../console';
 
 function filterLastDayNews(
 	item: ArrayElement<RssFeed['item']>,
@@ -43,7 +43,7 @@ export async function parseRSS(url: string, pastHours = -1) {
 			if (!data.link.startsWith('http')) throw 'URL Validation Failed';
 		}
 	} else {
-		consola.success(
+		logging.success(
 			`Parsed ${filteredData.length} (Total ${parsedData.item.length}) news from ${url}`,
 		);
 	}

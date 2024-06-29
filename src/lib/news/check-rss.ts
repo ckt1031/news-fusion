@@ -5,8 +5,8 @@ import {
 	type RSSConfig,
 } from '@/config/news-sources';
 import type { ServerEnv } from '@/types/env';
-import consola from 'consola';
 import { getEncoding } from 'js-tiktoken';
+import logging from '../console';
 import {
 	addSimilarArticleToDatabase,
 	checkIfNewsIsNew,
@@ -127,7 +127,7 @@ export default async function checkRSS({
 					}
 
 					if (content.length === 0) {
-						consola.error('Got empty content from', item.link);
+						logging.error('Got empty content from', item.link);
 
 						// If content, importance check and auto summarize are meaningless
 						autoSummarize = false;
@@ -169,7 +169,7 @@ export default async function checkRSS({
 							) {
 								const topSimilar = similar.similarities[0];
 
-								consola.box(
+								logging.info(
 									`Similar article found: ${item.link} -> ${topSimilar.url} (${topSimilar.similarity})`,
 								);
 
@@ -185,7 +185,7 @@ export default async function checkRSS({
 							customSystemPrompt: customCheckImportancePrompt,
 						});
 
-						consola.success(
+						logging.success(
 							`${item.link} : `,
 							`${important ? 'Important' : 'Not Important'}`,
 						);
@@ -196,14 +196,14 @@ export default async function checkRSS({
 					if (important) {
 						if (autoSummarize && content.length !== 0) {
 							shortSummary = await summarizeIntoShortText(env, content);
-							consola.success(`Short Summary ( ${item.link} ):`, shortSummary);
+							logging.success(`Short Summary ( ${item.link} ):`, shortSummary);
 						}
 
 						if (!thumbnail) {
 							try {
 								thumbnail = (await scrapeMetaData(env, item.link)).image;
 							} catch (error) {
-								consola.error('Failed to get thumbnail:', error);
+								logging.error('Failed to get thumbnail:', error);
 							}
 						}
 					}
@@ -221,11 +221,11 @@ export default async function checkRSS({
 						similarArticles: [],
 					});
 				} catch (error) {
-					consola.error(error);
+					logging.error(error);
 				}
 			}
 		} catch (error) {
-			consola.error(error);
+			logging.error(error);
 			if (isTesting) throw error;
 		}
 	}

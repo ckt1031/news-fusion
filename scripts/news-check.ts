@@ -4,11 +4,11 @@
 
 import { exit } from 'node:process';
 import { ALL_RSS_CATAGORIES, type RSSCatacory } from '@/config/news-sources';
+import logging from '@/lib/console';
 import checkRSS from '@/lib/news/check-rss';
 import { envSchema } from '@/types/env';
-import consola from 'consola';
 
-consola.box('News Bot Background Checking Started');
+logging.info('News Bot Background Checking Started');
 
 const env = await envSchema.parseAsync(process.env);
 
@@ -21,11 +21,11 @@ const env = await envSchema.parseAsync(process.env);
 const [specificCatagoryName, specificRSS] = [process.argv[2], process.argv[3]];
 
 if (specificRSS && !specificCatagoryName) {
-	consola.error('Please provide the RSS URL and Catagory Name');
+	logging.error('Please provide the RSS URL and Catagory Name');
 	exit(1);
 }
 
-consola.success('Environment variables are correctly configured');
+logging.success('Environment variables are correctly configured');
 
 const allCatagories = specificRSS
 	? ([
@@ -43,8 +43,8 @@ for (const catagory of allCatagories) {
 	});
 }
 
-consola.success('All RSS checked');
+logging.success('All RSS checked');
 
-consola.success('Langfuse shutdown');
+logging.success('Langfuse shutdown');
 
 exit(0);

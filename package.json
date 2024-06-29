@@ -47,7 +47,6 @@
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.1",
 		"cmdk": "^1.0.0",
-		"consola": "^3.2.3",
 		"date-fns": "^3.6.0",
 		"dax-sh": "^0.41.0",
 		"dayjs": "^1.11.11",

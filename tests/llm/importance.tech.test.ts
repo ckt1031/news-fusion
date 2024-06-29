@@ -1,7 +1,7 @@
+import logging from '@/lib/console';
 import { checkArticleImportance } from '@/lib/llm/prompt-calls';
 import { getContentMarkdownFromURL } from '@/lib/tool-apis';
 import type { ServerEnv } from '@/types/env';
-import consola from 'consola';
 import { describe, expect, test } from 'vitest';
 
 const env = process.env as unknown as ServerEnv;
@@ -30,7 +30,7 @@ describe(
 
 				const importantEnough = await checkArticleImportance(env, content);
 
-				consola.box(`${news} ${importantEnough ? 'is' : 'is not'} important.`);
+				logging.info(`${news} ${importantEnough ? 'is' : 'is not'} important.`);
 				expect(importantEnough).toBe(true);
 			}
 		});

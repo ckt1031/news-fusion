@@ -1,7 +1,7 @@
 import type { ServerEnv } from '@/types/env';
 import type { paths } from '@/types/tool-apis';
-import consola from 'consola';
 import createClient from 'openapi-fetch';
+import logging from './console';
 
 export type ScrapeMarkdownVar = Pick<
 	ServerEnv,
@@ -39,7 +39,7 @@ export async function getContentMarkdownFromURL(
 
 /** Get website major content in markdown format from personal API */
 export async function scrapeToMarkdown(env: ScrapeMarkdownVar, url: string) {
-	consola.start('Scraping markdown from:', url);
+	logging.info('Scraping markdown from:', url);
 
 	const client = getClient(env);
 
@@ -57,7 +57,7 @@ export async function scrapeToMarkdown(env: ScrapeMarkdownVar, url: string) {
 }
 
 export async function scrapeMetaData(env: ScrapeMarkdownVar, url: string) {
-	consola.start('Scraping metadata from:', url);
+	logging.info('Scraping metadata from:', url);
 
 	const client = getClient(env);
 
@@ -75,7 +75,7 @@ export async function scrapeMetaData(env: ScrapeMarkdownVar, url: string) {
 }
 
 export async function scrapeYouTube(env: ScrapeMarkdownVar, url: string) {
-	consola.start('Scraping YouTube:', url);
+	logging.info('Scraping YouTube:', url);
 
 	const client = getClient(env);
 
@@ -93,7 +93,7 @@ export async function scrapeYouTube(env: ScrapeMarkdownVar, url: string) {
 }
 
 export async function webSearch(env: ServerEnv, query: string, limit = 5) {
-	consola.start('Searching the web:', query);
+	logging.info('Searching the web:', query);
 
 	const client = getClient(env);
 
@@ -115,7 +115,7 @@ export async function googleTranslate(
 	text: string,
 	targetLanguage: string,
 ) {
-	consola.start('Translating:', text);
+	logging.info('Translating:', text);
 
 	const client = getClient(env);
 

@@ -101,9 +101,6 @@ importers:
       cmdk:
         specifier: ^1.0.0
         version: 1.0.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      consola:
-        specifier: ^3.2.3
-        version: 3.2.3
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
@@ -2242,10 +2239,6 @@ packages:
 
   confbox@0.1.7:
     resolution: {integrity: sha512-uJcB/FKZtBMCJpK8MQji6bJHgu1tixKPxRLeGkNzBoOZzpnZUJm0jm2/sBDWcuBx1dYgxV4JU+g5hmNxCyAmdA==}
-
-  consola@3.2.3:
-    resolution: {integrity: sha512-I5qxpzLv+sJhTVEoLYNcTW+bThDCPsit0vLNKShZx6rLtpilNpmmeTPaeqJb9ZE9dV3DGaeby6Vuhrw38WjeyQ==}
-    engines: {node: ^14.18.0 || >=16.10.0}
 
   cookie@0.6.0:
     resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==}
@@ -5593,8 +5586,6 @@ snapshots:
   commander@4.1.1: {}
 
   confbox@0.1.7: {}
-
-  consola@3.2.3: {}
 
   cookie@0.6.0: {}
 

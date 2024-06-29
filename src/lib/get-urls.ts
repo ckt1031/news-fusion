@@ -18,7 +18,6 @@ export async function getContentMarkdownParallel(
 		content: string;
 	}[] = [];
 
-	//getContentMakrdownFromURL
 	// Use Promise.all to summarize multiple URLs
 	const summaries = await Promise.all(
 		urls.map((url) =>
