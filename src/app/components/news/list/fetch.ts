@@ -8,11 +8,16 @@ import { getNewsBasedOnDateAndCategory } from '@/lib/db';
 import dayjs from 'dayjs';
 import getNewsPageRedisCacheKey from '../actions/get-cache-key';
 
+export type DateRange = {
+	from: string;
+	to: string;
+};
+
+export type DateType = string | DateRange;
+
 export interface FetchNewsPageProps {
 	topic: RSS_CATEGORY;
-	date: string;
-	to?: string;
-	from?: string;
+	date: DateType;
 }
 
 interface CacheArticle extends Article {
@@ -23,11 +28,9 @@ interface CacheArticle extends Article {
 export async function fetchNewsForPage({
 	topic,
 	date,
-	to,
-	from,
 }: Omit<FetchNewsPageProps, 'userStatus'>) {
 	const cacheHash = getNewsPageRedisCacheKey(
-		to && from ? `${from}-${to}` : date,
+		typeof date === 'string' ? date : `${date.from}-${date.to}`,
 		topic,
 	);
 	const cache = await redis.get<CacheArticle[]>(cacheHash);
@@ -38,16 +41,17 @@ export async function fetchNewsForPage({
 		return cache.map((c) => ({ ...c, publishedAt: new Date(c.publishedAt) }));
 
 	const articles = await getNewsBasedOnDateAndCategory(
-		to && from
-			? {
-					from,
-					to,
-				}
-			: date,
+		typeof date === 'string'
+			? date
+			: {
+					from: date.from,
+					to: date.to,
+				},
 		topic,
 		true,
 	);
 	const sortedArticles = articles
+		// Sort by publishedAt
 		.sort((a, b) => {
 			return (
 				new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
@@ -78,12 +82,12 @@ export async function fetchNewsForPage({
 	await redis.set(cacheHash, sortedArticles);
 
 	const isToday =
-		to && from
-			? dayjs(to).isSame(dayjs(), 'day')
-			: dayjs(date).isSame(dayjs(), 'day');
+		typeof date === 'string'
+			? dayjs(date).isSame(dayjs(), 'day')
+			: dayjs(date.to).isSame(dayjs(), 'day');
 
-	// 15 minutes for today, 24 hours for other days
-	await redis.expire(cacheHash, isToday ? 60 * 15 : 60 * 60 * 24);
+	// 15 minutes for today, 3 hour for other days
+	await redis.expire(cacheHash, isToday ? 60 * 15 : 3 * 60 * 60);
 
 	return sortedArticles;
 }

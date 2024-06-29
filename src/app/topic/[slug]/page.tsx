@@ -1,10 +1,10 @@
 import LoadingComponent from '@/app/components/loading';
 import DateSwitcher from '@/app/components/news/date-switcher';
+import { parseDateRange } from '@/app/components/news/get-date-server';
 import NewsList from '@/app/components/news/list';
 import TopicSelection from '@/app/components/news/topic-selection';
 import type { HomeSearchParamsProps } from '@/app/page';
 import { RSS_CATEGORY } from '@/config/news-sources';
-import dayjs from 'dayjs';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
@@ -43,25 +43,14 @@ export const runtime = 'nodejs';
 export default async function TopicPage({ params, searchParams }: PageProps) {
 	const topic = decodeURIComponent(params.slug) as RSS_CATEGORY;
 
-	const serverCurrentDate = dayjs().format('YYYY-MM-DD');
-
-	const queryDate = searchParams.date;
-
-	const date = queryDate
-		? dayjs(queryDate).format('YYYY-MM-DD')
-		: serverCurrentDate;
+	const date = parseDateRange(searchParams);
 
 	return (
 		<>
 			<DateSwitcher />
 			<TopicSelection topic={topic} />
 			<Suspense fallback={<LoadingComponent />}>
-				<NewsList
-					topic={topic}
-					date={date}
-					to={searchParams.to}
-					from={searchParams.from}
-				/>
+				<NewsList topic={topic} date={date} />
 			</Suspense>
 		</>
 	);

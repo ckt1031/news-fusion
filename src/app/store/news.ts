@@ -1,12 +1,10 @@
 import { create } from 'zustand';
-import type { fetchNewsForPage } from '../components/news/list/fetch';
+import type { DateType, fetchNewsForPage } from '../components/news/list/fetch';
 
 export interface NewsStore {
 	pageData: {
-		date: string;
+		date: DateType;
 		topic: string;
-		from?: string;
-		to?: string;
 	};
 
 	type: 'news' | 'bookmarks';

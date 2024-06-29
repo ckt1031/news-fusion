@@ -7,10 +7,13 @@ import {
 import dayjs from 'dayjs';
 import { ShieldX } from 'lucide-react';
 import { Suspense } from 'react';
-import type { DateRange } from 'react-day-picker';
 import LoadingComponent from '../../loading';
 import Content from './content';
-import { type FetchNewsPageProps, fetchNewsForPage } from './fetch';
+import {
+	type DateRange,
+	type FetchNewsPageProps,
+	fetchNewsForPage,
+} from './fetch';
 import AppInitializer from './initializer';
 
 const ALLOWED_DAYS = 30;
@@ -28,12 +31,7 @@ function isDateInAllowedDayRange(date: string | DateRange) {
 	);
 }
 
-export default async function NewsList({
-	topic,
-	date,
-	from,
-	to,
-}: FetchNewsPageProps) {
+export default async function NewsList({ topic, date }: FetchNewsPageProps) {
 	if (!isDateInAllowedDayRange(date)) {
 		return (
 			<Card className="my-3">
@@ -50,14 +48,14 @@ export default async function NewsList({
 		);
 	}
 
-	const sortedArticles = await fetchNewsForPage({ topic, date, from, to });
+	const sortedArticles = await fetchNewsForPage({ topic, date });
 
 	return (
 		<Suspense fallback={<LoadingComponent />}>
 			<AppInitializer
 				type="news"
 				news={sortedArticles}
-				pageData={{ topic, date, from, to }}
+				pageData={{ topic, date }}
 			>
 				<Content />
 			</AppInitializer>

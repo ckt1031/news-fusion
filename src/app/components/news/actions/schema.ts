@@ -17,8 +17,8 @@ export const TranslateActionSchema = z.object({
 	targetLanguage: z.enum(supportedTargetLanguages),
 });
 
-export const clearCacheActionSchema = z.object({
-	date: z.string(),
+export const ClearTopicNewsCacheActionSchema = z.object({
+	date: z.string().optional(),
 	topic: z.string(),
 	from: z.string().optional(),
 	to: z.string().optional(),
