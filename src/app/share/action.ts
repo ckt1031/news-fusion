@@ -2,6 +2,8 @@
 
 import { authActionClient } from '@/app/utils/safe-action';
 import { getSharedArticle, saveSharedArticle } from '@/lib/db';
+import { scrapeMetaData } from '@/lib/tool-apis';
+import type { ServerEnv } from '@/types/env';
 import { nanoid } from 'nanoid';
 import { redis } from '../utils/upstash';
 import { getSharedArticleCacheKey } from './[id]/cache';
@@ -12,13 +14,17 @@ export const saveSharedArticleAction = authActionClient
 	.action(async ({ parsedInput: formData, ctx: { user } }) => {
 		const id = nanoid();
 
+		const env = process.env as unknown as ServerEnv;
+
+		const metaData = await scrapeMetaData(env, formData.url);
+
 		await saveSharedArticle({
 			id,
 			userId: user.id,
 			articleId: formData.articleId,
 			longSummary: formData.longSummary,
 			sources: formData.sources,
-			thumbnail: formData.thumbnail,
+			thumbnail: metaData.image,
 		});
 
 		const cacheKey = getSharedArticleCacheKey(id);

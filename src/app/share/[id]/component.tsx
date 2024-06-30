@@ -15,7 +15,7 @@ import Markdown from 'react-markdown';
 import { useUIStore } from './store';
 
 const ThumbnailPhotoViewer = dynamic(() => import('./photo-viewer'));
-const BriefSummaryBox = dynamic(() => import('./brief-summary'));
+// const BriefSummaryBox = dynamic(() => import('./brief-summary'));
 const SharePageControl = dynamic(() => import('./control'));
 
 export default function SharedArticleComponent() {
@@ -40,7 +40,7 @@ export default function SharedArticleComponent() {
 				/>
 			</div>
 			<ReadMore url={article.url} />
-			<BriefSummaryBox summary={article.summary} />
+			{/* <BriefSummaryBox summary={article.summary} /> */}
 			{data.thumbnail && (
 				// <Image
 				// 	fill
@@ -51,7 +51,7 @@ export default function SharedArticleComponent() {
 				// />
 				<ThumbnailPhotoViewer src={data.thumbnail} alt={article.title} />
 			)}
-			<Markdown className="mt-2 max-w-3xl text-gray-600 dark:text-gray-400 prose prose-neutral markdown-style">
+			<Markdown className="mt-2 w-full max-w-3xl text-gray-600 dark:text-gray-400 prose prose-neutral markdown-style">
 				{data.longSummary}
 			</Markdown>
 			{isLoggedIn && (

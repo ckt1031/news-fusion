@@ -84,7 +84,9 @@ export default function Handler({
 
 		// biome-ignore lint/style/noNonNullAssertion: <explanation>
 		const newData = useUIStore.getState().data!;
+
 		const dbResult = await saveDB({
+			url: article.url,
 			articleId: article.id,
 			longSummary: newData.longSummary,
 			sources: resp.data.searchResults.urls.filter(
