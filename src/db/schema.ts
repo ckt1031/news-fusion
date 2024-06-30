@@ -54,9 +54,39 @@ export const users = pgTable(
 	}),
 );
 
+export const sharedArticles = pgTable(
+	'shared_articles',
+	{
+		id: text('id').primaryKey().unique(),
+		userId: text('user_id')
+			.notNull()
+			.references(() => users.id),
+		articleId: integer('article_id')
+			.notNull()
+			.references(() => articles.id),
+		longSummary: text('longSummary').notNull(),
+		thumbnail: text('thumbnail'),
+		sources: text('sources').array(),
+	},
+	(table) => ({
+		sharedArticlesIdIndex: index('sharedArticlesIdIndex').on(table.userId),
+	}),
+);
+
 /**
  * Relations
  */
+
+export const sharedArticlesRelations = relations(sharedArticles, ({ one }) => ({
+	article: one(articles, {
+		fields: [sharedArticles.articleId],
+		references: [articles.id],
+	}),
+	user: one(users, {
+		fields: [sharedArticles.userId],
+		references: [users.id],
+	}),
+}));
 
 export const usersRelations = relations(users, ({ many }) => ({
 	usersToArticles: many(usersToArticles),
@@ -97,3 +127,4 @@ export const usersToArticlesRelations = relations(
 
 export type NewArticle = typeof articles.$inferInsert;
 export type Article = typeof articles.$inferSelect;
+export type NewSharedArticle = typeof sharedArticles.$inferInsert;

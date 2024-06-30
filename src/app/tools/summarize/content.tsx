@@ -19,7 +19,7 @@ import { useForm } from 'react-hook-form';
 import Markdown from 'react-markdown';
 import type { z } from 'zod';
 import { summarizeDetailAction } from './actions';
-import { type WebSearchResult, summarizeSchema } from './schema';
+import { SummarizeSchema, type WebSearchResult } from './schema';
 import '@/app/styles/markdown.css';
 import {
 	Accordion,
@@ -36,8 +36,8 @@ import {
 } from '@/app/components/ui/tooltip';
 
 export default function Component() {
-	const form = useForm<z.infer<typeof summarizeSchema>>({
-		resolver: zodResolver(summarizeSchema),
+	const form = useForm<z.infer<typeof SummarizeSchema>>({
+		resolver: zodResolver(SummarizeSchema),
 	});
 
 	const { isExecuting, executeAsync } = useAction(summarizeDetailAction);
@@ -45,7 +45,7 @@ export default function Component() {
 	const [result, setResult] = useState<string>();
 	const [webSearchResult, setWebSearchResult] = useState<WebSearchResult>();
 
-	const onSubmit = async (data: z.infer<typeof summarizeSchema>) => {
+	const onSubmit = async (data: z.infer<typeof SummarizeSchema>) => {
 		setWebSearchResult(undefined);
 
 		const result = await executeAsync({

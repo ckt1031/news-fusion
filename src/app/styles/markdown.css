@@ -1,5 +1,5 @@
 .markdown-style {
-  @apply flex flex-col gap-3 dark:prose-invert;
+  @apply dark:prose-invert;
 }
 
 .markdown-style h1 {

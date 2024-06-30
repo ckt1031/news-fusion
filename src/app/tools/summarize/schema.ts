@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-export const summarizeSchema = z.object({
-	content: z.string().min(1),
+export const SummarizeSchema = z.object({
+	content: z.string(),
 	webSearch: z.boolean().optional().default(false),
 });
 

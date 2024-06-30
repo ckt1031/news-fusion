@@ -14,10 +14,10 @@ import summarizePrompt from '@/prompts/summarize';
 import type { ServerEnv } from '@/types/env';
 import { streamText } from 'ai';
 import { createStreamableValue } from 'ai/rsc';
-import { summarizeSchema } from './schema';
+import { SummarizeSchema } from './schema';
 
 export const summarizeDetailAction = authActionClient
-	.schema(summarizeSchema)
+	.schema(SummarizeSchema)
 	.action(async ({ parsedInput: formData }) => {
 		const searchLimit = 5;
 

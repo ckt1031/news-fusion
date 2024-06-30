@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 interface UIStore {
-	dialog: 'translate' | 'regenerate';
+	dialog: 'translate' | 'regenerate' | 'share';
 	setDialog: (dialog: UIStore['dialog']) => void;
 }
 

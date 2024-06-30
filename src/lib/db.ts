@@ -161,3 +161,28 @@ export async function getBookmarksFromUser(userId: string) {
 		(a, b) => b.article.publishedAt.getTime() - a.article.publishedAt.getTime(),
 	);
 }
+
+export async function getSharedArticle(id: string) {
+	return db.query.sharedArticles.findFirst({
+		where: (d, { eq }) => eq(d.id, id),
+		with: {
+			article: true,
+		},
+	});
+}
+
+export async function deleteSharedArticle(id: string) {
+	await db
+		.delete(schema.sharedArticles)
+		.where(eq(schema.sharedArticles.id, id));
+}
+
+export async function saveSharedArticle(data: schema.NewSharedArticle) {
+	await db.insert(schema.sharedArticles).values(data);
+}
+
+export async function fetchArticle(articleId: number) {
+	return db.query.articles.findFirst({
+		where: (d, { eq }) => eq(d.id, articleId),
+	});
+}
