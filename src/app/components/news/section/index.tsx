@@ -8,6 +8,7 @@ import '@/app/styles/markdown.css';
 import { useNewsStore } from '@/app/store/news';
 import NewsSectionDropdownMenu from './menu';
 import ReadMore from './read-more';
+import NewsSimilarities from './similarities';
 
 interface Props {
 	guid: string;
@@ -61,6 +62,7 @@ export default function NewsSection({ guid }: Props) {
 							{displayingItem.summary}
 						</Markdown>
 					)}
+					<NewsSimilarities guid={guid} />
 				</div>
 			)}
 		</>
