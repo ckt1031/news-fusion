@@ -6,16 +6,16 @@ import { Loader2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Button } from '../../ui/button';
+import { Button } from '@/app/components/ui/button';
 import {
 	Form,
 	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
-} from '../../ui/form';
-import { Switch } from '../../ui/switch';
-import { useToast } from '../../ui/use-toast';
+} from '@/app/components/ui/form';
+import { Switch } from '@/app/components/ui/switch';
+import { useToast } from '@/app/components/ui/use-toast';
 import { searchAction } from './actions';
 import { SearchSchema } from './schema';
 
@@ -29,7 +29,7 @@ const FormSchema = SearchSchema.pick({
 
 export default function NewsSearchingPopoverContent() {
 	const { toast } = useToast();
-	const query = useNewsStore((state) => state.pageData.search);
+	const query = useNewsStore((state) => state.pageData?.search);
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
