@@ -1,21 +1,26 @@
 import { create } from 'zustand';
 import type { DateType, fetchNewsForPage } from '../components/news/list/fetch';
 
+export enum NewsType {
+	News = 'news',
+	Bookmarks = 'bookmarks',
+}
+
 export interface NewsStore {
 	pageData: {
 		date: DateType;
 		topic: string;
 
-		search?: string;
+		searchQuery?: string;
 	};
 
-	type: 'news' | 'bookmarks';
+	type: NewsType;
 
 	news: Awaited<ReturnType<typeof fetchNewsForPage>>;
 	displayingNews: NewsStore['news'];
 
 	setPageData: (data: NewsStore['pageData']) => void;
-	setSearching: (search: NewsStore['pageData']['search']) => void;
+	setSearching: (search: NewsStore['pageData']['searchQuery']) => void;
 
 	setNews: (news: NewsStore['news']) => void;
 	setDisplayingNews: (news: NewsStore['news']) => void;
@@ -32,13 +37,14 @@ export interface NewsStore {
 export const useNewsStore = create<NewsStore>((set, get) => ({
 	news: [],
 	displayingNews: [],
-	type: 'news',
+	type: NewsType.News,
 	pageData: {
 		date: '',
 		topic: '',
 	},
 	setPageData: (data) => set({ pageData: data }),
-	setSearching: (search) => set({ pageData: { ...get().pageData, search } }),
+	setSearching: (search) =>
+		set({ pageData: { ...get().pageData, searchQuery: search } }),
 	setNews: (news) => set({ news, displayingNews: news }),
 	setDisplayingNews: (news) => set({ displayingNews: news }),
 	getItem: (guid) => {

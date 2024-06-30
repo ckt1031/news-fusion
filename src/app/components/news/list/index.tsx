@@ -4,6 +4,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/app/components/ui/card';
+import { NewsType } from '@/app/store/news';
 import dayjs from 'dayjs';
 import { ShieldX } from 'lucide-react';
 import { Suspense } from 'react';
@@ -53,7 +54,7 @@ export default async function NewsList({ topic, date }: FetchNewsPageProps) {
 	return (
 		<Suspense fallback={<LoadingComponent />}>
 			<AppInitializer
-				type="news"
+				type={NewsType.News}
 				news={sortedArticles}
 				pageData={{ topic, date }}
 			>

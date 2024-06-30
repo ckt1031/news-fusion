@@ -15,6 +15,7 @@ import Fuse, { type IFuseOptions } from 'fuse.js';
 import { Loader2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
+import useLocalStorageState from 'use-local-storage-state';
 import { z } from 'zod';
 import { searchAction } from './actions';
 import { SearchSchema } from './schema';
@@ -29,13 +30,22 @@ const FormSchema = SearchSchema.pick({
 
 export default function NewsSearchingPopoverContent() {
 	const { toast } = useToast();
-	const query = useNewsStore((state) => state.pageData?.search);
+
+	const searchQuery = useNewsStore((state) => state?.pageData?.searchQuery);
+	const [useReranker, setUseReranker] = useLocalStorageState(
+		'news-search-reranker',
+		{
+			defaultValue: false,
+		},
+	);
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
-			search: query,
-			useReranker: false,
+			search: searchQuery,
+
+			// Can be momorized
+			useReranker: useReranker,
 		},
 	});
 
@@ -45,7 +55,6 @@ export default function NewsSearchingPopoverContent() {
 
 	const setDisplayingNews = useNewsStore((state) => state.setDisplayingNews);
 
-	const searchQuery = useNewsStore((state) => state.pageData.search);
 	const setSearching = useNewsStore((state) => state.setSearching);
 
 	const onFuzzyInputChange = async (data: z.infer<typeof FormSchema>) => {
@@ -67,11 +76,6 @@ export default function NewsSearchingPopoverContent() {
 				});
 				return;
 			}
-
-			// Filter 0.2
-			// const filteredDocs = response.filter(
-			// 	(result) => result.relevance_score > 0.2,
-			// );
 
 			// Choose with index
 			const indexes = response.map((result) => result.index);
@@ -135,7 +139,10 @@ export default function NewsSearchingPopoverContent() {
 									name={field.name}
 									id={field.name}
 									checked={field.value}
-									onCheckedChange={field.onChange}
+									onCheckedChange={(d) => {
+										field.onChange(d);
+										setUseReranker(d);
+									}}
 								/>
 							</FormControl>
 						</FormItem>
