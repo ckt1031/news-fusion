@@ -1,5 +1,3 @@
-# News Bot
+# News Fusion
 
-🦄 Integrated News Bot with AI for reduced confusion and complexity.
-
-> Currently **WIP**.
+Hassle-free news reading experience with AI.

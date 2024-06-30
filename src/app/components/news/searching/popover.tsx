@@ -1,11 +1,3 @@
-import { Input } from '@/app/components/ui/input';
-import { useNewsStore } from '@/app/store/news';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Fuse, { type IFuseOptions } from 'fuse.js';
-import { Loader2 } from 'lucide-react';
-import { useAction } from 'next-safe-action/hooks';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { Button } from '@/app/components/ui/button';
 import {
 	Form,
@@ -14,8 +6,16 @@ import {
 	FormItem,
 	FormLabel,
 } from '@/app/components/ui/form';
+import { Input } from '@/app/components/ui/input';
 import { Switch } from '@/app/components/ui/switch';
 import { useToast } from '@/app/components/ui/use-toast';
+import { useNewsStore } from '@/app/store/news';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Fuse, { type IFuseOptions } from 'fuse.js';
+import { Loader2 } from 'lucide-react';
+import { useAction } from 'next-safe-action/hooks';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import { searchAction } from './actions';
 import { SearchSchema } from './schema';
 
