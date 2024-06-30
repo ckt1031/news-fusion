@@ -34,7 +34,7 @@ import {
 	supportedTargetLanguages,
 } from '../../actions/schema';
 import { translateNewsInfo } from '../../actions/translate';
-import { useNewsSectionUIStore } from './state';
+import { useUIStore } from './store';
 
 interface Props {
 	guid: string;
@@ -46,7 +46,7 @@ const TranslateActionFormSchema = TranslateActionSchema.pick({
 });
 
 export function TranslateButton({ guid }: Props) {
-	const setDialog = useNewsSectionUIStore((state) => state.setDialog);
+	const setDialog = useUIStore((state) => state.setDialog);
 
 	const openDialog = () => {
 		setDialog('translate');

@@ -5,7 +5,7 @@ import {
 import { useAuthStore } from '@/app/store/auth';
 import BookmarkButton from './bookmark';
 import CopyButton from './copy-to-clipboard';
-import { SummarizeButton } from './generate';
+import { RegenerateButton } from './re-generate';
 import { TranslateButton } from './translate';
 
 interface Props {
@@ -24,7 +24,7 @@ export default function NewsSectionDropdownMenuContent({ guid }: Props) {
 				<>
 					<TranslateButton guid={guid} />
 					<BookmarkButton guid={guid} />
-					<SummarizeButton />
+					<RegenerateButton />
 				</>
 			)}
 		</>

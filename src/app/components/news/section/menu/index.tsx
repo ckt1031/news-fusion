@@ -7,8 +7,8 @@ import {
 } from '@/app/components/ui/dropdown-menu';
 import { Ellipsis } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { SummarizeDialog } from './generate';
-import { useNewsSectionUIStore } from './state';
+import { RegenerateDialog } from './re-generate';
+import { useUIStore } from './store';
 import { TranslateDialog } from './translate';
 
 const NewsSectionDropdownMenuContent = dynamic(() => import('./content'), {
@@ -21,7 +21,7 @@ interface Props {
 }
 
 export default function NewsSectionDropdownMenu({ guid }: Props) {
-	const dialog = useNewsSectionUIStore((state) => state.dialog);
+	const dialog = useUIStore((state) => state.dialog);
 
 	return (
 		<Dialog>
@@ -34,7 +34,7 @@ export default function NewsSectionDropdownMenu({ guid }: Props) {
 				</DropdownMenuContent>
 			</DropdownMenu>
 			{dialog === 'translate' && <TranslateDialog guid={guid} />}
-			{dialog === 'generate' && <SummarizeDialog guid={guid} />}
+			{dialog === 'regenerate' && <RegenerateDialog guid={guid} />}
 		</Dialog>
 	);
 }

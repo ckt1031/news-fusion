@@ -23,30 +23,30 @@ import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
 import { generateContent } from '../../actions/generate-short-summary';
 import { GenerateContentActionSchema } from '../../actions/schema';
-import { useNewsSectionUIStore } from './state';
+import { useUIStore } from './store';
 
 interface Props {
 	guid: string;
 }
 
-export function SummarizeButton() {
-	const setDialog = useNewsSectionUIStore((state) => state.setDialog);
+export function RegenerateButton() {
+	const setDialog = useUIStore((state) => state.setDialog);
 
 	const openDialog = () => {
-		setDialog('generate');
+		setDialog('regenerate');
 	};
 
 	return (
 		<DialogTrigger asChild>
 			<DropdownMenuItem onClick={openDialog}>
 				<RotateCw className="h-4 w-4 mr-2" />
-				Generate Content
+				Re-Generate Content
 			</DropdownMenuItem>
 		</DialogTrigger>
 	);
 }
 
-export function SummarizeDialog({ guid }: Props) {
+export function RegenerateDialog({ guid }: Props) {
 	const { toast } = useToast();
 
 	/**
@@ -110,7 +110,7 @@ export function SummarizeDialog({ guid }: Props) {
 	return (
 		<DialogContent>
 			<DialogHeader>
-				<DialogTitle>Generate Content</DialogTitle>
+				<DialogTitle>Re-Generate Content</DialogTitle>
 			</DialogHeader>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onGenerateSummary)}>
