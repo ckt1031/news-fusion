@@ -112,7 +112,7 @@ export const RSS_VIDEOS: RSSCatacory = {
 		`${YOUTUBE_RSS}UCilwQlk62k1z7aUEZPOB6yw`, // xiao_lin_shuo 小Lin说
 		`${YOUTUBE_RSS}UCeUJO1H3TEXu2syfAAPjYKQ`, // geekerwan1024 极客湾 Geekerwan
 		`${YOUTUBE_RSS}UCBj9S8TBRlCU4QnhTEOdWZQ`, // axtonliu 回到 Axton
-		{ url: `${YOUTUBE_RSS}UC2tQpW0dPiyWPebwBSksJ_g`, scrapable: false }, // NDWTB 脑洞乌托邦
+		// { url: `${YOUTUBE_RSS}UC2tQpW0dPiyWPebwBSksJ_g`, scrapable: false }, // NDWTB 脑洞乌托邦
 	],
 };
 
@@ -234,17 +234,17 @@ export const RSS_BLOGS: RSSCatacory = {
 		'https://1link.fun/index.xml',
 		'https://antfu.me/feed.xml',
 		'https://1byte.io/articles/index.xml',
-		{
-			url: 'https://sspai.com/feed',
-			checkImportance: true,
-		},
-		'https://feed.miantiao.me',
+		//{
+		//	url: 'https://sspai.com/feed',
+		//	checkImportance: true,
+		//},
+		//'https://feed.miantiao.me',
 		// 'https://blog.krdw.site/rss.xml',
 		'https://diygod.cc/feed',
-		{
-			url: 'https://www.ifanr.com/feed',
-			checkImportance: true,
-		},
+		//{
+		//	url: 'https://www.ifanr.com/feed',
+		//	checkImportance: true,
+		//},
 	],
 };
 
