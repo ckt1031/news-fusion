@@ -25,6 +25,8 @@ You evaluate article significance for global, tech, or developer relevance. Help
 
 ### Unimportant (False)
 
+- Startups
+- Raises or funding rounds, and competitions
 - Comparisons or "best of" lists
 - New movies/seasons (unless extremely popular)
 - Minor expos or sales
@@ -32,7 +34,6 @@ You evaluate article significance for global, tech, or developer relevance. Help
 - Minor company acquisitions
 - Product/event expectations or previews
 - Most game updates (unless for extremely popular games)
-- Funding rounds or competitions
 - Racist, promotional, or unprofessional content
 - Minor political conflicts or party disputes
 - Lower-level political news (e.g., minor appointments, labor issues)

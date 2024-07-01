@@ -121,7 +121,6 @@ export const RSS_TECH: RSSCatacory = {
 	channels: [
 		'https://blog.google/rss',
 		'https://9to5mac.com/feed',
-		'https://9to5linux.com/feed',
 		'https://9to5google.com/feed',
 		'https://techcrunch.com/feed',
 		'https://www.geekwire.com/feed',
@@ -137,6 +136,7 @@ export const RSS_TECH: RSSCatacory = {
 		'https://www.tomsguide.com/feeds/all',
 		'https://www.techradar.com/feeds/articletype/news',
 		'https://rss.slashdot.org/Slashdot/slashdotMainatom', // Only Atom 1.0 is parsable in my code
+		'https://www.eff.org/rss/updates.xml',
 	],
 };
 
@@ -176,6 +176,11 @@ export const RSS_DEV: RSSCatacory = {
 	name: RSS_CATEGORY.DEVELOPER,
 	checkImportance: false,
 	channels: [
+		// Vulnarability
+		'https://blog.qualys.com/feed',
+
+		'https://9to5linux.com/feed',
+
 		'https://blog.cloudflare.com/rss',
 		'https://github.blog/feed',
 
