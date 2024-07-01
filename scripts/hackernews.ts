@@ -1,6 +1,6 @@
 import { exit } from 'node:process';
 import { HACKER_NEWS, LOBSTE_RS } from '@/config/forum-sources';
-import { checkForum } from '@/lib/forum';
+import { checkForum } from '../src/lib/forum';
 import { envSchema } from '@/types/env';
 
 process.env.DEFAULT_SUMMARIZE_MODEL = 'gpt-3.5-turbo-0125';
