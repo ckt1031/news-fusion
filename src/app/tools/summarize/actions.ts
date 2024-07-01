@@ -8,6 +8,7 @@ import {
 	getUrlFromText,
 } from '@/lib/get-urls';
 import { getOpenAI } from '@/lib/llm/api';
+import { requestRerankerAPI } from '@/lib/llm/api';
 import { generateSearchQuery } from '@/lib/llm/prompt-calls';
 import { webSearch } from '@/lib/tool-apis';
 import summarizePrompt from '@/prompts/summarize';
@@ -31,10 +32,27 @@ export const summarizeDetailAction = authActionClient
 			query = await generateSearchQuery(env, formData.content);
 			const queryResults = await webSearch(env, query, searchLimit);
 
+			// documents is string[]
+			const documents = queryResults.map(
+				(result) => `${result.title}\n${result.snippet}`,
+			);
+
+			const rerankResponse = await requestRerankerAPI({
+				env,
+				documents,
+				text: query,
+			});
+
+			const allSelectedIndexes = rerankResponse.map((result) => result.index);
+
+			const selectedResults = queryResults.filter((_, index) =>
+				allSelectedIndexes.includes(index),
+			);
+
 			// Remove all existing URLs from the search results
 			const filteredResults = urls
-				? queryResults.filter((result) => !urls.includes(result.link))
-				: queryResults;
+				? selectedResults.filter((result) => !urls.includes(result.link))
+				: selectedResults;
 
 			return await getContentMarkdownParallel(
 				env,
