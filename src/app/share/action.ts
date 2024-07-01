@@ -16,7 +16,15 @@ export const saveSharedArticleAction = authActionClient
 
 		const env = process.env as unknown as ServerEnv;
 
-		const metaData = await scrapeMetaData(env, formData.url);
+		let metaData: Awaited<ReturnType<typeof scrapeMetaData>> = {
+			image: undefined,
+		};
+
+		try {
+			metaData = await scrapeMetaData(env, formData.url);
+		} catch (e) {
+			console.error('Failed to scrape metadata:', e);
+		}
 
 		await saveSharedArticle({
 			id,

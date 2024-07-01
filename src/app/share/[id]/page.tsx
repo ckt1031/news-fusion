@@ -1,4 +1,5 @@
 import { getSharedArticle } from '@/lib/db';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import SharedArticleComponent from './component';
 import StateInitializer from './state-initializer';
@@ -8,6 +9,36 @@ interface PageProps {
 }
 
 export const runtime = 'edge';
+
+export async function generateMetadata({
+	params,
+}: PageProps): Promise<Metadata> {
+	// read route params
+	const id = params.id;
+
+	const shared = await getSharedArticle(id);
+
+	if (!shared) {
+		return {
+			title: 'Not Found',
+		};
+	}
+
+	return {
+		title: shared.article.title,
+		description: shared.longSummary,
+		openGraph: {
+			title: shared.article.title,
+			description: shared.longSummary,
+			images: [...(shared.thumbnail ? [{ url: shared.thumbnail }] : [])],
+		},
+		twitter: {
+			title: shared.article.title,
+			description: shared.longSummary,
+			card: 'summary_large_image',
+		},
+	};
+}
 
 export default async function SharePage({ params }: PageProps) {
 	const id = params.id;

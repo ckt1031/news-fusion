@@ -31,38 +31,6 @@ export default function Handler({
 	const data = useUIStore((state) => state.data);
 	const setLongSummary = useUIStore((state) => state.setLongSummary);
 
-	// useEffect(() => {
-	// 	(async () => {
-	// 		if (!data || isRunning) return;
-
-	// 		setIsRunning(true);
-
-	// 		const article = data.article;
-	// 		if (!article) return;
-	// 		const resp = await summarize({
-	// 			content: `Summarize ${article.url} with detail and all important information. ${customInstructions}`,
-	// 			webSearch: useSearch,
-	// 		});
-
-	// 		if (!resp?.data) return;
-
-	// 		for await (const content of readStreamableValue(resp.data.LLM)) {
-	// 			content && setLongSummary(content);
-	// 		}
-	// 		const dbResult = await saveDB({
-	// 			articleId: article.id,
-	// 			longSummary: data.longSummary,
-	// 			sources: resp.data.searchResults.urls.filter(
-	// 				(url: string) => url !== article.url,
-	// 			),
-	// 			// thumbnail: result.data.thumbnail
-	// 		});
-	// 		dbResult?.data?.id && router.push(`/share/${dbResult.data.id}`);
-	// 		setIsRunning(false);
-
-	// 	})();
-	// }, []);
-
 	const onRun = async () => {
 		if (!data) return;
 
