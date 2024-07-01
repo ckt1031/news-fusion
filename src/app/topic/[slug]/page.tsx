@@ -4,6 +4,7 @@ import { parseDateRange } from '@/app/components/news/get-date-server';
 import NewsList from '@/app/components/news/list';
 import TopicSelection from '@/app/components/news/topic-selection';
 import type { HomeSearchParamsProps } from '@/app/page';
+import captialTopicName from '@/app/utils/captial-topic-name';
 import { RSS_CATEGORY } from '@/config/news-sources';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
@@ -25,7 +26,7 @@ export async function generateMetadata({
 	// read route params
 	const topic = params.slug;
 
-	const title = `Topic: ${topic}`;
+	const title = `Topic: ${captialTopicName(topic)}`;
 
 	return {
 		title,

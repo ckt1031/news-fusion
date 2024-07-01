@@ -12,6 +12,7 @@ import AuthStateInializer from './components/auth/client';
 import Heading from './components/heading';
 import { ThemeProvider } from './components/theme';
 import VercelAnalytics from './components/vercel-analytics';
+import { nextEnv } from './env';
 import { serverAuthState } from './hooks/auth';
 import { cn } from './utils/cn';
 
@@ -37,6 +38,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+	metadataBase: new URL(nextEnv.SITE_URL),
 	title: DEFAULT_SITE_TITLE,
 	description: DEFAULT_SITE_DESCRIPTION,
 	openGraph: {
