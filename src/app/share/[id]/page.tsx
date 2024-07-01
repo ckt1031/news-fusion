@@ -7,6 +7,8 @@ interface PageProps {
 	params: { id: string };
 }
 
+export const runtime = 'edge';
+
 export default async function SharePage({ params }: PageProps) {
 	const id = params.id;
 	const shared = await getSharedArticle(id);

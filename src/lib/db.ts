@@ -76,11 +76,11 @@ export async function removeArticleUserRelation(
 	articleId: number,
 ) {
 	await db
-		.delete(schema.usersToArticles)
+		.delete(schema.bookmarks)
 		.where(
 			and(
-				eq(schema.usersToArticles.userId, userId),
-				eq(schema.usersToArticles.articleId, articleId),
+				eq(schema.bookmarks.userId, userId),
+				eq(schema.bookmarks.articleId, articleId),
 			),
 		);
 }
@@ -90,14 +90,14 @@ export async function addArticleUserRelation(
 	articleId: number,
 ) {
 	// Find if the relation already exists
-	const result = await db.query.usersToArticles.findFirst({
+	const result = await db.query.bookmarks.findFirst({
 		where: (d, { and, eq }) =>
 			and(eq(d.userId, userId), eq(d.articleId, articleId)),
 	});
 
 	if (result) return AddArticleUserRelationStatus.AlreadyExists;
 
-	await db.insert(schema.usersToArticles).values({
+	await db.insert(schema.bookmarks).values({
 		articleId,
 		userId,
 	});
@@ -150,7 +150,7 @@ export async function getNewsBasedOnDateAndCategory(
 }
 
 export async function getBookmarksFromUser(userId: string) {
-	const data = await db.query.usersToArticles.findMany({
+	const data = await db.query.bookmarks.findMany({
 		where: (d, { eq }) => eq(d.userId, userId),
 		with: {
 			article: true,

@@ -39,6 +39,7 @@ export default async function SharePageStarting({
 		longSummary: '',
 		thumbnail: null,
 		sources: null,
+		createdAt: new Date(),
 	};
 
 	return (

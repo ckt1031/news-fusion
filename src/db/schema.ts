@@ -20,7 +20,9 @@ export const articles = pgTable(
 		title: text('title').notNull().unique(),
 		publisher: text('publisher').notNull(),
 		category: text('category').notNull(),
-		publishedAt: timestamp('publishedAt', { mode: 'date' }).notNull(),
+		publishedAt: timestamp('publishedAt', { mode: 'date' })
+			.defaultNow()
+			.notNull(),
 
 		important: boolean('important').notNull(),
 
@@ -43,33 +45,56 @@ export const articles = pgTable(
 	}),
 );
 
-export const users = pgTable(
-	'users',
-	{
-		id: text('id').primaryKey().unique(),
-		role: integer('role').notNull(),
-	},
-	(table) => ({
-		userIdIndex: index('userIdIndex').on(table.id),
-	}),
-);
+export const users = pgTable('users', {
+	id: text('id').primaryKey().unique(),
+	role: integer('role').notNull(),
+	email: text('email').notNull().unique(),
+	username: text('username').notNull().unique(),
+});
 
 export const sharedArticles = pgTable(
 	'shared_articles',
 	{
 		id: text('id').primaryKey().unique(),
 		userId: text('user_id')
-			.notNull()
-			.references(() => users.id),
+			.references(() => users.id)
+			.notNull(),
 		articleId: integer('article_id')
-			.notNull()
-			.references(() => articles.id),
+			.references(() => articles.id)
+			.notNull(),
 		longSummary: text('longSummary').notNull(),
 		thumbnail: text('thumbnail'),
 		sources: text('sources').array(),
+		createdAt: timestamp('created_at', {
+			mode: 'date',
+			withTimezone: true,
+		})
+			.defaultNow()
+			.notNull(),
 	},
 	(table) => ({
 		sharedArticlesIdIndex: index('sharedArticlesIdIndex').on(table.userId),
+	}),
+);
+
+export const bookmarks = pgTable(
+	'bookmarks',
+	{
+		userId: text('user_id')
+			.references(() => users.id)
+			.notNull(),
+		articleId: integer('article_id')
+			.references(() => articles.id)
+			.notNull(),
+		createdAt: timestamp('created_at', {
+			mode: 'date',
+			withTimezone: true,
+		})
+			.defaultNow()
+			.notNull(),
+	},
+	(t) => ({
+		pk: primaryKey({ columns: [t.userId, t.articleId] }),
 	}),
 );
 
@@ -89,41 +114,23 @@ export const sharedArticlesRelations = relations(sharedArticles, ({ one }) => ({
 }));
 
 export const usersRelations = relations(users, ({ many }) => ({
-	usersToArticles: many(usersToArticles),
+	usersToArticles: many(bookmarks),
 }));
 
 export const articlesRelations = relations(articles, ({ many }) => ({
-	usersToArticles: many(usersToArticles),
+	usersToArticles: many(bookmarks),
 }));
 
-export const usersToArticles = pgTable(
-	'users_to_articles',
-	{
-		userId: text('user_id')
-			.notNull()
-			.references(() => users.id),
-		articleId: integer('article_id')
-			.notNull()
-			.references(() => articles.id),
-	},
-	(t) => ({
-		pk: primaryKey({ columns: [t.userId, t.articleId] }),
+export const usersToArticlesRelations = relations(bookmarks, ({ one }) => ({
+	article: one(articles, {
+		fields: [bookmarks.articleId],
+		references: [articles.id],
 	}),
-);
-
-export const usersToArticlesRelations = relations(
-	usersToArticles,
-	({ one }) => ({
-		article: one(articles, {
-			fields: [usersToArticles.articleId],
-			references: [articles.id],
-		}),
-		user: one(users, {
-			fields: [usersToArticles.userId],
-			references: [users.id],
-		}),
+	user: one(users, {
+		fields: [bookmarks.userId],
+		references: [users.id],
 	}),
-);
+}));
 
 export type NewArticle = typeof articles.$inferInsert;
 export type Article = typeof articles.$inferSelect;
