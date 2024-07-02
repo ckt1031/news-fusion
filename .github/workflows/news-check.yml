@@ -3,7 +3,7 @@ name: News Check
 on:
   workflow_dispatch: 
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "12 * * * *"
 
 jobs:
   news-check:
@@ -21,10 +21,13 @@ jobs:
         run: pnpm run news-check
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          
           OPENAI_API_BASE_URL: ${{ secrets.OPENAI_API_BASE_URL }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
           RSSHUB_ACCESS_KEY: ${{ secrets.RSSHUB_ACCESS_KEY }}
           RSSHUB_BASE_URL: ${{ secrets.RSSHUB_BASE_URL }}
+
           TOOLS_API_BASE_URL: ${{ secrets.TOOLS_API_BASE_URL }}
           TOOLS_API_KEY: ${{ secrets.TOOLS_API_KEY }}
 
@@ -32,4 +35,3 @@ jobs:
           DEFAULT_TRANSLATE_MODEL: ${{ secrets.DEFAULT_TRANSLATE_MODEL }}
           DEFAULT_TITLE_GENERATE_MODEL: ${{ secrets.DEFAULT_TITLE_GENERATE_MODEL }}
           DEFAULT_CHECK_IMPORTANCE_MODEL: ${{ secrets.DEFAULT_CHECK_IMPORTANCE_MODEL }}
-          # DEFAULT_SEARCH_QUERY_GENERATE_MODEL: ${{ secrets.DEFAULT_SEARCH_QUERY_GENERATE_MODEL }}

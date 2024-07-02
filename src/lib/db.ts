@@ -1,3 +1,5 @@
+import getSHA256 from '@/app/utils/sha256';
+import { redis } from '@/app/utils/upstash';
 import * as schema from '@/db/schema';
 import type { NewArticle } from '@/db/schema';
 import { createPool } from '@vercel/postgres';
@@ -31,21 +33,38 @@ export async function clearUnusedDatabaseData() {
 interface CheckNewsExistance {
 	guid: string;
 	url: string;
-	title: string;
 }
 
 export async function checkIfNewsIsNew(
 	props: CheckNewsExistance,
 ): Promise<boolean> {
+	const cacheKey = getSHA256(props.guid + props.url);
+
+	// Check if the article already exists
+	const exist = await redis.exists(cacheKey);
+
+	if (exist) return false;
+
 	const result = await db.query.articles.findFirst({
 		where: (d, { eq, or }) =>
 			or(
 				eq(d.guid, props.guid),
 				eq(d.url, props.url),
-				eq(d.title, props.title),
 				arrayOverlaps(d.similarArticles, [props.url]),
 			),
+		columns: {
+			id: true,
+		},
 	});
+
+	if (result) {
+		await redis.set(cacheKey, '1', {
+			// Expire in 1 day
+			ex: 60 * 60 * 24,
+		});
+
+		return false;
+	}
 
 	return !result;
 }
@@ -191,7 +210,18 @@ export async function getSharedArticle(id: string) {
 	return db.query.sharedArticles.findFirst({
 		where: (d, { eq }) => eq(d.id, id),
 		with: {
-			article: true,
+			article: {
+				columns: {
+					id: true,
+					guid: true,
+					title: true,
+					url: true,
+					summary: true,
+					publisher: true,
+					publishedAt: true,
+					similarArticles: true,
+				},
+			},
 		},
 	});
 }
@@ -209,5 +239,15 @@ export async function saveSharedArticle(data: schema.NewSharedArticle) {
 export async function fetchArticle(articleId: number) {
 	return db.query.articles.findFirst({
 		where: (d, { eq }) => eq(d.id, articleId),
+		columns: {
+			id: true,
+			guid: true,
+			title: true,
+			url: true,
+			summary: true,
+			publisher: true,
+			publishedAt: true,
+			similarArticles: true,
+		},
 	});
 }

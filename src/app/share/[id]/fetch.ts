@@ -26,10 +26,9 @@ export default async function fetchSharedArticle(id: string) {
 
 	const data = await getSharedArticle(id);
 
-	await redis.set(cacheKey, data);
-
-	// Set cache to expire in 3 days
-	await redis.expire(cacheKey, 60 * 60 * 24 * 3);
+	await redis.set(cacheKey, data, {
+		ex: 60 * 60 * 24 * 3, // Cache for 3 days
+	});
 
 	return data satisfies SharedArticleFetchingReturnProps;
 }

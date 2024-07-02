@@ -1,6 +1,7 @@
 'use server';
 
 import { authActionClient } from '@/app/utils/safe-action';
+import logging from '@/lib/console';
 import { getSharedArticle, saveSharedArticle } from '@/lib/db';
 import { scrapeMetaData } from '@/lib/tool-apis';
 import type { ServerEnv } from '@/types/env';
@@ -23,7 +24,7 @@ export const saveSharedArticleAction = authActionClient
 		try {
 			metaData = await scrapeMetaData(env, formData.url);
 		} catch (e) {
-			console.error('Failed to scrape metadata:', e);
+			logging.error('Failed to scrape metadata:', e);
 		}
 
 		await saveSharedArticle({
@@ -39,10 +40,9 @@ export const saveSharedArticleAction = authActionClient
 
 		const data = await getSharedArticle(id);
 
-		await redis.set(cacheKey, data);
-
-		// Set cache to expire in 3 days
-		await redis.expire(cacheKey, 60 * 60 * 24 * 3);
+		await redis.set(cacheKey, data, {
+			ex: 60 * 60 * 24 * 3, // Set cache to expire in 3 days
+		});
 
 		return { id, success: true };
 	});

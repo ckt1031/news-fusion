@@ -29,10 +29,9 @@ const fetchBookmarks = async (user: User) => {
 		};
 	});
 
-	await redis.set(cacheHash, articles);
-
-	// Cache for 1 day
-	await redis.expire(cacheHash, 60 * 60 * 24);
+	await redis.set(cacheHash, articles, {
+		ex: 60 * 60 * 24, // Cache for 1 day
+	});
 
 	return articles;
 };

@@ -51,18 +51,14 @@ export default function DateSwitcher() {
 	};
 
 	const switchToPreviousDate = () => {
-		const _date = dayjs(date).subtract(1, 'day').format('YYYY-MM-DD');
+		const newDateString = dayjs(date).subtract(1, 'day').format('YYYY-MM-DD');
 
-		const getAllQueryParams = window.location.search;
-
-		console.log(getAllQueryParams);
-
-		router.push(`${pathname}?${getAllQueriesRequired(_date)}`);
+		router.push(`${pathname}?${getAllQueriesRequired(newDateString)}`);
 	};
 
 	const switchToNextDate = () => {
-		const _date = dayjs(date).add(1, 'day').format('YYYY-MM-DD');
-		router.push(`${pathname}?${getAllQueriesRequired(_date)}`);
+		const newDateString = dayjs(date).add(1, 'day').format('YYYY-MM-DD');
+		router.push(`${pathname}?${getAllQueriesRequired(newDateString)}`);
 	};
 
 	return (

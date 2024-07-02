@@ -67,7 +67,7 @@ export default async function checkRSS({
 
 		if (!url) continue;
 
-		console.debug(`Checking RSS: ${url}`);
+		logging.debug(`Checking RSS: ${url}`);
 
 		try {
 			const feed = await parseRSS(url, EARLIEST_HOURS);
@@ -86,7 +86,6 @@ export default async function checkRSS({
 					const isNew = await checkIfNewsIsNew({
 						guid: item.guid,
 						url: item.link,
-						title: item.title,
 					});
 
 					// Rejected if the news was already checked

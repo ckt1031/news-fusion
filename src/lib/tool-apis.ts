@@ -50,6 +50,7 @@ export async function scrapeToMarkdown(env: ScrapeMarkdownVar, url: string) {
 	});
 
 	if (error || !data) {
+		logging.error(error);
 		throw new Error(`Failed to scrape markdown from ${url}`);
 	}
 
@@ -68,6 +69,7 @@ export async function scrapeMetaData(env: ScrapeMarkdownVar, url: string) {
 	});
 
 	if (error || !data) {
+		logging.error(error);
 		throw new Error(`Failed to scrape metadata from ${url}`);
 	}
 
@@ -86,6 +88,7 @@ export async function scrapeYouTube(env: ScrapeMarkdownVar, url: string) {
 	});
 
 	if (error || !data) {
+		logging.error(error);
 		throw new Error(`Failed to scrape YouTube from ${url}`);
 	}
 
@@ -104,6 +107,7 @@ export async function webSearch(env: ServerEnv, query: string, limit = 5) {
 	});
 
 	if (error || !data) {
+		logging.error(error);
 		throw new Error(`Failed to search the web for ${query}`);
 	}
 
@@ -123,9 +127,8 @@ export async function googleTranslate(
 		body: { text, to: targetLanguage },
 	});
 
-	console.log(error);
-
 	if (error || !data) {
+		logging.error(error);
 		throw new Error(`Failed to translate ${text}`);
 	}
 

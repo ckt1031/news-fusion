@@ -35,10 +35,9 @@ export const translateNewsInfo = authActionClient
 
 			const result = await llmTranslateText(env, t, lang);
 
-			await redis.set(cacheHash, result);
-
-			// Cache for 3 days
-			await redis.expire(cacheHash, 60 * 60 * 24 * 3);
+			await redis.set(cacheHash, result, {
+				ex: 60 * 60 * 24 * 3, // Cache for 3 days
+			});
 
 			return result;
 		}

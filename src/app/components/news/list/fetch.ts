@@ -73,15 +73,14 @@ export async function fetchNewsForPage({
 			};
 		});
 
-	await redis.set(cacheHash, sortedArticles);
-
 	const isToday =
 		typeof date === 'string'
 			? dayjs(date).isSame(dayjs(), 'day')
 			: dayjs(date.to).isSame(dayjs(), 'day');
 
-	// 15 minutes for today, 3 hour for other days
-	await redis.expire(cacheHash, isToday ? 60 * 15 : 3 * 60 * 60);
+	await redis.set(cacheHash, sortedArticles, {
+		ex: isToday ? 60 * 15 : 3 * 60 * 60,
+	});
 
 	return sortedArticles;
 }
