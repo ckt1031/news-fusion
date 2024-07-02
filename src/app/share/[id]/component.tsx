@@ -14,6 +14,9 @@ import Markdown from 'react-markdown';
 // import SharePageControl from './control';
 import { useUIStore } from './store';
 
+const YouTubeEmbedComponent = dynamic(
+	() => import('@/app/components/news/section/youtube-embed'),
+);
 const ThumbnailPhotoViewer = dynamic(() => import('./photo-viewer'));
 // const BriefSummaryBox = dynamic(() => import('./brief-summary'));
 const SharePageControl = dynamic(() => import('./control'));
@@ -26,6 +29,8 @@ export default function SharedArticleComponent() {
 	if (!data) return null;
 
 	const article = data.article;
+
+	const isYouTube = new URL(article.url).hostname.includes('youtube.com');
 
 	return (
 		<div className="mt-2 mb-5 flex flex-col w-full justify-center items-center gap-3">
@@ -41,7 +46,7 @@ export default function SharedArticleComponent() {
 			</div>
 			<ReadMore url={article.url} />
 			{/* <BriefSummaryBox summary={article.summary} /> */}
-			{data.thumbnail && (
+			{!isYouTube && data.thumbnail && (
 				// <Image
 				// 	fill
 				// 	src={data.thumbnail}
@@ -51,6 +56,7 @@ export default function SharedArticleComponent() {
 				// />
 				<ThumbnailPhotoViewer src={data.thumbnail} alt={article.title} />
 			)}
+			{isYouTube && <YouTubeEmbedComponent url={article.url} />}
 			<Markdown className="mt-2 w-full max-w-3xl text-gray-600 dark:text-gray-400 prose prose-neutral markdown-style">
 				{data.longSummary}
 			</Markdown>

@@ -6,9 +6,15 @@ import PublisherComponent from '../list/publisher';
 import TimeComponent from '../list/time-component';
 import '@/app/styles/markdown.css';
 import { useNewsStore } from '@/app/store/news';
+import dynamic from 'next/dynamic';
+import LoadingComponent from '../../loading';
 import NewsSectionDropdownMenu from './menu';
 import ReadMore from './read-more';
 import NewsSimilarities from './similarities';
+
+const YouTubeEmbedComponent = dynamic(() => import('./youtube-embed'), {
+	loading: () => <LoadingComponent />,
+});
 
 interface Props {
 	guid: string;
@@ -19,6 +25,8 @@ export default function NewsSection({ guid }: Props) {
 
 	const baseItem = useNewsStore((state) => state.getItem(guid));
 	const displayingItem = useNewsStore((state) => state.getDisplayingItem(guid));
+
+	const isYouTube = new URL(baseItem.url).hostname.includes('youtube.com');
 
 	return (
 		<>
@@ -56,7 +64,8 @@ export default function NewsSection({ guid }: Props) {
 			</div>
 			{displayDetail && (
 				<div className="mt-2">
-					<ReadMore url={baseItem.url} />
+					{isYouTube && <YouTubeEmbedComponent url={baseItem.url} />}
+					{!isYouTube && <ReadMore url={baseItem.url} />}
 					{displayingItem.summary.length > 0 && (
 						<Markdown className="text-gray-600 dark:text-gray-400 prose prose-sm prose-neutral markdown-style max-w-full">
 							{displayingItem.summary}
