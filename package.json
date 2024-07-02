@@ -89,7 +89,7 @@
 		"@types/react-dom": "^18.3.0",
 		"autoprefixer": "^10.4.19",
 		"drizzle-kit": "^0.22.7",
-		"esbuild": "^0.21.5",
+		"esbuild": "^0.23.0",
 		"openapi-typescript": "^7.0.0",
 		"postcss": "^8.4.38",
 		"supabase": "^1.178.2",
