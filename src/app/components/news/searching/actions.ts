@@ -1,11 +1,11 @@
 'use server';
 
-import { action } from '@/app/utils/safe-action';
+import { authActionClient } from '@/app/utils/safe-action';
 import { requestRerankerAPI } from '@/lib/llm/api';
 import type { ServerEnv } from '@/types/env';
 import { SearchSchema } from './schema';
 
-export const searchAction = action
+export const searchAction = authActionClient
 	.schema(SearchSchema)
 	.action(async ({ parsedInput: formData }) => {
 		// Search for news

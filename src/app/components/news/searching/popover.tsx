@@ -9,6 +9,7 @@ import {
 import { Input } from '@/app/components/ui/input';
 import { Switch } from '@/app/components/ui/switch';
 import { useToast } from '@/app/components/ui/use-toast';
+import { useAuthStore } from '@/app/store/auth';
 import { useNewsStore } from '@/app/store/news';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Fuse, { type IFuseOptions } from 'fuse.js';
@@ -30,6 +31,8 @@ const FormSchema = SearchSchema.pick({
 
 export default function NewsSearchingPopoverContent() {
 	const { toast } = useToast();
+
+	const isUserLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
 	const searchQuery = useNewsStore((state) => state?.pageData?.searchQuery);
 	const [useReranker, setUseReranker] = useLocalStorageState(
@@ -58,7 +61,7 @@ export default function NewsSearchingPopoverContent() {
 	const setSearching = useNewsStore((state) => state.setSearching);
 
 	const onFuzzyInputChange = async (data: z.infer<typeof FormSchema>) => {
-		if (data.useReranker) {
+		if (data.useReranker && isUserLoggedIn) {
 			const documents = baseNews.map(
 				(news) => `${news.title}: ${news.summary}`,
 			);
@@ -126,28 +129,30 @@ export default function NewsSearchingPopoverContent() {
 						</FormItem>
 					)}
 				/>
-				<FormField
-					control={form.control}
-					name="useReranker"
-					render={({ field }) => (
-						<FormItem className="flex flex-row items-center justify-between">
-							<FormLabel htmlFor={field.name} className="mt-2">
-								Use AI Re-Ranker
-							</FormLabel>
-							<FormControl>
-								<Switch
-									name={field.name}
-									id={field.name}
-									checked={field.value}
-									onCheckedChange={(d) => {
-										field.onChange(d);
-										setUseReranker(d);
-									}}
-								/>
-							</FormControl>
-						</FormItem>
-					)}
-				/>
+				{isUserLoggedIn && (
+					<FormField
+						control={form.control}
+						name="useReranker"
+						render={({ field }) => (
+							<FormItem className="flex flex-row items-center justify-between">
+								<FormLabel htmlFor={field.name} className="mt-2">
+									Use AI Re-Ranker
+								</FormLabel>
+								<FormControl>
+									<Switch
+										name={field.name}
+										id={field.name}
+										checked={field.value}
+										onCheckedChange={(d) => {
+											field.onChange(d);
+											setUseReranker(d);
+										}}
+									/>
+								</FormControl>
+							</FormItem>
+						)}
+					/>
+				)}
 				<Button type="submit" className="w-full" disabled={isExecuting}>
 					{isExecuting ? (
 						<Loader2 className="mr-2 h-4 w-4 animate-spin" />
