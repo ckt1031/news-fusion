@@ -20,8 +20,7 @@ export interface FetchNewsPageProps {
 	date: DateType;
 }
 
-interface CacheArticle extends Article {
-	embedding: number[] | null;
+interface CacheArticle extends Omit<Article, 'embedding'> {
 	publishedAt: Date;
 }
 
@@ -37,8 +36,9 @@ export async function fetchNewsForPage({
 
 	logging.info(`Cache ${cache ? 'hit' : 'miss'}`);
 
-	if (cache)
+	if (cache) {
 		return cache.map((c) => ({ ...c, publishedAt: new Date(c.publishedAt) }));
+	}
 
 	const articles = await getNewsBasedOnDateAndCategory(
 		typeof date === 'string'
@@ -48,7 +48,7 @@ export async function fetchNewsForPage({
 					to: date.to,
 				},
 		topic,
-		true,
+		// true,
 	);
 	const sortedArticles = articles
 		// Sort by publishedAt
@@ -68,14 +68,8 @@ export async function fetchNewsForPage({
 		// Structure the data
 		.map((article) => {
 			return {
-				id: article.id,
-				guid: article.guid,
-				title: article.title,
-				url: article.url,
-				summary: article.summary,
-				publisher: article.publisher,
+				...article,
 				publishedAt: new Date(article.publishedAt),
-				similarArticles: article.similarArticles,
 			};
 		});
 

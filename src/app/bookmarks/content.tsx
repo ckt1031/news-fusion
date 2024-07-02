@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default async function Bookmarks({ user }: Props) {
-	const articles = await fetchBookmarks(user);
+	const bookmarks = await fetchBookmarks(user);
 
-	return <BookmarkList articles={articles} />;
+	return <BookmarkList bookmarks={bookmarks} />;
 }

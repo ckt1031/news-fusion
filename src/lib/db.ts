@@ -124,7 +124,7 @@ export async function getNewsBasedOnDateAndCategory(
 				from: string;
 		  },
 	category: string,
-	important: boolean,
+	//important: boolean,
 ) {
 	const oneDay = 24 * 60 * 60 * 1000;
 	const HKGOffset = 8 * 60 * 60 * 1000;
@@ -139,12 +139,26 @@ export async function getNewsBasedOnDateAndCategory(
 			: new Date(new Date(date.to).getTime() - HKGOffset);
 
 	return db.query.articles.findMany({
+		columns: {
+			id: true,
+			guid: true,
+			title: true,
+			url: true,
+			summary: true,
+			publisher: true,
+			similarArticles: true,
+			publishedAt: true,
+		},
 		where: (d, { and, gte, lte }) =>
 			and(
 				eq(d.category, category),
+
+				//...(important ? [eq(d.important, important)] : []),
+				eq(d.important, true),
+
+				// Time
 				gte(d.publishedAt, dayStart),
 				lte(d.publishedAt, dayEnd),
-				...(important ? [eq(d.important, important)] : []),
 			),
 	});
 }
@@ -153,7 +167,18 @@ export async function getBookmarksFromUser(userId: string) {
 	const data = await db.query.bookmarks.findMany({
 		where: (d, { eq }) => eq(d.userId, userId),
 		with: {
-			article: true,
+			article: {
+				columns: {
+					id: true,
+					guid: true,
+					title: true,
+					url: true,
+					summary: true,
+					publisher: true,
+					publishedAt: true,
+					similarArticles: true,
+				},
+			},
 		},
 	});
 
