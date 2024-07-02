@@ -146,7 +146,9 @@ export async function getNewsBasedOnDateAndCategory(
 	//important: boolean,
 ) {
 	const oneDay = 24 * 60 * 60 * 1000;
-	const HKGOffset = 8 * 60 * 60 * 1000;
+
+	// TODO: This should be dynamic, fix this later
+	const HKGOffset = 0; // 8 * 60 * 60 * 1000;
 
 	const dayStart = new Date(
 		new Date(typeof date !== 'string' ? date.from : date).getTime() - HKGOffset,

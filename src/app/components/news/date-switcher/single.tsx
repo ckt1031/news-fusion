@@ -63,6 +63,10 @@ export default function SingleDateSelect({ clientCurrentDate, date }: Props) {
 			selected={new Date(date)}
 			onSelect={setDate}
 			className="rounded-md border"
+			disabled={{
+				after: new Date(clientCurrentDate),
+				before: new Date(dayjs(clientCurrentDate).subtract(30, 'day').format()),
+			}}
 		/>
 	);
 }

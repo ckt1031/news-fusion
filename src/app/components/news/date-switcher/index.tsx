@@ -12,34 +12,33 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from '@/app/components/ui/tooltip';
+import { useNewsStore } from '@/app/store/news';
 import dayjs from 'dayjs';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import queryString from 'query-string';
 import { Suspense, useState } from 'react';
 import LoadingComponent from '../../loading';
+import { currentDate } from '../get-date-server';
 
 const DateSwitcherPanel = dynamic(() => import('./panel'), {
 	loading: () => <LoadingComponent />,
 });
 
+const DATE_FORMAT = 'YYYY-MM-DD';
+
 export default function DateSwitcher() {
 	const pathname = usePathname();
-	const searchParams = useSearchParams();
 	const router = useRouter();
 
-	const clientCurrentDate = dayjs().format('YYYY-MM-DD');
-	const queryDate = searchParams.get('date');
-	const date = queryDate
-		? dayjs(queryDate).format('YYYY-MM-DD')
-		: clientCurrentDate;
+	// Obtained from the client, it is validated DATE_FORMAT, in upper component
+	// The target date to be used
+	const date = useNewsStore((state) => state.pageData.date);
 
-	const [to, from] = [searchParams.get('to'), searchParams.get('from')];
+	const [rangeMode, setRangeMode] = useState(typeof date !== 'string');
 
-	const [rangeMode, setRangeMode] = useState(!!(to && from));
-
-	const isToday = queryDate === clientCurrentDate;
+	const isToday = date === currentDate;
 
 	const getAllQueriesRequired = (date: string) => {
 		const { to, from, ...all } = queryString.parse(location.search);
@@ -51,13 +50,20 @@ export default function DateSwitcher() {
 	};
 
 	const switchToPreviousDate = () => {
-		const newDateString = dayjs(date).subtract(1, 'day').format('YYYY-MM-DD');
+		// Only date === string is allowed to be used here
+		if (typeof date !== 'string') return;
+
+		const newDateString = dayjs(date).subtract(1, 'day').format(DATE_FORMAT);
 
 		router.push(`${pathname}?${getAllQueriesRequired(newDateString)}`);
 	};
 
 	const switchToNextDate = () => {
-		const newDateString = dayjs(date).add(1, 'day').format('YYYY-MM-DD');
+		// Only date === string is allowed to be used here
+		if (typeof date !== 'string') return;
+
+		const newDateString = dayjs(date).add(1, 'day').format(DATE_FORMAT);
+
 		router.push(`${pathname}?${getAllQueriesRequired(newDateString)}`);
 	};
 
@@ -66,31 +72,34 @@ export default function DateSwitcher() {
 			<div className="flex flex-row justify-between items-center py-2">
 				<Tooltip>
 					<TooltipTrigger asChild>
-						<Button variant="ghost" size="icon" onClick={switchToPreviousDate}>
+						<Button
+							variant="ghost"
+							size="icon"
+							onClick={switchToPreviousDate}
+							disabled={typeof date !== 'string'}
+						>
 							<ChevronLeft className="h-4 w-4" />
 						</Button>
 					</TooltipTrigger>
 					<TooltipContent>
-						<p>{dayjs(date).subtract(1, 'day').format('YYYY-MM-DD')}</p>
+						<p>
+							{dayjs(date as string)
+								.subtract(1, 'day')
+								.format(DATE_FORMAT)}
+						</p>
 					</TooltipContent>
 				</Tooltip>
 				<Popover>
 					<PopoverTrigger asChild>
 						<Button variant="ghost">
-							{to && from ? `${from} - ${to}` : date}
+							{typeof date === 'string' ? date : `${date.from} - ${date.to}`}
 						</Button>
 					</PopoverTrigger>
 					<PopoverContent className="w-full">
 						<Suspense fallback={<LoadingComponent />}>
 							<DateSwitcherPanel
-								{...{
-									rangeMode,
-									setRangeMode,
-									clientCurrentDate,
-									date,
-									to,
-									from,
-								}}
+								rangeMode={rangeMode}
+								setRangeMode={setRangeMode}
 							/>
 						</Suspense>
 					</PopoverContent>
@@ -101,7 +110,7 @@ export default function DateSwitcher() {
 						<Button
 							variant="ghost"
 							size="icon"
-							disabled={!queryDate || isToday}
+							disabled={typeof date !== 'string' || isToday}
 							onClick={switchToNextDate}
 						>
 							<ChevronRight className="h-4 w-4" />
@@ -109,9 +118,9 @@ export default function DateSwitcher() {
 					</TooltipTrigger>
 					<TooltipContent>
 						<p>
-							{isToday
-								? 'No More!'
-								: dayjs(date).add(1, 'day').format('YYYY-MM-DD')}
+							{dayjs(date as string)
+								.add(1, 'day')
+								.format(DATE_FORMAT)}
 						</p>
 					</TooltipContent>
 				</Tooltip>
