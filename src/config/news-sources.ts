@@ -29,6 +29,7 @@ export enum RSS_CATEGORY {
 	TECHNOLOGY = 'technology',
 	SCIENCE = 'science',
 	HKG = 'hkg',
+	CHINA = 'CHINA',
 	THINKING = 'thinking',
 	VIDEOS = 'videos',
 	// ALERTS = 'alerts',
@@ -65,8 +66,22 @@ export const RSS_HKG: RSSCatacory = {
 			specificName: 'SCMP',
 		},
 		{
-			url: 'https://www.epochtimes.com/b5/nsc415.xml',
-			specificName: 'Epoch Times HK',
+			url: 'https://rthk9.rthk.hk/rthk/news/rss/e_expressnews_elocal.xml',
+			specificName: 'RTHK',
+		},
+	],
+};
+
+export const RSS_CHINA: RSSCatacory = {
+	name: RSS_CATEGORY.CHINA,
+	channels: [
+		{
+			url: 'https://rthk9.rthk.hk/rthk/news/rss/e_expressnews_elocal.xml',
+			specificName: 'RTHK',
+		},
+		{
+			url: 'https://www.scmp.com/rss/4/feed',
+			specificName: 'SCMP',
 		},
 	],
 };
@@ -87,22 +102,50 @@ export const RSS_VIDEOS: RSSCatacory = {
 	name: RSS_CATEGORY.VIDEOS,
 	checkImportance: false,
 	channels: [
+		// General for Knowledge
+		`${YOUTUBE_RSS}UCAuUUnT6oDeKwE6v1NGQxug`, // TED
+		`${YOUTUBE_RSS}UCsN32BtMd0IoByjJRNF12cw`, // 60 minutes
+
 		// Science and Education
+		{ url: `${YOUTUBE_RSS}UCbKWv2x9t6u8yZoB3KcPtnw`, scrapable: false }, // Alan Becker
 		`${YOUTUBE_RSS}UCHnyfMqiRRG1u-2MsSQLbXA`, // Veritasium
 		`${YOUTUBE_RSS}UCsXVk37bltHxD1rDPwtNM8Q`, // Kurzgesagt – In a Nutshell
 		`${YOUTUBE_RSS}UCUHW94eEFW7hkUMVaZz4eDg`, // minutephysics
 		`${YOUTUBE_RSS}UCC552Sd-3nyi_tk2BudLUzA`, // AsapSCIENCE
 		`${YOUTUBE_RSS}UCFhXFikryT4aFcLkLw2LBLA`, // NileRed
 		`${YOUTUBE_RSS}UCEnAit0duntJxa3gZG-paoA`, // NileRedExtra
+		`${YOUTUBE_RSS}UCeiYXex_fwgYDonaTcSIk6w`, // MinuteEarth
+		`${YOUTUBE_RSS}UCR1IuLEqb6UEA_zQ81kwXfg`, // Real Engineering
+		`${YOUTUBE_RSS}UCtYKe7-XbaDjpUwcU5x0bLg`, // Neo
+		`${YOUTUBE_RSS}UClZbmi9JzfnB2CEb0fG8iew`, // Primal Space
+		`${YOUTUBE_RSS}UC2xuUlwK7Vc8aRLsWjfR-bw`, // Codeolences
+		`${YOUTUBE_RSS}UC5_Y-BKzq1uW_2rexWkUzlA`, // NewMind
+		`${YOUTUBE_RSS}UCdp4_l1vPmpN-gDbUwhaRUQ`, // Branch Education
+		`${YOUTUBE_RSS}UCcT_WBynr2K8nANsVrR8BYw`, // LabCoatz Science
+		`${YOUTUBE_RSS}UC4QZ_LsYcvcq7qOsOhpAX4A`, // ColdFusion
+		`${YOUTUBE_RSS}UC1VLQPn9cYSqx8plbk9RxxQ`, // Action Lab
 
 		// Tech
 		`${YOUTUBE_RSS}UCBJycsmduvYEL83R_U4JriQ`, // Marques Brownlee
 
+		// Devices
+		`${YOUTUBE_RSS}UCXuqSBlHAE6Xw-yeJA0Tunw`, // Linus Tech Tips
+		`${YOUTUBE_RSS}UCqjVP9gAanUGFgTA5BRDvyA`, // HowToMen
+		`${YOUTUBE_RSS}UCMiJRAwDNSNzuYeN2uWa0pA`, // Mrwhosetheboss
+		`${YOUTUBE_RSS}UCWb-66XSFCV5vgKEbl22R6Q`, // Enderman
+		`${YOUTUBE_RSS}UCR-DXc1voovS8nhAvccRZhg`, // Jeff Geerling
+
+		// Security
+		`${YOUTUBE_RSS}UCvusD4s2TCDn8M0mkHCh5rA`, // an0n_ali
+
 		// Programming and Tech
+		`${YOUTUBE_RSS}UCZgt6AzoyjslHTC9dz0UoTw`, // ByteGo
 		`${YOUTUBE_RSS}UCsBjURrPoezykLs9EqgamOA`, // fireship
 		`${YOUTUBE_RSS}UCbRP3c757lWg9M-U7TyEkXA`, // t3dotgg
 		`${YOUTUBE_RSS}UCvGwM5woTl13I-qThI4YMCg`, // joshtriedcoding
 		`${YOUTUBE_RSS}UC29ju8bIPH5as8OGnQzwJyA`, // TraversyMedia
+		`${YOUTUBE_RSS}UCqQgfSuhEBOZth3wR9dIzJQ`, // Giannhsnt
+		`${YOUTUBE_RSS}UC-T8W79DN6PBnzomelvqJYw`, // JamesQQuick
 
 		/**
 		 * Chinese High Quality Channels below
@@ -112,6 +155,8 @@ export const RSS_VIDEOS: RSSCatacory = {
 		`${YOUTUBE_RSS}UCilwQlk62k1z7aUEZPOB6yw`, // xiao_lin_shuo 小Lin说
 		`${YOUTUBE_RSS}UCeUJO1H3TEXu2syfAAPjYKQ`, // geekerwan1024 极客湾 Geekerwan
 		`${YOUTUBE_RSS}UCBj9S8TBRlCU4QnhTEOdWZQ`, // axtonliu 回到 Axton
+		`${YOUTUBE_RSS}UCuHHKbwC0TWjeqxbqdO-N_g`, // PanSci 泛科学
+		`${YOUTUBE_RSS}UC2cRwTuSWxxEtrRnT4lrlQA`, // 影视飓风
 		// { url: `${YOUTUBE_RSS}UC2tQpW0dPiyWPebwBSksJ_g`, scrapable: false }, // NDWTB 脑洞乌托邦
 	],
 };
