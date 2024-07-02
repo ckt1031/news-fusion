@@ -21,9 +21,12 @@ export const translateNewsInfo = authActionClient
 		async function translateText(t: string) {
 			const cacheHash = getSHA256(['NEWS', t, formData.targetLanguage]);
 
-			const cache = await redis.get<string>(cacheHash);
+			// Only run this if cache is enabled
+			if (formData.useCache) {
+				const cache = await redis.get<string>(cacheHash);
 
-			if (cache) return cache;
+				if (cache) return cache;
+			}
 
 			const lang =
 				TargetLanguageToLLM[

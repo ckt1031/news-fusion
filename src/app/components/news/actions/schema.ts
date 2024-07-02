@@ -13,7 +13,7 @@ export const supportedTargetLanguages = ['zh-tw', 'zh-cn', 'en'] as const;
 export const TranslateActionSchema = z.object({
 	title: z.string(),
 	summary: z.string(),
-	cache: z.boolean().optional(),
+	useCache: z.boolean().optional(),
 	targetLanguage: z.enum(supportedTargetLanguages),
 });
 

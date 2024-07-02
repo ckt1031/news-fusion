@@ -42,7 +42,7 @@ interface Props {
 
 const TranslateActionFormSchema = TranslateActionSchema.pick({
 	targetLanguage: true,
-	cache: true,
+	useCache: true,
 });
 
 export function TranslateButton({ guid }: Props) {
@@ -92,7 +92,7 @@ export function TranslateDialog({ guid }: Props) {
 		resolver: zodResolver(TranslateActionFormSchema),
 		defaultValues: {
 			targetLanguage: 'zh-tw',
-			cache: true,
+			useCache: true,
 		},
 	});
 
@@ -138,11 +138,11 @@ export function TranslateDialog({ guid }: Props) {
 				<form onSubmit={form.handleSubmit(onTranslate)}>
 					<FormField
 						control={form.control}
-						name="cache"
+						name="useCache"
 						render={({ field }) => (
 							<FormItem className="flex flex-row items-center mb-3 justify-between">
 								<FormLabel htmlFor={field.name} className="mt-2">
-									Cache
+									Use Cache
 								</FormLabel>
 								<FormControl>
 									<Checkbox
