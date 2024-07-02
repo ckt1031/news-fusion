@@ -3,6 +3,7 @@ import { useToast } from '@/app/components/ui/use-toast';
 import dayjs from 'dayjs';
 import { usePathname, useRouter } from 'next/navigation';
 import queryString from 'query-string';
+import { currentDate } from '../get-date-server';
 
 interface Props {
 	date: string;
@@ -18,19 +19,23 @@ export default function SingleDateSelect({ clientCurrentDate, date }: Props) {
 	const getAllQueriesRequired = (date: string) => {
 		const { to, from, ...all } = queryString.parse(location.search);
 
-		return queryString.stringify({
+		if (date === currentDate) return '';
+
+		const qs = queryString.stringify({
 			...all,
 			date,
 		});
+
+		return `?${qs}`;
 	};
 
 	const setDate = (date: Date | undefined) => {
 		if (!date) return;
 
-		const _date = dayjs(date).format('YYYY-MM-DD');
+		const selectedDate = dayjs(date).format('YYYY-MM-DD');
 
 		// If the selected Date is after the current date, reject it
-		if (dayjs(_date).isAfter(clientCurrentDate)) {
+		if (dayjs(selectedDate).isAfter(clientCurrentDate)) {
 			toast({
 				description: `You can only view news on or before ${clientCurrentDate}`,
 			});
@@ -38,7 +43,9 @@ export default function SingleDateSelect({ clientCurrentDate, date }: Props) {
 		}
 
 		// Only allow maximum of 25 days in the past
-		if (dayjs(_date).isBefore(dayjs(clientCurrentDate).subtract(25, 'day'))) {
+		if (
+			dayjs(selectedDate).isBefore(dayjs(clientCurrentDate).subtract(25, 'day'))
+		) {
 			toast({
 				description: `You can only view news from ${dayjs(clientCurrentDate)
 					.subtract(25, 'day')
@@ -47,7 +54,7 @@ export default function SingleDateSelect({ clientCurrentDate, date }: Props) {
 			return;
 		}
 
-		router.push(`${pathname}?${getAllQueriesRequired(_date)}`);
+		router.push(`${pathname}${getAllQueriesRequired(selectedDate)}`);
 	};
 
 	return (
