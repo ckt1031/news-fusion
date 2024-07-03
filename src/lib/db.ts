@@ -1,5 +1,6 @@
 import getSHA256 from '@/app/utils/sha256';
 import { redis } from '@/app/utils/upstash';
+import { RSS_CATEGORY } from '@/config/news-sources';
 import * as schema from '@/db/schema';
 import type { NewArticle } from '@/db/schema';
 import { createPool } from '@vercel/postgres';
@@ -172,7 +173,8 @@ export async function getNewsBasedOnDateAndCategory(
 		},
 		where: (d, { and, gte, lte }) =>
 			and(
-				eq(d.category, category),
+				// eq(d.category, category),
+				...(category !== RSS_CATEGORY.ALL ? [eq(d.category, category)] : []),
 
 				//...(important ? [eq(d.important, important)] : []),
 				eq(d.important, true),
