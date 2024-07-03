@@ -3,8 +3,6 @@ import { redirect } from 'next/navigation';
 import { serverAuthState } from '../hooks/auth';
 import Component from './content';
 
-export const runtime = 'nodejs';
-
 const title = 'Bookmarks';
 
 export const metadata: Metadata = {

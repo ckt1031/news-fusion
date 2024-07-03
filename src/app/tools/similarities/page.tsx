@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import SimilaritiesPageContentComponent from './content';
 
-export const runtime = 'nodejs';
-
 const title = 'Tool: Find out similarities';
 
 export const metadata: Metadata = {

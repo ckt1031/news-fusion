@@ -4,8 +4,6 @@ import { parseDateRange } from './components/news/get-date-server';
 import NewsList from './components/news/list';
 import TopicSelection from './components/news/topic-selection';
 
-export const runtime = 'nodejs';
-
 export interface HomeSearchParamsProps {
 	date?: string;
 	to?: string;
