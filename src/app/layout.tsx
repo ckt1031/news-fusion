@@ -52,7 +52,7 @@ export const metadata: Metadata = {
 	},
 };
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 export default async function RootLayout({ children }: PropsWithChildren) {
 	const { user, isLoggedIn } = await serverAuthState();
