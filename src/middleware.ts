@@ -1,28 +1,34 @@
+import { updateSession } from '@/app/utils/supabase/middleware';
 import { Ratelimit } from '@upstash/ratelimit';
 import type { NextRequest } from 'next/server';
-import { updateSession } from './utils/supabase/middleware';
-import { getMapCache, redis } from './utils/upstash';
+import { getMapCache, redis } from './app/utils/upstash';
+import logging from './lib/console';
 
 const ratelimit = new Ratelimit({
 	redis,
-	limiter: Ratelimit.slidingWindow(5, '10 s'),
+	limiter: Ratelimit.slidingWindow(10, '10 s'),
 	analytics: true,
 	prefix: '@upstash/ratelimit',
 	ephemeralCache: getMapCache(),
 	enableProtection: true,
 });
 
-export async function middleware(request: NextRequest) {
+export default async function middleware(
+	request: NextRequest,
+): Promise<Response | undefined> {
 	const cfIp = request.headers.get('cf-connecting-ip');
 	const ip = cfIp ?? request.ip ?? '127.0.0.1';
 
 	// Check if the request is rate limited
-	const { success } = await ratelimit.limit(ip);
+	const result = await ratelimit.limit(ip);
 
-	if (!success) {
+	if (!result.success) {
+		logging.error('Rate limit exceeded', { ip });
+
 		return new Response('Rate limit exceeded', { status: 429 });
 	}
 
+	// Update and write the session cookie, since server components can't write cookies
 	return await updateSession(request);
 }
 
