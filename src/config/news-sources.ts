@@ -190,7 +190,10 @@ export const RSS_AI: RSSCatacory = {
 	checkImportance: false,
 	channels: [
 		'https://lastweekin.ai/feed',
-		'https://research.microsoft.com/rss/news.xml',
+		{
+			url: 'https://research.microsoft.com/rss/news.xml',
+			specificName: 'Microsoft Research',
+		},
 		'https://huggingface.co/blog/feed.xml',
 		'https://jina.ai/feed.rss',
 		'https://stability.ai/news?format=rss',
