@@ -255,3 +255,25 @@ export async function fetchArticle(articleId: number) {
 		},
 	});
 }
+
+export async function fetchSharedArticles(userId?: string) {
+	return db.query.sharedArticles.findMany({
+		// where: (d, { eq }) => (userId ? eq(d.userId, userId) : true),
+		...(userId ? { where: (d, { eq }) => eq(d.userId, userId) } : {}),
+		// orderBy: [{ column: schema.sharedArticles.createdAt, order: 'desc' }],
+		with: {
+			article: {
+				columns: {
+					id: true,
+					guid: true,
+					title: true,
+					url: true,
+					summary: true,
+					publisher: true,
+					publishedAt: true,
+					similarArticles: true,
+				},
+			},
+		},
+	});
+}

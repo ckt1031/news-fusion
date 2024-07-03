@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import type { SharedArticleFetchingReturnProps } from './[id]/schema';
 import StateInitializer from './[id]/state-initializer';
 import Handler from './handler';
+import SharedArticlesListPage from './list';
 
 export interface StartingSharePageProps {
 	searchParams: {
@@ -18,7 +19,9 @@ export const runtime = 'edge';
 export default async function SharePageStarting({
 	searchParams,
 }: StartingSharePageProps) {
-	if (!searchParams.articleId) notFound();
+	if (!searchParams.articleId) {
+		return <SharedArticlesListPage />;
+	}
 
 	const articleId = Number(searchParams.articleId);
 	const use_search =
