@@ -31,17 +31,23 @@ export default function MenuContent() {
 			<DropdownMenuSeparator />
 			{isLoggedIn ? (
 				<>
-					<DropdownMenuItem>
-						<Avatar className="h-4 w-4 mr-2">
-							<AvatarImage
-								// biome-ignore lint/style/noNonNullAssertion: <explanation>
-								src={avatarUrl!}
-								alt="Profile"
-							/>
-							<AvatarFallback>User</AvatarFallback>
-						</Avatar>
-						<span>Profile</span>
-					</DropdownMenuItem>
+					<Link
+						href={{
+							pathname: '/profile',
+						}}
+					>
+						<DropdownMenuItem>
+							<Avatar className="h-4 w-4 mr-2">
+								<AvatarImage
+									// biome-ignore lint/style/noNonNullAssertion: <explanation>
+									src={avatarUrl!}
+									alt="Profile"
+								/>
+								<AvatarFallback>User</AvatarFallback>
+							</Avatar>
+							<span>Profile</span>
+						</DropdownMenuItem>
+					</Link>
 					<Link
 						href={{
 							pathname: '/bookmarks',

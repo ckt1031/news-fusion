@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "next dev --turbo",
+		"dev": "next dev",
 		"build": "next build",
 		"lint": "tsc && biome check .",
 		"lint:fix": "tsc && biome format . --write && biome check . --write",

@@ -32,7 +32,7 @@ const ResetPasswordActionSchema = z
 		}
 	});
 
-export default function ResetPassword() {
+export default function ResetPasswordComponent() {
 	const { toast } = useToast();
 
 	const [isReady, setIsReady] = useState(false);
