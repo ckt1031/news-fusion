@@ -113,24 +113,3 @@ export async function webSearch(env: ServerEnv, query: string, limit = 5) {
 
 	return data.data.slice(0, limit);
 }
-
-export async function googleTranslate(
-	env: ServerEnv,
-	text: string,
-	targetLanguage: string,
-) {
-	logging.info('Translating:', text);
-
-	const client = getClient(env);
-
-	const { data, error } = await client.POST('/v1/translate/google', {
-		body: { text, to: targetLanguage },
-	});
-
-	if (error || !data) {
-		logging.error(error);
-		throw new Error(`Failed to translate ${text}`);
-	}
-
-	return data;
-}
