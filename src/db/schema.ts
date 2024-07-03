@@ -65,6 +65,7 @@ export const sharedArticles = pgTable(
 		longSummary: text('longSummary').notNull(),
 		thumbnail: text('thumbnail'),
 		sources: text('sources').array(),
+		private: boolean('private').default(sql`false`).notNull(),
 		createdAt: timestamp('created_at', {
 			mode: 'date',
 			withTimezone: true,
