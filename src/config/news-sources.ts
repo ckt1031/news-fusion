@@ -50,7 +50,10 @@ export const RSS_GENERAL: RSSCatacory = {
 			specificName: 'ABC News',
 		},
 		'https://feeds.bbci.co.uk/news/world/rss.xml',
-		'https://news.un.org/feed/subscribe/en/news/all/rss.xml',
+		{
+			url: 'https://news.un.org/feed/subscribe/en/news/all/rss.xml',
+			specificName: 'UN News',
+		},
 		'https://feeds.washingtonpost.com/rss/world?itid=lk_inline_manual_35',
 		{
 			url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362',
