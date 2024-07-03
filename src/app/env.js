@@ -12,6 +12,8 @@ export const nextEnv = createEnv({
 		UPSTASH_REDIS_REST_TOKEN: z.string(),
 		SITE_URL: z.string().default('http://localhost:3000'),
 		CRON_SECRET: z.string().optional(),
+
+		ENABLE_RATE_LIMIT: z.string().optional(),
 	},
 
 	/*
@@ -34,6 +36,8 @@ export const nextEnv = createEnv({
 	 */
 	runtimeEnv: {
 		SITE_URL: process.env.SITE_URL,
+
+		ENABLE_RATE_LIMIT: process.env.ENABLE_RATE_LIMIT,
 
 		CRON_SECRET: process.env.CRON_SECRET,
 

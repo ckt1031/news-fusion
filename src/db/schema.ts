@@ -52,6 +52,9 @@ export const users = pgTable('users', {
 	username: text('username').notNull().unique(),
 });
 
+/**
+ * Now this is also for AI long summary, like side panel to show up for reading.
+ */
 export const sharedArticles = pgTable(
 	'shared_articles',
 	{
