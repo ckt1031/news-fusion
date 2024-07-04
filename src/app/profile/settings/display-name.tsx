@@ -51,7 +51,7 @@ export default function DisplayName() {
 	const onChangeDisplayName = async ({
 		displayName,
 	}: z.infer<typeof Schema>) => {
-		if (!user) return;
+		if (!user || user?.user_metadata?.displayName === displayName) return;
 
 		const { data, error } = await supabase.auth.updateUser({
 			// email: user.email,

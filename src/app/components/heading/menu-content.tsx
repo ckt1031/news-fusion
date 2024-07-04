@@ -1,29 +1,25 @@
 import { BookOpenText, Bookmark, LogIn, ScanEye } from 'lucide-react';
 
 import {
-	Avatar,
-	AvatarFallback,
-	AvatarImage,
-} from '@/app/components/ui/avatar';
-import {
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 } from '@/app/components/ui/dropdown-menu';
 import { useAuthStore } from '@/app/store/auth';
 import getSHA256 from '@/app/utils/sha256';
+import Image from 'next/image';
 import Link from 'next/link';
 import { LogOutMenuItem } from './logout';
 import { ModeToggleMenuItem } from './mode-toggle';
 
-function getGavatarUrl(email: string) {
+export function getGravatarUrl(email: string, size?: number) {
 	const SHA256 = getSHA256(email);
-	return `https://www.gravatar.com/avatar/${SHA256}?d=identicon`;
+	return `https://www.gravatar.com/avatar/${SHA256}?s=${size ?? 100}`;
 }
 
 export default function MenuContent() {
 	const { isLoggedIn, user } = useAuthStore();
-	const avatarUrl = user?.email ? getGavatarUrl(user.email) : null;
+	const avatarUrl = user?.email ? getGravatarUrl(user.email) : null;
 
 	return (
 		<>
@@ -37,14 +33,15 @@ export default function MenuContent() {
 						}}
 					>
 						<DropdownMenuItem>
-							<Avatar className="h-4 w-4 mr-2">
-								<AvatarImage
-									// biome-ignore lint/style/noNonNullAssertion: <explanation>
-									src={avatarUrl!}
-									alt="Profile"
+							{avatarUrl && (
+								<Image
+									src={avatarUrl}
+									alt="avatar"
+									className="rounded-full mr-2"
+									width={16}
+									height={16}
 								/>
-								<AvatarFallback>User</AvatarFallback>
-							</Avatar>
+							)}
 							<span>Profile</span>
 						</DropdownMenuItem>
 					</Link>

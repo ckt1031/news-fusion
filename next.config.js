@@ -17,6 +17,9 @@ const nextConfig = {
 	experimental: {
 		reactCompiler: isProd,
 	},
+	images: {
+		domains: ['www.gravatar.com'],
+	},
 };
 
 export default withRoutes(nextConfig);
