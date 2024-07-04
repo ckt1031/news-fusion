@@ -1,5 +1,5 @@
 import { nextEnv } from '@/app/env';
-import { type CookieOptions, createServerClient } from '@supabase/ssr';
+import { createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
 
 export async function updateSession(request: NextRequest) {
@@ -14,42 +14,22 @@ export async function updateSession(request: NextRequest) {
 		nextEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY,
 		{
 			cookies: {
-				get(name: string) {
-					return request.cookies.get(name)?.value;
+				getAll() {
+					return request.cookies.getAll();
 				},
-				set(name: string, value: string, options: CookieOptions) {
-					request.cookies.set({
-						name,
-						value,
-						...options,
-					});
+				setAll(cookies) {
 					response = NextResponse.next({
 						request: {
 							headers: request.headers,
 						},
 					});
-					response.cookies.set({
-						name,
-						value,
-						...options,
-					});
-				},
-				remove(name: string, options: CookieOptions) {
-					request.cookies.set({
-						name,
-						value: '',
-						...options,
-					});
-					response = NextResponse.next({
-						request: {
-							headers: request.headers,
-						},
-					});
-					response.cookies.set({
-						name,
-						value: '',
-						...options,
-					});
+					for (const { name, value, options } of cookies) {
+						response.cookies.set({
+							name,
+							value,
+							...options,
+						});
+					}
 				},
 			},
 		},
