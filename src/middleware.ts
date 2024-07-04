@@ -1,7 +1,7 @@
 import { updateSession } from '@/app/utils/supabase/middleware';
 import { Ratelimit } from '@upstash/ratelimit';
 import type { NextRequest } from 'next/server';
-import { nextEnv } from './app/env';
+import { nextServerEnv } from './app/utils/env/server';
 import { getMapCache, redis } from './app/utils/upstash';
 import logging from './lib/console';
 
@@ -17,7 +17,7 @@ const ratelimit = new Ratelimit({
 export default async function middleware(
 	request: NextRequest,
 ): Promise<Response | undefined> {
-	if (nextEnv.ENABLE_RATE_LIMIT === 'true') {
+	if (nextServerEnv.ENABLE_RATE_LIMIT === 'true') {
 		const cfIp = request.headers.get('cf-connecting-ip');
 		const ip = cfIp ?? request.ip ?? '127.0.0.1';
 

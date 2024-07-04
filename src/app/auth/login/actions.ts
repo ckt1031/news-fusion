@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-import { nextEnv } from '@/app/env';
+import { nextServerEnv } from '@/app/utils/env/server';
 import { action } from '@/app/utils/safe-action';
 import { createSupabaseServerClient } from '@/app/utils/supabase/server';
 import type { SignInWithPasswordCredentials } from '@supabase/supabase-js';
@@ -40,7 +40,7 @@ export const forgotPassword = action
 		const { error } = await supabase.auth.resetPasswordForEmail(
 			formData.email,
 			{
-				redirectTo: `${nextEnv.SITE_URL}/auth/reset-password`,
+				redirectTo: `${nextServerEnv.SITE_URL}/auth/reset-password`,
 				captchaToken: formData.captchaToken,
 			},
 		);

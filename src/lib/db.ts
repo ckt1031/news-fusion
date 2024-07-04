@@ -171,6 +171,7 @@ export async function getNewsBasedOnDateAndCategory(
 			similarArticles: true,
 			publishedAt: true,
 		},
+		orderBy: (d, { desc }) => [desc(d.publishedAt)],
 		where: (d, { and, gte, lte }) =>
 			and(
 				// eq(d.category, category),
@@ -189,6 +190,7 @@ export async function getNewsBasedOnDateAndCategory(
 export async function getBookmarksFromUser(userId: string) {
 	const data = await db.query.bookmarks.findMany({
 		where: (d, { eq }) => eq(d.userId, userId),
+		orderBy: (d, { desc }) => [desc(d.createdAt)],
 		with: {
 			article: {
 				columns: {
@@ -258,9 +260,8 @@ export async function fetchArticle(articleId: number) {
 
 export async function fetchSharedArticles(userId?: string) {
 	return db.query.sharedArticles.findMany({
-		// where: (d, { eq }) => (userId ? eq(d.userId, userId) : true),
 		...(userId ? { where: (d, { eq }) => eq(d.userId, userId) } : {}),
-		// orderBy: [{ column: schema.sharedArticles.createdAt, order: 'desc' }],
+		orderBy: (posts, { desc }) => [desc(posts.createdAt)],
 		with: {
 			article: {
 				columns: {

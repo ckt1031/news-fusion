@@ -16,9 +16,6 @@ export const envSchema = z.object({
 	// Database URL
 	DATABASE_URL: z.string(),
 
-	// Vercel CRON secret
-	CRON_SECRET: z.string().optional(),
-
 	// Some Default AI Model IDs, optional
 	DEFAULT_SUMMARIZE_MODEL: z.string().optional(),
 	DEFAULT_TRANSLATE_MODEL: z.string().optional(),
@@ -30,6 +27,10 @@ export const envSchema = z.object({
 	RERANKER_API_BASE_URL: z.string().optional(),
 	RERANKER_API_KEY: z.string().optional(),
 	RERANKER_MODEL: z.string().optional(),
+
+	// Redis URL
+	UPSTASH_REDIS_REST_URL: z.string(),
+	UPSTASH_REDIS_REST_TOKEN: z.string(),
 });
 
 export type ServerEnv = z.infer<typeof envSchema>;

@@ -1,9 +1,9 @@
 import { createClient } from '@vercel/kv';
-import { nextEnv } from '../env';
+import { nextServerEnv } from './env/server';
 
 export const redis = createClient({
-	url: nextEnv.UPSTASH_REDIS_REST_URL,
-	token: nextEnv.UPSTASH_REDIS_REST_TOKEN,
+	url: nextServerEnv.UPSTASH_REDIS_REST_URL,
+	token: nextServerEnv.UPSTASH_REDIS_REST_TOKEN,
 });
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>

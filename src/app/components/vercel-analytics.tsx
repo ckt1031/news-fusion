@@ -1,11 +1,11 @@
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { nextEnv } from '../env';
+import { nextClientEnv } from '../utils/env/client';
 
 export default function VercelAnalytics() {
 	return (
 		<>
-			{nextEnv.ENABLE_VERCEL_ANALYTICS === '1' && (
+			{nextClientEnv.NEXT_PUBLIC_ENABLE_VERCEL_ANALYTICS === 'true' && (
 				<>
 					<Analytics />
 					<SpeedInsights />

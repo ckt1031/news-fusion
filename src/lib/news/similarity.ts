@@ -59,6 +59,6 @@ export async function isArticleSimilar(
 		result: similarities.length > 0,
 
 		// Sort by decenting order of similarity
-		similarities: similarities.sort((a, b) => b.similarity - a.similarity),
+		similarities: similarities,
 	};
 }

@@ -51,20 +51,6 @@ export async function fetchNewsForPage({
 		// true,
 	);
 	const sortedArticles = articles
-		// Sort by publishedAt
-		.sort((a, b) => {
-			return (
-				new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-			);
-		})
-		// Remove items with duplicated title
-		.filter(
-			(article, index, self) =>
-				index ===
-				self.findIndex(
-					(t) => t.title.toLowerCase() === article.title.toLowerCase(),
-				),
-		)
 		// Structure the data
 		.map((article) => {
 			return {

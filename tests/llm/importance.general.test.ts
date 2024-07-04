@@ -1,9 +1,9 @@
+import { nextServerEnv } from '@/app/utils/env/server';
 import { checkArticleImportance } from '@/lib/llm/prompt-calls';
 import { getContentMarkdownFromURL } from '@/lib/tool-apis';
-import type { ServerEnv } from '@/types/env';
 import { describe, expect, test } from 'vitest';
 
-const env = process.env as unknown as ServerEnv;
+const env = nextServerEnv;
 
 describe(
 	'News Importance Prompt Accuracy for General',

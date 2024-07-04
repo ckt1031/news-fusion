@@ -1,5 +1,6 @@
 'use server';
 
+import { nextServerEnv } from '@/app/utils/env/server';
 import { authActionClient } from '@/app/utils/safe-action';
 import { DEFAULT_SUMMARIZE_MODEL } from '@/config/api';
 import {
@@ -12,7 +13,6 @@ import { requestRerankerAPI } from '@/lib/llm/api';
 import { generateSearchQuery } from '@/lib/llm/prompt-calls';
 import { webSearch } from '@/lib/tool-apis';
 import summarizePrompt from '@/prompts/summarize';
-import type { ServerEnv } from '@/types/env';
 import { streamText } from 'ai';
 import { createStreamableValue } from 'ai/rsc';
 import { SummarizeSchema } from './schema';
@@ -22,15 +22,13 @@ export const summarizeDetailAction = authActionClient
 	.action(async ({ parsedInput: formData }) => {
 		const searchLimit = 5;
 
-		const env = process.env as unknown as ServerEnv;
-
 		const urls = getUrlFromText(formData.content);
 
 		let query = '';
 
 		async function webQuery() {
-			query = await generateSearchQuery(env, formData.content);
-			const queryResults = await webSearch(env, query, searchLimit);
+			query = await generateSearchQuery(nextServerEnv, formData.content);
+			const queryResults = await webSearch(nextServerEnv, query, searchLimit);
 
 			// documents is string[]
 			const documents = queryResults.map(
@@ -38,7 +36,7 @@ export const summarizeDetailAction = authActionClient
 			);
 
 			const rerankResponse = await requestRerankerAPI({
-				env,
+				env: nextServerEnv,
 				documents,
 				text: query,
 			});
@@ -55,14 +53,14 @@ export const summarizeDetailAction = authActionClient
 				: selectedResults;
 
 			return await getContentMarkdownParallel(
-				env,
+				nextServerEnv,
 				filteredResults.map((result) => result.link),
 			);
 		}
 
 		const fetchedContent = await Promise.all([
 			...(formData.webSearch ? [webQuery()] : []),
-			...(urls ? [getContentMarkdownParallel(env, urls)] : []),
+			...(urls ? [getContentMarkdownParallel(nextServerEnv, urls)] : []),
 		]);
 
 		const userPrompt = contentToSummarizePromptTemplate({
@@ -70,10 +68,12 @@ export const summarizeDetailAction = authActionClient
 			content: formData.content,
 		});
 
-		const openai = getOpenAI(env);
+		const openai = getOpenAI(nextServerEnv);
 
 		const result = await streamText({
-			model: openai(env.DEFAULT_SUMMARIZE_MODEL ?? DEFAULT_SUMMARIZE_MODEL),
+			model: openai(
+				nextServerEnv.DEFAULT_SUMMARIZE_MODEL ?? DEFAULT_SUMMARIZE_MODEL,
+			),
 			system: summarizePrompt,
 			prompt: userPrompt,
 		});

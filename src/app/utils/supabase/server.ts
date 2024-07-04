@@ -1,15 +1,15 @@
 'use server';
 
-import { nextEnv } from '@/app/env';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import { nextServerEnv } from '../env/server';
 
 export async function createSupabaseServerClient() {
 	const cookieStore = cookies();
 
 	return createServerClient(
-		nextEnv.NEXT_PUBLIC_SUPABASE_URL,
-		nextEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+		nextServerEnv.NEXT_PUBLIC_SUPABASE_URL,
+		nextServerEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY,
 		{
 			cookies: {
 				getAll() {

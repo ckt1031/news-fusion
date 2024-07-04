@@ -1,8 +1,8 @@
 'use server';
 
+import { nextServerEnv } from '@/app/utils/env/server';
 import { authActionClient } from '@/app/utils/safe-action';
 import { requestRerankerAPI } from '@/lib/llm/api';
-import type { ServerEnv } from '@/types/env';
 import { SearchSchema } from './schema';
 
 export const searchAction = authActionClient
@@ -10,10 +10,9 @@ export const searchAction = authActionClient
 	.action(async ({ parsedInput: formData }) => {
 		// Search for news
 		const documents = formData.documents;
-		const env = process.env as unknown as ServerEnv;
 
 		const response = await requestRerankerAPI({
-			env,
+			env: nextServerEnv,
 			documents,
 			text: formData.search,
 		});

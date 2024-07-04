@@ -3,8 +3,9 @@ import type { User } from '@supabase/supabase-js';
 import { serverAuthState } from '../hooks/auth';
 import getSHA256 from '../utils/sha256';
 import { redis } from '../utils/upstash';
+import ListCard from './card';
 
-const fetchData = async (user: User) => {
+export const fetchSharedArticleData = async (user: User) => {
 	const cacheHash = getSHA256(`${user.id}shared`);
 
 	type Article = Awaited<ReturnType<typeof fetchSharedArticles>>;
@@ -44,15 +45,12 @@ export default async function SharedArticlesListPage() {
 
 	if (!user) return null;
 
-	const data = await fetchData(user);
+	const data = await fetchSharedArticleData(user);
 
 	return (
-		<div>
+		<div className="flex flex-col gap-2 mb-5">
 			{data.map((d) => (
-				<div key={d.id}>
-					<a href={`/share/${d.id}`}>{d.article.title}</a>
-					<p>{d.article.publishedAt.toISOString()}</p>
-				</div>
+				<ListCard key={d.id} d={d} />
 			))}
 		</div>
 	);

@@ -11,8 +11,8 @@ import {
 } from '@/app/components/ui/form';
 import { Input } from '@/app/components/ui/input';
 import { useToast } from '@/app/components/ui/use-toast';
-import { nextEnv } from '@/app/env';
 import { cn } from '@/app/utils/cn';
+import { nextClientEnv } from '@/app/utils/env/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { Loader2 } from 'lucide-react';
@@ -50,7 +50,7 @@ export default function LoginPageComponent() {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(async (data) => {
-					if (!captchaToken && nextEnv.NEXT_PUBLIC_TURNSTILE_SITE_KEY) {
+					if (!captchaToken && nextClientEnv.NEXT_PUBLIC_TURNSTILE_SITE_KEY) {
 						toast({
 							description: 'Please complete the captcha challenge first',
 						});
@@ -131,10 +131,10 @@ export default function LoginPageComponent() {
 					{isLogin ? 'Forgot your password?' : 'Back to log in'}
 				</Button>
 
-				{nextEnv.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+				{nextClientEnv.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
 					<Turnstile
 						ref={ref}
-						siteKey={nextEnv.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+						siteKey={nextClientEnv.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
 						onSuccess={setCaptchaToken}
 						options={{
 							theme:
