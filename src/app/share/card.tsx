@@ -73,7 +73,7 @@ export default function ListCard({ d }: CardProps) {
 				<CardTitle>
 					<a href={`/share/${d.id}`}>{d.article.title}</a>
 				</CardTitle>
-				<CardDescription>
+				<CardDescription className="font-mono">
 					<HoldedShortSummary summary={d.article.summary} />
 				</CardDescription>
 			</CardHeader>

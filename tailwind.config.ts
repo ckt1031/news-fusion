@@ -16,7 +16,19 @@ const config = {
 		},
 		extend: {
 			fontFamily: {
-				sans: ['var(--font-inter)', ...fontFamily.sans],
+				sans: [
+					'var(--font-inter)',
+					'var(--font-noto-sans-tc)',
+					'var(--font-noto-sans-sc)',
+					...fontFamily.sans,
+				],
+				mono: [
+					'var(--font-geist-mono)',
+					...fontFamily.mono,
+					'var(--font-noto-sans-tc)',
+					'var(--font-noto-sans-sc)',
+					...fontFamily.sans,
+				],
 			},
 			colors: {
 				gray: colors.neutral,

@@ -25,7 +25,7 @@ export default function BriefSummaryBox({ summary }: Props) {
 				/>
 			</button>
 			{openBriefSummary && (
-				<p className="w-full max-w-full mt-1 text-gray-600 dark:text-gray-400 prose prose-sm prose-neutral markdown-style">
+				<p className="font-mono w-full max-w-full mt-1 text-gray-600 dark:text-gray-400 prose prose-sm prose-neutral markdown-style">
 					{summary}
 				</p>
 			)}

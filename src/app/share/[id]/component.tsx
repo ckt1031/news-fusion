@@ -51,7 +51,7 @@ export default function SharedArticleComponent() {
 				<ThumbnailPhotoViewer src={data.thumbnail} alt={article.title} />
 			)}
 			{isYouTube && <YouTubeEmbedComponent url={article.url} />}
-			<Markdown className="mt-2 w-full max-w-3xl text-gray-600 dark:text-gray-400 prose prose-neutral markdown-style">
+			<Markdown className="font-mono mt-2 w-full max-w-3xl text-gray-600 dark:text-gray-400 prose prose-neutral markdown-style">
 				{data.longSummary}
 			</Markdown>
 			{isLoggedIn && (

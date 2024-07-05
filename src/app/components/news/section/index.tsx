@@ -1,13 +1,14 @@
 'use client';
 
-import { useState } from 'react';
-import Markdown from 'react-markdown';
-import PublisherComponent from '../list/publisher';
-import TimeComponent from '../list/time-component';
 import '@/app/styles/markdown.css';
+
 import { useNewsStore } from '@/app/store/news';
 import dynamic from 'next/dynamic';
+import { useState } from 'react';
+import Markdown from 'react-markdown';
 import LoadingComponent from '../../loading';
+import PublisherComponent from '../list/publisher';
+import TimeComponent from '../list/time-component';
 import NewsSectionDropdownMenu from './menu';
 import ReadMore from './read-more';
 import NewsSimilarities from './similarities';
@@ -67,7 +68,7 @@ export default function NewsSection({ guid }: Props) {
 					{isYouTube && <YouTubeEmbedComponent url={baseItem.url} />}
 					{!isYouTube && <ReadMore url={baseItem.url} />}
 					{displayingItem.summary.length > 0 && (
-						<Markdown className="text-gray-600 dark:text-gray-400 prose prose-sm prose-neutral markdown-style max-w-full">
+						<Markdown className="font-mono text-gray-600 dark:text-gray-400 prose prose-sm prose-neutral markdown-style max-w-full">
 							{displayingItem.summary}
 						</Markdown>
 					)}
