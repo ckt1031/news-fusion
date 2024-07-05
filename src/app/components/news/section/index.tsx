@@ -3,6 +3,7 @@
 import '@/app/styles/markdown.css';
 
 import { useNewsStore } from '@/app/store/news';
+import { cn } from '@/app/utils/cn';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import Markdown from 'react-markdown';
@@ -20,6 +21,9 @@ const YouTubeEmbedComponent = dynamic(() => import('./youtube-embed'), {
 interface Props {
 	guid: string;
 }
+
+const summaryClassname =
+	'font-mono text-gray-600 dark:text-gray-400 prose prose-sm prose-neutral markdown-style max-w-full';
 
 export default function NewsSection({ guid }: Props) {
 	const [displayDetail, setDisplayDetail] = useState(false);
@@ -39,8 +43,20 @@ export default function NewsSection({ guid }: Props) {
 						onClick={() => setDisplayDetail(!displayDetail)}
 					>
 						<p className="text-gray-700 dark:text-gray-300 font-medium">
-							{displayingItem.title}
+							{displayingItem.immersiveTranslate
+								? baseItem.title
+								: displayingItem.title}
 						</p>
+						{displayingItem.immersiveTranslate && (
+							<p
+								className={cn(
+									'text-gray-700 dark:text-gray-300 font-medium',
+									'border-l-4 border-blue-500 pl-2 my-2', // Add a left border
+								)}
+							>
+								{displayingItem.title}
+							</p>
+						)}
 					</button>
 					<PublisherComponent
 						className="mt-1 text-gray-500 dark:text-gray-400 text-sm hidden lg:block"
@@ -68,9 +84,24 @@ export default function NewsSection({ guid }: Props) {
 					{isYouTube && <YouTubeEmbedComponent url={baseItem.url} />}
 					{!isYouTube && <ReadMore url={baseItem.url} />}
 					{displayingItem.summary.length > 0 && (
-						<Markdown className="font-mono text-gray-600 dark:text-gray-400 prose prose-sm prose-neutral markdown-style max-w-full">
-							{displayingItem.summary}
-						</Markdown>
+						<>
+							<Markdown className={summaryClassname}>
+								{displayingItem.immersiveTranslate
+									? baseItem.summary
+									: displayingItem.summary}
+							</Markdown>
+							{displayingItem.immersiveTranslate && (
+								<Markdown
+									className={cn(
+										summaryClassname,
+										// Add a left border to the summary
+										'border-l-4 border-blue-500 pl-2 my-2', // Add a left border to the summary
+									)}
+								>
+									{displayingItem.summary}
+								</Markdown>
+							)}
+						</>
 					)}
 					<NewsSimilarities guid={guid} />
 				</div>

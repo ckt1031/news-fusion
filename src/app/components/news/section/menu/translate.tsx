@@ -28,7 +28,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Languages, Loader2, Undo2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
-import type { z } from 'zod';
+import { z } from 'zod';
 import {
 	TranslateActionSchema,
 	supportedTargetLanguages,
@@ -43,7 +43,11 @@ interface Props {
 const TranslateActionFormSchema = TranslateActionSchema.pick({
 	targetLanguage: true,
 	useCache: true,
-});
+}).and(
+	z.object({
+		immersive: z.boolean().optional(),
+	}),
+);
 
 export function TranslateButton({ guid }: Props) {
 	const setDialog = useUIStore((state) => state.setDialog);
@@ -93,6 +97,7 @@ export function TranslateDialog({ guid }: Props) {
 		defaultValues: {
 			targetLanguage: 'zh-tw',
 			useCache: true,
+			immersive: false,
 		},
 	});
 
@@ -115,6 +120,7 @@ export function TranslateDialog({ guid }: Props) {
 			title: baseItem.title,
 			summary: baseItem.summary,
 			targetLanguage: values.targetLanguage,
+			useCache: values.useCache,
 		});
 
 		if (!result?.data) return;
@@ -122,6 +128,7 @@ export function TranslateDialog({ guid }: Props) {
 		setShowingItem(guid, {
 			title: result.data.title,
 			summary: result.data.summary,
+			immersiveTranslate: values.immersive,
 		});
 
 		toast({
@@ -143,6 +150,25 @@ export function TranslateDialog({ guid }: Props) {
 							<FormItem className="flex flex-row items-center mb-3 justify-between">
 								<FormLabel htmlFor={field.name} className="mt-2">
 									Use Cache
+								</FormLabel>
+								<FormControl>
+									<Checkbox
+										name={field.name}
+										id={field.name}
+										checked={field.value}
+										onCheckedChange={field.onChange}
+									/>
+								</FormControl>
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name="immersive"
+						render={({ field }) => (
+							<FormItem className="flex flex-row items-center mb-3 justify-between">
+								<FormLabel htmlFor={field.name} className="mt-2">
+									Immersive Experience
 								</FormLabel>
 								<FormControl>
 									<Checkbox

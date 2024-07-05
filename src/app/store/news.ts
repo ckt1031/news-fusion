@@ -17,19 +17,24 @@ export interface NewsStore {
 	type: NewsType;
 
 	news: Awaited<ReturnType<typeof fetchNewsForPage>>;
-	displayingNews: NewsStore['news'];
+	displayingNews: (NewsStore['news'][0] & {
+		immersiveTranslate?: boolean;
+	})[];
 
 	setPageData: (data: NewsStore['pageData']) => void;
 	setSearching: (search: NewsStore['pageData']['searchQuery']) => void;
 
 	setNews: (news: NewsStore['news']) => void;
-	setDisplayingNews: (news: NewsStore['news']) => void;
+	setDisplayingNews: (news: NewsStore['displayingNews']) => void;
 
 	getItem: (guid: string) => NewsStore['news'][0];
-	getDisplayingItem: (guid: string) => NewsStore['news'][0];
+	getDisplayingItem: (guid: string) => NewsStore['displayingNews'][0];
 
 	setItem: (guid: string, data: Partial<NewsStore['news'][0]>) => void;
-	setShowingItem: (guid: string, data: Partial<NewsStore['news'][0]>) => void;
+	setShowingItem: (
+		guid: string,
+		data: Partial<NewsStore['displayingNews'][0]>,
+	) => void;
 
 	isItemTranslated: (guid: string) => boolean;
 }
