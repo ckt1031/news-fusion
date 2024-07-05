@@ -29,8 +29,8 @@ export function LogOutMenuItem() {
 
 export function LogOutDialog() {
 	const { toast } = useToast();
-	const client = createSupabaseBrowserClient();
 	const router = useRouter();
+	const client = createSupabaseBrowserClient();
 
 	const handleLogOut = async () => {
 		await client.auth.signOut();

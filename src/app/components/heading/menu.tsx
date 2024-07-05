@@ -14,7 +14,6 @@ import LoadingComponent from '../loading';
 import { LogOutDialog } from './logout';
 
 const MenuContent = dynamic(() => import('./menu-content'), {
-	ssr: false,
 	loading: () => <LoadingComponent />,
 });
 

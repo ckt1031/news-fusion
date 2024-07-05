@@ -15,6 +15,7 @@ import VercelAnalytics from './components/vercel-analytics';
 import { serverAuthState } from './hooks/auth';
 import { cn } from './utils/cn';
 import { nextServerEnv } from './utils/env/server';
+import { getGravatarUrl } from './utils/gravatar';
 
 const inter = Inter({
 	variable: '--font-inter',
@@ -57,6 +58,8 @@ export const runtime = 'nodejs';
 export default async function RootLayout({ children }: PropsWithChildren) {
 	const { user, isLoggedIn } = await serverAuthState();
 
+	const avatarURL = user?.email ? getGravatarUrl(user.email) : null;
+
 	return (
 		<html
 			lang="en"
@@ -73,7 +76,11 @@ export default async function RootLayout({ children }: PropsWithChildren) {
 				>
 					<Toaster />
 					<Heading />
-					<AuthStateInializer isLoggedIn={isLoggedIn} user={user}>
+					<AuthStateInializer
+						isLoggedIn={isLoggedIn}
+						user={user}
+						avatarURL={avatarURL}
+					>
 						<main className="root-container flex flex-1 flex-col">
 							{children}
 						</main>

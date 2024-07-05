@@ -39,35 +39,38 @@ export default function ResetPasswordComponent() {
 
 	const supabase = createSupabaseBrowserClient();
 
-	const form = useForm<z.infer<typeof ResetPasswordActionSchema>>({
+	type FormValues = z.infer<typeof ResetPasswordActionSchema>;
+
+	const form = useForm<FormValues>({
 		resolver: zodResolver(ResetPasswordActionSchema),
 	});
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		supabase.auth.onAuthStateChange(async (event) => {
-			if (event === 'SIGNED_IN') {
-				setIsReady(true);
-			}
+			if (event === 'SIGNED_IN') setIsReady(true);
 		});
 	}, []);
 
-	const onPasswordSubmit = form.handleSubmit(async (formData) => {
+	const onPasswordSubmit = async ({ password }: FormValues) => {
 		const { data } = await supabase.auth.updateUser({
-			password: formData.password,
+			password,
 		});
 
-		if (data) {
-			toast({
-				description: 'Password updated successfully!',
-			});
-		}
-	});
+		if (!data) return;
+
+		toast({
+			description: 'Password updated successfully!',
+		});
+	};
 
 	return (
 		<Form {...form}>
 			{isReady && (
-				<form onSubmit={onPasswordSubmit} className="flex flex-col gap-3">
+				<form
+					onSubmit={form.handleSubmit(onPasswordSubmit)}
+					className="flex flex-col gap-3"
+				>
 					<FormField
 						name="password"
 						control={form.control}

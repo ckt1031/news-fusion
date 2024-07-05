@@ -1,6 +1,5 @@
 'use client';
 
-import { getGravatarUrl } from '@/app/components/heading/menu-content';
 import {
 	Card,
 	CardContent,
@@ -13,9 +12,6 @@ import Image from 'next/image';
 
 export default function AvatarProfileSettings() {
 	const { user } = useAuthStore();
-	const avatarUrl = user?.email ? getGravatarUrl(user.email, 800) : null;
-
-	if (!avatarUrl) return null;
 
 	return (
 		<Card>
@@ -32,13 +28,15 @@ export default function AvatarProfileSettings() {
 					target="_blank"
 					rel="noreferrer"
 				>
-					<Image
-						src={avatarUrl}
-						alt="avatar"
-						width={100}
-						height={100}
-						className="rounded-full"
-					/>
+					{user?.avatarURL && (
+						<Image
+							src={user.avatarURL}
+							alt="avatar"
+							width={100}
+							height={100}
+							className="rounded-full"
+						/>
+					)}
 				</a>
 			</CardContent>
 		</Card>

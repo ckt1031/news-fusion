@@ -6,20 +6,13 @@ import {
 	DropdownMenuSeparator,
 } from '@/app/components/ui/dropdown-menu';
 import { useAuthStore } from '@/app/store/auth';
-import getSHA256 from '@/app/utils/sha256';
 import Image from 'next/image';
 import Link from 'next/link';
 import { LogOutMenuItem } from './logout';
 import { ModeToggleMenuItem } from './mode-toggle';
 
-export function getGravatarUrl(email: string, size?: number) {
-	const SHA256 = getSHA256(email);
-	return `https://www.gravatar.com/avatar/${SHA256}?s=${size ?? 100}`;
-}
-
 export default function MenuContent() {
 	const { isLoggedIn, user } = useAuthStore();
-	const avatarUrl = user?.email ? getGravatarUrl(user.email) : null;
 
 	return (
 		<>
@@ -33,9 +26,9 @@ export default function MenuContent() {
 						}}
 					>
 						<DropdownMenuItem>
-							{avatarUrl && (
+							{user?.avatarURL && (
 								<Image
-									src={avatarUrl}
+									src={user.avatarURL}
 									alt="avatar"
 									className="rounded-full mr-2"
 									width={16}

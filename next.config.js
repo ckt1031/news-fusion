@@ -1,10 +1,15 @@
 import nextRoutes from 'nextjs-routes/config';
+// import nextBundleAnalyzer from '@next/bundle-analyzer';
 
 const withRoutes = nextRoutes({
 	outDir: 'src',
 });
 
 const isProd = process.env.NODE_ENV === 'production';
+
+// const withBundleAnalyzer = nextBundleAnalyzer({
+//   enabled: !isProd,
+// });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

@@ -11,7 +11,6 @@ import { ClearCacheDialog } from './clear-cache';
 import { useUIStore } from './store';
 
 const MenuContent = dynamic(() => import('./content'), {
-	ssr: false,
 	loading: () => <LoadingComponent />,
 });
 

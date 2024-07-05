@@ -6,7 +6,7 @@ import { redis } from '../utils/upstash';
 import ListCard from './card';
 
 export const fetchSharedArticleData = async (user: User) => {
-	const cacheHash = getSHA256(`${user.id}shared`);
+	const cacheHash = getSHA256(`${user.id}_shared`);
 
 	type Article = Awaited<ReturnType<typeof fetchSharedArticles>>;
 	const cache = await redis.get<Article>(cacheHash);

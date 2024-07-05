@@ -1,3 +1,5 @@
+'server only';
+
 import getSHA256 from '@/app/utils/sha256';
 import { redis } from '@/app/utils/upstash';
 import { RSS_CATEGORY } from '@/config/news-sources';

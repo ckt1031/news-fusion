@@ -28,7 +28,6 @@ export default function LoginPageComponent() {
 	const { theme } = useTheme();
 	const { toast } = useToast();
 	const ref = useRef<TurnstileInstance>();
-	const [captchaToken, setCaptchaToken] = useState<string>();
 
 	const [authMode, setAuthMode] = useState<'login' | 'forgot-password'>(
 		'login',
@@ -36,7 +35,9 @@ export default function LoginPageComponent() {
 
 	const isLogin = authMode === 'login';
 
-	const form = useForm<z.infer<typeof LoginActionSchema>>({
+	type FormValues = z.infer<typeof LoginActionSchema>;
+
+	const form = useForm<FormValues>({
 		resolver: zodResolver(
 			isLogin ? LoginActionSchema : ForgotPasswordActionSchema,
 		),
@@ -46,41 +47,45 @@ export default function LoginPageComponent() {
 		isLogin ? login : forgotPassword,
 	);
 
+	const onLogin = async (data: FormValues) => {
+		const captchaToken = await ref.current?.getResponsePromise();
+		if (!captchaToken && nextClientEnv.NEXT_PUBLIC_TURNSTILE_SITE_KEY) {
+			toast({
+				description: 'Please complete the captcha challenge first',
+			});
+			return;
+		}
+
+		const status = await executeAsync({
+			...data,
+			captchaToken,
+		});
+
+		if (!status) return;
+
+		if (status.data && !status.data.success) {
+			toast({
+				variant: 'destructive',
+				title: 'Error',
+				description: status.data.error,
+			});
+
+			// Reset the form and captcha token
+			ref.current?.reset();
+		}
+
+		if (!isLogin && status.data?.success) {
+			toast({
+				title: 'Success',
+				description: 'Check your email for further instructions',
+			});
+		}
+	};
+
 	return (
 		<Form {...form}>
 			<form
-				onSubmit={form.handleSubmit(async (data) => {
-					if (!captchaToken && nextClientEnv.NEXT_PUBLIC_TURNSTILE_SITE_KEY) {
-						toast({
-							description: 'Please complete the captcha challenge first',
-						});
-						return;
-					}
-
-					const status = await executeAsync({
-						...data,
-						captchaToken,
-					});
-
-					if (!status) return;
-
-					if (status.data && !status.data.success) {
-						toast({
-							variant: 'destructive',
-							title: 'Error',
-							description: status.data.error,
-						});
-						ref.current?.reset();
-						setCaptchaToken(undefined);
-					}
-
-					if (!isLogin && status.data?.success) {
-						toast({
-							title: 'Success',
-							description: 'Check your email for further instructions',
-						});
-					}
-				})}
+				onSubmit={form.handleSubmit(onLogin)}
 				className="flex flex-col gap-4 py-6"
 			>
 				<h3 className="text-2xl font-bold">
@@ -123,19 +128,18 @@ export default function LoginPageComponent() {
 					/>
 				)}
 
-				<Button
+				<button
 					type="button"
-					variant="ghost"
+					className="self-start italic underline"
 					onClick={() => setAuthMode(isLogin ? 'forgot-password' : 'login')}
 				>
 					{isLogin ? 'Forgot your password?' : 'Back to log in'}
-				</Button>
+				</button>
 
 				{nextClientEnv.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
 					<Turnstile
 						ref={ref}
 						siteKey={nextClientEnv.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-						onSuccess={setCaptchaToken}
 						options={{
 							theme:
 								theme === 'dark'

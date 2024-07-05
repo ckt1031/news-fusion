@@ -1,12 +1,16 @@
 import type { User } from '@supabase/supabase-js';
 import { create } from 'zustand';
 
+interface ExtendedUser extends User {
+	avatarURL: string | null;
+}
+
 export interface AuthStore {
 	isLoggedIn: boolean;
-	user?: User | null;
+	user?: ExtendedUser | null;
 
 	setLoggedIn: (loggedIn: boolean) => void;
-	setUser: (user: User) => void;
+	setUser: (user: ExtendedUser) => void;
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({

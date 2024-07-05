@@ -17,7 +17,7 @@ export const translateNewsInfo = authActionClient
 	.schema(TranslateActionSchema)
 	.action(async ({ parsedInput: formData }) => {
 		async function translateText(t: string) {
-			const cacheHash = getSHA256(['NEWS', t, formData.targetLanguage]);
+			const cacheHash = getSHA256([t, formData.targetLanguage]);
 
 			// Only run this if cache is enabled
 			if (formData.useCache) {

@@ -12,7 +12,7 @@ import { useToast } from '@/app/components/ui/use-toast';
 import { useAuthStore } from '@/app/store/auth';
 import { useNewsStore } from '@/app/store/news';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Fuse, { type IFuseOptions } from 'fuse.js';
+import type { IFuseOptions } from 'fuse.js';
 import { Loader2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
@@ -96,6 +96,9 @@ export default function NewsSearchingPopoverContent() {
 			includeScore: true,
 			threshold: 0.3,
 		};
+
+		// Lazy load Fuse
+		const Fuse = (await import('fuse.js')).default;
 
 		const fuse = new Fuse(baseNews, options);
 
