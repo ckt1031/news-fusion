@@ -20,7 +20,7 @@ export interface FetchNewsPageProps {
 	date: DateType;
 }
 
-interface CacheArticle extends Omit<Article, 'embedding'> {
+export interface CacheArticle extends Omit<Article, 'embedding'> {
 	publishedAt: Date;
 }
 

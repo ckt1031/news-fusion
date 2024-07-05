@@ -20,9 +20,9 @@ const nextConfig = {
 		// your project has ESLint errors.
 		ignoreDuringBuilds: true,
 	},
-	experimental: {
-		reactCompiler: isProd,
-	},
+	// experimental: {
+	// 	reactCompiler: isProd,
+	// },
 	images: {
 		domains: ['www.gravatar.com'],
 	},

@@ -22,7 +22,7 @@ import { searchAction } from './actions';
 import { SearchSchema } from './schema';
 
 const FormSchema = SearchSchema.pick({
-	search: true,
+	searchQuery: true,
 }).and(
 	z.object({
 		useReranker: z.boolean().optional(),
@@ -33,6 +33,9 @@ export default function NewsSearchingPopoverContent() {
 	const { toast } = useToast();
 
 	const isUserLoggedIn = useAuthStore((state) => state.isLoggedIn);
+
+	const isBookmark = useNewsStore((state) => state.type === 'bookmarks');
+	const pageData = useNewsStore((state) => state.pageData);
 
 	const searchQuery = useNewsStore((state) => state?.pageData?.searchQuery);
 	const [useReranker, setUseReranker] = useLocalStorageState(
@@ -45,7 +48,7 @@ export default function NewsSearchingPopoverContent() {
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
-			search: searchQuery,
+			searchQuery,
 
 			// Can be momorized
 			useReranker: useReranker,
@@ -62,12 +65,11 @@ export default function NewsSearchingPopoverContent() {
 
 	const onFuzzyInputChange = async (data: z.infer<typeof FormSchema>) => {
 		if (data.useReranker && isUserLoggedIn) {
-			const documents = baseNews.map(
-				(news) => `${news.title}: ${news.summary}`,
-			);
 			const results = await executeAsync({
-				search: data.search,
-				documents,
+				searchQuery: data.searchQuery,
+				pageParams: location.search,
+				isBookmark,
+				topic: pageData.topic,
 			});
 
 			const response = results?.data;
@@ -86,7 +88,7 @@ export default function NewsSearchingPopoverContent() {
 			const items = baseNews.filter((_, index) => indexes.includes(index));
 
 			setDisplayingNews(items);
-			setSearching(data.search);
+			setSearching(data.searchQuery);
 
 			return;
 		}
@@ -102,11 +104,11 @@ export default function NewsSearchingPopoverContent() {
 
 		const fuse = new Fuse(baseNews, options);
 
-		const results = fuse.search(data.search);
+		const results = fuse.search(data.searchQuery);
 		const items = results.map((result) => result.item);
 
 		setDisplayingNews(items);
-		setSearching(data.search);
+		setSearching(data.searchQuery);
 	};
 
 	const resetSearch = () => {
@@ -122,7 +124,7 @@ export default function NewsSearchingPopoverContent() {
 			>
 				<FormField
 					control={form.control}
-					name="search"
+					name="searchQuery"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel htmlFor={field.name}>Query</FormLabel>

@@ -1,3 +1,5 @@
+'server only';
+
 import { createSafeActionClient } from 'next-safe-action';
 import { createSupabaseServerClient } from './supabase/server';
 

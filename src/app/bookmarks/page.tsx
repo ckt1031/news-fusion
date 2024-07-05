@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
+import LoadingComponent from '../components/loading';
 import { serverAuthState } from '../hooks/auth';
 import Component from './content';
 
@@ -22,5 +24,9 @@ export default async function BookmarksPage() {
 		redirect('/auth/login');
 	}
 
-	return <Component user={user} />;
+	return (
+		<Suspense fallback={<LoadingComponent />}>
+			<Component user={user} />
+		</Suspense>
+	);
 }

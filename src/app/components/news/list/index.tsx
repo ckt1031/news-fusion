@@ -7,8 +7,6 @@ import {
 import { NewsType } from '@/app/store/news';
 import dayjs from 'dayjs';
 import { ShieldX } from 'lucide-react';
-import { Suspense } from 'react';
-import LoadingComponent from '../../loading';
 import Content from './content';
 import {
 	type DateRange,
@@ -52,14 +50,12 @@ export default async function NewsList({ topic, date }: FetchNewsPageProps) {
 	const sortedArticles = await fetchNewsForPage({ topic, date });
 
 	return (
-		<Suspense fallback={<LoadingComponent />}>
-			<AppInitializer
-				type={NewsType.News}
-				news={sortedArticles}
-				pageData={{ topic, date }}
-			>
-				<Content />
-			</AppInitializer>
-		</Suspense>
+		<AppInitializer
+			type={NewsType.News}
+			news={sortedArticles}
+			pageData={{ topic, date }}
+		>
+			<Content />
+		</AppInitializer>
 	);
 }

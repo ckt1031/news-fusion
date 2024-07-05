@@ -1,4 +1,6 @@
 import { RSS_CATEGORY } from '@/config/news-sources';
+import { Suspense } from 'react';
+import LoadingComponent from './components/loading';
 import DateSwitcher from './components/news/date-switcher';
 import { parseDateRange } from './components/news/get-date-server';
 import NewsList from './components/news/list';
@@ -21,7 +23,9 @@ export default function Home({ searchParams }: PageProps) {
 		<>
 			<DateSwitcher />
 			<TopicSelection topic={RSS_CATEGORY.GENERAL} />
-			<NewsList topic={RSS_CATEGORY.GENERAL} date={date} />
+			<Suspense fallback={<LoadingComponent />}>
+				<NewsList topic={RSS_CATEGORY.GENERAL} date={date} />
+			</Suspense>
 		</>
 	);
 }

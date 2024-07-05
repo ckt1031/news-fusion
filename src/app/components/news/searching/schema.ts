@@ -1,6 +1,8 @@
 import { z } from 'zod';
 
 export const SearchSchema = z.object({
-	search: z.string().min(3),
-	documents: z.array(z.string().min(3)),
+	searchQuery: z.string().min(3),
+	pageParams: z.string().optional(),
+	topic: z.string().optional(),
+	isBookmark: z.boolean().optional(),
 });
