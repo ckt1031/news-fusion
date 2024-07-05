@@ -4,18 +4,13 @@ import {
 	Card,
 	CardContent,
 	CardDescription,
+	CardFooter,
 	CardHeader,
 	CardTitle,
 } from '@/app/components/ui/card';
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
-} from '@/app/components/ui/tooltip';
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import sAgo from 's-ago';
+import ThumbnailPhotoViewer from './[id]/photo-viewer';
 import type { fetchSharedArticleData } from './list';
 
 interface CardProps {
@@ -52,18 +47,7 @@ function HoldedShortSummary({ summary }: { summary: string }) {
 }
 
 function SharedDate({ createdAt }: { createdAt: Date }) {
-	return (
-		<TooltipProvider>
-			<Tooltip>
-				<TooltipTrigger>
-					<p className="italic">Shared {sAgo(createdAt)}</p>
-				</TooltipTrigger>
-				<TooltipContent align="start">
-					<p>{dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')}</p>
-				</TooltipContent>
-			</Tooltip>
-		</TooltipProvider>
-	);
+	return <p>{dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')}</p>;
 }
 
 export default function ListCard({ d }: CardProps) {
@@ -77,9 +61,18 @@ export default function ListCard({ d }: CardProps) {
 					<HoldedShortSummary summary={d.article.summary} />
 				</CardDescription>
 			</CardHeader>
-			<CardContent className="text-gray-700 dark:text-gray-400">
+			{d.thumbnail && (
+				<CardContent>
+					<ThumbnailPhotoViewer
+						src={d.thumbnail}
+						alt={d.article.title}
+						className="max-h-40 aspect-video"
+					/>
+				</CardContent>
+			)}
+			<CardFooter className="text-gray-700 dark:text-gray-400">
 				<SharedDate createdAt={d.createdAt} />
-			</CardContent>
+			</CardFooter>
 		</Card>
 	);
 }

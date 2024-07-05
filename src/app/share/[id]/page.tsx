@@ -1,6 +1,8 @@
+import LoadingComponent from '@/app/components/loading';
 import { getSharedArticle } from '@/lib/db';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import SharedArticleComponent from './component';
 import StateInitializer from './state-initializer';
 
@@ -40,7 +42,7 @@ export async function generateMetadata({
 	};
 }
 
-export default async function SharePage({ params }: PageProps) {
+async function ShareContent({ params }: PageProps) {
 	const id = params.id;
 	const shared = await getSharedArticle(id);
 
@@ -50,5 +52,13 @@ export default async function SharePage({ params }: PageProps) {
 		<StateInitializer data={shared}>
 			<SharedArticleComponent />
 		</StateInitializer>
+	);
+}
+
+export default async function SharePage({ params }: PageProps) {
+	return (
+		<Suspense fallback={<LoadingComponent />}>
+			<ShareContent params={params} />
+		</Suspense>
 	);
 }

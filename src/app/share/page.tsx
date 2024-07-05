@@ -2,6 +2,7 @@ import { fetchArticle } from '@/lib/db';
 import { decode } from 'js-base64';
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import LoadingComponent from '../components/loading';
 import type { SharedArticleFetchingReturnProps } from './[id]/schema';
 
@@ -30,9 +31,7 @@ export interface StartingSharePageProps {
 
 export const runtime = 'edge';
 
-export default async function SharePageStarting({
-	searchParams,
-}: StartingSharePageProps) {
+async function ShareRouter({ searchParams }: StartingSharePageProps) {
 	if (!searchParams.articleId) {
 		// If no articleId is provided, show the shared articles list
 		return <SharedArticlesListPage />;
@@ -69,5 +68,13 @@ export default async function SharePageStarting({
 				customInstructions={custom_instructions}
 			/>
 		</ShareArticleHandlerStateInitializer>
+	);
+}
+
+export default function PageRouter({ searchParams }: StartingSharePageProps) {
+	return (
+		<Suspense fallback={<LoadingComponent />}>
+			<ShareRouter searchParams={searchParams} />
+		</Suspense>
 	);
 }

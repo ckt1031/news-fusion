@@ -48,7 +48,11 @@ export default function SharedArticleComponent() {
 			</div>
 			<ReadMore url={article.url} />
 			{!isYouTube && data.thumbnail && (
-				<ThumbnailPhotoViewer src={data.thumbnail} alt={article.title} />
+				<ThumbnailPhotoViewer
+					src={data.thumbnail}
+					alt={article.title}
+					className="w-full"
+				/>
 			)}
 			{isYouTube && <YouTubeEmbedComponent url={article.url} />}
 			<Markdown className="font-mono mt-2 w-full max-w-3xl text-gray-600 dark:text-gray-400 prose prose-neutral markdown-style">
