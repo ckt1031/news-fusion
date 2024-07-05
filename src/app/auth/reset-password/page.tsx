@@ -1,4 +1,4 @@
-import { createSupabaseServerClient } from '@/app/utils/supabase/server';
+// import { createSupabaseServerClient } from '@/app/utils/supabase/server';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import ResetPassword from './component';
@@ -27,8 +27,8 @@ export default async function ResetPasswordPage({ searchParams }: PageProps) {
 		redirect('/auth/login');
 	}
 
-	const supabase = await createSupabaseServerClient();
-	await supabase.auth.exchangeCodeForSession(code);
+	// const supabase = await createSupabaseServerClient();
+	// await supabase.auth.exchangeCodeForSession(code);
 
 	return <ResetPassword />;
 }

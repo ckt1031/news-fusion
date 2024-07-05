@@ -1,10 +1,24 @@
 import { fetchArticle } from '@/lib/db';
 import { decode } from 'js-base64';
+import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
+import LoadingComponent from '../components/loading';
 import type { SharedArticleFetchingReturnProps } from './[id]/schema';
-import StateInitializer from './[id]/state-initializer';
-import Handler from './handler';
-import SharedArticlesListPage from './list';
+
+const SharedArticlesListPage = dynamic(() => import('./list'), {
+	loading: () => <LoadingComponent />,
+});
+const ShareArticleHandler = dynamic(() => import('./handler'), {
+	loading: () => <LoadingComponent />,
+	ssr: false,
+});
+const ShareArticleHandlerStateInitializer = dynamic(
+	() => import('./[id]/state-initializer'),
+	{
+		ssr: false,
+		loading: () => <LoadingComponent />,
+	},
+);
 
 export interface StartingSharePageProps {
 	searchParams: {
@@ -20,6 +34,7 @@ export default async function SharePageStarting({
 	searchParams,
 }: StartingSharePageProps) {
 	if (!searchParams.articleId) {
+		// If no articleId is provided, show the shared articles list
 		return <SharedArticlesListPage />;
 	}
 
@@ -47,12 +62,12 @@ export default async function SharePageStarting({
 	};
 
 	return (
-		<StateInitializer data={shared}>
-			<Handler
+		<ShareArticleHandlerStateInitializer data={shared}>
+			<ShareArticleHandler
 				articleId={articleId}
 				useSearch={use_search}
 				customInstructions={custom_instructions}
 			/>
-		</StateInitializer>
+		</ShareArticleHandlerStateInitializer>
 	);
 }

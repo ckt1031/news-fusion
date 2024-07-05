@@ -7,11 +7,11 @@ import {
 	TWITTER_USER,
 } from '@/config';
 import type { Metadata, Viewport } from 'next';
+import dynamic from 'next/dynamic';
 import { Inter, Noto_Sans_SC, Noto_Sans_TC } from 'next/font/google';
 import AuthStateInializer from './components/auth/client';
 import Heading from './components/heading';
 import { ThemeProvider } from './components/theme';
-import VercelAnalytics from './components/vercel-analytics';
 import { serverAuthState } from './hooks/auth';
 import { cn } from './utils/cn';
 import { nextServerEnv } from './utils/env/server';
@@ -24,10 +24,12 @@ const inter = Inter({
 });
 const notoSansSC = Noto_Sans_SC({
 	variable: '--font-noto-sans-sc',
+	display: 'swap',
 	subsets: ['latin'],
 });
 const notoSansTC = Noto_Sans_TC({
 	variable: '--font-noto-sans-tc',
+	display: 'swap',
 	subsets: ['latin'],
 });
 
@@ -55,6 +57,10 @@ export const metadata: Metadata = {
 
 export const runtime = 'nodejs';
 
+const VercelAnalytics = dynamic(() => import('./components/vercel-analytics'), {
+	ssr: false,
+});
+
 export default async function RootLayout({ children }: PropsWithChildren) {
 	const { user, isLoggedIn } = await serverAuthState();
 
@@ -66,7 +72,9 @@ export default async function RootLayout({ children }: PropsWithChildren) {
 			suppressHydrationWarning
 			className={cn(inter.variable, notoSansSC.variable, notoSansTC.variable)}
 		>
-			<VercelAnalytics />
+			{nextServerEnv.NEXT_PUBLIC_ENABLE_VERCEL_ANALYTICS === 'true' && (
+				<VercelAnalytics />
+			)}
 			<body className="subpixel-antialiased bg-neutral-50 dark:bg-neutral-950 flex h-screen flex-col justify-between overflow-x-hidden">
 				<ThemeProvider
 					attribute="class"

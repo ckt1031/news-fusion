@@ -6,20 +6,22 @@ import PublisherComponent from '@/app/components/news/list/publisher';
 import TimeComponent from '@/app/components/news/list/time-component';
 import ReadMore from '@/app/components/news/section/read-more';
 import { useAuthStore } from '@/app/store/auth';
-// import ThumbnailPhotoViewer from './photo-viewer';
-// import BriefSummaryBox from './brief-summary';
 import dynamic from 'next/dynamic';
 import Markdown from 'react-markdown';
-// import Image from 'next/image';
-// import SharePageControl from './control';
 import { useUIStore } from './store';
 
 const YouTubeEmbedComponent = dynamic(
 	() => import('@/app/components/news/section/youtube-embed'),
+	{
+		ssr: false,
+	},
 );
-const ThumbnailPhotoViewer = dynamic(() => import('./photo-viewer'));
-// const BriefSummaryBox = dynamic(() => import('./brief-summary'));
-const SharePageControl = dynamic(() => import('./control'));
+const ThumbnailPhotoViewer = dynamic(() => import('./photo-viewer'), {
+	ssr: false,
+});
+const SharePageControl = dynamic(() => import('./control'), {
+	ssr: false,
+});
 
 export default function SharedArticleComponent() {
 	const data = useUIStore((s) => s.data);
@@ -45,15 +47,7 @@ export default function SharedArticleComponent() {
 				/>
 			</div>
 			<ReadMore url={article.url} />
-			{/* <BriefSummaryBox summary={article.summary} /> */}
 			{!isYouTube && data.thumbnail && (
-				// <Image
-				// 	fill
-				// 	src={data.thumbnail}
-				// 	alt={article.title}
-				// 	layout="fill"
-				// 	className="my-2 !relative rounded-lg max-w-3xl w-full h-96"
-				// />
 				<ThumbnailPhotoViewer src={data.thumbnail} alt={article.title} />
 			)}
 			{isYouTube && <YouTubeEmbedComponent url={article.url} />}

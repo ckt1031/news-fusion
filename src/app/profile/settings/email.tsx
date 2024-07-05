@@ -33,7 +33,9 @@ export default function Email() {
 	const user = useAuthStore((state) => state.user);
 	// const setUser = useAuthStore((state) => state.setUser);
 
-	const form = useForm<z.infer<typeof Schema>>({
+	type FormValues = z.infer<typeof Schema>;
+
+	const form = useForm<FormValues>({
 		resolver: zodResolver(Schema),
 		defaultValues: {
 			email: user?.email ?? '',
@@ -49,7 +51,7 @@ export default function Email() {
 
 	const supabase = createSupabaseBrowserClient();
 
-	const onChangeDisplayName = async ({ email }: z.infer<typeof Schema>) => {
+	const onChangeDisplayName = async ({ email }: FormValues) => {
 		if (!user) return;
 
 		const { data, error } = await supabase.auth.updateUser({

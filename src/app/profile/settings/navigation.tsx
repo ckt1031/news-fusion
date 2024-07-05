@@ -21,7 +21,7 @@ function Navigations() {
 			<Link href="/bookmarks">
 				<Button variant="outline">
 					<BookMarked className="w-4 h-4 mr-2" />
-					<p>Bookmarked Articles</p>
+					<p>Bookmarks</p>
 				</Button>
 			</Link>
 		</div>

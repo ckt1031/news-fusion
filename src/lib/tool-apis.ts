@@ -24,10 +24,12 @@ export async function getContentMarkdownFromURL(
 	env: ScrapeMarkdownVar,
 	url: string,
 ) {
-	const host = new URL(url).host;
 	let content = '';
+	const host = new URL(url).host;
 
-	if (host.includes('youtube.com')) {
+	const youtubeHosts = ['youtube.com', 'www.youtube.com', 'youtu.be', 'yt.be'];
+
+	if (youtubeHosts.includes(host)) {
 		const ytInfo = await scrapeYouTube(env, url);
 		content = ytInfo.captions?.text ?? '';
 	} else {
