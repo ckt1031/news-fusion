@@ -62,7 +62,10 @@ export default function DisplayName() {
 		});
 
 		if (data && !error) {
-			setUser(data.user);
+			setUser({
+				...user,
+				...data.user,
+			});
 			toast({
 				description: 'Display name updated',
 			});
