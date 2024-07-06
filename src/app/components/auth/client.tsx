@@ -1,33 +1,52 @@
 'use client';
 
 import { useAuthStore } from '@/app/store/auth';
-import type { User } from '@supabase/supabase-js';
-import { type PropsWithChildren, useEffect } from 'react';
+import { getGravatarUrl } from '@/app/utils/gravatar';
+import { createSupabaseBrowserClient } from '@/app/utils/supabase/client';
+import { type PropsWithChildren, useCallback, useEffect } from 'react';
 
-interface Props {
-	isLoggedIn: boolean;
-	user: User | null;
-	avatarURL: string | null;
-}
+export default function AuthStateInializer({ children }: PropsWithChildren) {
+	const supabase = createSupabaseBrowserClient();
 
-export default function AuthStateInializer({
-	isLoggedIn,
-	user,
-	children,
-	avatarURL,
-}: PropsWithChildren<Props>) {
-	const setUser = useAuthStore((state) => state.setUser);
-	const setLoggedIn = useAuthStore((state) => state.setLoggedIn);
+	const fetchUser = useCallback(
+		async (isSubscribed: boolean) => {
+			if (!isSubscribed) return;
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-	useEffect(() => {
-		user &&
-			setUser({
-				...user,
-				avatarURL,
+			const {
+				data: { user },
+			} = await supabase.auth.getUser();
+
+			if (!user) {
+				useAuthStore.setState({
+					user: null,
+					isLoggedIn: false,
+				});
+				return;
+			}
+
+			const avatarURL = user.email ? getGravatarUrl(user.email) : null;
+
+			useAuthStore.setState({
+				user: {
+					...user,
+					avatarURL,
+				},
+				isLoggedIn: true,
 			});
-		setLoggedIn(isLoggedIn);
-	}, [user, isLoggedIn, avatarURL]);
+		},
+		[supabase.auth.getUser],
+	);
+
+	useEffect(() => {
+		let isSubscribed = true;
+
+		fetchUser(isSubscribed);
+
+		// cancel any future `setData`
+		return () => {
+			isSubscribed = false;
+		};
+	}, [fetchUser]);
 
 	return children;
 }

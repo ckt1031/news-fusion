@@ -1,5 +1,12 @@
 import { DEFAULT_SITE_TITLE } from '@/config';
-import HeaderMenu from './menu';
+import dynamic from 'next/dynamic';
+import { Skeleton } from '../ui/skeleton';
+
+const HeaderMenu = dynamic(() => import('./menu'), {
+	loading: () => (
+		<Skeleton className="w-10 h-10 bg-gray-200 dark:bg-gray-800 rounded-lg" />
+	),
+});
 
 export default function Heading() {
 	return (

@@ -1,12 +1,7 @@
-import {
-	Card,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from '@/app/components/ui/card';
 import { NewsType } from '@/app/store/news';
 import dayjs from 'dayjs';
-import { ShieldX } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import SkeletonCard from '../../skeleton/card';
 import Content from './content';
 import {
 	type DateRange,
@@ -16,6 +11,11 @@ import {
 import AppInitializer from './initializer';
 
 const ALLOWED_DAYS = 30;
+
+const NewsInvalidDate = dynamic(() => import('./invalid-date'), {
+	ssr: false,
+	loading: () => <SkeletonCard />,
+});
 
 function isDateInAllowedDayRange(date: string | DateRange) {
 	const currentDate = dayjs().format('YYYY-MM-DD');
@@ -33,17 +33,9 @@ function isDateInAllowedDayRange(date: string | DateRange) {
 export default async function NewsList({ topic, date }: FetchNewsPageProps) {
 	if (!isDateInAllowedDayRange(date)) {
 		return (
-			<Card className="my-3">
-				<CardHeader>
-					<CardTitle className="flex flex-row gap-2">
-						<ShieldX className="w-6 h-6" />
-						Invalid Date
-					</CardTitle>
-					<CardDescription>
-						You can only view news from the past 30 days
-					</CardDescription>
-				</CardHeader>
-			</Card>
+			<div className="my-3">
+				<NewsInvalidDate />
+			</div>
 		);
 	}
 

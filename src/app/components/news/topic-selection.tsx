@@ -24,7 +24,7 @@ export default function TopicSelection({ topic }: Props) {
 
 	return (
 		<>
-			<div className="flex w-full justify-center items-center py-2 md:hidden">
+			<div className="flex w-full justify-center items-center py-2 sm:hidden">
 				<Combobox
 					value={topic}
 					setValue={onSelectCategory}
@@ -35,7 +35,7 @@ export default function TopicSelection({ topic }: Props) {
 					placeholder="Select a topic"
 				/>
 			</div>
-			<div className="hidden md:block">
+			<div className="hidden sm:block">
 				<div className="flex flex-wrap py-2 gap-3">
 					{catagoies.map((category) => (
 						<Button

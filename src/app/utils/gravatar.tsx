@@ -1,5 +1,3 @@
-'server only';
-
 import getSHA256 from './sha256';
 
 export function getGravatarUrl(email: string, size?: number) {

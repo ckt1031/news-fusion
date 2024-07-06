@@ -1,8 +1,8 @@
-import LoadingComponent from '@/app/components/loading';
 import DateSwitcher from '@/app/components/news/date-switcher';
 import { parseDateRange } from '@/app/components/news/get-date-server';
 import NewsList from '@/app/components/news/list';
 import TopicSelection from '@/app/components/news/topic-selection';
+import SkeletonNewsList from '@/app/components/skeleton/news-list';
 import type { HomeSearchParamsProps } from '@/app/page';
 import captialTopicName from '@/app/utils/captial-topic-name';
 import { getAllNewsCatagorySlug } from '@/app/utils/news-catagory';
@@ -47,7 +47,7 @@ export default async function TopicPage({ params, searchParams }: PageProps) {
 		<>
 			<DateSwitcher />
 			<TopicSelection topic={topic} />
-			<Suspense fallback={<LoadingComponent />}>
+			<Suspense fallback={<SkeletonNewsList />}>
 				<NewsList topic={topic} date={date} />
 			</Suspense>
 		</>

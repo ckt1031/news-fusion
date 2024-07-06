@@ -21,6 +21,7 @@ export default function AppInitializer({
 			displayingNews: news,
 			pageData,
 			type,
+			loading: false,
 		});
 	}, [news, pageData, type]);
 

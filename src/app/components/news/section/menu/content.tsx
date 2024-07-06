@@ -3,11 +3,13 @@ import {
 	DropdownMenuSeparator,
 } from '@/app/components/ui/dropdown-menu';
 import { useAuthStore } from '@/app/store/auth';
-import BookmarkButton from './bookmark';
+import dynamic from 'next/dynamic';
 import CopyButton from './copy-to-clipboard';
-import { RegenerateButton } from './re-generate';
-import { ShareButton } from './share';
-import { TranslateButton } from './translate';
+
+const AuthenticatedMenuContent = dynamic(
+	() => import('./content-authenticated'),
+	{ loading: () => null },
+);
 
 interface Props {
 	guid: string;
@@ -21,14 +23,7 @@ export default function NewsSectionDropdownMenuContent({ guid }: Props) {
 			<DropdownMenuLabel>Operations</DropdownMenuLabel>
 			<DropdownMenuSeparator />
 			<CopyButton guid={guid} />
-			{isLoggedIn && (
-				<>
-					<TranslateButton guid={guid} />
-					<BookmarkButton guid={guid} />
-					<RegenerateButton />
-					<ShareButton />
-				</>
-			)}
+			{isLoggedIn && <AuthenticatedMenuContent guid={guid} />}
 		</>
 	);
 }

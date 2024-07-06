@@ -3,9 +3,19 @@
 import { useAuthStore } from '@/app/store/auth';
 import { useNewsStore } from '@/app/store/news';
 import { Info } from 'lucide-react';
-import NewsSearching from '../searching';
-import NewsSection from '../section';
-import NewsPageDropdownMenu from './menu';
+import dynamic from 'next/dynamic';
+import SkeletonSmallButtonIcon from '../../skeleton/button';
+import { SkeletonSingleNews } from '../../skeleton/news-list';
+
+const NewsSection = dynamic(() => import('../section'), {
+	loading: () => <SkeletonSingleNews />,
+});
+const NewsSearching = dynamic(() => import('../searching'), {
+	loading: () => <SkeletonSmallButtonIcon />,
+});
+const NewsPageDropdownMenu = dynamic(() => import('./menu'), {
+	loading: () => <SkeletonSmallButtonIcon />,
+});
 
 function AIAlert() {
 	return (
@@ -18,9 +28,23 @@ function AIAlert() {
 }
 
 export default function Content() {
-	const type = useNewsStore((state) => state.type);
+	const { type, news, loading } = useNewsStore((state) => state);
 	const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-	const news = useNewsStore((state) => state.displayingNews);
+
+	const Section = () => (
+		<div className="mb-4 flex flex-col divide-y divide-gray-300 dark:divide-gray-700">
+			{!news.length && (
+				<p className="text-gray-500 dark:text-gray-400 text-center py-4">
+					No news found for this topic and date
+				</p>
+			)}
+			{news.map((article) => (
+				<div key={article.guid} className="py-2 align-middle">
+					<NewsSection guid={article.guid} />
+				</div>
+			))}
+		</div>
+	);
 
 	return (
 		<>
@@ -31,18 +55,7 @@ export default function Content() {
 				<NewsSearching />
 				{isLoggedIn && <NewsPageDropdownMenu />}
 			</div>
-			<div className="mb-4 flex flex-col divide-y divide-gray-300 dark:divide-gray-700">
-				{!news.length && (
-					<p className="text-gray-500 dark:text-gray-400 text-center py-4">
-						No news found for this topic and date
-					</p>
-				)}
-				{news.map((article) => (
-					<div key={article.guid} className="py-2 align-middle">
-						<NewsSection guid={article.guid} />
-					</div>
-				))}
-			</div>
+			{!loading && <Section />}
 			<div className="mb-5">
 				<AIAlert />
 			</div>

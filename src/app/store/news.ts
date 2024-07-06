@@ -16,10 +16,14 @@ export interface NewsStore {
 
 	type: NewsType;
 
+	loading: boolean;
+
 	news: Awaited<ReturnType<typeof fetchNewsForPage>>;
 	displayingNews: (NewsStore['news'][0] & {
 		immersiveTranslate?: boolean;
 	})[];
+
+	setLoading: (loading: NewsStore['loading']) => void;
 
 	setPageData: (data: NewsStore['pageData']) => void;
 	setSearching: (search: NewsStore['pageData']['searchQuery']) => void;
@@ -43,10 +47,12 @@ export const useNewsStore = create<NewsStore>((set, get) => ({
 	news: [],
 	displayingNews: [],
 	type: NewsType.News,
+	loading: true,
 	pageData: {
 		date: '',
 		topic: '',
 	},
+	setLoading: (loading) => set({ loading }),
 	setPageData: (data) => set({ pageData: data }),
 	setSearching: (search) =>
 		set({ pageData: { ...get().pageData, searchQuery: search } }),

@@ -1,3 +1,4 @@
+import { getGravatarUrl } from '../utils/gravatar';
 import { createSupabaseServerClient } from '../utils/supabase/server';
 
 export async function serverAuthState() {
@@ -9,5 +10,15 @@ export async function serverAuthState() {
 		return { user: null, isLoggedIn: false };
 	}
 
-	return { user: data.user, isLoggedIn: true };
+	const user = data.user;
+
+	const avatarURL = user?.email ? getGravatarUrl(user.email) : null;
+
+	return {
+		user: {
+			...user,
+			avatarURL,
+		},
+		isLoggedIn: true,
+	};
 }

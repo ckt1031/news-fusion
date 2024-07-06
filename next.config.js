@@ -24,7 +24,11 @@ const nextConfig = {
 	// 	reactCompiler: isProd,
 	// },
 	images: {
-		domains: ['www.gravatar.com'],
+		remotePatterns: [
+			{
+				hostname: 'www.gravatar.com',
+			},
+		],
 	},
 };
 
