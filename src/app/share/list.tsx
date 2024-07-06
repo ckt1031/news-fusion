@@ -1,12 +1,11 @@
 import { fetchSharedArticles } from '@/lib/db';
 import type { User } from '@supabase/supabase-js';
 import { serverAuthState } from '../hooks/auth';
-import getSHA256 from '../utils/sha256';
-import { redis } from '../utils/upstash';
+import { getSummarizedArticlesCacheHash, redis } from '../utils/upstash';
 import ListCard from './card';
 
 export const fetchSharedArticleData = async (user: User) => {
-	const cacheHash = getSHA256(`${user.id}_shared`);
+	const cacheHash = getSummarizedArticlesCacheHash(user.id);
 
 	type Article = Awaited<ReturnType<typeof fetchSharedArticles>>;
 	const cache = await redis.get<Article>(cacheHash);

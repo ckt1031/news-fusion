@@ -1,5 +1,4 @@
 'use server';
-'server only';
 
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';

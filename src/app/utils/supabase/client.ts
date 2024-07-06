@@ -5,5 +5,10 @@ export function createSupabaseBrowserClient() {
 	return createBrowserClient(
 		nextClientEnv.NEXT_PUBLIC_SUPABASE_URL,
 		nextClientEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+		{
+			cookieOptions: {
+				secure: process.env.NODE_ENV === 'production',
+			},
+		},
 	);
 }

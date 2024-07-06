@@ -42,7 +42,9 @@ export const config = {
 		 * - _next/static (static files)
 		 * - _next/image (image optimization files)
 		 * - favicon.ico (favicon file)
+		 * - sitemap.xml (sitemap file)
+		 * - robots.txt (robots file)
 		 */
-		'/((?!_next/static|__nextjs_original-stack-frame|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+		'/((?!_next/static|__nextjs_original-stack-frame|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
 	],
 };

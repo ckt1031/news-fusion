@@ -36,9 +36,9 @@ export default function DateSwitcher() {
 	// The target date to be used
 	const date = useNewsStore((state) => state.pageData.date);
 
-	const [rangeMode, setRangeMode] = useState(typeof date !== 'string');
-
 	const isToday = date === currentDate;
+
+	const [rangeMode, setRangeMode] = useState(typeof date !== 'string');
 
 	const getAllQueriesRequired = (date: string) => {
 		const { to, from, ...all } = queryString.parse(location.search);

@@ -5,14 +5,13 @@ import NewsList from '@/app/components/news/list';
 import TopicSelection from '@/app/components/news/topic-selection';
 import type { HomeSearchParamsProps } from '@/app/page';
 import captialTopicName from '@/app/utils/captial-topic-name';
-import { RSS_CATEGORY } from '@/config/news-sources';
+import { getAllNewsCatagorySlug } from '@/app/utils/news-catagory';
+import type { RSS_CATEGORY } from '@/config/news-sources';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
 export async function generateStaticParams() {
-	return Object.values(RSS_CATEGORY).map((p) => ({
-		slug: p,
-	}));
+	return getAllNewsCatagorySlug();
 }
 
 interface PageProps {

@@ -1,8 +1,7 @@
 'use server';
 
 import { authActionClient } from '@/app/utils/safe-action';
-import getSHA256 from '@/app/utils/sha256';
-import { redis } from '@/app/utils/upstash';
+import { getBookmarkCacheHash, redis } from '@/app/utils/upstash';
 import { addArticleUserRelation, removeArticleUserRelation } from '@/lib/db';
 import { BookmarkActionSchema } from './schema';
 
@@ -24,7 +23,7 @@ export const removeBookmarkAction = authActionClient
 
 export const clearBookmarksCacheAction = authActionClient.action(
 	async ({ ctx: { user } }) => {
-		const cacheHash = getSHA256(`${user.id}bookmarks`);
+		const cacheHash = getBookmarkCacheHash(user.id);
 		await redis.del(cacheHash);
 
 		return { success: true };

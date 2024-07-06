@@ -47,9 +47,15 @@ export default function ResetPasswordComponent() {
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		supabase.auth.onAuthStateChange(async (event) => {
+		const {
+			data: { subscription: authListener },
+		} = supabase.auth.onAuthStateChange(async (event) => {
 			if (event === 'SIGNED_IN') setIsReady(true);
 		});
+
+		return () => {
+			authListener?.unsubscribe();
+		};
 	}, []);
 
 	const onPasswordSubmit = async ({ password }: FormValues) => {
