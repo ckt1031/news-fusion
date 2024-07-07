@@ -1,6 +1,6 @@
 {
 	"$schema": "http://json.schemastore.org/tsconfig",
-	"exclude": ["node_modules", "dist", "src/app/components/ui"],
+	"exclude": ["node_modules", "dist", "src/components/ui"],
 	"include": ["src", "tests", "scripts", "*.ts", ".next/types/**/*.ts"],
 	"compilerOptions": {
 		"target": "ESNext",

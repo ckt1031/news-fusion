@@ -1,12 +1,12 @@
 'use client';
 
-import { Button } from '@/app/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
 	Card,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from '@/app/components/ui/card';
+} from '@/components/ui/card';
 import {
 	Form,
 	FormControl,
@@ -14,17 +14,12 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from '@/app/components/ui/form';
-import { Input } from '@/app/components/ui/input';
-import { Switch } from '@/app/components/ui/switch';
-import {
-	Tabs,
-	TabsContent,
-	TabsList,
-	TabsTrigger,
-} from '@/app/components/ui/tabs';
-import { Textarea } from '@/app/components/ui/textarea';
-import { useToast } from '@/app/components/ui/use-toast';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/components/ui/use-toast';
 import type { isArticleSimilar } from '@/lib/news/similarity';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, Search } from 'lucide-react';

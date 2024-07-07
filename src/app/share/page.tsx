@@ -1,9 +1,9 @@
+import LoadingComponent from '@/components/loading';
 import { fetchArticle } from '@/lib/db';
 import { decode } from 'js-base64';
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import LoadingComponent from '../components/loading';
 import type { SharedArticleFetchingReturnProps } from './[id]/schema';
 import ShareArticleHandlerStateInitializer from './[id]/state-initializer';
 

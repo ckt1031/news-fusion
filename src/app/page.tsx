@@ -1,10 +1,10 @@
+import DateSwitcher from '@/components/news/date-switcher';
+import { parseDateRange } from '@/components/news/get-date-server';
+import NewsList from '@/components/news/list';
+import TopicSelection from '@/components/news/topic-selection';
+import SkeletonNewsList from '@/components/skeleton/news-list';
 import { RSS_CATEGORY } from '@/config/news-sources';
 import { Suspense } from 'react';
-import DateSwitcher from './components/news/date-switcher';
-import { parseDateRange } from './components/news/get-date-server';
-import NewsList from './components/news/list';
-import TopicSelection from './components/news/topic-selection';
-import SkeletonNewsList from './components/skeleton/news-list';
 
 export interface HomeSearchParamsProps {
 	date?: string;

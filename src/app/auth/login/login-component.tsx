@@ -1,6 +1,8 @@
 'use client';
 
-import { Button } from '@/app/components/ui/button';
+import { cn } from '@/app/utils/cn';
+import { nextClientEnv } from '@/app/utils/env/client';
+import { Button } from '@/components/ui/button';
 import {
 	Form,
 	FormControl,
@@ -8,11 +10,9 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from '@/app/components/ui/form';
-import { Input } from '@/app/components/ui/input';
-import { useToast } from '@/app/components/ui/use-toast';
-import { cn } from '@/app/utils/cn';
-import { nextClientEnv } from '@/app/utils/env/client';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { Loader2 } from 'lucide-react';

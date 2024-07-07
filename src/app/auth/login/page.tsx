@@ -1,4 +1,4 @@
-import Auth from '@/app/components/auth';
+import Auth from '@/components/auth';
 import type { Metadata } from 'next';
 import LoginPageComponent from './login-component';
 

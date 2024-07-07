@@ -1,11 +1,11 @@
-import DateSwitcher from '@/app/components/news/date-switcher';
-import { parseDateRange } from '@/app/components/news/get-date-server';
-import NewsList from '@/app/components/news/list';
-import TopicSelection from '@/app/components/news/topic-selection';
-import SkeletonNewsList from '@/app/components/skeleton/news-list';
 import type { HomeSearchParamsProps } from '@/app/page';
 import captialTopicName from '@/app/utils/captial-topic-name';
 import { getAllNewsCatagorySlug } from '@/app/utils/news-catagory';
+import DateSwitcher from '@/components/news/date-switcher';
+import { parseDateRange } from '@/components/news/get-date-server';
+import NewsList from '@/components/news/list';
+import TopicSelection from '@/components/news/topic-selection';
+import SkeletonNewsList from '@/components/skeleton/news-list';
 import type { RSS_CATEGORY } from '@/config/news-sources';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';

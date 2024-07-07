@@ -1,16 +1,16 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import {
 	Card,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from '@/app/components/ui/card';
-import { ScrollArea } from '@/app/components/ui/scroll-area';
+} from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Bug, FlipVertical2 } from 'lucide-react';
 import type { ErrorComponent } from 'next/dist/client/components/error-boundary';
 import { useEffect, useState } from 'react';
-import { Button } from './components/ui/button';
 
 const ErrorStack: ErrorComponent = ({ error }) => {
 	const [showFullStack, setShowFullStack] = useState(false);

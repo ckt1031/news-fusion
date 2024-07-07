@@ -1,10 +1,10 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { readStreamableValue } from 'ai/rsc';
 import { useAction } from 'next-safe-action/hooks';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Button } from '../components/ui/button';
 import { summarizeDetailAction } from '../tools/summarize/actions';
 import SharedArticleComponent from './[id]/component';
 import { useUIStore } from './[id]/store';

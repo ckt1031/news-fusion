@@ -1,6 +1,7 @@
 'use client';
 
-import { Button } from '@/app/components/ui/button';
+import { createSupabaseBrowserClient } from '@/app/utils/supabase/client';
+import { Button } from '@/components/ui/button';
 import {
 	Form,
 	FormControl,
@@ -8,10 +9,9 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from '@/app/components/ui/form';
-import { Input } from '@/app/components/ui/input';
-import { useToast } from '@/app/components/ui/use-toast';
-import { createSupabaseBrowserClient } from '@/app/utils/supabase/client';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';

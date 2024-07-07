@@ -1,6 +1,8 @@
 import type { PropsWithChildren } from 'react';
-import './globals.css';
-import { Toaster } from '@/app/components/ui/toaster';
+import '@/styles/globals.css';
+import AuthStateInializer from '@/components/auth/client';
+import Heading from '@/components/heading';
+import { Toaster } from '@/components/ui/toaster';
 import {
 	DEFAULT_SITE_DESCRIPTION,
 	DEFAULT_SITE_TITLE,
@@ -10,9 +12,7 @@ import { GeistMono } from 'geist/font/mono';
 import type { Metadata, Viewport } from 'next';
 import dynamic from 'next/dynamic';
 import { Inter, Noto_Sans_SC, Noto_Sans_TC } from 'next/font/google';
-import AuthStateInializer from './components/auth/client';
-import Heading from './components/heading';
-import { ThemeProvider } from './components/theme';
+import { ThemeProvider } from './theme-provider';
 import { cn } from './utils/cn';
 import { nextServerEnv } from './utils/env/server';
 
@@ -56,9 +56,7 @@ export const metadata: Metadata = {
 
 export const runtime = 'nodejs';
 
-const VercelAnalytics = dynamic(() => import('./components/vercel-analytics'), {
-	ssr: false,
-});
+const VercelAnalytics = dynamic(() => import('./vercel-analytics'));
 
 export default async function RootLayout({ children }: PropsWithChildren) {
 	return (

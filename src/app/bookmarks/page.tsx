@@ -1,8 +1,8 @@
+import { serverAuthState } from '@/components/hooks/auth';
+import SkeletonNewsList from '@/components/skeleton/news-list';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import SkeletonNewsList from '../components/skeleton/news-list';
-import { serverAuthState } from '../hooks/auth';
 import { LOGIN_PATH } from '../utils/paths';
 import Component from './content';
 

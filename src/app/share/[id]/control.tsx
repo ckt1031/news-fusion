@@ -1,7 +1,9 @@
+import { summarizeDetailAction } from '@/app/tools/summarize/actions';
+import { useAuthStore } from '@/components/store/auth';
 import {
 	AlertDialogFooter,
 	AlertDialogHeader,
-} from '@/app/components/ui/alert-dialog';
+} from '@/components/ui/alert-dialog';
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -10,10 +12,8 @@ import {
 	AlertDialogDescription,
 	AlertDialogTitle,
 	AlertDialogTrigger,
-} from '@/app/components/ui/alert-dialog';
-import { Button } from '@/app/components/ui/button';
-import { useAuthStore } from '@/app/store/auth';
-import { summarizeDetailAction } from '@/app/tools/summarize/actions';
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
 import { readStreamableValue } from 'ai/rsc';
 import { RotateCw, Trash2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';

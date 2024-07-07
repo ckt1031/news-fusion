@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/app/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
 	Form,
 	FormControl,
@@ -8,8 +8,8 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from '@/app/components/ui/form';
-import { Textarea } from '@/app/components/ui/textarea';
+} from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { readStreamableValue } from 'ai/rsc';
 import { Copy, Loader2, RefreshCcw, Search } from 'lucide-react';
@@ -20,20 +20,20 @@ import Markdown from 'react-markdown';
 import type { z } from 'zod';
 import { summarizeDetailAction } from './actions';
 import { SummarizeSchema, type WebSearchResult } from './schema';
-import '@/app/styles/markdown.css';
+import '@/styles/markdown.css';
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from '@/app/components/ui/accordion';
-import { Switch } from '@/app/components/ui/switch';
+} from '@/components/ui/accordion';
+import { Switch } from '@/components/ui/switch';
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from '@/app/components/ui/tooltip';
+} from '@/components/ui/tooltip';
 
 export default function Component() {
 	const form = useForm<z.infer<typeof SummarizeSchema>>({

@@ -1,4 +1,4 @@
-import LoadingComponent from '@/app/components/loading';
+import LoadingComponent from '@/components/loading';
 import { getSharedArticle } from '@/lib/db';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';

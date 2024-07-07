@@ -1,13 +1,13 @@
 'use client';
 
+import { useAuthStore } from '@/components/store/auth';
 import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from '@/app/components/ui/card';
-import { useAuthStore } from '@/app/store/auth';
+} from '@/components/ui/card';
 import Image from 'next/image';
 
 export default function AvatarProfileSettings() {

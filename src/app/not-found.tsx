@@ -3,7 +3,7 @@ import {
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from '@/app/components/ui/card';
+} from '@/components/ui/card';
 import { CircleHelp } from 'lucide-react';
 import type { Metadata } from 'next';
 

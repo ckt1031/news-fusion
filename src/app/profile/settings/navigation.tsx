@@ -1,11 +1,11 @@
-import { Button } from '@/app/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from '@/app/components/ui/card';
+} from '@/components/ui/card';
 import { BookMarked, Share2 } from 'lucide-react';
 import Link from 'next/link';
 

@@ -1,17 +1,17 @@
 'use client';
 
-import '@/app/styles/markdown.css';
+import '@/styles/markdown.css';
 
-import PublisherComponent from '@/app/components/news/list/publisher';
-import TimeComponent from '@/app/components/news/list/time-component';
-import ReadMore from '@/app/components/news/section/read-more';
-import { useAuthStore } from '@/app/store/auth';
+import PublisherComponent from '@/components/news/list/publisher';
+import TimeComponent from '@/components/news/list/time-component';
+import ReadMore from '@/components/news/section/read-more';
+import { useAuthStore } from '@/components/store/auth';
 import dynamic from 'next/dynamic';
 import Markdown from 'react-markdown';
 import { useUIStore } from './store';
 
 const YouTubeEmbedComponent = dynamic(
-	() => import('@/app/components/news/section/youtube-embed'),
+	() => import('@/components/news/section/youtube-embed'),
 );
 const ThumbnailPhotoViewer = dynamic(() => import('./photo-viewer'));
 const SharePageControl = dynamic(() => import('./control'));

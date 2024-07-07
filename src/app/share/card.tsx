@@ -7,7 +7,7 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from '@/app/components/ui/card';
+} from '@/components/ui/card';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import ThumbnailPhotoViewer from './[id]/photo-viewer';

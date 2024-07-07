@@ -1,6 +1,6 @@
+import { serverAuthState } from '@/components/hooks/auth';
 import { fetchSharedArticles } from '@/lib/db';
 import type { User } from '@supabase/supabase-js';
-import { serverAuthState } from '../hooks/auth';
 import { getSummarizedArticlesCacheHash, redis } from '../utils/upstash';
 import ListCard from './card';
 
