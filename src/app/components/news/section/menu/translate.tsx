@@ -65,6 +65,7 @@ export function TranslateButton({ guid }: Props) {
 		setShowingItem(guid, {
 			title: baseItem.title,
 			summary: baseItem.summary,
+			immersiveTranslate: false,
 		});
 	};
 

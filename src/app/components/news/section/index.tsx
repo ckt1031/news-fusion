@@ -7,7 +7,7 @@ import { cn } from '@/app/utils/cn';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import Markdown from 'react-markdown';
-import LoadingComponent from '../../loading';
+import { Skeleton } from '../../ui/skeleton';
 import PublisherComponent from '../list/publisher';
 import TimeComponent from '../list/time-component';
 import NewsSectionDropdownMenu from './menu';
@@ -15,7 +15,10 @@ import ReadMore from './read-more';
 import NewsSimilarities from './similarities';
 
 const YouTubeEmbedComponent = dynamic(() => import('./youtube-embed'), {
-	loading: () => <LoadingComponent />,
+	ssr: false,
+	loading: () => (
+		<Skeleton className="my-3 aspect-video max-h-40 md:max-h-60 lg:max-h-80" />
+	),
 });
 
 interface Props {

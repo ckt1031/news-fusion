@@ -1,7 +1,6 @@
 import { RSS_CATEGORY } from '@/config/news-sources';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
-import DateSwitcher from './components/news/date-switcher';
 import { parseDateRange } from './components/news/get-date-server';
 import NewsList from './components/news/list';
 import SkeletonCard from './components/skeleton/card';
@@ -11,13 +10,14 @@ const TopicSelection = dynamic(
 	() => import('./components/news/topic-selection'),
 	{
 		ssr: false,
-		loading: () => (
-			<div className="my-1">
-				<SkeletonCard />
-			</div>
-		),
+		loading: () => <SkeletonCard className="my-1" />,
 	},
 );
+
+const DateSwitcher = dynamic(() => import('./components/news/date-switcher'), {
+	ssr: false,
+	loading: () => <SkeletonCard className="my-1" />,
+});
 
 export interface HomeSearchParamsProps {
 	date?: string;

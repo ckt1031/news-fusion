@@ -8,12 +8,15 @@ import SkeletonSmallButtonIcon from '../../skeleton/button';
 import { SkeletonSingleNews } from '../../skeleton/news-list';
 
 const NewsSection = dynamic(() => import('../section'), {
+	ssr: false,
 	loading: () => <SkeletonSingleNews />,
 });
 const NewsSearching = dynamic(() => import('../searching'), {
+	ssr: false,
 	loading: () => <SkeletonSmallButtonIcon />,
 });
 const NewsPageDropdownMenu = dynamic(() => import('./menu'), {
+	ssr: false,
 	loading: () => <SkeletonSmallButtonIcon />,
 });
 
@@ -28,7 +31,11 @@ function AIAlert() {
 }
 
 export default function Content() {
-	const { type, news, loading } = useNewsStore((state) => state);
+	const {
+		type,
+		displayingNews: news,
+		loading,
+	} = useNewsStore((state) => state);
 	const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
 	const Section = () => (

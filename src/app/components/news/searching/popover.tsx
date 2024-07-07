@@ -105,6 +105,7 @@ export default function NewsSearchingPopoverContent() {
 		const fuse = new Fuse(baseNews, options);
 
 		const results = fuse.search(data.searchQuery);
+
 		const items = results.map((result) => result.item);
 
 		setDisplayingNews(items);

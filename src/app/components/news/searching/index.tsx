@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 import LoadingComponent from '../../loading';
 
 const NewsSearchingPopoverContent = dynamic(() => import('./popover'), {
+	ssr: false,
 	loading: () => <LoadingComponent />,
 });
 

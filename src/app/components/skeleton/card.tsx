@@ -1,5 +1,10 @@
 import { Skeleton } from '@/app/components/ui/skeleton';
+import { cn } from '@/app/utils/cn';
 
-export default function SkeletonCard() {
-	return <Skeleton className="h-20" />;
+interface Props {
+	className?: string;
+}
+
+export default function SkeletonCard({ className }: Props) {
+	return <Skeleton className={cn('h-20', className)} />;
 }
