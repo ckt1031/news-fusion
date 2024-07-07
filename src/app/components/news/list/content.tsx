@@ -8,15 +8,12 @@ import SkeletonSmallButtonIcon from '../../skeleton/button';
 import { SkeletonSingleNews } from '../../skeleton/news-list';
 
 const NewsSection = dynamic(() => import('../section'), {
-	ssr: false,
 	loading: () => <SkeletonSingleNews />,
 });
 const NewsSearching = dynamic(() => import('../searching'), {
-	ssr: false,
 	loading: () => <SkeletonSmallButtonIcon />,
 });
 const NewsPageDropdownMenu = dynamic(() => import('./menu'), {
-	ssr: false,
 	loading: () => <SkeletonSmallButtonIcon />,
 });
 

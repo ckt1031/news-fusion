@@ -8,7 +8,9 @@ import CopyButton from './copy-to-clipboard';
 
 const AuthenticatedMenuContent = dynamic(
 	() => import('./content-authenticated'),
-	{ loading: () => null },
+	{
+		loading: () => null,
+	},
 );
 
 interface Props {

@@ -8,7 +8,6 @@ import dynamic from 'next/dynamic';
 import LoadingComponent from '../../loading';
 
 const NewsSearchingPopoverContent = dynamic(() => import('./popover'), {
-	ssr: false,
 	loading: () => <LoadingComponent />,
 });
 
@@ -18,7 +17,7 @@ export default function NewsSearching() {
 			<PopoverTrigger>
 				<Search className="w-4 h-4 text-gray-500 dark:text-gray-400" />
 			</PopoverTrigger>
-			<PopoverContent align="center">
+			<PopoverContent align="start" alignOffset={-50}>
 				<NewsSearchingPopoverContent />
 			</PopoverContent>
 		</Popover>

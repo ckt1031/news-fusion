@@ -12,16 +12,9 @@ import { useUIStore } from './store';
 
 const YouTubeEmbedComponent = dynamic(
 	() => import('@/app/components/news/section/youtube-embed'),
-	{
-		ssr: false,
-	},
 );
-const ThumbnailPhotoViewer = dynamic(() => import('./photo-viewer'), {
-	ssr: false,
-});
-const SharePageControl = dynamic(() => import('./control'), {
-	ssr: false,
-});
+const ThumbnailPhotoViewer = dynamic(() => import('./photo-viewer'));
+const SharePageControl = dynamic(() => import('./control'));
 
 export default function SharedArticleComponent() {
 	const data = useUIStore((s) => s.data);

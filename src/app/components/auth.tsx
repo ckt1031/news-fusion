@@ -22,5 +22,9 @@ export default async function Auth({
 		redirect(LOGIN_PATH);
 	}
 
+	if (isLoggedIn && reversed) {
+		redirect('/');
+	}
+
 	return <>{children}</>;
 }

@@ -5,21 +5,16 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import LoadingComponent from '../components/loading';
 import type { SharedArticleFetchingReturnProps } from './[id]/schema';
+import ShareArticleHandlerStateInitializer from './[id]/state-initializer';
 
 const SharedArticlesListPage = dynamic(() => import('./list'), {
+	ssr: false,
 	loading: () => <LoadingComponent />,
 });
 const ShareArticleHandler = dynamic(() => import('./handler'), {
-	loading: () => <LoadingComponent />,
 	ssr: false,
+	loading: () => <LoadingComponent />,
 });
-const ShareArticleHandlerStateInitializer = dynamic(
-	() => import('./[id]/state-initializer'),
-	{
-		ssr: false,
-		loading: () => <LoadingComponent />,
-	},
-);
 
 export interface StartingSharePageProps {
 	searchParams: {
