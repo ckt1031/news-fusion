@@ -3,7 +3,6 @@
 import { redis } from '@/app/utils/upstash';
 import type { RSS_CATEGORY } from '@/config/news-sources';
 import type { Article } from '@/db/schema';
-import logging from '@/lib/console';
 import { getNewsBasedOnDateAndCategory } from '@/lib/db';
 import dayjs from 'dayjs';
 import getNewsPageRedisCacheKey from '../actions/get-cache-key';
@@ -33,8 +32,6 @@ export async function fetchNewsForPage({
 		topic,
 	);
 	const cache = await redis.get<CacheArticle[]>(cacheHash);
-
-	logging.info(`Cache ${cache ? 'hit' : 'miss'}`);
 
 	if (cache) {
 		return cache.map((c) => ({ ...c, publishedAt: new Date(c.publishedAt) }));

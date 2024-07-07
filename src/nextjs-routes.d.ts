@@ -20,7 +20,6 @@ declare module "nextjs-routes" {
     | StaticRoute<"/profile">
     | StaticRoute<"/share">
     | DynamicRoute<"/share/[id]", { "id": string }>
-    | StaticRoute<"/sitemap-index.xml">
     | StaticRoute<"/tools/similarities">
     | StaticRoute<"/tools/summarize">
     | DynamicRoute<"/topic/[slug]", { "slug": string }>;
