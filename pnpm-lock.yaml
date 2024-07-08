@@ -70,10 +70,10 @@ importers:
         version: 1.1.2(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@19.0.0-rc-f38c22b244-20240704(react@19.0.0-rc-f38c22b244-20240704))(react@19.0.0-rc-f38c22b244-20240704)
       '@supabase/ssr':
         specifier: ^0.4.0
-        version: 0.4.0(@supabase/supabase-js@2.44.2(bufferutil@4.0.8)(utf-8-validate@6.0.4))
+        version: 0.4.0(@supabase/supabase-js@2.44.3(bufferutil@4.0.8)(utf-8-validate@6.0.4))
       '@supabase/supabase-js':
         specifier: ^2.44.2
-        version: 2.44.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)
+        version: 2.44.3(bufferutil@4.0.8)(utf-8-validate@6.0.4)
       '@t3-oss/env-nextjs':
         specifier: ^0.10.1
         version: 0.10.1(typescript@5.5.3)(zod@3.23.8)
@@ -1857,8 +1857,8 @@ packages:
     resolution: {integrity: sha512-1ibVeYUacxWYi9i0cf5efil6adJ9WRyZBLivgjs+AUpewx1F3xPi7gLgaASI2SmIQxPoCEjAsLAzKPgMJVgOUQ==}
     engines: {node: 4.x || >=6.0.0}
 
-  '@supabase/postgrest-js@1.15.7':
-    resolution: {integrity: sha512-TJztay5lcnnKuXjIO/X/aaajOsP8qNeW0k3MqIFoOtRolj5MEAIy8rixNakRk3o23eVCdsuP3iMLYPvOOruH6Q==}
+  '@supabase/postgrest-js@1.15.8':
+    resolution: {integrity: sha512-YunjXpoQjQ0a0/7vGAvGZA2dlMABXFdVI/8TuVKtlePxyT71sl6ERl6ay1fmIeZcqxiuFQuZw/LXUuStUG9bbg==}
 
   '@supabase/realtime-js@2.10.2':
     resolution: {integrity: sha512-qyCQaNg90HmJstsvr2aJNxK2zgoKh9ZZA8oqb7UT2LCh3mj9zpa3Iwu167AuyNxsxrUE8eEJ2yH6wLCij4EApA==}
@@ -1871,8 +1871,8 @@ packages:
   '@supabase/storage-js@2.6.0':
     resolution: {integrity: sha512-REAxr7myf+3utMkI2oOmZ6sdplMZZ71/2NEIEMBZHL9Fkmm3/JnaOZVSRqvG4LStYj2v5WhCruCzuMn6oD/Drw==}
 
-  '@supabase/supabase-js@2.44.2':
-    resolution: {integrity: sha512-fouCwL1OxqftOwLNgdDUPlNnFuCnt30nS4kLcnTpe6NYKn1PmjxRRBFmKscgHs6FjWyU+32ZG4uBJ29+/BWiDw==}
+  '@supabase/supabase-js@2.44.3':
+    resolution: {integrity: sha512-3tYf5ojKSL0RJIpnkwYSdLPdRcza8KMTdRx2SyF9YA6PWnuUfqzmqjZohAHJuGql2CaPMWd9BLPOHupPuGq0lQ==}
 
   '@swc/helpers@0.5.11':
     resolution: {integrity: sha512-YNlnKRWF2sVojTpIyzwou9XoTNbzbzONwRhOoniEioF1AtaitTvVZblaQRrAzChWQ1bLYyYSWzM18y4WwgzJ+A==}
@@ -1941,6 +1941,9 @@ packages:
 
   '@types/node@20.12.14':
     resolution: {integrity: sha512-scnD59RpYD91xngrQQLGkE+6UrHUPzeKZWhhjBSa3HSkwjbQc38+q3RoIVEwxQGRw3M+j5hpNAM+lgV3cVormg==}
+
+  '@types/node@20.14.10':
+    resolution: {integrity: sha512-MdiXf+nDuMvY0gJKxyfZ7/6UFsETO7mGKF54MVD/ekJS6HdFtpZFBgrh6Pseu64XTb2MLyFPlbW6hj8HYRQNOQ==}
 
   '@types/node@20.14.9':
     resolution: {integrity: sha512-06OCtnTXtWOZBJlRApleWndH4JsRVs1pDCc8dLSQp+7PpUpX3ePdHyeNSFTeSe7FtKyQkrlPvHwJOW3SLd8Oyg==}
@@ -2165,6 +2168,11 @@ packages:
 
   acorn@8.12.0:
     resolution: {integrity: sha512-RTvkC4w+KNXrM39/lWCUaG0IbRkWdCv7W/IOW9oU6SawyxulvkQy5HQPVTKxEjczcUvapcrw3cFx/60VN/NRNw==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
+  acorn@8.12.1:
+    resolution: {integrity: sha512-tcpGyI9zbizT9JbV6oYE477V6mTlXvvi0T0G3SNIYE2apm/G5huBa1+K89VGeovbg+jycCrfhl3ADxErOuO6Jg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -4097,6 +4105,18 @@ packages:
       utf-8-validate:
         optional: true
 
+  ws@8.18.0:
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
   yallist@5.0.0:
     resolution: {integrity: sha512-YgvUTfwqyc7UXVMrB+SImsVYSmTS8X/tSrtdNZMImM+n7+QTriRXyXim0mBrTXNeqzVF0KWGgHPeiyViFFrNDw==}
     engines: {node: '>=18'}
@@ -5481,7 +5501,7 @@ snapshots:
     dependencies:
       whatwg-url: 5.0.0
 
-  '@supabase/postgrest-js@1.15.7':
+  '@supabase/postgrest-js@1.15.8':
     dependencies:
       '@supabase/node-fetch': 2.6.15
 
@@ -5490,14 +5510,14 @@ snapshots:
       '@supabase/node-fetch': 2.6.15
       '@types/phoenix': 1.6.5
       '@types/ws': 8.5.10
-      ws: 8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.4)
+      ws: 8.18.0(bufferutil@4.0.8)(utf-8-validate@6.0.4)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@supabase/ssr@0.4.0(@supabase/supabase-js@2.44.2(bufferutil@4.0.8)(utf-8-validate@6.0.4))':
+  '@supabase/ssr@0.4.0(@supabase/supabase-js@2.44.3(bufferutil@4.0.8)(utf-8-validate@6.0.4))':
     dependencies:
-      '@supabase/supabase-js': 2.44.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)
+      '@supabase/supabase-js': 2.44.3(bufferutil@4.0.8)(utf-8-validate@6.0.4)
       cookie: 0.6.0
     optionalDependencies:
       '@rollup/rollup-linux-x64-gnu': 4.18.0
@@ -5506,12 +5526,12 @@ snapshots:
     dependencies:
       '@supabase/node-fetch': 2.6.15
 
-  '@supabase/supabase-js@2.44.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)':
+  '@supabase/supabase-js@2.44.3(bufferutil@4.0.8)(utf-8-validate@6.0.4)':
     dependencies:
       '@supabase/auth-js': 2.64.2
       '@supabase/functions-js': 2.4.1
       '@supabase/node-fetch': 2.6.15
-      '@supabase/postgrest-js': 1.15.7
+      '@supabase/postgrest-js': 1.15.8
       '@supabase/realtime-js': 2.10.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)
       '@supabase/storage-js': 2.6.0
     transitivePeerDependencies:
@@ -5580,7 +5600,7 @@ snapshots:
 
   '@types/node-fetch@2.6.11':
     dependencies:
-      '@types/node': 20.14.9
+      '@types/node': 20.14.10
       form-data: 4.0.0
     optional: true
 
@@ -5590,6 +5610,11 @@ snapshots:
     optional: true
 
   '@types/node@20.12.14':
+    dependencies:
+      undici-types: 5.26.5
+    optional: true
+
+  '@types/node@20.14.10':
     dependencies:
       undici-types: 5.26.5
     optional: true
@@ -5782,6 +5807,8 @@ snapshots:
       acorn: 8.12.0
 
   acorn@8.12.0: {}
+
+  acorn@8.12.1: {}
 
   agent-base@7.1.1(supports-color@9.4.0):
     dependencies:
@@ -6016,7 +6043,7 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
       '@types/estree': 1.0.5
-      acorn: 8.12.0
+      acorn: 8.12.1
       estree-walker: 3.0.3
       periscopic: 3.1.0
 
@@ -7510,7 +7537,7 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.4.15
       '@jridgewell/trace-mapping': 0.3.25
       '@types/estree': 1.0.5
-      acorn: 8.12.0
+      acorn: 8.12.1
       aria-query: 5.3.0
       axobject-query: 4.0.0
       code-red: 1.0.4
@@ -7860,6 +7887,11 @@ snapshots:
       utf-8-validate: 6.0.4
 
   ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.4):
+    optionalDependencies:
+      bufferutil: 4.0.8
+      utf-8-validate: 6.0.4
+
+  ws@8.18.0(bufferutil@4.0.8)(utf-8-validate@6.0.4):
     optionalDependencies:
       bufferutil: 4.0.8
       utf-8-validate: 6.0.4
