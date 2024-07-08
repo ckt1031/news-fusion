@@ -4,6 +4,7 @@ import '@/styles/markdown.css';
 
 import { cn } from '@/app/utils/cn';
 import { useNewsStore } from '@/components/store/news';
+import { isURLYoutube } from '@/lib/url';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import Markdown from 'react-markdown';
@@ -32,8 +33,6 @@ export default function NewsSection({ guid }: Props) {
 
 	const baseItem = useNewsStore((state) => state.getItem(guid));
 	const displayingItem = useNewsStore((state) => state.getDisplayingItem(guid));
-
-	const isYouTube = new URL(baseItem.url).hostname.includes('youtube.com');
 
 	return (
 		<>
@@ -83,8 +82,11 @@ export default function NewsSection({ guid }: Props) {
 			</div>
 			{displayDetail && (
 				<div className="mt-2">
-					{isYouTube && <YouTubeEmbedComponent url={baseItem.url} />}
-					{!isYouTube && <ReadMore url={baseItem.url} />}
+					{isURLYoutube(baseItem.url) ? (
+						<YouTubeEmbedComponent url={baseItem.url} />
+					) : (
+						<ReadMore url={baseItem.url} />
+					)}
 					{displayingItem.summary.length > 0 && (
 						<>
 							<Markdown className={summaryClassname}>

@@ -2,6 +2,7 @@ import type { ServerEnv } from '@/types/env';
 import type { paths } from '@/types/tool-apis';
 import createClient from 'openapi-fetch';
 import logging from './console';
+import { isURLYoutube } from './url';
 
 export type ScrapeMarkdownVar = Pick<
 	ServerEnv,
@@ -25,11 +26,8 @@ export async function getContentMarkdownFromURL(
 	url: string,
 ) {
 	let content = '';
-	const host = new URL(url).host;
 
-	const youtubeHosts = ['youtube.com', 'www.youtube.com', 'youtu.be', 'yt.be'];
-
-	if (youtubeHosts.includes(host)) {
+	if (isURLYoutube(url)) {
 		const ytInfo = await scrapeYouTube(env, url);
 		content = ytInfo.captions?.text ?? '';
 	} else {
