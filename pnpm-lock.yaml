@@ -197,6 +197,9 @@ importers:
       react-photo-view:
         specifier: ^1.2.6
         version: 1.2.6(react-dom@19.0.0-rc-f38c22b244-20240704(react@19.0.0-rc-f38c22b244-20240704))(react@19.0.0-rc-f38c22b244-20240704)
+      react-resizable-panels:
+        specifier: ^2.0.20
+        version: 2.0.20(react-dom@19.0.0-rc-f38c22b244-20240704(react@19.0.0-rc-f38c22b244-20240704))(react@19.0.0-rc-f38c22b244-20240704)
       s-ago:
         specifier: ^2.2.0
         version: 2.2.0
@@ -3541,6 +3544,12 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  react-resizable-panels@2.0.20:
+    resolution: {integrity: sha512-aMbK3VF8U+VBICG+rwhE0Rr/eFZaRzmNq3akBRL1TrayIpLXz7Rbok0//kYeWj6SQRsjcQ3f4eRplJicM+oL6w==}
+    peerDependencies:
+      react: ^16.14.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
 
   react-style-singleton@2.2.1:
     resolution: {integrity: sha512-ZWj0fHEMyWkHzKYUr2Bs/4zU6XLmq9HsgBURm7g5pAVfyn49DgUiNgY2d4lXRlYSiCif9YBGpQleewkcqddc7g==}
@@ -7248,6 +7257,11 @@ snapshots:
       use-sidecar: 1.1.2(@types/react@18.3.3)(react@19.0.0-rc-f38c22b244-20240704)
     optionalDependencies:
       '@types/react': 18.3.3
+
+  react-resizable-panels@2.0.20(react-dom@19.0.0-rc-f38c22b244-20240704(react@19.0.0-rc-f38c22b244-20240704))(react@19.0.0-rc-f38c22b244-20240704):
+    dependencies:
+      react: 19.0.0-rc-f38c22b244-20240704
+      react-dom: 19.0.0-rc-f38c22b244-20240704(react@19.0.0-rc-f38c22b244-20240704)
 
   react-style-singleton@2.2.1(@types/react@18.3.3)(react@19.0.0-rc-f38c22b244-20240704):
     dependencies:

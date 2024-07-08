@@ -1,6 +1,8 @@
-import type { StartingSharePageProps } from '@/app/share/page';
+import { useUIStore as useArticleUIStore } from '@/app/content/[id]/store';
+import { summarizeDetailAction } from '@/app/tools/summarize/actions';
 import { SummarizeSchema } from '@/app/tools/summarize/schema';
-import { useNewsStore } from '@/components/store/news';
+import { useNewsStore } from '@/components/store/news/items';
+import { useSingleNewsViewStore } from '@/components/store/news/single-view';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -19,10 +21,9 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { encode } from 'js-base64';
+import { readStreamableValue } from 'ai/rsc';
 import { ExternalLink, Share } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import queryString from 'query-string';
+import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
 import { useUIStore } from './store';
@@ -51,8 +52,6 @@ export function ShareButton() {
 export function ShareDialog({ guid }: Props) {
 	// const { toast } = useToast();
 
-	const router = useRouter();
-
 	/**
 	 * Form and Actions
 	 */
@@ -65,6 +64,10 @@ export function ShareDialog({ guid }: Props) {
 		},
 	});
 
+	const { executeAsync: summarize } = useAction(summarizeDetailAction);
+
+	const setSideArticle = useSingleNewsViewStore((state) => state.setArticle);
+
 	// const { executeAsync, isExecuting } = useAction(summarizeDetailAction);
 
 	// const setDialog = useUIStore((state) => state.setDialog);
@@ -74,23 +77,22 @@ export function ShareDialog({ guid }: Props) {
 	 */
 
 	const baseItem = useNewsStore((state) => state.getItem(guid));
+	const setLongSummary = useArticleUIStore((state) => state.setLongSummary);
 
 	const onSubmit = async (values: z.infer<typeof SummarizeSchema>) => {
-		// Send the translation request
-		// const result = await executeAsync({
-		// 	content: `Summarize ${baseItem.url} in detail, including all the important information. ${values.content}`,
-		// 	webSearch: values.webSearch,
-		// });
+		setSideArticle(baseItem);
 
-		// if (!result?.data) return;
+		const resp = await summarize({
+			content: `Summarize ${baseItem.url} with detail and all important information, clear markdown with minimum points (and subheadings if content has differrent aspects or number of theme).
+      ${values.content}`,
+			webSearch: values.webSearch,
+		});
 
-		// setDialog(null);
-		const searchParams: StartingSharePageProps['searchParams'] = {
-			articleId: baseItem.id.toString(),
-			use_search: values.webSearch ? 1 : 0,
-			custom_instructions: encodeURIComponent(encode(values.content)),
-		};
-		router.push(`/share?${queryString.stringify(searchParams)}`);
+		if (!resp?.data) return;
+
+		for await (const content of readStreamableValue(resp.data.LLM)) {
+			content && setLongSummary(content);
+		}
 	};
 
 	return (

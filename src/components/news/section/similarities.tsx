@@ -1,4 +1,4 @@
-import { useNewsStore } from '@/components/store/news';
+import { useNewsStore } from '@/components/store/news/items';
 
 interface NewsSimilaritiesProps {
 	guid: string;

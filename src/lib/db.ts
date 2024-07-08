@@ -172,6 +172,8 @@ export async function getNewsBasedOnDateAndCategory(
 			publisher: true,
 			similarArticles: true,
 			publishedAt: true,
+			longSummary: true,
+			thumbnail: true,
 		},
 		orderBy: (d, { desc }) => [desc(d.publishedAt)],
 		where: (d, { and, gte, lte }) =>
@@ -204,6 +206,8 @@ export async function getBookmarksFromUser(userId: string) {
 					publisher: true,
 					publishedAt: true,
 					similarArticles: true,
+					longSummary: true,
+					thumbnail: true,
 				},
 			},
 		},
@@ -214,35 +218,35 @@ export async function getBookmarksFromUser(userId: string) {
 	);
 }
 
-export async function getSharedArticle(id: string) {
-	return db.query.sharedArticles.findFirst({
-		where: (d, { eq }) => eq(d.id, id),
-		with: {
-			article: {
-				columns: {
-					id: true,
-					guid: true,
-					title: true,
-					url: true,
-					summary: true,
-					publisher: true,
-					publishedAt: true,
-					similarArticles: true,
-				},
-			},
-		},
-	});
-}
+// export async function getSharedArticle(id: string) {
+// 	return db.query.sharedArticles.findFirst({
+// 		where: (d, { eq }) => eq(d.id, id),
+// 		with: {
+// 			article: {
+// 				columns: {
+// 					id: true,
+// 					guid: true,
+// 					title: true,
+// 					url: true,
+// 					summary: true,
+// 					publisher: true,
+// 					publishedAt: true,
+// 					similarArticles: true,
+// 				},
+// 			},
+// 		},
+// 	});
+// }
 
-export async function deleteSharedArticle(id: string) {
-	await db
-		.delete(schema.sharedArticles)
-		.where(eq(schema.sharedArticles.id, id));
-}
+// export async function deleteSharedArticle(id: string) {
+// 	await db
+// 		.delete(schema.sharedArticles)
+// 		.where(eq(schema.sharedArticles.id, id));
+// }
 
-export async function saveSharedArticle(data: schema.NewSharedArticle) {
-	await db.insert(schema.sharedArticles).values(data);
-}
+// export async function saveSharedArticle(data: schema.NewSharedArticle) {
+// 	await db.insert(schema.sharedArticles).values(data);
+// }
 
 export async function fetchArticle(articleId: number) {
 	return db.query.articles.findFirst({
@@ -256,27 +260,29 @@ export async function fetchArticle(articleId: number) {
 			publisher: true,
 			publishedAt: true,
 			similarArticles: true,
+			longSummary: true,
+			thumbnail: true,
 		},
 	});
 }
 
-export async function fetchSharedArticles(userId?: string) {
-	return db.query.sharedArticles.findMany({
-		...(userId ? { where: (d, { eq }) => eq(d.userId, userId) } : {}),
-		orderBy: (posts, { desc }) => [desc(posts.createdAt)],
-		with: {
-			article: {
-				columns: {
-					id: true,
-					guid: true,
-					title: true,
-					url: true,
-					summary: true,
-					publisher: true,
-					publishedAt: true,
-					similarArticles: true,
-				},
-			},
-		},
-	});
-}
+// export async function fetchSharedArticles(userId?: string) {
+// 	return db.query.sharedArticles.findMany({
+// 		...(userId ? { where: (d, { eq }) => eq(d.userId, userId) } : {}),
+// 		orderBy: (posts, { desc }) => [desc(posts.createdAt)],
+// 		with: {
+// 			article: {
+// 				columns: {
+// 					id: true,
+// 					guid: true,
+// 					title: true,
+// 					url: true,
+// 					summary: true,
+// 					publisher: true,
+// 					publishedAt: true,
+// 					similarArticles: true,
+// 				},
+// 			},
+// 		},
+// 	});
+// }

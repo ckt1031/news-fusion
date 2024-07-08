@@ -2,7 +2,7 @@
 
 import Content from '@/components/news/list/content';
 import AppInitializer from '@/components/news/list/initializer';
-import { NewsType } from '@/components/store/news';
+import { NewsType } from '@/components/store/news/items';
 import type { Bookmarks } from './actions';
 
 interface Props {

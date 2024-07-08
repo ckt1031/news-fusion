@@ -1,4 +1,4 @@
-import { useNewsStore } from '@/components/store/news';
+import { useNewsStore } from '@/components/store/news/items';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {

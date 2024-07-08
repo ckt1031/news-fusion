@@ -1,9 +1,9 @@
 import { create } from 'zustand';
-import type { SharedArticleFetchingReturnProps } from './schema';
+import type { ArticleFetchingReturnProps } from './schema';
 
 interface UIStore {
-	data: SharedArticleFetchingReturnProps;
-	setData: (data: NonNullable<SharedArticleFetchingReturnProps>) => void;
+	data: ArticleFetchingReturnProps;
+	setData: (data: NonNullable<ArticleFetchingReturnProps>) => void;
 
 	setLongSummary: (longSummary: string) => void;
 }

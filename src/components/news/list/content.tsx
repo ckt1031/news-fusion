@@ -1,7 +1,15 @@
 'use client';
 
+import ArticleComponent from '@/app/content/[id]/component';
+import StateInitializer from '@/app/content/[id]/state-initializer';
 import { useAuthStore } from '@/components/store/auth';
-import { useNewsStore } from '@/components/store/news';
+import { useNewsStore } from '@/components/store/news/items';
+import { useSingleNewsViewStore } from '@/components/store/news/single-view';
+import {
+	ResizableHandle,
+	ResizablePanel,
+	ResizablePanelGroup,
+} from '@/components/ui/resizable';
 import { Info } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import SkeletonSmallButtonIcon from '../../skeleton/button';
@@ -34,6 +42,7 @@ export default function Content() {
 		loading,
 	} = useNewsStore((state) => state);
 	const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+	const sideArticle = useSingleNewsViewStore((state) => state.article);
 
 	const Section = () => (
 		<div className="mb-4 flex flex-col divide-y divide-gray-300 dark:divide-gray-700">
@@ -51,18 +60,30 @@ export default function Content() {
 	);
 
 	return (
-		<>
-			<div className="flex flex-row items-center mb-1 gap-2 py-2">
-				<p className="text-gray-500 dark:text-gray-400 text-sm">
-					{news.length} {type} found
-				</p>
-				<NewsSearching />
-				{isLoggedIn && <NewsPageDropdownMenu />}
-			</div>
-			{!loading && <Section />}
-			<div className="mb-5">
-				<AIAlert />
-			</div>
-		</>
+		<ResizablePanelGroup direction="horizontal">
+			<ResizablePanel>
+				<div className="flex flex-row items-center mb-1 gap-2 py-2">
+					<p className="text-gray-500 dark:text-gray-400 text-sm">
+						{news.length} {type} found
+					</p>
+					<NewsSearching />
+					{isLoggedIn && <NewsPageDropdownMenu />}
+				</div>
+				{!loading && <Section />}
+				<div className="mb-5">
+					<AIAlert />
+				</div>
+			</ResizablePanel>
+			{sideArticle && (
+				<>
+					<ResizableHandle />
+					<ResizablePanel>
+						<StateInitializer data={sideArticle}>
+							<ArticleComponent />
+						</StateInitializer>
+					</ResizablePanel>
+				</>
+			)}
+		</ResizablePanelGroup>
 	);
 }

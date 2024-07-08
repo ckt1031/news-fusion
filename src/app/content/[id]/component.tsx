@@ -8,6 +8,7 @@ import ReadMore from '@/components/news/section/read-more';
 import { useAuthStore } from '@/components/store/auth';
 import dynamic from 'next/dynamic';
 import Markdown from 'react-markdown';
+import BriefSummaryBox from './brief-summary';
 import { useUIStore } from './store';
 
 const YouTubeEmbedComponent = dynamic(
@@ -16,14 +17,11 @@ const YouTubeEmbedComponent = dynamic(
 const ThumbnailPhotoViewer = dynamic(() => import('./photo-viewer'));
 const SharePageControl = dynamic(() => import('./control'));
 
-export default function SharedArticleComponent() {
-	const data = useUIStore((s) => s.data);
-
+export default function ArticleComponent() {
+	const article = useUIStore((s) => s.data);
 	const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
 
-	if (!data) return null;
-
-	const article = data.article;
+	if (!article) return null;
 
 	const isYouTube = new URL(article.url).hostname.includes('youtube.com');
 
@@ -40,16 +38,17 @@ export default function SharedArticleComponent() {
 				/>
 			</div>
 			<ReadMore url={article.url} />
-			{!isYouTube && data.thumbnail && (
+			{!isYouTube && article.thumbnail && (
 				<ThumbnailPhotoViewer
-					src={data.thumbnail}
+					src={article.thumbnail}
 					alt={article.title}
 					className="w-full"
 				/>
 			)}
 			{isYouTube && <YouTubeEmbedComponent url={article.url} />}
+			<BriefSummaryBox summary={article.summary} />
 			<Markdown className="font-mono mt-2 w-full max-w-3xl text-gray-600 dark:text-gray-400 prose prose-neutral markdown-style">
-				{data.longSummary}
+				{article.longSummary}
 			</Markdown>
 			{isLoggedIn && (
 				<div className="max-w-3xl w-full">

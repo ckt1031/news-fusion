@@ -32,6 +32,9 @@ export const articles = pgTable(
 		similarArticles: text('similarArticles').array().notNull(),
 
 		summary: text('summary').notNull().default(sql`''`),
+
+		longSummary: text('longSummary'),
+		thumbnail: text('thumbnail'),
 	},
 	(table) => ({
 		embeddingIndex: index('embeddingIndex').using(
@@ -55,31 +58,31 @@ export const users = pgTable('users', {
 /**
  * Now this is also for AI long summary, like side panel to show up for reading.
  */
-export const sharedArticles = pgTable(
-	'shared_articles',
-	{
-		id: text('id').primaryKey().unique(),
-		userId: text('user_id')
-			.references(() => users.id)
-			.notNull(),
-		articleId: integer('article_id')
-			.references(() => articles.id)
-			.notNull(),
-		longSummary: text('longSummary').notNull(),
-		thumbnail: text('thumbnail'),
-		sources: text('sources').array(),
-		private: boolean('private').default(sql`false`).notNull(),
-		createdAt: timestamp('created_at', {
-			mode: 'date',
-			withTimezone: true,
-		})
-			.defaultNow()
-			.notNull(),
-	},
-	(table) => ({
-		sharedArticlesIdIndex: index('sharedArticlesIdIndex').on(table.userId),
-	}),
-);
+// export const sharedArticles = pgTable(
+// 	'shared_articles',
+// 	{
+// 		id: text('id').primaryKey().unique(),
+// 		userId: text('user_id')
+// 			.references(() => users.id)
+// 			.notNull(),
+// 		articleId: integer('article_id')
+// 			.references(() => articles.id)
+// 			.notNull(),
+// 		longSummary: text('longSummary').notNull(),
+// 		thumbnail: text('thumbnail'),
+// 		sources: text('sources').array(),
+// 		private: boolean('private').default(sql`false`).notNull(),
+// 		createdAt: timestamp('created_at', {
+// 			mode: 'date',
+// 			withTimezone: true,
+// 		})
+// 			.defaultNow()
+// 			.notNull(),
+// 	},
+// 	(table) => ({
+// 		sharedArticlesIdIndex: index('sharedArticlesIdIndex').on(table.userId),
+// 	}),
+// );
 
 export const bookmarks = pgTable(
 	'bookmarks',
@@ -106,16 +109,16 @@ export const bookmarks = pgTable(
  * Relations
  */
 
-export const sharedArticlesRelations = relations(sharedArticles, ({ one }) => ({
-	article: one(articles, {
-		fields: [sharedArticles.articleId],
-		references: [articles.id],
-	}),
-	user: one(users, {
-		fields: [sharedArticles.userId],
-		references: [users.id],
-	}),
-}));
+// export const sharedArticlesRelations = relations(sharedArticles, ({ one }) => ({
+// 	article: one(articles, {
+// 		fields: [sharedArticles.articleId],
+// 		references: [articles.id],
+// 	}),
+// 	user: one(users, {
+// 		fields: [sharedArticles.userId],
+// 		references: [users.id],
+// 	}),
+// }));
 
 export const usersRelations = relations(users, ({ many }) => ({
 	usersToArticles: many(bookmarks),
@@ -138,4 +141,4 @@ export const usersToArticlesRelations = relations(bookmarks, ({ one }) => ({
 
 export type NewArticle = typeof articles.$inferInsert;
 export type Article = typeof articles.$inferSelect;
-export type NewSharedArticle = typeof sharedArticles.$inferInsert;
+// export type NewSharedArticle = typeof sharedArticles.$inferInsert;

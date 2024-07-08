@@ -1,6 +1,6 @@
 'use client';
 
-import { useNewsStore } from '@/components/store/news';
+import { useNewsStore } from '@/components/store/news/items';
 import {
 	AlertDialogFooter,
 	AlertDialogHeader,

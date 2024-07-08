@@ -1,4 +1,4 @@
-import { NewsType } from '@/components/store/news';
+import { NewsType } from '@/components/store/news/items';
 import dayjs from 'dayjs';
 import dynamic from 'next/dynamic';
 import SkeletonCard from '../../skeleton/card';

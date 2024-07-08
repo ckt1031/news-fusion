@@ -1,11 +1,11 @@
 'use client';
 
 import type { PropsWithChildren } from 'react';
-import type { SharedArticleFetchingReturnProps } from './schema';
+import type { ArticleFetchingReturnProps } from './schema';
 import { useUIStore } from './store';
 
 interface Props {
-	data: NonNullable<SharedArticleFetchingReturnProps>;
+	data: NonNullable<ArticleFetchingReturnProps>;
 }
 
 export default function StateInitializer({

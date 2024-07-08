@@ -6,18 +6,12 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
-import { BookMarked, Share2 } from 'lucide-react';
+import { BookMarked } from 'lucide-react';
 import Link from 'next/link';
 
 function Navigations() {
 	return (
 		<div className="flex flex-row flex-wrap gap-2">
-			<Link href="/share">
-				<Button variant="outline">
-					<Share2 className="w-4 h-4 mr-2" />
-					<p>Summarized Articles</p>
-				</Button>
-			</Link>
 			<Link href="/bookmarks">
 				<Button variant="outline">
 					<BookMarked className="w-4 h-4 mr-2" />
