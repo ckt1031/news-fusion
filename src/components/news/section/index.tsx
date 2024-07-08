@@ -3,7 +3,7 @@
 import '@/styles/markdown.css';
 
 import { cn } from '@/app/utils/cn';
-import { useNewsStore } from '@/components/store/news/items';
+import { useNewsStore } from '@/components/store/news';
 import { isURLYoutube } from '@/lib/url';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';

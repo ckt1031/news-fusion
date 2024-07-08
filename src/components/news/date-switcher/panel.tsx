@@ -1,4 +1,4 @@
-import { useNewsStore } from '@/components/store/news/items';
+import { useNewsStore } from '@/components/store/news';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import dayjs from 'dayjs';

@@ -1,4 +1,4 @@
-import { useNewsStore } from '@/components/store/news/items';
+import { useNewsStore } from '@/components/store/news';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { useToast } from '@/components/ui/use-toast';
 import { Clipboard } from 'lucide-react';

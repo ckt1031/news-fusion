@@ -1,6 +1,6 @@
 'use client';
 
-import { type NewsStore, useNewsStore } from '@/components/store/news/items';
+import { type NewsStore, useNewsStore } from '@/components/store/news';
 import { type PropsWithChildren, useEffect } from 'react';
 
 interface Props {

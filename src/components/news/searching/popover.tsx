@@ -1,5 +1,5 @@
 import { useAuthStore } from '@/components/store/auth';
-import { useNewsStore } from '@/components/store/news/items';
+import { useNewsStore } from '@/components/store/news';
 import { Button } from '@/components/ui/button';
 import {
 	Form,

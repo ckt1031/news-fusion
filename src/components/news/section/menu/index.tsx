@@ -14,7 +14,6 @@ import { useUIStore } from './store';
 const NewsSectionDropdownMenuContent = dynamic(() => import('./content'), {
 	loading: () => <LoadingComponent />,
 });
-const ShareDialog = dynamic(() => import('./share').then((d) => d.ShareDialog));
 const TranslateDialog = dynamic(() =>
 	import('./translate').then((d) => d.TranslateDialog),
 );
@@ -41,7 +40,6 @@ export default function NewsSectionDropdownMenu({ guid }: Props) {
 			</DropdownMenu>
 			{dialog === 'translate' && <TranslateDialog guid={guid} />}
 			{dialog === 'regenerate' && <RegenerateDialog guid={guid} />}
-			{dialog === 'share' && <ShareDialog guid={guid} />}
 		</Dialog>
 	);
 }
