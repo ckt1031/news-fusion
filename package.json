@@ -16,7 +16,7 @@
 		"news-check": "NODE=1 tsx scripts/news-check.ts"
 	},
 	"dependencies": {
-		"@ai-sdk/openai": "^0.0.35",
+		"@ai-sdk/openai": "^0.0.36",
 		"@hookform/resolvers": "^3.9.0",
 		"@marsidev/react-turnstile": "^0.7.1",
 		"@next/third-parties": "^14.2.4",
