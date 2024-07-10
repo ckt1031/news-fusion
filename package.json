@@ -95,7 +95,7 @@
 		"@types/react": "^18.3.3",
 		"@types/react-dom": "^18.3.0",
 		"autoprefixer": "^10.4.19",
-		"drizzle-kit": "^0.22.8",
+		"drizzle-kit": "^0.23.0",
 		"openapi-typescript": "^7.0.2",
 		"postcss": "^8.4.39",
 		"supabase": "^1.178.2",
