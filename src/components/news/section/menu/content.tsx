@@ -3,15 +3,8 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import dynamic from 'next/dynamic';
+import AuthenticatedMenuContent from './content-authenticated';
 import CopyButton from './copy-to-clipboard';
-
-const AuthenticatedMenuContent = dynamic(
-	() => import('./content-authenticated'),
-	{
-		loading: () => null,
-	},
-);
 
 interface Props {
 	guid: string;

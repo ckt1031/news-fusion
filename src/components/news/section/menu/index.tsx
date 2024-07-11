@@ -7,9 +7,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Ellipsis } from 'lucide-react';
 import dynamic from 'next/dynamic';
-// import { RegenerateDialog } from './re-generate';
 import { useUIStore } from './store';
-// import { TranslateDialog } from './translate';
 
 const NewsSectionDropdownMenuContent = dynamic(() => import('./content'), {
 	loading: () => <LoadingComponent />,

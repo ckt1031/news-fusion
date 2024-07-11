@@ -34,8 +34,8 @@ export function LogOutDialog() {
 
 	const handleLogOut = async () => {
 		await client.auth.signOut();
-		router.refresh();
 		toast({ description: 'You have been logged out' });
+		router.refresh();
 	};
 
 	return (

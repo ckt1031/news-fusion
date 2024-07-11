@@ -7,12 +7,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { CircleEllipsis } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { ClearCacheDialog } from './clear-cache';
 import { useUIStore } from './store';
 
 const MenuContent = dynamic(() => import('./content'), {
 	loading: () => <LoadingComponent />,
 });
+const ClearCacheDialog = dynamic(() =>
+	import('./clear-cache').then((d) => d.ClearCacheDialog),
+);
 
 export default function NewsPageDropdownMenu() {
 	const dialog = useUIStore((state) => state.dialog);
