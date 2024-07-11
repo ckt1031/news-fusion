@@ -1,5 +1,12 @@
-import { availableFrontendCallModels } from '@/config/api';
+import { TargetLanguageToLLM, availableFrontendCallModels } from '@/config/api';
 import { z } from 'zod';
+
+function checkLLMModelValue(value: string) {
+	const allValues = Object.values(availableFrontendCallModels).map(
+		({ value }) => value,
+	);
+	return allValues.includes(value);
+}
 
 export const GenerateContentActionSchema = z.object({
 	url: z.string().url(),
@@ -13,22 +20,25 @@ export const GenerateContentActionSchema = z.object({
 
 	llmModel: z
 		.string()
-		.refine((value) => {
-			const allValues = Object.values(availableFrontendCallModels).map(
-				({ value }) => value,
-			);
-			return allValues.includes(value);
-		})
+		.refine(checkLLMModelValue, 'Invalid LLM model')
 		.optional(),
 });
 
-export const supportedTargetLanguages = ['zh-tw', 'zh-cn', 'en'] as const;
+function getZodEnumFromObjectKeys<
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	TI extends Record<string, any>,
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	R extends string = TI extends Record<infer R, any> ? R : never,
+>(input: TI): z.ZodEnum<[R, ...R[]]> {
+	const [firstKey, ...otherKeys] = Object.keys(input) as [R, ...R[]];
+	return z.enum([firstKey, ...otherKeys]);
+}
 
 export const TranslateActionSchema = z.object({
 	title: z.string(),
 	summary: z.string(),
 	useCache: z.boolean().optional(),
-	targetLanguage: z.enum(supportedTargetLanguages),
+	targetLanguage: getZodEnumFromObjectKeys(TargetLanguageToLLM),
 });
 
 export const ClearTopicNewsCacheActionSchema = z.object({

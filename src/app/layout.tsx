@@ -54,7 +54,7 @@ export const metadata: Metadata = {
 	},
 };
 
-export const runtime = 'nodejs';
+export const runtime = 'edge';
 
 const VercelAnalytics = dynamic(() => import('./vercel-analytics'));
 

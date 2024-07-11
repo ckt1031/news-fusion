@@ -12,6 +12,12 @@ export const DEFAULT_SEARCH_QUERY_GENERATE_MODEL = 'gpt-3.5-turbo-0125';
 
 export const FAVICON_BASE_URL = 'https://www.google.com/s2/favicons';
 
+export const TargetLanguageToLLM = {
+	en: 'English',
+	'zh-tw': 'Traditional Chinese (Hong Kong)',
+	'zh-cn': 'Simplified Chinese (China)',
+};
+
 export const availableFrontendCallModels = [
 	{
 		label: 'GPT-3.5 Turbo',

@@ -24,15 +24,13 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
+import { TargetLanguageToLLM } from '@/config/api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Languages, Loader2, Undo2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import {
-	TranslateActionSchema,
-	supportedTargetLanguages,
-} from '../../actions/schema';
+import { TranslateActionSchema } from '../../actions/schema';
 import { translateNewsInfo } from '../../actions/translate';
 import { useUIStore } from './store';
 
@@ -198,7 +196,7 @@ export function TranslateDialog({ guid }: Props) {
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
-										{supportedTargetLanguages.map((lang) => (
+										{Object.keys(TargetLanguageToLLM).map((lang) => (
 											<SelectItem key={lang} value={lang}>
 												{lang}
 											</SelectItem>

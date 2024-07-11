@@ -4,14 +4,9 @@ import { nextServerEnv } from '@/app/utils/env/server';
 import { authActionClient } from '@/app/utils/safe-action';
 import getSHA256 from '@/app/utils/sha256';
 import { redis } from '@/app/utils/upstash';
+import { TargetLanguageToLLM } from '@/config/api';
 import { llmTranslateText } from '@/lib/llm/prompt-calls';
 import { TranslateActionSchema } from './schema';
-
-const TargetLanguageToLLM = {
-	en: 'English',
-	'zh-tw': 'Traditional Chinese (Hong Kong)',
-	'zh-cn': 'Simplified Chinese (China)',
-};
 
 export const translateNewsInfo = authActionClient
 	.schema(TranslateActionSchema)
