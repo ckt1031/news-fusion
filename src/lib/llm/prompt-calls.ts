@@ -36,10 +36,11 @@ export async function summarizeText(
 export async function summarizeIntoShortText(
 	env: TextCompletionsGenerateProps['env'],
 	originalContent: string,
+	model?: string,
 ) {
 	return await requestChatCompletionAPI({
 		env,
-		model: env.DEFAULT_SUMMARIZE_MODEL ?? DEFAULT_SUMMARIZE_MODEL,
+		model: model ?? env.DEFAULT_SUMMARIZE_MODEL ?? DEFAULT_SUMMARIZE_MODEL,
 		temperature: 0.2,
 		message: {
 			system: summarizeInfoShortTextPrompt,
@@ -95,6 +96,7 @@ export async function generateSearchQuery(
 export async function generateTitle(
 	env: TextCompletionsGenerateProps['env'],
 	content: string,
+	model?: string,
 ) {
 	// If content is longer than 1900 characters, truncate it
 	const truncatedContent =
@@ -102,7 +104,8 @@ export async function generateTitle(
 
 	return await requestChatCompletionAPI({
 		env,
-		model: env.DEFAULT_TITLE_GENERATE_MODEL ?? DEFAULT_TITLE_GENERATE_MODEL,
+		model:
+			model ?? env.DEFAULT_TITLE_GENERATE_MODEL ?? DEFAULT_TITLE_GENERATE_MODEL,
 		temperature: 0,
 		message: {
 			system: titleGenPrompt,

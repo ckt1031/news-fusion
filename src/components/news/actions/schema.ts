@@ -1,3 +1,4 @@
+import { availableFrontendCallModels } from '@/config/api';
 import { z } from 'zod';
 
 export const GenerateContentActionSchema = z.object({
@@ -6,6 +7,19 @@ export const GenerateContentActionSchema = z.object({
 
 	generateSummary: z.boolean().optional(),
 	generateTitle: z.boolean().optional(),
+
+	// availableFrontendCallModels { value: string; label: string; }[]
+	// Validated by LLMSelect
+
+	llmModel: z
+		.string()
+		.refine((value) => {
+			const allValues = Object.values(availableFrontendCallModels).map(
+				({ value }) => value,
+			);
+			return allValues.includes(value);
+		})
+		.optional(),
 });
 
 export const supportedTargetLanguages = ['zh-tw', 'zh-cn', 'en'] as const;

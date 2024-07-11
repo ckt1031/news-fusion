@@ -17,9 +17,11 @@ export const generateContent = authActionClient
 
 		const [sumary, title] = await Promise.all([
 			formData.generateSummary
-				? summarizeIntoShortText(nextServerEnv, content)
+				? summarizeIntoShortText(nextServerEnv, content, formData.llmModel)
 				: null,
-			formData.generateTitle ? generateTitle(nextServerEnv, content) : null,
+			formData.generateTitle
+				? generateTitle(nextServerEnv, content, formData.llmModel)
+				: null,
 		]);
 
 		await updateArticleDatabase(formData.guid, {

@@ -20,9 +20,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, RotateCw } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
-import type { z } from 'zod';
+import { z } from 'zod';
 import { generateContent } from '../../actions/generate-short-summary';
 import { GenerateContentActionSchema } from '../../actions/schema';
+import LLMSelect from '../../llm-select';
 import { useUIStore } from './store';
 
 interface Props {
@@ -56,7 +57,11 @@ export function RegenerateDialog({ guid }: Props) {
 	const FormSchema = GenerateContentActionSchema.pick({
 		generateSummary: true,
 		generateTitle: true,
-	});
+	}).and(
+		z.object({
+			llmModel: z.string().optional(),
+		}),
+	);
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
@@ -153,6 +158,8 @@ export function RegenerateDialog({ guid }: Props) {
 							</FormItem>
 						)}
 					/>
+
+					<LLMSelect formControl={form.control} />
 
 					<Button type="submit" className="w-full mt-2" disabled={isExecuting}>
 						{isExecuting ? (
