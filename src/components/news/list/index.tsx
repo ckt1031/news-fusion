@@ -30,7 +30,7 @@ function isDateInAllowedDayRange(date: string | DateRange) {
 	);
 }
 
-export default async function NewsList({ topic, date }: FetchNewsPageProps) {
+export default async function NewsList({ catagory, date }: FetchNewsPageProps) {
 	if (!isDateInAllowedDayRange(date)) {
 		return (
 			<div className="my-3">
@@ -39,13 +39,13 @@ export default async function NewsList({ topic, date }: FetchNewsPageProps) {
 		);
 	}
 
-	const sortedArticles = await fetchNewsForPage({ topic, date });
+	const sortedArticles = await fetchNewsForPage({ catagory, date });
 
 	return (
 		<AppInitializer
 			type={NewsType.News}
 			news={sortedArticles}
-			pageData={{ topic, date }}
+			pageData={{ topic: catagory, date }}
 		>
 			<Content />
 		</AppInitializer>

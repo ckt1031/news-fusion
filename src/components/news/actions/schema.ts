@@ -12,6 +12,8 @@ export const GenerateContentActionSchema = z.object({
 	url: z.string().url(),
 	guid: z.string(),
 
+	catagory: z.string(),
+
 	generateSummary: z.boolean().optional(),
 	generateTitle: z.boolean().optional(),
 

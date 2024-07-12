@@ -1,11 +1,10 @@
 'use server';
 
-import { redis } from '@/app/utils/upstash';
 import type { RSS_CATEGORY } from '@/config/news-sources';
 import type { Article } from '@/db/schema';
 import { getNewsBasedOnDateAndCategory } from '@/lib/db';
-import dayjs from 'dayjs';
-import getNewsPageRedisCacheKey from '../actions/get-cache-key';
+import { getDateTag } from '@/lib/next-cache-tag';
+import { unstable_cache } from 'next/cache';
 
 export type DateRange = {
 	from: string;
@@ -15,7 +14,7 @@ export type DateRange = {
 export type DateType = string | DateRange;
 
 export interface FetchNewsPageProps {
-	topic: RSS_CATEGORY;
+	catagory: RSS_CATEGORY;
 	date: DateType;
 }
 
@@ -24,46 +23,19 @@ export interface CacheArticle extends Omit<Article, 'embedding'> {
 }
 
 export async function fetchNewsForPage({
-	topic,
+	catagory,
 	date,
 }: Omit<FetchNewsPageProps, 'userStatus'>) {
-	const cacheHash = getNewsPageRedisCacheKey(
-		typeof date === 'string' ? date : `${date.from}-${date.to}`,
-		topic,
+	const getCachedDatedNews = unstable_cache(
+		async () => getNewsBasedOnDateAndCategory(date, catagory),
+		[catagory, getDateTag(date)],
+		{
+			revalidate: 60 * 15,
+			tags: [catagory, getDateTag(date)],
+		},
 	);
-	const cache = await redis.get<CacheArticle[]>(cacheHash);
 
-	if (cache) {
-		return cache.map((c) => ({ ...c, publishedAt: new Date(c.publishedAt) }));
-	}
+	const cache = await getCachedDatedNews();
 
-	const articles = await getNewsBasedOnDateAndCategory(
-		typeof date === 'string'
-			? date
-			: {
-					from: date.from,
-					to: date.to,
-				},
-		topic,
-		// true,
-	);
-	const sortedArticles = articles
-		// Structure the data
-		.map((article) => {
-			return {
-				...article,
-				publishedAt: new Date(article.publishedAt),
-			};
-		});
-
-	const isToday =
-		typeof date === 'string'
-			? dayjs(date).isSame(dayjs(), 'day')
-			: dayjs(date.to).isSame(dayjs(), 'day');
-
-	await redis.set(cacheHash, sortedArticles, {
-		ex: isToday ? 60 * 15 : 3 * 60 * 60,
-	});
-
-	return sortedArticles;
+	return cache.map((c) => ({ ...c, publishedAt: new Date(c.publishedAt) }));
 }

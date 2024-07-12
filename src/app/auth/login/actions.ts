@@ -1,6 +1,5 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 import { nextServerEnv } from '@/app/utils/env/server';
@@ -28,7 +27,6 @@ export const login = action
 			return { success: false, error: error.message };
 		}
 
-		revalidatePath('/', 'layout');
 		redirect('/');
 	});
 

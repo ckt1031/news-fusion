@@ -1,39 +1,28 @@
 'use server';
 
 import { getBookmarksFromUser } from '@/lib/db';
+import { getBookmarkTags } from '@/lib/next-cache-tag';
 import type { User } from '@supabase/supabase-js';
-import { getBookmarkCacheHash, redis } from '../utils/upstash';
+import { unstable_cache } from 'next/cache';
 
 export type Bookmarks = Awaited<
 	ReturnType<typeof getBookmarksFromUser>
 >[number]['article'][];
 
-const fetchBookmarks = async (user: User) => {
-	const cacheHash = getBookmarkCacheHash(user.id);
+export async function fetchBookmarks(user: User) {
+	const getCachedBookmark = unstable_cache(
+		async () => getBookmarksFromUser(user.id),
+		[getBookmarkTags(user.id)],
+		{
+			revalidate: 60 * 60, // Cache for 1 hour
+			tags: [getBookmarkTags(user.id)],
+		},
+	);
 
-	const cache = await redis.get<Bookmarks>(cacheHash);
+	const cache = await getCachedBookmark();
 
-	if (cache) {
-		return cache.map((c) => ({
-			...c,
-			publishedAt: new Date(c.publishedAt),
-		}));
-	}
-
-	const data = await getBookmarksFromUser(user.id);
-
-	const articles = data.map((d) => {
-		return {
-			...d.article,
-			publishedAt: new Date(d.article.publishedAt),
-		};
-	});
-
-	await redis.set(cacheHash, articles, {
-		ex: 60 * 60 * 24, // Cache for 1 day
-	});
-
-	return articles;
-};
-
-export { fetchBookmarks };
+	return cache.map((c) => ({
+		...c.article,
+		publishedAt: new Date(c.article.publishedAt),
+	}));
+}

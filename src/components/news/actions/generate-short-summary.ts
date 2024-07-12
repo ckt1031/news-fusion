@@ -5,6 +5,7 @@ import { authActionClient } from '@/app/utils/safe-action';
 import { updateArticleDatabase } from '@/lib/db';
 import { generateTitle, summarizeIntoShortText } from '@/lib/llm/prompt-calls';
 import { getContentMarkdownFromURL } from '@/lib/tool-apis';
+import { revalidateTag } from 'next/cache';
 import { GenerateContentActionSchema } from './schema';
 
 export const generateContent = authActionClient
@@ -28,6 +29,8 @@ export const generateContent = authActionClient
 			...(sumary && { summary: sumary }),
 			...(title && { title }),
 		});
+
+		revalidateTag(formData.catagory);
 
 		return { sumary, title };
 	});

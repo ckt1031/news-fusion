@@ -92,6 +92,7 @@ export function RegenerateDialog({ guid }: Props) {
 		const result = await executeAsync({
 			guid: baseItem.guid,
 			url: baseItem.url,
+			catagory: baseItem.category,
 
 			...values,
 		});

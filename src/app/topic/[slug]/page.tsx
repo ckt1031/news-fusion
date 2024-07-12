@@ -48,7 +48,7 @@ export default async function TopicPage({ params, searchParams }: PageProps) {
 			<DateSwitcher />
 			<TopicSelection topic={topic} />
 			<Suspense fallback={<SkeletonNewsList />}>
-				<NewsList topic={topic} date={date} />
+				<NewsList catagory={topic} date={date} />
 			</Suspense>
 		</>
 	);
