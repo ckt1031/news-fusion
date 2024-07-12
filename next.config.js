@@ -21,6 +21,7 @@ const nextConfig = {
 			},
 		],
 	},
+	transpilePackages: ['lucide-react'],
 	// experimental: {
 	// 	ppr: true,
 	// 	// reactCompiler: isProd,

@@ -9,28 +9,12 @@ import {
 	TWITTER_USER,
 } from '@/config';
 import { GeistMono } from 'geist/font/mono';
+import { GeistSans } from 'geist/font/sans';
 import type { Metadata, Viewport } from 'next';
 import dynamic from 'next/dynamic';
-import { Inter, Noto_Sans_SC, Noto_Sans_TC } from 'next/font/google';
 import { ThemeProvider } from './theme-provider';
 import { cn } from './utils/cn';
 import { nextServerEnv } from './utils/env/server';
-
-const inter = Inter({
-	variable: '--font-inter',
-	display: 'swap',
-	subsets: ['latin'],
-});
-const notoSansSC = Noto_Sans_SC({
-	variable: '--font-noto-sans-sc',
-	display: 'swap',
-	subsets: ['latin'],
-});
-const notoSansTC = Noto_Sans_TC({
-	variable: '--font-noto-sans-tc',
-	display: 'swap',
-	subsets: ['latin'],
-});
 
 export const viewport: Viewport = {
 	width: 'device-width',
@@ -63,12 +47,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
 		<html
 			lang="en"
 			suppressHydrationWarning
-			className={cn(
-				inter.variable,
-				GeistMono.variable,
-				notoSansSC.variable,
-				notoSansTC.variable,
-			)}
+			className={cn(GeistSans.variable, GeistMono.variable)}
 		>
 			{nextServerEnv.NEXT_PUBLIC_ENABLE_VERCEL_ANALYTICS === 'true' && (
 				<VercelAnalytics />

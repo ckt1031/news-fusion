@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "next dev",
+		"dev": "next dev --turbo",
 		"build": "NODE_ENV=production next build",
 		"lint": "tsc && biome check .",
 		"lint:fix": "tsc && biome format . --write && biome check . --write",
@@ -62,7 +62,7 @@
 		"html-entities": "2.5.2",
 		"js-base64": "3.7.7",
 		"js-tiktoken": "1.0.12",
-		"lucide-react": "0.407.0",
+		"lucide-react": "0.408.0",
 		"mustache": "4.2.0",
 		"nanoid": "5.0.7",
 		"next": "14.2.5",
