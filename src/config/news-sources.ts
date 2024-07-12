@@ -55,9 +55,13 @@ export const RSS_GENERAL: RSSCatacory = {
 			specificName: 'UN News',
 		},
 		'https://feeds.washingtonpost.com/rss/world?itid=lk_inline_manual_35',
+		// {
+		// 	url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362',
+		// 	specificName: 'CNBC',
+		// },
 		{
-			url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362',
-			specificName: 'CNBC',
+			url: 'https://www.theguardian.com/world/rss',
+			specificName: 'The Guardian',
 		},
 	],
 };
@@ -70,8 +74,20 @@ export const RSS_HKG: RSSCatacory = {
 			specificName: 'SCMP',
 		},
 		{
-			url: 'https://rthk9.rthk.hk/rthk/news/rss/e_expressnews_elocal.xml',
+			url: 'https://rthk9.rthk.hk/rthk/news/rss/c_expressnews_clocal.xml',
 			specificName: 'RTHK',
+		},
+		{
+			url: 'https://hongkongfp.com/feed',
+			specificName: 'HKFP',
+		},
+		{
+			url: 'https://www.hket.com/rss/hongkong',
+			specificName: 'HKET',
+		},
+		{
+			url: 'https://news.mingpao.com/rss/pns/s00002.xml',
+			specificName: 'Ming Pao',
 		},
 	],
 };
@@ -186,6 +202,9 @@ export const RSS_TECH: RSSCatacory = {
 		'https://www.techradar.com/feeds/articletype/news',
 		'https://rss.slashdot.org/Slashdot/slashdotMainatom', // Only Atom 1.0 is parsable in my code
 		'https://www.eff.org/rss/updates.xml',
+		'https://mashable.com/feeds/rss/tech',
+		'https://readwrite.com/feed',
+		// 'https://hackernoon.com/feed',
 	],
 };
 
@@ -220,6 +239,10 @@ export const RSS_SCIENCE: RSSCatacory = {
 		{
 			url: 'https://www.scientificamerican.com/platform/syndication/rss',
 			specificName: 'Scientific American',
+		},
+		{
+			url: 'https://www.theguardian.com/science/rss',
+			specificName: 'The Guardian',
 		},
 	],
 };
@@ -273,6 +296,8 @@ export const RSS_DEV: RSSCatacory = {
 		// Platforms
 		'https://netflixtechblog.com/feed',
 		'https://engineering.atspotify.com/feed',
+
+		'https://www.figma.com/blog/feed/atom.xml',
 	],
 };
 
@@ -321,13 +346,13 @@ export const ALL_RSS_CATAGORIES = [
 	RSS_DEV,
 	RSS_SCIENCE,
 	RSS_TECH,
-	// RSS_ALERTS,
 	RSS_THINKING,
 	RSS_VIDEOS,
 	RSS_BLOGS,
 	RSS_UPDATES,
 	RSS_GENERAL,
 	RSS_HKG,
+	RSS_CHINA,
 ];
 
 export const EARLIEST_HOURS = 3;
