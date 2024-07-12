@@ -10,18 +10,11 @@ import {
 } from '@/config';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
-import type { Metadata, Viewport } from 'next';
+import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { ThemeProvider } from './theme-provider';
 import { cn } from './utils/cn';
 import { nextServerEnv } from './utils/env/server';
-
-export const viewport: Viewport = {
-	width: 'device-width',
-	initialScale: 1,
-	minimumScale: 1,
-	maximumScale: 1,
-};
 
 export const metadata: Metadata = {
 	metadataBase: new URL(nextServerEnv.SITE_URL),
@@ -49,9 +42,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
 			suppressHydrationWarning
 			className={cn(GeistSans.variable, GeistMono.variable)}
 		>
-			{nextServerEnv.NEXT_PUBLIC_ENABLE_VERCEL_ANALYTICS === 'true' && (
-				<VercelAnalytics />
-			)}
+			{nextServerEnv.ENABLE_VERCEL_ANALYTICS === 'true' && <VercelAnalytics />}
 			<body className="subpixel-antialiased bg-neutral-50 dark:bg-neutral-950 flex h-screen flex-col justify-between overflow-x-hidden">
 				<ThemeProvider
 					attribute="class"

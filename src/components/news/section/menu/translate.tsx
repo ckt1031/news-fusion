@@ -1,6 +1,5 @@
 import { useNewsStore } from '@/components/store/news';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
 	DialogContent,
 	DialogHeader,
@@ -23,12 +22,14 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/components/ui/use-toast';
 import { TargetLanguageToLLM } from '@/config/api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Languages, Loader2, Undo2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
+import useLocalStorageState from 'use-local-storage-state';
 import { z } from 'zod';
 import { TranslateActionSchema } from '../../actions/schema';
 import { translateNewsInfo } from '../../actions/translate';
@@ -91,12 +92,19 @@ export function TranslateDialog({ guid }: Props) {
 	 * Form and Actions
 	 */
 
+	const [immersive, setImmersive] = useLocalStorageState(
+		'translate-immersive',
+		{
+			defaultValue: false,
+		},
+	);
+
 	const form = useForm<z.infer<typeof TranslateActionFormSchema>>({
 		resolver: zodResolver(TranslateActionFormSchema),
 		defaultValues: {
 			targetLanguage: 'zh-tw',
 			useCache: true,
-			immersive: false,
+			immersive,
 		},
 	});
 
@@ -151,7 +159,7 @@ export function TranslateDialog({ guid }: Props) {
 									Use Cache
 								</FormLabel>
 								<FormControl>
-									<Checkbox
+									<Switch
 										name={field.name}
 										id={field.name}
 										checked={field.value}
@@ -170,11 +178,14 @@ export function TranslateDialog({ guid }: Props) {
 									Immersive Experience
 								</FormLabel>
 								<FormControl>
-									<Checkbox
+									<Switch
 										name={field.name}
 										id={field.name}
-										checked={field.value}
-										onCheckedChange={field.onChange}
+										checked={immersive || field.value}
+										onCheckedChange={(d) => {
+											field.onChange(d);
+											setImmersive(d);
+										}}
 									/>
 								</FormControl>
 							</FormItem>

@@ -15,8 +15,8 @@ export const nextServerEnv = createEnv({
 		NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
 		// @ts-ignore
 		NEXT_PUBLIC_SUPABASE_URL: z.string(),
-		// @ts-ignore
-		NEXT_PUBLIC_ENABLE_VERCEL_ANALYTICS: z.string().optional(),
+
+		ENABLE_VERCEL_ANALYTICS: z.string().optional(),
 		...envSchema.shape,
 	},
 	// @ts-ignore

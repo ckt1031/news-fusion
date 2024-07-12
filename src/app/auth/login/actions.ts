@@ -6,6 +6,7 @@ import { nextServerEnv } from '@/app/utils/env/server';
 import { action } from '@/app/utils/safe-action';
 import { createSupabaseServerClient } from '@/app/utils/supabase/server';
 import type { SignInWithPasswordCredentials } from '@supabase/supabase-js';
+import { revalidatePath } from 'next/cache';
 import { ForgotPasswordActionSchema, LoginActionSchema } from './schema';
 
 export const login = action
@@ -27,6 +28,7 @@ export const login = action
 			return { success: false, error: error.message };
 		}
 
+		revalidatePath('/', 'layout');
 		redirect('/');
 	});
 
