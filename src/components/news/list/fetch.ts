@@ -26,12 +26,13 @@ export async function fetchNewsForPage({
 	catagory,
 	date,
 }: Omit<FetchNewsPageProps, 'userStatus'>) {
+	const tags = [catagory, getDateTag(date)];
 	const getCachedDatedNews = unstable_cache(
 		async () => getNewsBasedOnDateAndCategory(date, catagory),
-		[catagory, getDateTag(date)],
+		tags,
 		{
+			tags,
 			revalidate: 60 * 15,
-			tags: [catagory, getDateTag(date)],
 		},
 	);
 

@@ -10,12 +10,14 @@ export type Bookmarks = Awaited<
 >[number]['article'][];
 
 export async function fetchBookmarks(user: User) {
+	const tags = [getBookmarkTags(user.id)];
+
 	const getCachedBookmark = unstable_cache(
 		async () => getBookmarksFromUser(user.id),
-		[getBookmarkTags(user.id)],
+		tags,
 		{
+			tags,
 			revalidate: 60 * 60, // Cache for 1 hour
-			tags: [getBookmarkTags(user.id)],
 		},
 	);
 

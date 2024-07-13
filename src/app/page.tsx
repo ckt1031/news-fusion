@@ -16,6 +16,8 @@ interface PageProps {
 	searchParams: HomeSearchParamsProps;
 }
 
+export const revalidate = 15 * 60;
+
 export default async function Home({ searchParams }: PageProps) {
 	const date = parseDateRange(searchParams);
 
