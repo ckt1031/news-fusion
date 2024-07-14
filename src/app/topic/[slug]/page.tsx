@@ -38,7 +38,7 @@ export async function generateMetadata({
 	};
 }
 
-export const revalidate = 15 * 60;
+export const dynamic = 'force-dynamic';
 
 export default async function TopicPage({ params, searchParams }: PageProps) {
 	const topic = decodeURIComponent(params.slug) as RSS_CATEGORY;

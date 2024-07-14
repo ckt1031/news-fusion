@@ -26,6 +26,11 @@ const nextConfig = {
 	// 	ppr: true,
 	// 	// reactCompiler: isProd,
 	// },
+	logging: {
+		fetches: {
+			fullUrl: true,
+		},
+	},
 };
 
 export default nextConfig;

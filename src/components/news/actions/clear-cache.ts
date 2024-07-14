@@ -2,7 +2,7 @@
 
 import { authActionClient } from '@/app/utils/safe-action';
 import { getDateTag } from '@/lib/next-cache-tag';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { ClearTopicNewsCacheActionSchema } from './schema';
 
 export const clearTopicNewsPageCacheAction = authActionClient
@@ -17,10 +17,6 @@ export const clearTopicNewsPageCacheAction = authActionClient
 
 		revalidateTag(tags);
 		revalidateTag(formData.category);
-
-		const path =
-			formData.category === 'general' ? '/' : `/${formData.category}`;
-		revalidatePath(path);
 
 		return { success: true };
 	});
