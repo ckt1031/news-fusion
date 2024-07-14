@@ -18,6 +18,8 @@ export const metadata: Metadata = {
 	},
 };
 
+export const runtime = 'nodejs';
+
 export default async function BookmarksPage() {
 	const { isLoggedIn, user } = await serverAuthState();
 

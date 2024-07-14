@@ -16,7 +16,7 @@ interface PageProps {
 	searchParams: HomeSearchParamsProps;
 }
 
-export const revalidate = 0;
+export const runtime = 'nodejs';
 
 export default async function Home({ searchParams }: PageProps) {
 	const date = parseDateRange(searchParams);
