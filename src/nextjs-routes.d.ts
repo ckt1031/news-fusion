@@ -12,6 +12,7 @@ declare module "nextjs-routes" {
 
   export type Route =
     | StaticRoute<"/">
+    | StaticRoute<"/about">
     | StaticRoute<"/api/cron/clear-unused-database-data">
     | StaticRoute<"/auth/confirm">
     | StaticRoute<"/auth/login">

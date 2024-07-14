@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 	const topics: MetadataRoute.Sitemap = getAllTopics.map((topic) => ({
 		url: `${nextServerEnv.SITE_URL}/topic/${encodeURIComponent(topic.slug)}`,
 		lastModified: new Date().toISOString(),
-		changeFrequency: 'monthly',
+		changeFrequency: 'daily',
 		priority: 0.8,
 	}));
 
@@ -18,6 +18,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			lastModified: new Date().toISOString(),
 			changeFrequency: 'yearly',
 			priority: 1,
+		},
+		{
+			url: `${nextServerEnv.SITE_URL}/about`,
+			lastModified: new Date().toISOString(),
+			changeFrequency: 'monthly',
+			priority: 0.9,
 		},
 		...topics,
 	];

@@ -1,4 +1,4 @@
-import { BookOpenText, Bookmark, LogIn, ScanEye } from 'lucide-react';
+import { BookOpenText, Bookmark, Info, LogIn, ScanEye } from 'lucide-react';
 
 import { useAuthStore } from '@/components/store/auth';
 import {
@@ -79,6 +79,14 @@ export default function MenuContent() {
 				</>
 			)}
 			<ModeToggleMenuItem />
+			<DropdownMenuLabel>Information</DropdownMenuLabel>
+			<DropdownMenuSeparator />
+			<Link href="/about">
+				<DropdownMenuItem>
+					<Info className="mr-2 h-4 w-4" />
+					<span>About</span>
+				</DropdownMenuItem>
+			</Link>
 		</>
 	);
 }
