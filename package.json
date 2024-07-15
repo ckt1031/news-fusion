@@ -37,7 +37,7 @@
 		"@radix-ui/react-toast": "1.2.1",
 		"@radix-ui/react-tooltip": "1.1.2",
 		"@supabase/ssr": "0.4.0",
-		"@supabase/supabase-js": "2.44.3",
+		"@supabase/supabase-js": "2.44.4",
 		"@t3-oss/env-nextjs": "0.10.1",
 		"@tailwindcss/typography": "0.5.13",
 		"@upstash/ratelimit": "1.2.1",
