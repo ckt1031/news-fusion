@@ -61,7 +61,7 @@ export default function AboutPage() {
 				This site uses multiple AI models to filter, embed, and re-rank the
 				desired news. These include OpenAI's <b>GPT-4o</b> for scoring and
 				filtering, <b>GPT-3.5 Turbo</b> and <b>Gemini 1.5 Flash</b> for
-				summarization, and OpenAI Embedding v3 Small for embedding and vector
+				summarization, and OpenAI's <b>Text Embeddings v3 Small</b> for vector
 				operations.
 			</p>
 			<p>
