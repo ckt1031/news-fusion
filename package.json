@@ -51,7 +51,7 @@
 		"cmdk": "1.0.0",
 		"date-fns": "3.6.0",
 		"dax-sh": "0.41.0",
-		"dayjs": "1.11.11",
+		"dayjs": "1.11.12",
 		"drizzle-orm": "0.32.0",
 		"drizzle-zod": "0.5.1",
 		"fast-xml-parser": "4.4.0",

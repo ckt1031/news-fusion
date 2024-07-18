@@ -114,8 +114,8 @@ importers:
         specifier: 0.41.0
         version: 0.41.0
       dayjs:
-        specifier: 1.11.11
-        version: 1.11.11
+        specifier: 1.11.12
+        version: 1.11.12
       drizzle-orm:
         specifier: 0.32.0
         version: 0.32.0(@cloudflare/workers-types@4.20240605.0)(@neondatabase/serverless@0.9.4)(@opentelemetry/api@1.9.0)(@prisma/client@5.16.1)(@types/pg@8.11.6)(@types/react@18.3.3)(@vercel/postgres@0.9.0)(bun-types@1.1.12)(postgres@3.4.4)(react@18.3.1)
@@ -2326,8 +2326,8 @@ packages:
   dax-sh@0.41.0:
     resolution: {integrity: sha512-qHiw1GFj23+/vgkxS9Jnz6Hbm7aLEiaGsATUc2igg5qZZgtzAs8xP4N3hHMVUmS7gJDQ1ErHZYkFDvBJweL6lA==}
 
-  dayjs@1.11.11:
-    resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
+  dayjs@1.11.12:
+    resolution: {integrity: sha512-Rt2g+nTbLlDWZTwwrIXjy9MeiZmSDI375FvZs72ngxx8PDC6YXOeR3q5LAuPzjZQxhiWdRKac7RKV+YyQYfYIg==}
 
   debounce@1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
@@ -5743,7 +5743,7 @@ snapshots:
       '@deno/shim-deno': 0.19.2
       undici-types: 5.28.4
 
-  dayjs@1.11.11: {}
+  dayjs@1.11.12: {}
 
   debounce@1.2.1: {}
 
