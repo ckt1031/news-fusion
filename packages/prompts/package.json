@@ -1,0 +1,12 @@
+{
+	"private": true,
+	"name": "@ckt1031/prompts",
+	"type": "module",
+	"main": "./src/index.ts",
+	"scripts": {
+		"typecheck": "tsc"
+	},
+	"devDependencies": {
+		"@ckt1031/tsconfig": "workspace:*"
+	}
+}

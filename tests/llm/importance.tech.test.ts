@@ -1,8 +1,7 @@
-import { nextServerEnv } from '@/app/utils/env/server';
-import logging from '@/lib/console';
-import { checkArticleImportance } from '@/lib/llm/prompt-calls';
-import { getContentMarkdownFromURL } from '@/lib/tool-apis';
+import { checkArticleImportance } from '@ckt1031/ai';
+import { getContentMarkdownFromURL } from '@ckt1031/tool-api';
 import { describe, expect, test } from 'vitest';
+import { nextServerEnv } from '../../apps/web/utils/env/server';
 
 const env = nextServerEnv;
 
@@ -30,7 +29,6 @@ describe(
 
 				const importantEnough = await checkArticleImportance(env, content);
 
-				logging.info(`${news} ${importantEnough ? 'is' : 'is not'} important.`);
 				expect(importantEnough).toBe(true);
 			}
 		});
@@ -51,7 +49,6 @@ describe(
 
 				const importantEnough = await checkArticleImportance(env, content);
 
-				console.log(`Is ${news} important? ${importantEnough ? 'Yes' : 'No'}`);
 				expect(importantEnough).toBe(false);
 			}
 		});

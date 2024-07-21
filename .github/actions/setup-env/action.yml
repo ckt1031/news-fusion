@@ -29,11 +29,6 @@ runs:
 
       - name: Install dependencies
         shell: bash
-        run: |
-          pnpm install
-          pnpm run prebuild
+        run: pnpm install
         env:
           TOOLS_API_BASE_URL: ${{ inputs.TOOLS_API_BASE_URL }}
-
-      # Cache Next.js
-      - uses: jongwooo/next-cache@v1

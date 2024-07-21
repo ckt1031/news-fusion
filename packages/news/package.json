@@ -1,0 +1,24 @@
+{
+	"private": true,
+	"name": "@ckt1031/news",
+	"type": "module",
+	"main": "./src/index.ts",
+	"scripts": {
+		"typecheck": "tsc"
+	},
+	"dependencies": {
+		"@ckt1031/ai": "workspace:*",
+		"@ckt1031/config": "workspace:*",
+		"@ckt1031/db": "workspace:*",
+		"@ckt1031/tool-api": "workspace:*",
+		"@ckt1031/types": "workspace:*",
+		"@ckt1031/utils": "workspace:*",
+		"drizzle-orm": "0.32.0",
+		"fast-xml-parser": "4.4.0",
+		"js-tiktoken": "1.0.12",
+		"ofetch": "1.3.4"
+	},
+	"devDependencies": {
+		"@ckt1031/tsconfig": "workspace:*"
+	}
+}

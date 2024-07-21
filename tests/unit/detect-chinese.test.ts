@@ -1,4 +1,4 @@
-import { isMostlyChinese } from '@/lib/detect-chinese';
+import { isMostlyChinese } from '@ckt1031/utils';
 import { expect, test } from 'vitest';
 
 test('Detect Chinese Amount', async () => {

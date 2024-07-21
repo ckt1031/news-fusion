@@ -1,0 +1,12 @@
+{
+	"private": true,
+	"name": "@ckt1031/config",
+	"type": "module",
+	"main": "./index.ts",
+	"scripts": {
+		"typecheck": "tsc"
+	},
+	"devDependencies": {
+		"@ckt1031/tsconfig": "workspace:*"
+	}
+}

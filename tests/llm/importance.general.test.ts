@@ -1,7 +1,7 @@
-import { nextServerEnv } from '@/app/utils/env/server';
-import { checkArticleImportance } from '@/lib/llm/prompt-calls';
-import { getContentMarkdownFromURL } from '@/lib/tool-apis';
+import { checkArticleImportance } from '@ckt1031/ai';
+import { getContentMarkdownFromURL } from '@ckt1031/tool-api';
 import { describe, expect, test } from 'vitest';
+import { nextServerEnv } from '../../apps/web/utils/env/server';
 
 const env = nextServerEnv;
 

@@ -19,10 +19,9 @@ jobs:
 
       - name: Run script
         run: |
-          export NODE=1
-          pnpm dlx tsx scripts/hackernews.ts
+          pnpm -F jobs run hackernews
           sleep 15
-          pnpm dlx tsx scripts/hackernews.ts lobsters
+          pnpm -F jobs run lobsters
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 

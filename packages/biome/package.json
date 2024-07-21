@@ -1,0 +1,7 @@
+{
+	"name": "@ckt1031/biome",
+	"type": "module",
+	"exports": {
+		"./default": "./biome.json"
+	}
+}

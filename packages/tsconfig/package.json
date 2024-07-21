@@ -1,0 +1,7 @@
+{
+	"name": "@ckt1031/tsconfig",
+	"type": "module",
+	"exports": {
+		"./default": "./default.json"
+	}
+}

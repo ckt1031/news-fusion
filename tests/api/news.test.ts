@@ -1,5 +1,5 @@
-import { ALL_RSS_CATAGORIES } from '@/config/news-sources';
-import checkRSS from '@/lib/news/check-rss';
+import { ALL_RSS_CATAGORIES } from '@ckt1031/config';
+import { checkRSS } from '@ckt1031/news';
 import { expect, test } from 'vitest';
 
 test(

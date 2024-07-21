@@ -1,4 +1,4 @@
-import pickRandom from '@/lib/pick-random';
+import { pickRandom } from '@ckt1031/utils';
 import { expect, test } from 'vitest';
 
 test('Pick Random', async () => {

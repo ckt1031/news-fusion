@@ -1,0 +1,15 @@
+{
+	"private": true,
+	"name": "@ckt1031/utils",
+	"type": "module",
+	"main": "./src/index.ts",
+	"scripts": {
+		"typecheck": "tsc"
+	},
+	"devDependencies": {
+		"@ckt1031/tsconfig": "workspace:*"
+	},
+	"dependencies": {
+		"hash.js": "1.1.7"
+	}
+}

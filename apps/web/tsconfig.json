@@ -1,0 +1,33 @@
+{
+	"extends": "@ckt1031/tsconfig/default",
+	"exclude": [
+		"node_modules",
+		".vercel",
+		".next",
+		"components/ui",
+		"nextjs-routes.d.ts"
+	],
+	"include": [
+		"app",
+		"components",
+		"styles",
+		"*.ts",
+		"utils",
+		".next/types/**/*.ts"
+	],
+	"compilerOptions": {
+		"moduleResolution": "Bundler",
+		"lib": ["ESNext", "dom"],
+		"types": ["./nextjs-routes.d.ts"],
+		"paths": {
+			"@/*": ["./*"],
+			"@package-info": ["./package.json"]
+		},
+		"jsx": "preserve",
+		"plugins": [
+			{
+				"name": "next"
+			}
+		]
+	}
+}

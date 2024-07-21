@@ -1,0 +1,21 @@
+{
+	"name": "jobs",
+	"type": "module",
+	"scripts": {
+		"lobsters": "NODE=1 tsx scripts/hackernews.ts lobsters",
+		"hackernews": "NODE=1 tsx scripts/hackernews.ts",
+		"news-check": "NODE=1 tsx scripts/news-check.ts"
+	},
+	"dependencies": {
+		"@ckt1031/cache": "workspace:*",
+		"@ckt1031/config": "workspace:*",
+		"@ckt1031/news": "workspace:*",
+		"@ckt1031/tsconfig": "workspace:*",
+		"@ckt1031/types": "workspace:*",
+		"@ckt1031/utils": "workspace:*",
+		"mustache": "4.2.0"
+	},
+	"devDependencies": {
+		"@types/mustache": "4.2.5"
+	}
+}

@@ -1,0 +1,19 @@
+{
+	"private": true,
+	"name": "@ckt1031/tool-api",
+	"type": "module",
+	"main": "./src/index.ts",
+	"scripts": {
+		"typecheck": "tsc"
+	},
+	"dependencies": {
+		"@ckt1031/db": "workspace:*",
+		"@ckt1031/tool-api": "workspace:*",
+		"@ckt1031/types": "workspace:*",
+		"@ckt1031/utils": "workspace:*",
+		"openapi-fetch": "0.10.2"
+	},
+	"devDependencies": {
+		"@ckt1031/tsconfig": "workspace:*"
+	}
+}
