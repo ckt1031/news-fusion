@@ -139,8 +139,8 @@ importers:
         specifier: 0.5.13
         version: 0.5.13(tailwindcss@3.4.6)
       '@upstash/ratelimit':
-        specifier: 1.2.1
-        version: 1.2.1
+        specifier: 2.0.1
+        version: 2.0.1
       '@vercel/analytics':
         specifier: 1.3.1
         version: 1.3.1(next@14.2.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
@@ -181,8 +181,8 @@ importers:
         specifier: 14.2.5
         version: 14.2.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-safe-action:
-        specifier: 7.1.3
-        version: 7.1.3(next@14.2.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.22.5(zod@3.23.8))(zod@3.23.8)
+        specifier: 7.2.2
+        version: 7.2.2(next@14.2.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yup@1.4.0)(zod@3.23.8)
       next-themes:
         specifier: 0.3.0
         version: 0.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2042,96 +2042,15 @@ packages:
   '@types/ws@8.5.11':
     resolution: {integrity: sha512-4+q7P5h3SpJxaBft0Dzpbr6lmMaqh0Jr2tbhJZ/luAwvD7ohSCniYkwz/pLxuT2h0EOa6QADgJj1Ko+TzRfZ+w==}
 
-  '@typeschema/core@0.13.2':
-    resolution: {integrity: sha512-pAt0MK249/9szYaoPuvzhSfOd3smrLhhwCCpUNB4onX32mRx5F3lzDIveIYGQkLYRq58xOX5sjoW+n72f/MLLw==}
-    peerDependencies:
-      '@types/json-schema': ^7.0.15
-    peerDependenciesMeta:
-      '@types/json-schema':
-        optional: true
-
-  '@typeschema/main@0.13.10':
-    resolution: {integrity: sha512-ArdFC4GbgdVWWgPKg2tymxx2KHMus3xZ8I2kHwqw/0P4FtWBXCmSNAiBqDtpoXXF8h9cbcm7fVpcs5ftoWT9+A==}
-    peerDependencies:
-      '@typeschema/arktype': 0.13.2
-      '@typeschema/class-validator': 0.1.2
-      '@typeschema/deepkit': 0.13.4
-      '@typeschema/effect': 0.13.4
-      '@typeschema/fastest-validator': 0.1.0
-      '@typeschema/function': 0.13.2
-      '@typeschema/io-ts': 0.13.3
-      '@typeschema/joi': 0.13.3
-      '@typeschema/json': 0.13.3
-      '@typeschema/ow': 0.13.3
-      '@typeschema/runtypes': 0.13.2
-      '@typeschema/superstruct': 0.13.2
-      '@typeschema/suretype': 0.1.0
-      '@typeschema/typebox': 0.13.4
-      '@typeschema/valibot': 0.13.5
-      '@typeschema/valita': 0.1.0
-      '@typeschema/vine': 0.1.0
-      '@typeschema/yup': 0.13.3
-      '@typeschema/zod': 0.13.3
-    peerDependenciesMeta:
-      '@typeschema/arktype':
-        optional: true
-      '@typeschema/class-validator':
-        optional: true
-      '@typeschema/deepkit':
-        optional: true
-      '@typeschema/effect':
-        optional: true
-      '@typeschema/fastest-validator':
-        optional: true
-      '@typeschema/function':
-        optional: true
-      '@typeschema/io-ts':
-        optional: true
-      '@typeschema/joi':
-        optional: true
-      '@typeschema/json':
-        optional: true
-      '@typeschema/ow':
-        optional: true
-      '@typeschema/runtypes':
-        optional: true
-      '@typeschema/superstruct':
-        optional: true
-      '@typeschema/suretype':
-        optional: true
-      '@typeschema/typebox':
-        optional: true
-      '@typeschema/valibot':
-        optional: true
-      '@typeschema/valita':
-        optional: true
-      '@typeschema/vine':
-        optional: true
-      '@typeschema/yup':
-        optional: true
-      '@typeschema/zod':
-        optional: true
-
-  '@typeschema/zod@0.13.3':
-    resolution: {integrity: sha512-p5Hs22WIKkM/vZTAvw5QOLSA0EJ6QBUsQMGUrXlYnTAE2LSR/F5MLsDUb18O6S5VxGjrzU7x3VIznD5qOafJRw==}
-    peerDependencies:
-      zod: ^3.22.4
-      zod-to-json-schema: ^3.22.4
-    peerDependenciesMeta:
-      zod:
-        optional: true
-      zod-to-json-schema:
-        optional: true
-
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
 
-  '@upstash/core-analytics@0.0.9':
-    resolution: {integrity: sha512-9NXXxZ5y1/A/zqKLlVT7NsAWSggJfOjB0hG6Ffx29b4jbzHOiQVWB55h5+j2clT9Ib+mNPXn0iB5zN3aWLkICw==}
+  '@upstash/core-analytics@0.0.10':
+    resolution: {integrity: sha512-7qJHGxpQgQr9/vmeS1PktEwvNAF7TI4iJDi8Pu2CFZ9YUGHZH4fOP5TfYlZ4aVxfopnELiE4BS4FBjyK7V1/xQ==}
     engines: {node: '>=16.0.0'}
 
-  '@upstash/ratelimit@1.2.1':
-    resolution: {integrity: sha512-o01lV1yFS5Fzj5KONZmNyVch/Qrlj785B2ob+kStUmxn8F6xXk7IHTQqVcHE+Ce3CmT/qQIwvMxDZftyJ5wYpQ==}
+  '@upstash/ratelimit@2.0.1':
+    resolution: {integrity: sha512-J+0hlkvWUjlVrjcBQhWx7gbaUGsvFF59i+GAx7YQk8L0E0MQ93xzCPu02uaXhGDJGkxiar7nRRPqj3hs+CdAJg==}
 
   '@upstash/redis@1.33.0':
     resolution: {integrity: sha512-5WOilc7AE0ITAdE3NCyMwgOq1n3RHcqW0OfmbotiAyfA+QAEe1R7kXin8L/Yladgdc5lkA0GcYyewqKfAw53jQ==}
@@ -3082,15 +3001,19 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  next-safe-action@7.1.3:
-    resolution: {integrity: sha512-WWqgoExw2BjiVzTZPryW+rIMRhcrnEhvnKmofCDTNfDD6pmAYXk3f8tM199iTuKGYEHrJDtffs3fggQZlPuMzQ==}
+  next-safe-action@7.2.2:
+    resolution: {integrity: sha512-0N/9vzM0iloSw39fmpd3AJ0oGxzZ8z+RzfpOFlvpODfjs4LCC7ADyaoQKbo62HkVvJSXTbdOhgWA+reJONsxDw==}
     engines: {node: '>=18.17'}
     peerDependencies:
       next: '>= 14.0.0'
       react: '>= 18.2.0'
       react-dom: '>= 18.2.0'
+      valibot: '>= 0.36.0'
+      yup: '>= 1.0.0'
       zod: '>= 3.0.0'
     peerDependenciesMeta:
+      valibot:
+        optional: true
       zod:
         optional: true
 
@@ -3314,6 +3237,9 @@ packages:
 
   postgres-range@1.1.4:
     resolution: {integrity: sha512-i/hbxIE9803Alj/6ytL7UHQxRvZkI9O4Sy+J3HGc4F4oo/2eQAjTSNJ0bfxyse3bH0nuVesCk+3IRLaMtG3H6w==}
+
+  property-expr@2.0.6:
+    resolution: {integrity: sha512-SVtmxhRE/CGkn3eZY1T6pC8Nln6Fr/lu1mKSgRud0eC73whjGfoAogbn78LkD8aFL0zz3bAFerKSnOl7NlErBA==}
 
   property-information@6.5.0:
     resolution: {integrity: sha512-PgTgs/BlvHxOu8QuEN7wi5A0OmXaBcHpmCSTehcs6Uuu9IkDIEo13Hy7n898RHfrQ49vKCoGeWZSaAK01nwVig==}
@@ -3612,6 +3538,9 @@ packages:
   third-party-capital@1.0.20:
     resolution: {integrity: sha512-oB7yIimd8SuGptespDAZnNkzIz+NWaJCu2RMsbs4Wmp9zSDUM8Nhi3s2OOcqYuv3mN4hitXc8DVx+LyUmbUDiA==}
 
+  tiny-case@1.0.3:
+    resolution: {integrity: sha512-Eet/eeMhkO6TX8mnUteS9zgPbUMQa4I6Kkp5ORiBD5476/m+PIRiumP5tmh5ioJpH7k51Kehawy2UDfsnxxY8Q==}
+
   tinybench@2.8.0:
     resolution: {integrity: sha512-1/eK7zUnIklz4JUUlL+658n58XO2hHLQfSk1Zf2LKieUjxidN16eKFEoDEfjHc3ohofSSqK3X5yO6VGb6iW8Lw==}
 
@@ -3635,6 +3564,9 @@ packages:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
 
+  toposort@2.0.2:
+    resolution: {integrity: sha512-0a5EOkAUp8D4moMi2W8ZF8jcga7BgZd91O/yabJCFY8az+XSzeGyTKs0Aoo897iV1Nj6guFq8orWDS96z91oGg==}
+
   totalist@3.0.1:
     resolution: {integrity: sha512-sf4i37nQ2LBx4m3wB74y+ubopq6W/dIzXg0FDGjsYnZHVa1Da8FH853wlL2gtUhg+xJXjfk3kUZS3BRoQeoQBQ==}
     engines: {node: '>=6'}
@@ -3653,6 +3585,10 @@ packages:
 
   tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
+
+  type-fest@2.19.0:
+    resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
+    engines: {node: '>=12.20'}
 
   typescript@5.5.3:
     resolution: {integrity: sha512-/hreyEujaB0w76zKo6717l3L0o/qEUtRgdvUBvlkhoWeOVMjMuHNHk0BRBzikzuGDqNmPQbg5ifMEqsHLiIUcQ==}
@@ -3885,6 +3821,9 @@ packages:
     resolution: {integrity: sha512-aBx2bnqDzVOyNKfsysjA2ms5ZlnjSAW2eG3/L5G/CSujfjLJTJsEw1bGw8kCf04KodQWk1pxlGnZ56CRxiawmg==}
     engines: {node: '>= 14'}
     hasBin: true
+
+  yup@1.4.0:
+    resolution: {integrity: sha512-wPbgkJRCqIf+OHyiTBQoJiP5PFuAXaWiJK6AmYkzQAh5/c2K9hzSApBZG5wV9KoKSePF7sAxmNSvh/13YHkFDg==}
 
   zod-to-json-schema@3.22.5:
     resolution: {integrity: sha512-+akaPo6a0zpVCCseDed504KBJUQpEW5QZw7RMneNmKw+fGaML1Z9tUNLnHHAC8x6dzVRO1eB2oEMyZRnuBZg7Q==}
@@ -5232,34 +5171,15 @@ snapshots:
     dependencies:
       '@types/node': 20.14.11
 
-  '@typeschema/core@0.13.2': {}
-
-  '@typeschema/main@0.13.10(@typeschema/zod@0.13.3(zod-to-json-schema@3.22.5(zod@3.23.8))(zod@3.23.8))':
-    dependencies:
-      '@typeschema/core': 0.13.2
-    optionalDependencies:
-      '@typeschema/zod': 0.13.3(zod-to-json-schema@3.22.5(zod@3.23.8))(zod@3.23.8)
-    transitivePeerDependencies:
-      - '@types/json-schema'
-
-  '@typeschema/zod@0.13.3(zod-to-json-schema@3.22.5(zod@3.23.8))(zod@3.23.8)':
-    dependencies:
-      '@typeschema/core': 0.13.2
-    optionalDependencies:
-      zod: 3.23.8
-      zod-to-json-schema: 3.22.5(zod@3.23.8)
-    transitivePeerDependencies:
-      - '@types/json-schema'
-
   '@ungap/structured-clone@1.2.0': {}
 
-  '@upstash/core-analytics@0.0.9':
+  '@upstash/core-analytics@0.0.10':
     dependencies:
       '@upstash/redis': 1.33.0
 
-  '@upstash/ratelimit@1.2.1':
+  '@upstash/ratelimit@2.0.1':
     dependencies:
-      '@upstash/core-analytics': 0.0.9
+      '@upstash/core-analytics': 0.0.10
 
   '@upstash/redis@1.33.0':
     dependencies:
@@ -6289,36 +6209,14 @@ snapshots:
 
   nanoid@3.3.7: {}
 
-  next-safe-action@7.1.3(next@14.2.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.22.5(zod@3.23.8))(zod@3.23.8):
+  next-safe-action@7.2.2(next@14.2.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yup@1.4.0)(zod@3.23.8):
     dependencies:
-      '@typeschema/main': 0.13.10(@typeschema/zod@0.13.3(zod-to-json-schema@3.22.5(zod@3.23.8))(zod@3.23.8))
-      '@typeschema/zod': 0.13.3(zod-to-json-schema@3.22.5(zod@3.23.8))(zod@3.23.8)
       next: 14.2.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+      yup: 1.4.0
     optionalDependencies:
       zod: 3.23.8
-    transitivePeerDependencies:
-      - '@types/json-schema'
-      - '@typeschema/arktype'
-      - '@typeschema/class-validator'
-      - '@typeschema/deepkit'
-      - '@typeschema/effect'
-      - '@typeschema/fastest-validator'
-      - '@typeschema/function'
-      - '@typeschema/io-ts'
-      - '@typeschema/joi'
-      - '@typeschema/json'
-      - '@typeschema/ow'
-      - '@typeschema/runtypes'
-      - '@typeschema/superstruct'
-      - '@typeschema/suretype'
-      - '@typeschema/typebox'
-      - '@typeschema/valibot'
-      - '@typeschema/valita'
-      - '@typeschema/vine'
-      - '@typeschema/yup'
-      - zod-to-json-schema
 
   next-themes@0.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
@@ -6521,6 +6419,8 @@ snapshots:
   postgres-interval@3.0.0: {}
 
   postgres-range@1.1.4: {}
+
+  property-expr@2.0.6: {}
 
   property-information@6.5.0: {}
 
@@ -6876,6 +6776,8 @@ snapshots:
 
   third-party-capital@1.0.20: {}
 
+  tiny-case@1.0.3: {}
+
   tinybench@2.8.0: {}
 
   tinypool@1.0.0: {}
@@ -6890,6 +6792,8 @@ snapshots:
     dependencies:
       is-number: 7.0.0
 
+  toposort@2.0.2: {}
+
   totalist@3.0.1: {}
 
   tr46@0.0.3: {}
@@ -6901,6 +6805,8 @@ snapshots:
   ts-interface-checker@0.1.13: {}
 
   tslib@2.6.3: {}
+
+  type-fest@2.19.0: {}
 
   typescript@5.5.3: {}
 
@@ -7137,6 +7043,13 @@ snapshots:
   yallist@5.0.0: {}
 
   yaml@2.4.5: {}
+
+  yup@1.4.0:
+    dependencies:
+      property-expr: 2.0.6
+      tiny-case: 1.0.3
+      toposort: 2.0.2
+      type-fest: 2.19.0
 
   zod-to-json-schema@3.22.5(zod@3.23.8):
     dependencies:
