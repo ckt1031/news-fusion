@@ -17,6 +17,7 @@
 		"mustache": "4.2.0"
 	},
 	"devDependencies": {
-		"@types/mustache": "4.2.5"
+		"@types/mustache": "4.2.5",
+		"tsx": "^4.16.2"
 	}
 }
