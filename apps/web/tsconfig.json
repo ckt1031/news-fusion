@@ -11,8 +11,8 @@
 		"app",
 		"components",
 		"styles",
-		"*.ts",
 		"utils",
+		"*.ts",
 		".next/types/**/*.ts"
 	],
 	"compilerOptions": {
@@ -20,8 +20,7 @@
 		"lib": ["ESNext", "dom"],
 		"types": ["./nextjs-routes.d.ts"],
 		"paths": {
-			"@/*": ["./*"],
-			"@package-info": ["./package.json"]
+			"@/*": ["./*"]
 		},
 		"jsx": "preserve",
 		"plugins": [

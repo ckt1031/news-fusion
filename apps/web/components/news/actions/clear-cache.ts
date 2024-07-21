@@ -13,10 +13,11 @@ export const clearTopicNewsPageCacheAction = authActionClient
 				? { from: formData.from, to: formData.to }
 				: formData.date;
 
-		const tags = getDateTag(dateObject);
+		if (dateObject) {
+			const tags = getDateTag(dateObject);
 
-		revalidateTag(tags);
-		revalidateTag(formData.category);
+			revalidateTag(tags);
+		}
 
 		return { success: true };
 	});

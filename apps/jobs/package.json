@@ -2,6 +2,7 @@
 	"name": "jobs",
 	"type": "module",
 	"scripts": {
+		"typecheck": "tsc",
 		"lobsters": "NODE=1 tsx scripts/hackernews.ts lobsters",
 		"hackernews": "NODE=1 tsx scripts/hackernews.ts",
 		"news-check": "NODE=1 tsx scripts/news-check.ts"
@@ -16,6 +17,7 @@
 		"mustache": "4.2.0"
 	},
 	"devDependencies": {
-		"@types/mustache": "4.2.5"
+		"@types/mustache": "4.2.5",
+		"tsx": "^4.16.2"
 	}
 }
