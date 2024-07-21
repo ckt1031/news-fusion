@@ -2,6 +2,7 @@
 	"name": "jobs",
 	"type": "module",
 	"scripts": {
+		"typecheck": "tsc",
 		"lobsters": "NODE=1 tsx scripts/hackernews.ts lobsters",
 		"hackernews": "NODE=1 tsx scripts/hackernews.ts",
 		"news-check": "NODE=1 tsx scripts/news-check.ts"
