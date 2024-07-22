@@ -7,7 +7,7 @@
 		"lint": "pnpm -r run typecheck && biome check .",
 		"lint:fix": "pnpm -r run typecheck && biome format . --write && biome check . --write"
 	},
-	"packageManager": "pnpm@9.5.0",
+	"packageManager": "pnpm@9.6.0",
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3",
 		"@ckt1031/ai": "workspace:*",
