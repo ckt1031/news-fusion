@@ -199,8 +199,8 @@ importers:
         specifier: 0.10.2
         version: 0.10.2
       query-string:
-        specifier: 9.0.0
-        version: 9.0.0
+        specifier: 9.1.0
+        version: 9.1.0
       react:
         specifier: 18.3.1
         version: 18.3.1
@@ -3247,8 +3247,8 @@ packages:
   property-information@6.5.0:
     resolution: {integrity: sha512-PgTgs/BlvHxOu8QuEN7wi5A0OmXaBcHpmCSTehcs6Uuu9IkDIEo13Hy7n898RHfrQ49vKCoGeWZSaAK01nwVig==}
 
-  query-string@9.0.0:
-    resolution: {integrity: sha512-4EWwcRGsO2H+yzq6ddHcVqkCQ2EFUSfDMEjF8ryp8ReymyZhIuaFRGLomeOQLkrzacMHoyky2HW0Qe30UbzkKw==}
+  query-string@9.1.0:
+    resolution: {integrity: sha512-t6dqMECpCkqfyv2FfwVS1xcB6lgXW/0XZSaKdsCNGYkqMO76AFiJEg4vINzoDKcZa6MS7JX+OHIjwh06K5vczw==}
     engines: {node: '>=18'}
 
   queue-microtask@1.2.3:
@@ -6432,7 +6432,7 @@ snapshots:
 
   property-information@6.5.0: {}
 
-  query-string@9.0.0:
+  query-string@9.1.0:
     dependencies:
       decode-uri-component: 0.4.1
       filter-obj: 5.1.0
