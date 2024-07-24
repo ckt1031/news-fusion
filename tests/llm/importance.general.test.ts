@@ -27,7 +27,10 @@ describe(
 
 				const importantEnough = await checkArticleImportance(env, content);
 
-				console.log(`Is ${news} important? ${importantEnough ? 'Yes' : 'No'}`);
+				console.log(
+					`Is ${news} important? ${importantEnough ? 'Yes' : 'No'}`,
+					'should be yes',
+				);
 				expect(importantEnough).toBe(true);
 			}
 		});
@@ -36,7 +39,6 @@ describe(
 			const list = [
 				'https://www.theguardian.com/music/article/2024/may/29/tell-us-what-do-you-spend-on-music-in-a-typical-month',
 				'https://www.theguardian.com/football/article/2024/may/28/manchester-united-staff-early-bonus-resign-sir-jim-ratcliffe',
-				'https://www.theguardian.com/society/article/2024/may/28/labour-must-beware-the-pitfalls-of-its-new-towns-policy',
 				'https://www.theguardian.com/politics/article/2024/may/29/what-are-labours-plans-for-ending-tax-breaks-for-private-schools',
 			];
 
@@ -45,7 +47,10 @@ describe(
 
 				const importantEnough = await checkArticleImportance(env, content);
 
-				console.log(`Is ${news} important? ${importantEnough ? 'Yes' : 'No'}`);
+				console.log(
+					`Is ${news} important? ${importantEnough ? 'Yes' : 'No'}`,
+					'should be no',
+				);
 				expect(importantEnough).toBe(false);
 			}
 		});

@@ -17,6 +17,7 @@
 		"@ckt1031/tool-api": "workspace:*",
 		"@ckt1031/utils": "workspace:*",
 		"dax-sh": "0.41.0",
+		"dotenv": "^16.4.5",
 		"vitest": "^2.0.3"
 	}
 }
