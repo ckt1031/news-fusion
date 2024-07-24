@@ -76,7 +76,6 @@ export default function TranslateDialog({ guid }: Props) {
 	 * State
 	 */
 
-	const translated = useNewsStore((state) => state.isItemTranslated(guid));
 	const baseItem = useNewsStore((state) => state.getItem(guid));
 
 	const setShowingItem = useNewsStore((state) => state.setShowingItem);
@@ -182,11 +181,7 @@ export default function TranslateDialog({ guid }: Props) {
 						)}
 					/>
 					<LLMSelect formControl={form.control} />
-					<Button
-						type={translated ? 'button' : 'submit'}
-						className="w-full"
-						disabled={isExecuting}
-					>
+					<Button type="submit" className="w-full" disabled={isExecuting}>
 						{isExecuting ? (
 							<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 						) : (
