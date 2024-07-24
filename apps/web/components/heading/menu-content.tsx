@@ -1,4 +1,11 @@
-import { BookOpenText, Bookmark, Info, LogIn, ScanEye } from 'lucide-react';
+import {
+	BookOpenText,
+	Bookmark,
+	Ear,
+	Info,
+	LogIn,
+	ScanEye,
+} from 'lucide-react';
 
 import { useAuthStore } from '@/components/store/auth';
 import {
@@ -74,6 +81,12 @@ export default function MenuContent() {
 						<DropdownMenuItem>
 							<BookOpenText className="mr-2 h-4 w-4" />
 							<span>Summarize</span>
+						</DropdownMenuItem>
+					</Link>
+					<Link href="/tools/importance">
+						<DropdownMenuItem>
+							<Ear className="mr-2 h-4 w-4" />
+							<span>Check Importance</span>
 						</DropdownMenuItem>
 					</Link>
 				</>
