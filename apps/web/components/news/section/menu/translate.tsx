@@ -33,6 +33,7 @@ import useLocalStorageState from 'use-local-storage-state';
 import { z } from 'zod';
 import { TranslateActionSchema } from '../../actions/schema';
 import { translateNewsInfo } from '../../actions/translate';
+import LLMSelect from '../../llm-select';
 import { useUIStore } from './store';
 
 interface Props {
@@ -42,6 +43,7 @@ interface Props {
 const TranslateActionFormSchema = TranslateActionSchema.pick({
 	targetLanguage: true,
 	useCache: true,
+	llmModel: true,
 }).and(
 	z.object({
 		immersive: z.boolean().optional(),
@@ -128,6 +130,7 @@ export function TranslateDialog({ guid }: Props) {
 			summary: baseItem.summary,
 			targetLanguage: values.targetLanguage,
 			useCache: values.useCache,
+			llmModel: values.llmModel,
 		});
 
 		if (!result?.data) return;
@@ -218,6 +221,7 @@ export function TranslateDialog({ guid }: Props) {
 							</FormItem>
 						)}
 					/>
+					<LLMSelect formControl={form.control} />
 					<Button
 						type={translated ? 'button' : 'submit'}
 						className="w-full"

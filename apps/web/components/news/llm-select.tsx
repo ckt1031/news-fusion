@@ -12,7 +12,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { availableFrontendCallModels } from '@ckt1031/config';
+import { AVAILABLE_CONTENT_GENERATION_MODELS } from '@ckt1031/config';
 import type { Control } from 'react-hook-form';
 
 interface Props {
@@ -40,7 +40,7 @@ export default function LLMSelect({ formControl }: Props) {
 							</SelectTrigger>
 						</FormControl>
 						<SelectContent>
-							{availableFrontendCallModels.map(({ value, label }) => (
+							{AVAILABLE_CONTENT_GENERATION_MODELS.map(({ value, label }) => (
 								<SelectItem key={value} value={value}>
 									{label}
 								</SelectItem>
