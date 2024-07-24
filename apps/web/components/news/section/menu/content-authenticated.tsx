@@ -1,6 +1,6 @@
 import BookmarkButton from './bookmark';
-import { RegenerateButton } from './re-generate';
-import { TranslateButton } from './translate';
+import RegenerateButton from './re-generate/trigger';
+import TranslateButton from './translate/trigger';
 
 interface Props {
 	guid: string;

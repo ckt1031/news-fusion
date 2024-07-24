@@ -1,3 +1,6 @@
+import { generateContent } from '@/components/news/actions/generate-short-summary';
+import { GenerateContentActionSchema } from '@/components/news/actions/schema';
+import LLMSelect from '@/components/news/llm-select';
 import { useNewsStore } from '@/components/store/news';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -5,9 +8,7 @@ import {
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
 } from '@/components/ui/dialog';
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import {
 	Form,
 	FormControl,
@@ -17,37 +18,16 @@ import {
 } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2, RotateCw } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { generateContent } from '../../actions/generate-short-summary';
-import { GenerateContentActionSchema } from '../../actions/schema';
-import LLMSelect from '../../llm-select';
-import { useUIStore } from './store';
 
 interface Props {
 	guid: string;
 }
 
-export function RegenerateButton() {
-	const setDialog = useUIStore((state) => state.setDialog);
-
-	const openDialog = () => {
-		setDialog('regenerate');
-	};
-
-	return (
-		<DialogTrigger asChild>
-			<DropdownMenuItem onClick={openDialog}>
-				<RotateCw className="h-4 w-4 mr-2" />
-				Re-Generate Content
-			</DropdownMenuItem>
-		</DialogTrigger>
-	);
-}
-
-export function RegenerateDialog({ guid }: Props) {
+export default function RegenerateDialog({ guid }: Props) {
 	const { toast } = useToast();
 
 	/**

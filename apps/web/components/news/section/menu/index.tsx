@@ -12,12 +12,8 @@ import { useUIStore } from './store';
 const NewsSectionDropdownMenuContent = dynamic(() => import('./content'), {
 	loading: () => <LoadingComponent />,
 });
-const TranslateDialog = dynamic(() =>
-	import('./translate').then((d) => d.TranslateDialog),
-);
-const RegenerateDialog = dynamic(() =>
-	import('./re-generate').then((d) => d.RegenerateDialog),
-);
+const TranslateDialog = dynamic(() => import('./translate/dialog'));
+const RegenerateDialog = dynamic(() => import('./re-generate/dialog'));
 
 interface Props {
 	guid: string;
