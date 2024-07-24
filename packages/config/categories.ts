@@ -1,0 +1,16 @@
+export enum RSS_CATEGORY {
+	GENERAL = 'general',
+	AI = 'ai',
+	TECHNOLOGY = 'technology',
+	SCIENCE = 'science',
+	HKG = 'hkg',
+	CHINA = 'CHINA',
+	THINKING = 'thinking',
+	VIDEOS = 'videos',
+	// ALERTS = 'alerts',
+	DEVELOPER = 'developer',
+	UPDATES = 'updates',
+	BLOGS = 'blogs',
+	FORUM = 'forum',
+	ALL = 'all',
+}

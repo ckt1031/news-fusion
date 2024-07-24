@@ -1,4 +1,5 @@
-import { type RSSCatacory, RSS_CATEGORY } from './news-sources';
+import { RSS_CATEGORY } from './categories';
+import type { RSSCatacory } from './news-sources';
 
 // export const V2EX: RSSCatacory = {
 // 	name: RSS_CATEGORY.FORUM,

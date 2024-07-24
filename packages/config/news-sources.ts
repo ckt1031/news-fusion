@@ -1,4 +1,5 @@
 import { YOUTUBE_RSS } from './api';
+import { RSS_CATEGORY } from './categories';
 
 export type RSSConfig = {
 	specificName?: string;
@@ -23,23 +24,6 @@ export interface RSSCatacory extends RSSConfig {
 	channels: RSSChannelItem[];
 }
 
-export enum RSS_CATEGORY {
-	GENERAL = 'general',
-	AI = 'ai',
-	TECHNOLOGY = 'technology',
-	SCIENCE = 'science',
-	HKG = 'hkg',
-	CHINA = 'CHINA',
-	THINKING = 'thinking',
-	VIDEOS = 'videos',
-	// ALERTS = 'alerts',
-	DEVELOPER = 'developer',
-	UPDATES = 'updates',
-	BLOGS = 'blogs',
-	FORUM = 'forum',
-	ALL = 'all',
-}
-
 export const RSS_GENERAL: RSSCatacory = {
 	name: RSS_CATEGORY.GENERAL,
 	channels: [
@@ -55,10 +39,6 @@ export const RSS_GENERAL: RSSCatacory = {
 			specificName: 'UN News',
 		},
 		'https://feeds.washingtonpost.com/rss/world?itid=lk_inline_manual_35',
-		// {
-		// 	url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362',
-		// 	specificName: 'CNBC',
-		// },
 		{
 			url: 'https://www.theguardian.com/world/rss',
 			specificName: 'The Guardian',
@@ -204,14 +184,26 @@ export const RSS_TECH: RSSCatacory = {
 		'https://www.eff.org/rss/updates.xml',
 		'https://mashable.com/feeds/rss/tech',
 		'https://readwrite.com/feed',
-		// 'https://hackernoon.com/feed',
+		'https://gizmodo.com/feed',
+		'https://www.technologyreview.com/feed',
 	],
 };
 
+//https://github.com/foorilla/allainews_sources?tab=readme-ov-file
 export const RSS_AI: RSSCatacory = {
 	name: RSS_CATEGORY.AI,
 	checkImportance: false,
 	channels: [
+		'https://unwindai.substack.com/feed',
+		'https://rss.beehiiv.com/feeds/2R3C6Bt5wj.xml',
+		'https://thegradient.pub/rss',
+		'https://the-decoder.com/feed',
+		'https://www.artificialintelligence-news.com/feed',
+		'https://www.databricks.com/feed',
+		{
+			url: 'https://nvidianews.nvidia.com/releases.xml',
+			specificName: 'NVIDIA',
+		},
 		'https://lastweekin.ai/feed',
 		{
 			url: 'https://research.microsoft.com/rss/news.xml',
@@ -222,6 +214,7 @@ export const RSS_AI: RSSCatacory = {
 		'https://stability.ai/news?format=rss',
 		'https://blog.langchain.dev/rss',
 		'https://qwenlm.github.io/blog/index.xml',
+		'https://replicate.com/blog/rss',
 	],
 };
 
@@ -251,6 +244,13 @@ export const RSS_DEV: RSSCatacory = {
 	name: RSS_CATEGORY.DEVELOPER,
 	checkImportance: false,
 	channels: [
+		'https://reactjs.org/feed.xml',
+		'https://blog.codepen.io/feed',
+		'https://engineering.fb.com/feed',
+		'https://blog.twitter.com/engineering/en_us/blog.rss',
+		'https://instagram-engineering.com/feed',
+		'https://auth0.com/blog/rss.xml',
+		'https://feed.infoq.com',
 		// Vulnarability
 		'https://blog.qualys.com/feed',
 
@@ -266,7 +266,6 @@ export const RSS_DEV: RSSCatacory = {
 		'https://www.docker.com/feed',
 		// Microsoft
 		'https://blogs.windows.com/feed',
-		'https://blogs.windows.com/msedgedev/feed',
 		// Programming Languages
 		'https://bun.sh/rss.xml',
 		'https://deno.com/feed',
@@ -336,8 +335,10 @@ export const RSS_UPDATES: RSSCatacory = {
 	channels: [
 		'https://obsidian.md/feed.xml',
 		'https://discord.com/blog/rss.xml',
-		'https://brave.com/blog/index.xml',
 		'https://blog.chromium.org/rss.xml',
+		'https://brave.com/feed',
+		'https://spreadprivacy.com/rss',
+		'https://blogs.windows.com/msedgedev/feed',
 	],
 };
 
