@@ -187,8 +187,8 @@ importers:
         specifier: 14.2.5
         version: 14.2.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-safe-action:
-        specifier: 7.2.2
-        version: 7.2.2(next@14.2.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yup@1.4.0)(zod@3.23.8)
+        specifier: 7.4.3
+        version: 7.4.3(next@14.2.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yup@1.4.0)(zod@3.23.8)
       next-themes:
         specifier: 0.3.0
         version: 0.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -3007,8 +3007,8 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  next-safe-action@7.2.2:
-    resolution: {integrity: sha512-0N/9vzM0iloSw39fmpd3AJ0oGxzZ8z+RzfpOFlvpODfjs4LCC7ADyaoQKbo62HkVvJSXTbdOhgWA+reJONsxDw==}
+  next-safe-action@7.4.3:
+    resolution: {integrity: sha512-wUVs5Leh6GWR4vnQuSdJDIJFAuz9YWuCYo7S4px1bofu+Pfg9Em/1zZxZvwaFmIqu+TJssOM5rsq64Og2owagQ==}
     engines: {node: '>=18.17'}
     peerDependencies:
       next: '>= 14.0.0'
@@ -3019,6 +3019,8 @@ packages:
       zod: '>= 3.0.0'
     peerDependenciesMeta:
       valibot:
+        optional: true
+      yup:
         optional: true
       zod:
         optional: true
@@ -6220,13 +6222,13 @@ snapshots:
 
   nanoid@3.3.7: {}
 
-  next-safe-action@7.2.2(next@14.2.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yup@1.4.0)(zod@3.23.8):
+  next-safe-action@7.4.3(next@14.2.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yup@1.4.0)(zod@3.23.8):
     dependencies:
       next: 14.2.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      yup: 1.4.0
     optionalDependencies:
+      yup: 1.4.0
       zod: 3.23.8
 
   next-themes@0.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
@@ -6431,7 +6433,8 @@ snapshots:
 
   postgres-range@1.1.4: {}
 
-  property-expr@2.0.6: {}
+  property-expr@2.0.6:
+    optional: true
 
   property-information@6.5.0: {}
 
@@ -6787,7 +6790,8 @@ snapshots:
 
   third-party-capital@1.0.20: {}
 
-  tiny-case@1.0.3: {}
+  tiny-case@1.0.3:
+    optional: true
 
   tinybench@2.8.0: {}
 
@@ -6803,7 +6807,8 @@ snapshots:
     dependencies:
       is-number: 7.0.0
 
-  toposort@2.0.2: {}
+  toposort@2.0.2:
+    optional: true
 
   totalist@3.0.1: {}
 
@@ -6824,7 +6829,8 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  type-fest@2.19.0: {}
+  type-fest@2.19.0:
+    optional: true
 
   typescript@5.5.3: {}
 
@@ -7068,6 +7074,7 @@ snapshots:
       tiny-case: 1.0.3
       toposort: 2.0.2
       type-fest: 2.19.0
+    optional: true
 
   zod-to-json-schema@3.22.5(zod@3.23.8):
     dependencies:
