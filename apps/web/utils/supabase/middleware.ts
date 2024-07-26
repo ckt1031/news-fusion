@@ -1,11 +1,9 @@
-'use server';
-
 import { createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
 import { nextServerEnv } from '../env/server';
 
 export async function updateSession(request: NextRequest) {
-	let response = NextResponse.next({
+	let supabaseResponse = NextResponse.next({
 		request: {
 			headers: request.headers,
 		},
@@ -19,18 +17,13 @@ export async function updateSession(request: NextRequest) {
 				getAll() {
 					return request.cookies.getAll();
 				},
-				setAll(cookies) {
-					response = NextResponse.next({
-						request: {
-							headers: request.headers,
-						},
-					});
-					for (const { name, value, options } of cookies) {
-						response.cookies.set({
-							name,
-							value,
-							...options,
-						});
+				setAll(cookiesToSet) {
+					for (const { name, value } of cookiesToSet) {
+						request.cookies.set(name, value);
+					}
+					supabaseResponse = NextResponse.next({ request });
+					for (const { name, value, options } of cookiesToSet) {
+						supabaseResponse.cookies.set(name, value, options);
 					}
 				},
 			},
@@ -39,5 +32,5 @@ export async function updateSession(request: NextRequest) {
 
 	await supabase.auth.getUser();
 
-	return response;
+	return supabaseResponse;
 }
