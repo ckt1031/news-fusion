@@ -11,9 +11,10 @@ const CommonRssFeedItemSchema = z
 	.object({
 		title: z.string().transform((title) => decodeHtmlEntities(title)),
 		link: z.string().optional(),
-		pubDate: z.string().transform((date) => new Date(date).toISOString()).default(
-			new Date().toISOString(),
-		),
+		pubDate: z
+			.string()
+			.transform((date) => new Date(date).toISOString())
+			.default(new Date().toISOString()),
 		guid: z
 			.string()
 			.or(
