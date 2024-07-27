@@ -360,4 +360,4 @@ export const ALL_RSS_CATAGORIES = [
 	RSS_CHINA,
 ];
 
-export const EARLIEST_HOURS = 3;
+export const EARLIEST_HOURS = 12;
