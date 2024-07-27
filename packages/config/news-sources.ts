@@ -248,6 +248,7 @@ export const RSS_DEV: RSSCatacory = {
 	name: RSS_CATEGORY.DEVELOPER,
 	checkImportance: false,
 	channels: [
+		'https://dev.to/rss',
 		'https://reactjs.org/feed.xml',
 		'https://blog.codepen.io/feed',
 		'https://engineering.fb.com/feed',
