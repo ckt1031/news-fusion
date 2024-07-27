@@ -8,6 +8,7 @@ Create concise, impactful titles for news articles using 7 words or less. Captur
 
 ## Guidelines
 
+- Respond in English.
 - Avoid numbering or quotes.
 - Deliver only the headline text.
 - No introductory phrases like "Here is ....".
