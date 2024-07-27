@@ -3,10 +3,6 @@
 	"name": "@ckt1031/cache",
 	"type": "module",
 	"main": "./src/index.ts",
-	"exports": {
-		"map": "./src/map.ts",
-		"redis": "./src/redis.ts"
-	},
 	"scripts": {
 		"typecheck": "tsc"
 	},

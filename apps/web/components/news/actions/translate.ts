@@ -3,9 +3,9 @@
 import { nextServerEnv } from '@/utils/env/server';
 import { authActionClient } from '@/utils/safe-action';
 import { llmTranslateText } from '@ckt1031/ai';
+import { redis } from '@ckt1031/cache/src/redis';
 import { TargetLanguageToLLM } from '@ckt1031/config';
 import { getSHA256 } from '@ckt1031/utils';
-import { redis } from '../../../../../packages/cache/src/redis';
 import { TranslateActionSchema } from './schema';
 
 export const translateNewsInfo = authActionClient

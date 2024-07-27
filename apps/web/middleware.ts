@@ -1,9 +1,9 @@
 import { updateSession } from '@/utils/supabase/middleware';
+import { getMapCache } from '@ckt1031/cache/src/map';
+import { redis } from '@ckt1031/cache/src/redis';
 import { logging } from '@ckt1031/utils';
 import { Ratelimit } from '@upstash/ratelimit';
 import type { NextRequest } from 'next/server';
-import { getMapCache } from '../../packages/cache/src';
-import { redis } from '../../packages/cache/src/redis';
 import { nextServerEnv } from './utils/env/server';
 
 const ratelimit = new Ratelimit({

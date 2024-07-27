@@ -1,7 +1,7 @@
 import { summarizeLongTextPromptWithInstruction } from '@ckt1031/prompts';
+import { getContentMarkdownFromURL } from '@ckt1031/tool-api';
 import type { ServerEnv } from '@ckt1031/types';
 import Mustache from 'mustache';
-import { getContentMarkdownFromURL } from '../../../packages/tool-api';
 
 export async function getContentMarkdownParallel(
 	env: ServerEnv,
