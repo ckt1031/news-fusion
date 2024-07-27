@@ -50,10 +50,6 @@ export const RSS_HKG: RSSCatacory = {
 	name: RSS_CATEGORY.HKG,
 	channels: [
 		{
-			url: 'https://hk.news.yahoo.com/rss/hong-kong',
-			specificName: 'Yahoo HK',
-		},
-		{
 			url: 'https://www.scmp.com/rss/2/feed',
 			specificName: 'SCMP',
 		},
@@ -218,7 +214,6 @@ export const RSS_AI: RSSCatacory = {
 		'https://stability.ai/news?format=rss',
 		'https://blog.langchain.dev/rss',
 		'https://qwenlm.github.io/blog/index.xml',
-		'https://replicate.com/blog/rss',
 	],
 };
 
@@ -248,7 +243,11 @@ export const RSS_DEV: RSSCatacory = {
 	name: RSS_CATEGORY.DEVELOPER,
 	checkImportance: false,
 	channels: [
-		'https://dev.to/rss',
+		{
+			url: 'https://dev.to/feed/cktsun1031',
+			specificName: 'Dev.to',
+			checkImportance: true,
+		},
 		'https://reactjs.org/feed.xml',
 		'https://blog.codepen.io/feed',
 		'https://engineering.fb.com/feed',
