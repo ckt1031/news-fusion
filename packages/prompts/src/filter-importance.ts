@@ -25,13 +25,10 @@ You evaluate article significance for global, tech, or developer relevance. Help
 
 ### Unimportant
 
-- Startups
-- Raises or funding rounds, and competitions, XXX paid $xM for Y
 - Comparisons or "best of" lists
 - New movies/seasons (unless extremely popular)
 - Minor expos or sales
 - Repetitive AI warnings
-- Minor company acquisitions
 - Product/event expectations or previews
 - Most game updates (unless for extremely popular games)
 - Racist, promotional, or unprofessional content
