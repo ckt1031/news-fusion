@@ -50,6 +50,10 @@ export const RSS_HKG: RSSCatacory = {
 	name: RSS_CATEGORY.HKG,
 	channels: [
 		{
+			url: 'https://hk.news.yahoo.com/rss/hong-kong',
+			specificName: 'Yahoo HK',
+		},
+		{
 			url: 'https://www.scmp.com/rss/2/feed',
 			specificName: 'SCMP',
 		},
