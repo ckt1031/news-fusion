@@ -18,6 +18,7 @@
 		"@ckt1031/utils": "workspace:*",
 		"dax-sh": "0.41.0",
 		"dotenv": "^16.4.5",
-		"vitest": "^2.0.3"
+		"vitest": "^2.0.4",
+		"typescript": "5.5.4"
 	}
 }
