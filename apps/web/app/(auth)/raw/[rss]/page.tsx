@@ -3,6 +3,7 @@ import AppInitializer from '@/components/news/list/initializer';
 import { NewsType } from '@/components/store/news';
 import { ALL_RSS_CATEGORIES } from '@ckt1031/config';
 import { parseRSS } from '@ckt1031/news';
+import { unstable_cache } from 'next/cache';
 
 interface PageProps {
 	params: { rss: string };
@@ -20,16 +21,23 @@ export async function generateStaticParams() {
 	return paths.flat();
 }
 
-export const revalidate = 600;
+export default async function RSSPage({ params }: PageProps) {
+	const getCachedRSS = unstable_cache(
+		async () => parseRSS(decodeURIComponent(params.rss)),
+		[params.rss],
+		{
+			tags: [params.rss],
+			revalidate: 60 * 10, // 10 minutes
+		},
+	);
 
-export default async function TopicPage({ params }: PageProps) {
-	const news = await parseRSS(decodeURIComponent(params.rss));
+	const news = await getCachedRSS();
 
 	const formattedNews = news.item.map((item) => {
 		return {
 			...item,
 			publishedAt: new Date(item.pubDate),
-			id: 0,
+			id: new Date(item.pubDate).getTime(),
 			category: '',
 			url: item.link,
 			publisher: news.title,
