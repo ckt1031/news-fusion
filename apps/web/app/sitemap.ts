@@ -1,9 +1,9 @@
 import { nextServerEnv } from '@/utils/env/server';
-import { getAllNewsCatagorySlug } from '@/utils/news-catagory';
+import { getAllNewsCategorySlug } from '@/utils/news-category';
 import type { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-	const getAllTopics = getAllNewsCatagorySlug();
+	const getAllTopics = getAllNewsCategorySlug();
 
 	const topics: MetadataRoute.Sitemap = getAllTopics.map((topic) => ({
 		url: `${nextServerEnv.SITE_URL}/topic/${encodeURIComponent(topic.slug)}`,

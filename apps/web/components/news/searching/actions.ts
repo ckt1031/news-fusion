@@ -28,7 +28,7 @@ export const searchAction = authActionClient
 			const date = parseDateRange(params);
 
 			const sortedArticles = await fetchNewsForPage({
-				catagory: formData.topic as RSS_CATEGORY,
+				category: formData.topic as RSS_CATEGORY,
 				date,
 			});
 			articles.push(...sortedArticles);

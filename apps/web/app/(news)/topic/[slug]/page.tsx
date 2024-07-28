@@ -4,13 +4,13 @@ import NewsList from '@/components/news/list';
 import TopicSelection from '@/components/news/topic-selection';
 import SkeletonNewsList from '@/components/skeleton/news-list';
 import captialTopicName from '@/utils/captial-topic-name';
-import { getAllNewsCatagorySlug } from '@/utils/news-catagory';
+import { getAllNewsCategorySlug } from '@/utils/news-category';
 import type { RSS_CATEGORY } from '@ckt1031/config';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
 export async function generateStaticParams() {
-	return getAllNewsCatagorySlug();
+	return getAllNewsCategorySlug();
 }
 
 interface PageProps {
@@ -48,7 +48,7 @@ export default async function TopicPage({ params, searchParams }: PageProps) {
 		<>
 			<TopicSelection topic={topic} />
 			<Suspense fallback={<SkeletonNewsList />}>
-				<NewsList catagory={topic} date={date} />
+				<NewsList category={topic} date={date} />
 			</Suspense>
 		</>
 	);

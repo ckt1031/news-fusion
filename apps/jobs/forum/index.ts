@@ -24,7 +24,7 @@ export async function checkForum(props: checkForumProps) {
 
 	try {
 		await checkRSS({
-			catagory: props.source,
+			category: props.source,
 			env: props.env,
 			// specialFilter: props.specialFilter,
 			customCheckImportancePrompt: specialCheckPrompt,

@@ -30,7 +30,7 @@ export const generateContent = authActionClient
 			...(title && { title }),
 		});
 
-		revalidateTag(formData.catagory);
+		revalidateTag(formData.category);
 
 		return { sumary, title };
 	});

@@ -14,7 +14,7 @@ export type DateRange = {
 export type DateType = string | DateRange;
 
 export interface FetchNewsPageProps {
-	catagory: RSS_CATEGORY;
+	category: RSS_CATEGORY;
 	date: DateType;
 }
 
@@ -23,12 +23,12 @@ export interface CacheArticle extends Omit<Article, 'embedding'> {
 }
 
 export async function fetchNewsForPage({
-	catagory,
+	category,
 	date,
 }: Omit<FetchNewsPageProps, 'userStatus'>) {
-	const tags = [catagory, getDateTag(date)];
+	const tags = [category, getDateTag(date)];
 	const getCachedDatedNews = unstable_cache(
-		async () => getNewsBasedOnDateAndCategory(date, catagory),
+		async () => getNewsBasedOnDateAndCategory(date, category),
 		tags,
 		{
 			tags,

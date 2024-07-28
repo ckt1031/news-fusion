@@ -61,10 +61,6 @@ export const RSS_HKG: RSSCatacory = {
 			url: 'https://hongkongfp.com/feed',
 			specificName: 'HKFP',
 		},
-		// {
-		// 	url: 'https://news.mingpao.com/rss/pns/s00002.xml',
-		// 	specificName: 'Ming Pao',
-		// },
 	],
 };
 
@@ -342,7 +338,7 @@ export const RSS_UPDATES: RSSCatacory = {
 	],
 };
 
-export const ALL_RSS_CATAGORIES = [
+export const ALL_RSS_CATEGORIES = [
 	RSS_AI,
 	RSS_DEV,
 	RSS_SCIENCE,

@@ -3,7 +3,7 @@
  */
 
 import { exit } from 'node:process';
-import { ALL_RSS_CATAGORIES, type RSSCatacory } from '@ckt1031/config';
+import { ALL_RSS_CATEGORIES, type RSSCatacory } from '@ckt1031/config';
 import { checkRSS } from '@ckt1031/news';
 import { envSchema } from '@ckt1031/types';
 import { logging } from '@ckt1031/utils';
@@ -14,14 +14,14 @@ const env = await envSchema.parseAsync(process.env);
 
 /**
  * Run this script with specific RSS URL to check only that RSS
- * Format: CATAGORY_NAME RSS_URL
+ * Format: CATEGORY_NAME RSS_URL
  * Example: node scripts/news-check.ts 'Technology' 'https://rss.com/technology'
  */
 
-const [specificCatagoryName, specificRSS] = [process.argv[2], process.argv[3]];
+const [specificCategoryName, specificRSS] = [process.argv[2], process.argv[3]];
 
-if (specificRSS && !specificCatagoryName) {
-	logging.error('Please provide the RSS URL and Catagory Name');
+if (specificRSS && !specificCategoryName) {
+	logging.error('Please provide the RSS URL and Category Name');
 	exit(1);
 }
 
@@ -30,16 +30,16 @@ logging.success('Environment variables are correctly configured');
 const allCatagories = specificRSS
 	? ([
 			{
-				name: specificCatagoryName as RSSCatacory['name'],
+				name: specificCategoryName as RSSCatacory['name'],
 				channels: [specificRSS as string],
 			},
 		] satisfies RSSCatacory[])
-	: ALL_RSS_CATAGORIES;
+	: ALL_RSS_CATEGORIES;
 
-for (const catagory of allCatagories) {
+for (const category of allCatagories) {
 	await checkRSS({
 		env,
-		catagory,
+		category,
 	});
 }
 

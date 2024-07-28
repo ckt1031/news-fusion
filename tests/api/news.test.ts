@@ -1,4 +1,4 @@
-import { ALL_RSS_CATAGORIES } from '@ckt1031/config';
+import { ALL_RSS_CATEGORIES } from '@ckt1031/config';
 import { checkRSS } from '@ckt1031/news';
 import { expect, test } from 'vitest';
 
@@ -8,13 +8,13 @@ test(
 		timeout: 180000,
 	},
 	async () => {
-		for (const catagory of ALL_RSS_CATAGORIES) {
+		for (const category of ALL_RSS_CATEGORIES) {
 			expect(
 				await checkRSS({
+					category,
+					isTesting: true,
 					// @ts-ignore
 					env: process.env,
-					catagory,
-					isTesting: true,
 				}),
 			).not.toBeNull();
 		}

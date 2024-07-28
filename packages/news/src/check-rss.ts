@@ -29,21 +29,21 @@ import { isArticleSimilar } from './similarity';
 
 interface Props {
 	env: ServerEnv;
-	catagory: RSSCatacory;
+	category: RSSCatacory;
 	isTesting?: boolean;
 
 	customCheckImportancePrompt?: string;
 }
 
-function getConfiguration(
-	catagory: RSSCatacory,
+export function getChannelConfiguration(
+	category: RSSCatacory,
 	channel: RSSChannelItem,
 	key: keyof RSSConfig,
 	defaultValue: boolean | string,
 ) {
 	return (
 		(typeof channel === 'string' ? undefined : channel[key]) ??
-		catagory[key] ??
+		category[key] ??
 		defaultValue
 	);
 }
@@ -57,11 +57,11 @@ function getToken(markdown: string) {
 
 export async function checkRSS({
 	env,
-	catagory,
+	category,
 	isTesting,
 	customCheckImportancePrompt,
 }: Props) {
-	for (const channel of catagory.channels) {
+	for (const channel of category.channels) {
 		let url: string | undefined =
 			typeof channel === 'string' ? channel : channel.url;
 
@@ -94,26 +94,26 @@ export async function checkRSS({
 					// Rejected if the news was already checked
 					if (!isNew) continue;
 
-					let autoSummarize = getConfiguration(
-						catagory,
+					let autoSummarize = getChannelConfiguration(
+						category,
 						channel,
 						'autoSummarize',
 						true,
 					);
-					let checkImportance = getConfiguration(
-						catagory,
+					let checkImportance = getChannelConfiguration(
+						category,
 						channel,
 						'checkImportance',
 						true,
 					);
-					const scrapable = getConfiguration(
-						catagory,
+					const scrapable = getChannelConfiguration(
+						category,
 						channel,
 						'scrapable',
 						true,
 					);
-					const publisherName = getConfiguration(
-						catagory,
+					const publisherName = getChannelConfiguration(
+						category,
 						channel,
 						'specificName',
 						feed.title,
@@ -210,7 +210,7 @@ export async function checkRSS({
 						title: title,
 						url: item.link,
 						publisher: publisherName as string,
-						category: catagory.name,
+						category: category.name,
 						guid: item.guid,
 						publishedAt: new Date(),
 						embedding: scrapable ? embedding : null,

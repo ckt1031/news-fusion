@@ -24,7 +24,7 @@ export default async function Home({ searchParams }: PageProps) {
 		<>
 			<TopicSelection topic={RSS_CATEGORY.GENERAL} />
 			<Suspense fallback={<SkeletonNewsList />}>
-				<NewsList catagory={RSS_CATEGORY.GENERAL} date={date} />
+				<NewsList category={RSS_CATEGORY.GENERAL} date={date} />
 			</Suspense>
 		</>
 	);
