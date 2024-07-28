@@ -9,7 +9,7 @@ import type { RSS_CATEGORY } from '@ckt1031/config';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
 	return getAllNewsCategorySlug();
 }
 
