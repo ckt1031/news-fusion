@@ -47,6 +47,8 @@ const TranslateActionFormSchema = TranslateActionSchema.pick({
 	}),
 );
 
+type FormValues = z.infer<typeof TranslateActionFormSchema>;
+
 export default function TranslateDialog({ guid }: Props) {
 	const { toast } = useToast();
 
@@ -61,12 +63,20 @@ export default function TranslateDialog({ guid }: Props) {
 		},
 	);
 
-	const form = useForm<z.infer<typeof TranslateActionFormSchema>>({
+	const [model, setModel] = useLocalStorageState<FormValues['llmModel']>(
+		'translate-llm-model',
+		{
+			defaultValue: 'gpt-4o-mini',
+		},
+	);
+
+	const form = useForm<FormValues>({
 		resolver: zodResolver(TranslateActionFormSchema),
 		defaultValues: {
 			targetLanguage: 'zh-tw',
 			useCache: true,
 			immersive,
+			llmModel: model,
 		},
 	});
 
@@ -80,9 +90,7 @@ export default function TranslateDialog({ guid }: Props) {
 
 	const setShowingItem = useNewsStore((state) => state.setShowingItem);
 
-	const onTranslate = async (
-		values: z.infer<typeof TranslateActionFormSchema>,
-	) => {
+	const onTranslate = async (values: FormValues) => {
 		// Send the translation request
 		const result = await executeAsync({
 			title: baseItem.title,
@@ -180,7 +188,9 @@ export default function TranslateDialog({ guid }: Props) {
 							</FormItem>
 						)}
 					/>
-					<LLMSelect formControl={form.control} />
+
+					<LLMSelect formControl={form.control} onAdditionalChange={setModel} />
+
 					<Button type="submit" className="w-full" disabled={isExecuting}>
 						{isExecuting ? (
 							<Loader2 className="mr-2 h-4 w-4 animate-spin" />

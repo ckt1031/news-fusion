@@ -21,11 +21,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
+import useLocalStorageState from 'use-local-storage-state';
 import { z } from 'zod';
 
 interface Props {
 	guid: string;
 }
+
+const FormSchema = GenerateContentActionSchema.pick({
+	generateSummary: true,
+	generateTitle: true,
+}).and(
+	z.object({
+		llmModel: z.string().optional(),
+	}),
+);
+
+type FormValues = z.infer<typeof FormSchema>;
 
 export default function RegenerateDialog({ guid }: Props) {
 	const { toast } = useToast();
@@ -34,20 +46,19 @@ export default function RegenerateDialog({ guid }: Props) {
 	 * Form and Actions
 	 */
 
-	const FormSchema = GenerateContentActionSchema.pick({
-		generateSummary: true,
-		generateTitle: true,
-	}).and(
-		z.object({
-			llmModel: z.string().optional(),
-		}),
+	const [model, setModel] = useLocalStorageState<FormValues['llmModel']>(
+		'translate-llm-model',
+		{
+			defaultValue: 'gpt-4o-mini',
+		},
 	);
 
-	const form = useForm<z.infer<typeof FormSchema>>({
+	const form = useForm<FormValues>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
 			generateSummary: false,
 			generateTitle: false,
+			llmModel: model,
 		},
 	});
 
@@ -57,7 +68,7 @@ export default function RegenerateDialog({ guid }: Props) {
 	const setItem = useNewsStore((state) => state.setItem);
 	const setDisplayingItem = useNewsStore((state) => state.setShowingItem);
 
-	const onGenerateSummary = async (values: z.infer<typeof FormSchema>) => {
+	const onGenerateSummary = async (values: FormValues) => {
 		if (!values.generateSummary && !values.generateTitle) {
 			toast({
 				variant: 'destructive',
@@ -140,7 +151,7 @@ export default function RegenerateDialog({ guid }: Props) {
 						)}
 					/>
 
-					<LLMSelect formControl={form.control} />
+					<LLMSelect formControl={form.control} onAdditionalChange={setModel} />
 
 					<Button type="submit" className="w-full mt-2" disabled={isExecuting}>
 						{isExecuting ? (

@@ -23,9 +23,10 @@ interface Props {
 		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		any
 	>;
+	onAdditionalChange?: (value: string) => void;
 }
 
-export default function LLMSelect({ formControl }: Props) {
+export default function LLMSelect({ formControl, onAdditionalChange }: Props) {
 	return (
 		<FormField
 			control={formControl}
@@ -33,7 +34,13 @@ export default function LLMSelect({ formControl }: Props) {
 			render={({ field }) => (
 				<FormItem className="mb-4">
 					<FormLabel htmlFor={field.name}>Model</FormLabel>
-					<Select onValueChange={field.onChange} defaultValue={field.value}>
+					<Select
+						onValueChange={(d) => {
+							field.onChange(d);
+							onAdditionalChange?.(d);
+						}}
+						defaultValue={field.value}
+					>
 						<FormControl>
 							<SelectTrigger className="w-full mb-2">
 								<SelectValue placeholder="Select a model" />
