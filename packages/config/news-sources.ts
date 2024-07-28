@@ -54,21 +54,17 @@ export const RSS_HKG: RSSCatacory = {
 			specificName: 'SCMP',
 		},
 		{
-			url: 'https://rthk9.rthk.hk/rthk/news/rss/c_expressnews_clocal.xml',
+			url: 'https://rthk9.rthk.hk/rthk/news/rss/e_expressnews_elocal.xml',
 			specificName: 'RTHK',
 		},
 		{
 			url: 'https://hongkongfp.com/feed',
 			specificName: 'HKFP',
 		},
-		{
-			url: 'https://www.hket.com/rss/hongkong',
-			specificName: 'HKET',
-		},
-		{
-			url: 'https://news.mingpao.com/rss/pns/s00002.xml',
-			specificName: 'Ming Pao',
-		},
+		// {
+		// 	url: 'https://news.mingpao.com/rss/pns/s00002.xml',
+		// 	specificName: 'Ming Pao',
+		// },
 	],
 };
 

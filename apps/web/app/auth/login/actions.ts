@@ -6,7 +6,6 @@ import { nextServerEnv } from '@/utils/env/server';
 import { action } from '@/utils/safe-action';
 import { createSupabaseServerClient } from '@/utils/supabase/server';
 import type { SignInWithPasswordCredentials } from '@supabase/supabase-js';
-import { revalidatePath } from 'next/cache';
 import { ForgotPasswordActionSchema, LoginActionSchema } from './schema';
 
 export const login = action
