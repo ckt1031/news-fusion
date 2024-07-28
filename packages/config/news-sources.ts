@@ -84,7 +84,7 @@ export const RSS_THINKING: RSSCatacory = {
 	channels: [
 		'https://asteriskmag.com/feed',
 		'https://www.nplusonemag.com/feed',
-		{ url: 'https://www.newyorker.com/feed/news', specificName: 'New Yorker' },
+		{ url: 'https://www.newyorker.com/feed/rss', specificName: 'New Yorker' },
 		'https://api.quantamagazine.org/feed',
 		'https://www.noemamag.com/?feed=noemarss',
 	],
@@ -186,6 +186,7 @@ export const RSS_AI: RSSCatacory = {
 	name: RSS_CATEGORY.AI,
 	checkImportance: false,
 	channels: [
+		'https://openrss.org/openai.com/news',
 		'https://unwindai.substack.com/feed',
 		'https://rss.beehiiv.com/feeds/2R3C6Bt5wj.xml',
 		'https://thegradient.pub/rss',

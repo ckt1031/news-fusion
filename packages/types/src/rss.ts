@@ -73,6 +73,22 @@ const Alternative1FeedItemSchema = z
 			.object({ '@_href': z.string() })
 			.transform((link) => link['@_href']),
 		published: z.string().transform((date) => new Date(date).toISOString()),
+		// content: z.string().optional(),
+
+		content: z
+			.string()
+			.or(z.object({ '#text': z.string() }))
+			.transform((title) =>
+				typeof title === 'object' ? title['#text'] : title,
+			)
+			.optional(),
+		summary: z
+			.string()
+			.or(z.object({ '#text': z.string() }))
+			.transform((title) =>
+				typeof title === 'object' ? title['#text'] : title,
+			)
+			.optional(),
 	})
 	.transform((item) => ({
 		// Make format to common format
@@ -80,6 +96,10 @@ const Alternative1FeedItemSchema = z
 		link: item.link,
 		pubDate: item.published,
 		guid: item.id,
+		description:
+			item.content || item.summary
+				? convertHTMLtoText(item.content || item.summary || '')
+				: '',
 	}));
 
 const Alternative1FeedSchema = z
@@ -123,6 +143,20 @@ const AtomFeedSchema = z
 					)
 					.transform((title) => decodeHtmlEntities(title)),
 				updated: z.string().transform((date) => new Date(date).toISOString()),
+				content: z
+					.string()
+					.or(z.object({ '#text': z.string() }))
+					.transform((title) =>
+						typeof title === 'object' ? title['#text'] : title,
+					)
+					.optional(),
+				summary: z
+					.string()
+					.or(z.object({ '#text': z.string() }))
+					.transform((title) =>
+						typeof title === 'object' ? title['#text'] : title,
+					)
+					.optional(),
 			})
 			.array(),
 	})
@@ -135,6 +169,10 @@ const AtomFeedSchema = z
 			link: entry.id,
 			pubDate: entry.updated,
 			guid: entry.id,
+			description:
+				entry.content || entry.summary
+					? convertHTMLtoText(entry.content || entry.summary || '')
+					: '',
 		})),
 	}));
 
