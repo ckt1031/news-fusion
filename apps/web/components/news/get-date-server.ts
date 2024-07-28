@@ -1,4 +1,4 @@
-import type { HomeSearchParamsProps } from '@/app/page';
+import type { HomeSearchParamsProps } from '@/app/(news)/page';
 import dayjs from 'dayjs';
 import type { DateType } from './list/fetch';
 

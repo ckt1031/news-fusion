@@ -1,5 +1,4 @@
-import type { HomeSearchParamsProps } from '@/app/page';
-import DateSwitcher from '@/components/news/date-switcher';
+import type { HomeSearchParamsProps } from '@/app/(news)/page';
 import { parseDateRange } from '@/components/news/get-date-server';
 import NewsList from '@/components/news/list';
 import TopicSelection from '@/components/news/topic-selection';
@@ -47,7 +46,6 @@ export default async function TopicPage({ params, searchParams }: PageProps) {
 
 	return (
 		<>
-			<DateSwitcher />
 			<TopicSelection topic={topic} />
 			<Suspense fallback={<SkeletonNewsList />}>
 				<NewsList catagory={topic} date={date} />

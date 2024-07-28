@@ -1,11 +1,10 @@
 'use client';
 
+import SkeletonSmallButtonIcon from '@/components/skeleton/button';
+import { SkeletonSingleNews } from '@/components/skeleton/news-list';
 import { useAuthStore } from '@/components/store/auth';
 import { useNewsStore } from '@/components/store/news';
 import dynamic from 'next/dynamic';
-import SkeletonSmallButtonIcon from '../../skeleton/button';
-import { SkeletonSingleNews } from '../../skeleton/news-list';
-import AIDisclaimer from './disclaimer';
 
 const NewsSection = dynamic(() => import('../section'), {
 	loading: () => <SkeletonSingleNews />,
@@ -50,9 +49,6 @@ export default function Content() {
 				{isLoggedIn && <NewsPageDropdownMenu />}
 			</div>
 			{!loading && <Section />}
-			<div className="mb-5">
-				<AIDisclaimer />
-			</div>
 		</>
 	);
 }
