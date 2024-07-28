@@ -28,7 +28,7 @@ export const login = action
 			return { success: false, error: error.message };
 		}
 
-		revalidatePath('/', 'layout');
+		// revalidatePath('/', 'layout');
 		redirect('/');
 	});
 
