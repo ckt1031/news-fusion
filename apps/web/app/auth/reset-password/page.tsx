@@ -3,8 +3,6 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import ResetPassword from './component';
 
-export const runtime = 'edge';
-
 const title = 'Reset Password';
 
 export const metadata: Metadata = {

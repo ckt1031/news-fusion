@@ -4,8 +4,6 @@ import DisplayName from './settings/display-name';
 import Email from './settings/email';
 import ProfileNavigation from './settings/navigation';
 
-export const runtime = 'edge';
-
 const title = 'Account Profile';
 
 export const metadata: Metadata = {

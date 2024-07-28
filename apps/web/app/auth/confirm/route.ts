@@ -3,8 +3,6 @@ import { type NextRequest, NextResponse } from 'next/server';
 
 import { createSupabaseServerClient } from '@/utils/supabase/server';
 
-export const runtime = 'edge';
-
 // https://supabase.com/docs/guides/auth/server-side/nextjs
 
 export async function GET(request: NextRequest) {
