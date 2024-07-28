@@ -8,6 +8,8 @@ interface PageProps {
 	params: { rss: string };
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
 	const paths = ALL_RSS_CATEGORIES.map((category) => {
 		return category.channels.map((channel) => {
@@ -22,7 +24,7 @@ export async function generateStaticParams() {
 	}));
 }
 
-export const revalidate = 60 * 10;
+// export const revalidate = 60 * 10;
 
 export default async function RSSPage({ params }: PageProps) {
 	const news = await parseRSS(decodeURIComponent(params.rss));

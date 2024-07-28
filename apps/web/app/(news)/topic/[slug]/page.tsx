@@ -18,6 +18,8 @@ interface PageProps {
 	searchParams: HomeSearchParamsProps;
 }
 
+export const dynamicParams = false;
+
 export async function generateMetadata({
 	params,
 }: PageProps): Promise<Metadata> {
