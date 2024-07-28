@@ -49,7 +49,7 @@ export function DatePickerWithRange({
 				</PopoverTrigger>
 				<PopoverContent className="w-auto p-0" align="center">
 					<Calendar
-						initialFocus
+						// initialFocus <- Not supported in react-day-picker v9
 						mode="range"
 						defaultMonth={date?.from}
 						selected={date}
