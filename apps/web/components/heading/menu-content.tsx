@@ -4,6 +4,7 @@ import {
 	Ear,
 	Info,
 	LogIn,
+	Rss,
 	ScanEye,
 } from 'lucide-react';
 
@@ -71,6 +72,12 @@ export default function MenuContent() {
 				<>
 					<DropdownMenuLabel>Tools</DropdownMenuLabel>
 					<DropdownMenuSeparator />
+					<Link href="/raw">
+						<DropdownMenuItem>
+							<Rss className="mr-2 h-4 w-4" />
+							<span>Raw RSS Reader</span>
+						</DropdownMenuItem>
+					</Link>
 					<Link href="/tools/similarities">
 						<DropdownMenuItem>
 							<ScanEye className="mr-2 h-4 w-4" />

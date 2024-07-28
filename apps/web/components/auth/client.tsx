@@ -13,16 +13,18 @@ export default function AuthStateInializer({ children }: PropsWithChildren) {
 			if (!isSubscribed) return;
 
 			const {
-				data: { user },
-			} = await supabase.auth.getUser();
+				data: { session },
+			} = await supabase.auth.getSession();
 
-			if (!user) {
+			if (!session?.user) {
 				useAuthStore.setState({
 					user: null,
 					isLoggedIn: false,
 				});
 				return;
 			}
+
+			const user = session.user;
 
 			const avatarURL = user.email ? getGravatarUrl(user.email) : null;
 
@@ -34,7 +36,7 @@ export default function AuthStateInializer({ children }: PropsWithChildren) {
 				isLoggedIn: true,
 			});
 		},
-		[supabase.auth.getUser],
+		[supabase.auth.getSession],
 	);
 
 	useEffect(() => {

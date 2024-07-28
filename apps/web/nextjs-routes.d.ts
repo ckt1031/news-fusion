@@ -19,6 +19,8 @@ declare module "nextjs-routes" {
     | StaticRoute<"/auth/reset-password">
     | StaticRoute<"/bookmarks">
     | StaticRoute<"/profile">
+    | StaticRoute<"/raw">
+    | DynamicRoute<"/raw/[rss]", { "rss": string }>
     | StaticRoute<"/tools/importance">
     | StaticRoute<"/tools/similarities">
     | StaticRoute<"/tools/summarize">

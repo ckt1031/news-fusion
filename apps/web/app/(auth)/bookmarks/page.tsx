@@ -1,8 +1,6 @@
 import { serverAuthState } from '@/components/hooks/auth';
 import SkeletonNewsList from '@/components/skeleton/news-list';
-import { LOGIN_PATH } from '@/utils/paths';
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import Component from './content';
 
@@ -20,14 +18,17 @@ export const metadata: Metadata = {
 
 export const runtime = 'nodejs';
 
-export default async function BookmarksPage() {
-	const { isLoggedIn, user } = await serverAuthState();
+/**
+ * Auth check is not required here because the user is already authenticated
+ */
 
-	if (!isLoggedIn || !user) redirect(LOGIN_PATH);
+export default async function BookmarksPage() {
+	const { user } = await serverAuthState();
 
 	return (
 		<Suspense fallback={<SkeletonNewsList />}>
-			<Component user={user} />
+			{/* biome-ignore lint/style/noNonNullAssertion: <explanation> */}
+			<Component user={user!} />
 		</Suspense>
 	);
 }

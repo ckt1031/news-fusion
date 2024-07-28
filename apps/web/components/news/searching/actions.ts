@@ -1,6 +1,6 @@
 'use server';
 
-import { fetchBookmarks } from '@/app/bookmarks/actions';
+import { fetchBookmarks } from '@/app/(auth)/bookmarks/actions';
 import { nextServerEnv } from '@/utils/env/server';
 import { authActionClient } from '@/utils/safe-action';
 import { requestRerankerAPI } from '@ckt1031/ai';

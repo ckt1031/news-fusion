@@ -31,7 +31,6 @@ const Schema = z.object({
 export default function Email() {
 	const { toast } = useToast();
 	const user = useAuthStore((state) => state.user);
-	// const setUser = useAuthStore((state) => state.setUser);
 
 	type FormValues = z.infer<typeof Schema>;
 

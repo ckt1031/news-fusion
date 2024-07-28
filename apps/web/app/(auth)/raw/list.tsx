@@ -80,7 +80,7 @@ export default function RawNewsList() {
 		<>
 			<h1 className="text-3xl mb-4">Raw RSS List</h1>
 			{catagories.map((name) => {
-				return URLListOfCategory({ name });
+				return <URLListOfCategory key={name} name={name} />;
 			})}
 		</>
 	);

@@ -4,13 +4,13 @@ import { createSupabaseServerClient } from '@/utils/supabase/server';
 export async function serverAuthState() {
 	const supabase = await createSupabaseServerClient();
 
-	const { data, error } = await supabase.auth.getUser();
+	const { data, error } = await supabase.auth.getSession();
 
-	if (error || !data?.user) {
+	if (error || !data?.session?.user) {
 		return { user: null, isLoggedIn: false };
 	}
 
-	const user = data.user;
+	const user = data.session.user;
 
 	const avatarURL = user?.email ? getGravatarUrl(user.email) : null;
 
