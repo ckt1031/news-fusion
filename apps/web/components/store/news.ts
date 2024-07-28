@@ -23,6 +23,9 @@ export interface NewsStore {
 		immersiveTranslate?: boolean;
 	})[];
 
+	disableBookmark?: boolean;
+	disableRegenerate?: boolean;
+
 	setLoading: (loading: NewsStore['loading']) => void;
 
 	setPageData: (data: NewsStore['pageData']) => void;

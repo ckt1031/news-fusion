@@ -236,11 +236,11 @@ export const RSS_DEV: RSSCatacory = {
 	checkImportance: false,
 	channels: [
 		{
-			url: 'https://dev.to/feed/cktsun1031',
+			url: 'https://dev.to',
 			specificName: 'Dev.to',
 			checkImportance: true,
 		},
-		'https://reactjs.org/feed.xml',
+		'https://react.dev/rss.xml',
 		'https://blog.codepen.io/feed',
 		'https://engineering.fb.com/feed',
 		'https://blog.twitter.com/engineering/en_us/blog.rss',

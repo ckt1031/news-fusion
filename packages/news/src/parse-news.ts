@@ -56,6 +56,7 @@ export async function parseRSS(url: string, pastHours = -1) {
 			pubDate: string;
 			guid: string;
 			thumbnail?: string | undefined;
+			description?: string | undefined;
 		}[],
 	};
 }

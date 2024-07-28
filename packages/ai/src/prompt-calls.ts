@@ -56,6 +56,7 @@ export async function llmTranslateText(
 	env: TextCompletionsGenerateProps['env'],
 	originalContent: string,
 	targetLanguage: string,
+	customModel?: string,
 ) {
 	const _translatePrompt = Mustache.render(translationPrompt, {
 		language: targetLanguage,
@@ -63,7 +64,8 @@ export async function llmTranslateText(
 
 	const content = await requestChatCompletionAPI({
 		env,
-		model: env.DEFAULT_TRANSLATE_MODEL ?? DEFAULT_TRANSLATE_MODEL,
+		model:
+			customModel ?? env.DEFAULT_TRANSLATE_MODEL ?? DEFAULT_TRANSLATE_MODEL,
 		temperature: 0.2,
 		message: {
 			system: _translatePrompt,

@@ -1,5 +1,6 @@
 import { removeTrailingSlash } from '@ckt1031/utils';
 import { decode as decodeHtmlEntities } from 'html-entities';
+import { convert as convertHTMLtoText } from 'html-to-text';
 import { z } from 'zod';
 
 // Schema for the first type of thumbnail (media:content)
@@ -24,6 +25,7 @@ const CommonRssFeedItemSchema = z
 			)
 			.transform((guid) => (typeof guid === 'object' ? guid['#text'] : guid))
 			.optional(),
+		description: z.string().optional(),
 
 		// Additions
 		// 'media:content': MediaContentSchema.or(z.string())
@@ -37,6 +39,7 @@ const CommonRssFeedItemSchema = z
 		link: removeTrailingSlash(String(item.link || item.guid || '')),
 		pubDate: item.pubDate,
 		guid: removeTrailingSlash(String(item.guid || item.link || '')),
+		description: item.description ? convertHTMLtoText(item.description) : '',
 		// thumbnail:
 		// 	(typeof item['media:content'] !== 'string' &&
 		// 		typeof item['media:content'] !== 'undefined' &&

@@ -37,9 +37,9 @@ function URLListOfCategory({ name }: Category) {
 	if (!category) return null;
 
 	return (
-		<div key={name} className="mb-4 prose dark:prose-invert">
+		<div key={name} className="mb-4">
 			<h2 className="text-xl mb-2">{name.toLocaleUpperCase()}</h2>
-			<table className="table-auto">
+			<table className="table-auto prose dark:prose-invert">
 				<thead>
 					<tr>
 						<th className="px-4 py-2">Name</th>
@@ -61,7 +61,9 @@ function URLListOfCategory({ name }: Category) {
 									{specificName.toLocaleUpperCase()}
 								</td>
 								<td className="border px-4 py-2">
-									<a href={getURL(channel)}>{getURL(channel)}</a>
+									<a href={`/raw/${encodeURIComponent(getURL(channel))}`}>
+										{getURL(channel)}
+									</a>
 								</td>
 							</tr>
 						);

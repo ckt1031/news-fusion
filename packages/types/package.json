@@ -12,6 +12,8 @@
 		"zod": "3.23.8"
 	},
 	"devDependencies": {
-		"@ckt1031/tsconfig": "workspace:*"
+		"@ckt1031/tsconfig": "workspace:*",
+		"@types/html-to-text": "^9.0.4",
+		"html-to-text": "^9.0.5"
 	}
 }

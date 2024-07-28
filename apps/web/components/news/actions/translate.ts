@@ -12,7 +12,11 @@ export const translateNewsInfo = authActionClient
 	.schema(TranslateActionSchema)
 	.action(async ({ parsedInput: formData }) => {
 		async function translateText(t: string) {
-			const cacheHash = getSHA256([t, formData.targetLanguage]);
+			const cacheHash = getSHA256([
+				t,
+				formData.targetLanguage,
+				formData.llmModel ?? 'DEFAULT_MODEL',
+			]);
 
 			// Only run this if cache is enabled
 			if (formData.useCache) {
@@ -26,7 +30,12 @@ export const translateNewsInfo = authActionClient
 					formData.targetLanguage as keyof typeof TargetLanguageToLLM
 				] ?? 'English';
 
-			const result = await llmTranslateText(nextServerEnv, t, lang);
+			const result = await llmTranslateText(
+				nextServerEnv,
+				t,
+				lang,
+				formData.llmModel,
+			);
 
 			await redis.set(cacheHash, result, {
 				ex: 60 * 60 * 24 * 3, // Cache for 3 days
