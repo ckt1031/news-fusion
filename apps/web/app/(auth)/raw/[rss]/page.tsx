@@ -17,7 +17,9 @@ export async function generateStaticParams() {
 		});
 	});
 
-	return paths.flat();
+	return paths.flat().map((s) => ({
+		slug: s,
+	}));
 }
 
 export const revalidate = 60 * 10;

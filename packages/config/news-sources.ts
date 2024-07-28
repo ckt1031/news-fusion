@@ -241,7 +241,6 @@ export const RSS_DEV: RSSCatacory = {
 			specificName: 'Dev.to',
 			checkImportance: true,
 		},
-		'https://react.dev/rss.xml',
 		'https://blog.codepen.io/feed',
 		'https://engineering.fb.com/feed',
 		'https://blog.twitter.com/engineering/en_us/blog.rss',
