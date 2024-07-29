@@ -3,12 +3,12 @@
 import '@/styles/markdown.css';
 
 import { useNewsStore } from '@/components/store/news';
+import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/utils/cn';
 import { isURLYoutube } from '@ckt1031/utils';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import Markdown from 'react-markdown';
-import { Skeleton } from '../../ui/skeleton';
 import PublisherComponent from '../list/publisher';
 import TimeComponent from '../list/time-component';
 import NewsSectionDropdownMenu from './menu';

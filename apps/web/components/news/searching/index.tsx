@@ -1,3 +1,4 @@
+import LoadingComponent from '@/components/loading';
 import {
 	Popover,
 	PopoverContent,
@@ -5,7 +6,6 @@ import {
 } from '@/components/ui/popover';
 import { Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import LoadingComponent from '../../loading';
 
 const NewsSearchingPopoverContent = dynamic(() => import('./popover'), {
 	loading: () => <LoadingComponent />,

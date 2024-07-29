@@ -1,7 +1,7 @@
+import { redis } from '@ckt1031/cache/src/redis';
 import { RSS_CATEGORY } from '@ckt1031/config';
 import { getSHA256 } from '@ckt1031/utils';
 import { and, arrayOverlaps, eq, lt, or, sql } from 'drizzle-orm';
-import { redis } from '../../cache/src/redis';
 import { db } from './client';
 import * as schema from './schema';
 import type { NewArticle } from './schema';

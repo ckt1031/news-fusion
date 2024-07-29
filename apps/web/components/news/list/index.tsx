@@ -1,7 +1,7 @@
+import SkeletonCard from '@/components/skeleton/card';
 import { NewsType } from '@/components/store/news';
 import dayjs from 'dayjs';
 import dynamic from 'next/dynamic';
-import SkeletonCard from '../../skeleton/card';
 import Content from './content';
 import {
 	type DateRange,

@@ -1,9 +1,9 @@
 import { useNewsStore } from '@/components/store/news';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import dayjs from 'dayjs';
 import { usePathname, useRouter } from 'next/navigation';
-import { Button } from '../../ui/button';
 import { currentDate } from '../get-date-server';
 import type { DateRange } from '../list/fetch';
 import RangeDateSelect from './range';

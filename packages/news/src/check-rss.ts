@@ -15,13 +15,10 @@ import {
 	checkIfNewsIsNew,
 	createArticleDatabase,
 } from '@ckt1031/db';
+import { getContentMarkdownFromURL, scrapeMetaData } from '@ckt1031/tool-api';
 import type { ServerEnv } from '@ckt1031/types';
 import { logging } from '@ckt1031/utils';
 import { getEncoding } from 'js-tiktoken';
-import {
-	getContentMarkdownFromURL,
-	scrapeMetaData,
-} from '../../tool-api/index';
 import filterRSS from './filter-news';
 import { parseRSS } from './parse-news';
 import { getRSSHubURL } from './rsshub';
