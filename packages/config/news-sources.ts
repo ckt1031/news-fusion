@@ -237,7 +237,7 @@ export const RSS_DEV: RSSCatacory = {
 	checkImportance: false,
 	channels: [
 		{
-			url: 'https://dev.to',
+			url: 'https://dev.to/feed',
 			specificName: 'Dev.to',
 			checkImportance: true,
 		},
