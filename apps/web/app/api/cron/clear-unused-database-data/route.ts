@@ -2,8 +2,6 @@ import { nextServerEnv } from '@/utils/env/server';
 import { clearUnusedDatabaseData } from '@ckt1031/db';
 import type { NextRequest } from 'next/server';
 
-export const runtime = 'nodejs';
-
 export async function GET(request: NextRequest) {
 	const authHeader = request.headers.get('authorization');
 

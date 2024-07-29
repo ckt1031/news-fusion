@@ -39,8 +39,6 @@ export async function generateMetadata({
 	};
 }
 
-export const runtime = 'nodejs';
-
 export default async function TopicPage({ params, searchParams }: PageProps) {
 	const topic = decodeURIComponent(params.slug) as RSS_CATEGORY;
 

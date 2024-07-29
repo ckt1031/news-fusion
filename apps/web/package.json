@@ -2,7 +2,7 @@
 	"name": "web",
 	"type": "module",
 	"scripts": {
-		"dev": "next dev",
+		"dev": "next dev --turbo",
 		"build": "NODE_ENV=production next build",
 		"typecheck": "tsc"
 	},

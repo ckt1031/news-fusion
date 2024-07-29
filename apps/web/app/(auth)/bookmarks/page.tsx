@@ -16,8 +16,6 @@ export const metadata: Metadata = {
 	},
 };
 
-export const runtime = 'nodejs';
-
 /**
  * Auth check is not required here because the user is already authenticated
  */

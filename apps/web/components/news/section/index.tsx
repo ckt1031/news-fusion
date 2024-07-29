@@ -85,7 +85,7 @@ export default function NewsSection({ guid }: Props) {
 					{isURLYoutube(baseItem.url) ? (
 						<YouTubeEmbedComponent url={baseItem.url} />
 					) : (
-						<ReadMore url={baseItem.url} />
+						<ReadMore id={baseItem.id} />
 					)}
 					{displayingItem.summary.length > 0 && (
 						<>
