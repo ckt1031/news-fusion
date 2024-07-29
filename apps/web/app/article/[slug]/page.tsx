@@ -1,3 +1,4 @@
+import removeMarkdown from 'markdown-to-text';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ArticlePageContent from './content';
@@ -19,12 +20,14 @@ export async function generateMetadata({
 		return {};
 	}
 
+	const summary = removeMarkdown(article.summary);
+
 	return {
 		title: article.title,
-		description: article.summary,
+		description: summary,
 		openGraph: {
 			title: article.title,
-			description: article.summary,
+			description: summary,
 		},
 	};
 }
