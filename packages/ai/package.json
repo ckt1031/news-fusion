@@ -12,7 +12,7 @@
 		"@ckt1031/prompts": "workspace:*",
 		"@ckt1031/types": "workspace:*",
 		"@ckt1031/utils": "workspace:*",
-		"ai": "3.2.37",
+		"ai": "3.2.38",
 		"mustache": "4.2.0",
 		"ofetch": "1.3.4"
 	},
