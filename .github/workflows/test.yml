@@ -20,9 +20,9 @@ jobs:
           TOOLS_API_BASE_URL: ${{ secrets.TOOLS_API_BASE_URL }}
 
       - name: Run lint
-        run: pnpm run lint
+        run: bun run lint
 
       - name: Test
-        run: TESTING=1 pnpm test
+        run: TESTING=1 bun run test
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}

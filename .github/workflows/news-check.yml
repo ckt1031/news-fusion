@@ -18,7 +18,7 @@ jobs:
           TOOLS_API_BASE_URL: ${{ secrets.TOOLS_API_BASE_URL }}
 
       - name: Run script
-        run: pnpm -F jobs run news-check
+        run: bun run --filter jobs news-check
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           

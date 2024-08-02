@@ -19,9 +19,8 @@ jobs:
 
       - name: Run script
         run: |
-          pnpm -F jobs run hackernews
-          sleep 15
-          pnpm -F jobs run lobsters
+          bun run --filter jobs hackernews
+          bun run --filter jobs lobsters
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 

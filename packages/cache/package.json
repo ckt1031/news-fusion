@@ -7,8 +7,7 @@
 		"typecheck": "tsc"
 	},
 	"dependencies": {
-		"@vercel/kv": "2.0.0",
-		"dotenv": "^16.4.5"
+		"@vercel/kv": "2.0.0"
 	},
 	"devDependencies": {
 		"@ckt1031/tsconfig": "workspace:*",

@@ -1,5 +1,3 @@
-// import 'dotenv/config';
-
 import { createClient } from '@vercel/kv';
 
 export const redis = createClient({

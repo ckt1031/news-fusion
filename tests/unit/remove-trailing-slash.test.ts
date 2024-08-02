@@ -1,5 +1,5 @@
+import { expect, test } from 'bun:test';
 import { removeTrailingSlash } from '@ckt1031/utils';
-import { expect, test } from 'vitest';
 
 test('Remove Trailing Slash', async () => {
 	expect(removeTrailingSlash('https://example.com/')).toBe(

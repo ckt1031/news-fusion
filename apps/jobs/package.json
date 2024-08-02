@@ -3,9 +3,9 @@
 	"type": "module",
 	"scripts": {
 		"typecheck": "tsc",
-		"lobsters": "NODE=1 tsx scripts/hackernews.ts lobsters",
-		"hackernews": "NODE=1 tsx scripts/hackernews.ts",
-		"news-check": "NODE=1 tsx scripts/news-check.ts"
+		"lobsters": "NODE=1 bun scripts/hackernews.ts lobsters",
+		"hackernews": "NODE=1 bun scripts/hackernews.ts",
+		"news-check": "NODE=1 bun scripts/news-check.ts"
 	},
 	"dependencies": {
 		"@ckt1031/cache": "workspace:*",
@@ -17,7 +17,6 @@
 		"mustache": "4.2.0"
 	},
 	"devDependencies": {
-		"@types/mustache": "4.2.5",
-		"tsx": "^4.16.2"
+		"@types/mustache": "4.2.5"
 	}
 }

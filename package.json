@@ -3,11 +3,12 @@
 	"private": true,
 	"workspaces": ["apps/*", "packages/*"],
 	"scripts": {
-		"test": "vitest run tests/unit",
-		"lint": "pnpm -r run typecheck && biome check .",
-		"lint:fix": "pnpm -r run typecheck && biome format . --write && biome check . --write"
+		"test": "bun test tests/unit --timeout 20",
+		"postinstall": "bun scripts/generate-tool-api-schema.ts",
+		"lint": "bun run --filter '*' typecheck && biome check .",
+		"lint:fix": "bun run --filter '*' typecheck && biome format . --write && biome check . --write"
 	},
-	"packageManager": "pnpm@9.6.0",
+	"packageManager": "bun@1.1.21",
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3",
 		"@ckt1031/ai": "workspace:*",
@@ -16,9 +17,7 @@
 		"@ckt1031/news": "workspace:*",
 		"@ckt1031/tool-api": "workspace:*",
 		"@ckt1031/utils": "workspace:*",
-		"dax-sh": "0.41.0",
-		"dotenv": "^16.4.5",
-		"vitest": "^2.0.4",
+		"@types/bun": "1.1.6",
 		"typescript": "5.5.4"
 	}
 }
