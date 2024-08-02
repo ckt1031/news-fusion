@@ -49,6 +49,7 @@ export const TranslateActionSchema = z.object({
 	summary: z.string(),
 	useCache: z.boolean().optional(),
 	targetLanguage: getZodEnumFromObjectKeys(TargetLanguageToLLM),
+	useLLM: z.boolean().optional(),
 	llmModel: z
 		.string()
 		.refine(
