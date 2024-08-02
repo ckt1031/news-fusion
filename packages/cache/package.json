@@ -11,6 +11,6 @@
 	},
 	"devDependencies": {
 		"@ckt1031/tsconfig": "workspace:*",
-		"@types/node": "22.0.0"
+		"@types/node": "22.0.2"
 	}
 }
