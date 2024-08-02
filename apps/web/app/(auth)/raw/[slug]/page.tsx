@@ -14,7 +14,7 @@ export default async function RSSPage({ params }: PageProps) {
 		return {
 			...item,
 			publishedAt: new Date(item.pubDate),
-			id: new Date(item.pubDate).getTime(),
+			id: -1,
 			category: '',
 			url: item.link,
 			publisher: news.title,

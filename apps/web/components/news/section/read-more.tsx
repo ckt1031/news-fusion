@@ -1,48 +1,59 @@
-// import {
-// 	Tooltip,
-// 	TooltipContent,
-// 	TooltipProvider,
-// 	TooltipTrigger,
-// } from '@/components/ui/tooltip';
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { ExternalLink } from 'lucide-react';
 
-interface Props {
+type PropsUsingURL = {
+	url: string;
+};
+
+type PropsUsingID = {
 	id: number;
-}
+};
 
-export default function ReadMore({ id }: Props) {
-	// const displayingURL = url.length > 25 ? `${url.slice(0, 25)}...` : url;
+type Props = PropsUsingURL | PropsUsingID;
 
-	// return (
-	// 	<TooltipProvider>
-	// 		<Tooltip>
-	// 			<TooltipTrigger>
-	// 				<a
-	// 					href={url}
-	// 					target="_blank"
-	// 					rel="noopener noreferrer"
-	// 					className="underline flex flex-row items-center mb-1"
-	// 				>
-	// 					<ExternalLink className="h-4 w-4 mr-2" />
-	// 					Read more
-	// 				</a>
-	// 			</TooltipTrigger>
-	// 			<TooltipContent align="start">
-	// 				<p>{displayingURL}</p>
-	// 			</TooltipContent>
-	// 		</Tooltip>
-	// 	</TooltipProvider>
-	// );
+export default function ReadMore(props: Props) {
+	if ('url' in props) {
+		const { url } = props;
+		const displayingURL = url.length > 25 ? `${url.slice(0, 25)}...` : url;
+
+		return (
+			<TooltipProvider>
+				<Tooltip>
+					<TooltipTrigger>
+						<a
+							href={url}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="underline flex flex-row items-center mb-1"
+						>
+							<ExternalLink className="h-4 w-4 mr-2" />
+							Full Article
+						</a>
+					</TooltipTrigger>
+					<TooltipContent align="start">
+						<p>{displayingURL}</p>
+					</TooltipContent>
+				</Tooltip>
+			</TooltipProvider>
+		);
+	}
+
+	const { id } = props;
 
 	return (
 		<a
 			href={`/article/${id}`}
-			//target="_blank"
-			//rel="noopener noreferrer"
+			target="_blank"
+			rel="noopener noreferrer"
 			className="underline flex flex-row items-center mb-1"
 		>
 			<ExternalLink className="h-4 w-4 mr-2" />
-			Read more
+			Details
 		</a>
 	);
 }

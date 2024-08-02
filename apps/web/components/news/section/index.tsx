@@ -85,7 +85,11 @@ export default function NewsSection({ guid }: Props) {
 					{isURLYoutube(baseItem.url) ? (
 						<YouTubeEmbedComponent url={baseItem.url} />
 					) : (
-						<ReadMore id={baseItem.id} />
+						<div className="flex flex-row gap-3">
+							<ReadMore url={baseItem.url} />
+							{/* ID will be negative if the article is not from the database */}
+							{baseItem.id > 0 && <ReadMore id={baseItem.id} />}
+						</div>
 					)}
 					{displayingItem.summary.length > 0 && (
 						<>
