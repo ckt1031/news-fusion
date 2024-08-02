@@ -3,7 +3,7 @@ import { useToast } from '@/components/ui/use-toast';
 import dayjs from 'dayjs';
 import { usePathname, useRouter } from 'next/navigation';
 import queryString from 'query-string';
-import { currentDate } from '../get-date-server';
+import { currentDateString } from '../get-date-server';
 
 interface Props {
 	date: string;
@@ -19,7 +19,7 @@ export default function SingleDateSelect({ clientCurrentDate, date }: Props) {
 	const getAllQueriesRequired = (date: string) => {
 		const { to, from, ...all } = queryString.parse(location.search);
 
-		if (date === currentDate) return '';
+		if (date === currentDateString) return '';
 
 		const qs = queryString.stringify({
 			...all,

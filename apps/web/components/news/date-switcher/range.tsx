@@ -9,9 +9,14 @@ import type { DateRange } from 'react-day-picker';
 interface RangeDateSelectProps {
 	to?: string | null;
 	from?: string | null;
+	currentDate: dayjs.Dayjs;
 }
 
-export default function RangeDateSelect({ to, from }: RangeDateSelectProps) {
+export default function RangeDateSelect({
+	to,
+	from,
+	currentDate,
+}: RangeDateSelectProps) {
 	const { toast } = useToast();
 
 	const pathname = usePathname();
@@ -19,8 +24,8 @@ export default function RangeDateSelect({ to, from }: RangeDateSelectProps) {
 
 	const [date, setDate] = useState<DateRange>({
 		// Dayjs subtracts 1 day from the current date
-		from: from ? dayjs(from).toDate() : dayjs().subtract(1, 'day').toDate(),
-		to: to ? dayjs(to).toDate() : dayjs().toDate(),
+		from: from ? dayjs(from).toDate() : currentDate.subtract(1, 'day').toDate(),
+		to: to ? dayjs(to).toDate() : currentDate.toDate(),
 	});
 
 	const getAllQueriesRequired = (range: DateRange) => {
@@ -38,11 +43,11 @@ export default function RangeDateSelect({ to, from }: RangeDateSelectProps) {
 
 		// Reject if the selected date is after the current date
 		if (
-			dayjs(range.to).isAfter(dayjs()) ||
-			dayjs(range.from).isAfter(dayjs())
+			dayjs(range.to).isAfter(currentDate) ||
+			dayjs(range.from).isAfter(currentDate)
 		) {
 			toast({
-				description: `You can only view news on or before ${dayjs().format('YYYY-MM-DD')}`,
+				description: `You can only view news on or before ${currentDate.format('YYYY-MM-DD')}`,
 			});
 			return;
 		}

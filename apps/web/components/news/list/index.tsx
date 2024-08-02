@@ -2,6 +2,7 @@ import SkeletonCard from '@/components/skeleton/card';
 import { NewsType } from '@/components/store/news';
 import dayjs from 'dayjs';
 import dynamic from 'next/dynamic';
+import { currentDateString } from '../get-date-server';
 import Content from './content';
 import {
 	type DateRange,
@@ -18,15 +19,14 @@ const NewsInvalidDate = dynamic(() => import('./invalid-date'), {
 });
 
 function isDateInAllowedDayRange(date: string | DateRange) {
-	const currentDate = dayjs().format('YYYY-MM-DD');
 	const dateToCheck = dayjs(typeof date === 'string' ? date : date.from).format(
 		'YYYY-MM-DD',
 	);
 
 	return (
 		dayjs(dateToCheck).isAfter(
-			dayjs(currentDate).subtract(ALLOWED_DAYS, 'day'),
-		) && dayjs(dateToCheck).isBefore(dayjs(currentDate).add(2, 'day')) // Timezone issue
+			dayjs(currentDateString).subtract(ALLOWED_DAYS, 'day'),
+		) && dayjs(dateToCheck).isBefore(dayjs(currentDateString).add(2, 'day')) // Timezone issue
 	);
 }
 

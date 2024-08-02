@@ -20,15 +20,17 @@ import { usePathname, useRouter } from 'next/navigation';
 import queryString from 'query-string';
 import { Suspense, useState } from 'react';
 import LoadingComponent from '../../loading';
-import { currentDate } from '../get-date-server';
+import { DATE_FORMAT } from '../get-date-server';
 
 const DateSwitcherPanel = dynamic(() => import('./panel'), {
 	loading: () => <LoadingComponent />,
 });
 
-const DATE_FORMAT = 'YYYY-MM-DD';
+type DateSwitcherProps = {
+	currentDateString: string;
+};
 
-export default function DateSwitcher() {
+export default function DateSwitcher({ currentDateString }: DateSwitcherProps) {
 	const pathname = usePathname();
 	const router = useRouter();
 
@@ -36,7 +38,7 @@ export default function DateSwitcher() {
 	// The target date to be used
 	const date = useNewsStore((state) => state.pageData.date);
 
-	const isToday = date === currentDate;
+	const isToday = date === currentDateString;
 
 	const [rangeMode, setRangeMode] = useState(typeof date !== 'string');
 

@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import dayjs from 'dayjs';
 import { usePathname, useRouter } from 'next/navigation';
-import { currentDate } from '../get-date-server';
+import { currentDateString } from '../get-date-server';
 import type { DateRange } from '../list/fetch';
 import RangeDateSelect from './range';
 import SingleDateSelect from './single';
@@ -31,19 +31,20 @@ export default function DateSwitcherPanel({ rangeMode, setRangeMode }: Props) {
 			</div>
 			{rangeMode ? (
 				<RangeDateSelect
-					to={(pageData.date as DateRange).to ?? currentDate}
+					currentDate={dayjs(currentDateString)}
+					to={(pageData.date as DateRange).to ?? currentDateString}
 					from={
 						(pageData.date as DateRange).from ??
-						dayjs(currentDate).subtract(1, 'day').format('YYYY-MM-DD')
+						dayjs(currentDateString).subtract(1, 'day').format('YYYY-MM-DD')
 					}
 				/>
 			) : (
 				<SingleDateSelect
-					clientCurrentDate={currentDate}
+					clientCurrentDate={currentDateString}
 					date={pageData.date.toString()}
 				/>
 			)}
-			{(rangeMode || pageData.date !== currentDate) && (
+			{(rangeMode || pageData.date !== currentDateString) && (
 				<Button
 					onClick={() => {
 						setRangeMode(false);
