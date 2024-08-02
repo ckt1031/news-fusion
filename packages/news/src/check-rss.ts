@@ -213,6 +213,7 @@ export async function checkRSS({
 						embedding: scrapable ? embedding : null,
 						summary: autoSummarize && shortSummary ? shortSummary : '',
 						similarArticles: [],
+						thumbnail,
 					});
 				} catch (error) {
 					logging.error(error);
