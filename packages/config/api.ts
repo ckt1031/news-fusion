@@ -20,19 +20,33 @@ export const TargetLanguageToLLM = {
 
 export const AVAILABLE_CONTENT_GENERATION_MODELS = [
 	{
+		// OpenAI
 		label: 'GPT-4o',
 		value: 'gpt-4o',
 	},
 	{
+		// OpenAI
 		label: 'GPT-4o Mini',
 		value: 'gpt-4o-mini',
 	},
 	{
-		label: 'LLaMA 3.1 (70B)',
+		// Google Vertex AI or Anthropic
+		label: 'Claude 3.5 Sonnet',
+		value: 'claude-3-5-sonnet-20240620',
+	},
+	{
+		// Offered by TogetherAI
+		label: 'Qwen2 72B Instruct',
+		value: 'Qwen/Qwen2-72B-Instruct',
+	},
+	{
+		// GroqAI
+		label: 'LLaMA-3.1 70B',
 		value: 'llama-3.1-70b-versatile',
 	},
 	{
-		label: 'LLaMA 3.1 (8B)',
+		// GroqAI
+		label: 'LLaMA-3.1 8B',
 		value: 'llama-3.1-8b-instant',
 	},
 ];
