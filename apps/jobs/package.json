@@ -3,9 +3,11 @@
 	"type": "module",
 	"scripts": {
 		"typecheck": "tsc",
-		"lobsters": "NODE=1 bun scripts/hackernews.ts lobsters",
-		"hackernews": "NODE=1 bun scripts/hackernews.ts",
-		"news-check": "NODE=1 bun scripts/news-check.ts"
+		"lobsters": "bun run build:forum && NODE=1 ./dist/forum lobsters",
+		"hackernews": "bun run build:forum && NODE=1 ./dist/forum hackernews",
+		"news-check": "bun run build:news-check && NODE=1 ./dist/news-check",
+		"build:forum": "NODE=1 bun build --compile --minify scripts/forum.ts --outfile dist/forum",
+		"build:news-check": "NODE=1 bun build --compile --minify scripts/news-check.ts --outfile dist/news-check"
 	},
 	"dependencies": {
 		"@ckt1031/cache": "workspace:*",
