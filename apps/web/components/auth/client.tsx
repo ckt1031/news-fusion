@@ -3,52 +3,41 @@
 import { useAuthStore } from '@/components/store/auth';
 import { getGravatarUrl } from '@/utils/gravatar';
 import { createSupabaseBrowserClient } from '@/utils/supabase/client';
-import { type PropsWithChildren, useCallback, useEffect } from 'react';
+import { type PropsWithChildren, useEffect } from 'react';
 
 export default function AuthStateInializer({ children }: PropsWithChildren) {
 	const supabase = createSupabaseBrowserClient();
 
-	const fetchUser = useCallback(
-		async (isSubscribed: boolean) => {
-			if (!isSubscribed) return;
+	const fetchUser = async () => {
+		const {
+			data: { session },
+		} = await supabase.auth.getSession();
 
-			const {
-				data: { session },
-			} = await supabase.auth.getSession();
-
-			if (!session?.user) {
-				useAuthStore.setState({
-					user: null,
-					isLoggedIn: false,
-				});
-				return;
-			}
-
-			const user = session.user;
-
-			const avatarURL = user.email ? getGravatarUrl(user.email) : null;
-
+		if (!session?.user) {
 			useAuthStore.setState({
-				user: {
-					...user,
-					avatarURL,
-				},
-				isLoggedIn: true,
+				user: null,
+				isLoggedIn: false,
 			});
-		},
-		[supabase.auth.getSession],
-	);
+			return;
+		}
 
+		const user = session.user;
+
+		const avatarURL = user.email ? getGravatarUrl(user.email) : null;
+
+		useAuthStore.setState({
+			user: {
+				...user,
+				avatarURL,
+			},
+			isLoggedIn: true,
+		});
+	};
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		let isSubscribed = true;
-
-		fetchUser(isSubscribed);
-
-		// cancel any future `setData`
-		return () => {
-			isSubscribed = false;
-		};
-	}, [fetchUser]);
+		fetchUser();
+	}, []);
 
 	return children;
 }
