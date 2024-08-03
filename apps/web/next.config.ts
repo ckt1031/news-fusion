@@ -1,5 +1,8 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from 'next';
+
+const isProd = process.env.NODE_ENV === 'production';
+
+const nextConfig: NextConfig = {
 	reactStrictMode: true,
 	eslint: {
 		// Warning: This allows production builds to successfully complete even if
@@ -14,6 +17,10 @@ const nextConfig = {
 		],
 	},
 	transpilePackages: ['lucide-react', '@ckt1031/*'],
+	experimental: {
+		ppr: true,
+		reactCompiler: isProd,
+	},
 };
 
 export default nextConfig;
