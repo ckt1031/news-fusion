@@ -26,7 +26,6 @@ const nextConfig: NextConfig = {
 		optimizeServerReact: isProd,
 
 		forceSwcTransforms: true,
-		optimizeCss: true,
 
 		...(isProd && {
 			sri: {
