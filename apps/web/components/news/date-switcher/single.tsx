@@ -54,6 +54,7 @@ export default function SingleDateSelect({ clientCurrentDate, date }: Props) {
 			return;
 		}
 
+		// @ts-ignore
 		router.push(`${pathname}${getAllQueriesRequired(selectedDate)}`);
 	};
 

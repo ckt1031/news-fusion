@@ -19,6 +19,7 @@ export default function TopicSelection({ topic }: Props) {
 		const basePath =
 			category === RSS_CATEGORY.GENERAL ? '/' : `/topic/${category}`;
 
+		// @ts-ignore
 		router.push(`${basePath}${location.search}`);
 	};
 

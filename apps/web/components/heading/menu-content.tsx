@@ -28,11 +28,7 @@ export default function MenuContent() {
 			<DropdownMenuSeparator />
 			{isLoggedIn ? (
 				<>
-					<Link
-						href={{
-							pathname: '/profile',
-						}}
-					>
+					<Link href="/profile">
 						<DropdownMenuItem>
 							{user?.avatarURL && (
 								<Image

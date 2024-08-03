@@ -48,6 +48,7 @@ export default function DateSwitcherPanel({ rangeMode, setRangeMode }: Props) {
 				<Button
 					onClick={() => {
 						setRangeMode(false);
+						// @ts-ignore
 						router.push(pathname);
 					}}
 					className="w-full mt-2"

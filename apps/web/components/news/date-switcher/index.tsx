@@ -57,6 +57,7 @@ export default function DateSwitcher({ currentDateString }: DateSwitcherProps) {
 
 		const newDateString = dayjs(date).subtract(1, 'day').format(DATE_FORMAT);
 
+		// @ts-ignore
 		router.push(`${pathname}?${getAllQueriesRequired(newDateString)}`);
 	};
 
@@ -66,6 +67,7 @@ export default function DateSwitcher({ currentDateString }: DateSwitcherProps) {
 
 		const newDateString = dayjs(date).add(1, 'day').format(DATE_FORMAT);
 
+		// @ts-ignore
 		router.push(`${pathname}?${getAllQueriesRequired(newDateString)}`);
 	};
 

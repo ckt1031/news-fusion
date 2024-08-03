@@ -54,6 +54,7 @@ export default function RangeDateSelect({
 
 		setDate(range);
 
+		// @ts-ignore
 		router.push(`${pathname}?${getAllQueriesRequired(range)}`);
 	};
 

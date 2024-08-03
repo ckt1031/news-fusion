@@ -20,6 +20,20 @@ const nextConfig: NextConfig = {
 	experimental: {
 		ppr: true,
 		reactCompiler: isProd,
+
+		typedRoutes: true,
+		serverMinification: isProd,
+		optimizeServerReact: isProd,
+
+		forceSwcTransforms: true,
+		optimizeCss: true,
+
+		...(isProd && {
+			sri: {
+				// This is the default value
+				algorithm: 'sha384',
+			},
+		}),
 	},
 };
 
