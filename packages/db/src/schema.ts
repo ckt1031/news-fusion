@@ -35,6 +35,9 @@ export const articles = pgTable(
 
 		longSummary: text('longSummary'),
 		thumbnail: text('thumbnail'),
+
+		// User relations, can be private sources
+		private: boolean('private').notNull().default(false),
 	},
 	(table) => ({
 		embeddingIndex: index('embeddingIndex').using(
@@ -81,11 +84,7 @@ export const bookmarks = pgTable(
  */
 
 export const usersRelations = relations(users, ({ many }) => ({
-	usersToArticles: many(bookmarks),
-}));
-
-export const articlesRelations = relations(articles, ({ many }) => ({
-	usersToArticles: many(bookmarks),
+	bookmarks: many(bookmarks),
 }));
 
 export const usersToArticlesRelations = relations(bookmarks, ({ one }) => ({
