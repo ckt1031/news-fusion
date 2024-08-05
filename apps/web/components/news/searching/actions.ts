@@ -17,7 +17,8 @@ export const searchAction = authActionClient
 		// Search for news
 		// const documents = formData.documents;
 
-		const articles: Omit<CacheArticle, 'important' | 'category'>[] = [];
+		const articles: Omit<CacheArticle, 'important' | 'category' | 'private'>[] =
+			[];
 
 		if (formData.isBookmark) {
 			const bookmarks = await fetchBookmarks(user);
