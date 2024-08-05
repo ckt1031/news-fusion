@@ -37,7 +37,7 @@ export const articles = pgTable(
 		thumbnail: text('thumbnail'),
 
 		// User relations, can be private sources
-		private: boolean('private').notNull().default(false),
+		//private: boolean('private').notNull().default(false),
 	},
 	(table) => ({
 		embeddingIndex: index('embeddingIndex').using(
