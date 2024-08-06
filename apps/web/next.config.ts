@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next';
+import { createSecureHeaders } from 'next-secure-headers';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -13,6 +14,9 @@ const nextConfig: NextConfig = {
 		remotePatterns: [
 			{
 				hostname: 'www.gravatar.com',
+			},
+			{
+				hostname: 'www.google.com',
 			},
 		],
 	},
@@ -33,6 +37,14 @@ const nextConfig: NextConfig = {
 				algorithm: 'sha384',
 			},
 		}),
+	},
+	async headers() {
+		return [
+			{
+				source: '/(.*)',
+				headers: createSecureHeaders(),
+			},
+		];
 	},
 };
 

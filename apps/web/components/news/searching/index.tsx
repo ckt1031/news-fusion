@@ -8,6 +8,7 @@ import { Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
 const NewsSearchingPopoverContent = dynamic(() => import('./popover'), {
+	ssr: false,
 	loading: () => <LoadingComponent />,
 });
 

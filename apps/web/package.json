@@ -86,6 +86,7 @@
 		"autoprefixer": "10.4.20",
 		"babel-plugin-react-compiler": "latest",
 		"drizzle-kit": "0.23.1",
+		"next-secure-headers": "^2.2.0",
 		"postcss": "8.4.40",
 		"supabase": "1.187.10",
 		"tailwindcss": "3.4.7",

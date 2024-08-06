@@ -72,7 +72,7 @@ export const RSS_HKG: RSSCategory = {
 		{
 			url: 'https://orientaldaily.on.cc/rss/news.xml',
 			specificName: 'Oriental Daily',
-		}
+		},
 	],
 };
 

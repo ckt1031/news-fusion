@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic';
 import { useUIStore } from './store';
 
 const MenuContent = dynamic(() => import('./content'), {
+	ssr: false,
 	loading: () => <LoadingComponent />,
 });
 const ClearCacheDialog = dynamic(() =>

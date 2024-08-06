@@ -10,10 +10,15 @@ import dynamic from 'next/dynamic';
 import { useUIStore } from './store';
 
 const NewsSectionDropdownMenuContent = dynamic(() => import('./content'), {
+	ssr: false,
 	loading: () => <LoadingComponent />,
 });
-const TranslateDialog = dynamic(() => import('./translate/dialog'));
-const RegenerateDialog = dynamic(() => import('./re-generate/dialog'));
+const TranslateDialog = dynamic(() => import('./translate/dialog'), {
+	ssr: false,
+});
+const RegenerateDialog = dynamic(() => import('./re-generate/dialog'), {
+	ssr: false,
+});
 
 interface Props {
 	guid: string;

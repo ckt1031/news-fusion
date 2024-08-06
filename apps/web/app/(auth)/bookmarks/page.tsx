@@ -23,10 +23,11 @@ export const metadata: Metadata = {
 export default async function BookmarksPage() {
 	const { user } = await serverAuthState();
 
+	if (!user) return null;
+
 	return (
 		<Suspense fallback={<SkeletonNewsList />}>
-			{/* biome-ignore lint/style/noNonNullAssertion: <explanation> */}
-			<Component user={user!} />
+			<Component user={user} />
 		</Suspense>
 	);
 }

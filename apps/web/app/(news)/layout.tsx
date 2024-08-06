@@ -9,7 +9,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
 		<>
 			<DateSwitcher currentDateString={currentDateString} />
 			{children}
-			<div className="mb-5">
+			<div className="mt-4 mb-5">
 				<AIDisclaimer />
 			</div>
 		</>

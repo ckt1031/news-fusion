@@ -11,10 +11,10 @@ import {
 	AlertDialogContent,
 	AlertDialogDescription,
 	AlertDialogTitle,
+	AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { toast } from '@/components/ui/use-toast';
-import { AlertDialogTrigger } from '@radix-ui/react-alert-dialog';
 import { Eraser } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { clearBookmarksCacheAction } from '../../actions/bookmark';

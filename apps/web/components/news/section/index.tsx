@@ -16,6 +16,7 @@ import ReadMore from './read-more';
 import NewsSimilarities from './similarities';
 
 const YouTubeEmbedComponent = dynamic(() => import('./youtube-embed'), {
+	ssr: false,
 	loading: () => (
 		<Skeleton className="my-3 aspect-video max-h-40 md:max-h-60 lg:max-h-80" />
 	),

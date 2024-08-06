@@ -23,6 +23,7 @@ import LoadingComponent from '../../loading';
 import { DATE_FORMAT } from '../get-date-server';
 
 const DateSwitcherPanel = dynamic(() => import('./panel'), {
+	ssr: false,
 	loading: () => <LoadingComponent />,
 });
 
@@ -99,7 +100,7 @@ export default function DateSwitcher({ currentDateString }: DateSwitcherProps) {
 							{typeof date === 'string' ? date : `${date.from} - ${date.to}`}
 						</Button>
 					</PopoverTrigger>
-					<PopoverContent className="w-full">
+					<PopoverContent className="w-[334px]">
 						<Suspense fallback={<LoadingComponent />}>
 							<DateSwitcherPanel
 								rangeMode={rangeMode}

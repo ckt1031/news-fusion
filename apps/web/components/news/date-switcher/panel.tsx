@@ -39,10 +39,12 @@ export default function DateSwitcherPanel({ rangeMode, setRangeMode }: Props) {
 					}
 				/>
 			) : (
-				<SingleDateSelect
-					clientCurrentDate={currentDateString}
-					date={pageData.date.toString()}
-				/>
+				<div className="flex items-center justify-center">
+					<SingleDateSelect
+						clientCurrentDate={currentDateString}
+						date={pageData.date.toString()}
+					/>
+				</div>
 			)}
 			{(rangeMode || pageData.date !== currentDateString) && (
 				<Button
