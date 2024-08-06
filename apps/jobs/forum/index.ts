@@ -1,4 +1,4 @@
-import type { RSSCatacory } from '@ckt1031/config';
+import type { RSSCategory } from '@ckt1031/config';
 import { checkRSS } from '@ckt1031/news';
 import type { ServerEnv } from '@ckt1031/types';
 import { logging } from '@ckt1031/utils';
@@ -7,7 +7,7 @@ import { checkPrompt } from './prompt';
 
 type checkForumProps = {
 	env: ServerEnv;
-	source: RSSCatacory;
+	source: RSSCategory;
 	specialFilter?: (title: string) => boolean;
 	criteriaPrompt: {
 		importantCriteria: string;

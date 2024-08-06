@@ -6,7 +6,7 @@ import {
 } from '@ckt1031/ai';
 import {
 	EARLIEST_HOURS,
-	type RSSCatacory,
+	type RSSCategory,
 	type RSSChannelItem,
 	type RSSConfig,
 } from '@ckt1031/config';
@@ -26,14 +26,14 @@ import { isArticleSimilar } from './similarity';
 
 interface Props {
 	env: ServerEnv;
-	category: RSSCatacory;
+	category: RSSCategory;
 	isTesting?: boolean;
 
 	customCheckImportancePrompt?: string;
 }
 
 export function getChannelConfiguration(
-	category: RSSCatacory,
+	category: RSSCategory,
 	channel: RSSChannelItem,
 	key: keyof RSSConfig,
 	defaultValue: boolean | string,

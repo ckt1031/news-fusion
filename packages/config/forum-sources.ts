@@ -1,5 +1,5 @@
 import { RSS_CATEGORY } from './categories';
-import type { RSSCatacory } from './news-sources';
+import type { RSSCategory } from './news-sources';
 
 // export const V2EX: RSSCatacory = {
 // 	name: RSS_CATEGORY.FORUM,
@@ -12,7 +12,7 @@ import type { RSSCatacory } from './news-sources';
 // 	],
 // };
 
-export const HACKER_NEWS: RSSCatacory = {
+export const HACKER_NEWS: RSSCategory = {
 	name: RSS_CATEGORY.FORUM,
 	specificName: 'Hacker News',
 	channels: [
@@ -22,7 +22,7 @@ export const HACKER_NEWS: RSSCatacory = {
 	],
 };
 
-export const LOBSTE_RS: RSSCatacory = {
+export const LOBSTE_RS: RSSCategory = {
 	name: RSS_CATEGORY.FORUM,
 	specificName: 'Lobste.rs',
 	channels: [

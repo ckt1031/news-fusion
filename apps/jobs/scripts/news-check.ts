@@ -3,7 +3,7 @@
  */
 
 import { exit } from 'node:process';
-import { ALL_RSS_CATEGORIES, type RSSCatacory } from '@ckt1031/config';
+import { ALL_RSS_CATEGORIES, type RSSCategory } from '@ckt1031/config';
 import { checkRSS } from '@ckt1031/news';
 import { envSchema } from '@ckt1031/types';
 import { logging } from '@ckt1031/utils';
@@ -30,10 +30,10 @@ logging.success('Environment variables are correctly configured');
 const allCatagories = specificRSS
 	? ([
 			{
-				name: specificCategoryName as RSSCatacory['name'],
+				name: specificCategoryName as RSSCategory['name'],
 				channels: [specificRSS as string],
 			},
-		] satisfies RSSCatacory[])
+		] satisfies RSSCategory[])
 	: ALL_RSS_CATEGORIES;
 
 for (const category of allCatagories) {

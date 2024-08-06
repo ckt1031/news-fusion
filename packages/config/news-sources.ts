@@ -19,12 +19,12 @@ export type RSSChannelItem =
 			url: string;
 	  } & RSSConfig)
 	| string;
-export interface RSSCatacory extends RSSConfig {
+export interface RSSCategory extends RSSConfig {
 	name: RSS_CATEGORY;
 	channels: RSSChannelItem[];
 }
 
-export const RSS_GENERAL: RSSCatacory = {
+export const RSS_GENERAL: RSSCategory = {
 	name: RSS_CATEGORY.GENERAL,
 	channels: [
 		'https://qz.com/rss',
@@ -46,7 +46,7 @@ export const RSS_GENERAL: RSSCatacory = {
 	],
 };
 
-export const RSS_HKG: RSSCatacory = {
+export const RSS_HKG: RSSCategory = {
 	name: RSS_CATEGORY.HKG,
 	channels: [
 		{
@@ -64,7 +64,7 @@ export const RSS_HKG: RSSCatacory = {
 	],
 };
 
-export const RSS_CHINA: RSSCatacory = {
+export const RSS_CHINA: RSSCategory = {
 	name: RSS_CATEGORY.CHINA,
 	channels: [
 		{
@@ -78,7 +78,7 @@ export const RSS_CHINA: RSSCatacory = {
 	],
 };
 
-export const RSS_THINKING: RSSCatacory = {
+export const RSS_THINKING: RSSCategory = {
 	name: RSS_CATEGORY.THINKING,
 	checkImportance: false,
 	channels: [
@@ -90,7 +90,7 @@ export const RSS_THINKING: RSSCatacory = {
 	],
 };
 
-export const RSS_VIDEOS: RSSCatacory = {
+export const RSS_VIDEOS: RSSCategory = {
 	name: RSS_CATEGORY.VIDEOS,
 	checkImportance: false,
 	channels: [
@@ -153,7 +153,7 @@ export const RSS_VIDEOS: RSSCatacory = {
 	],
 };
 
-export const RSS_TECH: RSSCatacory = {
+export const RSS_TECH: RSSCategory = {
 	name: RSS_CATEGORY.TECHNOLOGY,
 	channels: [
 		'https://blog.google/rss',
@@ -182,7 +182,7 @@ export const RSS_TECH: RSSCatacory = {
 };
 
 //https://github.com/foorilla/allainews_sources?tab=readme-ov-file
-export const RSS_AI: RSSCatacory = {
+export const RSS_AI: RSSCategory = {
 	name: RSS_CATEGORY.AI,
 	checkImportance: false,
 	channels: [
@@ -210,7 +210,7 @@ export const RSS_AI: RSSCatacory = {
 	],
 };
 
-export const RSS_SCIENCE: RSSCatacory = {
+export const RSS_SCIENCE: RSSCategory = {
 	name: RSS_CATEGORY.SCIENCE,
 	channels: [
 		{
@@ -232,7 +232,7 @@ export const RSS_SCIENCE: RSSCatacory = {
 	],
 };
 
-export const RSS_DEV: RSSCatacory = {
+export const RSS_DEV: RSSCategory = {
 	name: RSS_CATEGORY.DEVELOPER,
 	checkImportance: false,
 	channels: [
@@ -296,7 +296,7 @@ export const RSS_DEV: RSSCatacory = {
 	],
 };
 
-export const RSS_BLOGS: RSSCatacory = {
+export const RSS_BLOGS: RSSCategory = {
 	name: RSS_CATEGORY.BLOGS,
 	checkImportance: false,
 	channels: [
@@ -325,7 +325,7 @@ export const RSS_BLOGS: RSSCatacory = {
 	],
 };
 
-export const RSS_UPDATES: RSSCatacory = {
+export const RSS_UPDATES: RSSCategory = {
 	name: RSS_CATEGORY.UPDATES,
 	checkImportance: false,
 	channels: [
