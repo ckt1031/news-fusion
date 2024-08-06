@@ -61,6 +61,18 @@ export const RSS_HKG: RSSCategory = {
 			url: 'https://hongkongfp.com/feed',
 			specificName: 'HKFP',
 		},
+		{
+			url: 'https://news.mingpao.com/rss/pns/s00002.xml',
+			specificName: 'Ming Pao',
+		},
+		{
+			url: 'https://www.inmediahk.net/rss.xml',
+			specificName: 'Indie Media HK',
+		},
+		{
+			url: 'https://orientaldaily.on.cc/rss/news.xml',
+			specificName: 'Oriental Daily',
+		}
 	],
 };
 
