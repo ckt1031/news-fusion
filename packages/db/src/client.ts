@@ -15,26 +15,16 @@ const getDB = () => {
 
 	// Serverless (Edge, non-Node.js) runtime
 	if (isNextjsEdgeRuntime && connectionString.includes('vercel')) {
-		const client = createPool({
-			connectionString: process.env.DATABASE_URL,
-		});
+		const client = createPool({ connectionString });
 
-		return serverlessDrizzle(client, {
-			schema,
-		});
+		return serverlessDrizzle(client, { schema });
 	}
 
 	const client = connectionString.includes('pooler')
-		? new Pool({
-				connectionString: process.env.DATABASE_URL,
-			})
-		: new Client({
-				connectionString: process.env.DATABASE_URL,
-			});
+		? new Pool({ connectionString })
+		: new Client({ connectionString });
 
-	return nodeDrizzle(client, {
-		schema,
-	});
+	return nodeDrizzle(client, { schema });
 };
 
 export const db = getDB();
