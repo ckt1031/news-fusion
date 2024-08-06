@@ -8,7 +8,8 @@
 		"utils",
 		"*.ts",
 		"next-env.d.ts",
-		".next/types/**/*.ts"
+		".next/types/**/*.ts",
+		"next.config.js"
 	],
 	"compilerOptions": {
 		"moduleResolution": "Bundler",

@@ -1,9 +1,10 @@
-import type { NextConfig } from 'next';
+// next-secure-headers
 import { createSecureHeaders } from 'next-secure-headers';
 
-const isProd = process.env.NODE_ENV === 'production';
-
-const nextConfig: NextConfig = {
+/**
+ * @type {import('next').NextConfig}
+ */
+const nextConfig = {
 	reactStrictMode: true,
 	eslint: {
 		// Warning: This allows production builds to successfully complete even if
@@ -21,23 +22,6 @@ const nextConfig: NextConfig = {
 		],
 	},
 	transpilePackages: ['lucide-react', '@ckt1031/*'],
-	experimental: {
-		ppr: true,
-		reactCompiler: isProd,
-
-		typedRoutes: true,
-		serverMinification: isProd,
-		optimizeServerReact: isProd,
-
-		forceSwcTransforms: true,
-
-		...(isProd && {
-			sri: {
-				// This is the default value
-				algorithm: 'sha384',
-			},
-		}),
-	},
 	async headers() {
 		return [
 			{
