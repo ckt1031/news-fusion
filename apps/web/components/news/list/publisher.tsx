@@ -1,7 +1,6 @@
-// import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/utils/cn';
 import { FAVICON_BASE_URL } from '@ckt1031/config';
-import Image from 'next/image';
 import queryString from 'query-string';
 
 interface PublisherComponentProps {
@@ -21,17 +20,10 @@ export default function PublisherComponent({
 	return (
 		<div className={cn(className)}>
 			<div className="flex flex-row items-center">
-				{/* <Avatar className="h-4 w-4 mr-1">
+				<Avatar className="h-4 w-4 mr-1">
 					<AvatarImage src={faviconURL} alt="Profile" />
 					<AvatarFallback>{publisher.charAt(0).toUpperCase()}</AvatarFallback>
-				</Avatar> */}
-				<Image
-					src={faviconURL}
-					alt="Profile"
-					width={64}
-					height={64}
-					className="rounded-full mr-1 h-4 w-4"
-				/>
+				</Avatar>
 				<span>{publisher}</span>
 			</div>
 		</div>
