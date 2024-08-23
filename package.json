@@ -8,7 +8,7 @@
 		"lint": "bun run --filter '*' typecheck && biome check .",
 		"lint:fix": "bun run --filter '*' typecheck && biome format . --write && biome check . --write"
 	},
-	"packageManager": "bun@1.1.21",
+	"packageManager": "bun@1.1.25",
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3",
 		"@ckt1031/ai": "workspace:*",
