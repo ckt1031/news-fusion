@@ -14,12 +14,12 @@
 		"@ckt1031/config": "workspace:*",
 		"@ckt1031/utils": "workspace:*",
 		"@vercel/postgres": "0.9.0",
-		"drizzle-kit": "0.24.1",
+		"drizzle-kit": "0.24.2",
 		"drizzle-orm": "0.33.0",
 		"pg": "^8.12.0"
 	},
 	"devDependencies": {
 		"@ckt1031/tsconfig": "workspace:*",
-		"@types/pg": "^8.11.6"
+		"@types/pg": "^8.11.8"
 	}
 }
