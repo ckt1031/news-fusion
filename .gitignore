@@ -11,3 +11,4 @@ supabase
 tsconfig.tsbuildinfo
 src/types/tool-apis.d.ts
 analyze
+*.bun-build

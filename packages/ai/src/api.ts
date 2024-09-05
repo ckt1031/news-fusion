@@ -74,12 +74,12 @@ export async function requestEmbeddingsAPI({
 	text,
 	model = DEFAULT_EMBEDDING_MODEL,
 	timeout = 10 * 1000,
-	taskName,
+	// taskName,
 }: EmbeddingsProp) {
 	try {
 		logging.info('Request Embeddings API', {
 			model,
-			task: taskName,
+			// task: taskName,
 		});
 
 		const openai = getOpenAI(env);
