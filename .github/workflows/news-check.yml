@@ -3,7 +3,7 @@ name: News Check
 on:
   workflow_dispatch: 
   schedule:
-    - cron: "23 */2 * * *"
+    - cron: "59 */12 * * *"
 
 jobs:
   news-check:
