@@ -41,7 +41,6 @@ const TranslateActionFormSchema = TranslateActionSchema.pick({
 	targetLanguage: true,
 	useCache: true,
 	llmModel: true,
-	useLLM: true,
 }).and(
 	z.object({
 		immersive: z.boolean().optional(),
@@ -64,10 +63,6 @@ export default function TranslateDialog({ guid }: Props) {
 		},
 	);
 
-	const [useLLM, setUseLLM] = useLocalStorageState('translate-use-llm', {
-		defaultValue: false,
-	});
-
 	const [model, setModel] = useLocalStorageState<FormValues['llmModel']>(
 		'translate-llm-model',
 		{
@@ -82,7 +77,6 @@ export default function TranslateDialog({ guid }: Props) {
 			useCache: true,
 			immersive,
 			llmModel: model,
-			useLLM,
 		},
 	});
 
@@ -104,7 +98,6 @@ export default function TranslateDialog({ guid }: Props) {
 			targetLanguage: values.targetLanguage,
 			useCache: values.useCache,
 			llmModel: values.llmModel,
-			useLLM: values.useLLM,
 		});
 
 		if (!result?.data) return;
@@ -170,28 +163,6 @@ export default function TranslateDialog({ guid }: Props) {
 					/>
 					<FormField
 						control={form.control}
-						name="useLLM"
-						render={({ field }) => (
-							<FormItem className="flex flex-row items-center mb-3 justify-between">
-								<FormLabel htmlFor={field.name} className="mt-2">
-									Use LLM
-								</FormLabel>
-								<FormControl>
-									<Switch
-										name={field.name}
-										id={field.name}
-										checked={field.value}
-										onCheckedChange={(d) => {
-											field.onChange(d);
-											setUseLLM(d);
-										}}
-									/>
-								</FormControl>
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
 						name="targetLanguage"
 						render={({ field }) => (
 							<FormItem className="mb-4">
@@ -218,12 +189,7 @@ export default function TranslateDialog({ guid }: Props) {
 						)}
 					/>
 
-					{useLLM && (
-						<LLMSelect
-							formControl={form.control}
-							onAdditionalChange={setModel}
-						/>
-					)}
+					<LLMSelect formControl={form.control} onAdditionalChange={setModel} />
 
 					<Button type="submit" className="w-full" disabled={isExecuting}>
 						{isExecuting ? (
