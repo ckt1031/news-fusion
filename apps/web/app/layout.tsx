@@ -33,6 +33,8 @@ export const metadata: Metadata = {
 
 const VercelAnalytics = dynamic(() => import('./vercel-analytics'));
 
+export const runtime = 'edge';
+
 export default async function RootLayout({ children }: PropsWithChildren) {
 	return (
 		<html
