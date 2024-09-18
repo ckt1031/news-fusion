@@ -13,6 +13,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { DATE_FORMAT } from '@/utils/get-date-server';
 import dayjs from 'dayjs';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -20,7 +21,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import queryString from 'query-string';
 import { Suspense, useState } from 'react';
 import LoadingComponent from '../../loading';
-import { DATE_FORMAT } from '../get-date-server';
 
 const DateSwitcherPanel = dynamic(() => import('./panel'), {
 	ssr: false,

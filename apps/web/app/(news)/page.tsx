@@ -1,7 +1,7 @@
-import { parseDateRange } from '@/components/news/get-date-server';
 import NewsList from '@/components/news/list';
 import TopicSelection from '@/components/news/topic-selection';
 import SkeletonNewsList from '@/components/skeleton/news-list';
+import { parseDateRange } from '@/utils/get-date-server';
 import { RSS_CATEGORY } from '@ckt1031/config';
 import { Suspense } from 'react';
 

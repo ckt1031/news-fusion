@@ -1,6 +1,6 @@
 import type { HomeSearchParamsProps } from '@/app/(news)/page';
 import dayjs from 'dayjs';
-import type { DateType } from './list/fetch';
+import type { DateType } from '../components/news/list/fetch';
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
 

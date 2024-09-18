@@ -1,8 +1,8 @@
 import SkeletonCard from '@/components/skeleton/card';
 import { NewsType } from '@/components/store/news';
+import { currentDateString } from '@/utils/get-date-server';
 import dayjs from 'dayjs';
 import dynamic from 'next/dynamic';
-import { currentDateString } from '../get-date-server';
 import Content from './content';
 import {
 	type DateRange,

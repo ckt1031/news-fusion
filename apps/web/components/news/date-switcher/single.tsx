@@ -1,9 +1,9 @@
 import { Calendar } from '@/components/ui/calendar';
 import { useToast } from '@/components/ui/use-toast';
+import { currentDateString } from '@/utils/get-date-server';
 import dayjs from 'dayjs';
 import { usePathname, useRouter } from 'next/navigation';
 import queryString from 'query-string';
-import { currentDateString } from '../get-date-server';
 
 interface Props {
 	date: string;

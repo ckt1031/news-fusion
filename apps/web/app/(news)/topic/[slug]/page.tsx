@@ -1,9 +1,9 @@
 import type { HomeSearchParamsProps } from '@/app/(news)/page';
-import { parseDateRange } from '@/components/news/get-date-server';
 import NewsList from '@/components/news/list';
 import TopicSelection from '@/components/news/topic-selection';
 import SkeletonNewsList from '@/components/skeleton/news-list';
 import captialTopicName from '@/utils/captial-topic-name';
+import { parseDateRange } from '@/utils/get-date-server';
 import { getAllNewsCategorySlug } from '@/utils/news-category';
 import type { RSS_CATEGORY } from '@ckt1031/config';
 import type { Metadata } from 'next';
