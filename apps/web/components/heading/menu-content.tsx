@@ -1,12 +1,4 @@
-import {
-	BookOpenText,
-	Bookmark,
-	Ear,
-	Info,
-	LogIn,
-	Rss,
-	ScanEye,
-} from 'lucide-react';
+import { Bookmark, Info, LogIn, Rss } from 'lucide-react';
 
 import { useAuthStore } from '@/components/store/auth';
 import {
@@ -72,24 +64,6 @@ export default function MenuContent() {
 						<DropdownMenuItem>
 							<Rss className="mr-2 h-4 w-4" />
 							<span>Raw RSS Reader</span>
-						</DropdownMenuItem>
-					</Link>
-					<Link href="/tools/similarities">
-						<DropdownMenuItem>
-							<ScanEye className="mr-2 h-4 w-4" />
-							<span>Similarities</span>
-						</DropdownMenuItem>
-					</Link>
-					<Link href="/tools/summarize">
-						<DropdownMenuItem>
-							<BookOpenText className="mr-2 h-4 w-4" />
-							<span>Summarize</span>
-						</DropdownMenuItem>
-					</Link>
-					<Link href="/tools/importance">
-						<DropdownMenuItem>
-							<Ear className="mr-2 h-4 w-4" />
-							<span>Check Importance</span>
 						</DropdownMenuItem>
 					</Link>
 				</>
