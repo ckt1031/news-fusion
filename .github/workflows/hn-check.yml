@@ -3,7 +3,7 @@ name: HN + Lobsters Check
 on:
   workflow_dispatch: 
   schedule:
-    - cron: "01 */12 * * *"
+    - cron: "01 */2 * * *"
 
 jobs:
   hn-lobsters-check:
