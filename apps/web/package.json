@@ -66,7 +66,7 @@
 		"zustand": "4.5.5"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.9.1",
+		"@biomejs/biome": "1.9.2",
 		"@ckt1031/ai": "workspace:*",
 		"@ckt1031/biome": "workspace:*",
 		"@ckt1031/cache": "workspace:*",
