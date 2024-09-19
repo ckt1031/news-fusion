@@ -7,8 +7,8 @@ on:
 
 jobs:
   hn-lobsters-check:
-    timeout-minutes: 30
-    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
 

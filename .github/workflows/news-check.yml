@@ -7,7 +7,7 @@ on:
 
 jobs:
   news-check:
-    timeout-minutes: 30
+    timeout-minutes: 60
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4

@@ -1,4 +1,4 @@
-name: Test
+name: Test and Bundle
 
 on:
   push:
@@ -9,8 +9,8 @@ on:
 
 jobs:
   test:
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
 
