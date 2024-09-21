@@ -17,7 +17,7 @@
 		"@ckt1031/news": "workspace:*",
 		"@ckt1031/tool-api": "workspace:*",
 		"@ckt1031/utils": "workspace:*",
-		"@types/bun": "1.1.9",
+		"@types/bun": "1.1.10",
 		"typescript": "5.6.2"
 	}
 }
