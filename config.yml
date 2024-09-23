@@ -1,0 +1,20 @@
+rss:
+  World:
+    - https://feeds.bbci.co.uk/news/world/rss.xml
+    - https://time.com/feed
+
+  Science:
+    - https://rss.sciencedaily.com/all.xml
+    - https://www.newscientist.com/feed/home
+    - https://www.scientificamerican.com/platform/syndication/rss
+    - https://www.theguardian.com/science/rss
+
+  Tech:
+    - https://9to5mac.com/feed
+    - https://9to5google.com/feed
+    - https://techcrunch.com/feed
+    - https://arstechnica.com/feed
+    - https://www.wired.com/feed/rss
+    - https://www.zdnet.com/news/rss.xml
+    - https://www.theverge.com/rss/index.xml
+    - https://www.theregister.com/headlines.rss

@@ -1,4 +1,0 @@
-{
-	"include": ["*.ts"],
-	"extends": "@ckt1031/tsconfig/default"
-}

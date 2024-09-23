@@ -1,0 +1,5 @@
+openai==1.47.0
+ruff==0.6.7
+isort==6.0.0b2
+black==24.8.0
+fastapi==0.115.0
