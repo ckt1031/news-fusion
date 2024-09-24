@@ -56,6 +56,7 @@ def get_feed(topic: str):
     results = (
         Article.select()
         .where((Article.topic == topic) & (Article.important == True))
+        .limit(50)
         .order_by(Article.published_at.desc())
     )
 
