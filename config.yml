@@ -1,0 +1,26 @@
+rss:
+  World:
+    icon: https://cdn-icons-png.flaticon.com/512/2240/2240692.png
+    sources:
+      - https://feeds.bbci.co.uk/news/world/rss.xml
+      - https://time.com/feed
+
+  Science:
+    icon: https://cdn-images-3.listennotes.com/podcasts/big-brain-show/the-big-brain-podcast-roll-DKXaGdWuf8t-9XqfSWhK6Um.300x300.jpg
+    sources:
+      - https://rss.sciencedaily.com/all.xml
+      - https://www.newscientist.com/feed/home
+      - https://www.scientificamerican.com/platform/syndication/rss
+      - https://www.theguardian.com/science/rss
+
+  Tech:
+    icon: https://cdn-icons-png.flaticon.com/512/5742/5742482.png
+    sources:
+      - https://9to5mac.com/feed
+      - https://9to5google.com/feed
+      - https://techcrunch.com/feed
+      - https://arstechnica.com/feed
+      - https://www.wired.com/feed/rss
+      - https://www.zdnet.com/news/rss.xml
+      - https://www.theverge.com/rss/index.xml
+      - https://www.theregister.com/headlines.rss
