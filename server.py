@@ -1,12 +1,22 @@
-import uvicorn
+import datetime
+import os
 
+import uvicorn
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse, PlainTextResponse, Response
 from feedgen.feed import FeedGenerator
 
+from pg import Article
 from rss import get_rss_config, get_rss_topics
 
-app = FastAPI()
+load_dotenv()
+
+SERVER_URL = os.getenv("SERVER_URL", "http://0.0.0.0:4782")
+
+app = FastAPI(
+    title="News Fusion",
+)
 
 
 @app.get("/", response_class=PlainTextResponse)
@@ -31,8 +41,7 @@ def get_topic(topic: str):
     return rss_config[topic]
 
 
-@app.get("/rss/{topic}.xml")
-def get_topic_xml(topic: str):
+def get_feed(topic: str):
     rss_config = get_rss_config()
 
     if topic not in rss_config:
@@ -40,10 +49,51 @@ def get_topic_xml(topic: str):
 
     fg = FeedGenerator()
     fg.title(f"News Fusion - {topic}")
-    fg.link(href=f"http://localhost:4782/rss/{topic}.xml", rel="self")
+    fg.link(href=f"{SERVER_URL}/{topic}.xml", rel="self")
     fg.description(f"News Fusion - {topic}")
+    fg.id(f"{SERVER_URL}/{topic}.xml")
+
+    results = (
+        Article.select()
+        .order_by(Article.published_at.desc())
+        .where(Article.topic == topic and Article.important)
+    )
+
+    for result in results:
+        fe = fg.add_entry()
+        fe.id(result.link)
+        fe.title(result.title)
+        fe.link(href=result.link)
+        fe.description(result.summary)
+
+        # Add timezone, UTC enforced
+        date_time = result.published_at.replace(tzinfo=datetime.timezone.utc)
+
+        fe.published(date_time)
+
+    return fg
+
+
+@app.get("/rss/{topic}.xml")
+def get_topic_xml(topic: str):
+    fg = get_feed(topic)
+
+    # If fg return a JSONResponse, return it
+    if isinstance(fg, JSONResponse):
+        return fg
 
     return Response(content=fg.rss_str(pretty=True), media_type="application/xml")
+
+
+@app.get("/rss/{topic}.atom")
+def get_topic_atom(topic: str):
+    fg = get_feed(topic)
+
+    # If fg return a JSONResponse, return it
+    if isinstance(fg, JSONResponse):
+        return fg
+
+    return Response(content=fg.atom_str(pretty=True), media_type="application/xml")
 
 
 if __name__ == "__main__":

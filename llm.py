@@ -19,8 +19,9 @@ def get_text_completion_model():
 
 
 class Messages:
-    system: str | None
-    user: str
+    def __init__(self, user: str, system: str = None):
+        self.system = system
+        self.user = user
 
 
 class LLM:
@@ -39,15 +40,27 @@ class LLM:
         )
 
     def embed(self, text: str):
+        """
+        Embed the text using the LLM model
+        :param text: The text to embed
+        :return: The response from the API in OpenAI format
+        """
         response = self.client.embeddings.create(
             model=get_embedding_model(),
             input=text,
         )
+
         return response
 
-    def generate_text(self, message: Messages) -> str:
+    def generate_text(self, message: Messages, model: str = None):
+        """
+        Generate text using the LLM model
+        :param model: The model to use for generating text (e.g. gpt-4o-mini)
+        :param message: The message to generate text in class Messages, which contains system and user messages
+        :return: The generated text
+        """
         response = self.client.chat.completions.create(
-            model=get_text_completion_model(),
+            model=model or get_text_completion_model(),
             messages=[
                 # Only include system messages if they exist
                 {"role": "system", "content": message.system} if message.system else {},

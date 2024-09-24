@@ -2,9 +2,9 @@ import os
 from uuid import uuid4
 
 from dotenv import load_dotenv
+from loguru import logger
 from qdrant_client import QdrantClient
-from qdrant_client.models import Distance, PointStruct, VectorParams, HnswConfigDiff
-# SearchParams, ScalarQuantization, ScalarQuantizationConfig, ScalarType
+from qdrant_client.models import Distance, HnswConfigDiff, PointStruct, VectorParams
 
 from llm import LLM, get_embedding_model
 
@@ -17,11 +17,10 @@ QDRANT_CONNECTION = os.getenv("QDRANT_CONNECTION")
 
 
 class News:
-    # title: str
-    # content: str
-    def __init__(self, title: str, content: str):
+    def __init__(self, title: str, content: str, link: str):
         self.title = title
         self.content = content
+        self.link = link
 
 
 class VectorDB:
@@ -35,23 +34,27 @@ class VectorDB:
         self.create_collection()
 
     def create_collection(self):
-        if not self.client.collection_exists(self.collection_name):
-            self.client.create_collection(
-                collection_name=self.collection_name,
-                vectors_config=VectorParams(size=EMBEDDING_SIZE, distance=Distance.COSINE, on_disk=True),
-                hnsw_config=HnswConfigDiff(on_disk=True),
-                # quantization_config=ScalarQuantization(
-                #     scalar=ScalarQuantizationConfig(
-                #         type=ScalarType.INT8,
-                #         always_ram=True,
-                #     ),
-                # ),
-            )
+        if self.client.collection_exists(self.collection_name):
+            return
+
+        self.client.create_collection(
+            collection_name=self.collection_name,
+            vectors_config=VectorParams(
+                size=EMBEDDING_SIZE, distance=Distance.COSINE, on_disk=True
+            ),
+            hnsw_config=HnswConfigDiff(on_disk=True),
+            # quantization_config=ScalarQuantization(
+            #     scalar=ScalarQuantizationConfig(
+            #         type=ScalarType.INT8,
+            #         always_ram=True,
+            #     ),
+            # ),
+        )
+
+        logger.success(f"Collection {self.collection_name} created")
 
     def find_out_similar_news(self, news: News):
         model = LLM()
-
-        # print(model.embed(news.content))
 
         content_embedding = model.embed(news.content)
 
@@ -63,13 +66,6 @@ class VectorDB:
             limit=5,
             # search_params=SearchParams(hnsw_ef=512, exact=False),
         ).points
-
-        # result = self.client.search(
-        #     collection_name=self.collection_name,
-        #     query_vector=content_embedding.data[0].embedding,
-        #     limit=5,
-        #     query_filter=None,
-        # )
 
         # sort score in descending order
         result = sorted(result, key=lambda x: x.score, reverse=True)
@@ -87,7 +83,11 @@ class VectorDB:
             PointStruct(
                 id=idx,
                 vector=content_embedding.data[0].embedding,
-                payload={"content": news.content, "title": news.title, "link": idx},
+                payload={
+                    "content": news.content,
+                    "title": news.title,
+                    "link": news.link,
+                },
             )
         ]
 

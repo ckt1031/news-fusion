@@ -1,50 +1,101 @@
 import random
+import time
+from datetime import datetime
 from time import sleep
 
 from loguru import logger
 
 from pg import Article
-from rss import get_rss_config, parse_rss_feed, extra_website
-from vector_db import VectorDB, News
+from rss import extra_website, get_rss_config, parse_rss_feed
+from utils import generate_summary, generate_title, importance_check, optimize_text
+from vector_db import News, VectorDB
 
 
-def text_optimization(text: str) -> str:
-    # Remove extra spaces
-    text = " ".join(text.split())
+class RSSEntity:
+    def __init__(
+        self, title: str, link: str, published_parsed: time.struct_time, category: str
+    ):
+        self.title = title
+        self.link = link
+        self.published_parsed = published_parsed
+        self.topic = category
 
-    # Remove new lines
-    text = text.replace("\n", "")
 
-    return text
-
-
-def check_source(url: str) -> None:
+def check_article(d: RSSEntity) -> None:
     # Check if the source is already in the database
-    result = Article.get_or_none(Article.link == url)
+    result = Article.get_or_none(Article.link == d.link)
 
     # If it is, skip it
     if result:
-        logger.info(f"Source already exists: {source}")
+        logger.error(f"Article already exists: {d.link}")
         return
+
+    website_data = extra_website(d.link)
+
+    content = optimize_text(website_data["raw_text"])
 
     vc_db = VectorDB()
 
-    website_data = extra_website(url)
-
-    content = text_optimization(website_data["raw_text"])
-
     # Check if the article is similar to any other article in the database to remove duplicates
     # If it is, skip it
-    similarities = vc_db.find_out_similar_news(News(content=url, title=website_data["title"]))
+    similarities = vc_db.find_out_similar_news(
+        News(content=content, title=website_data["title"], link=d.link)
+    )
 
     # There exists a similar article from list with a score of 0.75 or higher
     if similarities and similarities[0].score >= 0.70:
         logger.error(f"Similar article found: {similarities[0].payload['link']}")
+
+        Article.create(
+            title=d.title,
+            topic=d.topic,
+            link=d.link,
+            image=website_data["image"],
+            important=False,
+            published_at=datetime.fromtimestamp(time.mktime(d.published_parsed)),
+        )
+
         return
 
-    vc_db.insert_news(News(title=website_data["title"], content=content))
+    # Save to VectorDB
+    vc_db.insert_news(News(title=website_data["title"], content=content, link=d.link))
 
-    logger.success(f"Article saved: {url}")
+    # Check importance
+    today_date_str = datetime.now().strftime("%Y-%m-%d")
+    news_text_with_meta = f"""
+    Title: {d.title}
+    Content: {content}
+    Date: {today_date_str}
+    """
+    important = importance_check(news_text_with_meta)
+
+    if not important:
+        Article.create(
+            title=d.title,
+            topic=d.topic,
+            link=d.link,
+            image=website_data["image"],
+            important=False,
+            published_at=datetime.fromtimestamp(time.mktime(d.published_parsed)),
+        )
+
+        return
+
+    # Run summarization and title generation in parallel
+    summary, title = generate_summary(content), generate_title(content)
+
+    # Save to Postgres
+    Article.create(
+        title=title,
+        topic=d.topic,
+        link=d.link,
+        image=website_data["image"],
+        summary=summary,
+        important=True,
+        published_at=datetime.fromtimestamp(time.mktime(d.published_parsed)),
+    )
+
+    logger.success(f"Article saved: {d.link}")
 
 
 if __name__ == "__main__":
@@ -65,7 +116,14 @@ if __name__ == "__main__":
             for entry in entries:
                 logger.info(f"Checking article: {entry.link} ({entry.title})")
 
-                check_source(entry.link)
+                check_article(
+                    RSSEntity(
+                        title=entry.title,
+                        link=entry.link,
+                        published_parsed=entry.published_parsed,
+                        category=topic,
+                    )
+                )
 
                 # Sleep for a random time between 2 and 5 seconds to avoid getting blocked and slowing down the server
                 sleep_time = random.randint(2, 5)
