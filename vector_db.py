@@ -13,7 +13,7 @@ load_dotenv()
 EMBEDDING_SIZE = 1536
 EMBEDDING_MODEL = get_embedding_model()
 
-QDRANT_CONNECTION = os.getenv("QDRANT_CONNECTION")
+QDRANT_CONNECTION_STRING = os.getenv("QDRANT_CONNECTION_STRING")
 
 
 class News:
@@ -25,10 +25,10 @@ class News:
 
 class VectorDB:
     def __init__(self):
-        if not QDRANT_CONNECTION:
+        if not QDRANT_CONNECTION_STRING:
             raise Exception("QDRANT_CONNECTION is not set")
 
-        self.client = QdrantClient(url=QDRANT_CONNECTION)
+        self.client = QdrantClient(url=QDRANT_CONNECTION_STRING)
         self.collection_name = "news"
 
         self.create_collection()

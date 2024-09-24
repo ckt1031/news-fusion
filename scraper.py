@@ -1,8 +1,10 @@
 import random
+import sys
 import time
 from datetime import datetime
 from time import sleep
 
+import schedule
 from loguru import logger
 
 from pg import Article
@@ -13,7 +15,7 @@ from vector_db import News, VectorDB
 
 class RSSEntity:
     def __init__(
-        self, title: str, link: str, published_parsed: time.struct_time, category: str
+            self, title: str, link: str, published_parsed: time.struct_time, category: str
     ):
         self.title = title
         self.link = link
@@ -98,7 +100,7 @@ def check_article(d: RSSEntity) -> None:
     logger.success(f"Article saved: {d.link}")
 
 
-if __name__ == "__main__":
+def run_scraper():
     logger.success("Running News Fusion auto scraping service...")
 
     all_topics_with_sources = get_rss_config()
@@ -128,3 +130,17 @@ if __name__ == "__main__":
                 # Sleep for a random time between 2 and 5 seconds to avoid getting blocked and slowing down the server
                 sleep_time = random.randint(2, 5)
                 sleep(sleep_time)
+
+
+if __name__ == "__main__":
+    # Get arguments, if cron is passed, run the scraper once
+    if len(sys.argv) > 1 and sys.argv[1] == "cron":
+        logger.info("Running in scheduler mode...")
+
+        schedule.every(45).minutes.do(run_scraper)
+
+        while 1:
+            schedule.run_pending()
+            time.sleep(1)
+
+    run_scraper()

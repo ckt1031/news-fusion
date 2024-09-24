@@ -10,18 +10,15 @@ from peewee import (
     PostgresqlDatabase,
     TextField,
 )
-from peewee_migrate import Router
 
 load_dotenv()
 
-POSTGRES_CONNECTION = os.getenv("POSTGRES_CONNECTION")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-if not POSTGRES_CONNECTION:
+if not DATABASE_URL:
     raise Exception("POSTGRES_CONNECTION is not set")
 
-db = PostgresqlDatabase(POSTGRES_CONNECTION)
-
-db_router = Router(db)
+db = PostgresqlDatabase(DATABASE_URL)
 
 db.connect()
 
