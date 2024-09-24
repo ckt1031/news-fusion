@@ -55,8 +55,8 @@ def get_feed(topic: str):
 
     results = (
         Article.select()
+        .where((Article.topic == topic) & (Article.important == True))
         .order_by(Article.published_at.desc())
-        .where(Article.topic == topic and Article.important)
     )
 
     for result in results:
