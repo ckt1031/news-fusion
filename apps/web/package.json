@@ -7,7 +7,7 @@
 		"typecheck": "tsc"
 	},
 	"dependencies": {
-		"@ai-sdk/openai": "0.0.60",
+		"@ai-sdk/openai": "0.0.62",
 		"@hookform/resolvers": "3.9.0",
 		"@marsidev/react-turnstile": "1.0.2",
 		"@next/third-parties": "14.2.12",

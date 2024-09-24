@@ -7,7 +7,7 @@
 		"typecheck": "tsc"
 	},
 	"dependencies": {
-		"@ai-sdk/openai": "0.0.60",
+		"@ai-sdk/openai": "0.0.62",
 		"@ckt1031/config": "workspace:*",
 		"@ckt1031/prompts": "workspace:*",
 		"@ckt1031/types": "workspace:*",
