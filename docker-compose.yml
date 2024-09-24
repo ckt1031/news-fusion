@@ -10,6 +10,8 @@ services:
     volumes:
       # the data folder is mounted to the container
       - ./data:/app/data
+      # qdrant_storage
+      - ./qdrant:/app/qdrant_storage
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/news_fusion
       - QDRANT_CONNECTION_STRING=http://qdrant:6333
