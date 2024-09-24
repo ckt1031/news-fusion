@@ -1,4 +1,5 @@
 from llm import LLM, Messages
+import random
 
 
 def optimize_text(text: str) -> str:
@@ -44,3 +45,33 @@ def importance_check(text: str) -> bool:
     importance = llm.generate_text(Messages(system=sys_prompt, user=text)).lower()
 
     return "true" in importance or "yes" in importance
+
+
+def shuffle_dict_keys(data: dict[str, list[str]]) -> dict[str, list[str]]:
+    """Creates a new dictionary with the same key-value pairs but in a
+    randomized key order.
+
+    Args:
+        data (dict[str, list[str]]): The input dictionary.
+
+    Returns:
+        dict[str, list[str]]: A new dictionary with shuffled keys.
+    """
+    keys = list(data.keys())
+    random.shuffle(keys)
+    return {key: data[key] for key in keys}
+
+
+def shuffle_dict_values(data: dict[str, list[str]]) -> dict[str, list[str]]:
+    """Creates a new dictionary with the same key-value pairs but in a
+    randomized value order.
+
+    Args:
+        data (dict[str, list[str]]): The input dictionary.
+
+    Returns:
+        dict[str, list[str]]: A new dictionary with shuffled values.
+    """
+    for key in data:
+        random.shuffle(data[key])
+    return data
