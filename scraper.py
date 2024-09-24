@@ -9,14 +9,19 @@ from loguru import logger
 
 from pg import Article
 from rss import extra_website, get_rss_config, parse_rss_feed
-from utils import generate_summary, generate_title, importance_check, optimize_text, shuffle_dict_keys, \
-    shuffle_dict_values
+from utils import (
+    generate_summary,
+    generate_title,
+    importance_check,
+    optimize_text,
+    shuffle_dict_keys,
+)
 from vector_db import News, VectorDB
 
 
 class RSSEntity:
     def __init__(
-            self, title: str, link: str, published_parsed: time.struct_time, category: str
+        self, title: str, link: str, published_parsed: time.struct_time, category: str
     ):
         self.title = title
         self.link = link
@@ -106,18 +111,16 @@ def run_scraper():
 
     all_topics_with_sources = get_rss_config()
     all_topics_with_sources = shuffle_dict_keys(all_topics_with_sources)
-    all_topics_with_sources = shuffle_dict_values(all_topics_with_sources)
 
-    ## Randomize all_topics_with_sources keys, but keep the values the same
     total_number_of_sources = sum(
         [len(sources) for sources in all_topics_with_sources.values()]
     )
 
     logger.info(f"Total number of sources: {total_number_of_sources}")
 
-    for topic, sources in all_topics_with_sources.items():
-        logger.info(f"Topic: {topic} - Number of sources: {len(sources)}")
-        for source in sources:
+    for topic, data in all_topics_with_sources.items():
+        logger.info(f"Topic: {topic} - Number of sources: {len(data['sources'])}")
+        for source in data["sources"]:
             entries = parse_rss_feed(source)
             for entry in entries:
                 logger.info(f"Checking article: {entry.link} ({entry.title})")

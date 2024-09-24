@@ -7,7 +7,7 @@ import yaml
 CONFIG_PATH = "./config.yml"
 
 
-def get_rss_config() -> dict[str, list[str]]:
+def get_rss_config() -> dict[str, dict[str, list[str]]]:
     with open(CONFIG_PATH) as stream:
         try:
             return yaml.safe_load(stream)["rss"]
