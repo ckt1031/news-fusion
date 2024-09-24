@@ -37,7 +37,7 @@ services:
 #      - "5432:5432"
     container_name: news-fusion-db
   qdrant:
-    image: qdrant/qdrant:latest-unprivileged
+    image: qdrant/qdrant:latest
     restart: always
 #    ports:
 #      - "6333:6333"
