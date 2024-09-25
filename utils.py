@@ -45,7 +45,7 @@ def importance_check(text: str) -> bool:
     llm = LLM()
     importance = llm.generate_text(Messages(system=sys_prompt, user=text)).lower()
 
-    return "true" in importance or "yes" in importance
+    return ("true" in importance) or ("yes" in importance)
 
 
 def shuffle_dict_keys(data: dict[str, any]) -> dict[str, any]:
