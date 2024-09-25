@@ -1,16 +1,22 @@
 import datetime
 import os
+import sys
 
 import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, PlainTextResponse, Response
 from feedgen.feed import FeedGenerator
+from loguru import logger
 
 from pg import Article
 from rss import get_rss_config, get_rss_topics
 
 load_dotenv()
+
+# Configure logging
+logger.remove()
+logger.add(sys.stdout, format="{time}: [<level>{level}</level>] {message}")
 
 SERVER_URL = os.getenv("SERVER_URL", "http://0.0.0.0:4782")
 

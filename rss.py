@@ -3,6 +3,7 @@ import json
 import feedparser
 import trafilatura
 import yaml
+from loguru import logger
 
 CONFIG_PATH = "./config.yml"
 
@@ -12,7 +13,7 @@ def get_rss_config() -> dict[str, dict[str, list[str]]]:
         try:
             return yaml.safe_load(stream)["rss"]
         except yaml.YAMLError as exc:
-            print(exc)
+            logger.error(exc)
 
 
 def get_rss_topics() -> list[str]:

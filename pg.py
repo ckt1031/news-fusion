@@ -2,8 +2,14 @@ import datetime
 import os
 
 from dotenv import load_dotenv
-from peewee import (BooleanField, CharField, DateTimeField, Model,
-                    PostgresqlDatabase, TextField)
+from peewee import (
+    BooleanField,
+    CharField,
+    DateTimeField,
+    Model,
+    PostgresqlDatabase,
+    TextField,
+)
 
 load_dotenv()
 
