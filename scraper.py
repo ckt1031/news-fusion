@@ -9,8 +9,13 @@ from loguru import logger
 
 from pg import Article
 from rss import extra_website, get_rss_config, parse_rss_feed
-from utils import (generate_summary, generate_title, importance_check,
-                   optimize_text, shuffle_dict_keys)
+from utils import (
+    generate_summary,
+    generate_title,
+    importance_check,
+    optimize_text,
+    shuffle_dict_keys,
+)
 from vector_db import News, VectorDB
 
 logger.remove()
