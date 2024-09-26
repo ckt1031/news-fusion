@@ -54,7 +54,7 @@ def check_article(d: RSSEntity) -> None:
     )
 
     # There exists a similar article from list with a score of 0.75 or higher
-    if similarities and similarities[0].score >= 0.70:
+    if similarities[0] and similarities[0].score >= 0.70:
         logger.error(f"Similar article found: {similarities[0].payload['link']}")
 
         Article.create(

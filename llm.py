@@ -19,7 +19,7 @@ def get_text_completion_model():
 
 
 class Messages:
-    def __init__(self, user: str, system: str = None):
+    def __init__(self, user: str, system: str | None = None):
         self.system = system
         self.user = user
 
@@ -52,7 +52,7 @@ class LLM:
 
         return response
 
-    def generate_text(self, message: Messages, model: str = None):
+    def generate_text(self, message: Messages, model: str | None = None):
         """
         Generate text using the LLM model
         :param model: The model to use for generating text (e.g. gpt-4o-mini)
@@ -67,4 +67,9 @@ class LLM:
                 {"role": "user", "content": message.user},
             ],
         )
-        return response.choices[0].message.content
+        result = response.choices[0].message.content
+
+        if not result:
+            raise ValueError("No response from the model")
+
+        return result

@@ -1,5 +1,6 @@
 import datetime
 import os
+import socket
 import sys
 
 import uvicorn
@@ -18,7 +19,7 @@ load_dotenv()
 logger.remove()
 logger.add(sys.stdout, format="{time}: [<level>{level}</level>] {message}")
 
-SERVER_URL = os.getenv("SERVER_URL", "http://0.0.0.0:4782")
+SERVER_URL = os.getenv("SERVER_URL")
 
 app = FastAPI(
     title="News Fusion",
@@ -49,6 +50,9 @@ def get_topic(topic: str):
 
 def get_feed(server_url: str, topic: str, is_atom: bool = False):
     rss_config = get_rss_config()
+
+    # Overwrite the SERVER_URL if it is not None
+    server_url = server_url if SERVER_URL is None else server_url
 
     if topic not in rss_config:
         return JSONResponse(status_code=404, content={"error": "Topic not found"})
@@ -120,5 +124,27 @@ def get_topic_atom(topic: str, request: Request):
     return Response(content=fg.atom_str(pretty=True), media_type="application/xml")
 
 
+def try_port_availability(port):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    result = False
+    try:
+        sock.bind(("0.0.0.0", port))
+        result = True
+    except OSError:
+        print("Port is in use")
+    sock.close()
+    return result
+
+
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=4782)
+    # Check if the port is occupied
+    port = 4782
+    host = "0.0.0.0"
+    url = f"http://{host}"
+
+    while not try_port_availability(port):
+        port += 1
+
+    logger.success(f"Server started on port {url}:{port}")
+
+    uvicorn.run(app, host=host, port=port)

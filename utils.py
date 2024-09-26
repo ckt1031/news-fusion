@@ -39,6 +39,12 @@ def generate_title(text: str) -> str:
 
 
 def importance_check(text: str) -> bool:
+    """
+    Pass article content to LLM to check the importance, the LLM will return a string yes or true if the article is important.
+    :param text: The article content
+    :return: Boolean value indicating if the article is important
+    """
+
     sys_prompt = read_txt("prompts/importance.txt")
 
     # Use the LLM model to check importance
@@ -49,14 +55,14 @@ def importance_check(text: str) -> bool:
 
 
 def shuffle_dict_keys(data: dict[str, any]) -> dict[str, any]:
-    """Creates a new dictionary with the same key-value pairs but in a
-    randomized key order.
+    """
+    Creates a new dictionary with the same key-value pairs but in a
+    randomized key order.\
 
-    Args:
-        data (dict[str, list[str]]): The input dictionary.
+    :param data: The input dictionary.
+    :type data: dict[str, any]
 
-    Returns:
-        dict[str, list[str]]: A new dictionary with shuffled keys.
+    :return: A new dictionary with shuffled keys.
     """
     keys = list(data.keys())
     random.shuffle(keys)
