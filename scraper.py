@@ -24,7 +24,7 @@ logger.add(sys.stdout, format="{time}: [<level>{level}</level>] {message}")
 
 class RSSEntity:
     def __init__(
-        self, title: str, link: str, published_parsed: time.struct_time, category: str
+            self, title: str, link: str, published_parsed: time.struct_time, category: str
     ):
         self.title = title
         self.link = link
@@ -40,6 +40,10 @@ def check_article(d: RSSEntity) -> None:
     if result:
         logger.error(f"Article already exists: {d.link}")
         return
+
+    # Sleep for a random time between 2 and 5 seconds to avoid getting blocked and slowing down the server
+    sleep_time = random.randint(1, 5)
+    sleep(sleep_time)
 
     website_data = extra_website(d.link)
 
@@ -130,10 +134,6 @@ def run_scraper():
                         category=topic,
                     )
                 )
-
-                # Sleep for a random time between 2 and 5 seconds to avoid getting blocked and slowing down the server
-                sleep_time = random.randint(2, 5)
-                sleep(sleep_time)
 
 
 if __name__ == "__main__":
