@@ -23,7 +23,7 @@ def generate_summary(text: str) -> str:
 
     # Use the LLM model to generate a summary
     llm = LLM()
-    summary = llm.generate_text(Messages(system=sys_prompt, user=text))
+    summary = llm.generate_text(Messages(system=sys_prompt, user=text), "gemini-1.5-flash-002")
 
     return summary
 
@@ -33,7 +33,7 @@ def generate_title(text: str) -> str:
 
     # Use the LLM model to generate a title
     llm = LLM()
-    title = llm.generate_text(Messages(system=sys_prompt, user=text))
+    title = llm.generate_text(Messages(system=sys_prompt, user=text), "gemini-1.5-flash-002")
 
     return title
 
