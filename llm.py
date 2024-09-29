@@ -37,6 +37,9 @@ class LLM:
         self.client = openai.Client(
             api_key=self.api_key,
             base_url=self.api_base_url,
+            default_headers={
+                "User-Agent": "NewsFusion/1.0",
+            },
         )
 
     def embed(self, text: str):
