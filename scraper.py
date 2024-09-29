@@ -41,6 +41,11 @@ def check_article(d: RSSEntity) -> None:
         logger.error(f"Article already exists: {d.link}")
         return
 
+    # Check if the article is older than 3 days
+    if (datetime.now() - datetime.fromtimestamp(time.mktime(d.published_parsed))).days > 3:
+        logger.error(f"Article is older than 3 days: {d.link}")
+        return
+
     # Sleep for a random time between 2 and 5 seconds to avoid getting blocked and slowing down the server
     sleep_time = random.randint(1, 5)
     sleep(sleep_time)
