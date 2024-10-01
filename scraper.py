@@ -24,7 +24,7 @@ logger.add(sys.stdout, format="{time}: [<level>{level}</level>] {message}")
 
 class RSSEntity:
     def __init__(
-            self, title: str, link: str, published_parsed: time.struct_time, category: str
+        self, title: str, link: str, published_parsed: time.struct_time, category: str
     ):
         self.title = title
         self.link = link
@@ -42,7 +42,9 @@ def check_article(d: RSSEntity) -> None:
         return
 
     # Check if the article is older than 3 days
-    if (datetime.now() - datetime.fromtimestamp(time.mktime(d.published_parsed))).days > 3:
+    if (
+        datetime.now() - datetime.fromtimestamp(time.mktime(d.published_parsed))
+    ).days > 3:
         logger.error(f"Article is older than 3 days: {d.link}")
         return
 
@@ -127,18 +129,26 @@ def run_scraper():
     for topic, data in all_topics_with_sources.items():
         logger.info(f"Topic: {topic} - Number of sources: {len(data['sources'])}")
         for source in data["sources"]:
-            entries = parse_rss_feed(source)
-            for entry in entries:
-                logger.info(f"Checking article: {entry.link} ({entry.title})")
+            try:
+                entries = parse_rss_feed(source)
+                for entry in entries:
+                    try:
+                        logger.info(f"Checking article: {entry.link} ({entry.title})")
 
-                check_article(
-                    RSSEntity(
-                        title=entry.title,
-                        link=entry.link,
-                        published_parsed=entry.published_parsed,
-                        category=topic,
-                    )
-                )
+                        check_article(
+                            RSSEntity(
+                                title=entry.title,
+                                link=entry.link,
+                                published_parsed=entry.published_parsed,
+                                category=topic,
+                            )
+                        )
+                    except Exception as e:
+                        logger.error(f"Error: {e}")
+                        continue
+            except Exception as e:
+                logger.error(f"Error: {e}")
+                continue
 
 
 if __name__ == "__main__":
