@@ -52,7 +52,7 @@ def get_feed(server_url: str, topic: str, is_atom: bool = False):
     rss_config = get_rss_config()
 
     # Overwrite the SERVER_URL if it is not None
-    server_url = server_url if SERVER_URL is None else server_url
+    server_url = server_url if SERVER_URL is None else SERVER_URL
 
     if topic not in rss_config:
         return JSONResponse(status_code=404, content={"error": "Topic not found"})
