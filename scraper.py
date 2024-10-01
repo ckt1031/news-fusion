@@ -1,10 +1,13 @@
+import os
 import random
 import sys
 import time
 from datetime import datetime
 from time import sleep
 
+import requests
 import schedule
+from dotenv import load_dotenv
 from loguru import logger
 
 from pg import Article
@@ -18,8 +21,12 @@ from utils import (
 )
 from vector_db import News, VectorDB
 
+load_dotenv()
+
 logger.remove()
 logger.add(sys.stdout, format="{time}: [<level>{level}</level>] {message}")
+
+SERVER_URL = os.getenv("SERVER_URL")
 
 
 class RSSEntity:
@@ -30,6 +37,21 @@ class RSSEntity:
         self.link = link
         self.published_parsed = published_parsed
         self.topic = category
+
+
+def send_pubsubhubbub_update(category: str):
+    url = f"{SERVER_URL}rss/{category}.xml"
+
+    requests.post(
+        "https://pubsubhubbub.appspot.com/",
+        data={
+            "hub.mode": "publish",
+            "hub.url": url,
+        },
+        headers={
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    )
 
 
 def check_article(d: RSSEntity) -> None:
@@ -118,6 +140,8 @@ def check_article(d: RSSEntity) -> None:
     )
 
     logger.success(f"Article saved: {d.link}")
+
+    send_pubsubhubbub_update(d.topic)
 
 
 def run_scraper():
