@@ -40,18 +40,22 @@ class RSSEntity:
 
 
 def send_pubsubhubbub_update(category: str):
-    url = f"{SERVER_URL}rss/{category}.xml"
+    url = [
+        f"{SERVER_URL}rss/{category}.xml",
+        f"{SERVER_URL}rss/{category}.atom",
+    ]
 
-    requests.post(
-        "https://pubsubhubbub.appspot.com/",
-        data={
-            "hub.mode": "publish",
-            "hub.url": url,
-        },
-        headers={
-            "Content-Type": "application/x-www-form-urlencoded",
-        },
-    )
+    for _url in url:
+        requests.post(
+            "https://pubsubhubbub.appspot.com/",
+            data={
+                "hub.mode": "publish",
+                "hub.url": _url,
+            },
+            headers={
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+        )
 
 
 def check_article(d: RSSEntity) -> None:
