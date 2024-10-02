@@ -1,9 +1,7 @@
 import datetime
 import os
-import socket
 import sys
 
-import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, PlainTextResponse, Response
@@ -131,32 +129,3 @@ def get_topic_atom(topic: str, request: Request):
         return fg
 
     return Response(content=fg.atom_str(pretty=True), media_type="application/xml")
-
-
-def try_port_availability(_port: str) -> bool:
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    result = False
-
-    try:
-        sock.bind(("0.0.0.0", _port))
-        result = True
-    except OSError:
-        print("Port is in use")
-
-    sock.close()
-
-    return result
-
-
-if __name__ == "__main__":
-    # Check if the port is occupied
-    port = 4782
-    host = "0.0.0.0"
-    url = f"http://{host}"
-
-    while not try_port_availability(port):
-        port += 1
-
-    logger.success(f"Server started on port {url}:{port}")
-
-    uvicorn.run(app, host=host, port=port)

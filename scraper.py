@@ -31,7 +31,7 @@ SERVER_URL = os.getenv("SERVER_URL")
 
 class RSSEntity:
     def __init__(
-            self, title: str, link: str, published_parsed: time.struct_time, category: str
+        self, title: str, link: str, published_parsed: time.struct_time, category: str
     ):
         self.title = title
         self.link = link
@@ -61,7 +61,7 @@ def send_pubsubhubbub_update(category: str):
 def check_article(d: RSSEntity) -> None:
     # Check if the article is older than 3 days
     if (
-            datetime.now() - datetime.fromtimestamp(time.mktime(d.published_parsed))
+        datetime.now() - datetime.fromtimestamp(time.mktime(d.published_parsed))
     ).days > 3:
         # logger.error(f"Article is older than 3 days: {d.link}")
         return

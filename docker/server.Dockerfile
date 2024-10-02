@@ -9,10 +9,10 @@ WORKDIR /app
 COPY . /app
 
 # Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir --no-compile -r requirements.txt
+RUN pip install --no-cache-dir --no-compile --upgrade -r requirements.txt
 
-# Make port 80 available to the world outside this container
+# Make port 4782 available to the world outside this container
 EXPOSE 4782
 
 # RUN
-CMD ["python", "server.py"]
+CMD ["fastapi", "server.py", "--proxy-headers", "--port", "4782"]
