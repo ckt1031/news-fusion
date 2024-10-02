@@ -105,9 +105,6 @@ def check_article(d: RSSEntity) -> None:
 
         return
 
-    # Save to VectorDB
-    vc_db.insert_news(News(title=website_data["title"], content=content, link=d.link))
-
     # Check importance
     today_date_str = datetime.now().strftime("%Y-%m-%d")
     news_text_with_meta = f"""
@@ -142,6 +139,9 @@ def check_article(d: RSSEntity) -> None:
         important=True,
         published_at=datetime.fromtimestamp(time.mktime(d.published_parsed)),
     )
+
+    # Save to VectorDB
+    vc_db.insert_news(News(title=website_data["title"], content=content, link=d.link))
 
     logger.success(f"Article saved: {d.link}")
 
@@ -189,5 +189,3 @@ if __name__ == "__main__":
         while 1:
             schedule.run_pending()
             time.sleep(1)
-
-    run_scraper()
