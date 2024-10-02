@@ -15,4 +15,4 @@ RUN pip install --no-cache-dir --no-compile -r requirements.txt
 EXPOSE 4782
 
 # RUN
-CMD ["python", "scraper.py"]
+CMD ["python", "scraper.py", "cron"]
