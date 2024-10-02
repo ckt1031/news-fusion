@@ -103,6 +103,7 @@ def get_feed(server_url: str, topic: str, is_atom: bool = False):
         fe.enclosure(url=f"{IMAGE_PROXY}{result.image}", type="image/jpeg")
 
         fe.published(date_time)
+        fe.updated(date_time)
 
     return fg
 
