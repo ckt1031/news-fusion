@@ -64,13 +64,13 @@ def get_feed(server_url: str, topic: str, is_atom: bool = False):
 
     fg.link(href="https://pubsubhubbub.appspot.com/", rel="hub")
 
-    if is_atom:
-        fg.link(href=f"{server_url}rss/{topic}.atom", rel="self")
-    else:
-        fg.link(href=f"{server_url}rss/{topic}.xml", rel="self")
+    feed_format = "atom" if is_atom else "xml"
+    feed_url = f"{server_url}rss/{topic}.{feed_format}"
+
+    fg.link(href=feed_url, rel="self")
 
     fg.description(f"News Fusion - {topic}")
-    fg.id(f"{server_url}rss/{topic}.xml")
+    fg.id(feed_url)
 
     if is_atom:
         fg.icon(f"{IMAGE_PROXY}{rss_config[topic]["icon"]}")
