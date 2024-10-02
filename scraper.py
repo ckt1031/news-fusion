@@ -161,7 +161,7 @@ def run_scraper():
                 entries = parse_rss_feed(source)
                 for entry in entries:
                     try:
-                        logger.info(f"Checking article: {entry.link} ({entry.title})")
+                        # logger.info(f"Checking article: {entry.link} ({entry.title})")
 
                         check_article(
                             RSSEntity(
