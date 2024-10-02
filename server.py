@@ -102,9 +102,10 @@ def get_feed(server_url: str, topic: str, is_atom: bool = False):
         # Add timezone, UTC enforced
         date_time = result.published_at.replace(tzinfo=datetime.timezone.utc)
 
-        fe.enclosure(url=f"{IMAGE_PROXY}{result.image}", type="image/jpeg")
-
-        fe.media.content({"url": f"{IMAGE_PROXY}{result.image}", "medium": "image"})
+        if is_atom:
+            fe.media.content({"url": f"{IMAGE_PROXY}{result.image}", "medium": "image"})
+        else:
+            fe.enclosure(url=f"{IMAGE_PROXY}{result.image}", type="image/jpeg")
 
         fe.updated(date_time) if is_atom else fe.published(date_time)
 
