@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from loguru import logger
 
 from pg import Article
-from rss import extra_website, get_rss_config, parse_rss_feed
+from rss import extract_website, get_rss_config, parse_rss_feed
 from utils import (
     generate_summary,
     generate_title,
@@ -59,26 +59,26 @@ def send_pubsubhubbub_update(category: str):
 
 
 def check_article(d: RSSEntity) -> None:
+    # Check if the article is older than 3 days
+    if (
+            datetime.now() - datetime.fromtimestamp(time.mktime(d.published_parsed))
+    ).days > 3:
+        # logger.error(f"Article is older than 3 days: {d.link}")
+        return
+
     # Check if the source is already in the database
     result = Article.get_or_none(Article.link == d.link)
 
     # If it is, skip it
     if result:
-        logger.error(f"Article already exists: {d.link}")
-        return
-
-    # Check if the article is older than 3 days
-    if (
-            datetime.now() - datetime.fromtimestamp(time.mktime(d.published_parsed))
-    ).days > 3:
-        logger.error(f"Article is older than 3 days: {d.link}")
+        # logger.error(f"Article already exists: {d.link}")
         return
 
     # Sleep for a random time between 2 and 5 seconds to avoid getting blocked and slowing down the server
     sleep_time = random.randint(1, 5)
     sleep(sleep_time)
 
-    website_data = extra_website(d.link)
+    website_data = extract_website(d.link)
 
     content = optimize_text(website_data["raw_text"])
 
@@ -92,13 +92,13 @@ def check_article(d: RSSEntity) -> None:
 
     # There exists a similar article from list with a score of 0.75 or higher
     if similarities and similarities[0] and similarities[0].score >= 0.70:
-        logger.error(f"Similar article found: {similarities[0].payload['link']}")
+        # logger.error(f"Similar article found: {similarities[0].payload['link']}")
 
         Article.create(
             title=d.title,
             topic=d.topic,
             link=d.link,
-            image=website_data["image"],
+            # image=website_data["image"],
             important=False,
             published_at=datetime.fromtimestamp(time.mktime(d.published_parsed)),
         )

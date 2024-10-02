@@ -25,7 +25,7 @@ def parse_rss_feed(feed):
     return rss_feed.entries
 
 
-def extra_website(link):
+def extract_website(link):
     downloaded = trafilatura.fetch_url(link)
     json_data = trafilatura.extract(
         downloaded, output_format="json", with_metadata=True
