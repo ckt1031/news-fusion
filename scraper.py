@@ -98,7 +98,7 @@ def check_article(d: RSSEntity) -> None:
             title=d.title,
             topic=d.topic,
             link=d.link,
-            # image=website_data["image"],
+            image=website_data["image"],
             important=False,
             published_at=datetime.fromtimestamp(time.mktime(d.published_parsed)),
         )
@@ -156,7 +156,7 @@ def run_scraper():
 
     for topic, data in all_topics_with_sources.items():
         logger.info(f"Topic: {topic} - Number of sources: {len(data['sources'])}")
-        for source in data["sources"]:
+        for source in ["https://www.theguardian.com/science/rss"]:
             try:
                 entries = parse_rss_feed(source)
                 for entry in entries:
@@ -172,10 +172,10 @@ def run_scraper():
                             )
                         )
                     except Exception as e:
-                        logger.error(f"Error: {e}")
+                        logger.error(f"Error ({entry.link}): {e}")
                         continue
             except Exception as e:
-                logger.error(f"Error: {e}")
+                logger.error(f"Error ({source}): {e}")
                 continue
 
 
