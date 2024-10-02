@@ -91,7 +91,7 @@ def check_article(d: RSSEntity) -> None:
     )
 
     # There exists a similar article from list with a score of 0.75 or higher
-    if similarities[0] and similarities[0].score >= 0.70:
+    if similarities and similarities[0] and similarities[0].score >= 0.70:
         logger.error(f"Similar article found: {similarities[0].payload['link']}")
 
         Article.create(
@@ -157,26 +157,26 @@ def run_scraper():
     for topic, data in all_topics_with_sources.items():
         logger.info(f"Topic: {topic} - Number of sources: {len(data['sources'])}")
         for source in data["sources"]:
-            try:
-                entries = parse_rss_feed(source)
-                for entry in entries:
-                    try:
-                        logger.info(f"Checking article: {entry.link} ({entry.title})")
+            # try:
+            entries = parse_rss_feed(source)
+            for entry in entries:
+                # try:
+                logger.info(f"Checking article: {entry.link} ({entry.title})")
 
-                        check_article(
-                            RSSEntity(
-                                title=entry.title,
-                                link=entry.link,
-                                published_parsed=entry.published_parsed,
-                                category=topic,
-                            )
-                        )
-                    except Exception as e:
-                        logger.error(f"Error: {e}")
-                        continue
-            except Exception as e:
-                logger.error(f"Error: {e}")
-                continue
+                check_article(
+                    RSSEntity(
+                        title=entry.title,
+                        link=entry.link,
+                        published_parsed=entry.published_parsed,
+                        category=topic,
+                    )
+                )
+            # except Exception as e:
+            #     logger.error(f"Error: {e}")
+            #     continue
+        # except Exception as e:
+        #     logger.error(f"Error: {e}")
+        #     continue
 
 
 if __name__ == "__main__":

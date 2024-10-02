@@ -79,7 +79,7 @@ def get_feed(server_url: str, topic: str, is_atom: bool = False):
     fg.generator(generator="News Fusion", version="1.0")
     fg.author(name="News Fusion", email="dev@tsun1031.xyz")
 
-    fg.load_extension('media')
+    fg.load_extension("media")
 
     results = (
         Article.select()
@@ -104,7 +104,7 @@ def get_feed(server_url: str, topic: str, is_atom: bool = False):
 
         fe.enclosure(url=f"{IMAGE_PROXY}{result.image}", type="image/jpeg")
 
-        fe.media.content({"url" : f"{IMAGE_PROXY}{result.image}", "medium" : "image"})
+        fe.media.content({"url": f"{IMAGE_PROXY}{result.image}", "medium": "image"})
 
         fe.updated(date_time) if is_atom else fe.published(date_time)
 
