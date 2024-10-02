@@ -62,7 +62,7 @@ def get_feed(server_url: str, topic: str, is_atom: bool = False):
     fg = FeedGenerator()
     fg.title(f"News Fusion - {topic}")
     fg.link(href=f"{server_url}rss/{topic}.xml", rel="self")
-    fg.link(href=f"https://pubsubhubbub.appspot.com/", rel="hub")
+    fg.link(href="https://pubsubhubbub.appspot.com/", rel="hub")
     fg.description(f"News Fusion - {topic}")
     fg.id(f"{server_url}rss/{topic}.xml")
 
