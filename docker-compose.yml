@@ -26,10 +26,15 @@ services:
       POSTGRES_DB: news_fusion
     volumes:
       - ./data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     container_name: news-fusion-db
   qdrant:
     image: qdrant/qdrant:latest
     restart: always
+    ports:
+      - "6333:6333"
+      - "6334:6334"
     volumes:
       - ./qdrant_storage:/qdrant/storage:z
     container_name: news-fusion-qdrant
