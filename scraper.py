@@ -156,7 +156,7 @@ def run_scraper():
 
     for topic, data in all_topics_with_sources.items():
         logger.info(f"Topic: {topic} - Number of sources: {len(data['sources'])}")
-        for source in ["https://www.theguardian.com/science/rss"]:
+        for source in data["sources"]:
             try:
                 entries = parse_rss_feed(source)
                 for entry in entries:
@@ -184,7 +184,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "cron":
         logger.info("Running in scheduler mode...")
 
-        schedule.every(45).minutes.do(run_scraper)
+        schedule.every(20).minutes.do(run_scraper)
 
         while 1:
             schedule.run_pending()
