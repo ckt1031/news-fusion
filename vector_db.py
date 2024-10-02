@@ -22,7 +22,7 @@ class News:
 
 class VectorDB:
     def __init__(self):
-        self.client = QdrantClient(prefer_grpc=True, grpc_port=6333)
+        self.client = QdrantClient(prefer_grpc=True, grpc_port=6334)
         self.collection_name = "news"
 
         self.create_collection()
