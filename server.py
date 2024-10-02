@@ -94,18 +94,15 @@ def get_feed(server_url: str, topic: str, is_atom: bool = False):
 
         fe.title(result.title)
 
-        if not is_atom:
-            fe.link(href=result.link)
+        fe.link(href=result.link)
 
         fe.description(result.summary)
 
         # Add timezone, UTC enforced
         date_time = result.published_at.replace(tzinfo=datetime.timezone.utc)
 
-        if is_atom:
-            fe.media.content({"url": f"{IMAGE_PROXY}{result.image}", "medium": "image"})
-        else:
-            fe.enclosure(url=f"{IMAGE_PROXY}{result.image}", type="image/jpeg")
+        fe.media.content({"url": f"{IMAGE_PROXY}{result.image}", "medium": "image"})
+        # fe.enclosure(url=f"{IMAGE_PROXY}{result.image}", type="image/jpeg")
 
         fe.updated(date_time) if is_atom else fe.published(date_time)
 
@@ -136,15 +133,18 @@ def get_topic_atom(topic: str, request: Request):
     return Response(content=fg.atom_str(pretty=True), media_type="application/xml")
 
 
-def try_port_availability(port):
+def try_port_availability(_port: str) -> bool:
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     result = False
+
     try:
-        sock.bind(("0.0.0.0", port))
+        sock.bind(("0.0.0.0", _port))
         result = True
     except OSError:
         print("Port is in use")
+
     sock.close()
+
     return result
 
 
