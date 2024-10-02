@@ -15,4 +15,4 @@ RUN pip install --no-cache-dir --no-compile --upgrade -r requirements.txt
 EXPOSE 4782
 
 # RUN
-CMD ["fastapi", "server.py", "--proxy-headers", "--port", "4782"]
+CMD ["fastapi", "run", "server.py", "--proxy-headers", "--port", "4782"]
