@@ -4,6 +4,7 @@ name: news-fusion-dev
 services:
   postgres:
     image: postgres:17-alpine
+    # restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -15,9 +16,10 @@ services:
     container_name: news-fusion-db-dev
   qdrant:
     image: qdrant/qdrant:latest
+    # restart: always
     ports:
-      - "6333:6333"
-      - "6333:6334"
+      - "6003:6333"
+      - "6004:6334"
     volumes:
       - ./data/qdrant:/qdrant/storage:z
     container_name: news-fusion-qdrant-dev

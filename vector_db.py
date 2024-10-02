@@ -1,3 +1,4 @@
+import os
 from uuid import uuid4
 
 from dotenv import load_dotenv
@@ -12,6 +13,8 @@ load_dotenv()
 EMBEDDING_SIZE = 1536
 EMBEDDING_MODEL = get_embedding_model()
 
+QDRANT_CONNECTION_STRING = os.getenv("QDRANT_CONNECTION_STRING")
+
 
 class News:
     def __init__(self, title: str, content: str, link: str):
@@ -22,7 +25,10 @@ class News:
 
 class VectorDB:
     def __init__(self):
-        self.client = QdrantClient(prefer_grpc=True, grpc_port=6334)
+        if not QDRANT_CONNECTION_STRING:
+            raise Exception("QDRANT_CONNECTION is not set")
+
+        self.client = QdrantClient(url=QDRANT_CONNECTION_STRING)
         self.collection_name = "news"
 
         self.create_collection()
@@ -37,6 +43,12 @@ class VectorDB:
                 size=EMBEDDING_SIZE, distance=Distance.COSINE, on_disk=True
             ),
             hnsw_config=HnswConfigDiff(on_disk=True),
+            # quantization_config=ScalarQuantization(
+            #     scalar=ScalarQuantizationConfig(
+            #         type=ScalarType.INT8,
+            #         always_ram=True,
+            #     ),
+            # ),
         )
 
         logger.success(f"Collection {self.collection_name} created")
