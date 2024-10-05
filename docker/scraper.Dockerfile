@@ -2,6 +2,8 @@ FROM python:3.12
 
 ENV PYTHONDONTWRITEBYTECODE=1
 
+RUN apt-get update && apt-get -y install cron
+
 # Set the working directory
 WORKDIR /app
 
@@ -9,15 +11,15 @@ WORKDIR /app
 COPY . /app
 COPY ../crontab /etc/cron.d/crontab
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir --no-compile --upgrade -r requirements.txt
-
 RUN chmod 0644 /etc/cron.d/crontab
 
 RUN crontab /etc/cron.d/crontab
 
 # Create empty log (TAIL needs this)
 RUN touch /tmp/out.log
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir --no-compile --upgrade -r requirements.txt
 
 # RUN
 CMD cron && tail -f /tmp/out.log
