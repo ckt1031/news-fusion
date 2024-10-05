@@ -13,10 +13,8 @@ from peewee import (
 
 load_dotenv()
 
+# Optional, or use default localhost
 DATABASE_URL = os.getenv("DATABASE_URL")
-
-if not DATABASE_URL:
-    raise Exception("POSTGRES_CONNECTION is not set")
 
 db = PostgresqlDatabase(DATABASE_URL)
 

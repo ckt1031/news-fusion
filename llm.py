@@ -55,7 +55,7 @@ class LLM:
 
         return response
 
-    def generate_text(self, message: Messages, model: str | None = None):
+    def generate_text(self, message: Messages, model: str | None = None) -> str:
         """
         Generate text using the LLM model
         :param model: The model to use for generating text (e.g. gpt-4o-mini)
