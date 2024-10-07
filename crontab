@@ -1,1 +1,1 @@
-*/20 * * * * python3 /app/scraper.py >>/tmp/out.log 2>/tmp/err.log
+*/20 * * * * /usr/local/bin/python3 /app/scraper.py >>/tmp/out.log 2>/tmp/err.log

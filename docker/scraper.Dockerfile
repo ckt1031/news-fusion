@@ -21,5 +21,7 @@ RUN touch /tmp/out.log
 # Install any needed packages specified in requirements.txt
 RUN pip3 install --no-cache-dir --no-compile --upgrade -r requirements.txt
 
+ENV PYTHONPATH "${PYTHONPATH}:/usr/local/lib/python3.12/site-packages"
+
 # RUN
 CMD cron && tail -f /tmp/out.log
