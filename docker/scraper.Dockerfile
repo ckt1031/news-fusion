@@ -19,7 +19,7 @@ RUN crontab /etc/cron.d/crontab
 RUN touch /tmp/out.log
 
 # Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir --no-compile --upgrade -r requirements.txt
+RUN pip3 install --no-cache-dir --no-compile --upgrade -r requirements.txt
 
 # RUN
 CMD cron && tail -f /tmp/out.log
