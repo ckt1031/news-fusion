@@ -1,3 +1,4 @@
+import os
 import json
 
 import feedparser
@@ -5,11 +6,14 @@ import trafilatura
 import yaml
 from loguru import logger
 
-CONFIG_PATH = "./config.yml"
+CONFIG_PATH = "config.yml"
 
 
 def get_rss_config() -> dict[str, dict[str, list[str]]]:
-    with open(CONFIG_PATH) as stream:
+    # Get script directory
+    pwd = os.path.dirname(os.path.realpath(__file__))
+
+    with open(f"{pwd}/{CONFIG_PATH}", "r") as stream:
         try:
             return yaml.safe_load(stream)["rss"]
         except yaml.YAMLError as exc:
