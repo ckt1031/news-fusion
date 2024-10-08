@@ -4,6 +4,8 @@ A simple news aggregator that fetches news from multiple sources and displays th
 
 You can view the news by adding the feed into any RSS reader.
 
+Demo: [https://news-fusion.tsun1031.xyz](https://news-fusion.tsun1031.xyz) ([OpenAPI Docs](https://news-fusion.tsun1031.xyz/scalar))
+
 ## Features
 
 - Automatically fetch news from multiple sources
@@ -56,7 +58,7 @@ python server.py & python scraper.py
 
 Here is the example of the RSS feed in the NetNewsWire app:
 
-![](https://obsidian-img.tsun1031.xyz/2024/09/25/aad76448aafb7ad1684466166595bc5b29b4531c41180d03dd0ac4c29b812a63.png)
+![](https://i.imgur.com/V8iLZLV.png)
 
 With AI generated title and summary in the feed items to reduce the noise.
 
