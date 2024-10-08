@@ -6,8 +6,8 @@ from loguru import logger
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, HnswConfigDiff, PointStruct, VectorParams
 
-from init_logger import init_logger
-from llm import LLM, get_embedding_model
+from lib.init_logger import init_logger
+from lib.llm import LLM, get_embedding_model
 
 load_dotenv()
 init_logger()

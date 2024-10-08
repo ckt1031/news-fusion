@@ -1,4 +1,4 @@
-FROM python:3.12
+FROM python:3.12-slim-bullseye
 
 ENV PYTHONDONTWRITEBYTECODE=1
 
@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Copy the current directory contents into the container at /app
 COPY . /app
-COPY ../crontab /etc/cron.d/crontab
+COPY ./scripts/crontab /etc/cron.d/crontab
 
 RUN chmod 0644 /etc/cron.d/crontab
 

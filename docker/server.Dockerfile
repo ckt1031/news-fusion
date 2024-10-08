@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM python:3.12-slim-bullseye
 
 ENV PYTHONDONTWRITEBYTECODE=1
 
@@ -12,7 +12,7 @@ COPY . /app
 RUN pip install --no-cache-dir --no-compile --upgrade -r requirements.txt
 
 # Make port 4782 available to the world outside this container
-EXPOSE 4782
+EXPOSE 4782/tcp
 
 # RUN
 CMD ["fastapi", "run", "server.py", "--proxy-headers", "--port", "4782"]

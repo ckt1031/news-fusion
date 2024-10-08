@@ -10,17 +10,13 @@ import schedule
 from dotenv import load_dotenv
 from loguru import logger
 
-from init_logger import init_logger
-from pg import Article
-from rss import extract_website, get_rss_config, parse_rss_feed
-from utils import (
-    generate_summary,
-    generate_title,
-    importance_check,
-    optimize_text,
-    shuffle_dict_keys,
-)
-from vector_db import News, VectorDB
+from lib.db import Article
+from lib.init_logger import init_logger
+from lib.list import shuffle_dict_keys
+from lib.llm_generate import generate_summary, generate_title, importance_check
+from lib.rss import extract_website, get_rss_config, parse_rss_feed
+from lib.text import optimize_text
+from lib.vector_db import News, VectorDB
 
 load_dotenv()
 init_logger()

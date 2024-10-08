@@ -2,8 +2,8 @@ import datetime
 
 from loguru import logger
 
-from init_logger import init_logger
-from pg import Article
+from lib.db import Article
+from lib.init_logger import init_logger
 
 expiration_days = 30
 

@@ -1,7 +1,9 @@
+name: news-fusion
 services:
   scraper:
     build:
       dockerfile: ./docker/scraper.Dockerfile
+      context: ..
     restart: always
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/news_fusion
@@ -10,16 +12,12 @@ services:
   web:
     build:
       dockerfile: ./docker/server.Dockerfile
+      context: ..
     restart: always
     ports:
       - "4782:4782"
     expose:
       - "4782"
-#    volumes:
-#      # the data folder is mounted to the container
-#      - ./data:/app/data
-#      # qdrant_storage
-#      - ./qdrant:/app/qdrant_storage
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/news_fusion
       - QDRANT_CONNECTION_STRING=http://qdrant:6333
@@ -32,16 +30,18 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: news_fusion
     volumes:
-      - ./data:/var/lib/postgresql/data
-#    ports:
-#      - "5432:5432"
+      - /etc/news-fusion/pg:/var/lib/postgresql/data
     container_name: news-fusion-db
   qdrant:
     image: qdrant/qdrant:latest
     restart: always
-#    ports:
-#      - "6333:6333"
-#      - "6334:6334"
     volumes:
-      - ./qdrant_storage:/qdrant/storage:z
+      - /etc/news-fusion/qdrant:/qdrant/storage:z
     container_name: news-fusion-qdrant
+  redis:
+    image: redis:alpine
+    container_name: news-fusion-redis
+    volumes:
+      - /etc/news-fusion/redis:/data
+    ports:
+      - "6379:6379"

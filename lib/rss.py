@@ -6,18 +6,19 @@ import trafilatura
 import yaml
 from loguru import logger
 
-from init_logger import init_logger
-
-CONFIG_PATH = "config.yml"
+from lib.init_logger import init_logger
 
 init_logger()
 
 
 def get_rss_config() -> dict[str, dict[str, list[str]]]:
+    CONFIG_PATH = "../config.yml"
+
     # Get script directory
     pwd = os.path.dirname(os.path.realpath(__file__))
+    path = os.path.join(pwd, CONFIG_PATH)
 
-    with open(f"{pwd}/{CONFIG_PATH}", "r") as stream:
+    with open(path, "r") as stream:
         try:
             return yaml.safe_load(stream)["rss"]
         except yaml.YAMLError as exc:
