@@ -1,3 +1,4 @@
+import os
 import random
 
 from llm import LLM, Messages
@@ -14,7 +15,10 @@ def optimize_text(text: str) -> str:
 
 
 def read_txt(file_path: str) -> str:
-    with open(file_path, "r") as file:
+    # Get script directory
+    pwd = os.path.dirname(os.path.realpath(__file__))
+
+    with open(f"{pwd}/{file_path}", "r") as file:
         return file.read()
 
 

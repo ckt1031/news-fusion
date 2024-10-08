@@ -1,10 +1,10 @@
-import os
 import json
+import os
+from logging import logger
 
 import feedparser
 import trafilatura
 import yaml
-from loguru import logger
 
 CONFIG_PATH = "config.yml"
 

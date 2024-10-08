@@ -43,7 +43,7 @@ def get_topic(topic: str):
     if topic not in rss_config:
         return JSONResponse(status_code=404, content={"error": "Topic not found"})
 
-    return rss_config[topic]['sources']
+    return rss_config[topic]["sources"]
 
 
 def get_feed(server_url: str, topic: str, is_atom: bool = False):

@@ -1,1 +1,2 @@
 */20 * * * * /usr/local/bin/python3 /app/scraper.py >>/tmp/out.log 2>/tmp/err.log
+0 0 * * * /usr/local/bin/python3 /app/remove_expired_db.py >>/tmp/out.log 2>/tmp/err.log
