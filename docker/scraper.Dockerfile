@@ -24,4 +24,4 @@ RUN pip3 install --no-cache-dir --no-compile --upgrade -r requirements.txt
 ENV PYTHONPATH "${PYTHONPATH}:/usr/local/lib/python3.12/site-packages"
 
 # RUN
-CMD cron && tail -f /tmp/out.log
+CMD ["/bin/bash", "-c", "printenv > /etc/environment && cron && tail -f /tmp/out.log"]
