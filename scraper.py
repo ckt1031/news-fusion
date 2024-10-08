@@ -3,13 +3,14 @@ import random
 import sys
 import time
 from datetime import datetime
-from logging import logger
 from time import sleep
 
 import requests
 import schedule
 from dotenv import load_dotenv
+from loguru import logger
 
+from init_logger import init_logger
 from pg import Article
 from rss import extract_website, get_rss_config, parse_rss_feed
 from utils import (
@@ -22,7 +23,7 @@ from utils import (
 from vector_db import News, VectorDB
 
 load_dotenv()
-
+init_logger()
 
 SERVER_URL = os.getenv("SERVER_URL")
 

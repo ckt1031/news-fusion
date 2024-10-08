@@ -1,9 +1,13 @@
 import datetime
-from logging import logger
 
+from loguru import logger
+
+from init_logger import init_logger
 from pg import Article
 
 expiration_days = 30
+
+init_logger()
 
 
 def remove_expired_articles():

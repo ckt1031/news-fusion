@@ -1,12 +1,16 @@
 import json
 import os
-from logging import logger
 
 import feedparser
 import trafilatura
 import yaml
+from loguru import logger
+
+from init_logger import init_logger
 
 CONFIG_PATH = "config.yml"
+
+init_logger()
 
 
 def get_rss_config() -> dict[str, dict[str, list[str]]]:

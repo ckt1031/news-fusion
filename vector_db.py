@@ -1,14 +1,16 @@
 import os
-from logging import logger
 from uuid import uuid4
 
 from dotenv import load_dotenv
+from loguru import logger
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, HnswConfigDiff, PointStruct, VectorParams
 
+from init_logger import init_logger
 from llm import LLM, get_embedding_model
 
 load_dotenv()
+init_logger()
 
 EMBEDDING_SIZE = 1536
 EMBEDDING_MODEL = get_embedding_model()
