@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, PlainTextResponse, Response
 from feedgen.feed import FeedGenerator
+from scalar_fastapi import get_scalar_api_reference
 
 from pg import Article
 from rss import get_rss_config, get_rss_topics
@@ -19,8 +20,17 @@ app = FastAPI(
 
 
 @app.get("/", response_class=PlainTextResponse)
-def read_root():
-    return "Welcome to News Fusion!"
+def read_root(request: Request):
+    server_url = str(request.base_url)
+    return f"Welcome to News Fusion! You can access the API at {server_url}scalar"
+
+
+@app.get("/scalar", include_in_schema=False)
+async def scalar_html():
+    return get_scalar_api_reference(
+        openapi_url=app.openapi_url,  # app.openapi_url is available after app is created
+        title=app.title,  # app.title is available after app is created
+    )
 
 
 @app.get("/topics", response_class=JSONResponse, response_model=list[str])
