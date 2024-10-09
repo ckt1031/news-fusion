@@ -36,8 +36,8 @@ class RSSEntity:
 
 def send_pubsubhubbub_update(category: str):
     url = [
-        f"{SERVER_URL}rss/{category}.xml",
-        f"{SERVER_URL}rss/{category}.atom",
+        f"{SERVER_URL}v1/rss/{category}.xml",
+        f"{SERVER_URL}v1/rss/{category}.atom",
     ]
 
     for _url in url:
