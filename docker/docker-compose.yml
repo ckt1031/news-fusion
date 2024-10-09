@@ -8,6 +8,7 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/news_fusion
       - QDRANT_CONNECTION_STRING=http://qdrant:6333
+      - REDIS_URL=redis://redis:6379
     container_name: news-fusion-scraper
   web:
     build:
@@ -21,6 +22,7 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/news_fusion
       - QDRANT_CONNECTION_STRING=http://qdrant:6333
+      - REDIS_URL=redis://redis:6379
     container_name: news-fusion-server
   postgres:
     image: postgres:17-alpine
