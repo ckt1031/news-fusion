@@ -10,6 +10,11 @@ services:
       - QDRANT_CONNECTION_STRING=http://qdrant:6333
       - REDIS_URL=redis://redis:6379
     container_name: news-fusion-scraper
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 250M
   web:
     build:
       dockerfile: ./docker/server.Dockerfile
@@ -24,6 +29,11 @@ services:
       - QDRANT_CONNECTION_STRING=http://qdrant:6333
       - REDIS_URL=redis://redis:6379
     container_name: news-fusion-server
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 100M
   postgres:
     image: postgres:17-alpine
     restart: always
