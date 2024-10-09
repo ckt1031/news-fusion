@@ -1,10 +1,11 @@
 import datetime
 import os
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse, Response
 from fastapi_cache import Coder
 from fastapi_cache.decorator import cache
+from fastapi_limiter.depends import RateLimiter
 from feedgen.feed import FeedGenerator
 
 from lib.db import Article
@@ -94,7 +95,12 @@ class XMLResponseCoder(Coder):
         )
 
 
-@feed_router.get("/rss/{topic}.xml", summary="Get RSS feed for a topic", tags=["Feed"])
+@feed_router.get(
+    "/rss/{topic}.xml",
+    summary="Get RSS feed for a topic",
+    tags=["Feed"],
+    dependencies=[Depends(RateLimiter(times=10, seconds=60))],
+)
 @cache(expire=60, coder=XMLResponseCoder)
 def get_topic_xml(topic: str, request: Request) -> Response:
     server_url = str(request.base_url)
@@ -108,7 +114,10 @@ def get_topic_xml(topic: str, request: Request) -> Response:
 
 
 @feed_router.get(
-    "/rss/{topic}.atom", summary="Get Atom feed for a topic", tags=["Feed"]
+    "/rss/{topic}.atom",
+    summary="Get Atom feed for a topic",
+    tags=["Feed"],
+    dependencies=[Depends(RateLimiter(times=10, seconds=60))],
 )
 @cache(expire=60, coder=XMLResponseCoder)
 def get_topic_atom(topic: str, request: Request) -> Response:
