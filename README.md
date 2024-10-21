@@ -4,7 +4,9 @@ A simple news aggregator that fetches news from multiple sources and displays th
 
 You can view the news by adding the feed into any RSS reader.
 
-Demo: [https://news-fusion.tsun1031.xyz](https://news-fusion.tsun1031.xyz) ([OpenAPI Docs](https://news-fusion.tsun1031.xyz/scalar))
+## Notes
+
+Thsi project has been upgraded from both Python and JavaScript versions to a single Golang version for better performance and scalability.
 
 ## Features
 
@@ -58,7 +60,7 @@ python server.py & python scraper.py
 
 Here is the example of the RSS feed in the NetNewsWire app:
 
-![](https://i.imgur.com/V8iLZLV.png)
+![Screenshot](https://i.imgur.com/V8iLZLV.png)
 
 With AI generated title and summary in the feed items to reduce the noise.
 
