@@ -1,5 +1,5 @@
-fastapi==0.115.0
-fastapi[standard]==0.115.0
+fastapi==0.115.4
+fastapi[standard]==0.115.4
 pydantic==2.9.2
 feedgen==1.0.0
 feedparser==6.0.11
