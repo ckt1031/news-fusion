@@ -1,9 +1,30 @@
 package main
 
 import (
-	"fmt"
+	"log"
+
+	"github.com/ckt1031/news-fusion/lib"
+	"github.com/ckt1031/news-fusion/lib/api"
+	"github.com/ckt1031/news-fusion/lib/web"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	fmt.Println("Hello, World!")
+	err := godotenv.Load()
+
+	if err != nil {
+		log.Println("Error loading .env file")
+	}
+
+	api.InitOpenAIClient()
+
+	r := web.WebServer()
+
+	go func() {
+		r.Run(":8198")
+	}()
+
+	lib.Initialize()
+
+	select {}
 }

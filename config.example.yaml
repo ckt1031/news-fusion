@@ -1,0 +1,17 @@
+rss:
+  example:
+    name: Example
+    feed_path: /example.xml
+    notifications:
+      discord: https://discord.com/api/webhooks/...
+    sources:
+      - https://example.com/feed
+
+  youtube:
+    name: YouTube
+    feed_path: /youtube.xml
+    notifications:
+      discord: https://discord.com/api/webhooks/...
+    sources:
+      # You can use "yt://" as a prefix to specify a YouTube channel
+      - yt://[ID] # Replace [ID] with the channel ID
