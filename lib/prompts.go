@@ -34,3 +34,7 @@ func ReadTxtFile(path string) string {
 func GetShortSummaryPrompt() string {
 	return ReadTxtFile("./prompts/short-summary.txt")
 }
+
+func GetImportancePrompt() string {
+	return ReadTxtFile("./prompts/importance.txt")
+}

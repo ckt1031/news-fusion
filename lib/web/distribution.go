@@ -84,6 +84,8 @@ func HandleDistribution(c *gin.Context) {
 
 	if strings.HasPrefix(feed.Link, lib.YOUTUBE_RSS_URL) {
 		err = handlers.HandleYouTubeVideo(body, category.Notification)
+	} else {
+		err = handlers.HandleArticle(body, category.Notification)
 	}
 
 	if err != nil {

@@ -6,6 +6,7 @@ import (
 
 	"github.com/openai/openai-go" // imported as openai
 	"github.com/openai/openai-go/option"
+	"github.com/openai/openai-go/shared"
 )
 
 // OpenAI API client
@@ -55,4 +56,20 @@ func ChatCompletion(params ChatCompletionParams) (string, error) {
 	}
 
 	return resp.Choices[0].Message.Content, nil
+}
+
+func Embeddings(input string) ([]openai.Embedding, error) {
+	params := openai.EmbeddingNewParams{
+		Input: openai.F[openai.EmbeddingNewParamsInputUnion](
+			shared.UnionString(input),
+		),
+		Model: openai.F(openai.EmbeddingModelTextEmbedding3Small),
+	}
+	resp, err := OpenAIClient.Embeddings.New(context.TODO(), params)
+
+	if err != nil {
+		return []openai.Embedding{}, err
+	}
+
+	return resp.Data, nil
 }

@@ -17,6 +17,7 @@ func main() {
 	}
 
 	api.InitOpenAIClient()
+	lib.InitRedisClient()
 
 	r := web.WebServer()
 
