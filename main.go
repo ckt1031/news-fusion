@@ -22,7 +22,11 @@ func main() {
 	r := web.WebServer()
 
 	go func() {
-		r.Run(":8198")
+		err = r.Run(":8198")
+
+		if err != nil {
+			log.Println("Failed to start server")
+		}
 	}()
 
 	lib.Initialize()

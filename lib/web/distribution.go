@@ -73,7 +73,7 @@ func HandleDistribution(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(fmt.Sprintf("Received new article: %s (%s)", item.Title, feed.Title))
+	fmt.Printf("Received new article: %s (%s)", item.Title, feed.Title)
 
 	body := lib.NotificationBody{
 		Title:       item.Title,
