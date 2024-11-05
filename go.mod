@@ -7,17 +7,17 @@ require github.com/gin-gonic/gin v1.10.0
 require (
 	github.com/PuerkitoBio/goquery v1.10.0 // indirect
 	github.com/andybalholm/cascadia v1.3.2 // indirect
-	github.com/bwmarrin/discordgo v0.28.1 // indirect
-	github.com/gorilla/websocket v1.4.2 // indirect
+	github.com/bwmarrin/discordgo v0.28.1
+	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/mmcdole/goxpp v1.1.1 // indirect
-	github.com/tidwall/gjson v1.14.4 // indirect
+	github.com/tidwall/gjson v1.18.0 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.1 // indirect
 	github.com/tidwall/sjson v1.2.5 // indirect
 )
 
 require (
-	github.com/bytedance/sonic v1.12.3 // indirect
+	github.com/bytedance/sonic v1.12.4 // indirect
 	github.com/bytedance/sonic/loader v0.2.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
 	github.com/cloudwego/iasm v0.2.0 // indirect
