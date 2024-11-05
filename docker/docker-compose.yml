@@ -28,6 +28,8 @@ services:
     container_name: news-fusion-redis
     ports:
       - '6379:6379'
+    volumes: 
+      - redis:/data
     deploy:
       resources:
         limits:
@@ -41,8 +43,13 @@ services:
     ports:
       - '6333:6333'
       - '6334:6334'
+    volumes:
+      - ./data/qdrant_data:/qdrant/storage
     deploy:
       resources:
         limits:
           cpus: '0.1'
           memory: 100M
+
+volumes:
+  redis:

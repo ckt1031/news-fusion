@@ -1,2 +1,3 @@
 config.yaml
 .env
+data/qdrant_data/
