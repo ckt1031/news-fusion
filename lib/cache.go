@@ -47,28 +47,6 @@ func SetRedisStringKey(key string, value string, exp time.Duration) error {
 	return nil
 }
 
-// // Get a value from Redis
-// func GetRedisStringKey(key string) (string, error) {
-// 	val, err := RedisClient.Get(ctx, key).Result()
-
-// 	if err != nil {
-// 		return "", err
-// 	}
-
-// 	return val, nil
-// }
-
-// // Delete a key from Redis
-// func DeleteRedisKey(key string) error {
-// 	err := RedisClient.Del(ctx, key).Err()
-
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	return nil
-// }
-
 func GetRedisBoolKey(key string) (bool, error) {
 	val, err := RedisClient.Get(ctx, key).Result()
 

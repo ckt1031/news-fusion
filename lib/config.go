@@ -17,7 +17,7 @@ func GetPubVerificationToken() string {
 func GetConfiguration() Configuration {
 	var config Configuration
 
-	yamlFile, err := os.ReadFile("./config.yaml")
+	yamlFile, err := os.ReadFile("./data/config.yaml")
 	if err != nil {
 		panic(err)
 	}

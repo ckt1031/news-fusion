@@ -3,11 +3,13 @@ package handlers
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	goose "github.com/advancedlogic/GoOse"
 	"github.com/ckt1031/news-fusion/lib"
 	"github.com/ckt1031/news-fusion/lib/api"
 	"github.com/openai/openai-go"
+	"github.com/pkoukk/tiktoken-go"
 	"golang.org/x/crypto/sha3"
 )
 
@@ -47,6 +49,21 @@ func GetCacheKey(url string) string {
 	return fmt.Sprintf("article:%s", url)
 }
 
+func CalculateTokens(content string) (int, error) {
+	encoding := openai.EmbeddingModelTextEmbedding3Small
+
+	tkm, err := tiktoken.EncodingForModel(encoding)
+
+	if err != nil {
+		return 0, err
+	}
+
+	// encode
+	token := tkm.Encode(content, nil, nil)
+
+	return len(token), nil
+}
+
 func HandleArticle(body lib.NotificationBody, notification lib.Notification) error {
 	if body.URL == "" {
 		return fmt.Errorf("URL is required")
@@ -67,6 +84,27 @@ func HandleArticle(body lib.NotificationBody, notification lib.Notification) err
 	}
 
 	content := fmt.Sprintf("Title: %s\nContent:%s", article.Title, article.CleanedText)
+
+	tokens, err := CalculateTokens(content)
+
+	if err != nil {
+		return err
+	}
+
+	if tokens > 7500 {
+		return fmt.Errorf("Content is too long")
+	}
+
+	embeddings, err := api.Embeddings(content)
+
+	if err != nil {
+		return err
+	}
+
+	if has, err := lib.QueryArticleAndCheck(embeddings); err != nil || has {
+		return err
+	}
+
 	important, err := CheckImportance(content)
 
 	if err != nil {
@@ -100,9 +138,12 @@ func HandleArticle(body lib.NotificationBody, notification lib.Notification) err
 	err = HandleNotification(body, notification)
 
 	if err == nil {
-		if err := lib.SetRedisBoolKey(key, true, 86400*3); err != nil {
+		if err := lib.SetRedisBoolKey(key, true, time.Hour*72); err != nil {
 			return err
 		}
+
+		// TODO: Support multiple embeddings
+		err = lib.InsertArticle(embeddings, content)
 	}
 
 	return err
