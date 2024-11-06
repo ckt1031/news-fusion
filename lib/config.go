@@ -31,6 +31,7 @@ func GetConfiguration() Configuration {
 }
 
 func FindCategoryByRSSLink(rssLink string) (Category, error) {
+	rssLink = ReversePrefix(rssLink)
 	config := GetConfiguration()
 
 	for _, category := range config.RSS {

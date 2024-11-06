@@ -69,7 +69,7 @@ func HandleDistribution(c *gin.Context) {
 	category, err := lib.FindCategoryByRSSLink(feed.Link)
 
 	if err != nil {
-		fmt.Println("Failed to find category")
+		fmt.Println("Failed to find category: ", feed.Link)
 		return
 	}
 

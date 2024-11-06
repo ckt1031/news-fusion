@@ -19,6 +19,14 @@ func ParsePrefix(feed string) string {
 	return feed
 }
 
+func ReversePrefix(feed string) string {
+	if strings.HasPrefix(feed, YOUTUBE_RSS_URL) {
+		return "yt://" + feed[len(YOUTUBE_RSS_URL):]
+	}
+
+	return feed
+}
+
 func Initialize() {
 	// Initialize the configuration
 	config := GetConfiguration()
