@@ -32,5 +32,4 @@ jobs:
       
       - name: 'Build Inventory Image'
         run: |
-          docker build -f ./docker/Dockerfile . --tag ghcr.io/ckt1031/news-fusion:latest
-          docker push ghcr.io/ckt1031/news-fusion:latest
+          docker buildx build --push -f ./docker/Dockerfile --tag ghcr.io/ckt1031/news-fusion:latest --platform linux/amd64,linux/arm64 .
