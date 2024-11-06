@@ -7,6 +7,7 @@ import (
 	"github.com/ckt1031/news-fusion/lib/api"
 	"github.com/ckt1031/news-fusion/lib/web"
 	"github.com/joho/godotenv"
+	"github.com/robfig/cron"
 )
 
 func main() {
@@ -30,6 +31,17 @@ func main() {
 	}()
 
 	lib.Initialize()
+	lib.RefreshPubSub()
+
+	c := cron.New()
+	_ = c.AddFunc("0 0 0 * * *", func() {
+		lib.Initialize()
+	})
+	_ = c.AddFunc("0 */15 * * * *", func() {
+		lib.RefreshPubSub()
+	})
+
+	c.Start()
 
 	select {}
 }
