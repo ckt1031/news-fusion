@@ -47,6 +47,10 @@ func RefreshPubSub() {
 
 	for _, topic := range config.RSS {
 		for _, feed := range topic.Sources {
+			if strings.HasPrefix(feed, "yt://") {
+				continue
+			}
+
 			// Parse the prefix
 			feed = ParsePrefix(feed)
 
