@@ -9,8 +9,8 @@ COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w -extldflags '-static'" -o /output
 
-RUN apk add upx
-RUN upx --best /output
+# RUN apk add upx
+# RUN upx --best /output
 
 FROM alpine:latest AS production-stage
 
