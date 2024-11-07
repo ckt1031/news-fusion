@@ -2,6 +2,7 @@ package lib
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -13,7 +14,7 @@ const PUBSUB_URL = "https://pubsubhubbub.appspot.com"
 
 // Register local service to PubSubHubbub for 2 days valid
 func RegisterPubSub(topic string) error {
-	callback := os.Getenv("PUBSUB_CALLBACK") + "/subscription"
+	callback := os.Getenv("PUBSUB_CALLBACK") + "/api/v1/subscription"
 
 	// Register the topic
 	formData := url.Values{
@@ -42,7 +43,7 @@ func RegisterPubSub(topic string) error {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusAccepted {
-		return errors.New("Failed to register topic")
+		return errors.New("unexpected Pubshubhubbub response status " + fmt.Sprint(resp.StatusCode))
 	}
 
 	return nil
@@ -64,8 +65,6 @@ func Initialize() {
 				log.Println("Failed to register topic:", err)
 				continue
 			}
-
-			log.Println("Registered topic to PubSub:", feed)
 		}
 	}
 }
@@ -76,6 +75,7 @@ func RefreshPubSub() {
 
 	for _, topic := range config.RSS {
 		for _, feed := range topic.Sources {
+			// Skip YouTube feeds, since they are officially using PubSubHubbub
 			if strings.HasPrefix(feed, "yt://") {
 				continue
 			}
@@ -117,7 +117,10 @@ func RefreshPubSub() {
 			// Close the response body
 			defer resp.Body.Close()
 
-			log.Println("Refreshed topic to PubSub:", feed)
+			// 204 No Content
+			if resp.StatusCode != http.StatusNoContent {
+				log.Println("Failed to refresh topic:", feed)
+			}
 		}
 	}
 }

@@ -9,6 +9,7 @@ require (
 )
 
 require (
+	github.com/JGLTechnologies/gin-rate-limit v1.5.4 // indirect
 	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect

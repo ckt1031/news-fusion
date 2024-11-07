@@ -1,7 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/ckt1031/news-fusion/lib"
 	"github.com/ckt1031/news-fusion/lib/api"
@@ -30,8 +34,7 @@ func main() {
 		}
 	}()
 
-	lib.Initialize()
-	lib.RefreshPubSub()
+	go lib.Initialize()
 
 	c := cron.New()
 	_ = c.AddFunc("0 0 0 * * *", func() {
@@ -43,5 +46,14 @@ func main() {
 
 	c.Start()
 
-	select {}
+	fmt.Println("Server started")
+
+	sc := make(chan os.Signal, 1)
+
+	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
+
+	<-sc
+
+	c.Stop()
+	log.Println("Server closed")
 }
