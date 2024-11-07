@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"fmt"
-
 	"github.com/ckt1031/news-fusion/lib"
 	"github.com/ckt1031/news-fusion/lib/api"
 	"github.com/openai/openai-go"
@@ -34,8 +32,6 @@ func HandleYouTubeVideo(body lib.ArticleItemBody, notification *lib.Notification
 	}
 
 	body.Description = completion
-
-	fmt.Println(body.Description)
 
 	err = HandleNotification(body, notification)
 

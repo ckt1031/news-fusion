@@ -50,7 +50,9 @@ func HandleDistribution(c *gin.Context) {
 		return
 	}
 
-	if !verifySignature(signature, string(bodyBytes)) {
+	xmlString := string(bodyBytes)
+
+	if !verifySignature(signature, xmlString) {
 		c.String(200, "Bad Request")
 		fmt.Println("Failed to verify signature")
 		return
@@ -58,7 +60,7 @@ func HandleDistribution(c *gin.Context) {
 
 	c.String(200, "OK")
 
-	feed := lib.ParseRSSFromString(string(bodyBytes))
+	feed := lib.ParseRSSFromString(xmlString)
 
 	if feed == nil {
 		fmt.Println("Failed to parse RSS feed")
@@ -66,14 +68,15 @@ func HandleDistribution(c *gin.Context) {
 	}
 
 	item := feed.Items[0]
+
+	fmt.Printf("Received new article: %s (%s)\n", item.Title, feed.Title)
+
 	category, err := lib.FindCategoryByRSSLink(feed.FeedLink)
 
 	if err != nil {
-		fmt.Println("Failed to find category: ", feed.FeedLink)
+		fmt.Println("Failed to find category:\n", err, feed.Title, feed.FeedLink)
 		return
 	}
-
-	fmt.Printf("Received new article: %s (%s)\n", item.Title, feed.Title)
 
 	var image *string
 
