@@ -81,7 +81,7 @@ func HandleDistribution(c *gin.Context) {
 		image = &item.Image.URL
 	}
 
-	body := lib.NotificationBody{
+	body := lib.ArticleItemBody{
 		Title:       item.Title,
 		URL:         item.Link,
 		Description: item.Description,

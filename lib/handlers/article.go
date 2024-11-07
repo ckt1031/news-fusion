@@ -64,7 +64,7 @@ func CalculateTokens(content string) (int, error) {
 	return len(token), nil
 }
 
-func HandleArticle(body lib.NotificationBody, notification lib.Notification) error {
+func HandleArticle(body lib.ArticleItemBody, notification *lib.Notification) error {
 	if body.URL == "" {
 		return fmt.Errorf("URL is required")
 	}

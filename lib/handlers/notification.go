@@ -5,11 +5,11 @@ import (
 	notificationLib "github.com/ckt1031/news-fusion/lib/notification"
 )
 
-func HandleNotification(notification lib.NotificationBody, config lib.Notification) error {
+func HandleNotification(item lib.ArticleItemBody, notification *lib.Notification) error {
 	var err error
 
-	if config.Discord != nil {
-		err = notificationLib.DiscordWebhook(notification, config)
+	if notification.Discord != nil {
+		err = notificationLib.DiscordWebhook(item, notification)
 	}
 
 	return err

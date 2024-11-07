@@ -8,7 +8,7 @@ import (
 	"github.com/openai/openai-go"
 )
 
-func HandleYouTubeVideo(body lib.NotificationBody, notification lib.Notification) error {
+func HandleYouTubeVideo(body lib.ArticleItemBody, notification *lib.Notification) error {
 	transcript, err := api.GetYouTubeVideoTranscript(body.URL)
 
 	if err != nil {

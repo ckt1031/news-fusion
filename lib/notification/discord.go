@@ -10,20 +10,21 @@ import (
 	"github.com/ckt1031/news-fusion/lib"
 )
 
-func DiscordWebhook(notification lib.NotificationBody, config lib.Notification) error {
-	if config.Discord == nil {
+func DiscordWebhook(item lib.ArticleItemBody, notification *lib.Notification) error {
+	// Check if notification and Discord webhook are set
+	if notification.Discord == nil {
 		return nil
 	}
 
 	embed := discordgo.MessageEmbed{
-		Title:       notification.Title,
-		Description: notification.Description,
-		URL:         notification.URL,
+		Title:       item.Title,
+		Description: item.Description,
+		URL:         item.URL,
 	}
 
-	if notification.Image != nil {
+	if item.Image != nil {
 		embed.Image = &discordgo.MessageEmbedImage{
-			URL: *notification.Image,
+			URL: *item.Image,
 		}
 	}
 
@@ -39,7 +40,7 @@ func DiscordWebhook(notification lib.NotificationBody, config lib.Notification) 
 	}
 
 	// JSON
-	req, err := http.NewRequest("POST", *config.Discord, bytes.NewReader(b))
+	req, err := http.NewRequest("POST", *notification.Discord, bytes.NewReader(b))
 
 	if err != nil {
 		fmt.Println(err)
