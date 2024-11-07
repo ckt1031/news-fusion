@@ -10,8 +10,6 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-var ctx = context.Background()
-
 // Redis client
 var RedisClient *redis.Client
 
@@ -27,7 +25,7 @@ func InitRedisClient() {
 		Addr: REDIS_URL,
 	})
 
-	pong, err := RedisClient.Ping(ctx).Result()
+	pong, err := RedisClient.Ping(context.Background()).Result()
 
 	if err != nil {
 		log.Fatal(err)
@@ -38,7 +36,7 @@ func InitRedisClient() {
 
 // Set a key-value pair in Redis
 func SetRedisStringKey(key string, value string, exp time.Duration) error {
-	err := RedisClient.Set(ctx, key, value, exp).Err()
+	err := RedisClient.Set(context.Background(), key, value, exp).Err()
 
 	if err != nil {
 		return err
@@ -48,7 +46,7 @@ func SetRedisStringKey(key string, value string, exp time.Duration) error {
 }
 
 func GetRedisBoolKey(key string) (bool, error) {
-	val, err := RedisClient.Get(ctx, key).Result()
+	val, err := RedisClient.Get(context.Background(), key).Result()
 
 	if err != nil {
 		return false, err
@@ -58,7 +56,7 @@ func GetRedisBoolKey(key string) (bool, error) {
 }
 
 func SetRedisBoolKey(key string, value bool, exp time.Duration) error {
-	err := RedisClient.Set(ctx, key, value, exp).Err()
+	err := RedisClient.Set(context.Background(), key, value, exp).Err()
 
 	if err != nil {
 		return err

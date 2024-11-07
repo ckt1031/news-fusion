@@ -12,7 +12,7 @@ import (
 // Qdrant client
 var QdrantClient *qdrant.Client
 
-const CollectionName = "articles"
+const QDRANT_CONNECTION_NAME = "articles"
 
 func InitQdrantClient() {
 	host := os.Getenv("QDRANT_HOST")
@@ -30,12 +30,12 @@ func InitQdrantClient() {
 		panic(err)
 	}
 
-	yes, err := client.CollectionExists(context.Background(), CollectionName)
+	yes, err := client.CollectionExists(context.Background(), QDRANT_CONNECTION_NAME)
 
 	if err != nil || !yes {
 		// Create collection if it doesn't exist
 		err = client.CreateCollection(context.Background(), &qdrant.CreateCollection{
-			CollectionName: CollectionName,
+			CollectionName: QDRANT_CONNECTION_NAME,
 			VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
 				Size:     1536,
 				Distance: qdrant.Distance_Cosine,
@@ -98,7 +98,7 @@ func InsertArticle(embeddings []openai.Embedding, text string) error {
 	// }
 
 	_, err := QdrantClient.Upsert(context.Background(), &qdrant.UpsertPoints{
-		CollectionName: CollectionName,
+		CollectionName: QDRANT_CONNECTION_NAME,
 		Points:         points,
 	})
 
@@ -109,7 +109,7 @@ func QueryArticle(embeddings []openai.Embedding) ([]*qdrant.ScoredPoint, error) 
 	e := EmbeddingToFloat32(embeddings)
 
 	searchResult, err := QdrantClient.Query(context.Background(), &qdrant.QueryPoints{
-		CollectionName: CollectionName,
+		CollectionName: QDRANT_CONNECTION_NAME,
 		Query:          qdrant.NewQuery(e...),
 	})
 
