@@ -75,11 +75,17 @@ func HandleDistribution(c *gin.Context) {
 
 	fmt.Printf("Received new article: %s (%s)\n", item.Title, feed.Title)
 
+	var image *string
+
+	if item.Image != nil && item.Image.URL != "" {
+		image = &item.Image.URL
+	}
+
 	body := lib.NotificationBody{
 		Title:       item.Title,
 		URL:         item.Link,
 		Description: item.Description,
-		Image:       &item.Image.URL,
+		Image:       image,
 	}
 
 	if strings.HasPrefix(feed.Link, lib.YOUTUBE_RSS_URL) {
