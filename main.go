@@ -18,11 +18,12 @@ func main() {
 	err := godotenv.Load()
 
 	if err != nil {
-		log.Println("Error loading .env file")
+		log.Println("Error loading .env file, but continuing anyway")
 	}
 
 	api.InitOpenAIClient()
 	lib.InitRedisClient()
+	lib.InitQdrantClient()
 
 	r := web.WebServer()
 

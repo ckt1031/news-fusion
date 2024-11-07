@@ -12,6 +12,8 @@ import (
 // Qdrant client
 var QdrantClient *qdrant.Client
 
+var QdrantContext = context.Background()
+
 const QDRANT_CONNECTION_NAME = "articles"
 
 func InitQdrantClient() {
@@ -30,11 +32,11 @@ func InitQdrantClient() {
 		panic(err)
 	}
 
-	yes, err := client.CollectionExists(context.Background(), QDRANT_CONNECTION_NAME)
+	yes, err := client.CollectionExists(QdrantContext, QDRANT_CONNECTION_NAME)
 
 	if err != nil || !yes {
 		// Create collection if it doesn't exist
-		err = client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+		err = client.CreateCollection(QdrantContext, &qdrant.CreateCollection{
 			CollectionName: QDRANT_CONNECTION_NAME,
 			VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
 				Size:     1536,
@@ -64,24 +66,6 @@ func EmbeddingToFloat32(embedding []openai.Embedding) []float32 {
 	return features32
 }
 
-// func EmbeddingsToFloat32(embeddings [][]openai.Embedding) [][]float32 {
-// 	var e [][]float32
-
-// 	for _, embedding := range embeddings {
-// 		var features32 []float32
-
-// 		for _, f := range embedding {
-// 			for _, item := range f.Embedding {
-// 				features32 = append(features32, float32(item))
-// 			}
-// 		}
-
-// 		e = append(e, features32)
-// 	}
-
-// 	return e
-// }
-
 func InsertArticle(embeddings []openai.Embedding, text string) error {
 	points := []*qdrant.PointStruct{
 		{
@@ -90,14 +74,7 @@ func InsertArticle(embeddings []openai.Embedding, text string) error {
 		},
 	}
 
-	// for i, embedding := range EmbeddingToFloat32(embeddings) {
-	// 	points = append(points, &qdrant.PointStruct{
-	// 		Id:      qdrant.NewIDNum(uint64(i)),
-	// 		Vectors: qdrant.NewVectors(embedding),
-	// 	})
-	// }
-
-	_, err := QdrantClient.Upsert(context.Background(), &qdrant.UpsertPoints{
+	_, err := QdrantClient.Upsert(QdrantContext, &qdrant.UpsertPoints{
 		CollectionName: QDRANT_CONNECTION_NAME,
 		Points:         points,
 	})
@@ -108,7 +85,7 @@ func InsertArticle(embeddings []openai.Embedding, text string) error {
 func QueryArticle(embeddings []openai.Embedding) ([]*qdrant.ScoredPoint, error) {
 	e := EmbeddingToFloat32(embeddings)
 
-	searchResult, err := QdrantClient.Query(context.Background(), &qdrant.QueryPoints{
+	searchResult, err := QdrantClient.Query(QdrantContext, &qdrant.QueryPoints{
 		CollectionName: QDRANT_CONNECTION_NAME,
 		Query:          qdrant.NewQuery(e...),
 	})

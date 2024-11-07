@@ -95,6 +95,6 @@ func HandleDistribution(c *gin.Context) {
 	}
 
 	if err != nil {
-		fmt.Println("Failed to handle notification")
+		fmt.Println("Failed to handle notification:", err)
 	}
 }
