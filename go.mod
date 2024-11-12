@@ -16,7 +16,7 @@ require (
 	github.com/dlclark/regexp2 v1.11.4 // indirect
 	github.com/fatih/set v0.2.1 // indirect
 	github.com/gigawattio/window v0.0.0-20180317192513-0f5467e35573 // indirect
-	github.com/go-resty/resty/v2 v2.15.3 // indirect
+	github.com/go-resty/resty/v2 v2.16.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/jaytaylor/html2text v0.0.0-20230321000545-74c2419ad056 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
@@ -60,7 +60,7 @@ require (
 	github.com/mmcdole/gofeed v1.3.0
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
-	github.com/openai/openai-go v0.1.0-alpha.34
+	github.com/openai/openai-go v0.1.0-alpha.36
 	github.com/pelletier/go-toml/v2 v2.2.3 // indirect
 	github.com/qdrant/go-client v1.12.0
 	github.com/robfig/cron v1.2.0
