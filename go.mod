@@ -60,7 +60,7 @@ require (
 	github.com/mmcdole/gofeed v1.3.0
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
-	github.com/openai/openai-go v0.1.0-alpha.36
+	github.com/openai/openai-go v0.1.0-alpha.37
 	github.com/pelletier/go-toml/v2 v2.2.3 // indirect
 	github.com/qdrant/go-client v1.12.0
 	github.com/robfig/cron v1.2.0
