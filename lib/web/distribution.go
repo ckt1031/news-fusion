@@ -74,7 +74,7 @@ func HandleDistribution(c *gin.Context) {
 	category, err := lib.FindCategoryByRSSLink(feed.FeedLink)
 
 	if err != nil {
-		fmt.Println("Failed to find category:\n", err, feed.Title, feed.FeedLink)
+		fmt.Println("Failed to find category: ", err)
 		return
 	}
 
@@ -89,6 +89,7 @@ func HandleDistribution(c *gin.Context) {
 		URL:         item.Link,
 		Description: item.Description,
 		Image:       image,
+		Source:      feed.Title,
 	}
 
 	if strings.HasPrefix(feed.Link, lib.YOUTUBE_RSS_URL) {

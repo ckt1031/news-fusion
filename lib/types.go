@@ -18,5 +18,6 @@ type ArticleItemBody struct {
 	Title       string
 	Description string
 	URL         string
+	Source      string
 	Image       *string
 }

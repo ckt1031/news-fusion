@@ -11,7 +11,6 @@ import (
 
 // Qdrant client
 var QdrantClient *qdrant.Client
-
 var QdrantContext = context.Background()
 
 const QDRANT_CONNECTION_NAME = "articles"

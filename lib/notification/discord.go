@@ -20,6 +20,9 @@ func DiscordWebhook(item lib.ArticleItemBody, notification *lib.Notification) er
 		Title:       item.Title,
 		Description: item.Description,
 		URL:         item.URL,
+		Footer: &discordgo.MessageEmbedFooter{
+			Text: item.Source,
+		},
 	}
 
 	if item.Image != nil {
