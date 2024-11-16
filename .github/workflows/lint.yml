@@ -1,35 +1,36 @@
 name: Lint
 
 on:
-    pull_request:
-        branches:
-        - main
-    push:
-        branches:
-        - main
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
 
 jobs:
-    lint:
-        runs-on: ubuntu-latest
-        steps:
-        - name: Check out the repo
-          uses: actions/checkout@v4
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
 
-        - name: Setup Go
-          uses: actions/setup-go@v5
-          with:
-            go-version: stable
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: stable
 
-        - name: Download Dependencies
-          run: go mod tidy
-            
-        - name: golangci-lint
-          uses: golangci/golangci-lint-action@v6
-          with:
-              version: latest
+      - name: Download Dependencies
+        run: go mod tidy
 
-        - name: Test Build
-          run: go build -v ./...
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+          args: --timeout=10m
 
-        - name: Test
-          run: go test -v ./...
+      - name: Test Build
+        run: go build -v ./...
+
+      - name: Test
+        run: go test -v ./...
