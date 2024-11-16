@@ -52,6 +52,17 @@ func GetConfiguration() Configuration {
 	return config
 }
 
+func GetAllRSSLinks() []string {
+	config := GetConfiguration()
+	var rssLinks []string
+
+	for _, category := range config.RSS {
+		rssLinks = append(rssLinks, category.Sources...)
+	}
+
+	return rssLinks
+}
+
 func FindCategoryByRSSLink(rssLink string) (Category, error) {
 	rssLink = ReversePrefix(rssLink)
 	config := GetConfiguration()
