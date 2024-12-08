@@ -24,9 +24,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Convert Base64 Environment Variable into config File
-        run: echo $CONFIG_YAML_BASE64 | base64 -d > config.yaml
-        env:
-            CONFIG_YAML_BASE64: ${{ secrets.CONFIG_YAML_BASE64 }}
+        run: echo "${{ secrets.CONFIG_YAML_BASE64 }}" | base64 -d > config.yaml
 
       - name: Run all
         run: python -m scripts.crawl
