@@ -10,7 +10,7 @@ python-dotenv==1.0.1
 qdrant_client==1.12.0
 trafilatura==1.12.2
 uvicorn==0.31.0
-psycopg2-binary==2.9.9
+psycopg2-binary==2.9.10
 pyyaml==6.0.2
 schedule==1.2.2
 requests==2.32.3
