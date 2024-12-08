@@ -13,7 +13,12 @@ from peewee import (
 
 load_dotenv()
 
-db = PostgresqlDatabase(os.getenv("DATABASE_URL"))
+db = PostgresqlDatabase(
+    os.getenv(
+        "DATABASE_URL",
+        "postgresql://postgres:postgres@localhost:5432/news_fusion",
+    ),
+)
 db.connect()
 
 

@@ -13,7 +13,7 @@ from lib.rss import get_rss_config
 feed_router = APIRouter()
 
 
-def get_feed(reqiest_base: str, category: str) -> FeedGenerator:
+def get_feed(reqiest_base: str, category: str):
     rss_config = get_rss_config()
 
     # Overwrite the SERVER_URL if it is not None
@@ -23,14 +23,16 @@ def get_feed(reqiest_base: str, category: str) -> FeedGenerator:
         return JSONResponse(
             status_code=404,
             content={
-                "error": "Category not found",
+                "error": f"Category ({category}) not found",
             },
         )
+    
+    category_name = rss_config[category]["name"]
 
     IMAGE_PROXY = os.getenv("IMAGE_PROXY_URL", "")
 
     fg = FeedGenerator()
-    fg.title(f"News Fusion - {category}")
+    fg.title(f"News Fusion - {category_name}")
 
     # Configure WebSub
     fg.link(href="https://pubsubhubbub.appspot.com/", rel="hub")
@@ -45,7 +47,6 @@ def get_feed(reqiest_base: str, category: str) -> FeedGenerator:
     fg.icon(f"{IMAGE_PROXY}{rss_config[category]["icon"]}")
 
     fg.generator(generator="News Fusion", version="1.0")
-    fg.author(name="News Fusion", email="dev@tsun1031.xyz")
 
     fg.load_extension("media")
 
@@ -90,6 +91,9 @@ def get_feed(reqiest_base: str, category: str) -> FeedGenerator:
 )
 def category_feed(category: str, request: Request) -> Response:
     request_url = str(request.base_url)
-    fg: FeedGenerator = get_feed(request_url, category, is_atom=True)
+    fg = get_feed(request_url, category)
 
-    return Response(content=fg.atom_str(pretty=True), media_type="application/xml")
+    if isinstance(fg, JSONResponse):
+        return fg
+
+    return Response(fg.atom_str(), media_type="application/xml")

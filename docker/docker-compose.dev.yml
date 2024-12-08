@@ -11,6 +11,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: news_fusion
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
     volumes:
       - pg:/var/lib/postgresql/data
 
@@ -19,6 +23,10 @@ services:
     container_name: news-fusion-qdrant-dev
     image: qdrant/qdrant:latest
     restart: unless-stopped
+    expose:
+      - "6333"
+    ports:
+      - "6333:6333"
     volumes:
       - qdrant:/qdrant/storage:z
 

@@ -20,5 +20,7 @@ RUN pip install --no-cache-dir --no-compile --upgrade -r requirements.txt
 # Make port 4782 available to the world outside this container
 EXPOSE 4782/tcp
 
+ENV PROXY_HEADERS=true
+
 # RUN
-CMD ["fastapi", "run", "server.py", "--proxy-headers", "--port", "4782"]
+CMD ["python", "-m", "web.main"]

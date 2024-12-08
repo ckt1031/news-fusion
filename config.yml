@@ -1,11 +1,13 @@
 rss:
-  World:
+  world:
+    name: World
     icon: https://cdn-icons-png.flaticon.com/512/2240/2240692.png
     sources:
     - https://time.com/feed
     - https://feeds.bbci.co.uk/news/world/rss.xml
 
-  Science:
+  science:
+    name: Science
     icon: https://cdn-images-3.listennotes.com/podcasts/big-brain-show/the-big-brain-podcast-roll-DKXaGdWuf8t-9XqfSWhK6Um.300x300.jpg
     sources:
     - https://rss.sciencedaily.com/all.xml
@@ -13,7 +15,8 @@ rss:
     - https://www.scientificamerican.com/platform/syndication/rss
     - https://www.theguardian.com/science/rss
 
-  Tech:
+  technology:
+    name: Technology
     icon: https://cdn-icons-png.flaticon.com/512/5742/5742482.png
     sources:
     - https://9to5mac.com/feed
