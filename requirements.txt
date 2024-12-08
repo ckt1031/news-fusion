@@ -5,7 +5,7 @@ feedgen==1.0.0
 feedparser==6.0.11
 loguru==0.7.2
 openai==1.51.2
-peewee==3.17.6
+peewee==3.17.8
 python-dotenv==1.0.1
 qdrant_client==1.12.0
 trafilatura==1.12.2
