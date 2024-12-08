@@ -1,3 +1,5 @@
+import random
+
 from loguru import logger
 
 from lib.article import RSSEntity, check_article
@@ -13,10 +15,15 @@ def run_scraper():
     all_categories_with_sources = get_rss_config()
 
     # Shuffle the categories to avoid bias
-    all_categories_with_sources = shuffle_dict_keys(all_categories_with_sources)
+    all_categories_with_sources: dict[str, dict[str, list[str]]] = shuffle_dict_keys(
+        all_categories_with_sources
+    )
 
     for category, data in all_categories_with_sources.items():
         logger.info(f"Category: {category} - Number of sources: {len(data['sources'])}")
+
+        # Shuffle the sources to avoid bias
+        random.shuffle(data["sources"])
 
         for source in data["sources"]:
             try:
@@ -24,7 +31,7 @@ def run_scraper():
 
                 for entry in entries:
                     try:
-                        # logger.info(f"Checking article: {entry.link} ({entry.title})")
+                        logger.info(f"Checking article: {entry.link} ({entry.title})")
 
                         check_article(
                             RSSEntity(

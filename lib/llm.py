@@ -1,3 +1,4 @@
+import logging
 import os
 
 import openai
@@ -6,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 embedding_model = os.getenv(
-    "EMBEDDING_MODEL",
+    "OPENAI_EMBEDDING_MODEL",
     "text-embedding-3-small",
 )
 
@@ -50,13 +51,14 @@ class LLM:
         return response
 
     def generate_text(self, message: LLMMessageBody, model: str | None = None) -> str:
+        logging.info("Generating text using the LLM model")
         """
         Generate text using the LLM model
         :param model: The model to use for generating text (e.g. gpt-4o-mini)
         :param message: The message to generate text in class Messages, which contains system and user messages
         :return: The generated text
         """
-        text_completion_model = os.getenv("TEXT_MODEL", "gpt-4o-mini")
+        text_completion_model = os.getenv("OPENAI_CHAT_MODEL", "gpt-4o-mini")
 
         response = self.client.chat.completions.create(
             model=model or text_completion_model,

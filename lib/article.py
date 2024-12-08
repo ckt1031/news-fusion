@@ -6,10 +6,15 @@ from time import sleep
 from loguru import logger
 
 from lib.db.postgres import Article
-from lib.db.qdrant import News, VectorDB
-from lib.llm import LLM
-from lib.prompts import news_importance, short_summary, title_generate
-from lib.rss import extract_website
+from lib.db.qdrant import News, Qdrant
+from lib.llm import LLM, LLMMessageBody
+from lib.notifications.send import process_notification
+from lib.prompts import (
+    news_importance_prompt,
+    short_summary_prompt,
+    title_generation_prompt,
+)
+from lib.rss import extract_website, get_rss_config
 from lib.utils import optimize_text
 from lib.web_sub import send_pubsubhubbub_update
 
@@ -25,15 +30,27 @@ class RSSEntity:
 
 
 def generate_summary(content: str) -> str:
-    return LLM().generate_text(short_summary, content)
+    msg = LLMMessageBody(
+        system=short_summary_prompt,
+        user=content,
+    )
+    return LLM().generate_text(msg)
 
 
 def generate_title(content: str) -> str:
-    return LLM().generate_text(title_generate, content)
+    msg = LLMMessageBody(
+        system=title_generation_prompt,
+        user=content,
+    )
+    return LLM().generate_text(msg)
 
 
 def importance_check(content: str) -> bool:
-    response = LLM().generate_text(news_importance, content).lower()
+    msg = LLMMessageBody(
+        system=news_importance_prompt,
+        user=content,
+    )
+    response = LLM().generate_text(msg).lower()
 
     return ("true" in response) or ("important" in response)
 
@@ -61,11 +78,11 @@ def check_article(d: RSSEntity) -> None:
 
     content = optimize_text(website_data["raw_text"])
 
-    vc_db = VectorDB()
+    qdrant = Qdrant()
 
     # Check if the article is similar to any other article in the database to remove duplicates
     # If it is, skip it
-    similarities = vc_db.find_out_similar_news(
+    similarities = qdrant.find_out_similar_news(
         News(content=content, title=website_data["title"], link=d.link)
     )
 
@@ -110,8 +127,7 @@ def check_article(d: RSSEntity) -> None:
     # Run summarization and title generation in parallel
     summary, title = generate_summary(content), generate_title(content)
 
-    # Save to Postgres
-    Article.create(
+    data = Article(
         title=title,
         link=d.link,
         category=d.category,
@@ -121,9 +137,15 @@ def check_article(d: RSSEntity) -> None:
         published_at=datetime.fromtimestamp(time.mktime(d.published_parsed)),
     )
 
-    # Save to VectorDB
-    vc_db.insert_news(News(title=website_data["title"], content=content, link=d.link))
+    # Save to Postgres
+    rss_config = get_rss_config()
 
-    logger.success(f"Article saved: {d.link}\nTitle: {title}\nSummary: {summary}")
+    data.save()
+    process_notification(data, rss_config[d.category])
+
+    # Save to VectorDB
+    qdrant.insert_news(News(title=website_data["title"], content=content, link=d.link))
+
+    logger.success(f"Article saved: {d.link}")
 
     send_pubsubhubbub_update(d.category)

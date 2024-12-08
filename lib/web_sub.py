@@ -4,6 +4,9 @@ from lib.constant import SERVER_URL
 
 
 def send_pubsubhubbub_update(category: str):
+    if SERVER_URL is None:
+        return
+
     requests.post(
         "https://pubsubhubbub.appspot.com/",
         data={

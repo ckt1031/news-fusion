@@ -22,7 +22,7 @@ class News:
         self.link = link
 
 
-class VectorDB:
+class Qdrant:
     def __init__(self):
         if not QDRANT_CONNECTION_STRING:
             raise Exception("QDRANT_CONNECTION is not set")
@@ -58,7 +58,7 @@ class VectorDB:
     def find_out_similar_news(self, news: News):
         model = LLM()
 
-        content_embedding = model.embed(news.content)
+        content_embedding = model.generate_embeddings(news.content)
 
         result = self.client.query_points(
             collection_name=self.collection_name,
@@ -77,7 +77,7 @@ class VectorDB:
     def insert_news(self, news: News):
         model = LLM()
 
-        content_embedding = model.embed(news.content)
+        content_embedding = model.generate_embeddings(news.content)
 
         idx = uuid4().hex
 
