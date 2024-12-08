@@ -26,7 +26,7 @@ def get_feed(reqiest_base: str, category: str):
                 "error": f"Category ({category}) not found",
             },
         )
-    
+
     category_name = rss_config[category]["name"]
 
     IMAGE_PROXY = os.getenv("IMAGE_PROXY_URL", "")

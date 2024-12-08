@@ -8,7 +8,7 @@ from loguru import logger
 
 
 def get_rss_config() -> dict[str, dict[str, list[str]]]:
-    CONFIG_PATH = "../config.yml"
+    CONFIG_PATH = "../config.yaml"
 
     # Get script directory
     pwd = os.path.dirname(os.path.realpath(__file__))

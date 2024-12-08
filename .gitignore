@@ -4,4 +4,4 @@ __pycache__
 data
 qdrant_storage
 .idea
-config.yml
+config.yaml

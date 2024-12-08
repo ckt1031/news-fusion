@@ -1,5 +1,5 @@
-from collections.abc import AsyncIterator
 import os
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 import uvicorn
@@ -13,6 +13,7 @@ import web.routes as v1_router
 from lib.db.redis import redis
 
 load_dotenv()
+
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
