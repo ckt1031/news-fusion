@@ -13,6 +13,7 @@ load_dotenv()
 EMBEDDING_SIZE = 1536
 
 QDRANT_CONNECTION_STRING = os.getenv("QDRANT_CONNECTION_STRING")
+QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
 
 
 class News:
@@ -27,7 +28,10 @@ class Qdrant:
         if not QDRANT_CONNECTION_STRING:
             raise Exception("QDRANT_CONNECTION is not set")
 
-        self.client = QdrantClient(url=QDRANT_CONNECTION_STRING)
+        self.client = QdrantClient(
+            url=QDRANT_CONNECTION_STRING,
+            api_key=QDRANT_API_KEY,
+        )
         self.collection_name = "news"
 
         self.create_collection()

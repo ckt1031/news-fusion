@@ -30,6 +30,8 @@ jobs:
         run: python -m scripts.crawl
         env:
             DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+            QDRANT_API_KEY: ${{ secrets.QDRANT_API_KEY }}
             QDRANT_CONNECTION_STRING: ${{ secrets.QDRANT_CONNECTION_STRING }}
 
             OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
