@@ -1,0 +1,34 @@
+name: Run
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *"
+
+jobs:
+  Run:
+    name: Run
+    runs-on: self-hosted
+    timeout-minutes: 10
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: "pip"
+
+      - name: Install Packages
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run all
+        run: python -m scripts.crawl
+        env:
+            DATABASE_URL: ${{ secrets.DATABASE_URL }}
+            QDRANT_CONNECTION_STRING: ${{ secrets.QDRANT_CONNECTION_STRING }}
+
+            OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+            OPENAI_API_BASE_URL: ${{ secrets.OPENAI_API_BASE_URL }}
+            OPENAI_CHAT_MODEL: ${{ secrets.OPENAI_CHAT_MODEL }}
