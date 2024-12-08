@@ -13,11 +13,7 @@ from peewee import (
 
 load_dotenv()
 
-# Optional, or use default localhost
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-db = PostgresqlDatabase(DATABASE_URL)
-
+db = PostgresqlDatabase(os.getenv("DATABASE_URL"))
 db.connect()
 
 
@@ -31,10 +27,12 @@ class Article(BaseModel):
     link = CharField(unique=True)
     summary = TextField(null=True)
     image = TextField(null=True)
-    topic = CharField()
+    category = TextField()
     important = BooleanField(default=False)
-    published_at = DateTimeField(default=datetime.datetime.now)
+
+    # Date metadata
     created_at = DateTimeField(default=datetime.datetime.now)
+    published_at = DateTimeField(default=datetime.datetime.now)
 
 
 db.create_tables([Article])

@@ -1,3 +1,4 @@
+news_importance_prompt = """
 # Role
 
 You evaluate article significance for global, tech, or developer relevance. Help users save time by determining if an article is worth reading for knowledge and improvement.
@@ -51,3 +52,4 @@ You evaluate article significance for global, tech, or developer relevance. Help
 
 - Output: Only "true" or "false" in lowercase.
 - Penalties apply for any other response.
+"""

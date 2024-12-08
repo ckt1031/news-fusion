@@ -6,10 +6,6 @@ import trafilatura
 import yaml
 from loguru import logger
 
-from lib.init_logger import init_logger
-
-init_logger()
-
 
 def get_rss_config() -> dict[str, dict[str, list[str]]]:
     CONFIG_PATH = "../config.yml"
@@ -25,7 +21,7 @@ def get_rss_config() -> dict[str, dict[str, list[str]]]:
             logger.error(exc)
 
 
-def get_rss_topics() -> list[str]:
+def get_rss_categories() -> list[str]:
     return list(get_rss_config().keys())
 
 
@@ -35,8 +31,5 @@ def parse_rss_feed(feed):
 
 
 def extract_website(link):
-    downloaded = trafilatura.fetch_url(link)
-    json_data = trafilatura.extract(
-        downloaded, output_format="json", with_metadata=True
-    )
+    json_data = trafilatura.extract(url=link, output_format="json", with_metadata=True)
     return json.loads(json_data)

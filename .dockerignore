@@ -1,8 +1,6 @@
 *
 !**/*.py
-!prompts
 !Dockerfile
 !docker-compose.yml
 !config.yml
 !requirements.txt
-!scripts/crontab

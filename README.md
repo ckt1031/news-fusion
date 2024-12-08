@@ -58,7 +58,7 @@ python server.py & python scraper.py
 
 Here is the example of the RSS feed in the NetNewsWire app:
 
-![](https://i.imgur.com/V8iLZLV.png)
+![Screenshot](https://i.imgur.com/V8iLZLV.png)
 
 With AI generated title and summary in the feed items to reduce the noise.
 

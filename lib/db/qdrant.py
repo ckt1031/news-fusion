@@ -3,17 +3,14 @@ from uuid import uuid4
 
 from dotenv import load_dotenv
 from loguru import logger
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient, models
 from qdrant_client.models import Distance, HnswConfigDiff, PointStruct, VectorParams
 
-from lib.init_logger import init_logger
-from lib.llm import LLM, get_embedding_model
+from lib.llm import LLM
 
 load_dotenv()
-init_logger()
 
 EMBEDDING_SIZE = 1536
-EMBEDDING_MODEL = get_embedding_model()
 
 QDRANT_CONNECTION_STRING = os.getenv("QDRANT_CONNECTION_STRING")
 
@@ -44,13 +41,16 @@ class VectorDB:
             vectors_config=VectorParams(
                 size=EMBEDDING_SIZE, distance=Distance.COSINE, on_disk=True
             ),
-            hnsw_config=HnswConfigDiff(on_disk=True),
-            # quantization_config=ScalarQuantization(
-            #     scalar=ScalarQuantizationConfig(
-            #         type=ScalarType.INT8,
-            #         always_ram=True,
-            #     ),
-            # ),
+            hnsw_config=HnswConfigDiff(
+                m=64,
+                ef_construct=512,
+                on_disk=True,
+            ),
+            quantization_config=models.ScalarQuantization(
+                scalar=models.ScalarQuantizationConfig(
+                    type=models.ScalarType.INT8,
+                ),
+            ),
         )
 
         logger.success(f"Collection {self.collection_name} created")
