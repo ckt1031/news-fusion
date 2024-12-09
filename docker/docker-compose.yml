@@ -3,9 +3,7 @@ name: news-fusion
 services:
   web:
     container_name: news-fusion-server
-    build:
-      dockerfile: ./docker/Dockerfile
-      context: ..
+    image: ghcr.io/ckt1031/news-fusion-server:latest
     restart: always
     ports:
       - "4782:4782"
