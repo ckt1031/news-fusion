@@ -7,8 +7,10 @@ from fastapi_limiter import FastAPILimiter
 
 import web.routes as v1_router
 from lib.db.redis import redis
+from lib.utils import init_logger
 
 load_dotenv()
+init_logger()
 
 
 @asynccontextmanager
@@ -32,3 +34,6 @@ async def health():
 
 # /v1/feed
 app.include_router(v1_router.feed_router, prefix="/v1")
+
+# /v1/pubsub
+app.include_router(v1_router.pubsub_router, prefix="/v1")

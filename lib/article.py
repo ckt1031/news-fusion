@@ -15,8 +15,8 @@ from lib.prompts import (
     title_generation_prompt,
 )
 from lib.rss import extract_website, get_rss_config
+from lib.send_pubsub import send_pubsubhubbub_update
 from lib.utils import optimize_text
-from lib.web_sub import send_pubsubhubbub_update
 
 
 class RSSEntity:
