@@ -18,7 +18,7 @@ PUB_TOKEN = os.getenv("PUBSUB_TOKEN")
 
 
 @pubsub_router.get(
-    "/subscription",
+    "/pubsub/subscription",
     summary="Pubsub Callback for Subscription",
     tags=["Pubsub"],
     dependencies=[Depends(RateLimiter(times=20, seconds=60))],
@@ -57,7 +57,7 @@ async def verify_signature(signature_header: str, body: bytes) -> bool:
 
 
 @pubsub_router.post(
-    "/distribution",
+    "/pubsub/subscription",
     summary="Pubsub callback for new distribution",
     tags=["Pubsub"],
     dependencies=[Depends(RateLimiter(times=20, seconds=60))],
@@ -81,6 +81,7 @@ async def distribution(request: Request, bg: BackgroundTasks) -> Response:
             content="404 Not Found",
         )
 
+    # Process the distribution in the background
     bg.add_task(process_pubsub_distribution, body)
 
     return PlainTextResponse(
