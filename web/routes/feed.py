@@ -13,7 +13,7 @@ from lib.rss import get_rss_config
 feed_router = APIRouter()
 
 
-def get_feed(reqiest_base: str, category: str):
+async def get_feed(reqiest_base: str, category: str):
     rss_config = get_rss_config()
 
     # Overwrite the SERVER_URL if it is not None
@@ -63,16 +63,16 @@ def get_feed(reqiest_base: str, category: str):
 
     for result in results:
         fe = fg.add_entry()
-        fe.id(result["link"])
+        fe.id(result.link)
 
-        fe.title(result["title"])
+        fe.title(result.title)
 
-        fe.link(href=result["link"])
+        fe.link(href=result.link)
 
-        fe.description(result["summary"])
+        fe.description(result.summary)
 
         # Add timezone, UTC enforced
-        published_at: str = result["published_at"]
+        published_at: str = result.published_at
 
         date_time = published_at.replace(tzinfo=datetime.timezone.utc)
 
@@ -87,11 +87,11 @@ def get_feed(reqiest_base: str, category: str):
     "/feed/{category}",
     summary="Get feed for a category in ATOM format",
     tags=["Feed"],
-    dependencies=[Depends(RateLimiter(times=10, seconds=60))],
+    dependencies=[Depends(RateLimiter(times=20, seconds=60))],
 )
-def category_feed(category: str, request: Request) -> Response:
+async def category_feed(category: str, request: Request) -> Response:
     request_url = str(request.base_url)
-    fg = get_feed(request_url, category)
+    fg = await get_feed(request_url, category)
 
     if isinstance(fg, JSONResponse):
         return fg

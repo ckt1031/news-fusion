@@ -11,9 +11,6 @@ COPY . /app
 # Update and install required packages
 RUN apk update
 
-# Upgrade pip
-RUN pip install --no-cache-dir --no-compile --upgrade pip
-
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir --no-compile --upgrade -r requirements.txt
 
@@ -23,4 +20,4 @@ EXPOSE 4782/tcp
 ENV PROXY_HEADERS=true
 
 # RUN
-CMD ["python", "-m", "web.main"]
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "4782", "--proxy-headers"]

@@ -1,5 +1,4 @@
 fastapi==0.115.6
-fastapi[standard]==0.115.6
 pydantic==2.10.3
 feedgen==1.0.0
 feedparser==6.0.11
@@ -12,6 +11,6 @@ trafilatura==2.0.0
 psycopg2-binary==2.9.10
 pyyaml==6.0.2
 requests==2.32.3
-scalar_fastapi==1.0.3
 redis==5.2.1
 fastapi-limiter==0.1.6
+uvicorn[standard]==0.32.1
