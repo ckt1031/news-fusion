@@ -47,6 +47,10 @@ def parse_rss_feed(feed: str) -> list:
 
 def extract_website(link: str) -> dict:
     content = trafilatura.fetch_url(link)
+
+    if content is None:
+        raise Exception("Failed to fetch the website")
+
     json_data = trafilatura.extract(content, output_format="json", with_metadata=True)
 
     if json_data is None:
