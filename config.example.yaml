@@ -7,3 +7,10 @@ rss:
     - https://feeds.bbci.co.uk/news/world/rss.xml
     notifications:
       discord: https://discord.com/api/webhooks/.../...
+  amazing:
+    name: Amazing Blogs
+    sources:
+    - https://finance.example.com/feed
+    - url: https://very-important.example.com/feed
+      importance_check: false
+      similarity_check: false

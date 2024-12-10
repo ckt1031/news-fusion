@@ -3,6 +3,7 @@ import time
 from datetime import datetime
 from time import sleep
 
+import openai
 from loguru import logger
 
 from lib.db.postgres import Article
@@ -21,12 +22,20 @@ from lib.utils import optimize_text
 
 class RSSEntity:
     def __init__(
-        self, title: str, link: str, published_parsed: time.struct_time, category: str
+        self,
+        title: str,
+        link: str,
+        published_parsed: time.struct_time,
+        category: str,
+        importance_check: bool = True,
+        similarity_check: bool = True,
     ):
         self.title = title
         self.link = link
         self.published_parsed = published_parsed
         self.category = category
+        self.importance_check = importance_check
+        self.similarity_check = similarity_check
 
 
 def generate_summary(content: str) -> str:
@@ -79,50 +88,60 @@ def check_article(d: RSSEntity) -> None:
     content = optimize_text(website_data["raw_text"])
 
     qdrant = Qdrant()
+    content_embedding: openai.types.CreateEmbeddingResponse = None
 
-    # Check if the article is similar to any other article in the database to remove duplicates
-    # If it is, skip it
-    similarities = qdrant.find_out_similar_news(
-        News(content=content, title=website_data["title"], link=d.link)
-    )
+    if d.similarity_check:
+        content_embedding = LLM().generate_embeddings(content)
 
-    # There exists a similar article from list with a score of 0.75 or higher
-    if similarities and similarities[0] and similarities[0].score >= 0.70:
-        logger.debug(f"Similar article found: {similarities[0].payload['link']}")
-
-        Article.create(
-            title=d.title,
-            category=d.category,
-            link=d.link,
-            image=website_data["image"],
-            important=False,
-            published_at=datetime.fromtimestamp(time.mktime(d.published_parsed)),
+        # Check if the article is similar to any other article in the database to remove duplicates
+        # If it is, skip it
+        similarities = qdrant.find_out_similar_news(
+            News(
+                content_embedding=content_embedding,
+                title=website_data["title"],
+                link=d.link,
+            )
         )
 
-        return
+        # There exists a similar article from list with a score of 0.75 or higher
+        if similarities and similarities[0] and similarities[0].score >= 0.70:
+            logger.debug(f"Similar article found: {similarities[0].payload['link']}")
+
+            Article.create(
+                title=d.title,
+                category=d.category,
+                link=d.link,
+                image=website_data["image"],
+                important=False,
+                published_at=datetime.fromtimestamp(time.mktime(d.published_parsed)),
+            )
+
+            return
 
     # Check importance
-    today_date_str = datetime.now().strftime("%Y-%m-%d")
-    news_text_with_meta = f"""
-    Title: {d.title}
-    Content: {content}
-    Date: {today_date_str}
-    """
-    important = importance_check(news_text_with_meta)
+    if d.importance_check:
+        today_date_str = datetime.now().strftime("%Y-%m-%d")
+        news_text_with_meta = f"""
+        Title: {d.title}
+        Content: {content}
+        Date: {today_date_str}
+        """
+        important = importance_check(news_text_with_meta)
 
-    if not important:
-        logger.debug(f"Article is not important: {d.link}")
+        # If the article is not important, skip it
+        if not important:
+            logger.debug(f"Article is not important: {d.link}")
 
-        Article.create(
-            title=d.title,
-            category=d.category,
-            link=d.link,
-            image=website_data["image"],
-            important=False,
-            published_at=datetime.fromtimestamp(time.mktime(d.published_parsed)),
-        )
+            Article.create(
+                title=d.title,
+                category=d.category,
+                link=d.link,
+                image=website_data["image"],
+                important=False,
+                published_at=datetime.fromtimestamp(time.mktime(d.published_parsed)),
+            )
 
-        return
+            return
 
     # Run summarization and title generation in parallel
     summary, title = generate_summary(content), generate_title(content)
@@ -138,13 +157,20 @@ def check_article(d: RSSEntity) -> None:
     )
 
     # Save to Postgres
-    rss_config = get_rss_config()
-
     data.save()
+
+    rss_config = get_rss_config()
     process_notification(data, rss_config[d.category])
 
     # Save to VectorDB
-    qdrant.insert_news(News(title=website_data["title"], content=content, link=d.link))
+    if d.similarity_check:
+        qdrant.insert_news(
+            News(
+                title=website_data["title"],
+                content_embedding=content_embedding,
+                link=d.link,
+            )
+        )
 
     logger.success(f"Article saved: {d.link}")
 

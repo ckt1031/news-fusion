@@ -11,13 +11,18 @@ def get_category_from_source(source: str) -> str | None:
     rss_config = get_rss_config()
 
     for category, data in rss_config.items():
-        if source in data["sources"]:
-            return category
+        for src in data["sources"]:
+            if isinstance(src, dict):
+                if src["url"] == source:
+                    return category
+            else:
+                if src == source:
+                    return category
 
     return None
 
 
-def get_rss_config() -> dict[str, dict[str, list[str]]]:
+def get_rss_config() -> dict[str, dict[str, list[str | dict]]]:
     CONFIG_PATH = "../config.yaml"
 
     # Get script directory
@@ -43,4 +48,8 @@ def parse_rss_feed(feed: str) -> list:
 def extract_website(link: str) -> dict:
     content = trafilatura.fetch_url(link)
     json_data = trafilatura.extract(content, output_format="json", with_metadata=True)
+
+    if json_data is None:
+        raise Exception("Failed to extract content from the website")
+
     return json.loads(json_data)

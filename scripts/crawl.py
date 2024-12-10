@@ -15,8 +15,8 @@ def run_scraper():
     all_categories_with_sources = get_rss_config()
 
     # Shuffle the categories to avoid bias
-    all_categories_with_sources: dict[str, dict[str, list[str]]] = shuffle_dict_keys(
-        all_categories_with_sources
+    all_categories_with_sources: dict[str, dict[str, list[str | dict]]] = (
+        shuffle_dict_keys(all_categories_with_sources)
     )
 
     for category, data in all_categories_with_sources.items():
@@ -26,8 +26,17 @@ def run_scraper():
         random.shuffle(data["sources"])
 
         for source in data["sources"]:
+            url = source
+            importance_check = True
+            similarity_check = True
+
+            if isinstance(source, dict):
+                importance_check = source.get("importance_check", True)
+                similarity_check = source.get("similarity_check", True)
+                url = source["url"]
+
             try:
-                entries = parse_rss_feed(source)
+                entries = parse_rss_feed(url)
 
                 for entry in entries:
                     try:
@@ -39,13 +48,15 @@ def run_scraper():
                                 link=entry["link"],
                                 published_parsed=entry["published_parsed"],
                                 category=category,
+                                importance_check=importance_check,
+                                similarity_check=similarity_check,
                             )
                         )
                     except Exception as e:
                         logger.error(f"Error ({entry['link']}): {e}")
                         continue
             except Exception as e:
-                logger.error(f"Error ({source}): {e}")
+                logger.error(f"Error ({url}): {e}")
                 continue
 
 

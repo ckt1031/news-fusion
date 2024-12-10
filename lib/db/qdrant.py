@@ -1,12 +1,11 @@
 import os
 from uuid import uuid4
 
+import openai
 from dotenv import load_dotenv
 from loguru import logger
 from qdrant_client import QdrantClient, models
 from qdrant_client.models import Distance, HnswConfigDiff, PointStruct, VectorParams
-
-from lib.llm import LLM
 
 load_dotenv()
 
@@ -17,9 +16,14 @@ QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
 
 
 class News:
-    def __init__(self, title: str, content: str, link: str):
+    def __init__(
+        self,
+        title: str,
+        content_embedding: openai.types.CreateEmbeddingResponse,
+        link: str,
+    ):
         self.title = title
-        self.content = content
+        self.content_embedding = content_embedding
         self.link = link
 
 
@@ -60,13 +64,9 @@ class Qdrant:
         logger.success(f"Collection {self.collection_name} created")
 
     def find_out_similar_news(self, news: News):
-        model = LLM()
-
-        content_embedding = model.generate_embeddings(news.content)
-
         result = self.client.query_points(
             collection_name=self.collection_name,
-            query=content_embedding.data[0].embedding,
+            query=news.content_embedding.data[0].embedding,
             with_vectors=False,
             with_payload=True,
             limit=5,
@@ -79,20 +79,15 @@ class Qdrant:
         return result
 
     def insert_news(self, news: News):
-        model = LLM()
-
-        content_embedding = model.generate_embeddings(news.content)
-
         idx = uuid4().hex
 
         points = [
             PointStruct(
                 id=idx,
-                vector=content_embedding.data[0].embedding,
+                vector=news.content_embedding.data[0].embedding,
                 payload={
-                    "content": news.content,
-                    "title": news.title,
                     "link": news.link,
+                    "title": news.title,
                 },
             )
         ]
