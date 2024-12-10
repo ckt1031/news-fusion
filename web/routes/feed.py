@@ -38,16 +38,13 @@ async def get_feed(reqiest_base: str, category: str):
     fg.link(href="https://pubsubhubbub.appspot.com/", rel="hub")
 
     feed_url = f"{server_url}feed/{category}"
-
     fg.link(href=feed_url, rel="self")
-
-    # fg.description(f"News Fusion - {category}")
     fg.id(feed_url)
 
-    fg.icon(f"{IMAGE_PROXY}{rss_config[category]["icon"]}")
+    if rss_config[category]["icon"] is not None:
+        fg.icon(f"{IMAGE_PROXY}{rss_config[category]["icon"]}")
 
     fg.generator(generator="News Fusion", version="1.0")
-
     fg.load_extension("media")
 
     condition = (Article.category == category) & (
@@ -64,21 +61,21 @@ async def get_feed(reqiest_base: str, category: str):
     for result in results:
         fe = fg.add_entry()
         fe.id(result.link)
-
         fe.title(result.title)
-
         fe.link(href=result.link)
-
         fe.description(result.summary)
+
+        if result.image:
+            fe.media.content(
+                {
+                    "url": f"{IMAGE_PROXY}{result.image}",
+                    "medium": "image",
+                }
+            )
 
         # Add timezone, UTC enforced
         published_at: str = result.published_at
-
-        date_time = published_at.replace(tzinfo=datetime.timezone.utc)
-
-        fe.media.content({"url": f"{IMAGE_PROXY}{result.image}", "medium": "image"})
-
-        fe.updated(date_time)
+        fe.updated(published_at.replace(tzinfo=datetime.timezone.utc))
 
     return fg
 
