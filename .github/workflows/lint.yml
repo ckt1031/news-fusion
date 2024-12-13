@@ -21,7 +21,7 @@ jobs:
 
       - name: Install Packages
         run: |
-          pip install -r requirements.txt
+          pip install -r --upgrade requirements.txt
           pip install ruff
 
       - name: Lint Project

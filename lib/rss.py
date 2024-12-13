@@ -1,5 +1,6 @@
 import json
 import os
+from functools import lru_cache
 
 import feedparser
 import trafilatura
@@ -7,6 +8,7 @@ import yaml
 from loguru import logger
 
 
+@lru_cache
 def get_category_from_source(source: str) -> str | None:
     rss_config = get_rss_config()
 
@@ -22,6 +24,7 @@ def get_category_from_source(source: str) -> str | None:
     return None
 
 
+@lru_cache
 def get_rss_config() -> dict[str, dict[str, list[str | dict]]]:
     CONFIG_PATH = "../config.yaml"
 
@@ -36,6 +39,7 @@ def get_rss_config() -> dict[str, dict[str, list[str | dict]]]:
             logger.error(exc)
 
 
+@lru_cache
 def get_rss_categories() -> list[str]:
     return list(get_rss_config().keys())
 
