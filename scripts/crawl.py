@@ -26,21 +26,14 @@ def run_scraper():
         random.shuffle(data["sources"])
 
         for source in data["sources"]:
-            url = source
-            importance_check = True
-            similarity_check = True
-
-            if isinstance(source, dict):
-                importance_check = source.get("importance_check", True)
-                similarity_check = source.get("similarity_check", True)
-                url = source["url"]
-
             try:
-                entries = parse_rss_feed(url)
+                entries = parse_rss_feed(source)
 
                 for entry in entries:
                     try:
-                        logger.info(f"Checking article: {entry.link} ({entry.title})")
+                        logger.info(
+                            f"Checking article: {entry['link']} ({entry['title']})"
+                        )
 
                         check_article(
                             RSSEntity(
@@ -48,15 +41,13 @@ def run_scraper():
                                 link=entry["link"],
                                 published_parsed=entry["published_parsed"],
                                 category=category,
-                                importance_check=importance_check,
-                                similarity_check=similarity_check,
                             )
                         )
                     except Exception as e:
                         logger.error(f"Error ({entry['link']}): {e}")
                         continue
             except Exception as e:
-                logger.error(f"Error ({url}): {e}")
+                logger.error(f"Error ({source}): {e}")
                 continue
 
 
