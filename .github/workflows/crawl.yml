@@ -19,7 +19,7 @@ jobs:
           cache: "pip"
 
       - name: Install Packages
-        run: pip install -r --upgrade requirements.txt
+        run: pip install --upgrade -r requirements.txt
 
       - name: Convert Base64 Environment Variable into config File
         run: echo "${{ secrets.CONFIG_YAML_BASE64 }}" | base64 -d > config.yaml
