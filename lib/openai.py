@@ -7,13 +7,13 @@ from loguru import logger
 load_dotenv()
 
 
-class LLMMessageBody:
+class MessageBody:
     def __init__(self, user: str, system: str | None = None):
         self.system = system
         self.user = user
 
 
-class LLM:
+class OpenAIAPI:
     def __init__(self):
         self.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -49,7 +49,7 @@ class LLM:
 
         return response
 
-    def generate_text(self, message: LLMMessageBody, model: str | None = None) -> str:
+    def generate_text(self, message: MessageBody, model: str | None = None) -> str:
         """
         Generate text using the LLM model
         :param model: The model to use for generating text (e.g. gpt-4o-mini)

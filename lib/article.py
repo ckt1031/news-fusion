@@ -8,8 +8,8 @@ from loguru import logger
 
 from lib.db.postgres import Article
 from lib.db.qdrant import News, Qdrant
-from lib.llm import LLM, LLMMessageBody
 from lib.notifications.send import process_notification
+from lib.openai import MessageBody, OpenAIAPI
 from lib.prompts import (
     news_importance_prompt,
     short_summary_prompt,
@@ -35,27 +35,27 @@ class RSSEntity:
 
 
 def generate_summary(content: str) -> str:
-    msg = LLMMessageBody(
+    msg = MessageBody(
         system=short_summary_prompt,
         user=content,
     )
-    return LLM().generate_text(msg)
+    return OpenAIAPI().generate_text(msg)
 
 
 def generate_title(content: str) -> str:
-    msg = LLMMessageBody(
+    msg = MessageBody(
         system=title_generation_prompt,
         user=content,
     )
-    return LLM().generate_text(msg)
+    return OpenAIAPI().generate_text(msg)
 
 
 def importance_check(content: str) -> bool:
-    msg = LLMMessageBody(
+    msg = MessageBody(
         system=news_importance_prompt,
         user=content,
     )
-    response = LLM().generate_text(msg).lower()
+    response = OpenAIAPI().generate_text(msg).lower()
 
     return ("true" in response) or ("important" in response)
 
@@ -86,7 +86,7 @@ def check_article(d: RSSEntity) -> None:
     qdrant = Qdrant()
     content_embedding: openai.types.CreateEmbeddingResponse = None
 
-    content_embedding = LLM().generate_embeddings(content)
+    content_embedding = OpenAIAPI().generate_embeddings(content)
 
     # Check if the article is similar to any other article in the database to remove duplicates
     # If it is, skip it
