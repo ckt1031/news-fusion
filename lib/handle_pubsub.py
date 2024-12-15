@@ -28,5 +28,3 @@ def process_pubsub_distribution(body: bytes):
                 category=category,
             )
         )
-
-    pass
