@@ -8,7 +8,7 @@ from fastapi.responses import PlainTextResponse, Response
 from fastapi_limiter.depends import RateLimiter
 from loguru import logger
 
-from lib.handle_pubsub import process_pubsub_distribution
+from lib.pubsub.distribution import process_pubsub_distribution
 
 load_dotenv()
 

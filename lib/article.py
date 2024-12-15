@@ -15,8 +15,8 @@ from lib.prompts import (
     short_summary_prompt,
     title_generation_prompt,
 )
+from lib.pubsub.subscription import send_pubsubhubbub_update
 from lib.rss import extract_website, get_rss_config
-from lib.send_pubsub import send_pubsubhubbub_update
 from lib.utils import optimize_text
 
 

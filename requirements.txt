@@ -3,7 +3,7 @@ pydantic==2.10.3
 feedgen==1.0.0
 feedparser==6.0.11
 loguru==0.7.3
-openai==1.57.3
+openai==1.57.4
 peewee==3.17.8
 python-dotenv==1.0.1
 qdrant_client==1.12.1
@@ -13,4 +13,4 @@ pyyaml==6.0.2
 requests==2.32.3
 redis==5.2.1
 fastapi-limiter==0.1.6
-uvicorn[standard]==0.32.1
+uvicorn[standard]==0.34.0
