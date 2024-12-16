@@ -18,10 +18,10 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     await FastAPILimiter.init(redis)
     # Run await register_all_topics(), but make the app start first and then run the function
     # This is to avoid a deadlock when the app is not started yet
-    asyncio.create_task(register_all_topics())
+    asyncio.get_event_loop().call_later(1, asyncio.create_task, register_all_topics())
+
 
     yield
-
     await FastAPILimiter.close()
     await register_all_topics(revoke=True)
 
