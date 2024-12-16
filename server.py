@@ -20,7 +20,6 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     # This is to avoid a deadlock when the app is not started yet
     asyncio.get_event_loop().call_later(1, asyncio.create_task, register_all_topics())
 
-
     yield
     await FastAPILimiter.close()
     await register_all_topics(revoke=True)
