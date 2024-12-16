@@ -1,3 +1,4 @@
+import asyncio
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
@@ -6,6 +7,7 @@ from fastapi_limiter import FastAPILimiter
 
 import web.routes as v1_router
 from lib.db.redis import redis
+from lib.pubsub.subscription import register_all_topics
 from lib.utils import init_logger
 
 init_logger()
@@ -14,8 +16,10 @@ init_logger()
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     await FastAPILimiter.init(redis)
+    await register_all_topics()
     yield
     await FastAPILimiter.close()
+    await register_all_topics(revoke=True)
 
 
 app = FastAPI(

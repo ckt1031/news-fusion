@@ -1,3 +1,4 @@
+import binascii
 import hashlib
 import hmac
 
@@ -21,8 +22,8 @@ PUB_TOKEN = get_env("PUBSUB_TOKEN")
     dependencies=[Depends(RateLimiter(times=20, seconds=60))],
 )
 async def subscription(request: Request) -> Response:
-    challenge = request.query_params.get("challenge")
-    verify_token = request.query_params.get("verify_token")
+    challenge = request.query_params.get("hub.challenge")
+    verify_token = request.query_params.get("hub.verify_token")
 
     if verify_token != PUB_TOKEN:
         logger.debug(f"Invalid Pubsub verify token: {verify_token}")
@@ -38,19 +39,19 @@ async def subscription(request: Request) -> Response:
 
 
 async def verify_signature(signature_header: str, body: bytes) -> bool:
-    method, signature = signature_header.split("=", 1)
-
-    if method != "sha1":
-        logger.debug(f"Invalid Pubsub signature method: {method}")
+    if not signature_header.startswith("sha1="):
         return False
+
+    signature = signature_header.split("=")[1]
 
     body_signature = hmac.new(
         PUB_TOKEN.encode("utf-8"),
         body,
         hashlib.sha1,
-    ).hexdigest()
+    )
+    new_signature = binascii.hexlify(body_signature.digest()).decode("utf-8")
 
-    return hmac.compare_digest(signature, body_signature)
+    return new_signature == signature
 
 
 @pubsub_router.post(
@@ -64,6 +65,7 @@ async def distribution(request: Request, bg: BackgroundTasks) -> Response:
     signature = request.headers.get("X-Hub-Signature")
 
     if signature is None:
+        logger.debug("Missing Pubsub signature")
         return PlainTextResponse(
             status_code=404,
             content="404 Not Found",
@@ -73,6 +75,7 @@ async def distribution(request: Request, bg: BackgroundTasks) -> Response:
     signature_status = await verify_signature(signature, body)
 
     if not signature_status:
+        logger.debug("Invalid Pubsub signature")
         return PlainTextResponse(
             status_code=404,
             content="404 Not Found",

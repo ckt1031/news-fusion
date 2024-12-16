@@ -11,20 +11,21 @@ def process_pubsub_distribution(body: bytes):
     if len(entries) == 0:
         return
 
-    for entry in entries:
-        logger.info(f"Checking article: {entry['link']} ({entry['title']})")
+    entry = entries[0]
 
-        category = get_category_from_source(entry["link"])
+    logger.info(f"Checking article: {entry['link']} ({entry['title']})")
 
-        if category is None:
-            logger.error(f"Category not found for source: {entry['link']}")
-            continue
+    category = get_category_from_source(entry["link"])
 
-        check_article(
-            RSSEntity(
-                title=entry["title"],
-                link=entry["link"],
-                published_parsed=entry["published_parsed"],
-                category=category,
-            )
+    if category is None:
+        logger.error(f"Category not found for source: {entry['link']}")
+        return
+
+    check_article(
+        RSSEntity(
+            title=entry["title"],
+            link=entry["link"],
+            published_parsed=entry["published_parsed"],
+            category=category,
         )
+    )

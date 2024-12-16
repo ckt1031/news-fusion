@@ -16,12 +16,7 @@ def get_category_from_source(source: str) -> str | None:
 
     for category, data in rss_config.items():
         for src in data["sources"]:
-            if isinstance(src, dict):
-                if src["url"] == source:
-                    return category
-            else:
-                if src == source:
-                    return category
+            return category
 
     return None
 
