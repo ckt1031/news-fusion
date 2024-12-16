@@ -1,11 +1,6 @@
-import os
-
 import requests
-from dotenv import load_dotenv
 
-from lib.constant import SERVER_URL
-
-load_dotenv()
+from lib.env import SERVER_URL, get_env
 
 
 def send_pubsubhubbub_update(category: str):
@@ -37,8 +32,8 @@ def register_pubsub(topic: str):
             "hub.mode": "subscribe",
             "hub.callback": callback,
             "hub.topic": topic,
-            "hub.verify_token": os.getenv("PUBSUB_TOKEN"),
-            "hub.secret": os.getenv("PUBSUB_SECRET"),
+            "hub.verify_token": get_env("PUBSUB_TOKEN"),
+            "hub.secret": get_env("PUBSUB_SECRET"),
             "hub.lease_seconds": 86400,
         },
         headers={

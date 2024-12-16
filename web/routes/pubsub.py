@@ -1,20 +1,17 @@
 import hashlib
 import hmac
-import os
 
-from dotenv import load_dotenv
 from fastapi import APIRouter, BackgroundTasks, Depends, Request
 from fastapi.responses import PlainTextResponse, Response
 from fastapi_limiter.depends import RateLimiter
 from loguru import logger
 
+from lib.env import get_env
 from lib.pubsub.distribution import process_pubsub_distribution
-
-load_dotenv()
 
 pubsub_router = APIRouter()
 
-PUB_TOKEN = os.getenv("PUBSUB_TOKEN")
+PUB_TOKEN = get_env("PUBSUB_TOKEN")
 
 
 @pubsub_router.get(

@@ -1,18 +1,16 @@
-import os
 from uuid import uuid4
 
 import openai
-from dotenv import load_dotenv
 from loguru import logger
 from qdrant_client import QdrantClient, models
 from qdrant_client.models import Distance, HnswConfigDiff, PointStruct, VectorParams
 
-load_dotenv()
+from lib.env import get_env
 
 EMBEDDING_SIZE = 1536
 
-QDRANT_CONNECTION_STRING = os.getenv("QDRANT_CONNECTION_STRING")
-QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
+QDRANT_CONNECTION_STRING = get_env("QDRANT_CONNECTION_STRING")
+QDRANT_API_KEY = get_env("QDRANT_API_KEY")
 
 
 class News:

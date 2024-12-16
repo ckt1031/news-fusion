@@ -1,7 +1,5 @@
 import datetime
-import os
 
-from dotenv import load_dotenv
 from peewee import (
     BooleanField,
     CharField,
@@ -11,10 +9,10 @@ from peewee import (
     TextField,
 )
 
-load_dotenv()
+from lib.env import get_env
 
 db = PostgresqlDatabase(
-    os.getenv(
+    get_env(
         "DATABASE_URL",
         "postgresql://postgres:postgres@localhost:5432/news_fusion",
     ),

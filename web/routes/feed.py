@@ -6,8 +6,8 @@ from fastapi.responses import JSONResponse, Response
 from fastapi_limiter.depends import RateLimiter
 from feedgen.feed import FeedGenerator
 
-from lib.constant import SERVER_URL as CUSTOM_SERVER_URL
 from lib.db.postgres import Article
+from lib.env import SERVER_URL as CUSTOM_SERVER_URL
 from lib.rss import get_rss_config
 
 feed_router = APIRouter()

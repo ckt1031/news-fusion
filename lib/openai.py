@@ -1,10 +1,7 @@
-import os
-
 import openai
-from dotenv import load_dotenv
 from loguru import logger
 
-load_dotenv()
+from lib.env import get_env
 
 
 class MessageBody:
@@ -15,20 +12,15 @@ class MessageBody:
 
 class OpenAIAPI:
     def __init__(self):
-        self.api_key = os.getenv("OPENAI_API_KEY")
+        self.api_key = get_env("OPENAI_API_KEY")
 
         if not self.api_key:
             raise Exception("OPENAI_API_KEY is not set")
 
-        self.api_base_url = os.getenv(
-            "OPENAI_API_BASE_URL", "https://api.openai.com/v1"
-        )
+        self.api_base_url = get_env("OPENAI_API_BASE_URL", "https://api.openai.com/v1")
         self.client = openai.Client(
             api_key=self.api_key,
             base_url=self.api_base_url,
-            default_headers={
-                "User-Agent": "NewsFusion/1.0",
-            },
         )
 
     def generate_embeddings(self, text: str):
@@ -37,7 +29,7 @@ class OpenAIAPI:
         :param text: The text to embed
         :return: The response from the API in OpenAI format
         """
-        embedding_model = os.getenv(
+        embedding_model = get_env(
             "OPENAI_EMBEDDING_MODEL",
             "text-embedding-3-small",
         )
@@ -58,7 +50,7 @@ class OpenAIAPI:
         """
         logger.info("Generating text using the LLM model")
 
-        text_completion_model = os.getenv("OPENAI_CHAT_MODEL", "gpt-4o-mini")
+        text_completion_model = get_env("OPENAI_CHAT_MODEL", "gpt-4o-mini")
 
         response = self.client.chat.completions.create(
             model=model or text_completion_model,

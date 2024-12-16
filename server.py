@@ -1,7 +1,6 @@
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
-from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi_limiter import FastAPILimiter
 
@@ -9,7 +8,6 @@ import web.routes as v1_router
 from lib.db.redis import redis
 from lib.utils import init_logger
 
-load_dotenv()
 init_logger()
 
 
