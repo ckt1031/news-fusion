@@ -1,3 +1,4 @@
+import asyncio
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
@@ -15,8 +16,12 @@ init_logger()
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     await FastAPILimiter.init(redis)
-    await register_all_topics()
+    # Run await register_all_topics(), but make the app start first and then run the function
+    # This is to avoid a deadlock when the app is not started yet
+    asyncio.create_task(register_all_topics())
+
     yield
+
     await FastAPILimiter.close()
     await register_all_topics(revoke=True)
 

@@ -17,7 +17,5 @@ RUN pip install --no-cache-dir --no-compile --upgrade -r requirements.txt
 # Make port 4782 available to the world outside this container
 EXPOSE 4782/tcp
 
-ENV IS_PRODUCTION=true
-
 # RUN
-CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "4782", "--proxy-headers"]
+CMD ["IS_PRODUCTION=true", "uvicorn", "server:app", "--host", "0.0.0.0", "--port", "4782", "--proxy-headers"]

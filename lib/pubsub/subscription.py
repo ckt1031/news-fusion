@@ -48,7 +48,8 @@ async def register_pubsub(topic: str, revoke=False):
         action = "register" if not revoke else "revoke"
         raise Exception(f"Failed to {action} PubSub ({topic}): {response.text}")
 
-    logger.debug(f"Registered PubSub for {topic}")
+    action = "Registered" if not revoke else "Revoked"
+    logger.debug(f"{action} PubSub for {topic}")
 
 
 async def register_all_topics(revoke=False):
