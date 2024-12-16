@@ -7,6 +7,8 @@ import trafilatura
 import yaml
 from loguru import logger
 
+from lib.env import IS_PRODUCTION
+
 
 @lru_cache
 def get_category_from_source(source: str) -> str | None:
@@ -26,11 +28,15 @@ def get_category_from_source(source: str) -> str | None:
 
 @lru_cache
 def get_rss_config() -> dict[str, dict[str, list[str | dict]]]:
-    CONFIG_PATH = "../config.yaml"
+    CONFIG_PATH = "../config.yaml" if IS_PRODUCTION else "../dev.config.yaml"
 
     # Get script directory
     pwd = os.path.dirname(os.path.realpath(__file__))
-    path = os.path.join(pwd, CONFIG_PATH)
+    path = os.path.abspath(os.path.join(pwd, CONFIG_PATH))
+
+    if not os.path.exists(path):
+        logger.error(f"Config file not found at {path}")
+        exit()
 
     with open(path, "r") as stream:
         try:
