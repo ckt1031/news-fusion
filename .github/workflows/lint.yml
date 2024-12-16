@@ -1,4 +1,4 @@
-name: Checking
+name: Lint Project
 on:
   push:
     branches:
@@ -7,22 +7,17 @@ on:
 
 jobs:
   Lint:
-    name: Lint Project
+    name: Lint
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
           cache: 'pip'
 
-      - name: Install Packages
-        run: |
-          pip install --upgrade -r requirements.txt
-          pip install ruff
+      - run: pip install --upgrade -r requirements.txt
 
-      - name: Lint Project
-        run: ruff check .
+      - run: pip install ruff && ruff check .
