@@ -1,4 +1,3 @@
-import datetime
 import os
 
 from fastapi import APIRouter, Depends, Request
@@ -13,11 +12,11 @@ from lib.rss import get_rss_config
 feed_router = APIRouter()
 
 
-async def get_feed(reqiest_base: str, category: str):
+async def get_feed(request_base: str, category: str):
     rss_config = get_rss_config()
 
     # Overwrite the SERVER_URL if it is not None
-    server_url = reqiest_base if CUSTOM_SERVER_URL is None else CUSTOM_SERVER_URL
+    server_url = request_base if CUSTOM_SERVER_URL is None else CUSTOM_SERVER_URL
 
     if category not in rss_config:
         return JSONResponse(
@@ -75,7 +74,7 @@ async def get_feed(reqiest_base: str, category: str):
 
         # Add timezone, UTC enforced
         published_at: str = result.published_at
-        fe.updated(published_at.replace(tzinfo=datetime.timezone.utc))
+        fe.updated(published_at)
 
     return fg
 

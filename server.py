@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi_limiter import FastAPILimiter
 
 import web.routes as v1_router
-from lib.db.redis import redis
+from lib.db.redis_client import redis
 from lib.pubsub.subscription import register_all_topics
 from lib.utils import init_logger
 

@@ -3,13 +3,12 @@ import time
 from datetime import datetime
 from time import sleep
 
-import openai
 from loguru import logger
 
 from lib.db.postgres import Article
 from lib.db.qdrant import News, Qdrant
 from lib.notifications.send import process_notification
-from lib.openai import MessageBody, OpenAIAPI
+from lib.openai_api import MessageBody, OpenAIAPI
 from lib.prompts import (
     news_importance_prompt,
     short_summary_prompt,
@@ -84,7 +83,6 @@ def check_article(d: RSSEntity) -> None:
     content = optimize_text(website_data["raw_text"])
 
     qdrant = Qdrant()
-    content_embedding: openai.types.CreateEmbeddingResponse = None
 
     content_embedding = OpenAIAPI().generate_embeddings(content)
 

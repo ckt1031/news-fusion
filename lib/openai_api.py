@@ -1,5 +1,5 @@
-import openai
 from loguru import logger
+from openai import OpenAI
 
 from lib.env import get_env
 
@@ -18,7 +18,7 @@ class OpenAIAPI:
             raise Exception("OPENAI_API_KEY is not set")
 
         self.api_base_url = get_env("OPENAI_API_BASE_URL", "https://api.openai.com/v1")
-        self.client = openai.Client(
+        self.client = OpenAI(
             api_key=self.api_key,
             base_url=self.api_base_url,
         )
