@@ -37,8 +37,5 @@ async def health():
     return {"status": "ok"}
 
 
-# /v1/feed
 app.include_router(v1_router.feed_router, prefix="/v1")
-
-# /v1/pubsub
 app.include_router(v1_router.pubsub_router, prefix="/v1")
