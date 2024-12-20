@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 from functools import lru_cache
 
 import feedparser
@@ -16,7 +17,8 @@ def get_category_from_source(source: str) -> str | None:
 
     for category, data in rss_config.items():
         for src in data["sources"]:
-            return category
+            if src == source:
+                return category
 
     return None
 
@@ -27,7 +29,7 @@ def get_rss_config() -> dict[str, dict[str, list[str | dict]]]:
 
     if not os.path.exists(path):
         logger.error(f"Config file not found at {path}")
-        exit(1)
+        sys.exit(1)
 
     with open(path, "r") as stream:
         try:
