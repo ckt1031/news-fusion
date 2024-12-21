@@ -41,14 +41,15 @@ async def register_pubsub(topic: str, revoke=False):
         headers={
             "Content-Type": "application/x-www-form-urlencoded",
         },
+        timeout=5,
     )
+
+    action = "register" if not revoke else "revoke"
 
     # Accepted
     if response.status_code != 202:
-        action = "register" if not revoke else "revoke"
-        raise Exception(f"Failed to {action} PubSub ({topic}): {response.text}")
+        raise Exception(f"{action} PubSub ({topic}) failed: {response.text}")
 
-    action = "Registered" if not revoke else "Revoked"
     logger.debug(f"{action} PubSub for {topic}")
 
 

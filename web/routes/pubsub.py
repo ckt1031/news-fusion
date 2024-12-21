@@ -26,7 +26,7 @@ async def subscription(request: Request) -> Response:
     verify_token = request.query_params.get("hub.verify_token")
 
     if verify_token != PUB_TOKEN:
-        logger.debug(f"Invalid Pubsub verify token: {verify_token}")
+        logger.debug("Invalid Pubsub verify token")
         return PlainTextResponse(
             status_code=404,
             content="404 Not Found",
@@ -40,6 +40,7 @@ async def subscription(request: Request) -> Response:
 
 async def verify_signature(signature_header: str, body: bytes) -> bool:
     if not signature_header.startswith("sha1="):
+        logger.debug("Invalid Pubsub signature format")
         return False
 
     signature = signature_header.split("=")[1]
