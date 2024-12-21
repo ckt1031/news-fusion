@@ -19,7 +19,7 @@ PUB_TOKEN = get_env("PUBSUB_TOKEN")
     "/pubsub/subscription",
     summary="Pubsub Callback for Subscription",
     tags=["Pubsub"],
-    dependencies=[Depends(RateLimiter(times=20, seconds=60))],
+    dependencies=[Depends(RateLimiter(times=60, seconds=60))],
 )
 async def subscription(request: Request) -> Response:
     challenge = request.query_params.get("hub.challenge")
@@ -60,9 +60,9 @@ async def verify_signature(signature_header: str, body: bytes) -> bool:
     tags=["Pubsub"],
     dependencies=[Depends(RateLimiter(times=20, seconds=60))],
 )
-async def distribution(request: Request, bg: BackgroundTasks) -> Response:
+async def distribution(req: Request, bg: BackgroundTasks) -> Response:
     # Signature is in the format of "sha1=xxxx"
-    signature = request.headers.get("X-Hub-Signature")
+    signature = req.headers.get("X-Hub-Signature")
 
     if signature is None:
         logger.debug("Missing Pubsub signature")
@@ -71,7 +71,7 @@ async def distribution(request: Request, bg: BackgroundTasks) -> Response:
             content="404 Not Found",
         )
 
-    body = await request.body()
+    body = await req.body()
     signature_status = await verify_signature(signature, body)
 
     if not signature_status:

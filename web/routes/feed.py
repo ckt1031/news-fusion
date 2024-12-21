@@ -19,12 +19,7 @@ async def get_feed(request_base: str, category: str):
     server_url = request_base if CUSTOM_SERVER_URL is None else CUSTOM_SERVER_URL
 
     if category not in rss_config:
-        return JSONResponse(
-            status_code=404,
-            content={
-                "error": f"Category ({category}) not found",
-            },
-        )
+        return None
 
     category_name = rss_config[category]["name"]
 
@@ -89,7 +84,12 @@ async def category_feed(category: str, request: Request) -> Response:
     request_url = str(request.base_url)
     fg = await get_feed(request_url, category)
 
-    if isinstance(fg, JSONResponse):
-        return fg
+    if not fg:
+        return JSONResponse(
+            status_code=404,
+            content={
+                "error": f"Category ({category}) not found",
+            },
+        )
 
     return Response(fg.atom_str(), media_type="application/xml")
