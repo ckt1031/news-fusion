@@ -42,9 +42,9 @@ def get_rss_categories() -> list[str]:
     return list(get_rss_config().keys())
 
 
-def parse_rss_feed(feed: str) -> list:
+def parse_rss_feed(feed: str) -> dict:
     rss_feed = feedparser.parse(feed)
-    return rss_feed.entries
+    return rss_feed
 
 
 def extract_website(link: str) -> dict:

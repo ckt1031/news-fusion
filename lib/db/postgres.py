@@ -38,6 +38,7 @@ class Article(BaseModel):
     image = TextField(null=True)
     category = TextField()
     important = BooleanField(default=False)
+    publisher = TextField(null=True)
 
     # Date metadata
     created_at = DateTimeField(default=datetime.datetime.now)

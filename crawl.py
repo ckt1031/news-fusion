@@ -1,3 +1,4 @@
+import json
 import random
 import time
 
@@ -30,9 +31,9 @@ def run_scraper():
 
         for source in data["sources"]:
             try:
-                entries = parse_rss_feed(source)
+                feed = parse_rss_feed(source)
 
-                for entry in entries:
+                for entry in feed['entries']:
                     try:
                         logger.debug(
                             f"Checking article: {entry['link']} ({entry['title']})"
@@ -62,6 +63,7 @@ def run_scraper():
                                 link=entry["link"],
                                 published_parsed=published,
                                 category=category,
+                                feed_title=feed["feed"]["title"],
                             )
                         )
                     except Exception as e:

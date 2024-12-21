@@ -16,5 +16,6 @@ def process_notification(article: Article, category_data: dict):
                 "description": article.summary,
                 "url": article.link,
                 "image": {"url": article.image},
+                "footer": {"text": article.publisher},
             },
         )

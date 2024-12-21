@@ -21,16 +21,18 @@ from lib.utils import optimize_text
 
 class RSSEntity:
     def __init__(
-        self,
-        title: str,
-        link: str,
-        published_parsed: time.struct_time,
-        category: str,
+            self,
+            title: str,
+            link: str,
+            published_parsed: time.struct_time,
+            category: str,
+            feed_title: str,
     ):
         self.title = title
         self.link = link
         self.published_parsed = published_parsed
         self.category = category
+        self.feed_title = feed_title
 
 
 def generate_summary(content: str) -> str:
@@ -150,6 +152,7 @@ def check_article(d: RSSEntity) -> None:
         summary=summary,
         important=True,
         published_at=published_date,
+        publisher=d.feed_title,
     )
 
     rss_config = get_rss_config()
