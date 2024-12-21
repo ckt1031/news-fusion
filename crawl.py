@@ -1,4 +1,3 @@
-import json
 import random
 import time
 
@@ -33,7 +32,7 @@ def run_scraper():
             try:
                 feed = parse_rss_feed(source)
 
-                for entry in feed['entries']:
+                for entry in feed["entries"]:
                     try:
                         logger.debug(
                             f"Checking article: {entry['link']} ({entry['title']})"

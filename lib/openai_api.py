@@ -13,6 +13,7 @@ class MessageBody:
 class OpenAIAPI:
     def __init__(self):
         self.api_key = get_env("OPENAI_API_KEY")
+        self.text_completion_model = get_env("OPENAI_CHAT_MODEL", "gpt-4o-mini")
 
         if not self.api_key:
             raise Exception("OPENAI_API_KEY is not set")
@@ -41,6 +42,27 @@ class OpenAIAPI:
 
         return response
 
+    def generate_schema(self, message: MessageBody, schema, model: str | None = None):
+        completion = self.client.beta.chat.completions.parse(
+            model=model or self.text_completion_model,
+            messages=[
+                # Only include system messages if they exist
+                {"role": "system", "content": message.system} if message.system else {},
+                {"role": "user", "content": message.user},
+            ],
+            response_format=schema,
+        )
+
+        res = completion.choices[0].message
+
+        if not res:
+            raise ValueError("No schema response from the model")
+
+        if res.refusal:
+            raise Exception(f"OpenAI chat completion refusal: {res.refusal}")
+
+        return res
+
     def generate_text(self, message: MessageBody, model: str | None = None) -> str:
         """
         Generate text using the LLM model
@@ -50,10 +72,8 @@ class OpenAIAPI:
         """
         logger.info("Generating text using the LLM model")
 
-        text_completion_model = get_env("OPENAI_CHAT_MODEL", "gpt-4o-mini")
-
         response = self.client.chat.completions.create(
-            model=model or text_completion_model,
+            model=model or self.text_completion_model,
             messages=[
                 # Only include system messages if they exist
                 {"role": "system", "content": message.system} if message.system else {},

@@ -4,6 +4,7 @@ from datetime import datetime
 from time import sleep
 
 from loguru import logger
+from openai import BaseModel
 
 from lib.db.postgres import Article
 from lib.db.qdrant import News, Qdrant
@@ -14,6 +15,7 @@ from lib.prompts import (
     short_summary_prompt,
     title_generation_prompt,
 )
+from lib.prompts.title_summary import title_summary_prompt
 from lib.pubsub.subscription import send_pubsubhubbub_update
 from lib.rss import extract_website, get_rss_config
 from lib.utils import optimize_text
@@ -21,12 +23,12 @@ from lib.utils import optimize_text
 
 class RSSEntity:
     def __init__(
-            self,
-            title: str,
-            link: str,
-            published_parsed: time.struct_time,
-            category: str,
-            feed_title: str,
+        self,
+        title: str,
+        link: str,
+        published_parsed: time.struct_time,
+        category: str,
+        feed_title: str,
     ):
         self.title = title
         self.link = link
@@ -141,15 +143,28 @@ def check_article(d: RSSEntity) -> None:
 
         return
 
-    # Run summarization and title generation in parallel
-    summary, title = generate_summary(content), generate_title(content)
+    class TitleSummarySchema(BaseModel):
+        title: str
+        summary: str
+
+    generated_data = (
+        OpenAIAPI()
+        .generate_schema(
+            MessageBody(
+                system=title_summary_prompt,
+                user=content,
+            ),
+            schema=TitleSummarySchema,
+        )
+        .parsed
+    )
 
     data = Article(
-        title=title,
+        title=generated_data.title,
         link=d.link,
         category=d.category,
         image=website_data["image"],
-        summary=summary,
+        summary=generated_data.summary,
         important=True,
         published_at=published_date,
         publisher=d.feed_title,
