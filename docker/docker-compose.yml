@@ -10,6 +10,7 @@ services:
     expose:
       - "4782"
     environment:
+      - LOGURU_LEVEL=INFO
       - IS_PRODUCTION=true
       - REDIS_URL=redis://redis:6379
       - QDRANT_CONNECTION_STRING=http://qdrant:6333

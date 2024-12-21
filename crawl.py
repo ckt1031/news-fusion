@@ -21,7 +21,9 @@ def run_scraper():
     )
 
     for category, data in all_categories_with_sources.items():
-        logger.info(f"Category: {category} - Number of sources: {len(data['sources'])}")
+        category_name = data.get("name", category)
+
+        logger.info(f"Category: {category_name}, total sources: {len(data['sources'])}")
 
         # Shuffle the sources to avoid bias
         random.shuffle(data["sources"])
@@ -32,7 +34,7 @@ def run_scraper():
 
                 for entry in entries:
                     try:
-                        logger.info(
+                        logger.debug(
                             f"Checking article: {entry['link']} ({entry['title']})"
                         )
 

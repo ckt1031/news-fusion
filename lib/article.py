@@ -59,6 +59,10 @@ def importance_check(content: str) -> bool:
     return ("true" in response) or ("important" in response)
 
 
+def check_if_article_exists(link: str) -> bool:
+    return Article.get_or_none(Article.link == link) is not None
+
+
 def check_article(d: RSSEntity) -> None:
     # Check if the article is older than 3 days
     timestamp = time.mktime(d.published_parsed)
@@ -68,10 +72,7 @@ def check_article(d: RSSEntity) -> None:
         return
 
     # Check if the source is already in the database
-    result = Article.get_or_none(Article.link == d.link)
-
-    # If it is, skip it
-    if result:
+    if check_if_article_exists(d.link):
         logger.debug(f"Article already exists: {d.link}")
         return
 

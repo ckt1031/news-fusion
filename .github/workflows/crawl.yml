@@ -22,7 +22,7 @@ jobs:
       - name: Convert Base64 Environment Variable into config File
         run: echo "${{ secrets.CONFIG_YAML_BASE64 }}" | base64 -d > config.yaml
 
-      - run: python crawl.py
+      - run: LOGURU_LEVEL="INFO" python crawl.py
         env:
             DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
