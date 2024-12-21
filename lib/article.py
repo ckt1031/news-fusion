@@ -62,6 +62,7 @@ def importance_check(content: str) -> bool:
 def check_article(d: RSSEntity) -> None:
     # Check if the article is older than 3 days
     timestamp = time.mktime(d.published_parsed)
+
     if (datetime.now() - datetime.fromtimestamp(timestamp)).days > 3:
         logger.debug(f"Article is older than 3 days: {d.link}")
         return
@@ -120,6 +121,8 @@ def check_article(d: RSSEntity) -> None:
     """
     important = importance_check(news_text_with_meta)
 
+    published_date = datetime.fromtimestamp(time.mktime(d.published_parsed))
+
     # If the article is not important, skip it
     if not important:
         logger.debug(f"Article is not important: {d.link}")
@@ -130,7 +133,7 @@ def check_article(d: RSSEntity) -> None:
             link=d.link,
             image=website_data["image"],
             important=False,
-            published_at=datetime.fromtimestamp(time.mktime(d.published_parsed)),
+            published_at=published_date,
         )
 
         return
@@ -145,11 +148,8 @@ def check_article(d: RSSEntity) -> None:
         image=website_data["image"],
         summary=summary,
         important=True,
-        published_at=datetime.fromtimestamp(time.mktime(d.published_parsed)),
+        published_at=published_date,
     )
-
-    # Save to Postgres
-    data.save()
 
     rss_config = get_rss_config()
     process_notification(data, rss_config[d.category])
@@ -162,6 +162,9 @@ def check_article(d: RSSEntity) -> None:
             link=d.link,
         )
     )
+
+    # Save to Postgres
+    data.save()
 
     logger.success(f"Article saved: {d.link}")
 

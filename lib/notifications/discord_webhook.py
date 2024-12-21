@@ -1,3 +1,4 @@
+import os
 import shelve
 from datetime import datetime, timedelta
 from time import sleep
@@ -8,7 +9,14 @@ from loguru import logger
 SHELVE_PATH = "./tmp/discord"
 
 
+def ensure_tmp_dir():
+    if not os.path.exists("./tmp"):
+        os.makedirs("./tmp")
+
+
 def get_cooldown_status():
+    ensure_tmp_dir()
+
     with shelve.open(SHELVE_PATH) as db:
         expiry = db.get("remaining_expiry", datetime.now().isoformat())
         expiry = datetime.fromisoformat(expiry)
