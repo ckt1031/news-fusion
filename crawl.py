@@ -1,5 +1,6 @@
 import random
 import time
+import sys
 
 from loguru import logger
 
@@ -8,6 +9,12 @@ from lib.rss import get_rss_config, parse_rss_feed
 from lib.utils import init_logger, shuffle_dict_keys
 
 init_logger()
+
+
+def check_if_arg_exists(arg: str) -> bool:
+    sys_arg = sys.argv
+
+    return arg in sys_arg
 
 
 def run_scraper():
@@ -22,6 +29,10 @@ def run_scraper():
 
     for category, data in all_categories_with_sources.items():
         category_name = data.get("name", category)
+
+        if not check_if_arg_exists("--check-forum") and data.get("is_forum", True):
+            logger.info(f"Skipping forum category: {category_name}")
+            continue
 
         logger.info(f"Category: {category_name}, total sources: {len(data['sources'])}")
 
