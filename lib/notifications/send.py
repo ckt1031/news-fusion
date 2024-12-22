@@ -3,19 +3,16 @@ from lib.notifications.discord_webhook import send_discord
 
 
 def process_notification(article: Article, category_data: dict):
-    discord_webhook: str | None = category_data["notifications"]["discord"]
+    discord_channel_id: str = category_data["discord_channel_id"]
 
-    if discord_webhook is not None:
-        # Send a Discord notification
-        send_discord(
-            webhook_url=discord_webhook,
-            message=None,
-            # message=f"New article in {category_data['name']}: {article.title}",
-            embed={
-                "title": article.title,
-                "description": article.summary,
-                "url": article.link,
-                "image": {"url": article.image},
-                "footer": {"text": article.publisher},
-            },
-        )
+    send_discord(
+        channel_id=discord_channel_id,
+        message=None,
+        embed={
+            "title": article.title,
+            "description": article.summary,
+            "url": article.link,
+            "image": {"url": article.image},
+            "footer": {"text": article.publisher},
+        },
+    )

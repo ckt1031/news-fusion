@@ -24,6 +24,8 @@ jobs:
 
       - run: LOGURU_LEVEL="INFO" python crawl.py
         env:
+            DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+
             DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
             QDRANT_API_KEY: ${{ secrets.QDRANT_API_KEY }}

@@ -35,7 +35,7 @@ def set_cooldown_status(cooldown_required: bool, remaining_expiry: datetime):
         db["remaining_expiry"] = remaining_expiry.isoformat()
 
 
-def send_discord(webhook_url: str, message: str | None, embed: dict | None):
+def send_discord(channel_id: str, message: str | None, embed: dict | None):
     cooldown_status = get_cooldown_status()
 
     if (
@@ -58,6 +58,9 @@ def send_discord(webhook_url: str, message: str | None, embed: dict | None):
 
     if embed is not None:
         data["embeds"] = [embed]
+
+    # Send Discord Message to channel
+    webhook_url = f"https://discord.com/api/v10/channels/{channel_id}/messages"
 
     # Send the message to the Discord webhook
     response = requests.post(webhook_url, json=data)

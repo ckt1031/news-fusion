@@ -5,5 +5,4 @@ rss:
     sources:
     - https://time.com/feed
     - https://feeds.bbci.co.uk/news/world/rss.xml
-    notifications:
-      discord: https://discord.com/api/webhooks/.../...
+    discord_channel_id: 12345
