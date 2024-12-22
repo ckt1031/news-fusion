@@ -30,7 +30,7 @@ def run_scraper():
     for category, data in all_categories_with_sources.items():
         category_name = data.get("name", category)
 
-        if not check_if_arg_exists("--check-forum") and data.get("is_forum", True):
+        if not check_if_arg_exists("--check-forum") and data.get("forum", False):
             logger.info(f"Skipping forum category: {category_name}")
             continue
 
