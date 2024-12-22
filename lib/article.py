@@ -69,8 +69,10 @@ def importance_check(content: str, is_forum: bool) -> bool:
     return ("true" in response) or ("important" in response)
 
 
-def check_if_article_exists(link: str) -> bool:
-    return Article.get_or_none(Article.link == link) is not None
+def check_if_article_exists(link: str, title: str) -> bool:
+    return (
+        Article.get_or_none(Article.link == link or Article.title == title) is not None
+    )
 
 
 def check_article(d: RSSEntity) -> None:
@@ -82,13 +84,13 @@ def check_article(d: RSSEntity) -> None:
         return
 
     # Check if the source is already in the database
-    if check_if_article_exists(d.link):
+    if check_if_article_exists(d.link, d.title):
         logger.debug(f"Article already exists: {d.link}")
         return
 
     # Sleep for a random time between 2 and 5 seconds to avoid getting blocked and slowing down the server
     sleep_time = random.randint(1, 5)
-    logger.debug("Sleeping for %s seconds", sleep_time)
+    logger.debug(f"Sleeping for {sleep_time} seconds")
     sleep(sleep_time)
 
     website_data = extract_website(d.link)

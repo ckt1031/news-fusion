@@ -7,7 +7,8 @@ from lib.rss import get_category_from_source, parse_rss_feed
 def process_pubsub_distribution(body: bytes):
     xml_str = body.decode("utf-8")
 
-    entries: list = parse_rss_feed(xml_str)["entries"]
+    feed = parse_rss_feed(xml_str)
+    entries: list = feed["entries"]
 
     if len(entries) == 0:
         return
@@ -28,5 +29,6 @@ def process_pubsub_distribution(body: bytes):
             link=entry["link"],
             published_parsed=entry["published_parsed"],
             category=category,
+            feed_title=feed["feed"]["title"],
         )
     )

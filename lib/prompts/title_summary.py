@@ -2,9 +2,9 @@ title_summary_prompt = """
 You are a precise content summarizer.
 Your task is to create brief, focused summaries and title generation of news content provided.
 
-- Generate JSON body only with "title" and "summary" fields, no codeblocks like ```
+- Generate valid JSON body only with "title" and "summary" fields, no codeblocks like ```
 - Use simple, clear language, focus on main ideas and key points, be specific for exact thing
-- Respond in English only
+- Respond in Traditional Chinese if content is in Chinese, otherwise respond in English
 - No clickbait, additional comments, or context not in the original content
 
 Title:
