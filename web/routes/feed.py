@@ -1,4 +1,5 @@
 import os
+from datetime import timezone
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse, Response
@@ -68,8 +69,7 @@ async def get_feed(request_base: str, category: str):
             )
 
         # Add timezone, UTC enforced
-        published_at: str = result.published_at
-        fe.updated(published_at)
+        fe.updated(result.published_at.replace(tzinfo=timezone.utc))
 
     return fg
 
