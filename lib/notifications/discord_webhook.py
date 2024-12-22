@@ -6,6 +6,8 @@ from time import sleep
 import requests
 from loguru import logger
 
+from lib.env import get_env
+
 SHELVE_PATH = "./tmp/discord"
 
 
@@ -60,13 +62,21 @@ def send_discord(channel_id: str, message: str | None, embed: dict | None):
         data["embeds"] = [embed]
 
     # Send Discord Message to channel
-    webhook_url = f"https://discord.com/api/v10/channels/{channel_id}/messages"
+    url = f"https://discord.com/api/v10/channels/{channel_id}/messages"
+
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bot {get_env('DISCORD_BOT_TOKEN')}",
+    }
 
     # Send the message to the Discord webhook
-    response = requests.post(webhook_url, json=data)
+    response = requests.post(url, json=data, headers=headers)
 
-    if response.status_code != 204:
-        raise ValueError(f"Discord webhook returned status code {response.status_code}")
+    if response.status_code >= 300:
+        raise ValueError(
+            f"Discord message send returned status code {response.status_code}: "
+            + response.text
+        )
 
     # Check X-RateLimit-Limit and X-RateLimit-Remaining headers
     remaining = response.headers.get("X-RateLimit-Remaining")

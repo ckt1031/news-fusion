@@ -11,6 +11,7 @@ from lib.db.qdrant import News, Qdrant
 from lib.notifications.send import process_notification
 from lib.openai_api import MessageBody, OpenAIAPI
 from lib.prompts import (
+    forum_importance_prompt,
     news_importance_prompt,
     short_summary_prompt,
     title_generation_prompt,
@@ -19,6 +20,11 @@ from lib.prompts.title_summary import title_summary_prompt
 from lib.pubsub.subscription import send_pubsubhubbub_update
 from lib.rss import extract_website, get_rss_config
 from lib.utils import optimize_text
+
+
+class TitleSummarySchema(BaseModel):
+    title: str
+    summary: str
 
 
 class RSSEntity:
@@ -53,9 +59,9 @@ def generate_title(content: str) -> str:
     return OpenAIAPI().generate_text(msg)
 
 
-def importance_check(content: str) -> bool:
+def importance_check(content: str, is_forum: bool) -> bool:
     msg = MessageBody(
-        system=news_importance_prompt,
+        system=forum_importance_prompt if is_forum else news_importance_prompt,
         user=content,
     )
     response = OpenAIAPI().generate_text(msg).lower()
@@ -82,6 +88,7 @@ def check_article(d: RSSEntity) -> None:
 
     # Sleep for a random time between 2 and 5 seconds to avoid getting blocked and slowing down the server
     sleep_time = random.randint(1, 5)
+    logger.debug("Sleeping for %s seconds", sleep_time)
     sleep(sleep_time)
 
     website_data = extract_website(d.link)
@@ -124,7 +131,10 @@ def check_article(d: RSSEntity) -> None:
     Content: {content}
     Date: {today_date_str}
     """
-    important = importance_check(news_text_with_meta)
+    rss_config = get_rss_config()
+    category_config = rss_config[d.category]
+    forum_mode: bool = category_config.get("forum", False)
+    important = importance_check(news_text_with_meta, forum_mode)
 
     published_date = datetime.fromtimestamp(time.mktime(d.published_parsed))
 
@@ -142,10 +152,6 @@ def check_article(d: RSSEntity) -> None:
         )
 
         return
-
-    class TitleSummarySchema(BaseModel):
-        title: str
-        summary: str
 
     generated_data = (
         OpenAIAPI()
@@ -170,7 +176,6 @@ def check_article(d: RSSEntity) -> None:
         publisher=d.feed_title,
     )
 
-    rss_config = get_rss_config()
     process_notification(data, rss_config[d.category])
 
     # Save to VectorDB
