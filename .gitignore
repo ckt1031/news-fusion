@@ -5,3 +5,4 @@ data
 qdrant_storage
 .idea
 *config.yaml
+tmp
