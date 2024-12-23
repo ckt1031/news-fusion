@@ -13,10 +13,8 @@ from lib.openai_api import MessageBody, OpenAIAPI
 from lib.prompts import (
     forum_importance_prompt,
     news_importance_prompt,
-    short_summary_prompt,
-    title_generation_prompt,
+    title_summary_prompt,
 )
-from lib.prompts.title_summary import title_summary_prompt
 from lib.pubsub.subscription import send_pubsubhubbub_update
 from lib.rss import extract_website, get_rss_config
 from lib.utils import optimize_text
@@ -41,22 +39,6 @@ class RSSEntity:
         self.published_parsed = published_parsed
         self.category = category
         self.feed_title = feed_title
-
-
-def generate_summary(content: str) -> str:
-    msg = MessageBody(
-        system=short_summary_prompt,
-        user=content,
-    )
-    return OpenAIAPI().generate_text(msg)
-
-
-def generate_title(content: str) -> str:
-    msg = MessageBody(
-        system=title_generation_prompt,
-        user=content,
-    )
-    return OpenAIAPI().generate_text(msg)
 
 
 def importance_check(content: str, is_forum: bool) -> bool:
@@ -128,14 +110,14 @@ def check_article(d: RSSEntity) -> None:
 
     # Check importance
     today_date_str = datetime.now().strftime("%Y-%m-%d")
-    news_text_with_meta = f"""
-    Title: {d.title}
-    Content: {content}
-    Date: {today_date_str}
-    """
+    news_text_with_meta = (
+        f"\nTitle: {d.title}\nDate: {today_date_str}\nContent: {content}"
+    )
+
     rss_config = get_rss_config()
     category_config = rss_config[d.category]
     forum_mode: bool = category_config.get("forum", False)
+
     important = importance_check(news_text_with_meta, forum_mode)
 
     published_date = datetime.fromtimestamp(time.mktime(d.published_parsed))

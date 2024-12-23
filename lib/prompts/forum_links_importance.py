@@ -33,7 +33,7 @@ disallowed = """
 
 forum_importance_prompt = f"""
 You are designed to browse and find important discussions that are worth reading for global, tech innovations, or developers.
-Your goal is to help users save time by identifying whether an article is worth reading for extra knowledge and personal improvement.
+Help users save time by identifying whether an article is worth reading for extra knowledge and personal improvement.
 Evaluate the significance of the discussions.
 
 ## Instructions
@@ -63,4 +63,4 @@ Output: true
 
 Input: A new restaurant opens in downtown New York City, offering a unique fusion of Japanese and Italian cuisine.
 Output: false
-"""
+""".strip()

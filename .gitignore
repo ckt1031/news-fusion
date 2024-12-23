@@ -6,3 +6,4 @@ qdrant_storage
 .idea
 *config.yaml
 tmp
+.DS_Store
