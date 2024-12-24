@@ -22,7 +22,7 @@ jobs:
       - name: Convert Base64 Environment Variable into config File
         run: echo "${{ secrets.CONFIG_YAML_BASE64 }}" | base64 -d > config.yaml
 
-      - run: LOGURU_LEVEL="INFO" python crawl.py --only-forum
+      - run: LOGURU_LEVEL="INFO" python crawl.py --only-forum --check-forum
         env:
             DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
 
