@@ -1,14 +1,14 @@
-name: Crawl News
+name: Crawl Forum
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/20 * * * *"
+    - cron: "35 * * * *"
 
 jobs:
   Crawl:
     name: Crawl
     runs-on: self-hosted
-    timeout-minutes: 20
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
@@ -22,7 +22,7 @@ jobs:
       - name: Convert Base64 Environment Variable into config File
         run: echo "${{ secrets.CONFIG_YAML_BASE64 }}" | base64 -d > config.yaml
 
-      - run: LOGURU_LEVEL="INFO" python crawl.py
+      - run: LOGURU_LEVEL="INFO" python crawl.py --only-forum
         env:
             DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
 
