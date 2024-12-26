@@ -133,7 +133,7 @@ def check_article(d: RSSEntity) -> None:
         publisher=d.feed_title,
     )
 
-    discord_channel_id: str = category_config.get("discord_channel_id")
+    discord_channel_id: str = str(category_config.get("discord_channel_id"))
 
     if discord_channel_id is not None and len(discord_channel_id) > 0:
         send_discord(
