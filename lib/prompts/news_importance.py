@@ -1,54 +1,58 @@
+from openai import BaseModel
+
+
+class NewsImportanceSchema(BaseModel):
+    important: bool
+
+
 news_importance_prompt = """
-You evaluate article significance for global, tech, or developer relevance.
-Help users save time by determining if an article is worth reading for knowledge and improvement.
+you are helping people save time by determining if an article is worth reading for knowledge and improvement.
+Evaluate article significance for global, tech, or developer relevance.
 
 ## Instructions
 
-1. Input: Article content in text or markdown.
-2. Output: Respond with lowercase "true" or "false" only. No additional context.
+Generate valid JSON body only with boolean "important" field, true or false only, no codeblocks like ```
+Mark as important (true) based on "Important Factors" sections.
+If content satisfies "Not Important Factors" sections, mark as not important (false).
+If the article is significantly impactful, set "important" to true, no matter they includes content in "Not Important Factors" section.
 
-## Analysis Criteria
+## Important Factors
 
-### Important
-
-- Significant events, changes, or endings
-- Major political news, historical events, or wide-impact occurrences
-- Personal experiences about life, work, or society
-- Emergent news: tech/dev security issues, leaks
-- New tech announcements, innovations, or updates (e.g., AI models, chips, software)
-- Major accidents, disasters, or calamities
+- Emergent, Significant impactful
+- Major political news, historical events and wide-impact occurrences
+- Personal experiences about life, work and society
+- Leaks and security breaches
+- New technology announcements, innovations, or updates (e.g., AI models, chips, software)
+- Major accidents, disasters and calamities
 - Popular culture news (e.g., Marvel, DC, Netflix collaborations)
-- Critiques of companies, politics, social issues, or phenomena
-- General availability of impactful products/services
-- Critical societal events or public health issues
-- Extremely popular games (ROBLOX, Minecraft, etc)
+- Critiques of companies, politics, social issues and phenomena
+- General availability and impactful products/services
+- Critical societal events
+- Public health issues
+- Popular games
 
-### Unimportant
+## Not Important Factors
 
-- Comparisons or "best of" lists
-- New movies/seasons (unless extremely popular)
-- Minor expos or sales
+- Gifts
+- Comparisons and "best of" lists
+- New movies and seasons
+- Minor expos and sales
 - Repetitive AI warnings
-- Product/event expectations or previews
-- Most game updates (unless for extremely popular games)
-- Racist, promotional, or unprofessional content
-- Minor political conflicts or party disputes
-- Lower-level political news (e.g., minor appointments, labor issues)
-- Routine product launches or reviews
+- Product/event expectations and previews
+- Most game updates
+- Racist, promotional and unprofessional content
+- Minor political conflicts and party disputes
+- Lower-level political news
+- Routine product launches and reviews
 - Minor personnel changes
-- General guides or suggestions
-- Unpopular performances or personal stories
-- Cooking or recipes
-- Minor birthdays or anniversaries
-- Most music, productions, or series
-- Sports news (unless major events or very popular figures)
+- General guides and suggestions
+- Unpopular performances and personal stories
+- Cooking and recipes
+- Minor birthdays and anniversaries
+- Most music, productions and series
+- Sports news
 - Product discussions
-- Quizzes, tests
+- Quizzes and tests
 - Love-related content
-- Sexual, LGBT, transgender news (unless major societal impact)
-
-## Constraints
-
-- Output: Only "true" or "false" in lowercase.
-- Penalties apply for any other response.
+- Sexual, LGBT and transgender news
 """.strip()

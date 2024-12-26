@@ -23,7 +23,7 @@ def get_category_from_source(source: str) -> str | None:
 
 
 @lru_cache
-def get_rss_config() -> dict[str, dict[str, list[str | dict]]]:
+def get_rss_config() -> dict[str, dict[str, str | list[str]]]:
     path = "./config.yaml" if IS_PRODUCTION else "./dev.config.yaml"
 
     if not os.path.exists(path):

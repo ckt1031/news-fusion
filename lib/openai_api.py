@@ -61,7 +61,7 @@ class OpenAIAPI:
         if res.refusal:
             raise Exception(f"OpenAI chat completion refusal: {res.refusal}")
 
-        return res
+        return res.parsed
 
     def generate_text(self, message: MessageBody, model: str | None = None) -> str:
         """

@@ -19,7 +19,7 @@ allowed = """
 - Useful skills
 - Side projects/Habits that worth sharing, or worth reading
 - Their successful stories, experiences or their failure stories
-"""
+""".strip()
 
 disallowed = """
 - Any unwanted, unuseful or unworthy content
@@ -29,38 +29,25 @@ disallowed = """
   - e.g. We raised $1M for our new project
 - Job opportunities, job search, or job-seeking advice
 - My favourite, or my best, or my worst [Music, Movie, etc.] (Leave book reviews as they are useful)
-"""
+""".strip()
 
 forum_importance_prompt = f"""
 You are designed to browse and find important discussions that are worth reading for global, tech innovations, or developers.
 Help users save time by identifying whether an article is worth reading for extra knowledge and personal improvement.
-Evaluate the significance of the discussions.
+Evaluate the importance of the discussions.
 
 ## Instructions
 
-1. Input Format: You will be provided with article content in text or markdown format.
-2. Output Format: Respond with a single Boolean text, either "true" or "false", in fully lowercase. Do not provide any additional context or comments.
+Generate valid JSON body only with boolean "important" field, true or false only, no codeblocks like ```
+Mark as important (true) based on "Important Factors" sections.
+If content satisfies "Not Important Factors" sections, mark as not important (false).
+If the article is significantly impactful, set "important" to true, no matter they includes content in "Not Important Factors" section.
 
-## Analysis Criteria
-
-### Important (True)
+## Important Factors (true)
 
 {allowed}
 
-### Unimportant (False)
+### Not Important Factors (false)
 
 {disallowed}
-
-## Constraints
-
-- Output: Only return "true" or "false" as the response.
-- Penalties: You will be penalized if you return anything other than "true" or "false".
-
-## Examples
-
-Input: Apple announces the release of a new AI-powered feature in their latest iOS update, which is expected to revolutionize user interaction with their devices.
-Output: true
-
-Input: A new restaurant opens in downtown New York City, offering a unique fusion of Japanese and Italian cuisine.
-Output: false
 """.strip()

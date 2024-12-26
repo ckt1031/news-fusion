@@ -4,57 +4,26 @@ from datetime import datetime
 from time import sleep
 
 from loguru import logger
-from openai import BaseModel
 
 from lib.db.postgres import Article
 from lib.db.qdrant import News, Qdrant
-from lib.notifications.send import process_notification
+from lib.notifications.discord_webhook import send_discord
 from lib.openai_api import MessageBody, OpenAIAPI
 from lib.prompts import (
+    NewsImportanceSchema,
+    TitleSummarySchema,
     forum_importance_prompt,
     news_importance_prompt,
     title_summary_prompt,
 )
 from lib.pubsub.subscription import send_pubsubhubbub_update
 from lib.rss import extract_website, get_rss_config
+from lib.types import RSSEntity
 from lib.utils import optimize_text
 
 
-class TitleSummarySchema(BaseModel):
-    title: str
-    summary: str
-
-
-class RSSEntity:
-    def __init__(
-        self,
-        title: str,
-        link: str,
-        published_parsed: time.struct_time,
-        category: str,
-        feed_title: str,
-    ):
-        self.title = title
-        self.link = link
-        self.published_parsed = published_parsed
-        self.category = category
-        self.feed_title = feed_title
-
-
-def importance_check(content: str, is_forum: bool) -> bool:
-    msg = MessageBody(
-        system=forum_importance_prompt if is_forum else news_importance_prompt,
-        user=content,
-    )
-    response = OpenAIAPI().generate_text(msg).lower()
-
-    return ("true" in response) or ("important" in response)
-
-
-def check_if_article_exists(link: str, title: str) -> bool:
-    return (
-        Article.get_or_none(Article.link == link or Article.title == title) is not None
-    )
+def check_if_article_exists(link: str) -> bool:
+    return Article.get_or_none(Article.link == link) is not None
 
 
 def check_article(d: RSSEntity) -> None:
@@ -66,7 +35,7 @@ def check_article(d: RSSEntity) -> None:
         return
 
     # Check if the source is already in the database
-    if check_if_article_exists(d.link, d.title):
+    if check_if_article_exists(d.link):
         logger.debug(f"Article already exists: {d.link}")
         return
 
@@ -76,15 +45,12 @@ def check_article(d: RSSEntity) -> None:
     sleep(sleep_time)
 
     website_data = extract_website(d.link)
-
     content = optimize_text(website_data["raw_text"])
-
-    qdrant = Qdrant()
-
     content_embedding = OpenAIAPI().generate_embeddings(content)
 
     # Check if the article is similar to any other article in the database to remove duplicates
     # If it is, skip it
+    qdrant = Qdrant()
     similarities = qdrant.find_out_similar_news(
         News(
             content_embedding=content_embedding,
@@ -93,39 +59,10 @@ def check_article(d: RSSEntity) -> None:
         )
     )
 
-    # There exists a similar article from list with a score of 0.75 or higher
-    if similarities and similarities[0] and similarities[0].score >= 0.70:
-        logger.debug(f"Similar article found: {similarities[0].payload['link']}")
-
-        Article.create(
-            title=d.title,
-            category=d.category,
-            link=d.link,
-            image=website_data["image"],
-            important=False,
-            published_at=datetime.fromtimestamp(time.mktime(d.published_parsed)),
-        )
-
-        return
-
-    # Check importance
-    today_date_str = datetime.now().strftime("%Y-%m-%d")
-    news_text_with_meta = (
-        f"\nTitle: {d.title}\nDate: {today_date_str}\nContent: {content}"
-    )
-
-    rss_config = get_rss_config()
-    category_config = rss_config[d.category]
-    forum_mode: bool = category_config.get("forum", False)
-
-    important = importance_check(news_text_with_meta, forum_mode)
-
     published_date = datetime.fromtimestamp(time.mktime(d.published_parsed))
 
-    # If the article is not important, skip it
-    if not important:
-        logger.debug(f"Article is not important: {d.link}")
-
+    # There exists a similar article from list with a score of 0.75 or higher
+    if similarities and similarities[0] and similarities[0].score >= 0.70:
         Article.create(
             title=d.title,
             category=d.category,
@@ -134,33 +71,76 @@ def check_article(d: RSSEntity) -> None:
             important=False,
             published_at=published_date,
         )
-
+        logger.debug(
+            f"Similar article found for {d.link}: {similarities[0].payload['link']}"
+        )
         return
 
-    generated_data = (
-        OpenAIAPI()
-        .generate_schema(
-            MessageBody(
-                system=title_summary_prompt,
-                user=content,
-            ),
-            schema=TitleSummarySchema,
-        )
-        .parsed
+    # Check importance
+    today_date_str = datetime.now().strftime("%Y-%m-%d")
+    news_text_with_meta = (
+        f"Title: {d.title}\nDate: {today_date_str}\nContent: {content}"
     )
 
+    category_config = get_rss_config()[d.category]
+    is_forum: bool = category_config.get("forum", False)
+
+    importance_status = OpenAIAPI().generate_schema(
+        MessageBody(
+            system=forum_importance_prompt if is_forum else news_importance_prompt,
+            user=news_text_with_meta,
+        ),
+        schema=NewsImportanceSchema,
+    )
+
+    # If the article is not important, skip it
+    if not importance_status.important:
+        Article.create(
+            title=d.title,
+            category=d.category,
+            link=d.link,
+            image=website_data["image"],
+            important=False,
+            published_at=published_date,
+        )
+        logger.debug(f"Article is not important: {d.link}")
+        return
+
+    # Generate title and summary
+    generated_title_summary = OpenAIAPI().generate_schema(
+        MessageBody(
+            system=title_summary_prompt,
+            user=content,
+        ),
+        schema=TitleSummarySchema,
+    )
+
+    # Database schema insertion
     data = Article(
-        title=generated_data.title,
+        title=generated_title_summary.title,
         link=d.link,
         category=d.category,
         image=website_data["image"],
-        summary=generated_data.summary,
+        summary=generated_title_summary.summary,
         important=True,
         published_at=published_date,
         publisher=d.feed_title,
     )
 
-    process_notification(data, rss_config[d.category])
+    discord_channel_id: str = category_config.get("discord_channel_id")
+
+    if discord_channel_id is not None and len(discord_channel_id) > 0:
+        send_discord(
+            channel_id=discord_channel_id,
+            message=None,
+            embed={
+                "title": data.title,
+                "description": data.summary,
+                "url": data.link,
+                "image": {"url": data.image},
+                "footer": {"text": data.publisher},
+            },
+        )
 
     # Save to VectorDB
     qdrant.insert_news(
@@ -174,6 +154,7 @@ def check_article(d: RSSEntity) -> None:
     # Save to Postgres
     data.save()
 
-    logger.success(f"Article saved: {d.link}")
-
+    # Pubsub update for target clients
     send_pubsubhubbub_update(d.category)
+
+    logger.success(f"Article saved: {d.link}")
