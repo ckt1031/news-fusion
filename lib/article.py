@@ -3,6 +3,7 @@ import time
 from datetime import datetime
 from time import sleep
 
+import chevron
 from loguru import logger
 
 from lib.db.postgres import Article
@@ -109,7 +110,12 @@ def check_article(d: RSSEntity) -> None:
     # Generate title and summary
     generated_title_summary = OpenAIAPI().generate_schema(
         MessageBody(
-            system=title_summary_prompt,
+            system=chevron.render(
+                title_summary_prompt,
+                {
+                    "language": category_config.get("language", "English US"),
+                },
+            ),
             user=content,
         ),
         schema=TitleSummarySchema,
