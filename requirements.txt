@@ -6,7 +6,7 @@ loguru==0.7.3
 openai==1.58.1
 peewee==3.17.8
 python-dotenv==1.0.1
-qdrant_client==1.12.1
+qdrant_client==1.12.2
 trafilatura==2.0.0
 psycopg2-binary==2.9.10
 pyyaml==6.0.2
