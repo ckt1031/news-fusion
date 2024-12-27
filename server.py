@@ -32,7 +32,7 @@ app = FastAPI(
 
 
 # Health check
-@app.get("/health")
+@app.get("/health", include_in_schema=False)
 async def health():
     return {"status": "ok"}
 

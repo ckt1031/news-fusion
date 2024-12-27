@@ -12,20 +12,21 @@ from lib.pubsub.distribution import process_pubsub_distribution
 
 pubsub_router = APIRouter()
 
-PUB_TOKEN = get_env("PUBSUB_TOKEN")
+PUBSUB_TOKEN = get_env("PUBSUB_TOKEN")
 
 
 @pubsub_router.get(
     "/pubsub/subscription",
-    summary="Pubsub Callback for Subscription",
-    tags=["Pubsub"],
-    dependencies=[Depends(RateLimiter(times=60, seconds=60))],
+    # summary="Pubsub Callback for Subscription",
+    # tags=["Pubsub"],
+    include_in_schema=False,
+    dependencies=[Depends(RateLimiter(times=60, seconds=120))],
 )
 async def subscription(request: Request) -> Response:
     challenge = request.query_params.get("hub.challenge")
     verify_token = request.query_params.get("hub.verify_token")
 
-    if verify_token != PUB_TOKEN:
+    if verify_token != PUBSUB_TOKEN:
         logger.debug("Invalid Pubsub verify token")
         return PlainTextResponse(
             status_code=404,
@@ -46,7 +47,7 @@ async def verify_signature(signature_header: str, body: bytes) -> bool:
     signature = signature_header.split("=")[1]
 
     body_signature = hmac.new(
-        PUB_TOKEN.encode("utf-8"),
+        PUBSUB_TOKEN.encode("utf-8"),
         body,
         hashlib.sha1,
     )
@@ -57,9 +58,10 @@ async def verify_signature(signature_header: str, body: bytes) -> bool:
 
 @pubsub_router.post(
     "/pubsub/subscription",
-    summary="Pubsub callback for new distribution",
-    tags=["Pubsub"],
-    dependencies=[Depends(RateLimiter(times=20, seconds=60))],
+    # summary="Pubsub callback for new distribution",
+    # tags=["Pubsub"],
+    include_in_schema=False,
+    dependencies=[Depends(RateLimiter(times=60, seconds=120))],
 )
 async def distribution(req: Request, bg: BackgroundTasks) -> Response:
     # Signature is in the format of "sha1=xxxx"
