@@ -8,6 +8,7 @@ from fastapi_limiter import FastAPILimiter
 import web.routes as v1_router
 from lib.db.redis_client import redis
 from lib.pubsub.subscription import register_all_topics
+from lib.scheduler import scheduler
 from lib.utils import init_logger
 
 init_logger()
@@ -21,6 +22,7 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     asyncio.get_event_loop().call_later(1, asyncio.create_task, register_all_topics())
 
     yield
+    scheduler.shutdown()
     await FastAPILimiter.close()
     await register_all_topics(revoke=True)
 
