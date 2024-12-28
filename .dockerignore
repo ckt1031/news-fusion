@@ -2,5 +2,5 @@
 !**/*.py
 !Dockerfile
 !docker-compose.yaml
-!config.yaml
+# !config.yaml
 !requirements.txt

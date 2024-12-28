@@ -19,8 +19,8 @@ jobs:
 
       - run: pip install --upgrade -r requirements.txt
 
-      - name: Convert Base64 Environment Variable into config File
-        run: echo "${{ secrets.CONFIG_YAML_BASE64 }}" | base64 -d > config.yaml
+#      - name: Convert Base64 Environment Variable into config File
+#        run: echo "${{ secrets.CONFIG_YAML_BASE64 }}" | base64 -d > config.yaml
 
       - run: LOGURU_LEVEL="INFO" python crawl.py
         env:

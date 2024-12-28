@@ -1,0 +1,91 @@
+rss:
+  world:
+    name: World
+    icon: https://cdn-icons-png.flaticon.com/512/2240/2240692.png
+    sources:
+      - https://time.com/feed/
+      - https://feeds.bbci.co.uk/news/world/rss.xml
+    discord_channel_id: "1315385019241595172"
+
+  technology:
+    name: Technology
+    icon: https://cdn-icons-png.flaticon.com/512/5742/5742482.png
+    sources:
+      - https://9to5mac.com/feed/
+      - https://9to5google.com/feed/
+      - https://techcrunch.com/feed/
+      - https://arstechnica.com/feed/
+      - https://www.wired.com/feed/rss
+      - https://www.zdnet.com/news/rss.xml
+      - https://www.theverge.com/rss/full.xml
+      - https://www.theregister.com/headlines.rss
+    discord_channel_id: "1297769089024004126"
+
+  dev:
+    name: Developers
+    icon: https://cdn-icons-png.flaticon.com/512/6840/6840478.png
+    sources:
+      - https://deno.com/feed
+      - https://bun.sh/rss.xml
+      - https://vercel.com/atom
+      - https://astro.build/rss.xml
+      - https://blogs.windows.com/feed
+    discord_channel_id: "1315654076280864789"
+
+  ai:
+    name: AI
+    icon: https://static.vecteezy.com/system/resources/previews/006/662/139/non_2x/artificial-intelligence-ai-processor-chip-icon-symbol-for-graphic-design-logo-web-site-social-media-mobile-app-ui-illustration-free-vector.jpg
+    sources:
+      - https://jina.ai/feed.rss
+      - https://lastweekin.ai/feed
+      - https://huggingface.co/blog/feed.xml
+      - https://deepmind.google/blog/rss.xml
+      - http://qwenlm.github.io/blog/index.xml
+      - https://blog.google/products/gemini/rss/
+    discord_channel_id: "1315729383440515113"
+
+  v2ex:
+    name: V2EX
+    forum: true
+    language: Traditional Chinese
+    sources:
+      - https://www.v2ex.com/index.xml
+      - https://www.v2ex.com/feed/tab/play.xml
+      - https://www.v2ex.com/feed/tab/tech.xml
+      - https://www.v2ex.com/feed/tab/creative.xml
+    discord_channel_id: "1320091323033849928"
+
+  youtube:
+    name: YouTube
+    sources:
+      - yt:UCsBjURrPoezykLs9EqgamOA # Fireship
+      - yt:UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
+      - yt:UCeUJO1H3TEXu2syfAAPjYKQ # 极客湾 Geekerwan
+      - yt:UCQtwvRQWnT5Buh9hpvNNryQ # 柴知道
+      - yt:UCbRP3c757lWg9M-U7TyEkXA # Theo - t3․gg
+    discord_channel_id: "1322487198762930206"
+
+  hackernews:
+    name: "Hacker News"
+    forum: true
+    sources:
+      - https://hnrss.org/newest
+      - https://hnrss.org/frontpage
+    discord_channel_id: "1320300826673156168"
+
+  lobste-rs:
+    name: "Lobste.rs"
+    forum: true
+    sources:
+      - https://lobste.rs/t/ai,event,web.rss
+      - https://lobste.rs/t/security,release.rss
+      - https://lobste.rs/t/science,math,education.rss
+      - https://lobste.rs/t/compsci,programming,hardware.rss
+    discord_channel_id: "1320300953953505351"
+
+  dev-to:
+    name: "Dev.to"
+    forum: true
+    sources:
+      - https://dev.to/feed
+    discord_channel_id: "1320091294726488074"
