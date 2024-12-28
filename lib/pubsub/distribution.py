@@ -25,6 +25,7 @@ def process_pubsub_distribution(body: bytes):
 
     check_article(
         RSSEntity(
+            entry=entry,
             title=entry["title"],
             link=entry["link"],
             published_parsed=entry["published_parsed"],

@@ -29,4 +29,5 @@ Create brief, focused summaries and title generation of news content provided.
 - Simple, clear, precise, specific, focused and straight
 - No subheadings and any other Markdown components
 - No feedback and anticipations unless explicitly stated
+- Use bullet points (-) with bolded keywords for key points if there are multiple points
 """.strip()

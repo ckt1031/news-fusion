@@ -7,6 +7,7 @@ from loguru import logger
 from lib.article import RSSEntity, check_article
 from lib.rss import get_rss_config, parse_rss_feed
 from lib.utils import init_logger, shuffle_dict_keys
+from lib.youtube import YOUTUBE_RSS_BASE_URL
 
 init_logger()
 
@@ -46,6 +47,9 @@ def run_scraper():
         random.shuffle(data["sources"])
 
         for source in data["sources"]:
+            if source.startswith("yt:"):
+                source = source.replace("yt:", YOUTUBE_RSS_BASE_URL)
+
             try:
                 feed = parse_rss_feed(source)
 
@@ -75,6 +79,7 @@ def run_scraper():
 
                         check_article(
                             RSSEntity(
+                                entry=entry,
                                 title=entry["title"],
                                 link=entry["link"],
                                 published_parsed=published,

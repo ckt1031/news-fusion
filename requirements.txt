@@ -6,7 +6,6 @@ loguru==0.7.3
 openai==1.58.1
 peewee==3.17.8
 python-dotenv==1.0.1
-qdrant_client==1.12.1
 trafilatura==2.0.0
 psycopg2-binary==2.9.10
 pyyaml==6.0.2
@@ -17,3 +16,4 @@ uvicorn[standard]==0.34.0
 qdrant-client~=1.12.1
 chevron~=0.14.0
 APScheduler~=3.11.0
+youtube-transcript-api~=0.6.3
