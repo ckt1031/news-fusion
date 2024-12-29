@@ -34,7 +34,7 @@ If the article is significantly impactful, set "important" to true, no matter th
 # Not Important Factors
 
 - Product reviews
-- Funding and investments
+- Funding, investments and venture capital
 - Gifts
 - Comparisons and "best of" lists
 - New movies and seasons
