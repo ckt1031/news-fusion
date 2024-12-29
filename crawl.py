@@ -48,6 +48,10 @@ def run_scraper():
 
         for source in data["sources"]:
             if source.startswith("yt:"):
+                if not check_if_arg_exists("--check-youtube"):
+                    logger.info(f"Skipping YouTube source: {source}")
+                    continue
+
                 source = source.replace("yt:", YOUTUBE_RSS_BASE_URL)
 
             try:

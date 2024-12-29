@@ -71,7 +71,6 @@ rss:
     sources:
       - https://www.scmp.com/rss/2/feed
       - https://hongkongfp.com/feed/
-      - https://rthk9.rthk.hk/rthk/news/rss/e_expressnews_elocal.xml
     discord_channel_id: "1322608633355305110"
 
   hackernews:
