@@ -65,6 +65,15 @@ rss:
       - yt:UCbRP3c757lWg9M-U7TyEkXA # Theo - t3․gg
     discord_channel_id: "1322487198762930206"
 
+  hong_kong:
+    name: "Hong Kong"
+    language: Traditional Chinese
+    sources:
+      - https://www.scmp.com/rss/2/feed
+      - https://hongkongfp.com/feed/
+      - https://rthk9.rthk.hk/rthk/news/rss/e_expressnews_elocal.xml
+    discord_channel_id: "1322608633355305110"
+
   hackernews:
     name: "Hacker News"
     forum: true

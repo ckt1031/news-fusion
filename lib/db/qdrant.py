@@ -16,11 +16,9 @@ QDRANT_API_KEY = get_env("QDRANT_API_KEY")
 class News:
     def __init__(
         self,
-        title: str,
         content_embedding: openai.types.CreateEmbeddingResponse,
         link: str,
     ):
-        self.title = title
         self.content_embedding = content_embedding
         self.link = link
 
@@ -85,7 +83,6 @@ class Qdrant:
                 vector=news.content_embedding.data[0].embedding,
                 payload={
                     "link": news.link,
-                    "title": news.title,
                 },
             )
         ]

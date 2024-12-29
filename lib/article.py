@@ -70,7 +70,6 @@ def check_article(d: RSSEntity) -> None:
         similarities = qdrant.find_out_similar_news(
             News(
                 content_embedding=content_embedding,
-                title=website_data["title"],
                 link=d.link,
             )
         )
@@ -166,7 +165,6 @@ def check_article(d: RSSEntity) -> None:
         # Save to VectorDB
         qdrant.insert_news(
             News(
-                title=d.title,
                 content_embedding=content_embedding,
                 link=d.link,
             )
