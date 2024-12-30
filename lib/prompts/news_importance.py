@@ -1,9 +1,13 @@
-from openai import BaseModel
+from pydantic import BaseModel
 
 
 class NewsImportanceSchema(BaseModel):
     important: bool
 
+
+data = {"important": 12}
+
+print(NewsImportanceSchema.model_validate(data))
 
 news_importance_prompt = """
 you are helping people save time by determining if an article is worth reading for knowledge and improvement.
@@ -11,10 +15,9 @@ Evaluate article significance for global, tech, or developer relevance.
 
 # Instructions
 
-Generate valid JSON body only with boolean "important" field, true or false only, no codeblocks like ```
-Mark as important (true) based on "Important Factors" sections.
-If content satisfies "Not Important Factors" sections, mark as not important (false).
-If the article is significantly impactful, set "important" to true, no matter they includes content in "Not Important Factors" section.
+- Mark as important (true) based on "Important Factors" sections.
+- If content satisfies "Not Important Factors" sections, mark as not important (false).
+- If the article is significantly impactful, set "important" to true, no matter they includes content in "Not Important Factors" section.
 
 # Important Factors
 

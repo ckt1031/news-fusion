@@ -1,4 +1,4 @@
-from openai import BaseModel
+from pydantic import BaseModel
 
 
 class TitleSummarySchema(BaseModel):
@@ -12,7 +12,6 @@ Create brief, focused summaries and title generation of news content provided.
 
 ## Instructions
 
-- Generate valid JSON body only with "title" and "summary" fields, no codeblocks like ```
 - Respond in {{ language }} only
 - Use simple, clear language, focus on main ideas and key points, be specific for exact thing
 - No clickbait, additional comments, or context not in the original content

@@ -61,6 +61,9 @@ class OpenAIAPI:
         if res.refusal:
             raise Exception(f"OpenAI chat completion refusal: {res.refusal}")
 
+        # Type check the parsed response
+        schema.model_validate(res.parsed)
+
         return res.parsed
 
     def generate_text(self, message: MessageBody, model: str | None = None) -> str:
