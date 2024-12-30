@@ -5,10 +5,6 @@ class NewsImportanceSchema(BaseModel):
     important: bool
 
 
-data = {"important": 12}
-
-print(NewsImportanceSchema.model_validate(data))
-
 news_importance_prompt = """
 you are helping people save time by determining if an article is worth reading for knowledge and improvement.
 Evaluate article significance for global, tech, or developer relevance.
