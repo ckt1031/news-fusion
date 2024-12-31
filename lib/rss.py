@@ -1,7 +1,7 @@
 import json
 import os
 import sys
-from functools import lru_cache
+from functools import cache
 
 import feedparser
 import trafilatura
@@ -11,7 +11,7 @@ from loguru import logger
 from lib.env import IS_PRODUCTION
 
 
-@lru_cache
+@cache
 def get_category_from_source(source: str) -> str | None:
     rss_config = get_rss_config()
 
@@ -22,7 +22,7 @@ def get_category_from_source(source: str) -> str | None:
     return None
 
 
-@lru_cache
+@cache
 def get_rss_config() -> dict[str, dict[str, str | list[str]]]:
     path = "./config.yaml" if IS_PRODUCTION else "./dev.config.yaml"
 
@@ -37,16 +37,18 @@ def get_rss_config() -> dict[str, dict[str, str | list[str]]]:
             logger.error(exc)
 
 
-@lru_cache
+@cache
 def get_rss_categories() -> list[str]:
     return list(get_rss_config().keys())
 
 
+@cache
 def parse_rss_feed(feed: str) -> dict:
     rss_feed = feedparser.parse(feed)
     return rss_feed
 
 
+@cache
 def extract_website(link: str) -> dict:
     content = trafilatura.fetch_url(link)
 

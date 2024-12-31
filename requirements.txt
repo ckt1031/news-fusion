@@ -17,3 +17,5 @@ qdrant-client~=1.12.1
 chevron~=0.14.0
 APScheduler~=3.11.0
 youtube-transcript-api~=0.6.3
+tiktoken~=0.8.0
+tenacity~=9.0.0

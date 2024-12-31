@@ -1,6 +1,7 @@
 import tiktoken
 from loguru import logger
 from openai import OpenAI
+from tenacity import retry, stop_after_attempt, wait_fixed
 
 from lib.env import get_env
 
@@ -30,6 +31,7 @@ class OpenAIAPI:
             base_url=self.api_base_url,
         )
 
+    @retry(stop=stop_after_attempt(3), wait=wait_fixed(10))
     def generate_embeddings(self, text: str):
         """
         Embed the text using the LLM model
@@ -48,6 +50,7 @@ class OpenAIAPI:
 
         return response
 
+    @retry(stop=stop_after_attempt(3), wait=wait_fixed(10))
     def generate_schema(self, message: MessageBody, schema, model: str | None = None):
         completion = self.client.beta.chat.completions.parse(
             model=model or self.text_completion_model,
@@ -72,6 +75,7 @@ class OpenAIAPI:
 
         return res.parsed
 
+    @retry(stop=stop_after_attempt(3), wait=wait_fixed(10))
     def generate_text(self, message: MessageBody, model: str | None = None) -> str:
         """
         Generate text using the LLM model
