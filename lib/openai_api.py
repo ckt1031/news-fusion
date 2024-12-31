@@ -1,3 +1,4 @@
+import tiktoken
 from loguru import logger
 from openai import OpenAI
 
@@ -8,6 +9,11 @@ class MessageBody:
     def __init__(self, user: str, system: str | None = None):
         self.system = system
         self.user = user
+
+
+def count_tokens(text: str) -> int:
+    cl100k_base = tiktoken.get_encoding("cl100k_base")
+    return len(cl100k_base.encode(text))
 
 
 class OpenAIAPI:

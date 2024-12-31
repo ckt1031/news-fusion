@@ -9,7 +9,7 @@ from loguru import logger
 from lib.db.postgres import Article
 from lib.db.qdrant import News, Qdrant
 from lib.notifications.discord_webhook import send_discord
-from lib.openai_api import MessageBody, OpenAIAPI
+from lib.openai_api import MessageBody, OpenAIAPI, count_tokens
 from lib.prompts import (
     NewsImportanceSchema,
     TitleSummarySchema,
@@ -29,11 +29,11 @@ def check_if_article_exists(link: str) -> bool:
 
 
 def check_article(d: RSSEntity) -> None:
-    # Check if the article is older than 3 days
+    # Check if the article is older than 24 hours
     timestamp = time.mktime(d.published_parsed)
 
-    if (datetime.now() - datetime.fromtimestamp(timestamp)).days > 3:
-        logger.debug(f"Article is older than 3 days: {d.link}")
+    if (datetime.now() - datetime.fromtimestamp(timestamp)).seconds > 86400:
+        logger.debug(f"Article is older than 24 hours: {d.link}")
         return
 
     # Check if the source is already in the database
@@ -63,6 +63,13 @@ def check_article(d: RSSEntity) -> None:
         image = website_data["image"]
 
         content = optimize_text(website_data["raw_text"])
+        content_token = count_tokens(content)
+        if content_token > 7500:
+            logger.warning(
+                f"Article is too long: {d.link} ({content_token} tokens), currently not supported, skipping"
+            )
+            return
+
         content_embedding = OpenAIAPI().generate_embeddings(content)
 
         # Check if the article is similar to any other article in the database to remove duplicates
