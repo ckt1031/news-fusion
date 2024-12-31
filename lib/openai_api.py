@@ -13,8 +13,8 @@ class MessageBody:
 
 
 def count_tokens(text: str) -> int:
-    cl100k_base = tiktoken.get_encoding("cl100k_base")
-    return len(cl100k_base.encode(text))
+    o200k_base = tiktoken.get_encoding("o200k_base")
+    return len(o200k_base.encode(text))
 
 
 class OpenAIAPI:
@@ -43,6 +43,10 @@ class OpenAIAPI:
             "text-embedding-3-small",
         )
 
+        token = count_tokens(text)
+
+        logger.info(f"Generating embeddings using the LLM model: {token} tokens")
+
         response = self.client.embeddings.create(
             model=embedding_model,
             input=text,
@@ -52,6 +56,10 @@ class OpenAIAPI:
 
     @retry(stop=stop_after_attempt(3), wait=wait_fixed(10))
     def generate_schema(self, message: MessageBody, schema, model: str | None = None):
+        sys_token, user_token = count_tokens(message.system), count_tokens(message.user)
+
+        logger.info(f"Generating schema using the LLM model: {sys_token + user_token} tokens")
+
         completion = self.client.beta.chat.completions.parse(
             model=model or self.text_completion_model,
             messages=[

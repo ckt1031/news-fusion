@@ -28,11 +28,15 @@ def check_if_article_exists(link: str) -> bool:
     return Article.get_or_none(Article.link == link) is not None
 
 
+def is_host_the_same(link1: str, link2: str) -> bool:
+    return link1.split("/")[2] == link2.split("/")[2]
+
+
 def check_article(d: RSSEntity) -> None:
     # Check if the article is older than 24 hours
     timestamp = time.mktime(d.published_parsed)
 
-    if (datetime.now() - datetime.fromtimestamp(timestamp)).seconds > 86400:
+    if (datetime.now() - datetime.fromtimestamp(timestamp)).days > 1:
         logger.debug(f"Article is older than 24 hours: {d.link}")
         return
 
@@ -64,7 +68,7 @@ def check_article(d: RSSEntity) -> None:
 
         content = optimize_text(website_data["raw_text"])
         content_token = count_tokens(content)
-        if content_token > 7500:
+        if content_token > 8000:
             logger.warning(
                 f"Article is too long: {d.link} ({content_token} tokens), currently not supported, skipping"
             )
@@ -81,8 +85,10 @@ def check_article(d: RSSEntity) -> None:
             )
         )
 
-        # There exists a similar article from list with a score of 0.75 or higher
-        if similarities and similarities[0] and similarities[0].score >= 0.70:
+        # There exists a similar article from list and their host must be different
+        if similarities and similarities[0] and similarities[0].score >= 0.70 and not is_host_the_same(
+                similarities[0].payload["link"], d.link
+        ):
             Article.create(
                 title=d.title,
                 category=d.category,
