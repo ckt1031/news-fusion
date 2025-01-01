@@ -24,25 +24,55 @@ from lib.utils import optimize_text
 from lib.youtube import get_transcript_from_youtube_link
 
 
-def check_if_article_exists(link: str) -> bool:
-    return Article.get_or_none(Article.link == link) is not None
+def check_if_article_exists(guid: str, link: str, title: str) -> bool:
+    return (
+        Article.get_or_none(
+            (Article.guid == guid) | (Article.link == link) | (Article.title == title)
+        )
+        is not None
+    )
 
 
 def is_host_the_same(link1: str, link2: str) -> bool:
     return link1.split("/")[2] == link2.split("/")[2]
 
 
+def parse_published_date(entry: dict) -> time.struct_time:
+    published = entry.get("published_parsed")
+
+    if not published:
+        published = entry.get("updated")
+
+    if not published:
+        published = entry.get("published")
+
+    if not published:
+        raise ValueError(f"No published date: {entry['link']}")
+
+    if isinstance(published, str):
+        # 2018-03-26T13:00:00.000Z
+        published = time.strptime(published, "%Y-%m-%dT%H:%M:%S.%fZ")
+
+    return published
+
+
 def check_article(d: RSSEntity) -> None:
     # Check if the article is older than 24 hours
-    timestamp = time.mktime(d.published_parsed)
+    guid = d.entry["id"]
+    feed_title = d.feed_title
+    link = d.entry["link"]
+    title = d.entry["title"]
+    published_parsed = parse_published_date(d.entry)
+
+    timestamp = time.mktime(published_parsed)
 
     if (datetime.now() - datetime.fromtimestamp(timestamp)).days > 1:
-        logger.debug(f"Article is older than 24 hours: {d.link}")
+        logger.debug(f"Article is older than 24 hours: {link}")
         return
 
     # Check if the source is already in the database
-    if check_if_article_exists(d.link):
-        logger.debug(f"Article already exists: {d.link}")
+    if check_if_article_exists(guid, link, title):
+        logger.debug(f"Article already exists: {link} ({title})")
         return
 
     # Sleep for a random time between 2 and 5 seconds to avoid getting blocked and slowing down the server
@@ -52,25 +82,25 @@ def check_article(d: RSSEntity) -> None:
 
     is_youtube = False
     content_embedding = None
-    published_date = datetime.fromtimestamp(time.mktime(d.published_parsed))
+    published_date = datetime.fromtimestamp(timestamp)
 
     qdrant = Qdrant()
 
-    logger.info(f"Checking article: {d.link} ({d.title})")
+    logger.info(f"Checking article: {link} ({title})")
 
-    if "youtube.com" in d.link:
+    if "youtube.com" in link:
         is_youtube = True
-        content = get_transcript_from_youtube_link(d.link)
+        content = get_transcript_from_youtube_link(link)
         image = d.entry.get("media_thumbnail", [{}])[0].get("url", None)
     else:
-        website_data = extract_website(d.link)
+        website_data = extract_website(link)
         image = website_data["image"]
 
         content = optimize_text(website_data["raw_text"])
         content_token = count_tokens(content)
         if content_token > 8000:
             logger.warning(
-                f"Article is too long: {d.link} ({content_token} tokens), currently not supported, skipping"
+                f"Article is too long: {link} ({content_token} tokens), currently not supported, skipping"
             )
             return
 
@@ -81,30 +111,29 @@ def check_article(d: RSSEntity) -> None:
         similarities = qdrant.find_out_similar_news(
             News(
                 content_embedding=content_embedding,
-                link=d.link,
+                link=link,
             )
         )
 
         # There exists a similar article from list and their host must be different
         if similarities and similarities[0] and similarities[0].score >= 0.70:
             Article.create(
-                title=d.title,
+                guid=guid,
+                title=title,
                 category=d.category,
-                link=d.link,
+                link=link,
                 image=image,
                 important=False,
                 published_at=published_date,
             )
-            logger.debug(
-                f"Similar article found for {d.link}: {similarities[0].payload['link']}"
+            logger.info(
+                f"Similar article found for {link}: {similarities[0].payload['link']}"
             )
             return
 
     # Check importance
     today_date_str = datetime.now().strftime("%Y-%m-%d")
-    news_text_with_meta = (
-        f"Title: {d.title}\nDate: {today_date_str}\nContent: {content}"
-    )
+    news_text_with_meta = f"Title: {title}\nDate: {today_date_str}\nContent: {content}"
 
     category_config = get_rss_config()[d.category]
     is_forum: bool = category_config.get("forum", False)
@@ -121,14 +150,15 @@ def check_article(d: RSSEntity) -> None:
         # If the article is not important, skip it
         if not importance_status.important:
             Article.create(
-                title=d.title,
+                guid=guid,
+                title=title,
                 category=d.category,
-                link=d.link,
+                link=link,
                 image=image,
                 important=False,
                 published_at=published_date,
             )
-            logger.debug(f"Article is not important: {d.link}")
+            logger.debug(f"Article is not important: {link}")
             return
 
     # Generate title and summary
@@ -147,14 +177,15 @@ def check_article(d: RSSEntity) -> None:
 
     # Database schema insertion
     data = Article(
+        guid=guid,
         title=generated_title_summary.title,
-        link=d.link,
+        link=link,
         category=d.category,
         image=image,
         summary=generated_title_summary.summary,
         important=True,
         published_at=published_date,
-        publisher=d.feed_title,
+        publisher=feed_title,
     )
 
     discord_channel_id: str = str(category_config.get("discord_channel_id"))
@@ -177,7 +208,7 @@ def check_article(d: RSSEntity) -> None:
         qdrant.insert_news(
             News(
                 content_embedding=content_embedding,
-                link=d.link,
+                link=link,
             )
         )
 
@@ -187,4 +218,4 @@ def check_article(d: RSSEntity) -> None:
     # Pubsub update for target clients
     send_pubsubhubbub_update(d.category)
 
-    logger.success(f"Article saved: {d.link}")
+    logger.success(f"Article saved: {link}")

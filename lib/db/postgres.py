@@ -13,6 +13,9 @@ from peewee import (
 
 from lib.env import get_env
 
+# from playhouse.migrate import *
+
+
 try:
     db = PostgresqlDatabase(
         get_env(
@@ -32,6 +35,7 @@ class BaseModel(Model):
 
 
 class Article(BaseModel):
+    guid = CharField(null=True)
     title = CharField(unique=True)
     link = CharField(unique=True)
     summary = TextField(null=True)
@@ -46,3 +50,9 @@ class Article(BaseModel):
 
 
 db.create_tables([Article])
+
+# migrator = PostgresqlMigrator(db)
+#
+# migrate(
+#     migrator.add_column('article', 'guid', CharField(null=True)),
+# )

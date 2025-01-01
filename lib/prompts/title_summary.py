@@ -8,7 +8,7 @@ class TitleSummarySchema(BaseModel):
 
 title_summary_prompt = """
 You are a precise content summarizer.
-Create brief, focused summaries and title generation of news content provided.
+Create brief, focused summaries and title generation of content provided.
 
 ## Instructions
 

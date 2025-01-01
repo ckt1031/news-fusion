@@ -1,6 +1,5 @@
 import random
 import sys
-import time
 
 from loguru import logger
 
@@ -63,32 +62,11 @@ def run_scraper():
                             f"Checking article: {entry['link']} ({entry['title']})"
                         )
 
-                        published = entry.get("published_parsed")
-
-                        if not published:
-                            published = entry.get("updated")
-
-                        if not published:
-                            published = entry.get("published")
-
-                        if not published:
-                            logger.error(f"Error ({entry['link']}): No published date")
-                            continue
-
-                        if isinstance(published, str):
-                            # 2018-03-26T13:00:00.000Z
-                            published = time.strptime(
-                                published, "%Y-%m-%dT%H:%M:%S.%fZ"
-                            )
-
                         check_article(
                             RSSEntity(
-                                entry=entry,
-                                title=entry["title"],
-                                link=entry["link"],
-                                published_parsed=published,
-                                category=category,
                                 feed_title=feed["feed"]["title"],
+                                entry=entry,
+                                category=category,
                             )
                         )
                     except Exception as e:

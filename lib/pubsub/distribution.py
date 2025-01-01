@@ -11,6 +11,7 @@ def process_pubsub_distribution(body: bytes):
     entries: list = feed["entries"]
 
     if len(entries) == 0:
+        logger.warning("No entries found in the feed")
         return
 
     entry = entries[0]
@@ -26,9 +27,6 @@ def process_pubsub_distribution(body: bytes):
     check_article(
         RSSEntity(
             entry=entry,
-            title=entry["title"],
-            link=entry["link"],
-            published_parsed=entry["published_parsed"],
             category=category,
             feed_title=feed["feed"]["title"],
         )

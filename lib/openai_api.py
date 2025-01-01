@@ -56,15 +56,14 @@ class OpenAIAPI:
 
     @retry(stop=stop_after_attempt(3), wait=wait_fixed(10))
     def generate_schema(self, message: MessageBody, schema, model: str | None = None):
-        sys_token, user_token = count_tokens(message.system), count_tokens(message.user)
+        token = count_tokens(message.system + message.user)
 
-        logger.info(f"Generating schema using the LLM model: {sys_token + user_token} tokens")
+        logger.info(f"Generating schema using the LLM model: {token} tokens")
 
         completion = self.client.beta.chat.completions.parse(
             model=model or self.text_completion_model,
             messages=[
-                # Only include system messages if they exist
-                {"role": "system", "content": message.system} if message.system else {},
+                {"role": "system", "content": message.system},
                 {"role": "user", "content": message.user},
             ],
             response_format=schema,
@@ -91,7 +90,8 @@ class OpenAIAPI:
         :param message: The message to generate text in class Messages, which contains system and user messages
         :return: The generated text
         """
-        logger.info("Generating text using the LLM model")
+        token = count_tokens(message.system + message.user)
+        logger.info(f"Generating text using the LLM model: {token} tokens")
 
         response = self.client.chat.completions.create(
             model=model or self.text_completion_model,
