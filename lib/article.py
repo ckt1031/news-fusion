@@ -86,9 +86,7 @@ def check_article(d: RSSEntity) -> None:
         )
 
         # There exists a similar article from list and their host must be different
-        if similarities and similarities[0] and similarities[0].score >= 0.70 and not is_host_the_same(
-                similarities[0].payload["link"], d.link
-        ):
+        if similarities and similarities[0] and similarities[0].score >= 0.70:
             Article.create(
                 title=d.title,
                 category=d.category,
