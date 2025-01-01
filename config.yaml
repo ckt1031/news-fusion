@@ -53,7 +53,7 @@ rss:
       - https://www.v2ex.com/feed/tab/play.xml
       - https://www.v2ex.com/feed/tab/tech.xml
       - https://www.v2ex.com/feed/tab/creative.xml
-    discord_channel_id: "1320091323033849928"
+    discord_channel_id: "1324024110317043742"
 
   youtube:
     name: YouTube
