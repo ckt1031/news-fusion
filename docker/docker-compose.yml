@@ -8,7 +8,7 @@ services:
     ports:
       - "4782:4782"
     expose:
-      - "4782"
+      - "4782/tcp"
     environment:
       - LOGURU_LEVEL=INFO
       - IS_PRODUCTION=true
@@ -49,8 +49,6 @@ services:
     restart: unless-stopped
     volumes:
       - redis:/data
-    ports:
-      - "6379:6379"
 
 volumes:
   pg:

@@ -20,4 +20,4 @@ EXPOSE 4782/tcp
 ENV IS_PRODUCTION=true
 
 # RUN
-CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "4782", "--proxy-headers"]
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "4782", "--proxy-headers", "--log-level", "critical"]
