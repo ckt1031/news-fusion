@@ -29,4 +29,5 @@ Create brief, focused summaries and title generation of content provided.
 - No subheadings and any other Markdown components
 - No feedback and anticipations unless explicitly stated
 - Use bullet points (-) with bolded keywords for key points if there are multiple points
+- For company and investing news, include stock ticker symbols (e.g., AAPL, TSLA)
 """.strip()

@@ -1,11 +1,42 @@
 rss:
   world:
     name: World
+    language: Traditional Chinese
     icon: https://cdn-icons-png.flaticon.com/512/2240/2240692.png
     sources:
       - https://time.com/feed/
       - https://feeds.bbci.co.uk/news/world/rss.xml
     discord_channel_id: "1315385019241595172"
+
+  finance:
+    name: Finance
+    language: Traditional Chinese
+    sources:
+      - https://finance.yahoo.com/news/rssindex
+      - https://feeds.finance.yahoo.com/rss/2.0/headline
+    discord_channel_id: "1325126500336271442"
+
+  stock:
+    name: Stock
+    language: Traditional Chinese
+    sources:
+      - https://www.marketbeat.com/rss.ashx?type=headlines
+      - https://www.nasdaq.com/feed/rssoutbound
+    discord_channel_id: "1325127023311720480"
+
+  investing:
+    name: Investing
+    language: Traditional Chinese
+    sources:
+      - https://www.investing.com/rss/news_356.rss # Company News
+      - https://www.investing.com/rss/news_1065.rss # Stock Market Investment Ideas
+      - https://www.investing.com/rss/news_1063.rss # Earnings Call Transcripts
+      - https://www.investing.com/rss/news_1062.rss # Earnings Reports
+      - https://www.globenewswire.com/AtomFeed/subjectcode/72-Press%20Releases/feedTitle/GlobeNewswire%20-%20Press%20Releases # GlobeNewswire - Press Releases
+      - https://www.globenewswire.com/AtomFeed/subjectcode/29-Partnerships/feedTitle/GlobeNewswire%20-%20Partnerships # GlobeNewswire - Partnerships
+      - https://www.globenewswire.com/AtomFeed/orgclass/1/feedTitle/GlobeNewswire%20-%20News%20about%20Public%20Companies # GlobeNewswire - News about Public Companies
+      - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069 # CNBC - Investing
+    discord_channel_id: "1325116616303837204"
 
   technology:
     name: Technology

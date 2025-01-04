@@ -26,10 +26,10 @@ from lib.youtube import get_transcript_from_youtube_link
 
 def check_if_article_exists(guid: str, link: str, title: str) -> bool:
     return (
-        Article.get_or_none(
-            (Article.guid == guid) | (Article.link == link) | (Article.title == title)
-        )
-        is not None
+            Article.get_or_none(
+                (Article.guid == guid) | (Article.link == link) | (Article.title == title)
+            )
+            is not None
     )
 
 
@@ -58,7 +58,7 @@ def parse_published_date(entry: dict) -> time.struct_time:
 
 def check_article(d: RSSEntity) -> None:
     # Check if the article is older than 24 hours
-    guid = d.entry["id"]
+    guid = d.entry["id"] if "id" in d.entry else d.entry["link"]
     feed_title = d.feed_title
     link = d.entry["link"]
     title = d.entry["title"]
