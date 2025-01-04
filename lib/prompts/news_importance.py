@@ -18,6 +18,8 @@ Evaluate article significance for global, tech, or developer relevance.
 # Important Factors
 
 - Emergent, Significant impactful
+- Funding, investments and venture capital
+- Projects, collaborations and partnerships
 - Major political news, historical events and wide-impact occurrences
 - Personal experiences about life, work and society
 - Leaks and security breaches
@@ -33,7 +35,6 @@ Evaluate article significance for global, tech, or developer relevance.
 # Not Important Factors
 
 - Product reviews
-- Funding, investments and venture capital
 - Gifts
 - Comparisons and "best of" lists
 - New movies and seasons
