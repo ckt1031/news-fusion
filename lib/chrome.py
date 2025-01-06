@@ -9,6 +9,7 @@ from lib.utils import check_if_arg_exists
 logger.remove()
 logger.add(sys.stdout, format="{time}: [<level>{level}</level>] {message}")
 
+chrome_driver = None
 
 if check_if_arg_exists("--selenium-fallback"):
     chrome_driver = uc.Chrome(headless=False, use_subprocess=True)
