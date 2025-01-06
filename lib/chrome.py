@@ -2,7 +2,6 @@ import sys
 
 import undetected_chromedriver as uc
 from loguru import logger
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from lib.utils import check_if_arg_exists
 
