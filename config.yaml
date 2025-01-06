@@ -13,14 +13,13 @@ rss:
     language: Traditional Chinese
     sources:
       - https://finance.yahoo.com/news/rssindex
-      - https://feeds.finance.yahoo.com/rss/2.0/headline
     discord_channel_id: "1325126500336271442"
 
   stock:
     name: Stock
     language: Traditional Chinese
     sources:
-      - https://www.marketbeat.com/rss.ashx?type=headlines
+      - https://www.marketbeat.com/rss.ashx
       - https://www.nasdaq.com/feed/rssoutbound
     discord_channel_id: "1325127023311720480"
 

@@ -7,8 +7,11 @@ import feedparser
 import trafilatura
 import yaml
 from loguru import logger
+from timeout_decorator import timeout_decorator
 
+from lib.chrome import chrome_driver
 from lib.env import IS_PRODUCTION
+from lib.utils import check_if_arg_exists
 
 
 @cache
@@ -42,18 +45,52 @@ def get_rss_categories() -> list[str]:
     return list(get_rss_config().keys())
 
 
-@cache
+@timeout_decorator.timeout(10)
 def parse_rss_feed(feed: str) -> dict:
     rss_feed = feedparser.parse(feed)
     return rss_feed
 
 
-@cache
-def extract_website(link: str) -> dict:
-    content = trafilatura.fetch_url(link)
+def get_html_content(link: str) -> str:
+    try:
+        content = trafilatura.fetch_url(link)
 
-    if content is None:
-        raise Exception("Failed to fetch the website")
+        if content is None:
+            raise Exception("Failed to fetch the website")
+
+        return content
+    except Exception as e:
+        # Try using selenium if it has --selenium-fallback flag
+        if check_if_arg_exists("--selenium-fallback"):
+            logger.warning(f"Failed to fetch the website: {link}")
+            logger.warning("Trying to fetch the website using Selenium")
+
+            chrome_driver.get(link)
+            chrome_driver.implicitly_wait(5)
+
+            if (
+                "404" in chrome_driver.title
+                or "not found" in chrome_driver.title.lower()
+            ):
+                raise Exception("Page not found")
+
+            content = chrome_driver.page_source
+
+            if content is None:
+                raise Exception("Failed to fetch the website using Selenium")
+
+            # Close the website
+            chrome_driver.close()
+
+            return content
+
+        logger.error(f"Failed to fetch the website: {link}")
+        logger.error(e)
+        raise e
+
+
+def extract_website(link: str) -> dict:
+    content = get_html_content(link)
 
     json_data = trafilatura.extract(content, output_format="json", with_metadata=True)
 

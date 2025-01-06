@@ -38,3 +38,16 @@ def optimize_text(text: str) -> str:
     text = text.replace("\n", "")
 
     return text
+
+
+def check_if_arg_exists(arg: str) -> bool:
+    sys_arg = sys.argv
+
+    return arg in sys_arg
+
+
+def block_sites(url: str):
+    if "https://www.wsj.com" in url:
+        return True
+
+    return False

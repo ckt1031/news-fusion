@@ -5,16 +5,10 @@ from loguru import logger
 
 from lib.article import RSSEntity, check_article
 from lib.rss import get_rss_config, parse_rss_feed
-from lib.utils import init_logger, shuffle_dict_keys
+from lib.utils import block_sites, check_if_arg_exists, init_logger, shuffle_dict_keys
 from lib.youtube import YOUTUBE_RSS_BASE_URL
 
 init_logger()
-
-
-def check_if_arg_exists(arg: str) -> bool:
-    sys_arg = sys.argv
-
-    return arg in sys_arg
 
 
 def run_scraper():
@@ -58,6 +52,10 @@ def run_scraper():
 
                 for entry in feed["entries"]:
                     try:
+                        if block_sites(entry["link"]):
+                            logger.warning(f"Blocked site: {entry['link']}")
+                            continue
+
                         logger.debug(
                             f"Checking article: {entry['link']} ({entry['title']})"
                         )
