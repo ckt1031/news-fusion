@@ -33,11 +33,14 @@ def get_rss_config() -> dict[str, dict[str, str | list[str]]]:
         logger.error(f"Config file not found at {path}")
         sys.exit(1)
 
-    with open(path, "r") as stream:
-        try:
-            return yaml.safe_load(stream)["rss"]
-        except yaml.YAMLError as exc:
-            logger.error(exc)
+    with open(path, "r", encoding="utf-8") as stream:
+        data = yaml.safe_load(stream)
+
+        if data is None or "rss" not in data:
+            logger.error("Failed to load config file, please check the format")
+            sys.exit(1)
+
+        return data["rss"]
 
 
 @cache
@@ -46,8 +49,8 @@ def get_rss_categories() -> list[str]:
 
 
 @timeout_decorator.timeout(10)
-def parse_rss_feed(feed: str) -> dict:
-    rss_feed = feedparser.parse(feed)
+def parse_rss_feed(feed_url: str) -> dict:
+    rss_feed = feedparser.parse(feed_url)
     return rss_feed
 
 
@@ -92,7 +95,12 @@ def get_html_content(link: str) -> str:
 def extract_website(link: str) -> dict:
     content = get_html_content(link)
 
-    json_data = trafilatura.extract(content, output_format="json", with_metadata=True)
+    json_data = trafilatura.extract(
+        content,
+        output_format="json",
+        with_metadata=True,
+        deduplicate=True,
+    )
 
     if json_data is None:
         raise Exception("Failed to extract content from the website")

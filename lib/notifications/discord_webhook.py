@@ -19,7 +19,7 @@ def ensure_tmp_dir():
 def get_cooldown_status():
     ensure_tmp_dir()
 
-    with shelve.open(SHELVE_PATH) as db:
+    with shelve.open(SHELVE_PATH, writeback=True) as db:
         expiry = db.get("remaining_expiry", datetime.now().isoformat())
         expiry = datetime.fromisoformat(expiry)
 
@@ -32,7 +32,7 @@ def get_cooldown_status():
 
 
 def set_cooldown_status(cooldown_required: bool, remaining_expiry: datetime):
-    with shelve.open(SHELVE_PATH) as db:
+    with shelve.open(SHELVE_PATH, writeback=True) as db:
         db["cooldown_required"] = cooldown_required
         db["remaining_expiry"] = remaining_expiry.isoformat()
 
