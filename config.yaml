@@ -20,7 +20,6 @@ rss:
     language: Traditional Chinese
     sources:
       - https://www.marketbeat.com/rss.ashx
-      - https://www.nasdaq.com/feed/rssoutbound
     discord_channel_id: "1325127023311720480"
 
   investing:
