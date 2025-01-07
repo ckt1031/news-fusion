@@ -7,7 +7,6 @@ import feedparser
 import trafilatura
 import yaml
 from loguru import logger
-from timeout_decorator import timeout_decorator
 
 from lib.chrome import chrome_driver
 from lib.env import IS_PRODUCTION
@@ -48,7 +47,6 @@ def get_rss_categories() -> list[str]:
     return list(get_rss_config().keys())
 
 
-@timeout_decorator.timeout(10)
 def parse_rss_feed(feed_url: str) -> dict:
     rss_feed = feedparser.parse(feed_url)
     return rss_feed
