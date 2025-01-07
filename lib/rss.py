@@ -1,5 +1,6 @@
 import json
 import os
+import random
 import sys
 from functools import cache
 
@@ -10,7 +11,8 @@ from loguru import logger
 
 from lib.chrome import chrome_driver
 from lib.env import IS_PRODUCTION
-from lib.utils import check_if_arg_exists
+from lib.utils import check_if_arg_exists, shuffle_dict_keys
+from lib.youtube import YOUTUBE_RSS_BASE_URL
 
 
 @cache
@@ -104,3 +106,31 @@ def extract_website(link: str) -> dict:
         raise Exception("Failed to extract content from the website")
 
     return json.loads(json_data)
+
+
+def get_all_rss_sources(shuffle: bool = False) -> list[list[str]]:
+    """
+    Get all RSS sources from the config file
+    :param shuffle: Shuffle the categories and sources
+    :return: List of [category, source]
+    """
+
+    all_categories_with_sources = get_rss_config()
+
+    # Shuffle the categories to avoid bias
+    all_categories_with_sources: dict[str, dict[str, list[str]]] = (
+        (shuffle_dict_keys(all_categories_with_sources))
+        if shuffle
+        else all_categories_with_sources
+    )
+
+    for category, data in all_categories_with_sources.items():
+        # Shuffle the sources to avoid bias
+        random.shuffle(data["sources"])
+
+        for source in data["sources"]:
+            if source.startswith("yt:"):
+                # Replace yt: with the base URL
+                source = source.replace("yt:", YOUTUBE_RSS_BASE_URL)
+
+            yield [category, source]

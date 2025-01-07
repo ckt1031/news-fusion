@@ -1,10 +1,8 @@
-import random
-
 from loguru import logger
 
 from lib.article import RSSEntity, check_article
-from lib.rss import get_rss_config, parse_rss_feed
-from lib.utils import block_sites, check_if_arg_exists, init_logger, shuffle_dict_keys
+from lib.rss import get_all_rss_sources, get_rss_config, parse_rss_feed
+from lib.utils import block_sites, check_if_arg_exists, init_logger
 from lib.youtube import YOUTUBE_RSS_BASE_URL
 
 init_logger()
@@ -13,15 +11,12 @@ init_logger()
 def run_scraper():
     logger.success("Running News Fusion auto scraping service...")
 
-    all_categories_with_sources = get_rss_config()
+    all_sources = get_all_rss_sources(shuffle=True)
 
-    # Shuffle the categories to avoid bias
-    all_categories_with_sources: dict[str, dict[str, list[str | dict]]] = (
-        shuffle_dict_keys(all_categories_with_sources)
-    )
-
-    for category, data in all_categories_with_sources.items():
-        category_name = data.get("name", category)
+    for d in all_sources:
+        category_name = d[0]
+        source = d[1]
+        data = get_rss_config()[category_name]
 
         # Ensure that the category is not a forum category
         if not check_if_arg_exists("--check-forum") and data.get("forum", False):
@@ -33,45 +28,41 @@ def run_scraper():
             logger.warning(f"Skipping non-forum category: {category_name}")
             continue
 
-        logger.info(f"Category: {category_name}, total sources: {len(data['sources'])}")
+        # Since server environment might be blocked by Google, we need to skip YouTube sources
+        if source.startswith(YOUTUBE_RSS_BASE_URL) and not check_if_arg_exists(
+            "--check-youtube"
+        ):
+            logger.info(f"Skipping YouTube source: {source}")
+            continue
 
-        # Shuffle the sources to avoid bias
-        random.shuffle(data["sources"])
+        logger.info(f"Category: {category_name}, checking source: {source}")
 
-        for source in data["sources"]:
-            if source.startswith("yt:"):
-                if not check_if_arg_exists("--check-youtube"):
-                    logger.info(f"Skipping YouTube source: {source}")
-                    continue
+        try:
+            feed = parse_rss_feed(source)
 
-                source = source.replace("yt:", YOUTUBE_RSS_BASE_URL)
-
-            try:
-                feed = parse_rss_feed(source)
-
-                for entry in feed["entries"]:
-                    try:
-                        if block_sites(entry["link"]):
-                            logger.warning(f"Blocked site: {entry['link']}")
-                            continue
-
-                        logger.debug(
-                            f"Checking article: {entry['link']} ({entry['title']})"
-                        )
-
-                        check_article(
-                            RSSEntity(
-                                feed_title=feed["feed"]["title"],
-                                entry=entry,
-                                category=category,
-                            )
-                        )
-                    except Exception as e:
-                        logger.error(f"Error ({entry['link']}): {e}")
+            for entry in feed["entries"]:
+                try:
+                    if block_sites(entry["link"]):
+                        logger.warning(f"Blocked site: {entry['link']}")
                         continue
-            except Exception as e:
-                logger.error(f"Error ({source}): {e}")
-                continue
+
+                    logger.debug(
+                        f"Checking article: {entry['link']} ({entry['title']})"
+                    )
+
+                    check_article(
+                        RSSEntity(
+                            feed_title=feed["feed"]["title"],
+                            entry=entry,
+                            category=category_name,
+                        )
+                    )
+                except Exception as e:
+                    logger.error(f"Error ({entry['link']}): {e}")
+                    continue
+        except Exception as e:
+            logger.error(f"Error ({source}): {e}")
+            continue
 
 
 if __name__ == "__main__":

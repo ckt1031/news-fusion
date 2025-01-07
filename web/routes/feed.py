@@ -1,4 +1,3 @@
-import os
 from datetime import timezone
 
 from fastapi import APIRouter, Depends, Request
@@ -8,6 +7,7 @@ from feedgen.feed import FeedGenerator
 
 from lib.db.postgres import Article
 from lib.env import SERVER_URL as CUSTOM_SERVER_URL
+from lib.env import get_env
 from lib.rss import get_rss_config
 
 feed_router = APIRouter()
@@ -24,7 +24,7 @@ async def get_feed(request_base: str, category: str):
 
     category_name = rss_config[category]["name"]
 
-    IMAGE_PROXY = os.getenv("IMAGE_PROXY_URL", "")
+    IMAGE_PROXY = get_env("IMAGE_PROXY_URL", "")
 
     fg = FeedGenerator()
     fg.title(f"News Fusion - {category_name}")
