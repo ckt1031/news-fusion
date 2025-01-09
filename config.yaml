@@ -1,7 +1,6 @@
 rss:
   world:
     name: World
-    language: Traditional Chinese
     icon: https://cdn-icons-png.flaticon.com/512/2240/2240692.png
     sources:
       - https://time.com/feed/
@@ -10,21 +9,18 @@ rss:
 
   finance:
     name: Finance
-    language: Traditional Chinese
     sources:
       - https://finance.yahoo.com/news/rssindex
     discord_channel_id: "1325126500336271442"
 
   stock:
     name: Stock
-    language: Traditional Chinese
     sources:
       - https://www.marketbeat.com/rss.ashx
     discord_channel_id: "1325127023311720480"
 
   investing:
     name: Investing
-    language: Traditional Chinese
     sources:
       - https://www.investing.com/rss/news_356.rss # Company News
       - https://www.investing.com/rss/news_1065.rss # Stock Market Investment Ideas
@@ -69,7 +65,7 @@ rss:
       - https://lastweekin.ai/feed
       - https://huggingface.co/blog/feed.xml
       - https://deepmind.google/blog/rss.xml
-      - http://qwenlm.github.io/blog/index.xml
+      - https://qwenlm.github.io/blog/index.xml
       - https://blog.google/products/gemini/rss/
     discord_channel_id: "1315729383440515113"
 
@@ -96,7 +92,6 @@ rss:
 
   hong_kong:
     name: "Hong Kong"
-    language: Traditional Chinese
     sources:
       - https://www.scmp.com/rss/2/feed
       - https://hongkongfp.com/feed/
