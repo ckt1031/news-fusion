@@ -82,9 +82,6 @@ def get_html_content(link: str) -> str:
             if content is None:
                 raise Exception("Failed to fetch the website using Selenium")
 
-            # Close the website
-            chrome_driver.close()
-
             return content
 
         logger.error(f"Failed to fetch the website: {link}")

@@ -1,4 +1,3 @@
-from tenacity import retry, stop_after_attempt, wait_fixed
 from youtube_transcript_api import YouTubeTranscriptApi
 
 YOUTUBE_RSS_BASE_URL = "https://www.youtube.com/feeds/videos.xml?channel_id="
@@ -17,7 +16,6 @@ def get_youtube_id(link: str) -> str:
     return link
 
 
-@retry(stop=stop_after_attempt(3), wait=wait_fixed(20))
 def get_transcript_from_youtube_link(link: str) -> str:
     video_id = get_youtube_id(link)
     transcripts = YouTubeTranscriptApi.get_transcript(video_id)
