@@ -138,7 +138,7 @@ def check_article(d: RSSEntity) -> None:
     category_config = get_rss_config()[d.category]
     is_forum: bool = category_config.get("forum", False)
 
-    if not is_youtube:
+    if not is_youtube and category_config.get("importance_check", True):
         importance_status = OpenAIAPI().generate_schema(
             MessageBody(
                 system=forum_importance_prompt if is_forum else news_importance_prompt,
