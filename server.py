@@ -3,6 +3,8 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
 from fastapi_limiter import FastAPILimiter
 
 import web.routes as v1_router
@@ -17,6 +19,7 @@ init_logger()
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     await FastAPILimiter.init(redis)
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
     # Run await register_all_topics(), but make the app start first and then run the function
     # This is to avoid a deadlock when the app is not started yet
     asyncio.get_event_loop().call_later(1, asyncio.create_task, register_all_topics())

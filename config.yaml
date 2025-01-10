@@ -112,14 +112,14 @@ rss:
       - https://www.appinn.com/feed
     discord_channel_id: "1326858185881026653"
 
-  hong_kong:
+  hong-kong:
     name: "Hong Kong"
     sources:
       - https://www.scmp.com/rss/2/feed
       - https://hongkongfp.com/feed/
     discord_channel_id: "1322608633355305110"
 
-  hackernews:
+  hacker-news:
     name: "Hacker News"
     forum: true
     sources:

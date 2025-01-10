@@ -20,3 +20,4 @@ youtube-transcript-api~=0.6.3
 tiktoken~=0.8.0
 undetected-chromedriver~=3.5.5
 selenium~=4.27.1
+fastapi-cache2~=0.2.2

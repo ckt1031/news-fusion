@@ -2,6 +2,8 @@ from datetime import timezone
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse, Response
+from fastapi_cache import Coder
+from fastapi_cache.decorator import cache
 from fastapi_limiter.depends import RateLimiter
 from feedgen.feed import FeedGenerator
 
@@ -36,10 +38,12 @@ async def get_feed(request_base: str, category: str):
     fg.link(href=feed_url, rel="self")
     fg.id(feed_url)
 
-    if rss_config[category]["icon"] is not None:
+    fg.author(name="News Fusion", email="me@tsun1031.xyz")
+
+    if "icon" in rss_config[category]:
         fg.icon(f"{IMAGE_PROXY}{rss_config[category]["icon"]}")
 
-    fg.generator(generator="News Fusion", version="1.0")
+    fg.generator(generator="News Fusion Python")
     fg.load_extension("media")
 
     condition = (Article.category == category) & (
@@ -49,7 +53,7 @@ async def get_feed(request_base: str, category: str):
     results = (
         Article.select()
         .where(condition)
-        .limit(50)
+        .limit(200)
         .order_by(Article.published_at.desc())
     )
 
@@ -57,7 +61,8 @@ async def get_feed(request_base: str, category: str):
         fe = fg.add_entry()
         fe.id(result.link)
         fe.title(result.title)
-        fe.link(href=result.link)
+        fe.link(href=result.link, replace=True)
+        fe.author(name=result.publisher)
         fe.description(result.summary)
 
         if result.image:
@@ -74,12 +79,31 @@ async def get_feed(request_base: str, category: str):
     return fg
 
 
+class XMLResponseCoder(Coder):
+    @classmethod
+    def encode(cls, value: Response) -> bytes:
+        return value.body
+
+    @classmethod
+    def decode(cls, value: bytes) -> Response:
+        value_str = value.decode("utf-8")
+        return Response(
+            content=value,
+            media_type=(
+                "application/xml"
+                if value_str.startswith("<?xml")
+                else "application/json"
+            ),
+        )
+
+
 @feed_router.get(
     "/feed/{category}",
     summary="Get feed for a category in ATOM format",
     tags=["Feed"],
     dependencies=[Depends(RateLimiter(times=20, seconds=60))],
 )
+@cache(expire=300, coder=XMLResponseCoder)
 async def category_feed(category: str, request: Request) -> Response:
     request_url = str(request.base_url)
     fg = await get_feed(request_url, category)
@@ -88,7 +112,7 @@ async def category_feed(category: str, request: Request) -> Response:
         return JSONResponse(
             status_code=404,
             content={
-                "error": f"Category ({category}) not found",
+                "error": f"Category not found",
             },
         )
 
