@@ -18,6 +18,7 @@ COPY . /app
 # Make directory tmp, and give appuser permission to write to it
 RUN mkdir /app/tmp && chown appuser /app/tmp
 
+
 USER appuser
 
 # Make port 4782 available to the world outside this container

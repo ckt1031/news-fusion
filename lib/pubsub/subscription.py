@@ -2,7 +2,7 @@ import requests
 from loguru import logger
 
 from lib.env import SERVER_URL, get_env
-from lib.rss import get_rss_config
+from lib.rss import get_all_rss_sources, get_rss_config
 
 
 def send_pubsubhubbub_update(category: str):
@@ -54,10 +54,8 @@ async def register_pubsub(topic: str, revoke=False):
 
 
 async def register_all_topics(revoke=False):
-    all_categories_with_sources = get_rss_config()
+    sources = get_all_rss_sources()
 
-    for _, data in all_categories_with_sources.items():
-        sources = data["sources"]
-
-        for source in sources:
-            await register_pubsub(source, revoke)
+    for d in sources:
+        source = d[1]
+        await register_pubsub(source, revoke)
