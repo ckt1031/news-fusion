@@ -25,7 +25,7 @@ services:
   # Postgres is used for storing the RSS feed data
   postgres:
     container_name: news-fusion-pg
-    image: postgres:17-alpine
+    image: postgres:16
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
@@ -45,7 +45,7 @@ services:
   # Redis is used for caching
   redis:
     container_name: news-fusion-redis
-    image: redis:alpine
+    image: redis:latest
     restart: unless-stopped
     volumes:
       - redis:/data
