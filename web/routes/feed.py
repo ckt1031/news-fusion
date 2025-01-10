@@ -1,4 +1,4 @@
-from datetime import timezone
+from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse, Response
@@ -15,14 +15,15 @@ from lib.rss import get_rss_config
 feed_router = APIRouter()
 
 
-async def get_feed(request_base: str, category: str):
+async def get_feed(request: Request, category: str, date: str | None = None):
     rss_config = get_rss_config()
-
-    # Overwrite the SERVER_URL if it is not None
-    server_url = request_base if CUSTOM_SERVER_URL is None else CUSTOM_SERVER_URL
 
     if category not in rss_config:
         return None
+
+    # Overwrite the SERVER_URL if it is not None
+    request_base = str(request.base_url)
+    server_url = request_base if CUSTOM_SERVER_URL is None else CUSTOM_SERVER_URL
 
     category_name = rss_config[category]["name"]
 
@@ -49,6 +50,18 @@ async def get_feed(request_base: str, category: str):
     condition = (Article.category == category) & (
         Article.important == True  # noqa: E712
     )
+
+    # Date YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS+00:00
+    if date and len(date) >= 10:
+        # Parse date
+        date = datetime.fromisoformat(date)
+        start_date = date.replace(hour=0, minute=0, second=0, microsecond=0)
+        end_date = date.replace(hour=23, minute=59, second=59, microsecond=999999)
+        condition = (
+            condition
+            & (Article.published_at >= start_date)
+            & (Article.published_at <= end_date)
+        )
 
     results = (
         Article.select()
@@ -104,9 +117,10 @@ class XMLResponseCoder(Coder):
     dependencies=[Depends(RateLimiter(times=20, seconds=60))],
 )
 @cache(expire=300, coder=XMLResponseCoder)
-async def category_feed(category: str, request: Request) -> Response:
-    request_url = str(request.base_url)
-    fg = await get_feed(request_url, category)
+async def category_feed(
+    category: str, request: Request, date: str | None = None
+) -> Response:
+    fg = await get_feed(request, category, date)
 
     if not fg:
         return JSONResponse(
