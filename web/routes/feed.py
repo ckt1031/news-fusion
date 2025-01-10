@@ -112,7 +112,7 @@ async def category_feed(category: str, request: Request) -> Response:
         return JSONResponse(
             status_code=404,
             content={
-                "error": f"Category not found",
+                "error": "Category not found",
             },
         )
 
