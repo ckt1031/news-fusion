@@ -4,8 +4,18 @@ rss:
     icon: https://cdn-icons-png.flaticon.com/512/2240/2240692.png
     sources:
       - https://time.com/feed/
+      # - https://api.axios.com/feed/
+      - https://www.theguardian.com/world/rss
       - https://feeds.bbci.co.uk/news/world/rss.xml
     discord_channel_id: "1315385019241595172"
+
+  political:
+    name: Political
+    sources:
+      - https://www.newyorker.com/feed/news
+      - https://asteriskmag.com/feed
+      - https://www.nplusonemag.com/feed
+    discord_channel_id: "1327680122144297063"
 
   finance:
     name: Finance
@@ -30,14 +40,16 @@ rss:
     name: Technology
     icon: https://cdn-icons-png.flaticon.com/512/5742/5742482.png
     sources:
+      - https://www.theverge.com/tech/rss/index.xml
       - https://9to5mac.com/feed/
       - https://9to5google.com/feed/
       - https://techcrunch.com/feed/
       - https://arstechnica.com/feed/
       - https://www.wired.com/feed/rss
       - https://www.zdnet.com/news/rss.xml
-      - https://www.theverge.com/rss/full.xml
       - https://www.theregister.com/headlines.rss
+      - https://boingboing.net/feed
+      - https://restofworld.org/feed/latest/
     discord_channel_id: "1297769089024004126"
 
   dev:
@@ -109,7 +121,11 @@ rss:
   software:
     name: "Software"
     sources:
+      - https://hnrss.org/show
       - https://www.appinn.com/feed
+      - https://hellogithub.com/rss
+      - https://www.producthunt.com/feed
+      # - https://www.reddit.com/r/SideProject/.rss
     discord_channel_id: "1326858185881026653"
 
   hong-kong:
