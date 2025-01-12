@@ -4,17 +4,19 @@ rss:
     icon: https://cdn-icons-png.flaticon.com/512/2240/2240692.png
     sources:
       - https://time.com/feed/
-      # - https://api.axios.com/feed/
       - https://www.theguardian.com/world/rss
       - https://feeds.bbci.co.uk/news/world/rss.xml
+      - https://rss.nytimes.com/services/xml/rss/nyt/World.xml
     discord_channel_id: "1315385019241595172"
+    # https://about.fb.comof rchn/wp-content/uploads/2016/05/rss-urls-1.pdf
 
-  political:
-    name: Political
+  magazine:
+    name: Magazine
     sources:
       - https://www.newyorker.com/feed/news
       - https://asteriskmag.com/feed
       - https://www.nplusonemag.com/feed
+      - https://feeds.feedburner.com/TheAtlanticWire
     discord_channel_id: "1327680122144297063"
 
   finance:
@@ -37,6 +39,7 @@ rss:
     discord_channel_id: "1325116616303837204"
 
   technology:
+    # https://github.com/tuan3w/awesome-tech-rss
     name: Technology
     icon: https://cdn-icons-png.flaticon.com/512/5742/5742482.png
     sources:
@@ -50,6 +53,9 @@ rss:
       - https://www.theregister.com/headlines.rss
       - https://boingboing.net/feed
       - https://restofworld.org/feed/latest/
+      - https://www.techradar.com/rss
+      - https://www.bleepingcomputer.com/feed/
+      - https://feeds.feedburner.com/venturebeat/SZYF
     discord_channel_id: "1297769089024004126"
 
   dev:
@@ -73,6 +79,10 @@ rss:
       - https://engineering.atspotify.com/feed
       - https://github.blog/feed
       - https://www.docker.com/feed
+      - https://www.osnews.com/feed/
+      - https://www.freecodecamp.org/news/rss
+      - https://blog.google/products/chrome/rss/
+      - https://blog.chromium.org/feeds/posts/default
     discord_channel_id: "1315654076280864789"
 
   ai:

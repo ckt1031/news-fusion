@@ -2,7 +2,7 @@ import requests
 from loguru import logger
 
 from lib.env import SERVER_URL, get_env
-from lib.rss import get_all_rss_sources, get_rss_config
+from lib.rss import get_all_rss_sources
 
 
 def send_pubsubhubbub_update(category: str):
