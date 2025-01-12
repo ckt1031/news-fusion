@@ -6,7 +6,10 @@ rss:
       - https://time.com/feed/
       - https://www.theguardian.com/world/rss
       - https://feeds.bbci.co.uk/news/world/rss.xml
-      - https://rss.nytimes.com/services/xml/rss/nyt/World.xml
+      - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362
+      - https://www.cbsnews.com/latest/rss/world
+      - https://moxie.foxnews.com/google-publisher/world.xml
+      - https://feeds.nbcnews.com/nbcnews/public/world
     discord_channel_id: "1315385019241595172"
     # https://about.fb.comof rchn/wp-content/uploads/2016/05/rss-urls-1.pdf
 
