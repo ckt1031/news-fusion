@@ -4,7 +4,6 @@ __pycache__
 data
 qdrant_storage
 .idea
-*config.yaml
-!config.yaml
-tmp
+dev.config.yaml
+/local-db/
 .DS_Store

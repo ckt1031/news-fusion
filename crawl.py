@@ -1,6 +1,7 @@
 from loguru import logger
 
 from lib.article import RSSEntity, check_article
+from lib.db.etag import save_etag, get_etag
 from lib.rss import get_all_rss_sources, get_rss_config, parse_rss_feed
 from lib.utils import block_sites, check_if_arg_exists, init_logger
 from lib.youtube import YOUTUBE_RSS_BASE_URL
@@ -14,8 +15,7 @@ def run_scraper():
     all_sources = get_all_rss_sources(shuffle=True)
 
     for d in all_sources:
-        category_name = d[0]
-        source = d[1]
+        category_name, source = d[0], d[1]
         data = get_rss_config()[category_name]
 
         # Ensure that the category is not a forum category
@@ -30,7 +30,7 @@ def run_scraper():
 
         # Since server environment might be blocked by Google, we need to skip YouTube sources
         if source.startswith(YOUTUBE_RSS_BASE_URL) and not check_if_arg_exists(
-            "--check-youtube"
+                "--check-youtube"
         ):
             logger.info(f"Skipping YouTube source: {source}")
             continue
@@ -38,7 +38,8 @@ def run_scraper():
         logger.info(f"Category: {category_name}, checking source: {source}")
 
         try:
-            feed = parse_rss_feed(source)
+            etag = get_etag(source)
+            feed = parse_rss_feed(source, etag)
 
             for entry in feed["entries"]:
                 try:
@@ -60,6 +61,10 @@ def run_scraper():
                 except Exception as e:
                     logger.error(f"Error ({entry['link']}): {e}")
                     continue
+
+            if "etag" in feed:
+                logger.debug(f"ETag: {feed['etag']}")
+                save_etag(source, feed["etag"])
         except Exception as e:
             logger.error(f"Error ({source}): {e}")
             continue

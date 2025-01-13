@@ -8,16 +8,16 @@ from loguru import logger
 
 from lib.env import get_env
 
-SHELVE_PATH = "./tmp/discord"
+SHELVE_PATH = "./local-db/discord"
 
 
-def ensure_tmp_dir():
-    if not os.path.exists("./tmp"):
-        os.makedirs("./tmp")
+def ensure_local_db_dir():
+    if not os.path.exists("./local-db"):
+        os.makedirs("./local-db")
 
 
 def get_cooldown_status():
-    ensure_tmp_dir()
+    ensure_local_db_dir()
 
     with shelve.open(SHELVE_PATH, writeback=True) as db:
         expiry = db.get("remaining_expiry", datetime.now().isoformat())
@@ -41,11 +41,11 @@ def send_discord(channel_id: str, message: str | None, embed: dict | None):
     cooldown_status = get_cooldown_status()
 
     if (
-        cooldown_status["cooldown_required"]
-        and cooldown_status["remaining_expiry"] > datetime.now()
+            cooldown_status["cooldown_required"]
+            and cooldown_status["remaining_expiry"] > datetime.now()
     ):
         seconds_left = (
-            cooldown_status["remaining_expiry"] - datetime.now()
+                cooldown_status["remaining_expiry"] - datetime.now()
         ).total_seconds()
 
         logger.debug(

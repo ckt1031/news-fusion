@@ -49,8 +49,8 @@ def get_rss_categories() -> list[str]:
     return list(get_rss_config().keys())
 
 
-def parse_rss_feed(feed_url: str) -> dict:
-    rss_feed = feedparser.parse(feed_url)
+def parse_rss_feed(feed_url: str, etag: str = None, last_modified: str = None) -> dict:
+    rss_feed = feedparser.parse(feed_url, etag=etag, modified=last_modified)
     return rss_feed
 
 
@@ -72,8 +72,8 @@ def get_html_content(link: str) -> str:
             chrome_driver.implicitly_wait(5)
 
             if (
-                "404" in chrome_driver.title
-                or "not found" in chrome_driver.title.lower()
+                    "404" in chrome_driver.title
+                    or "not found" in chrome_driver.title.lower()
             ):
                 raise Exception("Page not found")
 
