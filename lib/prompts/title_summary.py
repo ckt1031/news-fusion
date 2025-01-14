@@ -28,7 +28,7 @@ Create brief, focused summaries and title generation of content provided.
 - Simple, clear, precise, specific, focused and straight
 - No subheadings and any other Markdown components
 - No feedback and anticipations unless explicitly stated
-- Use bullet points (-) with bolded keywords for key points if there are multiple points
+- Use bullet points (-) with bolded keywords for key points if there are multiple points separated in different lines
 - For links, you must use markdown format (e.g., [link](<https://www.example.com>)) with a link text
 - For company and investing news, include stock ticker symbols (e.g., AAPL, TSLA)
 """.strip()
