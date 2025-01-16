@@ -21,3 +21,4 @@ undetected-chromedriver~=3.5.5
 selenium~=4.27.1
 fastapi-cache2~=0.2.2
 httpx~=0.28.1
+peewee-async[postgresql]~=1.0.0

@@ -24,13 +24,11 @@ from lib.utils import optimize_text
 from lib.youtube import get_transcript_from_youtube_link
 
 
-def check_if_article_exists(guid: str, link: str, title: str) -> bool:
-    return (
-        Article.get_or_none(
-            (Article.guid == guid) | (Article.link == link) | (Article.title == title)
-        )
-        is not None
+async def check_if_article_exists(guid: str, link: str, title: str) -> bool:
+    d = await Article.aio_get_or_none(
+        (Article.guid == guid) | (Article.link == link) | (Article.title == title)
     )
+    return d is not None
 
 
 def is_host_the_same(link1: str, link2: str) -> bool:
@@ -71,7 +69,7 @@ async def check_article(d: RSSEntity) -> None:
         return
 
     # Check if the source is already in the database
-    if check_if_article_exists(guid, link, title):
+    if await check_if_article_exists(guid, link, title):
         logger.debug(f"Article already exists: {link} ({title})")
         return
 
@@ -119,7 +117,7 @@ async def check_article(d: RSSEntity) -> None:
 
         # There exists a similar article from list and their host must be different
         if similarities and similarities[0] and similarities[0].score >= 0.70:
-            Article.create(
+            await Article.aio_create(
                 guid=guid,
                 title=title,
                 category=d.category,
@@ -151,7 +149,7 @@ async def check_article(d: RSSEntity) -> None:
 
         # If the article is not important, skip it
         if not importance_status.important:
-            Article.create(
+            await Article.aio_create(
                 guid=guid,
                 title=title,
                 category=d.category,
@@ -216,7 +214,7 @@ async def check_article(d: RSSEntity) -> None:
         )
 
     # Save to Postgres
-    data.save()
+    await data.aio_save()
 
     # Pubsub update for target clients
     await send_pubsubhubbub_update(d.category)

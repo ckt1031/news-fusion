@@ -9,6 +9,7 @@ from fastapi_cache.backends.redis import RedisBackend
 from fastapi_limiter import FastAPILimiter
 
 import web.routes as v1_router
+from lib.db.postgres import close_db
 from lib.db.redis_client import redis
 from lib.env import get_env
 from lib.pubsub.subscription import register_all_topics
@@ -30,6 +31,7 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     scheduler.shutdown()
     await FastAPILimiter.close()
     await register_all_topics(revoke=True)
+    close_db()
 
 
 app = FastAPI(

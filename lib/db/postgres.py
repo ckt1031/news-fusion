@@ -1,35 +1,39 @@
+import asyncio
 import datetime
-import sys
+from urllib.parse import urlparse
 
-from loguru import logger
-from peewee import (
-    BooleanField,
-    CharField,
-    DateTimeField,
-    Model,
-    PostgresqlDatabase,
-    TextField,
-)
+import peewee_async
+from peewee import BooleanField, CharField, DateTimeField, TextField
 
 from lib.env import get_env
 
-# from playhouse.migrate import *
+loop = asyncio.get_event_loop()
+
+connection_url = get_env(
+    "DATABASE_URL",
+    "postgresql://postgres:postgres@localhost:5432/news_fusion",
+)
+
+# Parse the connection URL
+print(connection_url)
+db_cred = urlparse(connection_url)
+
+db = peewee_async.PooledPostgresqlDatabase(
+    db_cred.path[1:],
+    user=db_cred.username,
+    password=db_cred.password,
+    host=db_cred.hostname,
+    port=db_cred.port,
+)
+db.connect()
 
 
-try:
-    db = PostgresqlDatabase(
-        get_env(
-            "DATABASE_URL",
-            "postgresql://postgres:postgres@localhost:5432/news_fusion",
-        ),
-    )
-    db.connect()
-except Exception as e:
-    logger.error(f"Error connecting to the database: {e}")
-    sys.exit(1)
+# Make on exit function to close
+def close_db():
+    db.close()
 
 
-class BaseModel(Model):
+class BaseModel(peewee_async.AioModel):
     class Meta:
         database = db
 
@@ -51,6 +55,7 @@ class Article(BaseModel):
 
 db.create_tables([Article])
 
+# from playhouse.migrate import *
 # migrator = PostgresqlMigrator(db)
 #
 # migrate(

@@ -4,6 +4,7 @@ from loguru import logger
 
 from lib.article import RSSEntity, check_article
 from lib.db.etag import get_etag, save_etag
+from lib.db.postgres import close_db
 from lib.db.qdrant import Qdrant
 from lib.rss import get_all_rss_sources, get_rss_config, parse_rss_feed
 from lib.utils import block_sites, check_if_arg_exists, init_logger
@@ -77,3 +78,4 @@ async def run_scraper():
 
 if __name__ == "__main__":
     asyncio.run(run_scraper())
+    close_db()

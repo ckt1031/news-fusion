@@ -64,10 +64,11 @@ async def get_feed(request: Request, category: str, date: str | None = None):
         )
 
     results = (
-        Article.select()
+        await Article.select()
         .where(condition)
-        .limit(200)
         .order_by(Article.published_at.desc())
+        .limit(200)
+        .aio_execute()
     )
 
     for result in results:
