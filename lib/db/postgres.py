@@ -15,7 +15,6 @@ connection_url = get_env(
 )
 
 # Parse the connection URL
-print(connection_url)
 db_cred = urlparse(connection_url)
 
 db = peewee_async.PooledPostgresqlDatabase(
