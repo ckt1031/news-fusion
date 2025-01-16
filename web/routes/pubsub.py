@@ -17,8 +17,8 @@ PUBSUB_TOKEN = get_env("PUBSUB_TOKEN")
 
 @pubsub_router.get(
     "/pubsub/subscription",
-    # summary="Pubsub Callback for Subscription",
-    # tags=["Pubsub"],
+    summary="Pubsub Callback for Subscription",
+    tags=["Pubsub"],
     include_in_schema=False,
     dependencies=[Depends(RateLimiter(times=60, seconds=120))],
 )
@@ -44,13 +44,14 @@ async def verify_signature(signature_header: str, body: bytes) -> bool:
         logger.debug("Invalid Pubsub signature format")
         return False
 
-    signature = signature_header.split("=")[1]
+    signature = signature_header.replace("sha1=", "")
 
     body_signature = hmac.new(
         PUBSUB_TOKEN.encode("utf-8"),
         body,
         hashlib.sha1,
     )
+
     new_signature = binascii.hexlify(body_signature.digest()).decode("utf-8")
 
     return new_signature == signature
@@ -58,8 +59,8 @@ async def verify_signature(signature_header: str, body: bytes) -> bool:
 
 @pubsub_router.post(
     "/pubsub/subscription",
-    # summary="Pubsub callback for new distribution",
-    # tags=["Pubsub"],
+    summary="Pubsub callback for new distribution",
+    tags=["Pubsub"],
     include_in_schema=False,
     dependencies=[Depends(RateLimiter(times=60, seconds=120))],
 )
