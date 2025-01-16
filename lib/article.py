@@ -56,7 +56,7 @@ def parse_published_date(entry: dict) -> time.struct_time:
     return published
 
 
-def check_article(d: RSSEntity) -> None:
+async def check_article(d: RSSEntity) -> None:
     # Check if the article is older than 24 hours
     guid = d.entry["id"] if "id" in d.entry else d.entry["link"]
     feed_title = d.feed_title
@@ -88,6 +88,8 @@ def check_article(d: RSSEntity) -> None:
 
     logger.info(f"Checking article: {link} ({title})")
 
+    openai = OpenAIAPI()
+
     if "youtube.com" in link:
         is_youtube = True
         content = get_transcript_from_youtube_link(link)
@@ -104,7 +106,7 @@ def check_article(d: RSSEntity) -> None:
             )
             return
 
-        content_embedding = OpenAIAPI().generate_embeddings(content)
+        content_embedding = await openai.generate_embeddings(content)
 
         # Check if the article is similar to any other article in the database to remove duplicates
         # If it is, skip it
@@ -139,7 +141,7 @@ def check_article(d: RSSEntity) -> None:
     is_forum: bool = category_config.get("forum", False)
 
     if not is_youtube and category_config.get("importance_check", True):
-        importance_status = OpenAIAPI().generate_schema(
+        importance_status = await openai.generate_schema(
             MessageBody(
                 system=forum_importance_prompt if is_forum else news_importance_prompt,
                 user=news_text_with_meta,
@@ -162,7 +164,7 @@ def check_article(d: RSSEntity) -> None:
             return
 
     # Generate title and summary
-    generated_title_summary = OpenAIAPI().generate_schema(
+    generated_title_summary = await openai.generate_schema(
         MessageBody(
             system=chevron.render(
                 title_summary_prompt,
@@ -191,7 +193,7 @@ def check_article(d: RSSEntity) -> None:
     discord_channel_id: str = str(category_config.get("discord_channel_id"))
 
     if discord_channel_id is not None and len(discord_channel_id) > 0:
-        send_discord(
+        await send_discord(
             channel_id=discord_channel_id,
             message=None,
             embed={
@@ -217,6 +219,6 @@ def check_article(d: RSSEntity) -> None:
     data.save()
 
     # Pubsub update for target clients
-    send_pubsubhubbub_update(d.category)
+    await send_pubsubhubbub_update(d.category)
 
     logger.success(f"Article saved: {link}")

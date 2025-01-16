@@ -3,6 +3,7 @@ import os
 import random
 import sys
 from functools import cache
+from typing import Generator
 
 import feedparser
 import trafilatura
@@ -105,7 +106,7 @@ def extract_website(link: str) -> dict:
     return json.loads(json_data)
 
 
-def get_all_rss_sources(shuffle: bool = False) -> list[list[str]]:
+def get_all_rss_sources(shuffle: bool = False) -> Generator[list[str], None, None]:
     """
     Get all RSS sources from the config file
     :param shuffle: Shuffle the categories and sources

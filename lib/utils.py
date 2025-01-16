@@ -1,7 +1,10 @@
 import random
 import sys
+import urllib.parse
 
 from loguru import logger
+
+from lib.config import BLOCKED_HOST
 
 
 def init_logger():
@@ -47,7 +50,7 @@ def check_if_arg_exists(arg: str) -> bool:
 
 
 def block_sites(url: str):
-    if "https://www.wsj.com" in url:
-        return True
+    # Check host
+    host = urllib.parse.urlparse(url).netloc  # Get the host
 
-    return False
+    return host in BLOCKED_HOST

@@ -2,7 +2,7 @@ from uuid import uuid4
 
 import openai
 from loguru import logger
-from qdrant_client import QdrantClient, models
+from qdrant_client import AsyncQdrantClient, models
 from qdrant_client.models import Distance, HnswConfigDiff, PointStruct, VectorParams
 
 from lib.env import get_env
@@ -28,19 +28,17 @@ class Qdrant:
         if not QDRANT_CONNECTION_STRING:
             raise Exception("QDRANT_CONNECTION is not set")
 
-        self.client = QdrantClient(
+        self.client = AsyncQdrantClient(
             url=QDRANT_CONNECTION_STRING,
             api_key=QDRANT_API_KEY,
         )
         self.collection_name = "news"
 
-        self.create_collection()
-
-    def create_collection(self):
-        if self.client.collection_exists(self.collection_name):
+    async def create_collection(self):
+        if await self.client.collection_exists(self.collection_name):
             return
 
-        self.client.create_collection(
+        await self.client.create_collection(
             collection_name=self.collection_name,
             vectors_config=VectorParams(
                 size=EMBEDDING_SIZE, distance=Distance.COSINE, on_disk=True
@@ -59,22 +57,24 @@ class Qdrant:
 
         logger.success(f"Collection {self.collection_name} created")
 
-    def find_out_similar_news(self, news: News):
-        result = self.client.query_points(
+    async def find_out_similar_news(self, news: News):
+        result = await self.client.query_points(
             collection_name=self.collection_name,
             query=news.content_embedding.data[0].embedding,
             with_vectors=False,
             with_payload=True,
             limit=5,
             # search_params=SearchParams(hnsw_ef=512, exact=False),
-        ).points
+        )
+
+        points = result.points
 
         # sort score in descending order
-        result = sorted(result, key=lambda x: x.score, reverse=True)
+        points = sorted(points, key=lambda x: x.score, reverse=True)
 
-        return result
+        return points
 
-    def insert_news(self, news: News):
+    async def insert_news(self, news: News):
         idx = uuid4().hex
 
         points = [
@@ -87,4 +87,4 @@ class Qdrant:
             )
         ]
 
-        self.client.upsert(self.collection_name, points, wait=True)
+        await self.client.upsert(self.collection_name, points, wait=True)

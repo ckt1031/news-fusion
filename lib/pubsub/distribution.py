@@ -4,7 +4,7 @@ from lib.article import RSSEntity, check_article
 from lib.rss import get_category_from_source, parse_rss_feed
 
 
-def process_pubsub_distribution(body: bytes):
+async def process_pubsub_distribution(body: bytes):
     xml_str = body.decode("utf-8")
 
     feed = parse_rss_feed(xml_str)
@@ -24,7 +24,7 @@ def process_pubsub_distribution(body: bytes):
         logger.error(f"Category not found for source: {entry['link']}")
         return
 
-    check_article(
+    await check_article(
         RSSEntity(
             entry=entry,
             category=category,

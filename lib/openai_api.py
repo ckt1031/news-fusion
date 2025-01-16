@@ -1,6 +1,6 @@
 import tiktoken
 from loguru import logger
-from openai import OpenAI
+from openai import AsyncOpenAI
 
 from lib.env import get_env
 
@@ -25,12 +25,12 @@ class OpenAIAPI:
             raise Exception("OPENAI_API_KEY is not set")
 
         self.api_base_url = get_env("OPENAI_API_BASE_URL", "https://api.openai.com/v1")
-        self.client = OpenAI(
+        self.client = AsyncOpenAI(
             api_key=self.api_key,
             base_url=self.api_base_url,
         )
 
-    def generate_embeddings(self, text: str):
+    async def generate_embeddings(self, text: str):
         """
         Embed the text using the LLM model
         :param text: The text to embed
@@ -45,19 +45,21 @@ class OpenAIAPI:
 
         logger.info(f"Generating embeddings using the LLM model: {token} tokens")
 
-        response = self.client.embeddings.create(
+        response = await self.client.embeddings.create(
             model=embedding_model,
             input=text,
         )
 
         return response
 
-    def generate_schema(self, message: MessageBody, schema, model: str | None = None):
+    async def generate_schema(
+        self, message: MessageBody, schema, model: str | None = None
+    ):
         token = count_tokens(message.system + message.user)
 
         logger.info(f"Generating schema using the LLM model: {token} tokens")
 
-        completion = self.client.beta.chat.completions.parse(
+        completion = await self.client.beta.chat.completions.parse(
             model=model or self.text_completion_model,
             messages=[
                 {"role": "system", "content": message.system},
@@ -79,7 +81,9 @@ class OpenAIAPI:
 
         return res.parsed
 
-    def generate_text(self, message: MessageBody, model: str | None = None) -> str:
+    async def generate_text(
+        self, message: MessageBody, model: str | None = None
+    ) -> str:
         """
         Generate text using the LLM model
         :param model: The model to use for generating text (e.g. gpt-4o-mini)
@@ -89,7 +93,7 @@ class OpenAIAPI:
         token = count_tokens(message.system + message.user)
         logger.info(f"Generating text using the LLM model: {token} tokens")
 
-        response = self.client.chat.completions.create(
+        response = await self.client.chat.completions.create(
             model=model or self.text_completion_model,
             messages=[
                 # Only include system messages if they exist

@@ -1,9 +1,9 @@
+import asyncio
 import os
 import shelve
 from datetime import datetime, timedelta
-from time import sleep
 
-import requests
+import httpx
 from loguru import logger
 
 from lib.env import get_env
@@ -37,22 +37,20 @@ def set_cooldown_status(cooldown_required: bool, remaining_expiry: datetime):
         db["remaining_expiry"] = remaining_expiry.isoformat()
 
 
-def send_discord(channel_id: str, message: str | None, embed: dict | None):
+async def send_discord(channel_id: str, message: str | None, embed: dict | None):
     cooldown_status = get_cooldown_status()
 
     if (
         cooldown_status["cooldown_required"]
         and cooldown_status["remaining_expiry"] > datetime.now()
     ):
-        seconds_left = (
-            cooldown_status["remaining_expiry"] - datetime.now()
-        ).total_seconds()
+        expiry: datetime = cooldown_status["remaining_expiry"]
 
-        logger.debug(
-            f"Discord webhook rate limit reached, sleeping for {seconds_left}s"
-        )
+        seconds_left = (expiry - datetime.now()).total_seconds()
 
-        sleep(seconds_left)
+        logger.debug(f"Discord rate limit reached, sleeping for {seconds_left}s")
+
+        await asyncio.sleep(seconds_left)
 
         set_cooldown_status(False, datetime.now())
 
@@ -70,12 +68,12 @@ def send_discord(channel_id: str, message: str | None, embed: dict | None):
     }
 
     # Send the message to the Discord webhook
-    response = requests.post(url, json=data, headers=headers)
+    async with httpx.AsyncClient() as client:
+        response = await client.post(url, json=data, headers=headers)
 
     if response.status_code >= 300:
         raise ValueError(
-            f"Discord message send returned status code {response.status_code}: "
-            + response.text
+            f"Discord POST message ({response.status_code}): {response.text}"
         )
 
     # Check X-RateLimit-Limit and X-RateLimit-Remaining headers
@@ -85,9 +83,8 @@ def send_discord(channel_id: str, message: str | None, embed: dict | None):
     if remaining is None or reset_after is None:
         return
 
-    remaining = int(remaining)
-
-    if remaining == 1:
+    if int(remaining) == 1:
         expiry = datetime.now() + timedelta(seconds=float(reset_after))
 
+        # Set the cooldown status to local db
         set_cooldown_status(True, expiry)
