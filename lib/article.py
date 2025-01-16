@@ -108,7 +108,7 @@ async def check_article(d: RSSEntity) -> None:
 
         # Check if the article is similar to any other article in the database to remove duplicates
         # If it is, skip it
-        similarities = qdrant.find_out_similar_news(
+        similarities = await qdrant.find_out_similar_news(
             News(
                 content_embedding=content_embedding,
                 link=link,
@@ -206,7 +206,7 @@ async def check_article(d: RSSEntity) -> None:
 
     if not is_youtube and content_embedding is not None:
         # Save to VectorDB
-        qdrant.insert_news(
+        await qdrant.insert_news(
             News(
                 content_embedding=content_embedding,
                 link=link,
