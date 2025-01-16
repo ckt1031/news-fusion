@@ -1,7 +1,7 @@
 from loguru import logger
 
 from lib.article import RSSEntity, check_article
-from lib.db.etag import save_etag, get_etag
+from lib.db.etag import get_etag, save_etag
 from lib.rss import get_all_rss_sources, get_rss_config, parse_rss_feed
 from lib.utils import block_sites, check_if_arg_exists, init_logger
 from lib.youtube import YOUTUBE_RSS_BASE_URL
@@ -30,7 +30,7 @@ def run_scraper():
 
         # Since server environment might be blocked by Google, we need to skip YouTube sources
         if source.startswith(YOUTUBE_RSS_BASE_URL) and not check_if_arg_exists(
-                "--check-youtube"
+            "--check-youtube"
         ):
             logger.info(f"Skipping YouTube source: {source}")
             continue

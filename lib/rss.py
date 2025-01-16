@@ -72,8 +72,8 @@ def get_html_content(link: str) -> str:
             chrome_driver.implicitly_wait(5)
 
             if (
-                    "404" in chrome_driver.title
-                    or "not found" in chrome_driver.title.lower()
+                "404" in chrome_driver.title
+                or "not found" in chrome_driver.title.lower()
             ):
                 raise Exception("Page not found")
 

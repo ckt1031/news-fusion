@@ -41,11 +41,11 @@ def send_discord(channel_id: str, message: str | None, embed: dict | None):
     cooldown_status = get_cooldown_status()
 
     if (
-            cooldown_status["cooldown_required"]
-            and cooldown_status["remaining_expiry"] > datetime.now()
+        cooldown_status["cooldown_required"]
+        and cooldown_status["remaining_expiry"] > datetime.now()
     ):
         seconds_left = (
-                cooldown_status["remaining_expiry"] - datetime.now()
+            cooldown_status["remaining_expiry"] - datetime.now()
         ).total_seconds()
 
         logger.debug(
