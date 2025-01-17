@@ -33,13 +33,6 @@ async def run_scraper():
             logger.warning(f"Skipping non-forum category: {category_name}")
             continue
 
-        # Since server environment might be blocked by Google, we need to skip YouTube sources
-        if source.startswith(YOUTUBE_RSS_BASE_URL) and not check_if_arg_exists(
-            "--check-youtube"
-        ):
-            logger.info(f"Skipping YouTube source: {source}")
-            continue
-
         logger.info(f"Category: {category_name}, checking source: {source}")
 
         try:
