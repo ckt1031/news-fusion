@@ -1,7 +1,7 @@
 import random
 import time
+from asyncio import sleep
 from datetime import datetime, timezone
-from time import sleep
 
 import chevron
 from loguru import logger
@@ -21,7 +21,6 @@ from lib.pubsub.subscription import send_pubsubhubbub_update
 from lib.rss import extract_website, get_rss_config
 from lib.types import RSSEntity
 from lib.utils import optimize_text
-from lib.youtube import get_transcript_from_youtube_link
 
 
 async def check_if_article_exists(guid: str, link: str, title: str) -> bool:
@@ -57,10 +56,8 @@ def parse_published_date(entry: dict) -> time.struct_time:
 async def check_article(d: RSSEntity) -> None:
     # Check if the article is older than 24 hours
     guid = d.entry["id"] if "id" in d.entry else d.entry["link"]
-    feed_title = d.feed_title
-    link = d.entry["link"]
-    title = d.entry["title"]
-    published_parsed = parse_published_date(d.entry)
+    link, title = d.entry["link"], d.entry["title"]
+    published_parsed = parse_published_date(d.entry)  # struct_time
 
     timestamp = time.mktime(published_parsed)
 
@@ -76,60 +73,53 @@ async def check_article(d: RSSEntity) -> None:
     # Sleep for a random time between 2 and 5 seconds to avoid getting blocked and slowing down the server
     sleep_time = random.randint(1, 5)
     logger.debug(f"Sleeping for {sleep_time} seconds")
-    sleep(sleep_time)
+    await sleep(sleep_time)
 
-    is_youtube = False
-    content_embedding = None
     published_date = datetime.fromtimestamp(timestamp, tz=timezone.utc)
-
-    qdrant = Qdrant()
 
     logger.info(f"Checking article: {link} ({title})")
 
     openai = OpenAIAPI()
 
-    if "youtube.com" in link:
-        is_youtube = True
-        content = get_transcript_from_youtube_link(link)
-        image = d.entry.get("media_thumbnail", [{}])[0].get("url", None)
-    else:
-        website_data = extract_website(link)
-        image = website_data["image"]
+    website_data = extract_website(link)
+    image = website_data["image"]
 
-        content = optimize_text(website_data["raw_text"])
-        content_token = count_tokens(content)
-        if content_token > 8000:
-            logger.warning(
-                f"Article is too long: {link} ({content_token} tokens), currently not supported, skipping"
-            )
-            return
-
-        content_embedding = await openai.generate_embeddings(content)
-
-        # Check if the article is similar to any other article in the database to remove duplicates
-        # If it is, skip it
-        similarities = await qdrant.find_out_similar_news(
-            News(
-                content_embedding=content_embedding,
-                link=link,
-            )
+    content = optimize_text(website_data["raw_text"])
+    content_token = count_tokens(content)
+    if content_token > 8000:
+        logger.warning(
+            f"Article is too long: {link} ({content_token} tokens), currently not supported, skipping"
         )
+        return
 
-        # There exists a similar article from list and their host must be different
-        if similarities and similarities[0] and similarities[0].score >= 0.70:
-            await Article.aio_create(
-                guid=guid,
-                title=title,
-                category=d.category,
-                link=link,
-                image=image,
-                important=False,
-                published_at=published_date,
-            )
-            logger.info(
-                f"Similar article found for {link}: {similarities[0].payload['link']}"
-            )
-            return
+    content_embedding = await openai.generate_embeddings(content)
+
+    qdrant = Qdrant()
+
+    # Check if the article is similar to any other article in the database to remove duplicates
+    # If it is, skip it
+    similarities = await qdrant.find_out_similar_news(
+        News(
+            content_embedding=content_embedding,
+            link=link,
+        )
+    )
+
+    # There exists a similar article from list and their host must be different
+    if similarities and similarities[0] and similarities[0].score >= 0.70:
+        await Article.aio_create(
+            guid=guid,
+            title=title,
+            category=d.category,
+            link=link,
+            image=image,
+            important=False,
+            published_at=published_date,
+        )
+        logger.info(
+            f"Similar article found for {link}: {similarities[0].payload['link']}"
+        )
+        return
 
     # Check importance
     today_date_str = datetime.now().strftime("%Y-%m-%d")
@@ -138,7 +128,7 @@ async def check_article(d: RSSEntity) -> None:
     category_config = get_rss_config()[d.category]
     is_forum: bool = category_config.get("forum", False)
 
-    if not is_youtube and category_config.get("importance_check", True):
+    if category_config.get("importance_check", True):
         importance_status = await openai.generate_schema(
             MessageBody(
                 system=forum_importance_prompt if is_forum else news_importance_prompt,
@@ -185,10 +175,10 @@ async def check_article(d: RSSEntity) -> None:
         summary=generated_title_summary.summary,
         important=True,
         published_at=published_date,
-        publisher=feed_title,
+        publisher=d.feed_title,
     )
 
-    discord_channel_id: str = str(category_config.get("discord_channel_id"))
+    discord_channel_id = str(category_config.get("discord_channel_id"))
 
     if discord_channel_id is not None and len(discord_channel_id) > 0:
         await send_discord(
@@ -204,7 +194,7 @@ async def check_article(d: RSSEntity) -> None:
             },
         )
 
-    if not is_youtube and content_embedding is not None:
+    if content_embedding is not None:
         # Save to VectorDB
         await qdrant.insert_news(
             News(

@@ -6,6 +6,12 @@ class TitleSummarySchema(BaseModel):
     summary: str
 
 
+class TitleSummaryComments(BaseModel):
+    title: str
+    summary: str
+    comments: str
+
+
 title_summary_prompt = """
 You are a precise content summarizer.
 Create brief, focused summaries and title generation of content provided.
@@ -31,4 +37,19 @@ Create brief, focused summaries and title generation of content provided.
 - Use bullet points (-) with bolded keywords for key points if there are multiple points separated in different lines
 - For links, you must use markdown format (e.g., [link](<https://www.example.com>)) with a link text
 - For company and investing news, include stock ticker symbols (e.g., AAPL, TSLA)
+""".strip()
+
+title_summary_comments_prompt = f"""
+{title_summary_prompt}
+
+## Comments
+
+- Limit to 100 words maximum
+- Straightforward to useful comments, feedback, and suggestions
+- Comment with respect and professionalism, different perspectives are welcome
+- No personal opinions, emotions, or unrelated comments
+- No additional information not in the original content
+- No questions or answers
+- No greetings or goodbyes
+- No links or references
 """.strip()

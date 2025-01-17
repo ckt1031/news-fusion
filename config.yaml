@@ -113,16 +113,6 @@ rss:
       - https://www.v2ex.com/feed/tab/creative.xml
     discord_channel_id: "1324024110317043742"
 
-  youtube:
-    name: YouTube
-    sources:
-      - yt:UCsBjURrPoezykLs9EqgamOA # Fireship
-      - yt:UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
-      - yt:UCeUJO1H3TEXu2syfAAPjYKQ # 极客湾 Geekerwan
-      - yt:UCQtwvRQWnT5Buh9hpvNNryQ # 柴知道
-      - yt:UCbRP3c757lWg9M-U7TyEkXA # Theo - t3․gg
-    discord_channel_id: "1322487198762930206"
-
   free-games:
     name: "Free Games"
     importance_check: false

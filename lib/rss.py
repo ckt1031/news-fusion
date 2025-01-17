@@ -13,7 +13,6 @@ from loguru import logger
 from lib.chrome import chrome_driver
 from lib.env import IS_PRODUCTION
 from lib.utils import check_if_arg_exists, shuffle_dict_keys
-from lib.youtube import YOUTUBE_RSS_BASE_URL
 
 
 @cache
@@ -108,7 +107,7 @@ def extract_website(link: str) -> dict:
 
 def get_all_rss_sources(shuffle: bool = False) -> Generator[list[str], None, None]:
     """
-    Get all RSS sources from the config file
+    Get all RSS sources from the config file with random order
     :param shuffle: Shuffle the categories and sources
     :return: List of [category, source]
     """
@@ -127,8 +126,4 @@ def get_all_rss_sources(shuffle: bool = False) -> Generator[list[str], None, Non
         random.shuffle(data["sources"])
 
         for source in data["sources"]:
-            if source.startswith("yt:"):
-                # Replace yt: with the base URL
-                source = source.replace("yt:", YOUTUBE_RSS_BASE_URL)
-
             yield [category, source]
