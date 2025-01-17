@@ -128,6 +128,7 @@ rss:
       - https://www.appinn.com/feed
       - https://hellogithub.com/rss
       - https://www.producthunt.com/feed
+      - https://lobste.rs/t/show
       # - https://www.reddit.com/r/SideProject/.rss
     discord_channel_id: "1326858185881026653"
 
@@ -141,19 +142,28 @@ rss:
   hacker-news:
     name: "Hacker News"
     forum: true
+    comment_selector: "[class='comment-tree']"
     sources:
-      - https://hnrss.org/newest
+      # - https://hnrss.org/newest
       - https://hnrss.org/frontpage
     discord_channel_id: "1320300826673156168"
 
   lobste-rs:
     name: "Lobste.rs"
     forum: true
-    sources:
-      - https://lobste.rs/t/ai,event,web.rss
-      - https://lobste.rs/t/security,release.rss
-      - https://lobste.rs/t/science,math,education.rss
-      - https://lobste.rs/t/compsci,programming,hardware.rss
+    comment_selector: "[class='comments']"
+    sources: # Other Categories: science, math, education
+      - https://lobste.rs/t/ai.rss
+      - https://lobste.rs/t/event.rss
+      - https://lobste.rs/t/web.rss
+      - https://lobste.rs/t/mobile.rss
+      - https://lobste.rs/t/games.rss
+      - https://lobste.rs/t/programming.rss
+      - https://lobste.rs/t/hardware.rss
+      - https://lobste.rs/t/compsci.rss
+      - https://lobste.rs/t/security.rss
+      - https://lobste.rs/t/privacy.rss
+      - https://lobste.rs/t/release.rss
     discord_channel_id: "1320300953953505351"
 
   dev-to:

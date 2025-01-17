@@ -16,8 +16,9 @@ from lib.prompts import (
     TitleSummarySchema,
     forum_importance_prompt,
     news_importance_prompt,
-    title_summary_prompt,
+    summary_prompt,
 )
+from lib.prompts.title_summary import summary_with_comments_prompt
 from lib.pubsub.subscription import send_pubsubhubbub_update
 from lib.rss import extract_website, get_rss_config
 from lib.types import RSSEntity
@@ -58,6 +59,16 @@ def parse_published_date(entry: dict) -> time.struct_time:
         published = time.strptime(published, "%Y-%m-%dT%H:%M:%S.%fZ")
 
     return published
+
+
+def handle_comment(comment_url: str, selector: str) -> str:
+    try:
+        website_data = extract_website(comment_url, selector)
+        return optimize_text(website_data["raw_text"])
+    except Exception as e:
+        logger.error(f"Failed to fetch the comment: {comment_url}")
+        logger.error(e)
+        return ""
 
 
 async def check_article(d: RSSEntity) -> None:
@@ -158,11 +169,25 @@ async def check_article(d: RSSEntity) -> None:
             logger.debug(f"Article is not important: {link}")
             return
 
+    _summary_prompt = summary_prompt
+
+    if is_forum:
+        _summary_prompt = summary_with_comments_prompt
+
+        if "comments" in d.entry:
+            comment_url = d.entry["comments"]
+            comment_text = handle_comment(
+                comment_url, category_config["comment_selector"]
+            ).strip()
+
+            if len(comment_text) > 0:
+                content += f"\n\nComments: {comment_text}"
+
     # Generate title and summary
     generated_title_summary = await openai.generate_schema(
         MessageBody(
             system=chevron.render(
-                title_summary_prompt,
+                summary_prompt,
                 {
                     "language": category_config.get("language", "English US"),
                 },
@@ -185,7 +210,7 @@ async def check_article(d: RSSEntity) -> None:
         publisher=d.feed_title,
     )
 
-    discord_channel_id = str(category_config.get("discord_channel_id"))
+    discord_channel_id = category_config.get("discord_channel_id")
 
     if discord_channel_id is not None and len(discord_channel_id) > 0:
         await send_discord(

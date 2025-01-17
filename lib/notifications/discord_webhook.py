@@ -48,7 +48,7 @@ async def send_discord(channel_id: str, message: str | None, embed: dict | None)
 
         seconds_left = (expiry - datetime.now()).total_seconds()
 
-        logger.debug(f"Discord rate limit reached, sleeping for {seconds_left}s")
+        logger.warning(f"Discord rate limit reached, sleeping for {seconds_left}s")
 
         await asyncio.sleep(seconds_left)
 

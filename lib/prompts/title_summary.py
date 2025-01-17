@@ -6,13 +6,7 @@ class TitleSummarySchema(BaseModel):
     summary: str
 
 
-class TitleSummaryComments(BaseModel):
-    title: str
-    summary: str
-    comments: str
-
-
-title_summary_prompt = """
+summary_prompt = """
 You are a precise content summarizer.
 Create brief, focused summaries and title generation of content provided.
 
@@ -39,12 +33,16 @@ Create brief, focused summaries and title generation of content provided.
 - For company and investing news, include stock ticker symbols (e.g., AAPL, TSLA)
 """.strip()
 
-title_summary_comments_prompt = f"""
-{title_summary_prompt}
+summary_with_comments_prompt = f"""
+{summary_prompt}
 
-## Comments
+## Comments Summary inside Summary
 
+- Do not include this part if there are no useful comments or no comments provided
+- Leave line gap between the main summary and comments summary
+- No introduction or conclusion, only comments summary
 - Limit to 100 words maximum
+- Bullet points (-) with bolded keywords for key points, pure text paragraphs depending on the variety of comments
 - Straightforward to useful comments, feedback, and suggestions
 - Comment with respect and professionalism, different perspectives are welcome
 - No personal opinions, emotions, or unrelated comments

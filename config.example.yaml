@@ -1,8 +1,0 @@
-rss:
-  world:
-    name: World
-    icon: https://cdn-icons-png.flaticon.com/512/2240/2240692.png
-    sources:
-    - https://time.com/feed
-    - https://feeds.bbci.co.uk/news/world/rss.xml
-    discord_channel_id: 12345

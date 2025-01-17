@@ -8,6 +8,7 @@ from typing import Generator
 import feedparser
 import trafilatura
 import yaml
+from bs4 import BeautifulSoup
 from loguru import logger
 
 from lib.chrome import chrome_driver
@@ -54,14 +55,24 @@ def parse_rss_feed(feed_url: str, etag: str = None, last_modified: str = None) -
     return rss_feed
 
 
-def get_html_content(link: str) -> str:
+def parse_selector(selector: str, content: str) -> str:
+    soup = BeautifulSoup(content, "html.parser")
+    s = soup.select_one(selector)
+
+    if s is None:
+        raise Exception(f"Failed to find the selector: {selector}")
+
+    return s.prettify()
+
+
+def get_html_content(link: str, selector: str | None = None) -> str:
     try:
         content = trafilatura.fetch_url(link)
 
         if content is None:
             raise Exception("Failed to fetch the website")
 
-        return content
+        return parse_selector(selector, content) if selector else content
     except Exception as e:
         # Try using selenium if it has --selenium-fallback flag
         if check_if_arg_exists("--selenium-fallback"):
@@ -82,15 +93,15 @@ def get_html_content(link: str) -> str:
             if content is None:
                 raise Exception("Failed to fetch the website using Selenium")
 
-            return content
+            return parse_selector(selector, content) if selector else content
 
         logger.error(f"Failed to fetch the website: {link}")
         logger.error(e)
         raise e
 
 
-def extract_website(link: str) -> dict:
-    content = get_html_content(link)
+def extract_website(link: str, selector: str | None = None) -> dict:
+    content = get_html_content(link, selector)
 
     json_data = trafilatura.extract(
         content,
