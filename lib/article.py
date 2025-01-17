@@ -2,6 +2,7 @@ import random
 import time
 from asyncio import sleep
 from datetime import datetime, timezone
+from urllib.parse import urlparse
 
 import chevron
 from loguru import logger
@@ -31,17 +32,23 @@ async def check_if_article_exists(guid: str, link: str, title: str) -> bool:
 
 
 def is_host_the_same(link1: str, link2: str) -> bool:
-    return link1.split("/")[2] == link2.split("/")[2]
+    # Original: link1.split("/")[2] == link2.split("/")[2]
+    return urlparse(link1).netloc == urlparse(link2).netloc
 
 
 def parse_published_date(entry: dict) -> time.struct_time:
-    published = entry.get("published_parsed")
+    published_key = [
+        "published_parsed",
+        "updated",
+        "published",
+    ]
 
-    if not published:
-        published = entry.get("updated")
+    published = None
 
-    if not published:
-        published = entry.get("published")
+    for key in published_key:
+        if key in entry:
+            published = entry[key]
+            break
 
     if not published:
         raise ValueError(f"No published date: {entry['link']}")
