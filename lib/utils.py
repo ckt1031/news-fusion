@@ -1,6 +1,6 @@
 import random
 import sys
-import urllib.parse
+from urllib.parse import urlparse
 
 from loguru import logger
 
@@ -49,8 +49,6 @@ def check_if_arg_exists(arg: str) -> bool:
     return arg in sys_arg
 
 
-def block_sites(url: str):
+def is_site_blacklisted(url: str):
     # Check host
-    host = urllib.parse.urlparse(url).netloc  # Get the host
-
-    return host in BLOCKED_HOST
+    return urlparse(url).netloc in BLOCKED_HOST
