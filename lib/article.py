@@ -174,7 +174,7 @@ async def check_article(d: RSSEntity) -> None:
     if is_forum:
         _summary_prompt = summary_with_comments_prompt
 
-        if "comments" in d.entry:
+        if "comments" in d.entry and "comment_selector" in category_config:
             comment_url = d.entry["comments"]
             comment_text = handle_comment(
                 comment_url, category_config["comment_selector"]
