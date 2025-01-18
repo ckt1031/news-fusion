@@ -15,8 +15,8 @@ RUN pip install --no-cache-dir --no-compile -r requirements.txt
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Make directory tmp, and give appuser permission to write to it
-RUN mkdir /app/tmp && chown appuser /app/tmp
+# Make directory local-db, and give appuser permission to write to it
+RUN mkdir /app/local-db && chown appuser /app/local-db
 
 
 USER appuser

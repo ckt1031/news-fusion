@@ -19,18 +19,18 @@ jobs:
 
       - run: pip install --upgrade -r requirements.txt
 
-#      - name: Convert Base64 Environment Variable into config File
-#        run: echo "${{ secrets.CONFIG_YAML_BASE64 }}" | base64 -d > config.yaml
-
-      - run: LOGURU_LEVEL="INFO" python crawl.py --only-forum --check-forum
+      - run: python crawl.py --only-forum --check-forum
         env:
-            DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          LOGURU_LEVEL: "INFO"
 
-            DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
 
-            QDRANT_API_KEY: ${{ secrets.QDRANT_API_KEY }}
-            QDRANT_CONNECTION_STRING: ${{ secrets.QDRANT_CONNECTION_STRING }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
-            OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-            OPENAI_API_BASE_URL: ${{ secrets.OPENAI_API_BASE_URL }}
-            OPENAI_CHAT_MODEL: ${{ secrets.OPENAI_CHAT_MODEL }}
+          QDRANT_API_KEY: ${{ secrets.QDRANT_API_KEY }}
+          QDRANT_CONNECTION_STRING: ${{ secrets.QDRANT_CONNECTION_STRING }}
+
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_API_BASE_URL: ${{ secrets.OPENAI_API_BASE_URL }}
+          OPENAI_CHAT_MODEL: ${{ secrets.OPENAI_CHAT_MODEL }}
