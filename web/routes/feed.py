@@ -39,12 +39,6 @@ async def get_feed(request: Request, category: str, date: str | None = None):
     fg.link(href=feed_url, rel="self")
     fg.id(feed_url)
 
-    fg.author(name="News Fusion", email="me@tsun1031.xyz")
-
-    if "icon" in rss_config[category]:
-        fg.icon(f"{IMAGE_PROXY}{rss_config[category]["icon"]}")
-
-    fg.generator(generator="News Fusion Python")
     fg.load_extension("media")
 
     condition = (Article.category == category) & (

@@ -1,7 +1,6 @@
 rss:
   world:
     name: World
-    icon: https://cdn-icons-png.flaticon.com/512/2240/2240692.png
     sources:
       - https://time.com/feed/
       - https://www.theguardian.com/world/rss
@@ -44,7 +43,6 @@ rss:
   technology:
     # https://github.com/tuan3w/awesome-tech-rss
     name: Technology
-    icon: https://cdn-icons-png.flaticon.com/512/5742/5742482.png
     sources:
       - https://www.theverge.com/tech/rss/index.xml
       - https://9to5mac.com/feed/
@@ -63,7 +61,6 @@ rss:
 
   dev:
     name: Developers
-    icon: https://cdn-icons-png.flaticon.com/512/6840/6840478.png
     sources:
       - https://deno.com/feed
       - https://bun.sh/rss.xml
@@ -90,7 +87,6 @@ rss:
 
   ai:
     name: AI
-    icon: https://static.vecteezy.com/system/resources/previews/006/662/139/non_2x/artificial-intelligence-ai-processor-chip-icon-symbol-for-graphic-design-logo-web-site-social-media-mobile-app-ui-illustration-free-vector.jpg
     sources:
       - https://openai.com/news/rss.xml
       - https://replicate.com/blog/rss
