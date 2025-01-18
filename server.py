@@ -25,7 +25,7 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     FastAPICache.init(RedisBackend(redis_client), prefix="fastapi-cache")
     # Run await register_all_topics(), but make the app start first and then run the function
     # This is to avoid a deadlock when the app is not started yet
-    asyncio.get_event_loop().call_later(1, register_all_topics)
+    asyncio.get_event_loop().call_later(1, asyncio.create_task, register_all_topics())
 
     yield
     scheduler.shutdown()

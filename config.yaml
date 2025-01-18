@@ -10,7 +10,7 @@ rss:
       - https://moxie.foxnews.com/google-publisher/world.xml
       - https://feeds.nbcnews.com/nbcnews/public/world
     discord_channel_id: "1315385019241595172"
-    # https://about.fb.comof rchn/wp-content/uploads/2016/05/rss-urls-1.pdf
+    # https://about.fb.comofrchn/wp-content/uploads/2016/05/rss-urls-1.pdf
 
   magazine:
     name: Magazine
