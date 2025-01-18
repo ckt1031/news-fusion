@@ -1,3 +1,4 @@
+import hashlib
 import random
 import time
 from asyncio import sleep
@@ -9,6 +10,7 @@ from loguru import logger
 
 from lib.db.postgres import Article
 from lib.db.qdrant import News, Qdrant
+from lib.db.redis_client import redis_client
 from lib.notifications.discord_webhook import send_discord
 from lib.openai_api import MessageBody, OpenAIAPI, count_tokens
 from lib.prompts import (
@@ -25,7 +27,22 @@ from lib.types import RSSEntity
 from lib.utils import optimize_text
 
 
-async def check_if_article_exists(guid: str, link: str, title: str) -> bool:
+def sha1_hash(text: str) -> str:
+    return hashlib.sha1(text.encode()).hexdigest()
+
+
+def get_redis_key(guid: str) -> str:
+    return f"article_hash:{sha1_hash(guid)}"
+
+
+async def is_article_checked(guid: str, link: str, title: str) -> bool:
+    # We check the Redis cache to see if the article is already checked
+    r_key = get_redis_key(guid)
+    redis_exist = await redis_client.exists(r_key)
+
+    if redis_exist:
+        return True
+
     d = await Article.aio_get_or_none(
         (Article.guid == guid) | (Article.link == link) | (Article.title == title)
     )
@@ -84,8 +101,8 @@ async def check_article(d: RSSEntity) -> None:
         return
 
     # Check if the source is already in the database
-    if await check_if_article_exists(guid, link, title):
-        logger.debug(f"Article already exists: {link} ({title})")
+    if await is_article_checked(guid, link, title):
+        logger.debug(f"Article already checked: {link} ({title})")
         return
 
     # Sleep for a random time between 2 and 5 seconds to avoid getting blocked and slowing down the server
@@ -123,17 +140,14 @@ async def check_article(d: RSSEntity) -> None:
         )
     )
 
+    r_key = get_redis_key(guid)
+
     # There exists a similar article from list and their host must be different
     if similarities and similarities[0] and similarities[0].score >= 0.70:
-        await Article.aio_create(
-            guid=guid,
-            title=title,
-            category=d.category,
-            link=link,
-            image=image,
-            important=False,
-            published_at=published_date,
-        )
+        # Set the key to Redis, expire in 96 hours, to avoid checking the same article again
+        # EX in seconds: 96 hours * 60 minutes * 60 seconds
+        await redis_client.set(r_key, 1, ex=96 * 60 * 60)
+
         logger.info(
             f"Similar article found for {link}: {similarities[0].payload['link']}"
         )
@@ -157,16 +171,10 @@ async def check_article(d: RSSEntity) -> None:
 
         # If the article is not important, skip it
         if not importance_status.important:
-            await Article.aio_create(
-                guid=guid,
-                title=title,
-                category=d.category,
-                link=link,
-                image=image,
-                important=False,
-                published_at=published_date,
-            )
-            logger.debug(f"Article is not important: {link}")
+            # Set the key to Redis, expire in 96 hours, to avoid checking the same article again
+            # EX in seconds: 96 hours * 60 minutes * 60 seconds
+            await redis_client.set(r_key, 1, ex=96 * 60 * 60)
+            logger.debug(f"Article not important: {link} ({title})")
             return
 
     _summary_prompt = summary_prompt
