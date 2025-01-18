@@ -88,6 +88,7 @@ rss:
   ai:
     name: AI
     sources:
+      - https://stability.ai/news?format=rss
       - https://openai.com/news/rss.xml
       - https://replicate.com/blog/rss
       - https://jina.ai/feed.rss
@@ -96,6 +97,7 @@ rss:
       - https://deepmind.google/blog/rss.xml
       - https://qwenlm.github.io/blog/index.xml
       - https://blog.google/products/gemini/rss/
+      - https://techcommunity.microsoft.com/t5/s/gxcuf89792/rss/board?board.id=AIPlatformBlog
     discord_channel_id: "1315729383440515113"
 
   v2ex:
