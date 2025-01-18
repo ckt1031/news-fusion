@@ -1,4 +1,5 @@
 import asyncio
+import traceback
 
 from loguru import logger
 
@@ -10,6 +11,10 @@ from lib.rss import get_all_rss_sources, get_rss_config, parse_rss_feed
 from lib.utils import check_if_arg_exists, init_logger, is_site_blacklisted
 
 init_logger()
+
+
+def print_exc(exception):
+    traceback.print_exception(type(exception), exception, exception.__traceback__)
 
 
 async def run_scraper():
@@ -57,14 +62,16 @@ async def run_scraper():
                         )
                     )
                 except Exception as e:
-                    logger.error(f"Error ({entry['link']}): {e}")
+                    logger.error(f"Error ({entry['link']})")
+                    print_exc(e)
                     continue
 
             if "etag" in feed:
                 logger.debug(f"ETag: {feed['etag']}")
                 save_etag(source, feed["etag"])
         except Exception as e:
-            logger.error(f"Error ({source}): {e}")
+            logger.error(f"Error ({source})")
+            print_exc(e)
             continue
 
 
