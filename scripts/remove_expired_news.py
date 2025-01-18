@@ -34,7 +34,7 @@ async def remove_expired_articles():
         Article.created_at.day <= exceed_date.day
         and Article.created_at.month <= exceed_date.month
         and Article.created_at.year <= exceed_date.year
-        and Article.important == False
+        and Article.important is False
     ).aio_execute()
 
     logger.success("Expired non-important articles removed")
