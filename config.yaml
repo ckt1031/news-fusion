@@ -104,6 +104,7 @@ rss:
     name: V2EX
     forum: true
     language: Traditional Chinese
+    similarity_check: false
     sources:
       - https://www.v2ex.com/index.xml
       - https://www.v2ex.com/feed/tab/play.xml
@@ -114,6 +115,7 @@ rss:
   free-games:
     name: "Free Games"
     importance_check: false
+    similarity_check: false
     sources:
       - https://www.gamerpower.com/rss/steam
       - https://www.gamerpower.com/rss/games

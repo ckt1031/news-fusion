@@ -127,23 +127,34 @@ async def check_article(d: RSSEntity) -> None:
         )
         return
 
-    content_embedding = await openai.generate_embeddings(content)
+    category_config = get_rss_config()[d.category]
+    similarity_check = category_config.get("similarity_check", True)
+    content_embedding = None
+    similarities = None
 
     qdrant = Qdrant()
 
-    # Check if the article is similar to any other article in the database to remove duplicates
-    # If it is, skip it
-    similarities = await qdrant.find_out_similar_news(
-        News(
-            content_embedding=content_embedding,
-            link=link,
+    if similarity_check:
+        content_embedding = await openai.generate_embeddings(content)
+
+        # Check if the article is similar to any other article in the database to remove duplicates
+        # If it is, skip it
+        similarities = await qdrant.find_out_similar_news(
+            News(
+                content_embedding=content_embedding,
+                link=link,
+            )
         )
-    )
 
     r_key = get_redis_key(guid)
 
     # There exists a similar article from list and their host must be different
-    if similarities and similarities[0] and similarities[0].score >= 0.70:
+    if (
+        content_embedding
+        and similarities
+        and similarities[0]
+        and similarities[0].score >= 0.70
+    ):
         # Set the key to Redis, expire in 96 hours, to avoid checking the same article again
         # EX in seconds: 96 hours * 60 minutes * 60 seconds
         await redis_client.set(r_key, 1, ex=96 * 60 * 60)
@@ -157,7 +168,6 @@ async def check_article(d: RSSEntity) -> None:
     today_date_str = datetime.now().strftime("%Y-%m-%d")
     news_text_with_meta = f"Title: {title}\nDate: {today_date_str}\nContent: {content}"
 
-    category_config = get_rss_config()[d.category]
     is_forum: bool = category_config.get("forum", False)
 
     if category_config.get("importance_check", True):
@@ -234,7 +244,7 @@ async def check_article(d: RSSEntity) -> None:
             },
         )
 
-    if content_embedding is not None:
+    if content_embedding is not None and similarity_check:
         # Save to VectorDB
         await qdrant.insert_news(
             News(
