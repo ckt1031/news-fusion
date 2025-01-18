@@ -17,7 +17,7 @@ rss:
     sources:
       - https://www.newyorker.com/feed/news
       - https://asteriskmag.com/feed
-      - https://www.nplusonemag.com/feed
+      # - https://www.nplusonemag.com/feed
       - https://feeds.feedburner.com/TheAtlanticWire
     discord_channel_id: "1327680122144297063"
 
@@ -89,7 +89,7 @@ rss:
     name: AI
     sources:
       - https://stability.ai/news?format=rss
-      - https://openai.com/news/rss.xml
+      # - https://openai.com/news/rss.xml
       - https://replicate.com/blog/rss
       - https://jina.ai/feed.rss
       - https://lastweekin.ai/feed
