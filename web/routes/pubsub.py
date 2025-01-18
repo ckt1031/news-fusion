@@ -27,7 +27,7 @@ async def subscription(request: Request) -> Response:
     verify_token = request.query_params.get("hub.verify_token")
 
     if verify_token != PUBSUB_TOKEN:
-        logger.debug("Invalid Pubsub verify token")
+        logger.warning("Invalid Pubsub verify token")
         return PlainTextResponse(
             status_code=404,
             content="404 Not Found",
@@ -41,7 +41,7 @@ async def subscription(request: Request) -> Response:
 
 async def verify_signature(signature_header: str, body: bytes) -> bool:
     if not signature_header.startswith("sha1="):
-        logger.debug("Invalid Pubsub signature format")
+        logger.warning("Invalid Pubsub signature format")
         return False
 
     signature = signature_header.replace("sha1=", "")
@@ -69,7 +69,7 @@ async def distribution(req: Request, bg: BackgroundTasks) -> Response:
     signature = req.headers.get("X-Hub-Signature")
 
     if signature is None:
-        logger.debug("Missing Pubsub signature")
+        logger.warning("Missing Pubsub signature")
         return PlainTextResponse(
             status_code=404,
             content="404 Not Found",
@@ -79,7 +79,7 @@ async def distribution(req: Request, bg: BackgroundTasks) -> Response:
     signature_status = await verify_signature(signature, body)
 
     if not signature_status:
-        logger.debug("Invalid Pubsub signature")
+        logger.warning("Invalid Pubsub signature")
         return PlainTextResponse(
             status_code=404,
             content="404 Not Found",

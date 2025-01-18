@@ -15,7 +15,6 @@ def check_all_rss():
         try:
             d = parse_rss_feed(source)
 
-            # print(d['etag'], d['modified'])
             if "etag" in d:
                 logger.debug(f"ETag: {d['etag']}")
 
