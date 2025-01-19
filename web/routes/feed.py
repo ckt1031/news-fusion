@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from typing import List
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse, Response
@@ -45,17 +46,21 @@ async def get_feed(request: Request, category: str, date: str | None = None):
         Article.important == True  # noqa: E712
     )
 
-    # Date YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS+00:00
+    # Date YYYY-MM-DD or ISO format, so it must be at least 10 characters
     if date and len(date) >= 10:
-        # Parse date
-        date = datetime.fromisoformat(date)
-        start_date = date.replace(hour=0, minute=0, second=0, microsecond=0)
-        end_date = date.replace(hour=23, minute=59, second=59, microsecond=999999)
-        condition = (
-            condition
-            & (Article.published_at >= start_date)
-            & (Article.published_at <= end_date)
-        )
+        try:
+            # Parse date
+            date = datetime.fromisoformat(date)
+
+            condition = (
+                condition
+                & (Article.published_at.day == date.day)
+                & (Article.published_at.month == date.month)
+                & (Article.published_at.year == date.year)
+            )
+        except ValueError:
+            # If date is not in ISO format, just skip
+            pass
 
     results = (
         await Article.select()
@@ -106,10 +111,71 @@ class XMLResponseCoder(Coder):
 
 
 @feed_router.get(
+    "/categories",
+    summary="Get available feed categories",
+    tags=["Feed"],
+    dependencies=[Depends(RateLimiter(times=20, seconds=60))],
+    response_model=List[str],
+    # Example response
+    responses={
+        200: {
+            "content": {
+                "application/json": {
+                    "example": ["world", "technology", "business"],
+                }
+            },
+        }
+    },
+)
+async def categories() -> Response:
+    rss_config = get_rss_config()
+
+    # Get keys from the rss_config
+    return JSONResponse(list(rss_config.keys()))
+
+
+@feed_router.get(
     "/feed/{category}",
     summary="Get feed for a category in ATOM format",
     tags=["Feed"],
     dependencies=[Depends(RateLimiter(times=20, seconds=60))],
+    response_class=Response,
+    responses={
+        200: {
+            "content": {
+                "application/xml": {
+                    "example": """<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>News Fusion - World</title>
+    <link href="https://example.com/feed/world" rel="self"/>
+    <id>https://example.com/feed/world</id>
+    <entry>
+        <id>https://example.com/article/1</id>
+        <title>Article 1</title>
+        <link href="https://example.com/article/1" rel="alternate"/>
+        <author>
+            <name>Author</name>
+        </author>
+        <summary>Summary</summary>
+        <updated>2021-10-01T00:00:00Z</updated>
+    </entry>
+</feed>""",
+                    "schema": {
+                        "type": "object",
+                        "format": "xml",
+                        "xml": {"name": "feed"},
+                    },
+                },
+                "application/json": None,
+            },
+        },
+        404: {
+            "content": {
+                "application/json": {
+                    "example": {"error": "Category not found"},
+                }
+            },
+        },
+    },
 )
 @cache(expire=300, coder=XMLResponseCoder)
 async def category_feed(
