@@ -24,7 +24,7 @@ db = peewee_async.PooledPostgresqlDatabase(
     host=db_cred.hostname,
     port=db_cred.port,
 )
-db.connect()
+# db.connect()
 
 
 # Make on exit function to close

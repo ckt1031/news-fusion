@@ -16,28 +16,21 @@ async def remove_expired_articles():
         days=IMPORTANT_NEWS_EXPIRATION_DAYS
     )
 
-    await Article.delete().where(
-        Article.created_at.day <= exceed_date.day
-        and Article.created_at.month <= exceed_date.month
-        and Article.created_at.year <= exceed_date.year
-    ).aio_execute()
+    await Article.delete().where(Article.created_at <= exceed_date).aio_execute()
 
-    logger.success("Expired articles removed")
+    logger.success("All articles saved for more than 30 days removed")
 
-    NOT_IMPORTANT_NEWS_EXPIRATION_DAYS = 4
+    NOT_IMPORTANT_NEWS_EXPIRATION_DAYS = 3
 
     exceed_date = datetime.datetime.now() - datetime.timedelta(
         days=NOT_IMPORTANT_NEWS_EXPIRATION_DAYS
     )
 
     await Article.delete().where(
-        Article.created_at.day <= exceed_date.day
-        and Article.created_at.month <= exceed_date.month
-        and Article.created_at.year <= exceed_date.year
-        and Article.important is False
+        (Article.created_at <= exceed_date) & (Article.important == False)  # noqa: E712
     ).aio_execute()
 
-    logger.success("Expired non-important articles removed")
+    logger.success("All not important articles saved for more than 3 days removed")
 
 
 if __name__ == "__main__":
