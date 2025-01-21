@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from redis import asyncio as aioredis
 
 from lib.env import get_env
@@ -7,5 +9,6 @@ redis_url = get_env("REDIS_URL", "redis://localhost")
 redis_client = aioredis.from_url(redis_url)
 
 
+@lru_cache(maxsize=64)
 def get_article_redis_key(guid: str) -> str:
     return f"article_hash:{sha1_hash(guid)}"

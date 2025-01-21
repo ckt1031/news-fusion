@@ -14,7 +14,6 @@ from lib.notifications.discord import send_discord
 from lib.pubsub.subscription import send_pubsubhubbub_update
 from lib.rss import get_rss_config, parse_published_date
 from lib.types import RSSEntity
-from lib.utils import check_if_arg_exists
 
 
 async def is_entry_checked(guid: str, link: str, title: str) -> bool:
@@ -115,5 +114,9 @@ async def handle_entry(d: RSSEntity) -> None:
 
     # Pubsub update for target clients
     await send_pubsubhubbub_update(d.category)
+
+    # Set the key to Redis, expire in 72 hours
+    article_cache_key = get_article_redis_key(guid)
+    await redis_client.set(article_cache_key, 1, ex=72 * 60 * 60)
 
     logger.success(f"Entry processed: {link}")
