@@ -1,46 +1,40 @@
 import asyncio
-import os
-import shelve
 from datetime import datetime, timedelta
 
 import httpx
 from loguru import logger
 
+from lib.db.redis_client import redis_client
 from lib.env import get_env
 
-SHELVE_PATH = "./local-db/discord"
+REDIS_KEY = "discord_rate_limit"
 
 
-def ensure_local_db_dir():
-    if not os.path.exists("./local-db"):
-        os.makedirs("./local-db")
+async def get_cooldown_status():
+    retrieved_data = redis_client.hmget(REDIS_KEY)
+
+    iso = retrieved_data.get("remaining_expiry", datetime.now().isoformat())
+
+    return {
+        "cooldown_required": retrieved_data.get("cooldown_required", False),
+        "remaining_expiry": retrieved_data.get("remaining_expiry", iso),
+    }
 
 
-def get_cooldown_status():
-    ensure_local_db_dir()
-
-    with shelve.open(SHELVE_PATH, writeback=True) as db:
-        expiry = db.get("remaining_expiry", datetime.now().isoformat())
-        expiry = datetime.fromisoformat(expiry)
-
-        data = {
-            "cooldown_required": db.get("cooldown_required", False),
-            "remaining_expiry": expiry,
-        }
-
-    return data
-
-
-def set_cooldown_status(cooldown_required: bool, remaining_expiry: datetime):
-    with shelve.open(SHELVE_PATH, writeback=True) as db:
-        db["cooldown_required"] = cooldown_required
-        db["remaining_expiry"] = remaining_expiry.isoformat()
+async def set_cooldown_status(cooldown_required: bool, remaining_expiry: datetime):
+    await redis_client.hmset(
+        REDIS_KEY,
+        {
+            "cooldown_required": cooldown_required,
+            "remaining_expiry": remaining_expiry.isoformat(),
+        },
+    )
 
 
 async def send_discord(
     channel_id: str, message: str | None = None, embed: dict | None = None
 ):
-    cooldown_status = get_cooldown_status()
+    cooldown_status = await get_cooldown_status()
 
     if (
         cooldown_status["cooldown_required"]
@@ -53,8 +47,7 @@ async def send_discord(
         logger.warning(f"Discord rate limit reached, sleeping for {seconds_left}s")
 
         await asyncio.sleep(seconds_left)
-
-        set_cooldown_status(False, datetime.now())
+        await set_cooldown_status(False, datetime.now())
 
     data = {"content": message}
 
@@ -89,4 +82,4 @@ async def send_discord(
         expiry = datetime.now() + timedelta(seconds=float(reset_after))
 
         # Set the cooldown status to local db
-        set_cooldown_status(True, expiry)
+        await set_cooldown_status(True, expiry)
