@@ -1,6 +1,7 @@
 import tiktoken
 from loguru import logger
 from openai import AsyncOpenAI
+from openai.types import CreateEmbeddingResponse
 
 from lib.env import get_env
 
@@ -30,7 +31,7 @@ class OpenAIAPI:
             base_url=self.api_base_url,
         )
 
-    async def generate_embeddings(self, text: str):
+    async def generate_embeddings(self, text: str) -> CreateEmbeddingResponse:
         """
         Embed the text using the LLM model
         :param text: The text to embed

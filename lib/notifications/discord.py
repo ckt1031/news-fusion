@@ -37,7 +37,9 @@ def set_cooldown_status(cooldown_required: bool, remaining_expiry: datetime):
         db["remaining_expiry"] = remaining_expiry.isoformat()
 
 
-async def send_discord(channel_id: str, message: str | None, embed: dict | None):
+async def send_discord(
+    channel_id: str, message: str | None = None, embed: dict | None = None
+):
     cooldown_status = get_cooldown_status()
 
     if (

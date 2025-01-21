@@ -1,3 +1,4 @@
+import hashlib
 import random
 import sys
 from urllib.parse import urlparse
@@ -10,6 +11,10 @@ from lib.config import BLOCKED_HOST
 def init_logger():
     logger.remove()
     logger.add(sys.stdout, format="{time}: [<level>{level}</level>] {message}")
+
+
+def sha1_hash(text: str) -> str:
+    return hashlib.sha1(text.encode()).hexdigest()
 
 
 def shuffle_dict_keys(data: dict[str, any]) -> dict[str, any]:

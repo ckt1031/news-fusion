@@ -1,6 +1,6 @@
 import shelve
 
-from lib.notifications.discord_webhook import ensure_local_db_dir
+from lib.notifications.discord import ensure_local_db_dir
 
 SHELVE_PATH = "./local-db/etag"
 

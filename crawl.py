@@ -3,11 +3,12 @@ import traceback
 
 from loguru import logger
 
-from lib.article import RSSEntity, check_article
 from lib.db.etag import get_etag, save_etag
 from lib.db.postgres import close_db
 from lib.db.qdrant import Qdrant
+from lib.handler.entry import handle_entry
 from lib.rss import get_all_rss_sources, get_rss_config, parse_rss_feed
+from lib.types import RSSEntity
 from lib.utils import check_if_arg_exists, init_logger, is_site_blacklisted
 
 init_logger()
@@ -54,7 +55,7 @@ async def run_scraper():
                         f"Checking article: {entry['link']} ({entry['title']})"
                     )
 
-                    await check_article(
+                    await handle_entry(
                         RSSEntity(
                             feed_title=feed["feed"]["title"],
                             entry=entry,

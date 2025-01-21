@@ -2,7 +2,8 @@ import sys
 
 from loguru import logger
 
-from lib.rss import extract_website, get_all_rss_sources, parse_rss_feed
+from lib.rss import get_all_rss_sources, parse_rss_feed
+from lib.scraper import extract_website
 from lib.utils import optimize_text
 
 
