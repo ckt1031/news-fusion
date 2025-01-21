@@ -57,6 +57,10 @@ rss:
       - https://www.techradar.com/rss
       - https://www.bleepingcomputer.com/feed/
       - https://feeds.feedburner.com/venturebeat/SZYF
+
+      # YouTube Channels
+      - yt:UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
+      - yt:UCeUJO1H3TEXu2syfAAPjYKQ # 极客湾 Geekerwan
     discord_channel_id: "1297769089024004126"
 
   dev:
@@ -83,6 +87,11 @@ rss:
       - https://www.freecodecamp.org/news/rss
       - https://blog.google/products/chrome/rss/
       - https://blog.chromium.org/feeds/posts/default
+
+      # YouTube Channels
+      - yt:UCsBjURrPoezykLs9EqgamOA # Fireship
+      - yt:UCbRP3c757lWg9M-U7TyEkXA # Theo - t3․gg
+      - yt:UCvGwM5woTl13I-qThI4YMCg # Josh tried coding
     discord_channel_id: "1315654076280864789"
 
   ai:
@@ -177,10 +186,12 @@ rss:
   youtube:
     name: YouTube
     sources:
-      - yt:UCsBjURrPoezykLs9EqgamOA # Fireship
-      - yt:UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
-      - yt:UCeUJO1H3TEXu2syfAAPjYKQ # 极客湾 Geekerwan
       - yt:UCQtwvRQWnT5Buh9hpvNNryQ # 柴知道
-      - yt:UCbRP3c757lWg9M-U7TyEkXA # Theo - t3․gg
+      - yt:UCilwQlk62k1z7aUEZPOB6yw # 小 Lin 说
+      - yt:UC2tQpW0dPiyWPebwBSksJ_g # 脑洞乌托邦
+      - yt:UC4dtpugIYK56S_7btf5a-iQ # 林亦 LYi
+      - yt:UCFhXFikryT4aFcLkLw2LBLA # NileRed
+      - yt:UCEnAit0duntJxa3gZG-paoA # NileRedExtra
+      - yt:UCsXVk37bltHxD1rDPwtNM8Q # Kurzgesagt – In a Nutshell
     discord_channel_id: "1322487198762930206"
 
