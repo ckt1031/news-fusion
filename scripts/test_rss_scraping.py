@@ -16,9 +16,6 @@ def check_all_rss():
         try:
             d = parse_rss_feed(source)
 
-            if "etag" in d:
-                logger.debug(f"ETag: {d['etag']}")
-
             if "modified" in d:
                 logger.debug(f"Modified: {d['modified']}")
 
@@ -42,7 +39,6 @@ def check_all_rss():
                     raise Exception("Failed to fetch the website")
 
                 # logger.debug(f"Content: {content}")
-
                 logger.success(f"RSS source ({source}) checked successfully.")
 
                 # We only need to check one article

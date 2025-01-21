@@ -47,8 +47,8 @@ def get_rss_categories() -> list[str]:
     return list(get_rss_config().keys())
 
 
-def parse_rss_feed(feed_url: str, etag: str = None, last_modified: str = None) -> dict:
-    rss_feed = feedparser.parse(feed_url, etag=etag, modified=last_modified)
+def parse_rss_feed(url: str) -> dict:
+    rss_feed = feedparser.parse(url)
     return rss_feed
 
 

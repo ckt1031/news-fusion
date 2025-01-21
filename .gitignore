@@ -5,5 +5,4 @@ data
 qdrant_storage
 .idea
 dev.config.yaml
-/local-db/
 .DS_Store

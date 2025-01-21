@@ -68,7 +68,7 @@ app.openapi = openapi
 # Health check
 @app.get("/health", include_in_schema=False)
 async def health():
-    return {"status": "ok"}
+    return "OK"
 
 
 app.include_router(v1_router.feed_router, prefix="/v1")

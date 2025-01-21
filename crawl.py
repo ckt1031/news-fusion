@@ -3,7 +3,6 @@ import traceback
 
 from loguru import logger
 
-from lib.db.etag import get_etag, save_etag
 from lib.db.postgres import close_db
 from lib.db.qdrant import Qdrant
 from lib.handler.entry import handle_entry
@@ -42,8 +41,7 @@ async def run_scraper():
         logger.info(f"Category: {category_name}, checking source: {source}")
 
         try:
-            etag = get_etag(source)
-            feed = parse_rss_feed(source, etag)
+            feed = parse_rss_feed(source)
 
             for entry in feed["entries"]:
                 try:
@@ -66,10 +64,6 @@ async def run_scraper():
                     logger.error(f"Error ({entry['link']})")
                     print_exc(e)
                     continue
-
-            if "etag" in feed:
-                logger.debug(f"ETag: {feed['etag']}")
-                save_etag(source, feed["etag"])
         except Exception as e:
             logger.error(f"Error ({source})")
             print_exc(e)
