@@ -9,10 +9,12 @@ from lib.db.postgres import Article
 from lib.db.qdrant import News, Qdrant
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.handler.article import handle_article
+from lib.handler.youtube import handle_youtube
 from lib.notifications.discord import send_discord
 from lib.pubsub.subscription import send_pubsubhubbub_update
 from lib.rss import get_rss_config, parse_published_date
 from lib.types import RSSEntity
+from lib.utils import check_if_arg_exists
 
 
 async def is_entry_checked(guid: str, link: str, title: str) -> bool:
@@ -58,14 +60,17 @@ async def handle_entry(d: RSSEntity) -> None:
     logger.info(f"Checking entry: {link} ({title})")
 
     category_config = get_rss_config()[d.category]
-    data = await handle_article(d, category_config)
 
-    if data is None:
+    if "youtube.com" in link:
+        processed_data = await handle_youtube(d, category_config, published_date_utc)
+    else:
+        processed_data = await handle_article(d, category_config)
+
+    if processed_data is None:
         return
 
-    image = data["image"]
-    content_embedding = data["embedding"]
-    generated_title_summary = data["content"]
+    image = processed_data["image"]
+    generated_title_summary = processed_data["content"]
 
     # Database schema insertion
     data = Article(
@@ -95,12 +100,12 @@ async def handle_entry(d: RSSEntity) -> None:
         )
 
     similarity_check = category_config.get("similarity_check", True)
-    if content_embedding is not None and similarity_check:
+    if "embedding" in processed_data and similarity_check:
         qdrant = Qdrant()
         # Save to VectorDB
         await qdrant.insert_news(
             News(
-                content_embedding=content_embedding,
+                content_embedding=processed_data["embedding"],
                 link=link,
             )
         )

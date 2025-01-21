@@ -173,3 +173,14 @@ rss:
     sources:
       - https://dev.to/feed
     discord_channel_id: "1320091294726488074"
+
+  youtube:
+    name: YouTube
+    sources:
+      - yt:UCsBjURrPoezykLs9EqgamOA # Fireship
+      - yt:UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
+      - yt:UCeUJO1H3TEXu2syfAAPjYKQ # 极客湾 Geekerwan
+      - yt:UCQtwvRQWnT5Buh9hpvNNryQ # 柴知道
+      - yt:UCbRP3c757lWg9M-U7TyEkXA # Theo - t3․gg
+    discord_channel_id: "1322487198762930206"
+

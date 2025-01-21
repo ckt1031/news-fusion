@@ -30,7 +30,8 @@ def handle_comment(comment_url: str, selector: str) -> str:
 
 
 async def handle_article(
-    d: RSSEntity, category_config: dict[str, str | bool | None]
+    d: RSSEntity,
+    category_config: dict[str, str | bool | None],
 ) -> dict or None:
     link, title = d.entry["link"], d.entry["title"]
     guid = d.entry["id"] if "id" in d.entry else d.entry["link"]

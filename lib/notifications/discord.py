@@ -11,7 +11,7 @@ REDIS_KEY = "discord_rate_limit"
 
 
 async def get_cooldown_status():
-    retrieved_data = redis_client.hmget(REDIS_KEY)
+    retrieved_data = await redis_client.hgetall(REDIS_KEY)
 
     iso = retrieved_data.get("remaining_expiry", datetime.now().isoformat())
 

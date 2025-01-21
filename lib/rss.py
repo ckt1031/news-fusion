@@ -12,6 +12,8 @@ from loguru import logger
 from lib.env import IS_PRODUCTION
 from lib.utils import shuffle_dict_keys
 
+YOUTUBE_RSS_BASE_URL = "https://www.youtube.com/feeds/videos.xml?channel_id="
+
 
 @cache
 def get_category_from_source(source: str) -> str | None:
@@ -73,6 +75,10 @@ def get_all_rss_sources(shuffle: bool = False) -> Generator[list[str], None, Non
         random.shuffle(data["sources"])
 
         for source in data["sources"]:
+            if source.startswith("yt:"):
+                # Replace yt: with the base URL
+                source = source.replace("yt:", YOUTUBE_RSS_BASE_URL)
+
             yield [category, source]
 
 
