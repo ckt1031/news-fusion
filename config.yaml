@@ -88,8 +88,9 @@ rss:
   ai:
     name: AI
     sources:
-      - https://stability.ai/news?format=rss
       # - https://openai.com/news/rss.xml
+      - https://www.testingcatalog.com/rss/
+      - https://stability.ai/news?format=rss
       - https://replicate.com/blog/rss
       - https://jina.ai/feed.rss
       - https://lastweekin.ai/feed
