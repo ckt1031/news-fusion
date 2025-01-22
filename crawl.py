@@ -22,6 +22,25 @@ def print_exc(exception):
     traceback.print_exception(type(exception), exception, exception.__traceback__)
 
 
+def is_source_allowed(data: dict, source: str):
+    only_forum = check_if_arg_exists("--only-forum")
+    only_youtube = check_if_arg_exists("--only-youtube")
+
+    # There must be ONE --only-x flag, not both
+    if only_forum and only_youtube:
+        raise ValueError("Cannot have multiple --only-[x] flags")
+
+    conditions = [
+        only_forum and not data.get("forum", False),
+        only_youtube and not source.startswith(YOUTUBE_RSS_BASE_URL),
+        not check_if_arg_exists("--check-forum") and data.get("forum", False),
+        not check_if_arg_exists("--check-youtube")
+        and source.startswith(YOUTUBE_RSS_BASE_URL),
+    ]
+
+    return not any(conditions)
+
+
 async def run_scraper():
     logger.success("Running News Fusion auto scraping service...")
 
@@ -33,21 +52,10 @@ async def run_scraper():
         category_name, source = d
         data = get_rss_config()[category_name]
 
-        # Ensure that the category is not a forum category
-        if not check_if_arg_exists("--check-forum") and data.get("forum", False):
-            logger.warning(f"Skipping forum category: {category_name}")
+        # Check if the source is allowed
+        if not is_source_allowed(data, source):
+            logger.warning(f"Skipping source: {source}")
             continue
-
-        # --only-forum flag
-        if check_if_arg_exists("--only-forum") and not data.get("forum", False):
-            logger.warning(f"Skipping non-forum category: {category_name}")
-            continue
-
-        if not check_if_arg_exists("--check-youtube") and source.startswith(
-            YOUTUBE_RSS_BASE_URL
-        ):
-            logger.warning(f"Skipping YouTube source: {source}")
-            return
 
         logger.info(f"Category: {category_name}, checking source: {source}")
 
