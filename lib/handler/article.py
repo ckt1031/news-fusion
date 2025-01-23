@@ -19,14 +19,14 @@ from lib.types import RSSEntity
 from lib.utils import optimize_text
 
 
-def handle_comment(comment_url: str, selector: str) -> str:
+def handle_comment(comment_url: str, selector: str) -> str | None:
     try:
         website_data = extract_website(comment_url, selector)
         return optimize_text(website_data["raw_text"]).strip()
     except Exception as e:
-        logger.error(f"Failed to fetch the comment: {comment_url}")
+        logger.warning(f"Failed to fetch the comment: {comment_url}")
         logger.error(e)
-        return ""
+        return None
 
 
 async def handle_article(
@@ -118,7 +118,7 @@ async def handle_article(
             comment_selector = category_config["comment_selector"]
             comment_text = handle_comment(comment_url, comment_selector)
 
-            if len(comment_text) > 0:
+            if comment_text and len(comment_text) > 0:
                 content += f"\n\nComments: {comment_text}"
 
     # Generate title and summary

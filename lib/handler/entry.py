@@ -87,15 +87,19 @@ async def handle_entry(d: RSSEntity) -> None:
     discord_channel_id = category_config.get("discord_channel_id")
 
     if discord_channel_id is not None and len(discord_channel_id) > 0:
+        embed = {
+            "url": data.link,
+            "title": data.title,
+            "description": data.summary,
+            "footer": {"text": data.publisher},
+        }
+
+        if data.image and data.image.startswith("https"):
+            embed["thumbnail"] = {"url": data.image}
+
         await send_discord(
             discord_channel_id,
-            embed={
-                "url": data.link,
-                "title": data.title,
-                "description": data.summary,
-                "footer": {"text": data.publisher},
-                "thumbnail": {"url": data.image},
-            },
+            embed=embed,
         )
 
     similarity_check = category_config.get("similarity_check", True)
