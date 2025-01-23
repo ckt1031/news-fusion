@@ -25,11 +25,14 @@ rss:
     name: Finance
     sources:
       - https://finance.yahoo.com/news/rssindex
+      - https://seekingalpha.com/market_currents.xml
     discord_channel_id: "1325126500336271442"
 
   investing:
     name: Investing
     sources:
+      - https://www.stocktitan.net/rss
+      - https://www.investing.com/rss/news_25.rss # Stock Market News
       - https://www.investing.com/rss/news_356.rss # Company News
       - https://www.investing.com/rss/news_1065.rss # Stock Market Investment Ideas
       - https://www.investing.com/rss/news_1063.rss # Earnings Call Transcripts
