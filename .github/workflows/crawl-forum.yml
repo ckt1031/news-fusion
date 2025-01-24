@@ -7,7 +7,7 @@ on:
 jobs:
   Crawl:
     name: Crawl
-    runs-on: self-hosted
+    runs-on: ubuntu-latest #self-hosted
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
