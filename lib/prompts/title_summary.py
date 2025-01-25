@@ -21,6 +21,7 @@ Create brief, focused summaries and title generation of content provided.
 - 10 words or fewer
 - No quotation marks
 - Present the title as a single line without commas or line breaks
+- Do not include the name of author, website and publisher for simplicity and clarity
 
 ## Summary
 

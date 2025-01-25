@@ -2,6 +2,7 @@ import random
 import time
 from asyncio import sleep
 from datetime import datetime, timezone
+
 import validators
 from loguru import logger
 
@@ -84,7 +85,29 @@ async def handle_entry(d: RSSEntity) -> None:
         publisher=d.feed_title,
     )
 
-    discord_channel_id = category_config.get("discord_channel_id")
+    similarity_check = category_config.get("similarity_check", True)
+    if "embedding" in processed_data and similarity_check:
+        qdrant = Qdrant()
+        # Save to VectorDB
+        await qdrant.insert_news(
+            News(
+                content_embedding=processed_data["embedding"],
+                link=link,
+            )
+        )
+
+    # Save to Postgres
+    await data.aio_save()
+
+    # Set the key to Redis, expire in 72 hours
+    article_cache_key = get_article_redis_key(guid)
+    await redis_client.set(article_cache_key, 1, ex=72 * 60 * 60)
+
+    # Pubsub update for target clients
+    await send_pubsubhubbub_update(d.category)
+
+    # Send to Discord
+    discord_channel_id: str | None = category_config.get("discord_channel_id")
 
     if discord_channel_id is not None and len(discord_channel_id) > 0:
         embed = {
@@ -101,26 +124,5 @@ async def handle_entry(d: RSSEntity) -> None:
             discord_channel_id,
             embed=embed,
         )
-
-    similarity_check = category_config.get("similarity_check", True)
-    if "embedding" in processed_data and similarity_check:
-        qdrant = Qdrant()
-        # Save to VectorDB
-        await qdrant.insert_news(
-            News(
-                content_embedding=processed_data["embedding"],
-                link=link,
-            )
-        )
-
-    # Save to Postgres
-    await data.aio_save()
-
-    # Pubsub update for target clients
-    await send_pubsubhubbub_update(d.category)
-
-    # Set the key to Redis, expire in 72 hours
-    article_cache_key = get_article_redis_key(guid)
-    await redis_client.set(article_cache_key, 1, ex=72 * 60 * 60)
 
     logger.success(f"Entry processed: {link}")

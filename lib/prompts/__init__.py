@@ -1,4 +1,4 @@
-from lib.prompts.forum_links_importance import forum_importance_prompt
+from lib.prompts.forum_importance import forum_importance_prompt
 from lib.prompts.news_importance import NewsImportanceSchema, news_importance_prompt
 from lib.prompts.title_summary import TitleSummarySchema, summary_prompt
 
