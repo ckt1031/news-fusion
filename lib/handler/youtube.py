@@ -51,21 +51,22 @@ async def handle_youtube(
     guid = d.entry["id"] if "id" in d.entry else d.entry["link"]
 
     transcript = get_transcript(link)
-
     transcript_token = count_tokens(transcript)
+    reduced_transcript = transcript
 
-    if transcript_token > 7500:
+    if transcript_token > 8000:
         texts = split_text_by_token(transcript, 7500)
         logger.warning(
             f"Transcript is too long: {link} ({transcript_token} tokens), only first part will be processed"
         )
-        transcript = texts[0]
+        reduced_transcript = texts[0]
 
     date_str = published_date_utc.strftime("%Y-%m-%d %H:%M:%S")
-    news_text = f"Title: {title}\nDate: {date_str}\nTranscript: {transcript}"
+    content_with_meta = f"Title: {title}\nDate: {date_str}\nTranscript: {transcript}"
 
     if category_config.get("similarity_check", True):
-        e = await similarity_check(transcript, guid, link)
+        # TODO: Support for multiple splits
+        e = await similarity_check(reduced_transcript, guid, link)
 
         if e["similar"]:
             return
@@ -73,8 +74,8 @@ async def handle_youtube(
         content_embedding = e["content_embedding"]
 
     # Generate title and summary
-    openai = OpenAIAPI()
-    generated_title_summary = await openai.generate_schema(
+    openai_api = OpenAIAPI()
+    generated_title_summary = await openai_api.generate_schema(
         MessageBody(
             system=chevron.render(
                 summary_prompt,
@@ -82,7 +83,7 @@ async def handle_youtube(
                     "language": category_config.get("language", "English US"),
                 },
             ),
-            user=news_text,
+            user=content_with_meta,
         ),
         schema=TitleSummarySchema,
     )

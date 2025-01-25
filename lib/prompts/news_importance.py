@@ -1,60 +1,48 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class NewsImportanceSchema(BaseModel):
-    important: bool
+    important: bool = Field(
+        ...,
+        title="Important",
+        description="""
+        Mark as important (true) based on "Important Factors" sections.
+        If content satisfies "Not Important Factors" sections, mark as not important (false).
+        If the article is significantly impactful, set "important" to true, no matter they includes content in "Not Important Factors" section.
+        """.strip(),
+    )
 
 
 news_importance_prompt = """
-you are helping people save time by determining if an article is worth reading for knowledge and improvement.
+# Task
+
+You are helping people save time by determining if an article is worth reading for knowledge and improvement.
 Evaluate article significance for global, tech, or developer relevance.
+Reject news that was not actually important or impactful.
 
-# Instructions
+## Important Factors
 
-- Mark as important (true) based on "Important Factors" sections.
-- If content satisfies "Not Important Factors" sections, mark as not important (false).
-- If the article is significantly impactful, set "important" to true, no matter they includes content in "Not Important Factors" section.
-
-# Important Factors
-
-- Emergent, Significant impactful
-- Funding, investments and venture capital
-- Projects, collaborations and partnerships
-- Major political news, historical events and wide-impact occurrences
-- Personal experiences about life, work and society
-- Leaks and security breaches
-- New technology announcements, innovations, or updates (e.g., AI models, chips, software)
-- Major accidents, disasters and calamities
-- Popular culture news (e.g., Marvel, DC, Netflix collaborations)
-- Critiques of companies, politics, social issues and phenomena
-- General availability and impactful products/services
+- Anything emergent, related or critical to global, tech, or developer news
+- Major company news, acquisitions, or mergers
+- Major political news, historical events or wide-impact occurrences
+- Major funding, investments or venture capital
+- Projects, collaborations or partnerships
+- Leaks or security breaches
+- New technology announcements, innovations, or updates
+- Major accidents, disasters or calamities
+- Critiques of companies, politics, social issues or phenomena
+- General availability or impactful products or services
 - Critical societal events
 - Public health issues
-- Popular games
 
-# Not Important Factors
+## Not Important Factors
 
-- Product reviews
-- Gifts
-- Comparisons and "best of" lists
-- New movies and seasons
-- Minor expos and sales
-- Repetitive AI warnings
-- Product/event expectations and previews
-- Most game updates
-- Racist, promotional and unprofessional content
-- Minor political conflicts and party disputes
-- Lower-level political news
-- Routine product launches and reviews
+- Advertisements, Gifts, Promotions, or Discounts
+- Comparisons or "best of" lists
+- Product reviews, expectations or previews
+- Racist, Sexual, LGBT or Transgender
+- Quizzes
+- Minor tutorials, guides or suggestions
+- Minor politics, social issues or phenomena
 - Minor personnel changes
-- General guides and suggestions
-- Unpopular performances and personal stories
-- Cooking and recipes
-- Minor birthdays and anniversaries
-- Most music, productions and series
-- Sports news
-- Product discussions
-- Quizzes and tests
-- Love-related content
-- Sexual, LGBT and transgender news
 """.strip()

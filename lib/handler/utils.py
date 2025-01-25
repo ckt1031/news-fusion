@@ -1,4 +1,4 @@
-from langchain_text_splitters import CharacterTextSplitter
+from langchain_text_splitters import TokenTextSplitter
 from loguru import logger
 
 from lib.db.qdrant import News, Qdrant
@@ -7,8 +7,8 @@ from lib.openai_api import OpenAIAPI
 
 
 def split_text_by_token(text: str, token_limit: int) -> list[str]:
-    text_splitter = CharacterTextSplitter.from_tiktoken_encoder(
-        encoding_name="cl100k_base", chunk_size=token_limit, chunk_overlap=0
+    text_splitter = TokenTextSplitter.from_tiktoken_encoder(
+        encoding_name="o200k_base", chunk_size=token_limit, chunk_overlap=0
     )
     texts = text_splitter.split_text(text)
 

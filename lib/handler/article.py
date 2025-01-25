@@ -1,20 +1,22 @@
 from datetime import datetime
 
 import chevron
-import openai
 from loguru import logger
 from openai.types import CreateEmbeddingResponse
 
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.handler.utils import similarity_check, split_text_by_token
 from lib.openai_api import MessageBody, OpenAIAPI, count_tokens
-from lib.prompts import (
-    NewsImportanceSchema,
-    forum_importance_prompt,
-    news_importance_prompt,
-    summary_prompt,
+from lib.prompts import summary_prompt
+from lib.prompts.merge.importance_summary import (
+    ImportanceMergedSchema,
+    forum_importance_summary_merged_prompt,
+    news_importance_summary_merged_prompt,
 )
-from lib.prompts.title_summary import TitleSummarySchema, summary_with_comments_prompt
+from lib.prompts.title_summary import (
+    TitleSummarySchema,
+    comments_summary_additional_prompt,
+)
 from lib.scraper import extract_website
 from lib.types import RSSEntity
 from lib.utils import optimize_text
@@ -42,13 +44,24 @@ async def handle_article(
 
     content = optimize_text(website_data["raw_text"]).strip()
     content_token = count_tokens(content)
+    reduced_content = content
 
-    if content_token > 8000:
-        texts = split_text_by_token(content, 7800)
+    # If the content is extremely long, reduce it
+    if content_token > 20000:
+        texts = split_text_by_token(content, 19000)
+        logger.warning(
+            f"Article is extremely long: {link} ({content_token} tokens), only first part will be processed"
+        )
+        content = texts[0]
+
+        # Reduce the content to 8000 tokens
+        reduced_content = split_text_by_token(content, 7500)[0]
+    elif content_token > 8000:
+        texts = split_text_by_token(content, 7500)
         logger.warning(
             f"Article is too long: {link} ({content_token} tokens), only first part will be processed"
         )
-        content = texts[0]
+        reduced_content = texts[0]
 
     content_embedding: CreateEmbeddingResponse | None = None
 
@@ -58,7 +71,8 @@ async def handle_article(
     article_cache_key = get_article_redis_key(guid)
 
     if category_config.get("similarity_check", True):
-        e = await similarity_check(content, guid, link)
+        # TODO: Support for multiple splits
+        e = await similarity_check(reduced_content, guid, link)
 
         if e["similar"]:
             return
@@ -67,20 +81,47 @@ async def handle_article(
 
     # Check importance
     today_date_str = datetime.now().strftime("%Y-%m-%d")
-    news_text_with_meta = f"Title: {title}\nDate: {today_date_str}\nContent: {content}"
+    content_with_meta = f"Title: {title}\nDate: {today_date_str}\nContent: {content}"
     is_forum = category_config.get("forum", False)
 
+    comments = None
+
+    # Scrape comments if available
+    if is_forum:
+        if "comments" in d.entry and "comment_selector" in category_config:
+            comment_url = d.entry["comments"]  # RSS Tag
+            comment_selector = category_config["comment_selector"]  # Config
+            comments = handle_comment(comment_url, comment_selector)
+
+            if comments:
+                # Add comments to the text
+                content_with_meta += f"\nComments: {comments}"
+
     if category_config.get("importance_check", True):
-        importance_status = await openai_api.generate_schema(
-            MessageBody(
-                system=forum_importance_prompt if is_forum else news_importance_prompt,
-                user=news_text_with_meta,
+        sys_prompt = chevron.render(
+            (
+                forum_importance_summary_merged_prompt
+                if is_forum
+                else news_importance_summary_merged_prompt
             ),
-            schema=NewsImportanceSchema,
+            {
+                "language": category_config.get("language", "English US"),
+            },
+        )
+
+        if comments:
+            sys_prompt += comments_summary_additional_prompt
+
+        res = await openai_api.generate_schema(
+            MessageBody(
+                system=sys_prompt,
+                user=content_with_meta,
+            ),
+            schema=ImportanceMergedSchema,
         )
 
         # If the article is not important, skip it
-        if not importance_status.important:
+        if not res.important:
             # Set the key to Redis, expire in 96 hours, to avoid checking the same article again
             # EX in seconds: 96 hours * 60 minutes * 60 seconds
             await redis_client.set(article_cache_key, 1, ex=96 * 60 * 60)
@@ -88,29 +129,27 @@ async def handle_article(
             logger.debug(f"Article not important: {link} ({title})")
             return
 
-    new_summary_prompt = summary_prompt
-
-    if is_forum:
-        new_summary_prompt = summary_with_comments_prompt
-
-        if "comments" in d.entry and "comment_selector" in category_config:
-            comment_url = d.entry["comments"]
-            comment_selector = category_config["comment_selector"]
-            comment_text = handle_comment(comment_url, comment_selector)
-
-            if comment_text and len(comment_text) > 0:
-                content += f"\n\nComments: {comment_text}"
+        # If the article is important, generate the title and summary
+        return {
+            "image": image,
+            "embedding": content_embedding,
+            "content": res,
+        }
 
     # Generate title and summary
-    generated_title_summary = await openai.generate_schema(
+    res = await openai_api.generate_schema(
         MessageBody(
             system=chevron.render(
-                new_summary_prompt,
+                (
+                    (summary_prompt + comments_summary_additional_prompt)
+                    if comments
+                    else summary_prompt
+                ),
                 {
                     "language": category_config.get("language", "English US"),
                 },
             ),
-            user=content,
+            user=content_with_meta,
         ),
         schema=TitleSummarySchema,
     )
@@ -118,5 +157,5 @@ async def handle_article(
     return {
         "image": image,
         "embedding": content_embedding,
-        "content": generated_title_summary,
+        "content": res,
     }
