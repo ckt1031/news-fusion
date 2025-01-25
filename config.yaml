@@ -60,7 +60,7 @@ rss:
     - https://www.techradar.com/rss
     - https://www.bleepingcomputer.com/feed/
     - https://feeds.feedburner.com/venturebeat/SZYF
-    - https://www.windowslatest.com/feed/
+    # - https://www.windowslatest.com/feed/
 
     # YouTube Channels
     - yt:UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
@@ -140,7 +140,7 @@ rss:
   free-games:
     name: "Free Games"
     importance_check: false
-    similarity_check: false
+    # similarity_check: false
     sources:
     - https://www.gamerpower.com/rss/steam
     - https://www.gamerpower.com/rss/games
