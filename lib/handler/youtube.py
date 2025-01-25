@@ -42,7 +42,7 @@ async def handle_youtube(
     d: RSSEntity,
     category_config: dict[str, str | bool | None],
     published_date_utc: datetime,
-) -> dict or None:
+) -> dict | None:
     link, title = d.entry["link"], d.entry["title"]
 
     transcript = get_transcript(link)
