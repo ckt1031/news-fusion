@@ -1,9 +1,11 @@
 from datetime import datetime
 
 import chevron
+from loguru import logger
 from youtube_transcript_api import YouTubeTranscriptApi
 
-from lib.openai_api import MessageBody, OpenAIAPI
+from lib.handler.article import similarity_check, split_text_by_token
+from lib.openai_api import MessageBody, OpenAIAPI, count_tokens
 from lib.prompts import TitleSummarySchema, summary_prompt
 from lib.types import RSSEntity
 
@@ -23,7 +25,7 @@ def get_youtube_id(link: str) -> str:
 def get_transcript(link: str) -> str:
     video_id = get_youtube_id(link)
     transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
-    original_transcript = transcript_list.find_transcript(["en", "zh"])
+    original_transcript = transcript_list.find_transcript(["en", "zh", "zh-CN", "zh-TW"])
     translated_transcript = original_transcript.translate("en")
     transcripts = translated_transcript.fetch()
 
@@ -44,10 +46,29 @@ async def handle_youtube(
     published_date_utc: datetime,
 ) -> dict | None:
     link, title = d.entry["link"], d.entry["title"]
+    guid = d.entry["id"] if "id" in d.entry else d.entry["link"]
 
     transcript = get_transcript(link)
+
+    transcript_token = count_tokens(transcript)
+
+    if transcript_token > 7500:
+        texts = split_text_by_token(transcript, 7500)
+        logger.warning(
+            f"Transcript is too long: {link} ({transcript_token} tokens), only first part will be processed"
+        )
+        transcript = texts[0]
+        
     date_str = published_date_utc.strftime("%Y-%m-%d %H:%M:%S")
     news_text = f"Title: {title}\nDate: {date_str}\nTranscript: {transcript}"
+
+    if category_config.get("similarity_check", True):
+        e = await similarity_check(transcript, guid, link)
+        
+        if e["similar"]:
+            return
+        
+        content_embedding = e["content_embedding"]
 
     # Generate title and summary
     openai = OpenAIAPI()
@@ -69,6 +90,6 @@ async def handle_youtube(
 
     return {
         "image": image,
-        # "embedding": None,
+        "embedding": content_embedding,
         "content": generated_title_summary,
     }

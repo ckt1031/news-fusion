@@ -2,7 +2,7 @@ import random
 import time
 from asyncio import sleep
 from datetime import datetime, timezone
-
+import validators
 from loguru import logger
 
 from lib.db.postgres import Article
@@ -94,7 +94,7 @@ async def handle_entry(d: RSSEntity) -> None:
             "footer": {"text": data.publisher},
         }
 
-        if data.image and data.image.startswith("https"):
+        if data.image and data.image.startswith("https") and validators.url(data.image):
             embed["thumbnail"] = {"url": data.image}
 
         await send_discord(
