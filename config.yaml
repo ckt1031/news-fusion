@@ -60,6 +60,7 @@ rss:
     - https://www.techradar.com/rss
     - https://www.bleepingcomputer.com/feed/
     - https://feeds.feedburner.com/venturebeat/SZYF
+    - https://www.windowslatest.com/feed/
 
     # YouTube Channels
     - yt:UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
@@ -120,6 +121,8 @@ rss:
 
     # YouTube Channels
     - yt:UCXZCJLdBC09xxGZ6gcdrc6A # OpenAI
+    - yt:UCawZsQWqfGSbCI5yjkdVkTA # Matthew Berman
+    - yt:UC2WmuBuFq6gL08QYG-JjXKw # The World of AI
     discord_channel_id: "1315729383440515113"
 
   v2ex:
