@@ -1,6 +1,8 @@
 import hashlib
+import json
 import random
 import sys
+from functools import cache
 from urllib.parse import urlparse
 
 from loguru import logger
@@ -57,3 +59,24 @@ def check_if_arg_exists(arg: str) -> bool:
 def is_site_blacklisted(url: str):
     # Check host
     return urlparse(url).netloc in BLOCKED_HOST
+
+
+@cache
+def get_source_name_from_cache(url: str) -> str | None:
+    """
+    Extract the source name from the URL
+    :param url: The URL
+    :return: The source name
+    """
+
+    try:
+        # Get file: source-names.json
+        with open("./source-names.json", "r", encoding="utf-8") as file:
+            source_names = json.load(file)
+
+        if url not in source_names:
+            return None
+
+        return source_names[url]
+    except FileNotFoundError:
+        return None

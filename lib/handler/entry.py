@@ -15,6 +15,7 @@ from lib.notifications.discord import send_discord
 from lib.pubsub.subscription import send_pubsubhubbub_update
 from lib.rss import get_rss_config, parse_published_date
 from lib.types import RSSEntity
+from lib.utils import get_source_name_from_cache
 
 
 async def is_entry_checked(guid: str, link: str, title: str) -> bool:
@@ -71,6 +72,7 @@ async def handle_entry(d: RSSEntity) -> None:
 
     image = processed_data["image"]
     generated_title_summary = processed_data["content"]
+    publisher = get_source_name_from_cache(link) or d.feed_title
 
     # Database schema insertion
     data = Article(
@@ -82,7 +84,7 @@ async def handle_entry(d: RSSEntity) -> None:
         summary=generated_title_summary.summary,
         important=True,
         published_at=published_date_utc,
-        publisher=d.feed_title,
+        publisher=publisher,
     )
 
     similarity_check = category_config.get("similarity_check", True)
