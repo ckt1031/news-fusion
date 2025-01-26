@@ -77,6 +77,7 @@ async def run_scraper():
                             feed_title=feed["feed"]["title"],
                             entry=entry,
                             category=category_name,
+                            feed_url=source,
                         )
                     )
                 except Exception as e:

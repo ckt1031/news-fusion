@@ -72,7 +72,7 @@ async def handle_entry(d: RSSEntity) -> None:
 
     image = processed_data["image"]
     generated_title_summary = processed_data["content"]
-    publisher = get_source_name_from_cache(link) or d.feed_title
+    publisher = get_source_name_from_cache(d.feed_url) or d.feed_title
 
     # Database schema insertion
     data = Article(

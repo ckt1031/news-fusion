@@ -30,5 +30,6 @@ async def process_pubsub_distribution(body: bytes):
             entry=entry,
             category=category,
             feed_title=feed["feed"]["title"],
+            feed_url=feed["feed"]["link"],
         )
     )
