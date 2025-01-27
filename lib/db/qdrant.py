@@ -75,6 +75,12 @@ class Qdrant:
 
         return points
 
+    async def delete(self, filter: models.Filter):
+        await self.client.delete(
+            self.collection_name,
+            points_selector=filter,
+        )
+
     async def insert_news(self, news: News):
         idx = uuid4().hex
 

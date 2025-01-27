@@ -1,31 +1,50 @@
 import asyncio
-import datetime
+from datetime import datetime, timedelta
 
 from loguru import logger
+from qdrant_client import models
 
 from lib.db.postgres import Article, close_db
+from lib.db.qdrant import Qdrant
 from lib.utils import init_logger
 
 init_logger()
 
 
-async def remove_expired_articles():
-    IMPORTANT_NEWS_EXPIRATION_DAYS = 30
+async def deleteOldQdrantCollection():
+    qdrant = Qdrant()
 
-    exceed_date = datetime.datetime.now() - datetime.timedelta(
-        days=IMPORTANT_NEWS_EXPIRATION_DAYS
+    exceed_date = datetime.now() - timedelta(days=30)
+
+    await qdrant.delete(
+        models.Filter(
+            must=[
+                # models.IsEmptyCondition(
+                #     # Datetime field was added on 2025-01-27, so we will delete all records without this field on 2025-03-01
+                #     is_empty=models.PayloadField(key="created_at"),
+                # )
+                models.FieldCondition(
+                    key="date",
+                    range=models.DatetimeRange(
+                        lte=exceed_date,
+                    ),
+                )
+            ]
+        )
     )
 
+
+async def remove_expired_articles():
+    exceed_date = datetime.now() - timedelta(days=30)
+
+    # ALL
     await Article.delete().where(Article.created_at <= exceed_date).aio_execute()
 
     logger.success("All articles saved for more than 30 days removed")
 
-    NOT_IMPORTANT_NEWS_EXPIRATION_DAYS = 3
+    exceed_date = datetime.now() - timedelta(days=3)
 
-    exceed_date = datetime.datetime.now() - datetime.timedelta(
-        days=NOT_IMPORTANT_NEWS_EXPIRATION_DAYS
-    )
-
+    # NOT IMPORTANT
     await Article.delete().where(
         (Article.created_at <= exceed_date) & (Article.important == False)  # noqa: E712
     ).aio_execute()
@@ -35,4 +54,5 @@ async def remove_expired_articles():
 
 if __name__ == "__main__":
     asyncio.run(remove_expired_articles())
+    asyncio.run(deleteOldQdrantCollection())
     close_db()
