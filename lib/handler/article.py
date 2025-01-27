@@ -1,6 +1,5 @@
 from datetime import datetime
 
-import chevron
 from loguru import logger
 from openai.types import CreateEmbeddingResponse
 
@@ -98,15 +97,10 @@ async def handle_article(
                 content_with_meta += f"\nComments: {comments}"
 
     if category_config.get("importance_check", True):
-        sys_prompt = chevron.render(
-            (
-                forum_importance_summary_merged_prompt
-                if is_forum
-                else news_importance_summary_merged_prompt
-            ),
-            {
-                "language": category_config.get("language", "English US"),
-            },
+        sys_prompt = (
+            forum_importance_summary_merged_prompt
+            if is_forum
+            else news_importance_summary_merged_prompt
         )
 
         if comments:
@@ -139,15 +133,10 @@ async def handle_article(
     # Generate title and summary
     res = await openai_api.generate_schema(
         MessageBody(
-            system=chevron.render(
-                (
-                    (summary_prompt + comments_summary_additional_prompt)
-                    if comments
-                    else summary_prompt
-                ),
-                {
-                    "language": category_config.get("language", "English US"),
-                },
+            system=(
+                (summary_prompt + comments_summary_additional_prompt)
+                if comments
+                else summary_prompt
             ),
             user=content_with_meta,
         ),

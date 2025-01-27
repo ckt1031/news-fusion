@@ -18,7 +18,7 @@ summary_prompt = """
 # Task
 
 - Create brief, focused summaries and title from content provided.
-- Respond in {{ language }} only
+- Respond in English US only
 - Use simple, clear language, focus on main ideas and key points, be specific for exact details
 - No clickbait, additional comments, or context not in the original content
 

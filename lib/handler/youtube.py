@@ -1,6 +1,5 @@
 from datetime import datetime
 
-import chevron
 from loguru import logger
 from youtube_transcript_api import YouTubeTranscriptApi
 
@@ -77,12 +76,7 @@ async def handle_youtube(
     openai_api = OpenAIAPI()
     generated_title_summary = await openai_api.generate_schema(
         MessageBody(
-            system=chevron.render(
-                summary_prompt,
-                {
-                    "language": category_config.get("language", "English US"),
-                },
-            ),
+            system=summary_prompt,
             user=content_with_meta,
         ),
         schema=TitleSummarySchema,
