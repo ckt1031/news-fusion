@@ -35,7 +35,7 @@ Reject news that was not actually important or impactful.
 - Critical societal events
 - Public health issues
 
-## Not Important Factors
+## Insignificant Factors
 
 - Advertisements, Gifts, Promotions, or Discounts
 - Comparisons or "best of" lists

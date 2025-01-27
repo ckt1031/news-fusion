@@ -1,9 +1,8 @@
-allowed = """
-- General topics include but not limited to: tech, science, programming or business (Apply to all below criteria)
+important_factors = """
+- Anything significant and impactful in general
 - Significant tech innovations or breakthroughs
 - Personal review or thoughts about stuffs
-  - e.g. Why I'm over React
-- PC, DEV or TECH knowledge
+- Life, World, Technology or Programming knowledge
 - Projects
   - Sharing, open source or new projects
   - Helping for productivity, dev improvement or simplifying lives
@@ -18,16 +17,17 @@ allowed = """
   - New version, important or useful updates
 - Useful skills
 - Product problems or solutions
-- Side projects/Habits that worth sharing or worth reading
+- Side projects or Habits that worth sharing or worth reading
 - Their successful stories, experiences or their failure stories
 """.strip()
 
-disallowed = """
+insignificant_factors = """
 - Promotions, advertisements of community, groups like Telegram, Discord or any other social media
-- Any unwanted, unuseful or unworthy content
+- Unwanted, unuseful or unworthy content
 - Negative, harmful or blaming content
 - Stupid questions or questions that are not worth asking
-- Technical issues, bugs, example: cannot find solution, help, access or login issues
+- Technical issues, bugs
+  - Example: cannot find solution, help needed, registeration or login problems
 """.strip()
 
 forum_importance_prompt = f"""
@@ -36,15 +36,11 @@ forum_importance_prompt = f"""
 You are going to find important discussions that are worth reading for global, economy, future, tech innovations, or developers.
 Help users save time by identifying whether an article is worth reading for news, extra knowledge and improvement.
 
-- Mark as important (true) based on "Important Factors" sections.
-- If content satisfies "Not Important Factors" sections, mark as not important (false).
-- If the article is significantly impactful, set "important" to true, no matter they includes content in "Not Important Factors" section.
+## Important Factors
 
-## Important Factors (true)
+{important_factors}
 
-{allowed}
+## Insignificant Factors
 
-## Not Important Factors (false)
-
-{disallowed}
+{insignificant_factors}
 """.strip()
