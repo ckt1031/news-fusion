@@ -125,18 +125,6 @@ rss:
     - yt:UC2WmuBuFq6gL08QYG-JjXKw # The World of AI
     discord_channel_id: "1315729383440515113"
 
-  v2ex:
-    name: V2EX
-    forum: true
-    language: Traditional Chinese
-    similarity_check: false
-    sources:
-    - https://www.v2ex.com/index.xml
-    - https://www.v2ex.com/feed/tab/play.xml
-    - https://www.v2ex.com/feed/tab/tech.xml
-    - https://www.v2ex.com/feed/tab/creative.xml
-    discord_channel_id: "1324024110317043742"
-
   free-games:
     name: "Free Games"
     importance_check: false
