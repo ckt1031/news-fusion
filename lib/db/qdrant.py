@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from uuid import uuid4
 
 import openai
@@ -83,6 +84,7 @@ class Qdrant:
                 vector=news.content_embedding.data[0].embedding,
                 payload={
                     "link": news.link,
+                    "created_at": datetime.now(tz=timezone.utc),
                 },
             )
         ]
