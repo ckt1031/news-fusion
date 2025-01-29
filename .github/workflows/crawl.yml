@@ -19,7 +19,7 @@ jobs:
 
       - run: pip install --upgrade -r requirements.txt
 
-      - run: LOGURU_LEVEL="INFO" python crawl.py
+      - run: python crawl.py --check-youtube --selenium-fallback
         env:
             LOGURU_LEVEL: "INFO"
 
