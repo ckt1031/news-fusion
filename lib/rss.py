@@ -100,7 +100,19 @@ def parse_published_date(entry: dict) -> time.struct_time:
         raise ValueError(f"No published date: {entry['link']}")
 
     if isinstance(published, str):
-        # 2018-03-26T13:00:00.000Z
-        published = time.strptime(published, "%Y-%m-%dT%H:%M:%S.%fZ")
+        formats = [
+            "%Y-%m-%dT%H:%M:%S.%fZ",  # 2018-03-26T13:00:00.000Z
+            "%Y-%m-%dT%H:%M:%SZ",  # 2018-03-26T13:00:00Z
+        ]
+
+        for fmt in formats:
+            try:
+                published = time.strptime(published, fmt)
+                break
+            except ValueError:
+                pass
+
+        if isinstance(published, str):
+            raise ValueError(f"Failed to parse published date: {published}")
 
     return published
