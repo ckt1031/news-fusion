@@ -93,6 +93,7 @@ rss:
     - https://www.freecodecamp.org/news/rss
     - https://blog.google/products/chrome/rss/
     - https://blog.chromium.org/feeds/posts/default
+    - https://blog.jetbrains.com/feed/
 
     # YouTube Channels
     - yt:UCsBjURrPoezykLs9EqgamOA # Fireship
