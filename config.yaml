@@ -145,6 +145,25 @@ rss:
     # - https://www.reddit.com/r/SideProject/.rss
     discord_channel_id: "1326858185881026653"
 
+  github-releases:
+    name: "GitHub Releases"
+    importance_check: false
+    similarity_check: false
+    sources:
+    - https://github.com/ReVanced/revanced-patches/releases.atom
+    discord_channel_id: "1321167234781155401"
+
+  blogs:
+    name: "Blogs"
+    importance_check: false
+    similarity_check: false
+    sources:
+    - https://www.owenyoung.com/atom.xml
+    - http://www.ruanyifeng.com/blog/atom.xml
+    - https://codechina.org/feed
+    - https://weekly.tw93.fun/rss.xml
+    discord_channel_id: "1315842786641186887"
+
   hong-kong:
     name: "Hong Kong"
     sources:

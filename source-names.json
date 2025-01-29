@@ -91,5 +91,10 @@
     "https://lastweekin.ai/feed": "Last Week In AI",
     "https://qwenlm.github.io/blog/index.xml": "QwenLM",
     "https://deepmind.google/blog/rss.xml": "DeepMind",
-    "https://jina.ai/feed.rss": "JinaAI"
+    "https://jina.ai/feed.rss": "JinaAI",
+    "https://www.owenyoung.com/atom.xml": "Owen Young",
+    "https://codechina.org/feed": "Code China",
+    "http://www.ruanyifeng.com/blog/atom.xml": "Ruanyifeng's Blog",
+    "https://weekly.tw93.fun/rss.xml": "Tw93",
+    "https://github.com/ReVanced/revanced-patches/releases.atom": "ReVanced Patches"
 }
