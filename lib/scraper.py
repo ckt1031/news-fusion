@@ -39,11 +39,14 @@ def get_html_content(link: str, selector: str | None = None) -> str:
                 do_not_track=True,
             ) as sb:
                 sb.open(link)
-                # sb.uc_gui_click_captcha()
+                sb.uc_gui_click_captcha()
                 sb.sleep(2)
 
                 tab_title = sb.get_page_title()
                 content = sb.get_page_source()
+
+            if "just a moment" in tab_title.lower():
+                raise Exception("Captcha detected")
 
             if "404" in tab_title or "not found" in tab_title.lower():
                 raise Exception("Page not found")
