@@ -6,3 +6,4 @@ qdrant_storage
 .idea
 dev.config.yaml
 .DS_Store
+/downloaded_files/

@@ -1,6 +1,7 @@
 FROM python:3.12-slim-bullseye
 
-ENV PYTHONDONTWRITEBYTECODE=1
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
 
 WORKDIR /app
 
@@ -8,8 +9,7 @@ WORKDIR /app
 COPY requirements.txt /app
 
 # Install any needed packages specified in requirements.txt
-RUN pip install --upgrade pip --no-cache-dir
-RUN pip install --no-cache-dir --no-compile -r requirements.txt
+RUN uv pip install --no-cache-dir --no-compile -r requirements.txt
 
 # Copy the current directory contents into the container at /app
 COPY . /app

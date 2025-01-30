@@ -12,14 +12,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: "3.12.8"
-          cache: "pip"
+          enable-cache: true
+          python-version: "3.12"
 
-      - run: pip install --upgrade -r requirements.txt
+      - run: uv pip install -r requirements.txt
 
-      - run: python crawl.py --check-youtube
+      - run: uv run crawl.py --check-youtube
         env:
             LOGURU_LEVEL: "INFO"
 
