@@ -43,7 +43,7 @@ async def generate_source_name():
 
     # Generate the source name
     for d in all_sources:
-        _, source = d
+        source = d['url']
 
         # Skip if the source is already in the cache
         if source in data:

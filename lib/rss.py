@@ -71,6 +71,10 @@ def get_all_rss_sources(shuffle: bool = False) -> Generator[dict, None, None]:
     )
 
     for category, data in all_categories_with_sources.items():
+        if "sources" not in data:
+            # logger.error(f"No sources found for category: {category}")
+            continue
+
         # Shuffle the sources to avoid bias
         random.shuffle(data["sources"])
 

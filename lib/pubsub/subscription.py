@@ -61,5 +61,5 @@ async def register_all_topics(revoke=False):
     sources = get_all_rss_sources()
 
     for d in sources:
-        source = d[1]
+        source = d["url"]
         await register_pubsub(source, revoke)
