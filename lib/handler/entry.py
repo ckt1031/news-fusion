@@ -136,11 +136,10 @@ async def handle_entry(d: RSSEntity) -> None:
         )
 
     # Re-categorize the article based on the content
-    enable_re_categorize = category_config.get("re_categorize", True)
+    enable_re_categorize = d.source_config["re_categorize"]
     if enable_re_categorize:
         # Re-categorize the article
         new_category = await re_categorize(data)
-        print(new_category)
 
         if new_category != d.category and new_category is not None:
             logger.success(f"Re-categorize: {link} -> {new_category}")
