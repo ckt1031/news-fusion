@@ -35,7 +35,7 @@ rss:
 
   investing:
     name: Investing
-    description: "Basically company related, investment, earnings, stock market, etc."
+    description: "Basically company related, money, investment, earnings, stock market, etc."
     sources:
       - https://www.stocktitan.net/rss
       - https://www.investing.com/rss/news_25.rss # Stock Market News
@@ -165,6 +165,8 @@ rss:
     name: "Software Updates"
     description: "Any software or app updates, including apps, PaaS, operating systems, etc."
     sources:
+      - url: https://feeds.macrumors.com/MacRumors-All
+        scrape_needed: false
       - url: https://www.windowslatest.com/feed/
         scrape_needed: false
       - https://9to5mac.com/feed/
