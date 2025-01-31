@@ -54,7 +54,7 @@ def parse_rss_feed(url: str) -> dict:
     return rss_feed
 
 
-def get_all_rss_sources(shuffle: bool = False) -> Generator[list[str], None, None]:
+def get_all_rss_sources(shuffle: bool = False) -> Generator[dict, None, None]:
     """
     Get all RSS sources from the config file with random order
     :param shuffle: Shuffle the categories and sources
@@ -64,7 +64,7 @@ def get_all_rss_sources(shuffle: bool = False) -> Generator[list[str], None, Non
     all_categories_with_sources = get_rss_config()
 
     # Shuffle the categories to avoid bias
-    all_categories_with_sources: dict[str, dict[str, list[str]]] = (
+    all_categories_with_sources: dict[str, dict[str, list[str | dict[str, str]]]] = (
         (shuffle_dict_keys(all_categories_with_sources))
         if shuffle
         else all_categories_with_sources
@@ -75,11 +75,24 @@ def get_all_rss_sources(shuffle: bool = False) -> Generator[list[str], None, Non
         random.shuffle(data["sources"])
 
         for source in data["sources"]:
-            if source.startswith("yt:"):
-                # Replace yt: with the base URL
-                source = source.replace("yt:", YOUTUBE_RSS_BASE_URL)
+            meta = {}
+            if isinstance(source, dict):
+                url = source["url"]
+                meta = source
+            else:
+                url = source
 
-            yield [category, source]
+            if url.startswith("yt:"):
+                # Replace yt: with the base URL
+                url = source.replace("yt:", YOUTUBE_RSS_BASE_URL)
+
+            d = {
+                "url": url,
+                "category": category,
+                "scrape_needed": meta.get("scrape_needed", True),
+            }
+
+            yield d
 
 
 def parse_published_date(entry: dict) -> time.struct_time:

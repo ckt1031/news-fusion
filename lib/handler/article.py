@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import html2text
 from loguru import logger
 from openai.types import CreateEmbeddingResponse
 
@@ -16,7 +17,7 @@ from lib.prompts.title_summary import (
     TitleSummarySchema,
     comments_summary_additional_prompt,
 )
-from lib.scraper import extract_website
+from lib.scraper import extract_website, get_json_scraped_data
 from lib.types import RSSEntity
 from lib.utils import optimize_text
 
@@ -31,6 +32,21 @@ def handle_comment(comment_url: str, selector: str) -> str | None:
         return None
 
 
+def extract_rss_content(d: RSSEntity) -> str:
+    if "content" in d.entry:
+        return d.entry["content"][0]["value"]
+
+    return d.entry["summary"]
+
+
+def extract_rss_image(d: RSSEntity) -> str | None:
+    if "media_thumbnail" in d.entry:
+        return d.entry["media_thumbnail"][0]["url"]
+    elif "media_content" in d.entry:
+        return d.entry["media_content"][0]["url"]
+    return None
+
+
 async def handle_article(
     d: RSSEntity,
     category_config: dict[str, str | bool | None],
@@ -38,10 +54,18 @@ async def handle_article(
     link, title = d.entry["link"], d.entry["title"]
     guid = d.entry["id"] if "id" in d.entry else d.entry["link"]
 
-    website_data = extract_website(link)
-    image = website_data["image"]
+    image = None
 
-    content = optimize_text(website_data["raw_text"]).strip()
+    if d.source_config["scrape_needed"]:
+        website_data = extract_website(link)
+        site_text = website_data["raw_text"]
+        image = website_data["image"]
+    else:
+        site_text = extract_rss_content(d)
+        site_text = html2text.html2text(site_text)
+        image = extract_rss_image(d)
+
+    content = optimize_text(site_text).strip()
     content_token = count_tokens(content)
     reduced_content = content
 
@@ -74,7 +98,7 @@ async def handle_article(
         e = await similarity_check(reduced_content, guid, link)
 
         if e["similar"]:
-            return
+            return None
 
         content_embedding = e["content_embedding"]
 
@@ -121,7 +145,7 @@ async def handle_article(
             await redis_client.set(article_cache_key, 1, ex=96 * 60 * 60)
 
             logger.debug(f"Article not important: {link} ({title})")
-            return
+            return None
 
         # If the article is important, generate the title and summary
         return {

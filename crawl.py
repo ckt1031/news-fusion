@@ -49,7 +49,8 @@ async def run_scraper():
     await Qdrant().create_collection()
 
     for d in all_sources:
-        category_name, source = d
+        category_name = d["category"]
+        source = d["url"]
         data = get_rss_config()[category_name]
 
         # Check if the source is allowed
@@ -68,9 +69,7 @@ async def run_scraper():
                         logger.warning(f"Blocked site: {entry['link']}")
                         continue
 
-                    logger.debug(
-                        f"Checking article: {entry['link']} ({entry['title']})"
-                    )
+                    logger.debug(f"Checking {entry['link']} ({entry['title']})")
 
                     await handle_entry(
                         RSSEntity(
@@ -78,6 +77,7 @@ async def run_scraper():
                             entry=entry,
                             category=category_name,
                             feed_url=source,
+                            source_config=d,
                         )
                     )
                 except Exception as e:

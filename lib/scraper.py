@@ -64,11 +64,15 @@ def get_html_content(link: str, selector: str | None = None) -> str:
 def extract_website(link: str, selector: str | None = None) -> dict:
     content = get_html_content(link, selector)
 
-    if content is None or len(content) == 0:
+    return get_json_scraped_data(content)
+
+
+def get_json_scraped_data(html: str) -> dict:
+    if html is None or len(html) == 0:
         raise Exception("Nothing fetched from the website")
 
     json_data = trafilatura.extract(
-        content,
+        html,
         output_format="json",
         with_metadata=True,
         deduplicate=True,
