@@ -16,12 +16,12 @@ YOUTUBE_RSS_BASE_URL = "https://www.youtube.com/feeds/videos.xml?channel_id="
 
 
 @cache
-def get_category_from_source(source: str) -> str | None:
-    rss_config = get_rss_config()
+def get_data_from_source(source: str) -> dict | None:
+    all_sources = get_all_rss_sources()
 
-    for category, data in rss_config.items():
-        if source in data["sources"]:
-            return category
+    for d in all_sources:
+        if d["url"] == source:
+            return d
 
     return None
 

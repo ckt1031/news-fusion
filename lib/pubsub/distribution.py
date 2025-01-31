@@ -1,7 +1,7 @@
 from loguru import logger
 
 from lib.handler.entry import handle_entry
-from lib.rss import get_category_from_source, parse_rss_feed
+from lib.rss import get_data_from_source, parse_rss_feed
 from lib.types import RSSEntity
 
 
@@ -19,17 +19,18 @@ async def process_pubsub_distribution(body: bytes):
 
     logger.info(f"Checking article: {entry['link']} ({entry['title']})")
 
-    category = get_category_from_source(entry["link"])
+    data = get_data_from_source(entry["link"])
 
-    if category is None:
+    if data is None:
         logger.error(f"Category not found for source: {entry['link']}")
         return
 
     await handle_entry(
         RSSEntity(
             entry=entry,
-            category=category,
+            category=data["category"],
             feed_title=feed["feed"]["title"],
             feed_url=feed["feed"]["link"],
+            source_config=data,
         )
     )
