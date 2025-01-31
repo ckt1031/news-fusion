@@ -17,7 +17,7 @@ from lib.prompts.title_summary import (
     TitleSummarySchema,
     comments_summary_additional_prompt,
 )
-from lib.scraper import extract_website, get_json_scraped_data
+from lib.scraper import extract_website
 from lib.types import RSSEntity
 from lib.utils import optimize_text
 
