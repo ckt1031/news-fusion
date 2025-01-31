@@ -14,15 +14,15 @@ class NewsImportanceSchema(BaseModel):
 
 
 news_importance_prompt = """
-# Task
+# Task: Importance Check
 
 You are helping people save time by determining if an article is worth reading for knowledge and improvement.
 Evaluate article significance for global, tech, or developer relevance.
-Reject news that was not actually important or impactful.
+Reject news that was not actually important or impactful, no matter how well written or interesting it is.
 
-## Important Factors
+## Important
 
-- Anything emergent, related or critical to global, tech, or developer news
+- Emergent, related, critical to global, tech, or developer news
 - Major company news, acquisitions, or mergers
 - Major political news, historical events or wide-impact occurrences
 - Major funding, investments or venture capital
@@ -35,9 +35,9 @@ Reject news that was not actually important or impactful.
 - Critical societal events
 - Public health issues
 
-## Insignificant Factors
+## Insignificant
 
-- Advertisements, Gifts, Promotions, or Discounts
+- Any advertisements, gifts, promotions, or discounts
 - Comparisons or "best of" lists
 - Product reviews, expectations or previews
 - Racist, Sexual, LGBT or Transgender

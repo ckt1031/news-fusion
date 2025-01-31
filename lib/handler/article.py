@@ -54,8 +54,6 @@ async def handle_article(
     link, title = d.entry["link"], d.entry["title"]
     guid = d.entry["id"] if "id" in d.entry else d.entry["link"]
 
-    image = None
-
     if d.source_config["scrape_needed"]:
         website_data = extract_website(link)
         site_text = website_data["raw_text"]
@@ -144,7 +142,7 @@ async def handle_article(
             # EX in seconds: 96 hours * 60 minutes * 60 seconds
             await redis_client.set(article_cache_key, 1, ex=96 * 60 * 60)
 
-            logger.debug(f"Article not important: {link} ({title})")
+            logger.info(f"Article not important: {link} ({title})")
             return None
 
         # If the article is important, generate the title and summary
