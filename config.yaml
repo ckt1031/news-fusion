@@ -78,20 +78,16 @@ rss:
     discord_channel_id: "1297769089024004126"
 
   dev:
-    name: Developers
+    name: "Developer News"
     re_categorize: false
+    description: "Developer, system, and computer related news, including programming, software, tools, etc."
     sources:
-      - https://deno.com/feed
-      - url: https://bun.sh/rss.xml
+      - url: https://blog.jetbrains.com/feed/
         scrape_needed: false
-      - https://vercel.com/atom
-      - https://astro.build/rss.xml
       - url: https://cprss.s3.amazonaws.com/javascriptweekly.com.xml
         scrape_needed: false
       - url: https://cprss.s3.amazonaws.com/nodeweekly.com.xml
         scrape_needed: false
-      - https://nextjs.org/feed.xml
-      - https://tailwindcss.com/feeds/feed.xml
       - https://stackoverflow.blog/feed
       - https://blog.replit.com/feed.xml
       - https://supabase.com/feed.xml
@@ -107,8 +103,6 @@ rss:
         scrape_needed: false
       - https://blog.google/products/chrome/rss/
       - https://blog.chromium.org/feeds/posts/default
-      - url: https://blog.jetbrains.com/feed/
-        scrape_needed: false
 
       # YouTube Channels
       - yt:UCsBjURrPoezykLs9EqgamOA # Fireship
@@ -156,6 +150,16 @@ rss:
   programming-updates:
     name: "Programming Updates"
     description: "Any programming language updates, including Python, JavaScript, etc."
+    re_categorize: false
+    sources:
+      - https://deno.com/feed
+      - url: https://bun.sh/rss.xml
+        scrape_needed: false
+      - https://vercel.com/atom
+      - https://astro.build/rss.xml
+      - https://nextjs.org/feed.xml
+      - https://tailwindcss.com/feeds/feed.xml
+    discord_channel_id: "1334833185019920455"
 
   software-updates:
     name: "Software Updates"
