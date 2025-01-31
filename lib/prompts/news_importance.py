@@ -37,6 +37,9 @@ Reject news that was not really important or impactful, no matter how well writt
 
 ## Insignificant
 
+- IPO price
+- Tutorials like different Ways to do something:
+    e.g. Google AI: 5 ways to boost productivity
 - How this or that stuffs help people or companies
 - Software fix and improvements
 - Company dividends declared or paid

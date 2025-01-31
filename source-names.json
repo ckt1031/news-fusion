@@ -19,7 +19,6 @@
     "https://www.bleepingcomputer.com/feed/": "BleepingComputer",
     "https://www.windowslatest.com/feed/": "Windows Latest",
     "https://arstechnica.com/feed/": "Ars Technica",
-    "https://www.theverge.com/tech/rss/index.xml": "The Verge",
     "https://techcrunch.com/feed/": "TechCrunch",
     "https://www.wired.com/feed/rss": "Wired",
     "https://www.techradar.com/rss": "TechRadar",
@@ -94,7 +93,9 @@
     "https://jina.ai/feed.rss": "JinaAI",
     "https://www.owenyoung.com/atom.xml": "Owen Young",
     "https://codechina.org/feed": "Code China",
-    "http://www.ruanyifeng.com/blog/atom.xml": "Ruanyifeng's Blog",
     "https://weekly.tw93.fun/rss.xml": "Tw93",
-    "https://github.com/ReVanced/revanced-patches/releases.atom": "ReVanced Patches"
+    "https://github.com/ReVanced/revanced-patches/releases.atom": "ReVanced Patches",
+    "https://blog.jetbrains.com/feed/": "JetBrains Blog",
+    "https://www.ruanyifeng.com/blog/atom.xml": "Ruanyifeng's Blog",
+    "https://www.theverge.com/rss/tech/index.xml": "The Verge"
 }

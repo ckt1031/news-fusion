@@ -44,8 +44,8 @@ async def similarity_check(content: str, guid: str, link: str) -> dict | None:
         # EX in seconds: 96 hours * 60 minutes * 60 seconds
         await redis_client.set(article_cache_key, 1, ex=96 * 60 * 60)
 
-        logger.info(
-            f"Similar article found for {link}: {similarities[0].payload['link']}"
+        logger.success(
+            f"Similar ({similarities[0].score * 100}%): {link} -> {similarities[0].payload['link']}"
         )
         return {"similar": True}
 

@@ -11,7 +11,7 @@ def check_all_rss():
     all_sources = get_all_rss_sources()
 
     for d in all_sources:
-        source = d['url']
+        source = d["url"]
 
         try:
             d = parse_rss_feed(source)

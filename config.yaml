@@ -1,6 +1,7 @@
 rss:
   world:
     name: World
+    description: "All over the world, except for Hong Kong, any emergency news."
     sources:
       - url: https://time.com/feed/
         scrape_needed: false
@@ -16,6 +17,7 @@ rss:
 
   magazine:
     name: Magazine
+    re_categorize: false
     sources:
       - https://www.newyorker.com/feed/news
       - https://asteriskmag.com/feed
@@ -25,6 +27,7 @@ rss:
 
   finance:
     name: Finance
+    description: "Global, economy, country, market related, rather than company related."
     sources:
       - https://finance.yahoo.com/news/rssindex
       - https://seekingalpha.com/market_currents.xml
@@ -32,6 +35,7 @@ rss:
 
   investing:
     name: Investing
+    description: "Basically company related, investment, earnings, stock market, etc."
     sources:
       - https://www.stocktitan.net/rss
       - https://www.investing.com/rss/news_25.rss # Stock Market News
@@ -48,12 +52,11 @@ rss:
   technology:
     # https://github.com/tuan3w/awesome-tech-rss
     name: Technology
+    description: "Rather than software updates, more about major technology, new innovations, internet, etc. (Not programming)"
     sources:
       - url: https://www.theverge.com/rss/tech/index.xml
         scrape_needed: false
 
-      - https://9to5mac.com/feed/
-      - https://9to5google.com/feed/
       - https://techcrunch.com/feed/
       - https://arstechnica.com/feed/
       - https://www.wired.com/feed/rss
@@ -65,8 +68,6 @@ rss:
         scrape_needed: false
       - https://www.bleepingcomputer.com/feed/
       - https://feeds.feedburner.com/venturebeat/SZYF
-      - url: https://www.windowslatest.com/feed/
-        scrape_needed: false
 
       # YouTube Channels
       - yt:UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
@@ -78,14 +79,13 @@ rss:
 
   dev:
     name: Developers
+    re_categorize: false
     sources:
       - https://deno.com/feed
       - url: https://bun.sh/rss.xml
         scrape_needed: false
       - https://vercel.com/atom
       - https://astro.build/rss.xml
-      - url: https://blogs.windows.com/feed
-        scrape_needed: false
       - url: https://cprss.s3.amazonaws.com/javascriptweekly.com.xml
         scrape_needed: false
       - url: https://cprss.s3.amazonaws.com/nodeweekly.com.xml
@@ -123,6 +123,8 @@ rss:
 
   ai:
     name: AI
+    re_categorize: false
+    description: "Any LLM, AI, or NLP related news."
     sources:
       # - https://openai.com/news/rss.xml
       - https://www.testingcatalog.com/rss/
@@ -145,14 +147,32 @@ rss:
   free-games:
     name: "Free Games"
     importance_check: false
-    # similarity_check: false
+    re_categorize: false
     sources:
       - https://www.gamerpower.com/rss/steam
       - https://www.gamerpower.com/rss/games
     discord_channel_id: "1315931763469455380"
 
+  programming-updates:
+    name: "Programming Updates"
+    description: "Any programming language updates, including Python, JavaScript, etc."
+
+  software-updates:
+    name: "Software Updates"
+    description: "Any software or app updates, including apps, PaaS, operating systems, etc."
+    sources:
+      - url: https://www.windowslatest.com/feed/
+        scrape_needed: false
+      - https://9to5mac.com/feed/
+      - https://9to5google.com/feed/
+      - url: https://blogs.windows.com/feed
+        scrape_needed: false
+    discord_channel_id: "1334772753575710752"
+
   software:
     name: "Software"
+    re_categorize: false
+    description: "Showcase of software, tools, and services."
     sources:
       - https://hnrss.org/show
       - url: https://www.appinn.com/feed
@@ -175,6 +195,7 @@ rss:
     name: "Blogs"
     importance_check: false
     similarity_check: false
+    re_categorize: false
     sources:
       - url: https://www.owenyoung.com/atom.xml
         scrape_needed: false
@@ -187,11 +208,13 @@ rss:
 
   hong-kong:
     name: "Hong Kong"
+    re_categorize: false
     sources:
       - https://www.scmp.com/rss/2/feed
       - url: https://hongkongfp.com/feed/
         scrape_needed: false
     discord_channel_id: "1322608633355305110"
+    description: "Any news related to Hong Kong, specifically in Hong Kong."
 
   hacker-news:
     name: "Hacker News"
@@ -224,6 +247,7 @@ rss:
   dev-to:
     name: "Dev.to"
     forum: true
+    re_categorize: false
     sources:
       - url: https://dev.to/feed
         scrape_needed: false
@@ -231,6 +255,7 @@ rss:
 
   youtube:
     name: YouTube
+    re_categorize: false
     sources:
       - yt:UCQtwvRQWnT5Buh9hpvNNryQ # 柴知道
       - yt:UCilwQlk62k1z7aUEZPOB6yw # 小 Lin 说

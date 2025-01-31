@@ -12,8 +12,14 @@ from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.handler.article import handle_article
 from lib.handler.youtube import handle_youtube
 from lib.notifications.discord import send_discord
+from lib.openai_api import MessageBody, OpenAIAPI
+from lib.prompts.categorize import CategorizeSchema, categorize_prompt
 from lib.pubsub.subscription import send_pubsubhubbub_update
-from lib.rss import get_rss_config, parse_published_date
+from lib.rss import (
+    get_categories_with_description,
+    get_rss_config,
+    parse_published_date,
+)
 from lib.types import RSSEntity
 from lib.utils import get_source_name_from_cache
 
@@ -30,6 +36,24 @@ async def is_entry_checked(guid: str, link: str, title: str) -> bool:
         (Article.guid == guid) | (Article.link == link) | (Article.title == title)
     )
     return d is not None
+
+
+async def re_categorize(article: Article) -> str | None:
+    user_prompt = f"Title: {article.title}\nSummary: {article.summary}"
+
+    categories = [x["name"] for x in get_categories_with_description()]
+
+    # Use OpenAI to re-categorize the article
+    openai_api = OpenAIAPI()
+    res = await openai_api.generate_schema(
+        message=MessageBody(
+            system=categorize_prompt,
+            user=user_prompt,
+        ),
+        schema=CategorizeSchema,
+    )
+
+    return res.category if (res.category in categories) else article.category
 
 
 async def handle_entry(d: RSSEntity) -> None:
@@ -87,6 +111,7 @@ async def handle_entry(d: RSSEntity) -> None:
         publisher=publisher,
     )
 
+    # Check if the article is already in the database
     similarity_check = category_config.get("similarity_check", True)
     if "embedding" in processed_data and similarity_check:
         qdrant = Qdrant()
@@ -97,6 +122,21 @@ async def handle_entry(d: RSSEntity) -> None:
                 link=link,
             )
         )
+
+    # Re-categorize the article based on the content
+    enable_re_categorize = category_config.get("re_categorize", True)
+    if enable_re_categorize:
+        # Re-categorize the article
+        new_category = await re_categorize(data)
+        print(new_category)
+
+        if new_category != d.category and new_category is not None:
+            logger.success(f"Re-categorize: {link} -> {new_category}")
+
+            d.category = new_category
+
+    # Get the updated category config
+    category_config = get_rss_config()[d.category]
 
     # Save to Postgres
     await data.aio_save()
