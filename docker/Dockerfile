@@ -9,6 +9,8 @@ WORKDIR /app
 COPY requirements.txt /app
 
 # Install any needed packages specified in requirements.txt
+RUN uv venv /app/.venv
+ENV VIRTUAL_ENV=/app/.venv
 RUN uv pip install --no-cache-dir --no-compile -r requirements.txt
 
 # Copy the current directory contents into the container at /app
