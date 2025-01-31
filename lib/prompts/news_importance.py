@@ -18,7 +18,7 @@ news_importance_prompt = """
 
 You are helping people save time by determining if an article is worth reading for knowledge and improvement.
 Evaluate article significance for global, tech, or developer relevance.
-Reject news that was not actually important or impactful, no matter how well written or interesting it is.
+Reject news that was not really important or impactful, no matter how well written or interesting it is.
 
 ## Important
 
@@ -37,6 +37,9 @@ Reject news that was not actually important or impactful, no matter how well wri
 
 ## Insignificant
 
+- How this or that stuffs help people or companies
+- Software fix and improvements
+- Company dividends declared or paid
 - Any advertisements, gifts, promotions, or discounts
 - Comparisons or "best of" lists
 - Product reviews, expectations or previews
