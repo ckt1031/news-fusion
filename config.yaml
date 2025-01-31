@@ -192,7 +192,9 @@ rss:
     importance_check: false
     similarity_check: false
     sources:
-      - https://github.com/ReVanced/revanced-patches/releases.atom
+      - url: https://github.com/ReVanced/revanced-patches/releases.atom
+        ignore_titles:
+          - dev
     discord_channel_id: "1321167234781155401"
 
   blogs:

@@ -106,6 +106,7 @@ def get_all_rss_sources(shuffle: bool = False) -> Generator[dict, None, None]:
                 "url": url,
                 "category": category,
                 "scrape_needed": meta.get("scrape_needed", True),
+                "ignore_titles": meta.get("ignore_titles", []),
             }
 
             yield d

@@ -56,6 +56,14 @@ async def re_categorize(article: Article) -> str | None:
     return res.category if (res.category in categories) else article.category
 
 
+def check_is_title_be_ignored(title: str, ignore_titles: list[str]) -> bool:
+    for ignore_title in ignore_titles:
+        if ignore_title.lower() in title.lower():
+            return True
+
+    return False
+
+
 async def handle_entry(d: RSSEntity) -> None:
     # Check if the article is older than 24 hours
     guid = d.entry["id"] if "id" in d.entry else d.entry["link"]
@@ -70,6 +78,10 @@ async def handle_entry(d: RSSEntity) -> None:
 
     if (now_date_utc - published_date_utc).days > 1:
         logger.debug(f"Entry is older than 24 hours: {link}")
+        return
+
+    if check_is_title_be_ignored(title, d.source_config["ignore_titles"]):
+        logger.debug(f"Entry is ignored: {link} ({title})")
         return
 
     # Check if the source is already in the database
