@@ -12,6 +12,14 @@ rss:
       - url: https://moxie.foxnews.com/google-publisher/world.xml
         scrape_needed: false
       - https://feeds.nbcnews.com/nbcnews/public/world
+      - https://www.independent.co.uk/news/world/rss
+      - https://rss.dw.com/atom/rss-en-world
+      - https://www.ft.com/world?format=rss
+      - http://rss.cnn.com/rss/cnn_world.rss
+      - https://abcnews.go.com/abcnews/internationalheadlines
+      - https://www.aljazeera.com/xml/rss/all.xml
+      - https://feeds.npr.org/1004/rss.xml
+      - https://www.yahoo.com/news/rss/world/
     discord_channel_id: "1315385019241595172"
     # https://about.fb.comofrchn/wp-content/uploads/2016/05/rss-urls-1.pdf
 
@@ -62,7 +70,7 @@ rss:
       - https://www.wired.com/feed/rss
       - https://www.zdnet.com/news/rss.xml
       - https://www.theregister.com/headlines.rss
-      - https://boingboing.net/feed
+      # - https://boingboing.net/feed
       - https://restofworld.org/feed/latest/
       - https://www.bleepingcomputer.com/feed/
       - https://feeds.feedburner.com/venturebeat/SZYF
