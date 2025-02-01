@@ -35,7 +35,7 @@ Reject news that was not really important or impactful, no matter how well writt
 - Critical societal events
 - Public health issues
 
-## Insignificant
+## Insignificant (Mark as false if any of the following)
 
 - Games
 - Films, TV shows or music releases
@@ -45,7 +45,7 @@ Reject news that was not really important or impactful, no matter how well writt
 - How this or that stuffs help people or companies
 - Software fix and improvements
 - Company dividends declared or paid
-- Any advertisements, gifts, promotions, or discounts
+- Any advertisements, sales, gifts, promotions, or discounts
 - Comparisons or "best of" lists
 - Product reviews, expectations or previews
 - Racist, Sexual, LGBT or Transgender
