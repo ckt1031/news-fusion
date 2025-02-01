@@ -37,6 +37,8 @@ Reject news that was not really important or impactful, no matter how well writt
 
 ## Insignificant
 
+- Games
+- Films, TV shows or music releases
 - IPO price
 - Tutorials like different Ways to do something:
     e.g. Google AI: 5 ways to boost productivity
