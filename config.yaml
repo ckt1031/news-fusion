@@ -64,18 +64,26 @@ rss:
       - https://www.theregister.com/headlines.rss
       - https://boingboing.net/feed
       - https://restofworld.org/feed/latest/
-      - url: https://www.techradar.com/rss
-        scrape_needed: false
       - https://www.bleepingcomputer.com/feed/
       - https://feeds.feedburner.com/venturebeat/SZYF
 
       # YouTube Channels
-      - yt:UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
       - yt:UCeUJO1H3TEXu2syfAAPjYKQ # 极客湾 Geekerwan
-      - yt:UCqjVP9gAanUGFgTA5BRDvyA # How to Man
       - yt:UCXuqSBlHAE6Xw-yeJA0Tunw # LinusTechTips
       - yt:UCR-DXc1voovS8nhAvccRZhg # Jeff Geerling
     discord_channel_id: "1297769089024004126"
+
+  technology-products:
+    name: "Technology Products"
+    description: "New products, their reviews and gadgets."
+    source:
+      - url: https://www.techradar.com/rss
+        scrape_needed: false
+      - url: https://www.engadget.com/rss.xml
+        scrape_needed: false
+
+      # YouTube Channels
+      - yt:UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
 
   dev:
     name: "Developer News"
@@ -180,6 +188,7 @@ rss:
     re_categorize: false
     description: "Showcase of software, tools, and services."
     sources:
+      - yt:UCqjVP9gAanUGFgTA5BRDvyA # How to Man (Android Apps or Mobile related)
       - https://hnrss.org/show
       - url: https://www.appinn.com/feed
         scrape_needed: false
