@@ -15,7 +15,7 @@ rss:
       - https://www.independent.co.uk/news/world/rss
       - https://rss.dw.com/atom/rss-en-world
       - https://www.ft.com/world?format=rss
-      - http://rss.cnn.com/rss/cnn_world.rss
+      - https://rss.cnn.com/rss/cnn_world.rss
       - https://abcnews.go.com/abcnews/internationalheadlines
       - https://www.aljazeera.com/xml/rss/all.xml
       - https://feeds.npr.org/1004/rss.xml
@@ -64,7 +64,8 @@ rss:
     sources:
       - url: https://www.theverge.com/rss/tech/index.xml
         scrape_needed: false
-
+      - https://www.yahoo.com/news/rss/tech/
+      - https://www.theguardian.com/uk/technology/rss
       - https://techcrunch.com/feed/
       - https://arstechnica.com/feed/
       - https://www.wired.com/feed/rss
@@ -88,6 +89,8 @@ rss:
       - url: https://www.techradar.com/rss
         scrape_needed: false
       - url: https://www.engadget.com/rss.xml
+        scrape_needed: false
+      - url: https://www.tomsguide.com/feeds/all
         scrape_needed: false
 
       # YouTube Channels
