@@ -21,6 +21,7 @@ summary_prompt = """
 - Respond in English US only
 - Use simple, clear language, focus on main ideas and key points, be specific for exact details
 - No clickbait, additional comments, or context not in the original content
+- No escape characters or emojis
 
 ## Title
 
