@@ -83,7 +83,7 @@ rss:
 
   technology-products:
     name: "Technology Products"
-    description: "New products, their reviews and gadgets."
+    description: "Technology products, their reviews and gadgets, including hardware, devices, smartphones, laptops, etc."
     source:
       - url: https://www.techradar.com/rss
         scrape_needed: false
