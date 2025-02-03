@@ -16,9 +16,8 @@ class NewsImportanceSchema(BaseModel):
 news_importance_prompt = """
 # Task: Importance Check
 
-You are helping people save time by determining if an article is worth reading for knowledge and improvement.
-Evaluate article significance for global, tech, or developer relevance.
-Reject news that was not really important or impactful, no matter how well written or interesting it is.
+You are helping people save time by determining if the content is worth reading for news, knowledge and improvement.
+Evaluate article significance for global, technology, or developer relevance.
 
 ## Important
 
