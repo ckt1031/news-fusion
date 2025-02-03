@@ -62,13 +62,14 @@ async def handle_youtube(
 
     date_str = published_date_utc.strftime("%Y-%m-%d %H:%M:%S")
     content_with_meta = f"Title: {title}\nDate: {date_str}\nTranscript: {transcript}"
+    content_embedding = None
 
     if category_config.get("similarity_check", True):
         # TODO: Support for multiple splits
         e = await similarity_check(reduced_transcript, guid, link)
 
         if e["similar"]:
-            return
+            return None
 
         content_embedding = e["content_embedding"]
 

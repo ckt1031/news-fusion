@@ -119,7 +119,7 @@ async def handle_entry(d: RSSEntity) -> None:
         image=image,
         summary=generated_title_summary.summary,
         important=True,
-        published_at=published_date_utc,
+        published_at=now_date_utc,
         publisher=publisher,
     )
 
