@@ -97,5 +97,16 @@
     "https://github.com/ReVanced/revanced-patches/releases.atom": "ReVanced Patches",
     "https://blog.jetbrains.com/feed/": "JetBrains Blog",
     "https://www.ruanyifeng.com/blog/atom.xml": "Ruanyifeng's Blog",
-    "https://www.theverge.com/rss/tech/index.xml": "The Verge"
+    "https://www.theverge.com/rss/tech/index.xml": "The Verge",
+    "https://www.yahoo.com/news/rss/tech/": "Yahoo",
+    "https://www.theguardian.com/uk/technology/rss": "The Guardian",
+    "https://www.aljazeera.com/xml/rss/all.xml": "Al Jazeera",
+    "https://www.independent.co.uk/news/world/rss": "The Independent",
+    "https://rss.cnn.com/rss/cnn_world.rss": "CNN",
+    "https://rss.dw.com/atom/rss-en-world": "Deutsche Welle",
+    "https://feeds.npr.org/1004/rss.xml": "NPR",
+    "https://www.yahoo.com/news/rss/world/": "Yahoo",
+    "https://abcnews.go.com/abcnews/internationalheadlines": "ABC News",
+    "https://www.ft.com/world?format=rss": "The Financial Times",
+    "https://feeds.macrumors.com/MacRumors-All": "MacRumors"
 }
