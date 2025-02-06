@@ -1,5 +1,3 @@
-import platform
-
 from seleniumbase import Driver
 
 from lib.utils import check_if_arg_exists
