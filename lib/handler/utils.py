@@ -1,3 +1,5 @@
+import urllib.parse
+
 from langchain_text_splitters import TokenTextSplitter
 from loguru import logger
 
@@ -13,6 +15,10 @@ def split_text_by_token(text: str, token_limit: int) -> list[str]:
     texts = text_splitter.split_text(text)
 
     return texts
+
+
+def host_same(link: str, link2: str) -> bool:
+    return urllib.parse.urlparse(link).netloc == urllib.parse.urlparse(link2).netloc
 
 
 async def similarity_check(content: str, guid: str, link: str) -> dict | None:
@@ -39,6 +45,8 @@ async def similarity_check(content: str, guid: str, link: str) -> dict | None:
         and similarities[0]
         # For entry above 0.75 threshold, consider it as similar
         and similarities[0].score >= 0.75
+        # Check if the host is different
+        and not host_same(link, similarities[0].payload["link"])
     ):
         # Set the key to Redis, expire in 96 hours, to avoid checking the same article again
         # EX in seconds: 96 hours * 60 minutes * 60 seconds
