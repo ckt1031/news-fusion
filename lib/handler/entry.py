@@ -145,6 +145,7 @@ async def handle_entry(d: RSSEntity) -> None:
             logger.success(f"Re-categorize: {link} -> {new_category}")
 
             d.category = new_category
+            data.category = new_category
 
     # Get the updated category config
     category_config = get_rss_config()[d.category]
