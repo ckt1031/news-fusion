@@ -46,7 +46,6 @@ Evaluate article significance for global, technology, or developer relevance.
 - Company dividends declared or paid
 - Any advertisements, sales, gifts, promotions, or discounts
 - Comparisons or "best of" lists
-- Product reviews, expectations or previews
 - Racist, Sexual, LGBT or Transgender
 - Quizzes
 - Minor tutorials, guides or suggestions
