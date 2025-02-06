@@ -3,9 +3,8 @@ import json
 import trafilatura
 from bs4 import BeautifulSoup
 from loguru import logger
-from seleniumbase import SB
 
-from lib.utils import check_if_arg_exists
+from lib.browser import browser_allowed, browser_driver
 
 
 def parse_selector(selector: str, content: str) -> str:
@@ -28,35 +27,26 @@ def get_html_content(link: str, selector: str | None = None) -> str:
         return parse_selector(selector, content) if selector else content
     except Exception as e:
         # Try using selenium if it has --selenium-fallback flag
-        if check_if_arg_exists("--selenium-fallback"):
-            with SB(
-                uc=True,
-                headless=False,
-                locale_code="en",
-                undetectable=True,
-                uc_subprocess=True,
-                ad_block_on=True,
-                do_not_track=True,
-            ) as sb:
-                sb.open(link)
-                sb.uc_gui_click_captcha()
-                sb.sleep(2)
+        if browser_allowed:
+            browser_driver.open(link)
+            # browser_driver.uc_gui_click_captcha()
+            browser_driver.sleep(2)
 
-                tab_title = sb.get_page_title()
-                content = sb.get_page_source()
+            tab_title = browser_driver.get_page_title()
+            content = browser_driver.get_page_source()
 
             if "just a moment" in tab_title.lower():
-                raise Exception("Captcha detected")
+                raise Exception("Cloudflare WAF CAPTCHA detected")
 
             if "404" in tab_title or "not found" in tab_title.lower():
                 raise Exception("Page not found")
 
             if content is None:
-                raise Exception("Failed to fetch the website using Selenium")
+                raise Exception("Failed to fetch via Selenium")
 
             return parse_selector(selector, content) if selector else content
 
-        logger.error(f"Failed to fetch the website: {link}")
+        logger.error(f"Failed to fetch: {link}")
         logger.error(e)
         raise e
 
@@ -69,7 +59,7 @@ def extract_website(link: str, selector: str | None = None) -> dict:
 
 def get_json_scraped_data(html: str) -> dict:
     if html is None or len(html) == 0:
-        raise Exception("Nothing fetched from the website")
+        raise Exception("Nothing fetched from website")
 
     json_data = trafilatura.extract(
         html,
@@ -79,6 +69,6 @@ def get_json_scraped_data(html: str) -> dict:
     )
 
     if json_data is None:
-        raise Exception("Failed to extract content from the website")
+        raise Exception("Failed to extract content from website")
 
     return json.loads(json_data)
