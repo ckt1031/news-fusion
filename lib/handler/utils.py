@@ -38,23 +38,25 @@ async def similarity_check(content: str, guid: str, link: str) -> dict | None:
         )
     )
 
-    # There exists a similar article from list and their host must be different
-    if (
-        content_embedding
-        and similarities
-        and similarities[0]
-        # For entry above 0.75 threshold, consider it as similar
-        and similarities[0].score >= 0.75
-        # Check if the host is different
-        and not host_same(link, similarities[0].payload["link"])
-    ):
-        # Set the key to Redis, expire in 96 hours, to avoid checking the same article again
-        # EX in seconds: 96 hours * 60 minutes * 60 seconds
-        await redis_client.set(article_cache_key, 1, ex=96 * 60 * 60)
+    if similarities:
+        THRESHOLD = 0.80
 
-        logger.success(
-            f"Similar ({similarities[0].score * 100}%): {link} -> {similarities[0].payload['link']}"
-        )
-        return {"similar": True}
+        above_75_and_different_host = [
+            x
+            for x in similarities
+            if x.score >= THRESHOLD and not host_same(link, x.payload["link"])
+        ]
+
+        if len(above_75_and_different_host) > 0:
+            # Set the key to Redis, expire in 96 hours, to avoid checking the same article again
+            # EX in seconds: 96 hours * 60 minutes * 60 seconds
+            await redis_client.set(article_cache_key, 1, ex=96 * 60 * 60)
+
+            for x in above_75_and_different_host:
+                logger.success(
+                    f"Similar ({x.score * 100}%): {link} -> {x.payload['link']}"
+                )
+
+            return {"similar": True}
 
     return {"similar": False, "content_embedding": content_embedding}
