@@ -7,8 +7,8 @@ class NewsImportanceSchema(BaseModel):
         title="Important",
         description="""
         Mark as important (true) based on "Important Factors" sections.
-        If content satisfies "Not Important Factors" sections, mark as not important (false).
-        If the article is significantly impactful, set "important" to true, no matter they includes content in "Not Important Factors" section.
+        If content satisfies "Insignificant" sections, mark as not important (false).
+        If the article is significantly impactful, set "important" to true, no matter they includes content in "Insignificant" section.
         """.strip(),
     )
 
@@ -17,7 +17,7 @@ news_importance_prompt = """
 # Task: Importance Check
 
 You are helping people save time by determining if the content is worth reading for news, knowledge and improvement.
-Evaluate article significance for global, technology, or developer relevance.
+Reject news that was not really important or satisfying the "Insignificant" section, unless it is significantly impactful.
 
 ## Important
 
