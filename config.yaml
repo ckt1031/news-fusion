@@ -3,23 +3,23 @@ rss:
     name: World
     description: "All over the world, except for Hong Kong, any emergency news."
     sources:
-      - url: https://time.com/feed/
-        scrape_needed: false
-      - https://www.theguardian.com/world/rss
-      - https://feeds.bbci.co.uk/news/world/rss.xml
-      - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362
-      - https://www.cbsnews.com/latest/rss/world
-      - url: https://moxie.foxnews.com/google-publisher/world.xml
-        scrape_needed: false
-      - https://feeds.nbcnews.com/nbcnews/public/world
-      - https://www.independent.co.uk/news/world/rss
-      - https://rss.dw.com/atom/rss-en-world
-      - https://www.ft.com/world?format=rss
-      - https://rss.cnn.com/rss/cnn_world.rss
-      - https://abcnews.go.com/abcnews/internationalheadlines
-      - https://www.aljazeera.com/xml/rss/all.xml
-      - https://feeds.npr.org/1004/rss.xml
-      - https://www.yahoo.com/news/rss/world/
+    - url: https://time.com/feed/
+      scrape_needed: false
+    - https://www.theguardian.com/world/rss
+    - https://feeds.bbci.co.uk/news/world/rss.xml
+    - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362
+    - https://www.cbsnews.com/latest/rss/world
+    - url: https://moxie.foxnews.com/google-publisher/world.xml
+      scrape_needed: false
+    - https://feeds.nbcnews.com/nbcnews/public/world
+    - https://www.independent.co.uk/news/world/rss
+    - https://rss.dw.com/atom/rss-en-world
+    - https://www.ft.com/world?format=rss
+    - https://rss.cnn.com/rss/cnn_world.rss
+    - https://abcnews.go.com/abcnews/internationalheadlines
+    - https://www.aljazeera.com/xml/rss/all.xml
+    - https://feeds.npr.org/1004/rss.xml
+    - https://www.yahoo.com/news/rss/world/
     discord_channel_id: "1315385019241595172"
     # https://about.fb.comofrchn/wp-content/uploads/2016/05/rss-urls-1.pdf
 
@@ -27,34 +27,34 @@ rss:
     name: Magazine
     re_categorize: false
     sources:
-      - https://www.newyorker.com/feed/news
-      - https://asteriskmag.com/feed
-      - url: https://feeds.feedburner.com/TheAtlanticWire
-        scrape_needed: false
+    - https://www.newyorker.com/feed/news
+    - https://asteriskmag.com/feed
+    - url: https://feeds.feedburner.com/TheAtlanticWire
+      scrape_needed: false
     discord_channel_id: "1327680122144297063"
 
   finance:
     name: Finance
     description: "Global, economy, country, market related, rather than company related."
     sources:
-      - https://finance.yahoo.com/news/rssindex
-      - https://seekingalpha.com/market_currents.xml
+    - https://finance.yahoo.com/news/rssindex
+    - https://seekingalpha.com/market_currents.xml
     discord_channel_id: "1325126500336271442"
 
   investing:
     name: Investing
     description: "Basically company related, money, investment, earnings, stock market, etc."
     sources:
-      - https://www.stocktitan.net/rss
-      - https://www.investing.com/rss/news_25.rss # Stock Market News
-      - https://www.investing.com/rss/news_356.rss # Company News
-      - https://www.investing.com/rss/news_1065.rss # Stock Market Investment Ideas
-      - https://www.investing.com/rss/news_1063.rss # Earnings Call Transcripts
-      - https://www.investing.com/rss/news_1062.rss # Earnings Reports
-      - https://www.globenewswire.com/AtomFeed/subjectcode/72-Press%20Releases/feedTitle/GlobeNewswire%20-%20Press%20Releases # GlobeNewswire - Press Releases
-      - https://www.globenewswire.com/AtomFeed/subjectcode/29-Partnerships/feedTitle/GlobeNewswire%20-%20Partnerships # GlobeNewswire - Partnerships
-      - https://www.globenewswire.com/AtomFeed/orgclass/1/feedTitle/GlobeNewswire%20-%20News%20about%20Public%20Companies # GlobeNewswire - News about Public Companies
-      - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069 # CNBC - Investing
+    - https://www.stocktitan.net/rss
+    - https://www.investing.com/rss/news_25.rss # Stock Market News
+    - https://www.investing.com/rss/news_356.rss # Company News
+    - https://www.investing.com/rss/news_1065.rss # Stock Market Investment Ideas
+    - https://www.investing.com/rss/news_1063.rss # Earnings Call Transcripts
+    - https://www.investing.com/rss/news_1062.rss # Earnings Reports
+    - https://www.globenewswire.com/AtomFeed/subjectcode/72-Press%20Releases/feedTitle/GlobeNewswire%20-%20Press%20Releases # GlobeNewswire - Press Releases
+    - https://www.globenewswire.com/AtomFeed/subjectcode/29-Partnerships/feedTitle/GlobeNewswire%20-%20Partnerships # GlobeNewswire - Partnerships
+    - https://www.globenewswire.com/AtomFeed/orgclass/1/feedTitle/GlobeNewswire%20-%20News%20about%20Public%20Companies # GlobeNewswire - News about Public Companies
+    - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069 # CNBC - Investing
     discord_channel_id: "1325116616303837204"
 
   technology:
@@ -62,76 +62,76 @@ rss:
     name: Technology
     description: "Rather than software updates, more about major technology, new innovations, internet, etc. (Not programming)"
     sources:
-      - url: https://www.theverge.com/rss/tech/index.xml
-        scrape_needed: false
-      - https://www.yahoo.com/news/rss/tech/
-      - https://www.theguardian.com/uk/technology/rss
-      - https://techcrunch.com/feed/
-      - https://arstechnica.com/feed/
-      - https://www.wired.com/feed/rss
-      - https://www.zdnet.com/news/rss.xml
-      - https://www.theregister.com/headlines.rss
-      # - https://boingboing.net/feed
-      - https://restofworld.org/feed/latest/
-      - https://www.bleepingcomputer.com/feed/
-      - https://feeds.feedburner.com/venturebeat/SZYF
+    - url: https://www.theverge.com/rss/tech/index.xml
+      scrape_needed: false
+    - https://www.yahoo.com/news/rss/tech/
+    - https://www.theguardian.com/uk/technology/rss
+    - https://techcrunch.com/feed/
+    - https://arstechnica.com/feed/
+    - https://www.wired.com/feed/rss
+    - https://www.zdnet.com/news/rss.xml
+    - https://www.theregister.com/headlines.rss
+    # - https://boingboing.net/feed
+    - https://restofworld.org/feed/latest/
+    - https://www.bleepingcomputer.com/feed/
+    - https://feeds.feedburner.com/venturebeat/SZYF
 
-      # YouTube Channels
-      - yt:UCeUJO1H3TEXu2syfAAPjYKQ # 极客湾 Geekerwan
-      - yt:UCXuqSBlHAE6Xw-yeJA0Tunw # LinusTechTips
-      - yt:UCR-DXc1voovS8nhAvccRZhg # Jeff Geerling
+    # YouTube Channels
+    - yt:UCeUJO1H3TEXu2syfAAPjYKQ # 极客湾 Geekerwan
+    - yt:UCXuqSBlHAE6Xw-yeJA0Tunw # LinusTechTips
+    - yt:UCR-DXc1voovS8nhAvccRZhg # Jeff Geerling
     discord_channel_id: "1297769089024004126"
 
   technology-products:
     name: "Technology Products"
     description: "Technology products, their reviews and gadgets, including hardware, devices, smartphones, laptops, etc."
     source:
-      - url: https://www.techradar.com/rss
-        scrape_needed: false
-      - url: https://www.engadget.com/rss.xml
-        scrape_needed: false
-      - url: https://www.tomsguide.com/feeds/all
-        scrape_needed: false
+    - url: https://www.techradar.com/rss
+      scrape_needed: false
+    - url: https://www.engadget.com/rss.xml
+      scrape_needed: false
+    - url: https://www.tomsguide.com/feeds/all
+      scrape_needed: false
 
-      # YouTube Channels
-      - yt:UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
+    # YouTube Channels
+    - yt:UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
 
   dev:
     name: "Developer News"
     re_categorize: false
     description: "Developer, system, and computer related news, including programming, software, tools, etc."
     sources:
-      - url: https://blog.jetbrains.com/feed/
-        scrape_needed: false
-      - url: https://cprss.s3.amazonaws.com/javascriptweekly.com.xml
-        scrape_needed: false
-      - url: https://cprss.s3.amazonaws.com/nodeweekly.com.xml
-        scrape_needed: false
-      - https://stackoverflow.blog/feed
-      - https://blog.replit.com/feed.xml
-      - https://supabase.com/feed.xml
-      - url: https://netflixtechblog.com/feed
-        scrape_needed: false
-      - https://engineering.atspotify.com/feed
-      - url: https://github.blog/feed
-        scrape_needed: false
-      - url: https://www.docker.com/feed
-        scrape_needed: false
-      - https://www.osnews.com/feed/
-      - url: https://www.freecodecamp.org/news/rss
-        scrape_needed: false
-      - https://blog.google/products/chrome/rss/
-      - https://blog.chromium.org/feeds/posts/default
+    - url: https://blog.jetbrains.com/feed/
+      scrape_needed: false
+    - url: https://cprss.s3.amazonaws.com/javascriptweekly.com.xml
+      scrape_needed: false
+    - url: https://cprss.s3.amazonaws.com/nodeweekly.com.xml
+      scrape_needed: false
+    - https://stackoverflow.blog/feed
+    - https://blog.replit.com/feed.xml
+    - https://supabase.com/feed.xml
+    - url: https://netflixtechblog.com/feed
+      scrape_needed: false
+    - https://engineering.atspotify.com/feed
+    - url: https://github.blog/feed
+      scrape_needed: false
+    - url: https://www.docker.com/feed
+      scrape_needed: false
+    - https://www.osnews.com/feed/
+    - url: https://www.freecodecamp.org/news/rss
+      scrape_needed: false
+    - https://blog.google/products/chrome/rss/
+    - https://blog.chromium.org/feeds/posts/default
 
-      # YouTube Channels
-      - yt:UCsBjURrPoezykLs9EqgamOA # Fireship
-      - yt:UC2Xd-TjJByJyK2w1zNwY0zQ # Beyond Fireship
-      - yt:UCbRP3c757lWg9M-U7TyEkXA # Theo - t3․gg
-      - yt:UCvGwM5woTl13I-qThI4YMCg # Josh tried coding
-      - yt:UCkVfrGwV-iG9bSsgCbrNPxQ # Better Stack
-      - yt:UCUSxKiac-miugK9CDsxGS9Q # Coding In Public
-      - yt:UCswG6FSbgZjbWtdf_hMLaow # MattPocock
-      - yt:UCUyeluBRhGPCW4rPe_UvBZQ # ThePrimeTimeagen
+    # YouTube Channels
+    - yt:UCsBjURrPoezykLs9EqgamOA # Fireship
+    - yt:UC2Xd-TjJByJyK2w1zNwY0zQ # Beyond Fireship
+    - yt:UCbRP3c757lWg9M-U7TyEkXA # Theo - t3․gg
+    - yt:UCvGwM5woTl13I-qThI4YMCg # Josh tried coding
+    - yt:UCkVfrGwV-iG9bSsgCbrNPxQ # Better Stack
+    - yt:UCUSxKiac-miugK9CDsxGS9Q # Coding In Public
+    - yt:UCswG6FSbgZjbWtdf_hMLaow # MattPocock
+    - yt:UCUyeluBRhGPCW4rPe_UvBZQ # ThePrimeTimeagen
     discord_channel_id: "1315654076280864789"
 
   ai:
@@ -139,22 +139,22 @@ rss:
     re_categorize: false
     description: "Any LLM, AI, or NLP related news."
     sources:
-      # - https://openai.com/news/rss.xml
-      - https://www.testingcatalog.com/rss/
-      - https://stability.ai/news?format=rss
-      - https://replicate.com/blog/rss
-      - https://jina.ai/feed.rss
-      - https://lastweekin.ai/feed
-      - https://huggingface.co/blog/feed.xml
-      - https://deepmind.google/blog/rss.xml
-      - https://qwenlm.github.io/blog/index.xml
-      - https://blog.google/products/gemini/rss/
-      - https://techcommunity.microsoft.com/t5/s/gxcuf89792/rss/board?board.id=AIPlatformBlog
+    # - https://openai.com/news/rss.xml
+    - https://www.testingcatalog.com/rss/
+    - https://stability.ai/news?format=rss
+    - https://replicate.com/blog/rss
+    - https://jina.ai/feed.rss
+    - https://lastweekin.ai/feed
+    - https://huggingface.co/blog/feed.xml
+    - https://deepmind.google/blog/rss.xml
+    - https://qwenlm.github.io/blog/index.xml
+    - https://blog.google/products/gemini/rss/
+    - https://techcommunity.microsoft.com/t5/s/gxcuf89792/rss/board?board.id=AIPlatformBlog
 
-      # YouTube Channels
-      - yt:UCXZCJLdBC09xxGZ6gcdrc6A # OpenAI
-      - yt:UCawZsQWqfGSbCI5yjkdVkTA # Matthew Berman
-      - yt:UC2WmuBuFq6gL08QYG-JjXKw # The World of AI
+    # YouTube Channels
+    - yt:UCXZCJLdBC09xxGZ6gcdrc6A # OpenAI
+    - yt:UCawZsQWqfGSbCI5yjkdVkTA # Matthew Berman
+    - yt:UC2WmuBuFq6gL08QYG-JjXKw # The World of AI
     discord_channel_id: "1315729383440515113"
 
   free-games:
@@ -162,8 +162,8 @@ rss:
     importance_check: false
     re_categorize: false
     sources:
-      - https://www.gamerpower.com/rss/steam
-      - https://www.gamerpower.com/rss/games
+    - https://www.gamerpower.com/rss/steam
+    - https://www.gamerpower.com/rss/games
     discord_channel_id: "1315931763469455380"
 
   programming-updates:
@@ -171,27 +171,27 @@ rss:
     description: "Any programming language updates, including Python, JavaScript, etc."
     re_categorize: false
     sources:
-      - https://deno.com/feed
-      - url: https://bun.sh/rss.xml
-        scrape_needed: false
-      - https://vercel.com/atom
-      - https://astro.build/rss.xml
-      - https://nextjs.org/feed.xml
-      - https://tailwindcss.com/feeds/feed.xml
+    - https://deno.com/feed
+    - url: https://bun.sh/rss.xml
+      scrape_needed: false
+    - https://vercel.com/atom
+    - https://astro.build/rss.xml
+    - https://nextjs.org/feed.xml
+    - https://tailwindcss.com/feeds/feed.xml
     discord_channel_id: "1334833185019920455"
 
   software-updates:
     name: "Software Updates"
     description: "Any software or app updates, including apps, PaaS, operating systems, etc."
     sources:
-      - url: https://feeds.macrumors.com/MacRumors-All
-        scrape_needed: false
-      - url: https://www.windowslatest.com/feed/
-        scrape_needed: false
-      - https://9to5mac.com/feed/
-      - https://9to5google.com/feed/
-      - url: https://blogs.windows.com/feed
-        scrape_needed: false
+    - url: https://feeds.macrumors.com/MacRumors-All
+      scrape_needed: false
+    - url: https://www.windowslatest.com/feed/
+      scrape_needed: false
+    - https://9to5mac.com/feed/
+    - https://9to5google.com/feed/
+    - url: https://blogs.windows.com/feed
+      scrape_needed: false
     discord_channel_id: "1334772753575710752"
 
   software:
@@ -199,13 +199,13 @@ rss:
     re_categorize: false
     description: "Showcase of software, tools, and services."
     sources:
-      - yt:UCqjVP9gAanUGFgTA5BRDvyA # How to Man (Android Apps or Mobile related)
-      - https://hnrss.org/show
-      - url: https://www.appinn.com/feed
-        scrape_needed: false
-      - https://hellogithub.com/rss
-      - https://www.producthunt.com/feed
-      - https://lobste.rs/t/show
+    - yt:UCqjVP9gAanUGFgTA5BRDvyA # How to Man (Android Apps or Mobile related)
+    - https://hnrss.org/show
+    - url: https://www.appinn.com/feed
+      scrape_needed: false
+    - https://hellogithub.com/rss
+    - https://www.producthunt.com/feed
+    - https://lobste.rs/t/show
     # - https://www.reddit.com/r/SideProject/.rss
     discord_channel_id: "1326858185881026653"
 
@@ -214,9 +214,9 @@ rss:
     importance_check: false
     similarity_check: false
     sources:
-      - url: https://github.com/ReVanced/revanced-patches/releases.atom
-        ignore_titles:
-          - dev
+    - url: https://github.com/ReVanced/revanced-patches/releases.atom
+      ignore_titles:
+      - dev
     discord_channel_id: "1321167234781155401"
 
   blogs:
@@ -225,22 +225,22 @@ rss:
     similarity_check: false
     re_categorize: false
     sources:
-      - url: https://www.owenyoung.com/atom.xml
-        scrape_needed: false
-      - url: https://www.ruanyifeng.com/blog/atom.xml
-        scrape_needed: false
-      - url: https://codechina.org/feed
-        scrape_needed: false
-      - https://weekly.tw93.fun/rss.xml
+    - url: https://www.owenyoung.com/atom.xml
+      scrape_needed: false
+    - url: https://www.ruanyifeng.com/blog/atom.xml
+      scrape_needed: false
+    - url: https://codechina.org/feed
+      scrape_needed: false
+    - https://weekly.tw93.fun/rss.xml
     discord_channel_id: "1315842786641186887"
 
   hong-kong:
     name: "Hong Kong"
     re_categorize: false
     sources:
-      - https://www.scmp.com/rss/2/feed
-      - url: https://hongkongfp.com/feed/
-        scrape_needed: false
+    - https://www.scmp.com/rss/2/feed
+    - url: https://hongkongfp.com/feed/
+      scrape_needed: false
     discord_channel_id: "1322608633355305110"
     description: "Any news related to Hong Kong, specifically in Hong Kong."
 
@@ -249,8 +249,8 @@ rss:
     forum: true
     comment_selector: "[class='comment-tree']"
     sources:
-      # - https://hnrss.org/newest
-      - https://hnrss.org/frontpage
+    # - https://hnrss.org/newest
+    - https://hnrss.org/frontpage
     discord_channel_id: "1320300826673156168"
 
   lobste-rs:
@@ -258,43 +258,46 @@ rss:
     forum: true
     comment_selector: "[class='comments']"
     sources:
-      # Other Categories: science, math, education
-      - https://lobste.rs/t/ai.rss
-      - https://lobste.rs/t/event.rss
-      - https://lobste.rs/t/web.rss
-      - https://lobste.rs/t/mobile.rss
-      - https://lobste.rs/t/games.rss
-      - https://lobste.rs/t/programming.rss
-      - https://lobste.rs/t/hardware.rss
-      - https://lobste.rs/t/compsci.rss
-      - https://lobste.rs/t/security.rss
-      - https://lobste.rs/t/privacy.rss
-      - https://lobste.rs/t/release.rss
+    # Other Categories: science, math, education
+    - https://lobste.rs/t/ai.rss
+    - https://lobste.rs/t/event.rss
+    - https://lobste.rs/t/web.rss
+    - https://lobste.rs/t/mobile.rss
+    - https://lobste.rs/t/games.rss
+    - https://lobste.rs/t/programming.rss
+    - https://lobste.rs/t/hardware.rss
+    - https://lobste.rs/t/compsci.rss
+    - https://lobste.rs/t/security.rss
+    - https://lobste.rs/t/privacy.rss
+    - https://lobste.rs/t/release.rss
     discord_channel_id: "1320300953953505351"
 
   dev-to:
     name: "Dev.to"
     forum: true
     re_categorize: false
+    reject_news_criterias:
+    - Technical tutorial, how-to guide, or documentation focused on a specific API or software library
+    - Solely on the technical implementation of a basic application (e.g., chat app tutorials using specific frameworks or backends)
     sources:
-      - url: https://dev.to/feed
-        scrape_needed: false
+    - url: https://dev.to/feed
+      scrape_needed: false
     discord_channel_id: "1320091294726488074"
 
   youtube:
     name: YouTube
     re_categorize: false
     sources:
-      - yt:UCQtwvRQWnT5Buh9hpvNNryQ # 柴知道
-      - yt:UCilwQlk62k1z7aUEZPOB6yw # 小 Lin 说
-      - yt:UC2tQpW0dPiyWPebwBSksJ_g # 脑洞乌托邦
-      - yt:UC4dtpugIYK56S_7btf5a-iQ # 林亦 LYi
-      - yt:UC2cRwTuSWxxEtrRnT4lrlQA # 影视飓风
-      - yt:UCjxWY5oD9I1LKaCJkOO1TKw # Mr. Atom 原子檔案
-      - yt:UCIraGjqGxcks1NeVA8P4gAA # Z檔案
-      - yt:UCsrWoMiWGwjFo4toX4D8Hsg # 海森堡HEISENBERG
+    - yt:UCQtwvRQWnT5Buh9hpvNNryQ # 柴知道
+    - yt:UCilwQlk62k1z7aUEZPOB6yw # 小 Lin 说
+    - yt:UC2tQpW0dPiyWPebwBSksJ_g # 脑洞乌托邦
+    - yt:UC4dtpugIYK56S_7btf5a-iQ # 林亦 LYi
+    - yt:UC2cRwTuSWxxEtrRnT4lrlQA # 影视飓风
+    - yt:UCjxWY5oD9I1LKaCJkOO1TKw # Mr. Atom 原子檔案
+    - yt:UCIraGjqGxcks1NeVA8P4gAA # Z檔案
+    - yt:UCsrWoMiWGwjFo4toX4D8Hsg # 海森堡HEISENBERG
 
-      - yt:UCFhXFikryT4aFcLkLw2LBLA # NileRed
-      - yt:UCEnAit0duntJxa3gZG-paoA # NileRedExtra
-      - yt:UCsXVk37bltHxD1rDPwtNM8Q # Kurzgesagt – In a Nutshell
+    - yt:UCFhXFikryT4aFcLkLw2LBLA # NileRed
+    - yt:UCEnAit0duntJxa3gZG-paoA # NileRedExtra
+    - yt:UCsXVk37bltHxD1rDPwtNM8Q # Kurzgesagt – In a Nutshell
     discord_channel_id: "1322487198762930206"

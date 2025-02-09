@@ -51,4 +51,5 @@ Reject news that was not really important or satisfying the "Insignificant" sect
 - Minor tutorials, guides or suggestions
 - Minor politics, social issues or phenomena
 - Minor personnel changes
+{{ reject_news_criterias }}
 """.strip()

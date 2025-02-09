@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import chevron
 import html2text
 from loguru import logger
 from openai.types import CreateEmbeddingResponse
@@ -45,6 +46,10 @@ def extract_rss_image(d: RSSEntity) -> str | None:
     elif "media_content" in d.entry:
         return d.entry["media_content"][0]["url"]
     return None
+
+
+def str_list_to_points(lst: list[str]) -> str:
+    return "\n".join([f"- {x}" for x in lst])
 
 
 async def handle_article(
@@ -123,6 +128,15 @@ async def handle_article(
             forum_importance_summary_merged_prompt
             if is_forum
             else news_importance_summary_merged_prompt
+        )
+
+        sys_prompt = chevron.render(
+            sys_prompt,
+            {
+                "reject_news_criterias": str_list_to_points(
+                    category_config.get("reject_news_criterias", [])
+                ),
+            },
         )
 
         if comments:
