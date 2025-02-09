@@ -29,7 +29,8 @@ def get_html_content(link: str, selector: str | None = None) -> str:
         # Try using selenium if it has --selenium-fallback flag
         if browser_allowed:
             browser_driver.open(link)
-            # browser_driver.uc_gui_click_captcha()
+            browser_driver.sleep(2)
+            browser_driver.uc_gui_click_captcha()
             browser_driver.sleep(2)
 
             tab_title = browser_driver.get_page_title()

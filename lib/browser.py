@@ -9,10 +9,9 @@ browser_allowed = check_if_arg_exists("--selenium-fallback")
 if browser_allowed:
     browser_driver = Driver(
         uc=True,
-        headless=False,
         locale_code="en",
-        undetectable=True,
         uc_subprocess=True,
         ad_block_on=True,
         do_not_track=True,
+        dark_mode=True,
     )
