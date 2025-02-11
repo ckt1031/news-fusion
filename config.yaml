@@ -39,6 +39,7 @@ rss:
     sources:
     - https://finance.yahoo.com/news/rssindex
     - https://seekingalpha.com/market_currents.xml
+    - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664
     discord_channel_id: "1325126500336271442"
 
   investing:
@@ -65,6 +66,7 @@ rss:
     - url: https://www.theverge.com/rss/tech/index.xml
       scrape_needed: false
     - https://www.yahoo.com/news/rss/tech/
+    - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=19854910
     - https://www.theguardian.com/uk/technology/rss
     - https://techcrunch.com/feed/
     - https://arstechnica.com/feed/
@@ -296,6 +298,10 @@ rss:
     - yt:UCjxWY5oD9I1LKaCJkOO1TKw # Mr. Atom 原子檔案
     - yt:UCIraGjqGxcks1NeVA8P4gAA # Z檔案
     - yt:UCsrWoMiWGwjFo4toX4D8Hsg # 海森堡HEISENBERG
+    - yt:UCh4QrR5V6reIojGpRqkTbYw # MoneyXYZ
+    - yt:UCgNg3vwj3xt7QOrcIDaHdFg # PolyMatter
+    - yt:UCZ4AMrDcNrfy3X6nsU8-rPg # Economics Explained
+    - yt:UCxaaULLk6UCnRl5VKRc7G0A # No Text To Speech
 
     - yt:UCFhXFikryT4aFcLkLw2LBLA # NileRed
     - yt:UCEnAit0duntJxa3gZG-paoA # NileRedExtra
