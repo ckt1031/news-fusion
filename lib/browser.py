@@ -13,5 +13,4 @@ if browser_allowed:
         uc_subprocess=True,
         ad_block_on=True,
         do_not_track=True,
-        dark_mode=True,
     )
