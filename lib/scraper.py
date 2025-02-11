@@ -31,8 +31,8 @@ def get_html_content(link: str, selector: str | None = None) -> str:
             browser_driver.get(link)
             browser_driver.implicitly_wait(3)
 
-            tab_title: str = browser_driver.title()
-            content: str = browser_driver.page_source()
+            tab_title: str = browser_driver.title
+            content: str = browser_driver.page_source
 
             if "just a moment" in tab_title.lower():
                 raise Exception("Cloudflare WAF CAPTCHA detected")
