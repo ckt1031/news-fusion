@@ -1,5 +1,6 @@
 import random
 import time
+import urllib.parse
 from asyncio import sleep
 from datetime import datetime, timezone
 
@@ -10,6 +11,7 @@ from lib.db.postgres import Article
 from lib.db.qdrant import News, Qdrant
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.handler.article import handle_article
+from lib.handler.reddit import handle_reddit
 from lib.handler.youtube import handle_youtube
 from lib.notifications.discord import send_discord
 from lib.openai_api import MessageBody, OpenAIAPI
@@ -98,8 +100,10 @@ async def handle_entry(d: RSSEntity) -> None:
 
     category_config = get_rss_config()[d.category]
 
-    if "youtube.com" in link:
+    if "youtube.com" in urllib.parse.urlparse(link).netloc:
         processed_data = await handle_youtube(d, category_config, published_date_utc)
+    if "reddit.com" in urllib.parse.urlparse(link).netloc:
+        processed_data = await handle_reddit(d)
     else:
         processed_data = await handle_article(d, category_config)
 

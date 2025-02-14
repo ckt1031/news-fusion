@@ -33,6 +33,7 @@ Reject news that was not really important or satisfying the "Insignificant" sect
 - General availability or impactful products or services
 - Critical societal events
 - Public health issues
+{{ accept_news_criterias }}
 
 ## Insignificant (Mark as false if any of the following)
 

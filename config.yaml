@@ -157,7 +157,28 @@ rss:
     - yt:UCXZCJLdBC09xxGZ6gcdrc6A # OpenAI
     - yt:UCawZsQWqfGSbCI5yjkdVkTA # Matthew Berman
     - yt:UC2WmuBuFq6gL08QYG-JjXKw # The World of AI
+    # Reddit
+    - https://www.reddit.com/r/LocalLLaMA/.rss
     discord_channel_id: "1315729383440515113"
+
+  obsidian-md:
+    name: "Obsidian.md"
+    re_categorize: false
+    accept_news_criterias:
+    - Useful ideas for Obsidian users (Not advice or tips seeking)
+    - New plugins or themes which are useful
+    - New features or updates
+    - New templates or workflows
+    - New community resources
+    reject_news_criterias:
+    - General note-taking or productivity tips which not specific and useful enough
+    - Requests for features or plugins
+    - Seeking help, advice, support, feedback or guidance
+    - Not enought information or too short (including a Reddit post)
+    sources:
+    - https://obsidian.md/feed.xml # Obsidian Blog
+    - reddit:ObsidianMD # Reddit Obsidian Official
+    discord_channel_id: "1338832580593848340"
 
   free-games:
     name: "Free Games"
@@ -166,6 +187,7 @@ rss:
     sources:
     - https://www.gamerpower.com/rss/steam
     - https://www.gamerpower.com/rss/games
+    # - reddit:FreeGameFindings
     discord_channel_id: "1315931763469455380"
 
   programming-updates:

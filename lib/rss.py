@@ -98,6 +98,12 @@ def get_all_rss_sources(shuffle: bool = False) -> Generator[dict, None, None]:
             else:
                 url = source
 
+            if url.startswith("reddit:"):
+                # Replace reddit: with the base URL
+                url = source.replace("reddit:", "https://www.reddit.com/r/")
+                # Add /.rss to the end
+                url += "/.rss"
+
             if url.startswith("yt:"):
                 # Replace yt: with the base URL
                 url = source.replace("yt:", YOUTUBE_RSS_BASE_URL)
@@ -110,7 +116,6 @@ def get_all_rss_sources(shuffle: bool = False) -> Generator[dict, None, None]:
                 "ignore_titles": meta.get("ignore_titles", []),
                 # Category Level
                 "re_categorize": data.get("re_categorize", True),
-                "reject_news_criterias": data.get("reject_news_criterias", []),
             }
 
             yield d
