@@ -16,7 +16,6 @@ from lib.handler.youtube import handle_youtube
 from lib.notifications.discord import send_discord
 from lib.openai_api import MessageBody, OpenAIAPI
 from lib.prompts.categorize import CategorizeSchema, categorize_prompt
-from lib.pubsub.subscription import send_pubsubhubbub_update
 from lib.rss import (
     get_categories_with_description,
     get_rss_config,
@@ -159,9 +158,6 @@ async def handle_entry(d: RSSEntity) -> None:
     # Set the key to Redis, expire in 72 hours
     article_cache_key = get_article_redis_key(guid)
     await redis_client.set(article_cache_key, 1, ex=72 * 60 * 60)
-
-    # Pubsub update for target clients
-    await send_pubsubhubbub_update(d.category)
 
     # Send to Discord
     discord_channel_id: str | None = category_config.get("discord_channel_id")

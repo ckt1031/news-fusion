@@ -33,9 +33,6 @@ async def get_feed(request: Request, category: str, date: str | None = None):
     fg = FeedGenerator()
     fg.title(f"News Fusion - {category_name}")
 
-    # Configure WebSub
-    fg.link(href="https://pubsubhubbub.appspot.com/", rel="hub")
-
     feed_url = f"{server_url}feed/{category}"
     fg.link(href=feed_url, rel="self")
     fg.id(feed_url)

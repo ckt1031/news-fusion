@@ -11,7 +11,6 @@ import web.routes as v1_router
 from lib.db.postgres import close_db
 from lib.db.redis_client import redis_client
 from lib.env import get_env
-from lib.scheduler import scheduler
 from lib.utils import init_logger
 
 init_logger()
@@ -21,14 +20,9 @@ init_logger()
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     await FastAPILimiter.init(redis_client)
     FastAPICache.init(RedisBackend(redis_client), prefix="fastapi-cache")
-    # Run await register_all_topics(), but make the app start first and then run the function
-    # This is to avoid a deadlock when the app is not started yet
-    # asyncio.get_event_loop().call_later(1, asyncio.create_task, register_all_topics())
 
     yield
-    scheduler.shutdown()
     await FastAPILimiter.close()
-    # await register_all_topics(revoke=True)
     close_db()
 
 
@@ -67,4 +61,3 @@ async def health():
 
 
 app.include_router(v1_router.feed_router, prefix="/v1")
-app.include_router(v1_router.pubsub_router, prefix="/v1")
