@@ -16,6 +16,11 @@ def is_dev_mode() -> bool:
 
 
 def get_env(key: str, default=None) -> str:
-    config = dotenv_values(".dev.env" if is_dev_mode() else ".env")
+    env_file = ".dev.env" if is_dev_mode() else ".env"
+
+    if not os.path.exists(env_file):
+        return os.getenv(key, default)
+
+    config = dotenv_values(env_file)
 
     return config.get(key, default)

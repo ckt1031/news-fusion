@@ -15,7 +15,6 @@ from lib.utils import shuffle_dict_keys
 YOUTUBE_RSS_BASE_URL = "https://www.youtube.com/feeds/videos.xml?channel_id="
 
 
-@cache
 def get_data_from_source(source: str) -> dict | None:
     all_sources = get_all_rss_sources()
 
@@ -44,7 +43,6 @@ def get_rss_config() -> dict[str, dict[str, str | list[str]]]:
         return data["rss"]
 
 
-@cache
 def get_rss_categories() -> list[str]:
     return list(get_rss_config().keys())
 

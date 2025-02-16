@@ -62,6 +62,11 @@ def is_site_blacklisted(url: str):
 
 
 @cache
+def get_sources() -> list[str]:
+    with open("./source-names.json", "r", encoding="utf-8") as file:
+        return json.load(file)
+
+
 def get_source_name_from_cache(url: str) -> str | None:
     """
     Extract the source name from the URL
@@ -70,10 +75,7 @@ def get_source_name_from_cache(url: str) -> str | None:
     """
 
     try:
-        # Get file: source-names.json
-        with open("./source-names.json", "r", encoding="utf-8") as file:
-            source_names = json.load(file)
-
+        source_names = get_sources()
         if url not in source_names:
             return None
 
