@@ -9,7 +9,7 @@ import feedparser
 import yaml
 from loguru import logger
 
-from lib.env import IS_PRODUCTION
+from lib.env import is_dev_mode
 from lib.utils import shuffle_dict_keys
 
 YOUTUBE_RSS_BASE_URL = "https://www.youtube.com/feeds/videos.xml?channel_id="
@@ -28,7 +28,7 @@ def get_data_from_source(source: str) -> dict | None:
 
 @cache
 def get_rss_config() -> dict[str, dict[str, str | list[str]]]:
-    path = "./config.yaml" if IS_PRODUCTION else "./dev.config.yaml"
+    path = "./config.yaml" if not is_dev_mode() else "./dev.config.yaml"
 
     if not os.path.exists(path):
         logger.error(f"Config file not found at {path}")
