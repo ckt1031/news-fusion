@@ -14,9 +14,8 @@ from lib.prompts.merge.importance_summary import (
     ImportanceMergedSchema,
     news_importance_summary_merged_prompt,
 )
-from lib.rss import get_rss_config, parse_rss_feed
+from lib.rss import parse_rss_feed
 from lib.scraper import extract_website
-from lib.types import RSSEntity
 from lib.utils import optimize_text
 
 
@@ -80,11 +79,13 @@ def get_content_with_comments(url: str) -> str:
     return f"{article_content}\n{content}"
 
 
-async def handle_reddit(d: RSSEntity) -> dict | None:
-    category_config = get_rss_config()[d.category]
-    link, title = d.entry["link"], d.entry["title"]
-    guid = d.entry["id"] if "id" in d.entry else d.entry["link"]
-
+async def handle_reddit(
+    link: str,
+    title: str,
+    guid: str,
+    # entry: dict,
+    category_config: dict[str, str | bool | None],
+) -> dict | None:
     contents = get_content_with_comments(link)
 
     # Check importance

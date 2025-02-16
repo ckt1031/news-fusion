@@ -12,7 +12,6 @@ from lib.rss import (
     get_rss_config,
     parse_rss_feed,
 )
-from lib.types import RSSEntity
 from lib.utils import check_if_arg_exists, init_logger, is_site_blacklisted
 
 init_logger()
@@ -48,9 +47,9 @@ async def run_scraper():
 
     await Qdrant().create_collection()
 
-    for d in all_sources:
-        category_name = d["category"]
-        source = d["url"]
+    for source_config in all_sources:
+        category_name = source_config["category"]
+        source = source_config["url"]
         data = get_rss_config()[category_name]
 
         # Check if the source is allowed
@@ -72,13 +71,11 @@ async def run_scraper():
                     logger.debug(f"Checking {entry['link']} ({entry['title']})")
 
                     await handle_entry(
-                        RSSEntity(
-                            feed_title=feed["feed"]["title"],
-                            entry=entry,
-                            category=category_name,
-                            feed_url=source,
-                            source_config=d,
-                        )
+                        feed_title=feed["feed"]["title"],
+                        entry=entry,
+                        category=category_name,
+                        feed_url=source,
+                        source_config=source_config,
                     )
                 except Exception as e:
                     logger.error(f"Error ({entry['link']})")

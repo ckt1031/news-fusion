@@ -21,7 +21,6 @@ from lib.rss import (
     get_rss_config,
     parse_published_date,
 )
-from lib.types import RSSEntity
 from lib.utils import get_source_name_from_cache
 
 
@@ -63,11 +62,17 @@ def check_is_title_be_ignored(title: str, ignore_titles: list[str]) -> bool:
     return False
 
 
-async def handle_entry(d: RSSEntity) -> None:
+async def handle_entry(
+    feed_title: str,
+    feed_url: str,
+    entry: dict,
+    category: str,
+    source_config: dict,
+) -> None:
     # Check if the article is older than 24 hours
-    guid = d.entry["id"] if "id" in d.entry else d.entry["link"]
-    link, title = d.entry["link"], d.entry["title"]
-    published_parsed = parse_published_date(d.entry)  # struct_time
+    guid = entry["id"] if "id" in entry else entry["link"]
+    link, title = entry["link"], entry["title"]
+    published_parsed = parse_published_date(entry)  # struct_time
 
     # Handle dates, in UTC for uniformity
     now_date_utc = datetime.now(timezone.utc)
@@ -79,7 +84,7 @@ async def handle_entry(d: RSSEntity) -> None:
         logger.debug(f"Entry is older than 24 hours: {link}")
         return
 
-    if check_is_title_be_ignored(title, d.source_config["ignore_titles"]):
+    if check_is_title_be_ignored(title, source_config["ignore_titles"]):
         logger.debug(f"Entry is ignored: {link} ({title})")
         return
 
@@ -95,28 +100,46 @@ async def handle_entry(d: RSSEntity) -> None:
 
     logger.info(f"Checking entry: {link} ({title})")
 
-    category_config = get_rss_config()[d.category]
+    category_config = get_rss_config()[category]
 
     if "youtube.com" in urllib.parse.urlparse(link).netloc:
-        processed_data = await handle_youtube(d, category_config, published_date_utc)
-    if "reddit.com" in urllib.parse.urlparse(link).netloc:
-        processed_data = await handle_reddit(d)
+        processed_data = await handle_youtube(
+            link=link,
+            title=title,
+            guid=guid,
+            entry=entry,
+            category_config=category_config,
+            published_date_utc=published_date_utc,
+        )
+    elif "reddit.com" in urllib.parse.urlparse(link).netloc:
+        processed_data = await handle_reddit(
+            link=link,
+            title=title,
+            guid=guid,
+            category_config=category_config,
+        )
     else:
-        processed_data = await handle_article(d, category_config)
+        processed_data = await handle_article(
+            link=link,
+            title=title,
+            guid=guid,
+            entry=entry,
+            category_config=category_config,
+        )
 
     if processed_data is None:
         return
 
     image = processed_data["image"]
     generated_title_summary = processed_data["content"]
-    publisher = get_source_name_from_cache(d.feed_url) or d.feed_title
+    publisher = get_source_name_from_cache(feed_url) or feed_title
 
     # Database schema insertion
     data = Article(
         guid=guid,
         title=generated_title_summary.title,
         link=link,
-        category=d.category,
+        category=category,
         image=image,
         summary=generated_title_summary.summary,
         important=True,
@@ -137,18 +160,18 @@ async def handle_entry(d: RSSEntity) -> None:
         )
 
     # Re-categorize the article based on the content
-    if d.source_config["re_categorize"]:
+    if source_config["re_categorize"]:
         # Re-categorize the article
         new_category = await re_categorize(data)
 
-        if new_category != d.category and new_category is not None:
+        if new_category != category and new_category is not None:
             logger.success(f"Re-categorize: {link} -> {new_category}")
 
-            d.category = new_category
+            category = new_category
             data.category = new_category
 
-    # Get the updated category config
-    category_config = get_rss_config()[d.category]
+    # Get the UPDATED category config
+    category_config = get_rss_config()[category]
 
     # Save to Postgres
     await data.aio_save()

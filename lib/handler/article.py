@@ -19,7 +19,6 @@ from lib.prompts.title_summary import (
     comments_summary_additional_prompt,
 )
 from lib.scraper import extract_website
-from lib.types import RSSEntity
 from lib.utils import optimize_text
 
 
@@ -33,18 +32,18 @@ def handle_comment(comment_url: str, selector: str) -> str | None:
         return None
 
 
-def extract_rss_content(d: RSSEntity) -> str:
-    if "content" in d.entry:
-        return d.entry["content"][0]["value"]
+def extract_rss_content(entry: dict) -> str:
+    if "content" in entry:
+        return entry["content"][0]["value"]
 
-    return d.entry["summary"]
+    return entry["summary"]
 
 
-def extract_rss_image(d: RSSEntity) -> str | None:
-    if "media_thumbnail" in d.entry:
-        return d.entry["media_thumbnail"][0]["url"]
-    elif "media_content" in d.entry:
-        return d.entry["media_content"][0]["url"]
+def extract_rss_image(entry: dict) -> str | None:
+    if "media_thumbnail" in entry:
+        return entry["media_thumbnail"][0]["url"]
+    elif "media_content" in entry:
+        return entry["media_content"][0]["url"]
     return None
 
 
@@ -53,20 +52,21 @@ def str_list_to_points(lst: list[str]) -> str:
 
 
 async def handle_article(
-    d: RSSEntity,
+    link: str,
+    title: str,
+    guid: str,
+    entry: dict,
     category_config: dict[str, str | bool | None],
+    source_config: dict[str, str | bool | None],
 ) -> dict | None:
-    link, title = d.entry["link"], d.entry["title"]
-    guid = d.entry["id"] if "id" in d.entry else d.entry["link"]
-
-    if d.source_config["scrape_needed"]:
+    if source_config["scrape_needed"]:
         website_data = extract_website(link)
         site_text = website_data["raw_text"]
         image = website_data["image"]
     else:
-        site_text = extract_rss_content(d)
+        site_text = extract_rss_content(entry)
         site_text = html2text.html2text(site_text)
-        image = extract_rss_image(d)
+        image = extract_rss_image(entry)
 
     content = optimize_text(site_text).strip()
     content_token = count_tokens(content)
@@ -114,8 +114,8 @@ async def handle_article(
 
     # Scrape comments if available
     if is_forum:
-        if "comments" in d.entry and "comment_selector" in category_config:
-            comment_url = d.entry["comments"]  # RSS Tag
+        if "comments" in entry and "comment_selector" in category_config:
+            comment_url = entry["comments"]  # RSS Tag
             comment_selector = category_config["comment_selector"]  # Config
             comments = handle_comment(comment_url, comment_selector)
 

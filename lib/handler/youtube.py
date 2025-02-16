@@ -6,7 +6,6 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from lib.handler.utils import similarity_check, split_text_by_token
 from lib.openai_api import OpenAIAPI, count_tokens
 from lib.prompts import TitleSummarySchema, summary_prompt
-from lib.types import RSSEntity
 
 
 def get_youtube_id(link: str) -> str:
@@ -42,13 +41,14 @@ def get_transcript(link: str) -> str:
 
 
 async def handle_youtube(
-    d: RSSEntity,
+    link: str,
+    title: str,
+    guid: str,
+    entry: dict,
     category_config: dict[str, str | bool | None],
     published_date_utc: datetime,
 ) -> dict | None:
-    link, title = d.entry["link"], d.entry["title"]
-    guid = d.entry["id"] if "id" in d.entry else d.entry["link"]
-
+    transcript = get_transcript(link)
     transcript = get_transcript(link)
     transcript_token = count_tokens(transcript)
     reduced_transcript = transcript
@@ -82,7 +82,7 @@ async def handle_youtube(
     )
 
     # Obtain from feed
-    image = d.entry.get("media_thumbnail", [{}])[0].get("url", None)
+    image = entry.get("media_thumbnail", [{}])[0].get("url", None)
 
     return {
         "image": image,
