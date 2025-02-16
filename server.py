@@ -35,11 +35,6 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
 app = FastAPI(
     title="News Fusion",
     lifespan=lifespan,
-    servers=[
-        {
-            "url": get_env("SERVER_URL", "http://localhost:4782"),
-        }
-    ],
 )
 
 

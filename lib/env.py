@@ -1,10 +1,10 @@
 import os
-from functools import cache
 
-from dotenv import load_dotenv
+from dotenv import dotenv_values
 
 
-def check_is_development() -> bool:
+def is_dev_mode() -> bool:
+    # By default, we are in development mode
     if os.getenv("PRODUCTION") == "true":
         return False
 
@@ -15,13 +15,7 @@ def check_is_development() -> bool:
     return True
 
 
-IS_PRODUCTION = not check_is_development()
-
-load_dotenv(".env" if IS_PRODUCTION else ".dev.env")
-
-SERVER_URL = os.getenv("SERVER_URL")
-
-
-@cache
 def get_env(key: str, default=None) -> str:
-    return os.getenv(key, default)
+    config = dotenv_values(".dev.env" if is_dev_mode() else ".env")
+
+    return config.get(key, default)

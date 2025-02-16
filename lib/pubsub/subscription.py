@@ -1,13 +1,14 @@
 import httpx
 from loguru import logger
 
-from lib.env import SERVER_URL, get_env
+from lib.env import get_env
 from lib.rss import get_all_rss_sources
 
 PUBSUB_URL = "https://pubsubhubbub.appspot.com/"
 PUBSUB_HEADERS = {
     "Content-Type": "application/x-www-form-urlencoded",
 }
+SERVER_URL = get_env("SERVER_URL")
 
 
 async def send_pubsubhubbub_update(category: str):
