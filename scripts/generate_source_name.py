@@ -5,7 +5,7 @@ import os
 from loguru import logger
 from pydantic import BaseModel, Field
 
-from lib.openai_api import MessageBody, OpenAIAPI
+from lib.openai_api import OpenAIAPI
 from lib.rss import get_all_rss_sources
 from lib.utils import init_logger
 
@@ -56,17 +56,15 @@ async def generate_source_name():
             continue
 
         res = await openai_api.generate_schema(
-            MessageBody(
-                system="""
-                Generate the name of the URL given, it must be the name of the source.
-                URL can be RSS, but dont include RSS in the name.
-                theverge.com -> The Verge
-                bbc.com -> BBC
-                cnn.com -> CNN
-                """,
-                user=source,
-            ),
-            SourceName,
+            user_message=source,
+            system_message="""
+            Generate the name of the URL given, it must be the name of the source.
+            URL can be RSS, but dont include RSS in the name.
+            theverge.com -> The Verge
+            bbc.com -> BBC
+            cnn.com -> CNN
+            """,
+            schema=SourceName,
             model="gemini-1.5-flash-8b",
         )
 

@@ -7,7 +7,7 @@ from openai.types import CreateEmbeddingResponse
 
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.handler.utils import similarity_check, split_text_by_token
-from lib.openai_api import MessageBody, OpenAIAPI, count_tokens
+from lib.openai_api import OpenAIAPI, count_tokens
 from lib.prompts import summary_prompt
 from lib.prompts.merge.importance_summary import (
     ImportanceMergedSchema,
@@ -146,10 +146,8 @@ async def handle_article(
             sys_prompt += comments_summary_additional_prompt
 
         res = await openai_api.generate_schema(
-            MessageBody(
-                system=sys_prompt,
-                user=content_with_meta,
-            ),
+            user_message=content_with_meta,
+            system_message=sys_prompt,
             schema=ImportanceMergedSchema,
         )
 
@@ -171,13 +169,11 @@ async def handle_article(
 
     # Generate title and summary
     res = await openai_api.generate_schema(
-        MessageBody(
-            system=(
-                (summary_prompt + comments_summary_additional_prompt)
-                if comments
-                else summary_prompt
-            ),
-            user=content_with_meta,
+        user_message=content_with_meta,
+        system_message=(
+            summary_prompt + comments_summary_additional_prompt
+            if comments
+            else summary_prompt
         ),
         schema=TitleSummarySchema,
     )

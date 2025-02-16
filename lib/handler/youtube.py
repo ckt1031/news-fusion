@@ -4,7 +4,7 @@ from loguru import logger
 from youtube_transcript_api import YouTubeTranscriptApi
 
 from lib.handler.utils import similarity_check, split_text_by_token
-from lib.openai_api import MessageBody, OpenAIAPI, count_tokens
+from lib.openai_api import OpenAIAPI, count_tokens
 from lib.prompts import TitleSummarySchema, summary_prompt
 from lib.types import RSSEntity
 
@@ -76,10 +76,8 @@ async def handle_youtube(
     # Generate title and summary
     openai_api = OpenAIAPI()
     generated_title_summary = await openai_api.generate_schema(
-        MessageBody(
-            system=summary_prompt,
-            user=content_with_meta,
-        ),
+        user_message=content_with_meta,
+        system_message=summary_prompt,
         schema=TitleSummarySchema,
     )
 

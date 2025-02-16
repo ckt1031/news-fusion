@@ -1,6 +1,6 @@
 import asyncio
 
-from lib.openai_api import MessageBody, OpenAIAPI
+from lib.openai_api import OpenAIAPI
 from lib.prompts import NewsImportanceSchema, news_importance_prompt
 from lib.scraper import get_html_content
 
@@ -13,10 +13,8 @@ async def check_importance() -> None:
     # Use OpenAI to re-categorize the article
     openai_api = OpenAIAPI()
     res = await openai_api.generate_schema(
-        message=MessageBody(
-            system=news_importance_prompt,
-            user=content,
-        ),
+        user_message=content,
+        system_message=news_importance_prompt,
         schema=NewsImportanceSchema,
     )
 

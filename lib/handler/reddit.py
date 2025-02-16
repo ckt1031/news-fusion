@@ -8,7 +8,7 @@ from openai.types import CreateEmbeddingResponse
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.handler.article import str_list_to_points
 from lib.handler.utils import similarity_check
-from lib.openai_api import MessageBody, OpenAIAPI
+from lib.openai_api import OpenAIAPI
 from lib.prompts.extract_meta import ContentMetaExtraction, extract_content_meta_prompt
 from lib.prompts.merge.importance_summary import (
     ImportanceMergedSchema,
@@ -24,10 +24,8 @@ async def extract_url_contents(content: str) -> str:
     openai = OpenAIAPI()
 
     res = await openai.generate_schema(
-        message=MessageBody(
-            system=extract_content_meta_prompt,
-            user=content,
-        ),
+        user_message=content,
+        system_message=extract_content_meta_prompt,
         schema=ContentMetaExtraction,
     )
 
@@ -116,10 +114,8 @@ async def handle_reddit(d: RSSEntity) -> dict | None:
     )
 
     res = await openai_api.generate_schema(
-        MessageBody(
-            system=sys_prompt,
-            user=content_with_meta,
-        ),
+        user_message=content_with_meta,
+        system_message=sys_prompt,
         schema=ImportanceMergedSchema,
     )
 

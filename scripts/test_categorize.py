@@ -1,6 +1,6 @@
 import asyncio
 
-from lib.openai_api import MessageBody, OpenAIAPI
+from lib.openai_api import OpenAIAPI
 from lib.prompts.categorize import CategorizeSchema, categorize_prompt
 
 
@@ -14,10 +14,8 @@ async def re_categorize() -> None:
     # Use OpenAI to re-categorize the article
     openai_api = OpenAIAPI()
     res = await openai_api.generate_schema(
-        message=MessageBody(
-            system=categorize_prompt,
-            user=user_prompt,
-        ),
+        user_message=user_prompt,
+        system_message=categorize_prompt,
         schema=CategorizeSchema,
     )
 

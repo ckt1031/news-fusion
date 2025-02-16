@@ -14,7 +14,7 @@ from lib.handler.article import handle_article
 from lib.handler.reddit import handle_reddit
 from lib.handler.youtube import handle_youtube
 from lib.notifications.discord import send_discord
-from lib.openai_api import MessageBody, OpenAIAPI
+from lib.openai_api import OpenAIAPI
 from lib.prompts.categorize import CategorizeSchema, categorize_prompt
 from lib.rss import (
     get_categories_with_description,
@@ -47,10 +47,8 @@ async def re_categorize(article: Article) -> str | None:
     # Use OpenAI to re-categorize the article
     openai_api = OpenAIAPI()
     res = await openai_api.generate_schema(
-        message=MessageBody(
-            system=categorize_prompt,
-            user=user_prompt,
-        ),
+        user_message=user_prompt,
+        system_message=categorize_prompt,
         schema=CategorizeSchema,
     )
 
