@@ -125,6 +125,7 @@ async def handle_entry(
             guid=guid,
             entry=entry,
             category_config=category_config,
+            source_config=source_config,
         )
 
     if processed_data is None:
