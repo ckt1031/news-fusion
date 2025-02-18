@@ -64,6 +64,7 @@ async def handle_article(
         site_text = website_data["raw_text"]
         image = website_data["image"]
     else:
+        # We can use the RSS field instead of scraping
         site_text = extract_rss_content(entry)
         site_text = html2text.html2text(site_text)
         image = extract_rss_image(entry)

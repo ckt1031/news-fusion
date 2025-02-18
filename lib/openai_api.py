@@ -5,10 +5,12 @@ from openai.types import CreateEmbeddingResponse
 
 from lib.env import get_env
 
+TOKEN_ENCODER = "o200k_base"
+
 
 def count_tokens(text: str) -> int:
-    o200k_base = tiktoken.get_encoding("o200k_base")
-    return len(o200k_base.encode(text))
+    encoder = tiktoken.get_encoding(TOKEN_ENCODER)
+    return len(encoder.encode(text))
 
 
 class OpenAIAPI:

@@ -7,48 +7,13 @@ from openai.types import CreateEmbeddingResponse
 
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.handler.article import str_list_to_points
-from lib.handler.utils import similarity_check
+from lib.handler.utils import extract_url_contents, similarity_check
 from lib.openai_api import OpenAIAPI
-from lib.prompts.extract_meta import ContentMetaExtraction, extract_content_meta_prompt
 from lib.prompts.merge.importance_summary import (
     ImportanceMergedSchema,
     news_importance_summary_merged_prompt,
 )
 from lib.rss import parse_rss_feed
-from lib.scraper import extract_website
-from lib.utils import optimize_text
-
-
-async def extract_url_contents(content: str) -> str:
-    openai = OpenAIAPI()
-
-    res = await openai.generate_schema(
-        user_message=content,
-        system_message=extract_content_meta_prompt,
-        schema=ContentMetaExtraction,
-    )
-
-    article_urls = res.article_urls
-
-    if not article_urls:
-        return ""
-
-    return get_article_contents(article_urls)
-
-
-def get_article_contents(urls: list[str]) -> str:
-    c = ""
-
-    for url in urls:
-        try:
-            website_data = extract_website(url)
-            c += optimize_text(website_data["raw_text"]).strip()
-        except Exception as e:
-            logger.warning(f"Failed to fetch the article: {url}")
-            logger.error(e)
-            continue
-
-    return c
 
 
 def get_content_with_comments(url: str) -> str:

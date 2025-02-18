@@ -5,12 +5,17 @@ from loguru import logger
 
 from lib.db.qdrant import News, Qdrant
 from lib.db.redis_client import get_article_redis_key, redis_client
-from lib.openai_api import OpenAIAPI
+from lib.openai_api import TOKEN_ENCODER, OpenAIAPI
+from lib.prompts.extract_meta import ContentMetaExtraction, extract_content_meta_prompt
+from lib.scraper import extract_website
+from lib.utils import optimize_text
 
 
 def split_text_by_token(text: str, token_limit: int) -> list[str]:
     text_splitter = TokenTextSplitter.from_tiktoken_encoder(
-        encoding_name="o200k_base", chunk_size=token_limit, chunk_overlap=0
+        encoding_name=TOKEN_ENCODER,
+        chunk_size=token_limit,
+        chunk_overlap=0,
     )
     texts = text_splitter.split_text(text)
 
@@ -60,3 +65,35 @@ async def similarity_check(content: str, guid: str, link: str) -> dict | None:
             return {"similar": True}
 
     return {"similar": False, "content_embedding": content_embedding}
+
+
+async def extract_url_contents(content: str) -> str:
+    openai = OpenAIAPI()
+
+    res = await openai.generate_schema(
+        user_message=content,
+        system_message=extract_content_meta_prompt,
+        schema=ContentMetaExtraction,
+    )
+
+    article_urls = res.article_urls
+
+    if not article_urls:
+        return ""
+
+    return get_article_contents(article_urls)
+
+
+def get_article_contents(urls: list[str]) -> str:
+    c = ""
+
+    for url in urls:
+        try:
+            website_data = extract_website(url)
+            c += optimize_text(website_data["raw_text"]).strip()
+        except Exception as e:
+            logger.warning(f"Failed to fetch the article: {url}")
+            logger.error(e)
+            continue
+
+    return c
