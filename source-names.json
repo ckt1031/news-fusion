@@ -108,5 +108,10 @@
     "https://www.yahoo.com/news/rss/world/": "Yahoo",
     "https://abcnews.go.com/abcnews/internationalheadlines": "ABC News",
     "https://www.ft.com/world?format=rss": "The Financial Times",
-    "https://feeds.macrumors.com/MacRumors-All": "MacRumors"
+    "https://feeds.macrumors.com/MacRumors-All": "MacRumors",
+    "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=19854910": "CNBC",
+    "https://www.reddit.com/r/LocalLLaMA/.rss": "Reddit",
+    "https://www.reddit.com/r/ObsidianMD/.rss": "Reddit",
+    "https://obsidian.md/feed.xml": "Obsidian",
+    "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664": "CNBC"
 }
