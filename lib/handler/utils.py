@@ -44,7 +44,7 @@ async def similarity_check(content: str, guid: str, link: str) -> dict | None:
     )
 
     if similarities:
-        THRESHOLD = 0.80
+        THRESHOLD = 0.75
 
         above_75_and_different_host = [
             x
