@@ -9,12 +9,12 @@ from lib.browser import browser_allowed, browser_driver
 
 def parse_selector(selector: str, content: str) -> str:
     soup = BeautifulSoup(content, "html.parser")
-    s = soup.select_one(selector)
+    soup_element = soup.select_one(selector)
 
-    if s is None:
+    if soup_element is None:
         raise Exception(f"Failed to find the selector: {selector}")
 
-    return s.prettify()
+    return soup_element.prettify()
 
 
 def scrape_client_html(url: str) -> str:
