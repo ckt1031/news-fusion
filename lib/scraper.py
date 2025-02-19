@@ -17,37 +17,44 @@ def parse_selector(selector: str, content: str) -> str:
     return s.prettify()
 
 
+def scrape_client_html(url: str) -> str:
+    return trafilatura.fetch_url(url)
+
+
+def scrape_browser_html(url: str) -> str:
+    browser_driver.get(url)
+    browser_driver.implicitly_wait(3)
+
+    tab_title = browser_driver.title
+
+    if "just a moment" in tab_title.lower():
+        raise Exception("Cloudflare WAF CAPTCHA detected")
+
+    if "404" in tab_title or "not found" in tab_title.lower():
+        raise Exception("Page not found")
+
+    return browser_driver.page_source
+
+
 def get_html_content(link: str, selector: str | None = None) -> str:
-    try:
-        content = trafilatura.fetch_url(link)
+    methods = [
+        scrape_client_html,
+        scrape_browser_html if browser_allowed else None,
+    ]
 
-        if content is None:
-            raise Exception("Failed to fetch the website")
+    for method in methods:
+        if method is None:
+            continue
 
-        return parse_selector(selector, content) if selector else content
-    except Exception as e:
-        # Try using selenium if it has --selenium-fallback flag
-        if browser_allowed:
-            browser_driver.get(link)
-            browser_driver.implicitly_wait(3)
-
-            tab_title: str = browser_driver.title
-            content: str = browser_driver.page_source
-
-            if "just a moment" in tab_title.lower():
-                raise Exception("Cloudflare WAF CAPTCHA detected")
-
-            if "404" in tab_title or "not found" in tab_title.lower():
-                raise Exception("Page not found")
-
-            if content is None:
-                raise Exception("Failed to fetch via Selenium")
-
+        try:
+            content = method(link)
             return parse_selector(selector, content) if selector else content
+        except Exception as e:
+            logger.error(f"Failed to scrape: {link}")
+            logger.error(e)
+            continue
 
-        logger.error(f"Failed to fetch: {link}")
-        logger.error(e)
-        raise e
+    raise Exception("Failed to scrape")
 
 
 def extract_website(link: str, selector: str | None = None) -> dict:
