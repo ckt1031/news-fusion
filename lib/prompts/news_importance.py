@@ -38,6 +38,7 @@ Reject news that was not really important or satisfying the "Insignificant" sect
 ## Insignificant (Mark as false if any of the following)
 
 - Games
+- Expectations but not actual releases or announcements
 - Films, TV shows or music releases
 - IPO price
 - Tutorials like different Ways to do something:
