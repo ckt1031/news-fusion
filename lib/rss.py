@@ -54,18 +54,18 @@ def parse_rss_feed(url: str) -> dict:
 def get_categories_with_description() -> list[dict[str, str]]:
     rss_config = get_rss_config()
 
-    data = []
+    result = []
 
     for category, data in rss_config.items():
         if "description" in data:
-            data.append(
+            result.append(
                 {
                     "name": category,
                     "description": data["description"],
                 }
             )
 
-    return data
+    return result
 
 
 def get_all_rss_sources(shuffle: bool = False) -> Generator[dict, None, None]:
