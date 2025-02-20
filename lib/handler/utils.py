@@ -46,18 +46,18 @@ async def similarity_check(content: str, guid: str, link: str) -> dict | None:
     if similarities:
         THRESHOLD = 0.75
 
-        above_75_and_different_host = [
+        similarities_results = [
             x
             for x in similarities
             if x.score >= THRESHOLD and not host_same(link, x.payload["link"])
         ]
 
-        if len(above_75_and_different_host) > 0:
+        if len(similarities_results) > 0:
             # Set the key to Redis, expire in 96 hours, to avoid checking the same article again
             # EX in seconds: 96 hours * 60 minutes * 60 seconds
             await redis_client.set(article_cache_key, 1, ex=96 * 60 * 60)
 
-            for x in above_75_and_different_host:
+            for x in similarities_results:
                 logger.success(
                     f"Similar ({x.score * 100}%): {link} -> {x.payload['link']}"
                 )
@@ -67,7 +67,7 @@ async def similarity_check(content: str, guid: str, link: str) -> dict | None:
     return {"similar": False, "content_embedding": content_embedding}
 
 
-async def extract_url_contents(content: str) -> str:
+async def extract_url_contents(content: str) -> str | None:
     openai = OpenAIAPI()
 
     res = await openai.generate_schema(
@@ -79,7 +79,7 @@ async def extract_url_contents(content: str) -> str:
     article_urls = res.article_urls
 
     if not article_urls:
-        return ""
+        return None
 
     return get_article_contents(article_urls)
 

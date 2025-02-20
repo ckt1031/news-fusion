@@ -44,8 +44,7 @@ async def re_categorize(article: Article) -> str | None:
     categories = [x["name"] for x in get_categories_with_description()]
 
     # Use OpenAI to re-categorize the article
-    openai_api = OpenAIAPI()
-    res = await openai_api.generate_schema(
+    res = await OpenAIAPI().generate_schema(
         user_message=user_prompt,
         system_message=categorize_prompt,
         schema=CategorizeSchema,
@@ -55,11 +54,12 @@ async def re_categorize(article: Article) -> str | None:
 
 
 def check_is_title_be_ignored(title: str, ignore_titles: list[str]) -> bool:
-    for ignore_title in ignore_titles:
-        if ignore_title.lower() in title.lower():
-            return True
+    # If the ignore_titles is empty, return False
+    if len(ignore_titles) == 0:
+        return False
 
-    return False
+    # Check if the title is in the ignore_titles
+    return len([x for x in ignore_titles if x.lower() in title.lower()]) > 0
 
 
 async def handle_entry(
@@ -151,9 +151,8 @@ async def handle_entry(
     # Check if the article is already in the database
     similarity_check = category_config.get("similarity_check", True)
     if "embedding" in processed_data and similarity_check:
-        qdrant = Qdrant()
         # Save to VectorDB
-        await qdrant.insert_news(
+        await Qdrant().insert_news(
             News(
                 content_embedding=processed_data["embedding"],
                 link=link,

@@ -16,18 +16,23 @@ from lib.prompts.merge.importance_summary import (
 from lib.rss import parse_rss_feed
 
 
-def get_content_with_comments(url: str) -> str:
+async def get_reddit_content_with_comments(url: str) -> str | None:
     feed_url = url + ".rss"
 
     feed_data = parse_rss_feed(feed_url)
 
     if not feed_data or len(feed_data.entries) == 0:
-        logger.info("No new entries found")
-        return ""
+        logger.warning(f"No content found for {url}")
+        return None
 
     content = ""
 
     is_first = True
+
+    # If the only 1 entry, means that the post has no comments
+    if len(feed_data.entries) == 1:
+        logger.warning(f"No comments found for {url}")
+        return None
 
     for entry in feed_data.entries:
         summary = html2text.html2text(entry.summary)
@@ -39,7 +44,11 @@ def get_content_with_comments(url: str) -> str:
 
         content += f"{summary}\n"
 
-    article_content = extract_url_contents(content)
+    article_content = await extract_url_contents(content)
+
+    if article_content is None:
+        # If the article content is not found, return the content without the article content
+        return content
 
     return f"{article_content}\n{content}"
 
@@ -48,16 +57,16 @@ async def handle_reddit(
     link: str,
     title: str,
     guid: str,
-    # entry: dict,
     category_config: dict[str, str | bool | None],
 ) -> dict | None:
-    contents = get_content_with_comments(link)
+    contents = await get_reddit_content_with_comments(link)
+
+    if contents is None:
+        return None
 
     # Check importance
     today_date_str = datetime.now().strftime("%Y-%m-%d")
     content_with_meta = f"Title: {title}\nDate: {today_date_str}\nContent: {contents}"
-
-    openai_api = OpenAIAPI()
 
     sc = await similarity_check(contents, guid, link)
 
@@ -79,7 +88,7 @@ async def handle_reddit(
         },
     )
 
-    res = await openai_api.generate_schema(
+    res = await OpenAIAPI().generate_schema(
         user_message=content_with_meta,
         system_message=sys_prompt,
         schema=ImportanceMergedSchema,

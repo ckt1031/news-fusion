@@ -71,7 +71,9 @@ async def handle_article(
 
     content = optimize_text(site_text).strip()
     content_token = count_tokens(content)
-    reduced_content = content
+
+    # Copy the content to the reduced_content
+    reduced_content = str(content)
 
     # If the content is extremely long, reduce it
     if content_token > 20000:
@@ -91,8 +93,6 @@ async def handle_article(
         reduced_content = texts[0]
 
     content_embedding: CreateEmbeddingResponse | None = None
-
-    openai_api = OpenAIAPI()
 
     # Cache key for quick redis checking without accessing the database
     article_cache_key = get_article_redis_key(guid)
@@ -123,6 +123,8 @@ async def handle_article(
             if comments:
                 # Add comments to the text
                 content_with_meta += f"\nComments: {comments}"
+
+    openai_api = OpenAIAPI()
 
     if category_config.get("importance_check", True):
         sys_prompt = (
