@@ -3,7 +3,6 @@ from typing import List
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse, Response
-from fastapi_cache import Coder
 from fastapi_cache.decorator import cache
 from fastapi_limiter.depends import RateLimiter
 from feedgen.feed import FeedGenerator
@@ -11,9 +10,9 @@ from feedgen.feed import FeedGenerator
 from lib.db.postgres import Article
 from lib.env import get_env
 from lib.rss import get_rss_config
+from web.routes.utils import XMLResponseCoder, get_example_atom
 
 feed_router = APIRouter()
-CUSTOM_SERVER_URL = get_env("SERVER_URL")
 
 
 async def get_feed(request: Request, category: str, date: str | None = None):
@@ -24,7 +23,8 @@ async def get_feed(request: Request, category: str, date: str | None = None):
 
     # Overwrite the SERVER_URL if it is not None
     request_base = str(request.base_url)
-    server_url = request_base if CUSTOM_SERVER_URL is None else CUSTOM_SERVER_URL
+    custom_server_url = get_env("SERVER_URL")
+    server_url = request_base if custom_server_url is None else custom_server_url
 
     category_name = rss_config[category]["name"]
 
@@ -33,11 +33,17 @@ async def get_feed(request: Request, category: str, date: str | None = None):
     fg = FeedGenerator()
     fg.title(f"News Fusion - {category_name}")
 
+    if date:
+        fg.description(
+            f"Integrated news related to {category_name} specifically on {date}"
+        )
+    else:
+        fg.description(f"Integrated news related to {category_name}")
+
     feed_url = f"{server_url}feed/{category}"
     fg.link(href=feed_url, rel="self")
     fg.id(feed_url)
-
-    fg.load_extension("media")
+    fg.load_extension("media")  # Enable media extension for media content
 
     condition = (Article.category == category) & (
         Article.important == True  # noqa: E712
@@ -89,24 +95,6 @@ async def get_feed(request: Request, category: str, date: str | None = None):
     return fg
 
 
-class XMLResponseCoder(Coder):
-    @classmethod
-    def encode(cls, value: Response) -> bytes:
-        return value.body
-
-    @classmethod
-    def decode(cls, value: bytes) -> Response:
-        value_str = value.decode("utf-8")
-        return Response(
-            content=value,
-            media_type=(
-                "application/xml"
-                if value_str.startswith("<?xml")
-                else "application/json"
-            ),
-        )
-
-
 @feed_router.get(
     "/categories",
     summary="Get available feed categories",
@@ -141,21 +129,7 @@ async def categories() -> Response:
         200: {
             "content": {
                 "application/xml": {
-                    "example": """<feed xmlns="http://www.w3.org/2005/Atom">
-    <title>News Fusion - World</title>
-    <link href="https://example.com/feed/world" rel="self"/>
-    <id>https://example.com/feed/world</id>
-    <entry>
-        <id>https://example.com/article/1</id>
-        <title>Article 1</title>
-        <link href="https://example.com/article/1" rel="alternate"/>
-        <author>
-            <name>Author</name>
-        </author>
-        <summary>Summary</summary>
-        <updated>2021-10-01T00:00:00Z</updated>
-    </entry>
-</feed>""",
+                    "example": get_example_atom(),
                     "schema": {
                         "type": "object",
                         "format": "xml",
