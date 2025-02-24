@@ -11,10 +11,11 @@ from lib.utils import init_logger
 init_logger()
 
 
+exceed_30d_date = datetime.now() - timedelta(days=30)
+
+
 async def deleteOldQdrantCollection():
     qdrant = Qdrant()
-
-    exceed_date = datetime.now() - timedelta(days=30)
 
     await qdrant.delete(
         models.Filter(
@@ -26,7 +27,7 @@ async def deleteOldQdrantCollection():
                 models.FieldCondition(
                     key="date",
                     range=models.DatetimeRange(
-                        lte=exceed_date,
+                        lte=exceed_30d_date,
                     ),
                 )
             ]
@@ -35,10 +36,8 @@ async def deleteOldQdrantCollection():
 
 
 async def remove_expired_articles():
-    exceed_date = datetime.now() - timedelta(days=30)
-
-    # ALL
-    await Article.delete().where(Article.created_at <= exceed_date).aio_execute()
+    # Remove all entries older than 30 days
+    await Article.delete().where(Article.created_at <= exceed_30d_date).aio_execute()
 
     logger.success("All articles saved for more than 30 days removed")
 
