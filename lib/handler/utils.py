@@ -85,15 +85,15 @@ async def extract_url_contents(content: str) -> str | None:
 
 
 def get_article_contents(urls: list[str]) -> str:
-    c = ""
+    content = ""
 
     for url in urls:
         try:
             website_data = extract_website(url)
-            c += optimize_text(website_data["raw_text"]).strip()
+            content += optimize_text(website_data["raw_text"]).strip()
         except Exception as e:
             logger.warning(f"Failed to fetch the article: {url}")
             logger.error(e)
             continue
 
-    return c
+    return content

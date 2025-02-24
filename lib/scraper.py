@@ -1,5 +1,6 @@
 import json
 
+import requests
 import trafilatura
 from bs4 import BeautifulSoup
 from loguru import logger
@@ -21,6 +22,16 @@ def scrape_client_html(url: str) -> str:
     return trafilatura.fetch_url(url)
 
 
+def scrape_jina_ai(url: str) -> str:
+    api_url = f"https://r.jina.ai/{url}"
+
+    headers = {"X-Return-Format": "html"}
+
+    res = requests.get(api_url, headers=headers)
+    res.raise_for_status()
+    return res.text
+
+
 def scrape_browser_html(url: str) -> str:
     browser_driver.get(url)
     browser_driver.implicitly_wait(3)
@@ -39,14 +50,15 @@ def scrape_browser_html(url: str) -> str:
 def get_html_content(link: str, selector: str | None = None) -> str:
     methods = [
         scrape_client_html,
+        scrape_jina_ai,
         scrape_browser_html if browser_allowed else None,
     ]
 
     for method in methods:
-        if method is None:
-            continue
-
         try:
+            if method is None:
+                continue
+
             content = method(link)
             return parse_selector(selector, content) if selector else content
         except Exception as e:

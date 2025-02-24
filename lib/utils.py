@@ -51,13 +51,11 @@ def optimize_text(text: str) -> str:
 
 
 def check_if_arg_exists(arg: str) -> bool:
-    sys_arg = sys.argv
-
-    return arg in sys_arg
+    return arg in sys.argv
 
 
+# Check host
 def is_site_blacklisted(url: str):
-    # Check host
     return urlparse(url).netloc in BLOCKED_HOST
 
 
@@ -69,8 +67,8 @@ def get_sources() -> list[str]:
 
 def get_source_name_from_cache(url: str) -> str | None:
     """
-    Extract the source name from the URL
-    :param url: The URL
+    Extract the source name
+    :param url
     :return: The source name
     """
 

@@ -71,7 +71,7 @@ async def handle_reddit(
     sc = await similarity_check(contents, guid, link)
 
     if sc["similar"]:
-        # Check if the article is already checked in the similarity check
+        # Reject if the Reddit post is similar to entry in database
         return None
 
     content_embedding: CreateEmbeddingResponse = sc["content_embedding"]
