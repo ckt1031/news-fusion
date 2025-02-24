@@ -3,6 +3,7 @@ import traceback
 
 from loguru import logger
 
+from lib.browser import close_browser
 from lib.db.postgres import close_db
 from lib.db.qdrant import Qdrant
 from lib.handler.entry import handle_entry
@@ -90,3 +91,4 @@ async def run_scraper():
 if __name__ == "__main__":
     asyncio.run(run_scraper())
     close_db()
+    close_browser()

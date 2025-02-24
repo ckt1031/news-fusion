@@ -28,8 +28,6 @@ async def get_feed(request: Request, category: str, date: str | None = None):
 
     category_name = rss_config[category]["name"]
 
-    IMAGE_PROXY = get_env("IMAGE_PROXY_URL", "")
-
     fg = FeedGenerator()
     fg.title(f"News Fusion - {category_name}")
 
@@ -84,7 +82,7 @@ async def get_feed(request: Request, category: str, date: str | None = None):
         if result.image:
             fe.media.content(
                 {
-                    "url": f"{IMAGE_PROXY}{result.image}",
+                    "url": result.image,
                     "medium": "image",
                 }
             )

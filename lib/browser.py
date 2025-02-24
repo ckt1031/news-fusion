@@ -8,3 +8,8 @@ browser_allowed = check_if_arg_exists("--selenium-fallback")
 
 if browser_allowed:
     browser_driver = uc.Chrome(headless=False, use_subprocess=True)
+
+
+def close_browser():
+    if browser_driver and browser_allowed:
+        browser_driver.quit()
