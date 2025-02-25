@@ -1,3 +1,4 @@
+import re
 from datetime import datetime, timezone
 from typing import List
 
@@ -6,6 +7,7 @@ from fastapi.responses import JSONResponse, Response
 from fastapi_cache.decorator import cache
 from fastapi_limiter.depends import RateLimiter
 from feedgen.feed import FeedGenerator
+from loguru import logger
 
 from lib.db.postgres import Article
 from lib.env import get_env
@@ -47,8 +49,9 @@ async def get_feed(request: Request, category: str, date: str | None = None):
         Article.important == True  # noqa: E712
     )
 
-    # Date YYYY-MM-DD or ISO format, so it must be at least 10 characters
-    if date and len(date) >= 10:
+    # Use Regex to check if the category is in the category list
+    # Date YYYY-MM-DD
+    if date and re.match(r"^\d{4}-\d{2}-\d{2}$", date):
         try:
             # Parse date
             date = datetime.fromisoformat(date)
@@ -61,7 +64,7 @@ async def get_feed(request: Request, category: str, date: str | None = None):
             )
         except ValueError:
             # If date is not in ISO format, just skip
-            pass
+            logger.debug(f"Invalid date: {date}")
 
     results = (
         await Article.select()

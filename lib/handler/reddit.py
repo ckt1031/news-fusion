@@ -14,14 +14,13 @@ from lib.prompts.merge.importance_summary import (
     news_importance_summary_merged_prompt,
 )
 from lib.rss import parse_rss_feed
+from lib.utils import optimize_text
 
 
 async def get_reddit_content_with_comments(url: str) -> str | None:
-    feed_url = url + ".rss"
+    feed_data = parse_rss_feed(url + ".rss")
 
-    feed_data = parse_rss_feed(feed_url)
-
-    if not feed_data or len(feed_data.entries) == 0:
+    if not feed_data or len(feed_data.entries) <= 1:
         logger.warning(f"No content found for {url}")
         return None
 
@@ -29,28 +28,25 @@ async def get_reddit_content_with_comments(url: str) -> str | None:
 
     is_first = True
 
-    # If the only 1 entry, means that the post has no comments
-    if len(feed_data.entries) == 1:
-        logger.warning(f"No comments found for {url}")
-        return None
-
     for entry in feed_data.entries:
-        summary = html2text.html2text(entry.summary)
+        summary = html2text.html2text(entry.summary).strip()
+        summary = optimize_text(summary)
 
         if is_first:
-            content += f"Post: {entry.title}\nComment: "
+            # The first entry is the original post content
+            content += f"Reddit Post: {entry.title}\nContent: {summary}\n\nComments:\n"
             is_first = False
             continue
 
-        content += f"{summary}\n"
+        content += f"- {summary}\n"
 
     article_content = await extract_url_contents(content)
 
-    if article_content is None:
+    if article_content is None or len(article_content) == 0:
         # If the article content is not found, return the content without the article content
         return content
 
-    return f"{article_content}\n{content}"
+    return f"{content}\n\nArticle Contents:\n\n{article_content}"
 
 
 async def handle_reddit(
@@ -63,10 +59,6 @@ async def handle_reddit(
 
     if contents is None:
         return None
-
-    # Check importance
-    today_date_str = datetime.now().strftime("%Y-%m-%d")
-    content_with_meta = f"Title: {title}\nDate: {today_date_str}\nContent: {contents}"
 
     sc = await similarity_check(contents, guid, link)
 
@@ -87,6 +79,10 @@ async def handle_reddit(
             ),
         },
     )
+
+    # Check importance
+    today_date_str = datetime.now().strftime("%Y-%m-%d")
+    content_with_meta = f"Title: {title}\nDate: {today_date_str}\nContent: {contents}"
 
     res = await OpenAIAPI().generate_schema(
         user_message=content_with_meta,

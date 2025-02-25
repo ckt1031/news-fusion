@@ -1,6 +1,5 @@
 import random
 import time
-import urllib.parse
 from asyncio import sleep
 from datetime import datetime, timezone
 
@@ -21,7 +20,7 @@ from lib.rss import (
     get_rss_config,
     parse_published_date,
 )
-from lib.utils import get_source_name_from_cache
+from lib.utils import get_host_from_url, get_source_name_from_cache
 
 
 async def is_entry_checked(guid: str, link: str, title: str) -> bool:
@@ -32,10 +31,11 @@ async def is_entry_checked(guid: str, link: str, title: str) -> bool:
     if redis_exist:
         return True
 
-    d = await Article.aio_get_or_none(
+    result = await Article.aio_get_or_none(
         (Article.guid == guid) | (Article.link == link) | (Article.title == title)
     )
-    return d is not None
+
+    return result is not None
 
 
 async def re_categorize(article: Article) -> str | None:
@@ -102,7 +102,7 @@ async def handle_entry(
 
     category_config = get_rss_config()[category]
 
-    if "youtube.com" in urllib.parse.urlparse(link).netloc:
+    if "youtube.com" in get_host_from_url(link):
         processed_data = await handle_youtube(
             link=link,
             title=title,
@@ -111,7 +111,7 @@ async def handle_entry(
             category_config=category_config,
             published_date_utc=published_date_utc,
         )
-    elif "reddit.com" in urllib.parse.urlparse(link).netloc:
+    elif "reddit.com" in get_host_from_url(link):
         processed_data = await handle_reddit(
             link=link,
             title=title,
@@ -154,21 +154,21 @@ async def handle_entry(
         # Save to VectorDB
         await Qdrant().insert_news(
             News(
-                content_embedding=processed_data["embedding"],
                 link=link,
+                content_embedding=processed_data["embedding"],
             )
         )
 
     # Re-categorize the article based on the content
     if source_config["re_categorize"]:
         # Re-categorize the article
-        new_category = await re_categorize(data)
+        new_category_name = await re_categorize(data)
 
-        if new_category != category and new_category is not None:
-            logger.success(f"Re-categorize: {link} -> {new_category}")
+        if new_category_name != category and new_category_name is not None:
+            logger.success(f"Re-categorize: {link} -> {new_category_name}")
 
-            category = new_category
-            data.category = new_category
+            category = new_category_name
+            data.category = new_category_name
 
     # Get the UPDATED category config
     category_config = get_rss_config()[category]
@@ -181,9 +181,9 @@ async def handle_entry(
     await redis_client.set(article_cache_key, 1, ex=72 * 60 * 60)
 
     # Send to Discord
-    discord_channel_id: str | None = category_config.get("discord_channel_id")
+    discord_channel_id: str | None = category_config.get("discord_channel_id", "")
 
-    if discord_channel_id is not None and len(discord_channel_id) > 0:
+    if len(discord_channel_id) > 0:
         embed = {
             "url": data.link,
             "title": data.title,
@@ -191,7 +191,7 @@ async def handle_entry(
             "footer": {"text": data.publisher},
         }
 
-        if data.image and data.image.startswith("https") and validators.url(data.image):
+        if data.image and validators.url(data.image):
             embed["thumbnail"] = {"url": data.image}
 
         await send_discord(

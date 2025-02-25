@@ -1,14 +1,13 @@
-import urllib.parse
-
 from langchain_text_splitters import TokenTextSplitter
 from loguru import logger
 
+from lib.config import SIMILARITY_THRESHOLD
 from lib.db.qdrant import News, Qdrant
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.openai_api import TOKEN_ENCODER, OpenAIAPI
 from lib.prompts.extract_meta import ContentMetaExtraction, extract_content_meta_prompt
 from lib.scraper import extract_website
-from lib.utils import optimize_text
+from lib.utils import get_host_from_url, optimize_text
 
 
 def split_text_by_token(text: str, token_limit: int) -> list[str]:
@@ -17,26 +16,22 @@ def split_text_by_token(text: str, token_limit: int) -> list[str]:
         chunk_size=token_limit,
         chunk_overlap=0,
     )
-    texts = text_splitter.split_text(text)
-
-    return texts
+    return text_splitter.split_text(text)
 
 
-def host_same(link: str, link2: str) -> bool:
-    return urllib.parse.urlparse(link).netloc == urllib.parse.urlparse(link2).netloc
+def host_same(link: str, second_link: str) -> bool:
+    return get_host_from_url(link) == get_host_from_url(second_link)
 
 
-async def similarity_check(content: str, guid: str, link: str) -> dict | None:
-    qdrant = Qdrant()
-    openai_api = OpenAIAPI()
-
+async def similarity_check(content: str, guid: str, link: str) -> dict:
     article_cache_key = get_article_redis_key(guid)
 
-    content_embedding = await openai_api.generate_embeddings(content)
+    # TODO Split and process if the content is longer than 8000 tokens
+    content_embedding = await OpenAIAPI().generate_embeddings(content)
 
     # Check if the article is similar to any other article in the database to remove duplicates
     # If it is, skip it
-    similarities = await qdrant.find_out_similar_news(
+    similarities = await Qdrant().find_out_similar_news(
         News(
             link=link,
             content_embedding=content_embedding,
@@ -44,12 +39,12 @@ async def similarity_check(content: str, guid: str, link: str) -> dict | None:
     )
 
     if similarities:
-        THRESHOLD = 0.75
-
+        # Find out the most similar article
         similarities_results = [
             x
             for x in similarities
-            if x.score >= THRESHOLD and not host_same(link, x.payload["link"])
+            if x.score >= SIMILARITY_THRESHOLD
+            and not host_same(link, x.payload["link"])
         ]
 
         if len(similarities_results) > 0:
@@ -68,20 +63,13 @@ async def similarity_check(content: str, guid: str, link: str) -> dict | None:
 
 
 async def extract_url_contents(content: str) -> str | None:
-    openai = OpenAIAPI()
-
-    res = await openai.generate_schema(
+    res = await OpenAIAPI().generate_schema(
         user_message=content,
         system_message=extract_content_meta_prompt,
         schema=ContentMetaExtraction,
     )
 
-    article_urls = res.article_urls
-
-    if not article_urls:
-        return None
-
-    return get_article_contents(article_urls)
+    return get_article_contents(res.article_urls) if res.article_urls else None
 
 
 def get_article_contents(urls: list[str]) -> str:
