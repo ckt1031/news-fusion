@@ -80,7 +80,7 @@ async def handle_entry(
     timestamp = time.mktime(published_parsed)
     published_date_utc = datetime.fromtimestamp(timestamp, tz=timezone.utc)
 
-    if (now_date_utc - published_date_utc).days > 1:
+    if (now_date_utc - published_date_utc).hours > 24:
         logger.debug(f"Entry is older than 24 hours: {link}")
         return
 
