@@ -7,7 +7,7 @@ import validators
 from loguru import logger
 
 from lib.db.postgres import Article
-from lib.db.qdrant import News, Qdrant
+from lib.db.qdrant import Qdrant
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.handler.article import handle_article
 from lib.handler.reddit import handle_reddit
@@ -80,7 +80,7 @@ async def handle_entry(
     timestamp = time.mktime(published_parsed)
     published_date_utc = datetime.fromtimestamp(timestamp, tz=timezone.utc)
 
-    if (now_date_utc - published_date_utc).hours > 24:
+    if (now_date_utc - published_date_utc).days > 1:
         logger.debug(f"Entry is older than 24 hours: {link}")
         return
 
