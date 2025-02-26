@@ -153,10 +153,8 @@ async def handle_entry(
     if "embedding" in processed_data and similarity_check:
         # Save to VectorDB
         await Qdrant().insert_news(
-            News(
-                link=link,
-                content_embedding=processed_data["embedding"],
-            )
+            link=link,
+            content_embedding=processed_data["embedding"],
         )
 
     # Re-categorize the article based on the content

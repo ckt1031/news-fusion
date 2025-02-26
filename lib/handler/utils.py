@@ -31,12 +31,7 @@ async def similarity_check(content: str, guid: str, link: str) -> dict:
 
     # Check if the article is similar to any other article in the database to remove duplicates
     # If it is, skip it
-    similarities = await Qdrant().find_out_similar_news(
-        News(
-            link=link,
-            content_embedding=content_embedding,
-        )
-    )
+    similarities = await Qdrant().find_out_similar_news(content_embedding)
 
     if similarities:
         # Find out the most similar article

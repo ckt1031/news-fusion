@@ -14,16 +14,6 @@ QDRANT_CONNECTION_STRING = get_env("QDRANT_CONNECTION_STRING")
 QDRANT_API_KEY = get_env("QDRANT_API_KEY")
 
 
-class News:
-    def __init__(
-        self,
-        content_embedding: openai.types.CreateEmbeddingResponse,
-        link: str,
-    ):
-        self.content_embedding = content_embedding
-        self.link = link
-
-
 class Qdrant:
     def __init__(self):
         if not QDRANT_CONNECTION_STRING:
@@ -42,7 +32,9 @@ class Qdrant:
         await self.client.create_collection(
             collection_name=self.collection_name,
             vectors_config=VectorParams(
-                size=EMBEDDING_SIZE, distance=Distance.COSINE, on_disk=True
+                size=EMBEDDING_SIZE,
+                distance=Distance.COSINE,
+                on_disk=True,
             ),
             hnsw_config=HnswConfigDiff(
                 m=64,
@@ -58,10 +50,10 @@ class Qdrant:
 
         logger.success(f"Collection {self.collection_name} created")
 
-    async def find_out_similar_news(self, news: News):
+    async def find_out_similar_news(self, content_embedding: list[float]):
         result = await self.client.query_points(
             collection_name=self.collection_name,
-            query=news.content_embedding.data[0].embedding,
+            query=content_embedding,
             with_vectors=False,
             with_payload=True,
             limit=5,
@@ -81,15 +73,15 @@ class Qdrant:
             points_selector=filter,
         )
 
-    async def insert_news(self, news: News):
+    async def insert_news(self, content_embedding: list[float], link: str):
         idx = uuid4().hex
 
         points = [
             PointStruct(
                 id=idx,
-                vector=news.content_embedding.data[0].embedding,
+                vector=content_embedding,
                 payload={
-                    "link": news.link,
+                    "link": link,
                     "created_at": datetime.now(tz=timezone.utc),
                 },
             )
