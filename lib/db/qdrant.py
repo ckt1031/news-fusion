@@ -56,16 +56,12 @@ class Qdrant:
             query=content_embedding,
             with_vectors=False,
             with_payload=True,
-            limit=5,
-            # search_params=SearchParams(hnsw_ef=512, exact=False),
+            limit=3,
+            search_params=models.SearchParams(hnsw_ef=512, exact=False),
         )
 
-        points = result.points
-
-        # sort score in descending order
-        points = sorted(points, key=lambda x: x.score, reverse=True)
-
-        return points
+        # sort score in descending order, the highest score is the most similar
+        return sorted(result.points, key=lambda x: x.score, reverse=True)
 
     async def delete(self, filter: models.Filter):
         await self.client.delete(
@@ -74,11 +70,9 @@ class Qdrant:
         )
 
     async def insert_news(self, content_embedding: list[float], link: str):
-        idx = uuid4().hex
-
         points = [
             PointStruct(
-                id=idx,
+                id=uuid4().hex,
                 vector=content_embedding,
                 payload={
                     "link": link,
