@@ -50,10 +50,10 @@ class Qdrant:
 
         logger.success(f"Collection {self.collection_name} created")
 
-    async def find_out_similar_news(self, content_embedding: list[float]):
+    async def find_out_similar_news(self, content_embedding: openai.types.CreateEmbeddingResponse):
         result = await self.client.query_points(
             collection_name=self.collection_name,
-            query=content_embedding,
+            query=content_embedding.data[0].embedding,
             with_vectors=False,
             with_payload=True,
             limit=3,
@@ -69,11 +69,11 @@ class Qdrant:
             points_selector=filter,
         )
 
-    async def insert_news(self, content_embedding: list[float], link: str):
+    async def insert_news(self, content_embedding: openai.types.CreateEmbeddingResponse, link: str):
         points = [
             PointStruct(
                 id=uuid4().hex,
-                vector=content_embedding,
+                vector=content_embedding.data[0].embedding,
                 payload={
                     "link": link,
                     "created_at": datetime.now(tz=timezone.utc),
