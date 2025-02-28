@@ -44,7 +44,7 @@ def is_source_allowed(data: dict, source: str):
 async def run_scraper():
     logger.success("Running News Fusion auto scraping service...")
 
-    all_sources = get_all_rss_sources(shuffle=True)
+    all_sources = get_all_rss_sources()
 
     await Qdrant().create_collection()
 
