@@ -19,7 +19,7 @@ class XMLResponseCoder(Coder):
             media_type=(
                 "application/xml"
                 if value_str.startswith("<?xml")
-                else "application/json"  # Still support JSON as erorr message is JSON type
+                else "application/json"  # Still support JSON as error message is JSON type
             ),
         )
 

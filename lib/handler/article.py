@@ -136,11 +136,11 @@ async def handle_article(
         sys_prompt = chevron.render(
             sys_prompt,
             {
-                "accept_news_criterias": str_list_to_points(
-                    category_config.get("accept_news_criterias", [])
+                "accept_news_criteria": str_list_to_points(
+                    category_config.get("accept_news_criteria", [])
                 ),
-                "reject_news_criterias": str_list_to_points(
-                    category_config.get("reject_news_criterias", [])
+                "reject_news_criteria": str_list_to_points(
+                    category_config.get("reject_news_criteria", [])
                 ),
             },
         )

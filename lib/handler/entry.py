@@ -178,7 +178,7 @@ async def handle_entry(
     article_cache_key = get_article_redis_key(guid)
     await redis_client.set(article_cache_key, 1, ex=72 * 60 * 60)
 
-    # Send to Discord
+    # Send notification to Discord
     discord_channel_id: str | None = category_config.get("discord_channel_id", "")
 
     if len(discord_channel_id) > 0:

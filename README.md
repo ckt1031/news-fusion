@@ -11,7 +11,7 @@ Demo: [https://news-fusion.tsun1031.xyz](https://news-fusion.tsun1031.xyz) ([Ope
 - Automatically fetch news from multiple sources
 - AI generated title and summary
 - RSS feed for easy viewing, compatible with any RSS reader
-- Duplicate detection to reduce the noise thanks to vector database
+- Duplicate detection to reduce the noise by using the vector database
 
 ## Deployment
 
@@ -69,13 +69,13 @@ With AI generated title and summary in the feed items to reduce the noise.
 RSS feed is good, but if you have subscribed to massive sources with same topics, it will be overwhelming with
 duplicates.
 
-Moreover, the provided articles can be un-important or not interesting to person.
+Moreover, the provided articles can be unimportant or not interesting to person.
 
 This project aims to reduce the noise and provide the most important news to the user.
 
-### Why we only offer RSS feed instead of making a web interface?
+### Why do we only offer RSS feed instead of making a web interface?
 
-RSS feed is compatible with any RSS reader, and it is easy to integrate with other services.
+RSS feed is compatible with any RSS reader, and it is straightforward to integrate with other services.
 
 Developing a web interface is not the main goal of this project, it can be complicated and time-consuming.
 
@@ -85,5 +85,6 @@ We use OpenAI API (or Gemini API) to generate the title and summary of the artic
 
 ### How do we find out the duplicate articles?
 
-We use Qdrant and OpenAI Embedding Models to calculate the similarity between the articles, if the similarity is higher
-than a threshold, we consider them as duplicates.
+We use Qdrant and OpenAI Embedding Models to calculate the similarity between the articles.
+
+If the similarity is higher than a threshold, we consider them as duplicates.

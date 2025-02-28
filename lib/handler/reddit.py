@@ -33,7 +33,7 @@ async def get_reddit_content_with_comments(url: str) -> str | None:
         summary = optimize_text(summary)
 
         if is_first:
-            # The first entry is the original post content
+            # The first entry is the original post-content
             content += f"Reddit Post: {entry.title}\nContent: {summary}\n\nComments:\n"
             is_first = False
             continue
@@ -63,7 +63,7 @@ async def handle_reddit(
     sc = await similarity_check(contents, guid, link)
 
     if sc["similar"]:
-        # Reject if the Reddit post is similar to entry in database
+        # Reject if the Reddit post is similar to entry in the database
         return None
 
     content_embedding: CreateEmbeddingResponse = sc["content_embedding"]
@@ -71,11 +71,11 @@ async def handle_reddit(
     sys_prompt = chevron.render(
         news_importance_summary_merged_prompt,
         {
-            "accept_news_criterias": str_list_to_points(
-                category_config.get("accept_news_criterias", [])
+            "accept_news_criteria": str_list_to_points(
+                category_config.get("accept_news_criteria", [])
             ),
-            "reject_news_criterias": str_list_to_points(
-                category_config.get("reject_news_criterias", [])
+            "reject_news_criteria": str_list_to_points(
+                category_config.get("reject_news_criteria", [])
             ),
         },
     )

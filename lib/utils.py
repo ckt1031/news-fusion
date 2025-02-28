@@ -25,7 +25,7 @@ def shuffle_dict_keys(data: dict[str, any]) -> dict[str, any]:
     randomized key order.\
 
     :param data: The input dictionary.
-    :type data: dict[str, any]
+    :type data: Dict[str, any]
 
     :return: A new dictionary with shuffled keys.
     """

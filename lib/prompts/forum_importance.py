@@ -27,7 +27,7 @@ insignificant_factors = """
 - Negative, harmful or blaming content
 - Stupid questions or questions that are not worth asking
 - Technical issues, bugs
-  - Example: cannot find solution, help needed, registeration or login problems
+  - Example: cannot find solution, help needed, registration or login problems
 """.strip()
 
 forum_importance_prompt = f"""

@@ -164,13 +164,13 @@ rss:
   obsidian-md:
     name: "Obsidian.md"
     re_categorize: false
-    accept_news_criterias:
+    accept_news_criteria:
     - Useful ideas for Obsidian users (Not advice or tips seeking)
     - New plugins or themes which are useful
     - New features or updates
     - New templates or workflows
     - New community resources
-    reject_news_criterias:
+    reject_news_criteria:
     - General note-taking or productivity tips which not specific and useful enough
     - Requests for features or plugins
     - Seeking help, advice, support, feedback or guidance
@@ -300,7 +300,7 @@ rss:
     name: "Dev.to"
     forum: true
     re_categorize: false
-    reject_news_criterias:
+    reject_news_criteria:
     - Technical tutorial, how-to guide, or documentation focused on a specific API or software library
     - Solely on the technical implementation of a basic application (e.g., chat app tutorials using specific frameworks or backends)
     sources:
