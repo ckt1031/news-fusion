@@ -34,7 +34,7 @@ class OpenAIAPI:
     async def generate_embeddings(self, text: str) -> CreateEmbeddingResponse:
         token = count_tokens(text)
 
-        logger.info(f"Generating embeddings using the LLM model: {token} tokens")
+        logger.debug(f"Generating embeddings using the LLM model: {token} tokens")
 
         response = await self.client.embeddings.create(
             model=self.embedding_model,
@@ -52,7 +52,7 @@ class OpenAIAPI:
     ):
         token = count_tokens(system_message + user_message)
 
-        logger.info(f"Generating schema using the LLM model: {token} tokens")
+        logger.debug(f"Generating schema using the LLM model: {token} tokens")
 
         completion = await self.client.beta.chat.completions.parse(
             model=model or self.text_completion_model,
@@ -71,7 +71,7 @@ class OpenAIAPI:
         if res.refusal:
             raise Exception(f"OpenAI chat completion refusal: {res.refusal}")
 
-        # Type check the parsed response
+        # Type checks the parsed response
         schema.model_validate(res.parsed)
 
         return res.parsed
@@ -83,7 +83,7 @@ class OpenAIAPI:
         model: str | None = None,
     ) -> str:
         token = count_tokens(system_message + user_message)
-        logger.info(f"Generating text using the LLM model: {token} tokens")
+        logger.debug(f"Generating text using the LLM model: {token} tokens")
 
         response = await self.client.chat.completions.create(
             model=model or self.text_completion_model,
