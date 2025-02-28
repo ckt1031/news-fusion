@@ -14,7 +14,7 @@ init_logger()
 exceed_30d_date = datetime.now() - timedelta(days=30)
 
 
-async def deleteOldQdrantCollection():
+async def delete_old_qdrant_collection():
     qdrant = Qdrant()
 
     await qdrant.delete(
@@ -53,5 +53,5 @@ async def remove_expired_articles():
 
 if __name__ == "__main__":
     asyncio.run(remove_expired_articles())
-    asyncio.run(deleteOldQdrantCollection())
+    asyncio.run(delete_old_qdrant_collection())
     close_db()

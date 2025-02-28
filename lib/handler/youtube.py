@@ -49,7 +49,6 @@ async def handle_youtube(
     published_date_utc: datetime,
 ) -> dict | None:
     transcript = get_transcript(link)
-    transcript = get_transcript(link)
     transcript_token = count_tokens(transcript)
     reduced_transcript = transcript
 

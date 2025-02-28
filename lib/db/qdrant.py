@@ -65,10 +65,10 @@ class Qdrant:
         # sort score in descending order, the highest score is the most similar
         return sorted(result.points, key=lambda x: x.score, reverse=True)
 
-    async def delete(self, filter: models.Filter):
+    async def delete(self, f: models.Filter):
         await self.client.delete(
             self.collection_name,
-            points_selector=filter,
+            points_selector=f,
         )
 
     async def insert_news(
