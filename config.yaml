@@ -44,7 +44,7 @@ rss:
 
   investing:
     name: Investing
-    description: "Basically company related, money, investment, earnings, stock market, etc."
+    description: "Money, investment, earnings, stock market, etc."
     sources:
     - https://www.stocktitan.net/rss
     - https://www.investing.com/rss/news_25.rss # Stock Market News
