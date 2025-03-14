@@ -286,18 +286,6 @@ rss:
     - https://lobste.rs/t/release.rss
     discord_channel_id: "1320300953953505351"
 
-  dev-to:
-    name: "Dev.to"
-    forum: true
-    re_categorize: false
-    reject_news_criteria:
-    - Technical tutorial, how-to guide, or documentation focused on a specific API or software library
-    - Solely on the technical implementation of a basic application (e.g., chat app tutorials using specific frameworks or backends)
-    sources:
-    - url: https://dev.to/feed
-      scrape_needed: false
-    discord_channel_id: "1320091294726488074"
-
   youtube:
     name: YouTube
     re_categorize: false
