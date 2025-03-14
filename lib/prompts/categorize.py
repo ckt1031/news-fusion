@@ -25,8 +25,8 @@ Their content can be guidelines, tutorials, or news but not directly related to 
 Categories like technology, world are more related to News rather than general articles.
 In such cases, categorize them as "none".
 
-Some mixed cases like AI Tech Investment or Acquisitions can be categorized as "Investing" rather than "Technology" or "AI".
-Example: "LLM Market to Reach $1.2 Billion by 2025" can be categorized as "Investing"
+Some mixed cases like AI Tech Investment or Acquisitions can be categorized as "Investing" / "Finance" rather than "Technology" or "AI".
+Example: "LLM Market to Reach $1.2 Billion by 2025" can be categorized as "Investing" / "Finance"
 
 ## Supported Categories (ID: Description)
 
