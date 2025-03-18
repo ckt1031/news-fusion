@@ -12,8 +12,6 @@ from loguru import logger
 from lib.env import is_dev_mode
 from lib.utils import shuffle_dict_keys
 
-YOUTUBE_RSS_BASE_URL = "https://www.youtube.com/feeds/videos.xml?channel_id="
-
 
 def get_data_from_source(source: str) -> dict | None:
     all_sources = get_all_rss_sources()
@@ -105,10 +103,6 @@ def get_all_rss_sources(shuffle: bool = False) -> Generator[dict, None, None]:
                 url = source.replace("reddit:", "https://www.reddit.com/r/")
                 # Add /.rss to the end
                 url += "/.rss"
-
-            if url.startswith("yt:"):
-                # Replace yt: with the base URL
-                url = source.replace("yt:", YOUTUBE_RSS_BASE_URL)
 
             d = {
                 "url": url,

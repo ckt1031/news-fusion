@@ -11,7 +11,6 @@ from lib.db.qdrant import Qdrant
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.handler.article import handle_article
 from lib.handler.reddit import handle_reddit
-from lib.handler.youtube import handle_youtube
 from lib.notifications.discord import send_discord
 from lib.openai_api import OpenAIAPI
 from lib.prompts.categorize import CategorizeSchema, categorize_prompt
@@ -102,16 +101,7 @@ async def handle_entry(
 
     category_config = get_rss_config()[category]
 
-    if "youtube.com" in get_host_from_url(link):
-        processed_data = await handle_youtube(
-            link=link,
-            title=title,
-            guid=guid,
-            entry=entry,
-            category_config=category_config,
-            published_date_utc=published_date_utc,
-        )
-    elif "reddit.com" in get_host_from_url(link):
+    if "reddit.com" in get_host_from_url(link):
         processed_data = await handle_reddit(
             link=link,
             title=title,

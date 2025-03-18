@@ -7,12 +7,7 @@ from lib.browser import close_browser
 from lib.db.postgres import close_db
 from lib.db.qdrant import Qdrant
 from lib.handler.entry import handle_entry
-from lib.rss import (
-    YOUTUBE_RSS_BASE_URL,
-    get_all_rss_sources,
-    get_rss_config,
-    parse_rss_feed,
-)
+from lib.rss import get_all_rss_sources, get_rss_config, parse_rss_feed
 from lib.utils import check_if_arg_exists, init_logger, is_site_blacklisted
 
 init_logger()
@@ -24,18 +19,10 @@ def print_exc(exception):
 
 def is_source_allowed(data: dict, source: str):
     only_forum = check_if_arg_exists("--only-forum")
-    only_youtube = check_if_arg_exists("--only-youtube")
-
-    # There must be ONE --only-x flag, not both
-    if only_forum and only_youtube:
-        raise ValueError("Cannot have multiple --only-[x] flags")
 
     conditions = [
         only_forum and not data.get("forum", False),
-        only_youtube and not source.startswith(YOUTUBE_RSS_BASE_URL),
         not check_if_arg_exists("--check-forum") and data.get("forum", False),
-        not check_if_arg_exists("--check-youtube")
-        and source.startswith(YOUTUBE_RSS_BASE_URL),
     ]
 
     return not any(conditions)

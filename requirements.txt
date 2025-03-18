@@ -18,7 +18,6 @@ fastapi-cache2~=0.2.2
 httpx~=0.28.1
 peewee-async[postgresql]~=1.0.0
 beautifulsoup4~=4.12.3
-youtube-transcript-api~=0.6.3
 validators~=0.34.0
 langchain_text_splitters~=0.3.5
 undetected-chromedriver~=3.5.5

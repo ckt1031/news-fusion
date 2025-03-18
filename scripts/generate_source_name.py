@@ -50,11 +50,6 @@ async def generate_source_name():
             logger.info(f"Skipping source: {source}")
             continue
 
-        # Skip if the source is a YouTube channel
-        if source.startswith("https://www.youtube.com/"):
-            logger.info(f"Skipping YouTube channel: {source}")
-            continue
-
         res = await openai_api.generate_schema(
             user_message=source,
             system_message="""

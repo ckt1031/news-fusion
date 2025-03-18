@@ -60,11 +60,6 @@ rss:
     - https://restofworld.org/feed/latest/
     - https://www.bleepingcomputer.com/feed/
     - https://feeds.feedburner.com/venturebeat/SZYF
-
-    # YouTube Channels
-    - yt:UCeUJO1H3TEXu2syfAAPjYKQ # 极客湾 Geekerwan
-    - yt:UCXuqSBlHAE6Xw-yeJA0Tunw # LinusTechTips
-    - yt:UCR-DXc1voovS8nhAvccRZhg # Jeff Geerling
     discord_channel_id: "1297769089024004126"
 
   technology-products:
@@ -77,9 +72,6 @@ rss:
       scrape_needed: false
     - url: https://www.tomsguide.com/feeds/all
       scrape_needed: false
-
-    # YouTube Channels
-    - yt:UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
 
   dev:
     name: "Developer News"
@@ -107,16 +99,6 @@ rss:
       scrape_needed: false
     - https://blog.google/products/chrome/rss/
     - https://blog.chromium.org/feeds/posts/default
-
-    # YouTube Channels
-    - yt:UCsBjURrPoezykLs9EqgamOA # Fireship
-    - yt:UC2Xd-TjJByJyK2w1zNwY0zQ # Beyond Fireship
-    - yt:UCbRP3c757lWg9M-U7TyEkXA # Theo - t3․gg
-    - yt:UCvGwM5woTl13I-qThI4YMCg # Josh tried coding
-    - yt:UCkVfrGwV-iG9bSsgCbrNPxQ # Better Stack
-    - yt:UCUSxKiac-miugK9CDsxGS9Q # Coding In Public
-    - yt:UCswG6FSbgZjbWtdf_hMLaow # MattPocock
-    - yt:UCUyeluBRhGPCW4rPe_UvBZQ # ThePrimeTimeagen
     discord_channel_id: "1315654076280864789"
 
   ai:
@@ -136,10 +118,6 @@ rss:
     - https://blog.google/products/gemini/rss/
     - https://techcommunity.microsoft.com/t5/s/gxcuf89792/rss/board?board.id=AIPlatformBlog
 
-    # YouTube Channels
-    - yt:UCXZCJLdBC09xxGZ6gcdrc6A # OpenAI
-    - yt:UCawZsQWqfGSbCI5yjkdVkTA # Matthew Berman
-    - yt:UC2WmuBuFq6gL08QYG-JjXKw # The World of AI
     # Reddit
     - https://www.reddit.com/r/LocalLLaMA/.rss
     discord_channel_id: "1315729383440515113"
@@ -206,7 +184,6 @@ rss:
     re_categorize: false
     description: "Showcase of software, tools, and services."
     sources:
-    - yt:UCqjVP9gAanUGFgTA5BRDvyA # How to Man (Android Apps or Mobile related)
     - https://hnrss.org/show
     - url: https://www.appinn.com/feed
       scrape_needed: false
@@ -268,25 +245,3 @@ rss:
     - https://lobste.rs/t/privacy.rss
     - https://lobste.rs/t/release.rss
     discord_channel_id: "1320300953953505351"
-
-  youtube:
-    name: YouTube
-    re_categorize: false
-    sources:
-    - yt:UCQtwvRQWnT5Buh9hpvNNryQ # 柴知道
-    - yt:UCilwQlk62k1z7aUEZPOB6yw # 小 Lin 说
-    - yt:UC2tQpW0dPiyWPebwBSksJ_g # 脑洞乌托邦
-    - yt:UC4dtpugIYK56S_7btf5a-iQ # 林亦 LYi
-    - yt:UC2cRwTuSWxxEtrRnT4lrlQA # 影视飓风
-    - yt:UCjxWY5oD9I1LKaCJkOO1TKw # Mr. Atom 原子檔案
-    - yt:UCIraGjqGxcks1NeVA8P4gAA # Z檔案
-    - yt:UCsrWoMiWGwjFo4toX4D8Hsg # 海森堡HEISENBERG
-    - yt:UCh4QrR5V6reIojGpRqkTbYw # MoneyXYZ
-    - yt:UCgNg3vwj3xt7QOrcIDaHdFg # PolyMatter
-    - yt:UCZ4AMrDcNrfy3X6nsU8-rPg # Economics Explained
-    - yt:UCxaaULLk6UCnRl5VKRc7G0A # No Text To Speech
-
-    - yt:UCFhXFikryT4aFcLkLw2LBLA # NileRed
-    - yt:UCEnAit0duntJxa3gZG-paoA # NileRedExtra
-    - yt:UCsXVk37bltHxD1rDPwtNM8Q # Kurzgesagt – In a Nutshell
-    discord_channel_id: "1322487198762930206"
