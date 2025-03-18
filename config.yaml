@@ -23,16 +23,6 @@ rss:
     discord_channel_id: "1315385019241595172"
     # https://about.fb.comofrchn/wp-content/uploads/2016/05/rss-urls-1.pdf
 
-  magazine:
-    name: Magazine
-    re_categorize: false
-    sources:
-    - https://www.newyorker.com/feed/news
-    - https://asteriskmag.com/feed
-    - url: https://feeds.feedburner.com/TheAtlanticWire
-      scrape_needed: false
-    discord_channel_id: "1327680122144297063"
-
   finance:
     name: Finance
     description: "Global, investing, economy, country, market related, rather than company related."
