@@ -11,7 +11,6 @@ from lib.openai_api import OpenAIAPI, count_tokens
 from lib.prompts import summary_prompt
 from lib.prompts.merge.importance_summary import (
     ImportanceMergedSchema,
-    forum_importance_summary_merged_prompt,
     news_importance_summary_merged_prompt,
 )
 from lib.prompts.title_summary import (
@@ -95,29 +94,23 @@ async def handle_article(
     # Check importance
     today_date_str = datetime.now().strftime("%Y-%m-%d")
     content_with_meta = f"Title: {title}\nDate: {today_date_str}\nContent: {content}"
-    is_forum = category_config.get("forum", False)
 
     comments = None
 
     # Scrape comments if available
-    if is_forum:
-        if "news.ycombinator.com" in link:
-            comments = get_hn_comments(link)
-        elif "lobste.rs" in link:
-            comments = get_lobsters_comments(link)
+    if "news.ycombinator.com" in link:
+        comments = get_hn_comments(link)
+    elif "lobste.rs" in link:
+        comments = get_lobsters_comments(link)
 
-        if comments is not None and len(comments) > 0:
-            # Add comments to the text
-            content_with_meta += f"\n\n---- Discussion and Comments ----\n\n{comments}"
+    if comments is not None and len(comments) > 0:
+        # Add comments to the text
+        content_with_meta += f"\n\n---- Discussion and Comments ----\n\n{comments}"
 
     openai_api = OpenAIAPI()
 
     if category_config.get("importance_check", True):
-        sys_prompt = (
-            forum_importance_summary_merged_prompt
-            if is_forum
-            else news_importance_summary_merged_prompt
-        )
+        sys_prompt = news_importance_summary_merged_prompt
 
         if comments:
             sys_prompt += comments_summary_additional_prompt

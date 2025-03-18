@@ -6,7 +6,7 @@ Some articles might be very long and require a lot of tokens to summarize.
 
 from pydantic import BaseModel, Field
 
-from lib.prompts import forum_importance_prompt, news_importance_prompt, summary_prompt
+from lib.prompts import news_importance_prompt, summary_prompt
 
 
 class ImportanceMergedSchema(BaseModel):
@@ -39,6 +39,3 @@ class ImportanceMergedSchema(BaseModel):
 
 
 news_importance_summary_merged_prompt = f"{news_importance_prompt}\n\n{summary_prompt}"
-forum_importance_summary_merged_prompt = (
-    f"{forum_importance_prompt}\n\n{summary_prompt}"
-)

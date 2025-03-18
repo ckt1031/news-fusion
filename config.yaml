@@ -186,7 +186,6 @@ rss:
 
   hacker-news:
     name: "Hacker News"
-    forum: true
     sources:
     # - https://hnrss.org/newest
     - https://hnrss.org/frontpage
@@ -194,7 +193,6 @@ rss:
 
   lobste-rs:
     name: "Lobste.rs"
-    forum: true
     sources:
     # Other Categories: science, math, education
     - https://lobste.rs/t/ai.rss

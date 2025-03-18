@@ -20,7 +20,7 @@ You are going to categorize a piece of content based on the following categories
 Please select the most appropriate category for the content.
 Return "none" if no category is suitable.
 
-However, there will be some cases like content came from forums like Hacker News, Lobsters, Reddit, etc.
+However, there will be some cases like content came from aggregators like Hacker News, Lobsters, Reddit, etc.
 Their content can be guidelines, tutorials, or news but not directly related to the category.
 Categories like technology, world are more related to News rather than general articles.
 In such cases, categorize them as "none".
@@ -30,6 +30,6 @@ Example: "LLM Market to Reach $1.2 Billion by 2025" can be categorized as "Inves
 
 ## Supported Categories (ID: Description)
 
-- none: No category assigned below or sources from forum while content is not news-related
+- none: No category assigned below or sources from aggregators while content is not news-related
 {categories_text}
 """
