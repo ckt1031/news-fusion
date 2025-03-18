@@ -187,7 +187,6 @@ rss:
   hacker-news:
     name: "Hacker News"
     forum: true
-    comment_selector: "[class='comment-tree']"
     sources:
     # - https://hnrss.org/newest
     - https://hnrss.org/frontpage
@@ -196,7 +195,6 @@ rss:
   lobste-rs:
     name: "Lobste.rs"
     forum: true
-    comment_selector: "[class='comments']"
     sources:
     # Other Categories: science, math, education
     - https://lobste.rs/t/ai.rss

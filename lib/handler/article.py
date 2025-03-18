@@ -3,6 +3,8 @@ from datetime import datetime
 from loguru import logger
 from openai.types import CreateEmbeddingResponse
 
+from lib.api.hackernews import get_hn_comments
+from lib.api.lobste import get_lobsters_comments
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.handler.utils import similarity_check, split_text_by_token
 from lib.openai_api import OpenAIAPI, count_tokens
@@ -18,16 +20,6 @@ from lib.prompts.title_summary import (
 )
 from lib.scraper import extract_html_to_text, extract_website
 from lib.utils import optimize_text
-
-
-def handle_comment(comment_url: str, selector: str) -> str | None:
-    try:
-        website_data = extract_website(comment_url, selector)
-        return optimize_text(website_data["raw_text"]).strip()
-    except Exception as e:
-        logger.warning(f"Failed to fetch the comment: {comment_url}")
-        logger.error(e)
-        return None
 
 
 def extract_rss_content(entry: dict) -> str:
@@ -109,14 +101,14 @@ async def handle_article(
 
     # Scrape comments if available
     if is_forum:
-        if "comments" in entry and "comment_selector" in category_config:
-            comment_url = entry["comments"]  # RSS Tag
-            comment_selector = category_config["comment_selector"]  # Config
-            comments = handle_comment(comment_url, comment_selector)
+        if "news.ycombinator.com" in link:
+            comments = get_hn_comments(link)
+        elif "lobste.rs" in link:
+            comments = get_lobsters_comments(link)
 
-            if comments:
-                # Add comments to the text
-                content_with_meta += f"\nComments: {comments}"
+        if comments is not None and len(comments) > 0:
+            # Add comments to the text
+            content_with_meta += f"\n\n---- Discussion and Comments ----\n\n{comments}"
 
     openai_api = OpenAIAPI()
 
