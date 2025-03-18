@@ -28,9 +28,16 @@ rss:
     description: "Global, investing, economy, country, market related, rather than company related."
     sources:
     - https://finance.yahoo.com/news/rssindex
-    # - https://seekingalpha.com/market_currents.xml
-    # - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664
+    - https://feeds.bbci.co.uk/news/business/rss.xml
     discord_channel_id: "1325126500336271442"
+
+  investing:
+    name: Investing
+    description: "Money, investment, earnings, stock market, etc."
+    sources:
+    - https://feeds.content.dowjones.io/public/rss/mw_bulletins
+    - https://feeds.content.dowjones.io/public/rss/mw_topstories
+    discord_channel_id: "1325116616303837204"
 
   technology:
     # https://github.com/tuan3w/awesome-tech-rss
@@ -50,6 +57,7 @@ rss:
     - https://restofworld.org/feed/latest/
     - https://www.bleepingcomputer.com/feed/
     - https://feeds.feedburner.com/venturebeat/SZYF
+    - https://feeds.bbci.co.uk/news/technology/rss.xml
     discord_channel_id: "1297769089024004126"
 
   technology-products:
