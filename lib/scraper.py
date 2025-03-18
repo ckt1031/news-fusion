@@ -3,6 +3,7 @@ import json
 import requests
 import trafilatura
 from bs4 import BeautifulSoup
+from html2text import HTML2Text
 from loguru import logger
 
 from lib.browser import browser_allowed, browser_driver
@@ -30,6 +31,16 @@ def scrape_jina_ai(url: str) -> str:
     res = requests.get(api_url, headers=headers)
     res.raise_for_status()
     return res.text
+
+
+def extract_html_to_text(content: str) -> str:
+    txt = HTML2Text(bodywidth=0)
+
+    # Ignore images and emphasis
+    txt.ignore_emphasis = True
+    txt.ignore_images = True
+
+    return txt.handle(content).strip()
 
 
 def scrape_browser_html(url: str) -> str:

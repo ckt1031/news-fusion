@@ -1,7 +1,6 @@
 from datetime import datetime
 
 import chevron
-import html2text
 from loguru import logger
 from openai.types import CreateEmbeddingResponse
 
@@ -18,7 +17,7 @@ from lib.prompts.title_summary import (
     TitleSummarySchema,
     comments_summary_additional_prompt,
 )
-from lib.scraper import extract_website
+from lib.scraper import extract_html_to_text, extract_website
 from lib.utils import optimize_text
 
 
@@ -66,7 +65,7 @@ async def handle_article(
     else:
         # We can use the RSS field instead of scraping
         site_text = extract_rss_content(entry)
-        site_text = html2text.html2text(site_text)
+        site_text = extract_html_to_text(site_text)
         image = extract_rss_image(entry)
 
     content = optimize_text(site_text).strip()

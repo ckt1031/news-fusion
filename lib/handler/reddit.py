@@ -1,7 +1,6 @@
 from datetime import datetime
 
 import chevron
-import html2text
 from loguru import logger
 from openai.types import CreateEmbeddingResponse
 
@@ -14,6 +13,7 @@ from lib.prompts.merge.importance_summary import (
     news_importance_summary_merged_prompt,
 )
 from lib.rss import parse_rss_feed
+from lib.scraper import extract_html_to_text
 from lib.utils import optimize_text
 
 
@@ -29,7 +29,7 @@ async def get_reddit_content_with_comments(url: str) -> str | None:
     is_first = True
 
     for entry in feed_data.entries:
-        summary = html2text.html2text(entry.summary).strip()
+        summary = extract_html_to_text(entry.summary)
         summary = optimize_text(summary)
 
         if is_first:
