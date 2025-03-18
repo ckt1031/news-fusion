@@ -106,50 +106,18 @@ rss:
     re_categorize: false
     description: "Any LLM, AI, or NLP related news."
     sources:
-    # - https://openai.com/news/rss.xml
     - https://www.testingcatalog.com/rss/
     - https://stability.ai/news?format=rss
     - https://replicate.com/blog/rss
     - https://jina.ai/feed.rss
-    - https://lastweekin.ai/feed
     - https://huggingface.co/blog/feed.xml
     - https://deepmind.google/blog/rss.xml
     - https://qwenlm.github.io/blog/index.xml
     - https://blog.google/products/gemini/rss/
-    - https://techcommunity.microsoft.com/t5/s/gxcuf89792/rss/board?board.id=AIPlatformBlog
 
     # Reddit
     - https://www.reddit.com/r/LocalLLaMA/.rss
     discord_channel_id: "1315729383440515113"
-
-  obsidian-md:
-    name: "Obsidian.md"
-    re_categorize: false
-    accept_news_criteria:
-    - Useful ideas for Obsidian users (Not advice or tips seeking)
-    - New plugins or themes which are useful
-    - New features or updates
-    - New templates or workflows
-    - New community resources
-    reject_news_criteria:
-    - General note-taking or productivity tips which not specific and useful enough
-    - Requests for features or plugins
-    - Seeking help, advice, support, feedback or guidance
-    - Not enought information or too short (including a Reddit post)
-    sources:
-    - https://obsidian.md/feed.xml # Obsidian Blog
-    - reddit:ObsidianMD # Reddit Obsidian Official
-    discord_channel_id: "1338832580593848340"
-
-  free-games:
-    name: "Free Games"
-    importance_check: false
-    re_categorize: false
-    sources:
-    - https://www.gamerpower.com/rss/steam
-    - https://www.gamerpower.com/rss/games
-    # - reddit:FreeGameFindings
-    discord_channel_id: "1315931763469455380"
 
   programming-updates:
     name: "Programming Updates"

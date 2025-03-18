@@ -31,7 +31,6 @@ You are helping people save time by determining if the content is worth reading 
 - General availability or impactful products or services
 - Critical societal events
 - Public health issues
-{{ accept_news_criteria }}
 
 ## Insignificant Content (Mark as false if any of the following)
 
@@ -52,5 +51,4 @@ You are helping people save time by determining if the content is worth reading 
 - Minor tutorials, guides or suggestions
 - Minor politics, social issues or phenomena
 - Minor personnel changes
-{{ reject_news_criteria }}
 """.strip()

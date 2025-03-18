@@ -1,11 +1,9 @@
 from datetime import datetime
 
-import chevron
 from loguru import logger
 from openai.types import CreateEmbeddingResponse
 
 from lib.db.redis_client import get_article_redis_key, redis_client
-from lib.handler.article import str_list_to_points
 from lib.handler.utils import extract_url_contents, similarity_check
 from lib.openai_api import OpenAIAPI
 from lib.prompts.merge.importance_summary import (
@@ -68,25 +66,13 @@ async def handle_reddit(
 
     content_embedding: CreateEmbeddingResponse = sc["content_embedding"]
 
-    sys_prompt = chevron.render(
-        news_importance_summary_merged_prompt,
-        {
-            "accept_news_criteria": str_list_to_points(
-                category_config.get("accept_news_criteria", [])
-            ),
-            "reject_news_criteria": str_list_to_points(
-                category_config.get("reject_news_criteria", [])
-            ),
-        },
-    )
-
     # Check importance
     today_date_str = datetime.now().strftime("%Y-%m-%d")
     content_with_meta = f"Title: {title}\nDate: {today_date_str}\nContent: {contents}"
 
     res = await OpenAIAPI().generate_schema(
         user_message=content_with_meta,
-        system_message=sys_prompt,
+        system_message=news_importance_summary_merged_prompt,
         schema=ImportanceMergedSchema,
     )
 
