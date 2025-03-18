@@ -5,7 +5,7 @@ from lib.config import SIMILARITY_THRESHOLD
 from lib.db.qdrant import Qdrant
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.openai_api import TOKEN_ENCODER, OpenAIAPI
-from lib.prompts.extract_meta import ContentMetaExtraction, extract_content_meta_prompt
+from lib.prompts import ContentMetaExtraction, extract_content_meta_prompt
 from lib.scraper import extract_website
 from lib.utils import get_host_from_url, optimize_text
 

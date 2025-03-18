@@ -8,14 +8,12 @@ from lib.api.lobste import get_lobsters_comments
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.handler.utils import similarity_check, split_text_by_token
 from lib.openai_api import OpenAIAPI, count_tokens
-from lib.prompts import summary_prompt
-from lib.prompts.merge.importance_summary import (
-    ImportanceMergedSchema,
-    news_importance_summary_merged_prompt,
-)
-from lib.prompts.title_summary import (
+from lib.prompts import (
+    ImportanceSummaryMergedSchema,
     TitleSummarySchema,
     comments_summary_additional_prompt,
+    importance_summary_merged_prompt,
+    summary_prompt,
 )
 from lib.scraper import extract_html_to_text, extract_website
 from lib.utils import optimize_text
@@ -110,7 +108,7 @@ async def handle_article(
     openai_api = OpenAIAPI()
 
     if category_config.get("importance_check", True):
-        sys_prompt = news_importance_summary_merged_prompt
+        sys_prompt = str(importance_summary_merged_prompt)  # Copy the prompt
 
         if comments:
             sys_prompt += comments_summary_additional_prompt
@@ -118,7 +116,7 @@ async def handle_article(
         res = await openai_api.generate_schema(
             user_message=content_with_meta,
             system_message=sys_prompt,
-            schema=ImportanceMergedSchema,
+            schema=ImportanceSummaryMergedSchema,
         )
 
         # If the article is not important, skip it

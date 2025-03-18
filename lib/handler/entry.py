@@ -13,7 +13,7 @@ from lib.handler.article import handle_article
 from lib.handler.reddit import handle_reddit
 from lib.notifications.discord import send_discord
 from lib.openai_api import OpenAIAPI
-from lib.prompts.categorize import CategorizeSchema, categorize_prompt
+from lib.prompts import CategorizeSchema, categorize_prompt
 from lib.rss import (
     get_categories_with_description,
     get_rss_config,

@@ -6,10 +6,7 @@ from openai.types import CreateEmbeddingResponse
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.handler.utils import extract_url_contents, similarity_check
 from lib.openai_api import OpenAIAPI
-from lib.prompts.merge.importance_summary import (
-    ImportanceMergedSchema,
-    news_importance_summary_merged_prompt,
-)
+from lib.prompts import ImportanceSummaryMergedSchema, importance_summary_merged_prompt
 from lib.rss import parse_rss_feed
 from lib.scraper import extract_html_to_text
 from lib.utils import optimize_text
@@ -72,8 +69,8 @@ async def handle_reddit(
 
     res = await OpenAIAPI().generate_schema(
         user_message=content_with_meta,
-        system_message=news_importance_summary_merged_prompt,
-        schema=ImportanceMergedSchema,
+        system_message=importance_summary_merged_prompt,
+        schema=ImportanceSummaryMergedSchema,
     )
 
     # If the article is not important, skip it

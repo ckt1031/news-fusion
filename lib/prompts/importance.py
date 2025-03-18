@@ -12,7 +12,7 @@ class NewsImportanceSchema(BaseModel):
     )
 
 
-news_importance_prompt = """
+importance_prompt = """
 # Task: Importance Check
 
 You are helping people save time by determining if the content is worth reading for news, knowledge and improvement.
