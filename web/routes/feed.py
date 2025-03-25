@@ -43,6 +43,7 @@ async def get_feed(request: Request, category: str, date: str | None = None):
     feed_url = f"{server_url}feed/{category}"
     fg.link(href=feed_url, rel="self")
     fg.id(feed_url)
+    fg.icon(f"{server_url}favicon.ico")
     fg.load_extension("media")  # Enable media extension for media content
 
     condition = (Article.category == category) & (
