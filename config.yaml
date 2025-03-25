@@ -158,21 +158,6 @@ rss:
     # - https://www.reddit.com/r/SideProject/.rss
     discord_channel_id: "1326858185881026653"
 
-  blogs:
-    name: "Blogs"
-    importance_check: false
-    similarity_check: false
-    re_categorize: false
-    sources:
-    - url: https://www.owenyoung.com/atom.xml
-      scrape_needed: false
-    - url: https://www.ruanyifeng.com/blog/atom.xml
-      scrape_needed: false
-    - url: https://codechina.org/feed
-      scrape_needed: false
-    - https://weekly.tw93.fun/rss.xml
-    discord_channel_id: "1315842786641186887"
-
   hong-kong:
     name: "Hong Kong"
     re_categorize: false
