@@ -10,7 +10,7 @@ class TitleSummarySchema(BaseModel):
     summary: str = Field(
         ...,
         title="Summary",
-        description="Plain text or markdown formatted summary based on the content. 150 words or less.",
+        description="Plain text formatted summary based on the content. 150 words or less.",
     )
 
 
@@ -33,11 +33,17 @@ summary_prompt = """
 ## Summary
 
 - 150 words max
+- Plain text only (no HTML, markdown, or links)
+- New paragraph for separation is allowed
+- No subheadings
+- No conclusion, personal opinions, or additional information
+- No bullet points or lists, use full sentences
+- No questions or answers
 - Simple, clear, precise, specific, focused and straight
 - No subheadings
 - No conclusion, personal opinions, or additional information
 - Use bullet points (-) with bolded keywords if necessary
-- Use markdown (example: [Link Text](<https://www.example.com>)) with text for links
+- No links or references
 """.strip()
 # - For company and investing news, include stock ticker symbols (e.g., AAPL, TSLA)
 
