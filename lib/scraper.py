@@ -2,21 +2,10 @@ import json
 
 import requests
 import trafilatura
-from bs4 import BeautifulSoup
 from html2text import HTML2Text
 from loguru import logger
 
 from lib.browser import browser_allowed, browser_driver
-
-
-def parse_selector(selector: str, content: str) -> str:
-    soup = BeautifulSoup(content, "html.parser")
-    soup_element = soup.select_one(selector)
-
-    if soup_element is None:
-        raise Exception(f"Failed to find the selector: {selector}")
-
-    return soup_element.prettify()
 
 
 def scrape_client_html(url: str) -> str:
@@ -58,7 +47,7 @@ def scrape_browser_html(url: str) -> str:
     return browser_driver.page_source
 
 
-def get_html_content(link: str, selector: str | None = None) -> str:
+def extract_html_from_url(link: str) -> str:
     methods = [
         scrape_client_html,
         scrape_jina_ai,
@@ -70,8 +59,7 @@ def get_html_content(link: str, selector: str | None = None) -> str:
             if method is None:
                 continue
 
-            content = method(link)
-            return parse_selector(selector, content) if selector else content
+            return method(link)
         except Exception as e:
             logger.error(f"Failed to scrape: {link}")
             logger.error(e)
@@ -80,13 +68,15 @@ def get_html_content(link: str, selector: str | None = None) -> str:
     raise Exception("Failed to scrape")
 
 
-def extract_website(link: str, selector: str | None = None) -> dict:
-    content = get_html_content(link, selector)
+def extract_website(link: str) -> dict:
+    content = extract_html_from_url(link)
 
-    return get_json_scraped_data(content)
+    return parse_html_data(content)
 
 
-def get_json_scraped_data(html: str) -> dict:
+# Parse the HTML data and extract the relevant information via trafilatura
+# and convert it to JSON format
+def parse_html_data(html: str) -> dict:
     if html is None or len(html) == 0:
         raise Exception("Nothing fetched from website")
 
