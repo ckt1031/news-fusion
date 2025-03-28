@@ -4,10 +4,10 @@ from loguru import logger
 from openai.types import CreateEmbeddingResponse
 
 from lib.api.hackernews import get_hn_comments
+from lib.api.llm import LLM, count_tokens
 from lib.api.lobste import get_lobsters_comments
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.handler.utils import similarity_check, split_text_by_token
-from lib.openai_api import OpenAIAPI, count_tokens
 from lib.prompts import (
     ImportanceSummaryMergedSchema,
     TitleSummarySchema,
@@ -105,7 +105,7 @@ async def handle_article(
         # Add comments to the text
         content_with_meta += f"\n\n---- Discussion and Comments ----\n\n{comments}"
 
-    openai_api = OpenAIAPI()
+    openai_api = LLM()
 
     if category_config.get("importance_check", True):
         sys_prompt = str(importance_summary_merged_prompt)  # Copy the prompt

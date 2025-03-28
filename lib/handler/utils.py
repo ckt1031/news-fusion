@@ -1,10 +1,10 @@
 from langchain_text_splitters import TokenTextSplitter
 from loguru import logger
 
+from lib.api.llm import LLM, TOKEN_ENCODER
 from lib.config import SIMILARITY_THRESHOLD
 from lib.db.qdrant import Qdrant
 from lib.db.redis_client import get_article_redis_key, redis_client
-from lib.openai_api import TOKEN_ENCODER, OpenAIAPI
 from lib.prompts import ContentMetaExtraction, extract_content_meta_prompt
 from lib.scraper import extract_website
 from lib.utils import get_host_from_url, optimize_text
@@ -27,7 +27,7 @@ async def similarity_check(content: str, guid: str, link: str) -> dict:
     article_cache_key = get_article_redis_key(guid)
 
     # TODO Split and process if the content is longer than 8000 tokens
-    content_embedding = await OpenAIAPI().generate_embeddings(content)
+    content_embedding = await LLM().generate_embeddings(content)
 
     # Check if the article is similar to any other article in the database to remove duplicates
     # If it is, skip it
@@ -58,7 +58,7 @@ async def similarity_check(content: str, guid: str, link: str) -> dict:
 
 
 async def extract_url_contents(content: str) -> str | None:
-    res = await OpenAIAPI().generate_schema(
+    res = await LLM().generate_schema(
         user_message=content,
         system_message=extract_content_meta_prompt,
         schema=ContentMetaExtraction,

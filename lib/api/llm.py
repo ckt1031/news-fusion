@@ -13,7 +13,7 @@ def count_tokens(text: str) -> int:
     return len(encoder.encode(text))
 
 
-class OpenAIAPI:
+class LLM:
     def __init__(self):
         self.api_key = get_env("OPENAI_API_KEY")
         self.text_completion_model = get_env("OPENAI_CHAT_MODEL", "gpt-4o-mini")

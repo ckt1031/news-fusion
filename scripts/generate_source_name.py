@@ -5,7 +5,7 @@ import os
 from loguru import logger
 from pydantic import BaseModel, Field
 
-from lib.openai_api import OpenAIAPI
+from lib.api.llm import LLM
 from lib.rss import get_all_rss_sources
 from lib.utils import init_logger
 
@@ -39,7 +39,7 @@ async def generate_source_name():
 
     data: dict[str, str] = read_local_cache()
 
-    openai_api = OpenAIAPI()
+    openai_api = LLM()
 
     # Generate the source name
     for d in all_sources:

@@ -3,9 +3,9 @@ from datetime import datetime
 from loguru import logger
 from openai.types import CreateEmbeddingResponse
 
+from lib.api.llm import LLM
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.handler.utils import extract_url_contents, similarity_check
-from lib.openai_api import OpenAIAPI
 from lib.prompts import ImportanceSummaryMergedSchema, importance_summary_merged_prompt
 from lib.rss import parse_rss_feed
 from lib.scraper import extract_html_to_text
@@ -67,7 +67,7 @@ async def handle_reddit(
     today_date_str = datetime.now().strftime("%Y-%m-%d")
     content_with_meta = f"Title: {title}\nDate: {today_date_str}\nContent: {contents}"
 
-    res = await OpenAIAPI().generate_schema(
+    res = await LLM().generate_schema(
         user_message=content_with_meta,
         system_message=importance_summary_merged_prompt,
         schema=ImportanceSummaryMergedSchema,

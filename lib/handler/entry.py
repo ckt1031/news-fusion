@@ -6,13 +6,13 @@ from datetime import datetime, timezone
 import validators
 from loguru import logger
 
+from lib.api.llm import LLM
 from lib.db.postgres import Article
 from lib.db.qdrant import Qdrant
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.handler.article import handle_article
 from lib.handler.reddit import handle_reddit
 from lib.notifications.discord import send_discord
-from lib.openai_api import OpenAIAPI
 from lib.prompts import CategorizeSchema, categorize_prompt
 from lib.rss import (
     get_categories_with_description,
@@ -43,7 +43,7 @@ async def re_categorize(article: Article) -> str | None:
     categories = [x["name"] for x in get_categories_with_description()]
 
     # Use OpenAI to re-categorize the article
-    res = await OpenAIAPI().generate_schema(
+    res = await LLM().generate_schema(
         user_message=user_prompt,
         system_message=categorize_prompt,
         schema=CategorizeSchema,
