@@ -7,8 +7,6 @@ from urllib.parse import urlparse
 
 from loguru import logger
 
-from lib.config import BLOCKED_HOST
-
 
 def init_logger():
     logger.remove()
@@ -56,10 +54,6 @@ def check_if_arg_exists(arg: str) -> bool:
 
 def get_host_from_url(url: str) -> str:
     return urlparse(url).netloc
-
-
-def is_site_blacklisted(url: str):
-    return get_host_from_url(url) in BLOCKED_HOST
 
 
 @cache

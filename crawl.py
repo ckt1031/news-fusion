@@ -8,7 +8,7 @@ from lib.db.postgres import close_db
 from lib.db.qdrant import Qdrant
 from lib.handler.entry import handle_entry
 from lib.rss import get_all_rss_sources, parse_rss_feed
-from lib.utils import init_logger, is_site_blacklisted
+from lib.utils import init_logger
 
 init_logger()
 
@@ -35,10 +35,6 @@ async def run_scraper():
 
             for entry in feed["entries"]:
                 try:
-                    if is_site_blacklisted(entry["link"]):
-                        logger.warning(f"Blocked site: {entry['link']}")
-                        continue
-
                     logger.debug(f"Checking {entry['link']} ({entry['title']})")
 
                     await handle_entry(
