@@ -60,7 +60,6 @@ async def generate_source_name():
             cnn.com -> CNN
             """,
             schema=SourceName,
-            model="gemini-1.5-flash-8b",
         )
 
         # Print the source name, add it to dict {category_name: source}
