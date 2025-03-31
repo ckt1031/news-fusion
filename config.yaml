@@ -1,4 +1,5 @@
 rss:
+  # Source list: https://about.fb.comofrchn/wp-content/uploads/2016/05/rss-urls-1.pdf
   world:
     name: World
     description: "All over the world, except for Hong Kong, any emergency news."
@@ -19,26 +20,10 @@ rss:
     - https://www.aljazeera.com/xml/rss/all.xml
     - https://feeds.npr.org/1004/rss.xml
     - https://www.yahoo.com/news/rss/world/
-    # https://about.fb.comofrchn/wp-content/uploads/2016/05/rss-urls-1.pdf
-
-  finance:
-    name: Finance
-    description: "Global, investing, economy, country, market related, rather than company related."
-    sources:
-    - https://finance.yahoo.com/news/rssindex
-    - https://feeds.bbci.co.uk/news/business/rss.xml
-
-  investing:
-    name: Investing
-    description: "Money, investment, earnings, stock market, etc."
-    sources:
-    - https://feeds.content.dowjones.io/public/rss/mw_bulletins
-    - https://feeds.content.dowjones.io/public/rss/mw_topstories
 
   technology:
-    # https://github.com/tuan3w/awesome-tech-rss
     name: Technology
-    description: "Rather than software updates, more about major technology, new innovations, internet, etc. (Not programming)"
+    description: "Major technology, new innovations, internet, etc. (Exclude programming)"
     sources:
     - url: https://www.theverge.com/rss/tech/index.xml
       scrape_needed: false
@@ -55,8 +40,8 @@ rss:
     - https://feeds.feedburner.com/venturebeat/SZYF
     - https://feeds.bbci.co.uk/news/technology/rss.xml
 
-  technology-products:
-    name: "Technology Products"
+  products:
+    name: "Products"
     description: "Technology products, their reviews and gadgets, including hardware, devices, smartphones, laptops, etc."
     source:
     - url: https://www.techradar.com/rss
@@ -68,7 +53,6 @@ rss:
 
   dev:
     name: "Developer News"
-    re_categorize: false
     description: "Developer, system, and computer related news, including programming, software, tools, etc."
     sources:
     - url: https://blog.jetbrains.com/feed/
@@ -93,11 +77,20 @@ rss:
     - https://blog.google/products/chrome/rss/
     - https://blog.chromium.org/feeds/posts/default
 
+    # Programming Languages, Runtime and Frameworks
+    - https://deno.com/feed
+    - url: https://bun.sh/rss.xml
+      scrape_needed: false
+    - https://vercel.com/atom
+    - https://astro.build/rss.xml
+    - https://nextjs.org/feed.xml
+    - https://tailwindcss.com/feeds/feed.xml
+
   ai:
     name: AI
-    re_categorize: false
     description: "Any LLM, AI, or NLP related news."
     sources:
+    - https://lobste.rs/t/ai.rss
     - https://www.testingcatalog.com/rss/
     - https://stability.ai/news?format=rss
     - https://replicate.com/blog/rss
@@ -110,22 +103,9 @@ rss:
     # Reddit
     - https://www.reddit.com/r/LocalLLaMA/.rss
 
-  programming-updates:
-    name: "Programming Updates"
-    description: "Any programming language updates, including Python, JavaScript, etc."
-    re_categorize: false
-    sources:
-    - https://deno.com/feed
-    - url: https://bun.sh/rss.xml
-      scrape_needed: false
-    - https://vercel.com/atom
-    - https://astro.build/rss.xml
-    - https://nextjs.org/feed.xml
-    - https://tailwindcss.com/feeds/feed.xml
-
-  software-updates:
-    name: "Software Updates"
-    description: "Any software or app updates, including apps, PaaS, operating systems, etc."
+  software:
+    name: "Software"
+    description: "Showcase of software, tools, and services."
     sources:
     - url: https://feeds.macrumors.com/MacRumors-All
       scrape_needed: false
@@ -136,39 +116,29 @@ rss:
     - url: https://blogs.windows.com/feed
       scrape_needed: false
 
-  software:
-    name: "Software"
-    re_categorize: false
-    description: "Showcase of software, tools, and services."
+  show:
+    name: "Show"
+    description: "Showcase of any new products, services, or tools."
     sources:
     - https://hnrss.org/show
-    - url: https://www.appinn.com/feed
-      scrape_needed: false
     - https://hellogithub.com/rss
     - https://www.producthunt.com/feed
     - https://lobste.rs/t/show
-    # - https://www.reddit.com/r/SideProject/.rss
 
   hong-kong:
     name: "Hong Kong"
-    re_categorize: false
     sources:
     - https://www.scmp.com/rss/2/feed
     - url: https://hongkongfp.com/feed/
       scrape_needed: false
     description: "Any news related to Hong Kong, specifically in Hong Kong."
 
-  hacker-news:
-    name: "Hacker News"
+  nerdy:
+    name: "Nerdy"
     sources:
-    # - https://hnrss.org/newest
+    # Hacker News
     - https://hnrss.org/frontpage
-
-  lobste-rs:
-    name: "Lobste.rs"
-    sources:
-    # Other Categories: science, math, education
-    - https://lobste.rs/t/ai.rss
+    # Lobste.rs
     - https://lobste.rs/t/event.rss
     - https://lobste.rs/t/web.rss
     - https://lobste.rs/t/mobile.rss
