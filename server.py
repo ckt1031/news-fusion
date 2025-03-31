@@ -38,9 +38,14 @@ async def health():
     return "OK"
 
 
-@app.get("/favicon.ico", include_in_schema=False)
+@app.get("/", include_in_schema=False)
+async def index():
+    return FileResponse("./web/public/index.html")
+
+
+@app.get("/icon.jpg", include_in_schema=False)
 async def favicon():
-    return FileResponse("./web/public/favicon.ico")
+    return FileResponse("./web/public/icon.jpg")
 
 
 app.include_router(web.routes.feed.feed_router, prefix="/v1")
