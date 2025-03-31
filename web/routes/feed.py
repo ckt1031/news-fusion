@@ -46,6 +46,7 @@ async def get_feed(request: Request, category: str, date: str | None = None):
     fg.link(
         href=f"{server_url}v1/feed/{category}", rel="self", type="application/rss+xml"
     )
+    fg.icon(f"{server_url}/favicon.png")
 
     fg.load_extension("media")  # Enable media extension for media content
 
