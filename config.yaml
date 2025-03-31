@@ -135,6 +135,7 @@ rss:
 
   nerdy:
     name: "Nerdy"
+    description: "A collection of nerdy content, encompassing technical blogs, in-depth articles, practical guides, insightful reviews, and lively discussions sourced from HackerNews and Lobsters (Except news)"
     sources:
     # Hacker News
     - https://hnrss.org/frontpage
