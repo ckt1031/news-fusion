@@ -137,8 +137,7 @@ async def handle_entry(
     )
 
     # Check if the article is already in the database
-    similarity_check = category_config.get("similarity_check", True)
-    if "embedding" in processed_data and similarity_check:
+    if "embedding" in processed_data:
         # Save to VectorDB
         await Qdrant().insert_news(
             link=link,

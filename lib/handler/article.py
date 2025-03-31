@@ -80,14 +80,14 @@ async def handle_article(
     # Cache key for quick redis checking without accessing the database
     article_cache_key = get_article_redis_key(guid)
 
-    if category_config.get("similarity_check", True):
-        # TODO: Support for multiple splits
-        e = await similarity_check(reduced_content, guid, link)
+    # Check if the article is already in the vector database
+    # TODO: Support for multiple splits
+    e = await similarity_check(reduced_content, guid, link)
 
-        if e["similar"]:
-            return None
+    if e["similar"]:
+        return None
 
-        content_embedding = e["content_embedding"]
+    content_embedding = e["content_embedding"]
 
     # Check importance
     today_date_str = datetime.now().strftime("%Y-%m-%d")
