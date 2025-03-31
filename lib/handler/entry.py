@@ -146,15 +146,13 @@ async def handle_entry(
         )
 
     # Re-categorize the article based on the content
-    if source_config["re_categorize"]:
-        # Re-categorize the article
-        new_category_name = await re_categorize(data)
+    new_category_name = await re_categorize(data)
 
-        if new_category_name != category and new_category_name is not None:
-            logger.success(f"Re-categorize: {link} -> {new_category_name}")
+    if new_category_name != category and new_category_name is not None:
+        logger.success(f"Re-categorize: {link} -> {new_category_name}")
 
-            category = new_category_name
-            data.category = new_category_name
+        category = new_category_name
+        data.category = new_category_name
 
     # Get the UPDATED category config
     category_config = get_rss_config()[category]
