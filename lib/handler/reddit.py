@@ -55,13 +55,15 @@ async def handle_reddit(
     if contents is None:
         return None
 
-    sc = await evaluate_article_similarity(contents, guid, link)
+    computed_similarities = await evaluate_article_similarity(contents, guid, link)
 
-    if sc["similar"]:
+    if computed_similarities["similar"]:
         # Reject if the Reddit post is similar to entry in the database
         return None
 
-    content_embedding: CreateEmbeddingResponse = sc["content_embedding"]
+    content_embedding: CreateEmbeddingResponse = computed_similarities[
+        "content_embedding"
+    ]
 
     # Check importance
     today_date_str = datetime.now().strftime("%Y-%m-%d")
