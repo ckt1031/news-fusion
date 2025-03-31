@@ -5,7 +5,7 @@ from openai.types import CreateEmbeddingResponse
 
 from lib.api.llm import LLM
 from lib.db.redis_client import get_article_redis_key, redis_client
-from lib.handler.utils import extract_url_contents, similarity_check
+from lib.handler.utils import evaluate_article_similarity, extract_url_contents
 from lib.prompts import ImportanceSummaryMergedSchema, importance_summary_merged_prompt
 from lib.rss import parse_rss_feed
 from lib.scraper import extract_html_to_text
@@ -55,7 +55,7 @@ async def handle_reddit(
     if contents is None:
         return None
 
-    sc = await similarity_check(contents, guid, link)
+    sc = await evaluate_article_similarity(contents, guid, link)
 
     if sc["similar"]:
         # Reject if the Reddit post is similar to entry in the database

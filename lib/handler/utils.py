@@ -23,7 +23,7 @@ def host_same(link: str, second_link: str) -> bool:
     return get_host_from_url(link) == get_host_from_url(second_link)
 
 
-async def similarity_check(content: str, guid: str, link: str) -> dict:
+async def evaluate_article_similarity(content: str, guid: str, link: str) -> dict:
     article_cache_key = get_article_redis_key(guid)
 
     # TODO Split and process if the content is longer than 8000 tokens

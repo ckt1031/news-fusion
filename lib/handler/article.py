@@ -7,7 +7,7 @@ from lib.api.hackernews import get_hn_comments
 from lib.api.llm import LLM, count_tokens
 from lib.api.lobste import get_lobsters_comments
 from lib.db.redis_client import get_article_redis_key, redis_client
-from lib.handler.utils import similarity_check, split_text_by_token
+from lib.handler.utils import evaluate_article_similarity, split_text_by_token
 from lib.prompts import (
     ImportanceSummaryMergedSchema,
     TitleSummarySchema,
@@ -82,7 +82,7 @@ async def handle_article(
 
     # Check if the article is already in the vector database
     # TODO: Support for multiple splits
-    e = await similarity_check(reduced_content, guid, link)
+    e = await evaluate_article_similarity(reduced_content, guid, link)
 
     if e["similar"]:
         return None
