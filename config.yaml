@@ -19,7 +19,6 @@ rss:
     - https://www.aljazeera.com/xml/rss/all.xml
     - https://feeds.npr.org/1004/rss.xml
     - https://www.yahoo.com/news/rss/world/
-    discord_channel_id: "1315385019241595172"
     # https://about.fb.comofrchn/wp-content/uploads/2016/05/rss-urls-1.pdf
 
   finance:
@@ -28,7 +27,6 @@ rss:
     sources:
     - https://finance.yahoo.com/news/rssindex
     - https://feeds.bbci.co.uk/news/business/rss.xml
-    discord_channel_id: "1325126500336271442"
 
   investing:
     name: Investing
@@ -36,7 +34,6 @@ rss:
     sources:
     - https://feeds.content.dowjones.io/public/rss/mw_bulletins
     - https://feeds.content.dowjones.io/public/rss/mw_topstories
-    discord_channel_id: "1325116616303837204"
 
   technology:
     # https://github.com/tuan3w/awesome-tech-rss
@@ -57,7 +54,6 @@ rss:
     - https://www.bleepingcomputer.com/feed/
     - https://feeds.feedburner.com/venturebeat/SZYF
     - https://feeds.bbci.co.uk/news/technology/rss.xml
-    discord_channel_id: "1297769089024004126"
 
   technology-products:
     name: "Technology Products"
@@ -96,7 +92,6 @@ rss:
       scrape_needed: false
     - https://blog.google/products/chrome/rss/
     - https://blog.chromium.org/feeds/posts/default
-    discord_channel_id: "1315654076280864789"
 
   ai:
     name: AI
@@ -114,7 +109,6 @@ rss:
 
     # Reddit
     - https://www.reddit.com/r/LocalLLaMA/.rss
-    discord_channel_id: "1315729383440515113"
 
   programming-updates:
     name: "Programming Updates"
@@ -128,7 +122,6 @@ rss:
     - https://astro.build/rss.xml
     - https://nextjs.org/feed.xml
     - https://tailwindcss.com/feeds/feed.xml
-    discord_channel_id: "1334833185019920455"
 
   software-updates:
     name: "Software Updates"
@@ -142,7 +135,6 @@ rss:
     - https://9to5google.com/feed/
     - url: https://blogs.windows.com/feed
       scrape_needed: false
-    discord_channel_id: "1334772753575710752"
 
   software:
     name: "Software"
@@ -156,7 +148,6 @@ rss:
     - https://www.producthunt.com/feed
     - https://lobste.rs/t/show
     # - https://www.reddit.com/r/SideProject/.rss
-    discord_channel_id: "1326858185881026653"
 
   hong-kong:
     name: "Hong Kong"
@@ -165,7 +156,6 @@ rss:
     - https://www.scmp.com/rss/2/feed
     - url: https://hongkongfp.com/feed/
       scrape_needed: false
-    discord_channel_id: "1322608633355305110"
     description: "Any news related to Hong Kong, specifically in Hong Kong."
 
   hacker-news:
@@ -173,7 +163,6 @@ rss:
     sources:
     # - https://hnrss.org/newest
     - https://hnrss.org/frontpage
-    discord_channel_id: "1320300826673156168"
 
   lobste-rs:
     name: "Lobste.rs"
@@ -190,4 +179,3 @@ rss:
     - https://lobste.rs/t/security.rss
     - https://lobste.rs/t/privacy.rss
     - https://lobste.rs/t/release.rss
-    discord_channel_id: "1320300953953505351"

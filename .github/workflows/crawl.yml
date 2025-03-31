@@ -25,8 +25,6 @@ jobs:
             LOGURU_LEVEL: "INFO"
 
             REDIS_URL: ${{ secrets.REDIS_URL }}
-            DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
-
             DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
             QDRANT_API_KEY: ${{ secrets.QDRANT_API_KEY }}

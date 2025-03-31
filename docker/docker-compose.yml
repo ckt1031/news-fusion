@@ -15,7 +15,6 @@ services:
       - REDIS_URL=redis://:1234@redis:6379
       - QDRANT_CONNECTION_STRING=http://qdrant:6333
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/news_fusion
-      - DISCORD_BOT_TOKEN=00000
     healthcheck:
       test: ["CMD-SHELL", "wget -q -O - http://localhost:4782/health | grep -q 'OK'"]
       interval: 30s

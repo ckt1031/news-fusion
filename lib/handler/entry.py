@@ -3,7 +3,6 @@ import time
 from asyncio import sleep
 from datetime import datetime, timezone
 
-import validators
 from loguru import logger
 
 from lib.api.llm import LLM
@@ -12,7 +11,6 @@ from lib.db.qdrant import Qdrant
 from lib.db.redis_client import get_article_redis_key, redis_client
 from lib.handler.article import handle_article
 from lib.handler.reddit import handle_reddit
-from lib.notifications.discord import send_discord
 from lib.prompts import CategorizeSchema, categorize_prompt
 from lib.rss import (
     get_categories_with_description,
@@ -167,24 +165,5 @@ async def handle_entry(
     # Set the key to Redis, expire in 72 hours
     article_cache_key = get_article_redis_key(guid)
     await redis_client.set(article_cache_key, 1, ex=72 * 60 * 60)
-
-    # Send notification to Discord
-    discord_channel_id: str | None = category_config.get("discord_channel_id", "")
-
-    if len(discord_channel_id) > 0:
-        embed = {
-            "url": data.link,
-            "title": data.title,
-            "description": data.summary,
-            "footer": {"text": data.publisher},
-        }
-
-        if data.image and validators.url(data.image):
-            embed["thumbnail"] = {"url": data.image}
-
-        await send_discord(
-            discord_channel_id,
-            embed=embed,
-        )
 
     logger.success(f"Entry processed: {link}")
