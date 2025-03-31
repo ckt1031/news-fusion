@@ -12,7 +12,7 @@ from loguru import logger
 from lib.db.postgres import Article
 from lib.env import get_env
 from lib.rss import get_rss_config
-from web.routes.utils import XMLResponseCoder, get_example_atom
+from web.routes.utils import AtomXMLResponseCoder, get_example_atom
 
 feed_router = APIRouter()
 
@@ -153,7 +153,7 @@ async def categories() -> Response:
         },
     },
 )
-@cache(expire=300, coder=XMLResponseCoder)
+@cache(expire=300, coder=AtomXMLResponseCoder)
 async def category_feed(
     category: str, request: Request, date: str | None = None
 ) -> Response:
