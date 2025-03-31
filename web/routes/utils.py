@@ -6,7 +6,7 @@ from feedgen.feed import FeedGenerator
 
 
 # Coder for XML response, used in FastAPI rate limiter
-class XMLResponseCoder(Coder):
+class AtomXMLResponseCoder(Coder):
     @classmethod
     def encode(cls, value: Response) -> bytes:
         return value.body
@@ -14,13 +14,14 @@ class XMLResponseCoder(Coder):
     @classmethod
     def decode(cls, value: bytes) -> Response:
         value_str = value.decode("utf-8")
+
+        # Throw error if the response is not XML
+        if not value_str.startswith("<?xml"):
+            raise ValueError("Response is not XML")
+
         return Response(
             content=value,
-            media_type=(
-                "application/xml"
-                if value_str.startswith("<?xml")
-                else "application/json"  # Still support JSON as error message is JSON type
-            ),
+            media_type="application/atom+xml",
         )
 
 
