@@ -52,7 +52,7 @@ rss:
       scrape_needed: false
 
   dev:
-    name: "Developer News"
+    name: "Developer"
     description: "Developer, system, and computer related news, including programming, software, tools, etc."
     sources:
     - url: https://blog.jetbrains.com/feed/
