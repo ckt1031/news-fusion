@@ -23,7 +23,7 @@ rss:
 
   technology:
     name: Technology
-    description: "Major technology, new innovations, internet, etc. (Exclude programming)"
+    description: "Technology news, including software, hardware, gadgets, and any tech-related news."
     sources:
     - url: https://www.theverge.com/rss/tech/index.xml
       scrape_needed: false
@@ -105,7 +105,7 @@ rss:
 
   software:
     name: "Software"
-    description: "Showcase of software, tools, and services."
+    description: "Software updates, OS updates, and any software related news."
     sources:
     - url: https://feeds.macrumors.com/MacRumors-All
       scrape_needed: false
@@ -118,7 +118,7 @@ rss:
 
   show:
     name: "Show"
-    description: "Showcase of any new products, services, or tools."
+    description: "Show of GitHub repositories, Ideas, showcase of any new products, services, or tools."
     sources:
     - https://hnrss.org/show
     - https://hellogithub.com/rss
