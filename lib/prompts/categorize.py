@@ -23,13 +23,10 @@ Return "none" if no category is suitable.
 However, there will be some cases like content came from aggregators like Hacker News, Lobsters, Reddit, etc.
 Their content can be guidelines, tutorials, or news but not directly related to the category.
 Categories like technology, world are more related to News rather than general articles.
-In such cases, categorize them as "none".
-
-Some mixed cases like AI Tech Investment or Acquisitions can be categorized as "Investing" / "Finance" rather than "Technology" or "AI".
-Example: "LLM Market to Reach $1.2 Billion by 2025" can be categorized as "Investing" / "Finance"
+In such cases, categorize them as "nerdy".
 
 ## Supported Categories (ID: Description)
 
-- none: No category assigned below or sources from aggregators while content is not news-related
+- none: No category below is suitable
 {categories_text}
 """
