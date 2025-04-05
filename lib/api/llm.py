@@ -13,6 +13,12 @@ def count_tokens(text: str) -> int:
     return len(encoder.encode(text))
 
 
+extra_headers = {
+    "HTTP-Referer": "https://github.com/ckt1031/news-fusion",  # Optional. Site URL for rankings on openrouter.ai.
+    "X-Title": "News Fusion",  # Optional. Site title for rankings on openrouter.ai.
+}
+
+
 class LLM:
     def __init__(self):
         self.api_key = get_env("OPENAI_API_KEY")
@@ -39,6 +45,7 @@ class LLM:
         response = await self.client.embeddings.create(
             model=self.embedding_model,
             input=text,
+            extra_headers=extra_headers,
         )
 
         return response
@@ -61,6 +68,7 @@ class LLM:
                 {"role": "user", "content": user_message},
             ],
             response_format=schema,
+            extra_headers=extra_headers,
         )
 
         res = completion.choices[0].message
