@@ -33,19 +33,18 @@ summary_prompt = """
 ## Summary
 
 - 150 words max
-- Plain text only (no HTML, markdown, or links)
+- Plain text only, do not use markdown or HTML
+- Simple, clear, precise, specific, focused and straight
 - New paragraph for separation is allowed
+
+- No escape characters or emojis
 - No subheadings
 - No conclusion, personal opinions, or additional information
 - No bullet points or lists, use full sentences
 - No questions or answers
-- Simple, clear, precise, specific, focused and straight
-- No subheadings
 - No conclusion, personal opinions, or additional information
-- Use bullet points (-) with bolded keywords if necessary
 - No links or references
 """.strip()
-# - For company and investing news, include stock ticker symbols (e.g., AAPL, TSLA)
 
 comments_summary_additional_prompt = """
 ## Comments Summary inside Summary
