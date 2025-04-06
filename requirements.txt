@@ -1,4 +1,4 @@
-fastapi==0.115.8
+fastapi==0.115.12
 pydantic==2.10.6
 feedgen==1.0.0
 feedparser==6.0.11
