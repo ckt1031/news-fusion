@@ -117,4 +117,4 @@ rss:
     - https://www.scmp.com/rss/2/feed
     - url: https://hongkongfp.com/feed/
       scrape_needed: false
-    description: "Any news related to Hong Kong, specifically in Hong Kong."
+    description: "Hong Kong local news"
