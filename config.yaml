@@ -88,7 +88,6 @@ rss:
     name: AI
     description: "Any LLM, AI, or NLP related news."
     sources:
-    - https://lobste.rs/t/ai.rss
     - https://www.testingcatalog.com/rss
     - https://stability.ai/news?format=rss
     - https://replicate.com/blog/rss
