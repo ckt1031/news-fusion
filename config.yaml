@@ -72,9 +72,7 @@ rss:
     - url: https://www.docker.com/feed
       scrape_needed: false
     - https://www.osnews.com/feed/
-    - url: https://www.freecodecamp.org/news/rss
-      scrape_needed: false
-    - https://blog.google/products/chrome/rss/
+    - https://blog.google/products/chrome/rss
     - https://blog.chromium.org/feeds/posts/default
 
     # Programming Languages, Runtime and Frameworks
@@ -91,17 +89,14 @@ rss:
     description: "Any LLM, AI, or NLP related news."
     sources:
     - https://lobste.rs/t/ai.rss
-    - https://www.testingcatalog.com/rss/
+    - https://www.testingcatalog.com/rss
     - https://stability.ai/news?format=rss
     - https://replicate.com/blog/rss
     - https://jina.ai/feed.rss
     - https://huggingface.co/blog/feed.xml
     - https://deepmind.google/blog/rss.xml
     - https://qwenlm.github.io/blog/index.xml
-    - https://blog.google/products/gemini/rss/
-
-    # Reddit
-    - https://www.reddit.com/r/LocalLLaMA/.rss
+    - https://blog.google/products/gemini/rss
 
   software:
     name: "Software"
@@ -116,15 +111,6 @@ rss:
     - url: https://blogs.windows.com/feed
       scrape_needed: false
 
-  show:
-    name: "Show"
-    description: "Show of GitHub repositories, Ideas, showcase of any new products, services, or tools."
-    sources:
-    - https://hnrss.org/show
-    - https://hellogithub.com/rss
-    - https://www.producthunt.com/feed
-    - https://lobste.rs/t/show
-
   hong-kong:
     name: "Hong Kong"
     sources:
@@ -132,21 +118,3 @@ rss:
     - url: https://hongkongfp.com/feed/
       scrape_needed: false
     description: "Any news related to Hong Kong, specifically in Hong Kong."
-
-  nerdy:
-    name: "Nerdy"
-    description: "A collection of nerdy content, encompassing technical blogs, in-depth articles, practical guides, insightful reviews, and lively discussions sourced from HackerNews and Lobsters (Except news)"
-    sources:
-    # Hacker News
-    - https://hnrss.org/frontpage
-    # Lobste.rs
-    - https://lobste.rs/t/event.rss
-    - https://lobste.rs/t/web.rss
-    - https://lobste.rs/t/mobile.rss
-    - https://lobste.rs/t/games.rss
-    - https://lobste.rs/t/programming.rss
-    - https://lobste.rs/t/hardware.rss
-    - https://lobste.rs/t/compsci.rss
-    - https://lobste.rs/t/security.rss
-    - https://lobste.rs/t/privacy.rss
-    - https://lobste.rs/t/release.rss
