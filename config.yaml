@@ -23,7 +23,7 @@ rss:
 
   technology:
     name: Technology
-    description: "Technology news, including software, hardware, gadgets, and any tech-related news."
+    description: "Technology news, also includes software, hardware, gadgets, and any tech-related news."
     sources:
     - url: https://www.theverge.com/rss/tech/index.xml
       scrape_needed: false
@@ -40,9 +40,18 @@ rss:
     - https://feeds.feedburner.com/venturebeat/SZYF
     - https://feeds.bbci.co.uk/news/technology/rss.xml
 
+    - url: https://feeds.macrumors.com/MacRumors-All
+      scrape_needed: false
+    - url: https://www.windowslatest.com/feed/
+      scrape_needed: false
+    - https://9to5mac.com/feed/
+    - https://9to5google.com/feed/
+    - url: https://blogs.windows.com/feed
+      scrape_needed: false
+
   products:
     name: "Products"
-    description: "Technology products, their reviews and gadgets, including hardware, devices, smartphones, laptops, etc."
+    description: "Including tech products, reviews and gadgets, hardware, devices, smartphones, laptops, etc."
     source:
     - url: https://www.techradar.com/rss
       scrape_needed: false
@@ -50,6 +59,20 @@ rss:
       scrape_needed: false
     - url: https://www.tomsguide.com/feeds/all
       scrape_needed: false
+
+  finance:
+    name: Finance
+    description: "Global, investing, economy, country, market related, rather than company related."
+    sources:
+    - https://finance.yahoo.com/news/rssindex
+    - https://feeds.bbci.co.uk/news/business/rss.xml
+
+  investing:
+    name: Investing
+    description: "Money, fundings, investment, earnings, stock market, etc."
+    sources:
+    - https://feeds.content.dowjones.io/public/rss/mw_bulletins
+    - https://feeds.content.dowjones.io/public/rss/mw_topstories
 
   dev:
     name: "Developer"
@@ -86,7 +109,7 @@ rss:
 
   ai:
     name: AI
-    description: "Any LLM, AI, or NLP related news."
+    description: "New AI models, AI features, LLMs, or NLP."
     sources:
     - https://www.testingcatalog.com/rss
     - https://stability.ai/news?format=rss
@@ -96,19 +119,6 @@ rss:
     - https://deepmind.google/blog/rss.xml
     - https://qwenlm.github.io/blog/index.xml
     - https://blog.google/products/gemini/rss
-
-  software:
-    name: "Software"
-    description: "Software updates, OS updates, and any software related news."
-    sources:
-    - url: https://feeds.macrumors.com/MacRumors-All
-      scrape_needed: false
-    - url: https://www.windowslatest.com/feed/
-      scrape_needed: false
-    - https://9to5mac.com/feed/
-    - https://9to5google.com/feed/
-    - url: https://blogs.windows.com/feed
-      scrape_needed: false
 
   hong-kong:
     name: "Hong Kong"
