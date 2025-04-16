@@ -62,7 +62,7 @@ rss:
 
   finance:
     name: Finance
-    description: "Global, investing, economy, country, market related, rather than company related."
+    description: "Global, economy, country, market related."
     sources:
     - https://finance.yahoo.com/news/rssindex
     - https://feeds.bbci.co.uk/news/business/rss.xml
