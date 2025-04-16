@@ -3,7 +3,7 @@ pydantic==2.11.3
 feedgen==1.0.0
 feedparser==6.0.11
 loguru==0.7.3
-openai==1.73.0
+openai==1.74.1
 peewee==3.17.9
 python-dotenv==1.1.0
 trafilatura==2.0.0
