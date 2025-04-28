@@ -12,7 +12,7 @@ pyyaml==6.0.2
 redis==5.2.1
 fastapi-limiter==0.1.6
 uvicorn[standard]==0.34.1
-qdrant-client~=1.12.1
+qdrant-client~=1.14.2
 tiktoken~=0.8.0
 fastapi-cache2~=0.2.2
 httpx~=0.28.1
