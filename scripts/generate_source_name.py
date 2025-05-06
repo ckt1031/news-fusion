@@ -62,6 +62,10 @@ async def generate_source_name():
             schema=SourceName,
         )
 
+        if res is None:
+            logger.error(f"Failed to generate source name for {source}")
+            continue
+
         # Print the source name, add it to dict {category_name: source}
         data[source] = res.name
 

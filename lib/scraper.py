@@ -8,7 +8,7 @@ from loguru import logger
 from lib.browser import browser_allowed, browser_driver
 
 
-def scrape_client_html(url: str) -> str:
+def scrape_client_html(url: str):
     return trafilatura.fetch_url(url)
 
 
