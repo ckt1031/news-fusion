@@ -74,6 +74,21 @@ rss:
     - https://feeds.content.dowjones.io/public/rss/mw_bulletins
     - https://feeds.content.dowjones.io/public/rss/mw_topstories
 
+  dev:
+    name: "Developer"
+    description: "Developer, system, and computer related news, including programming, software, tools, etc."
+    sources:
+    - url: https://blog.jetbrains.com/feed/
+      scrape_needed: false
+    - https://supabase.com/feed.xml
+    - url: https://netflixtechblog.com/feed
+      scrape_needed: false
+    - https://engineering.atspotify.com/feed
+    - url: https://www.docker.com/feed
+      scrape_needed: false
+    - https://blog.google/products/chrome/rss
+    - https://blog.chromium.org/feeds/posts/default
+
   ai:
     name: AI
     description: "New AI models, AI features, LLMs, or NLP."
