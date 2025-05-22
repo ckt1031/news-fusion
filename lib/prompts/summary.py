@@ -42,7 +42,6 @@ summary_prompt = """
 - No conclusion, personal opinions, or additional information
 - No bullet points or lists, use full sentences
 - No questions or answers
-- No conclusion, personal opinions, or additional information
 - No links or references
 """.strip()
 
