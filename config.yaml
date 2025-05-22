@@ -74,39 +74,6 @@ rss:
     - https://feeds.content.dowjones.io/public/rss/mw_bulletins
     - https://feeds.content.dowjones.io/public/rss/mw_topstories
 
-  dev:
-    name: "Developer"
-    description: "Developer, system, and computer related news, including programming, software, tools, etc."
-    sources:
-    - url: https://blog.jetbrains.com/feed/
-      scrape_needed: false
-    - url: https://cprss.s3.amazonaws.com/javascriptweekly.com.xml
-      scrape_needed: false
-    - url: https://cprss.s3.amazonaws.com/nodeweekly.com.xml
-      scrape_needed: false
-    - https://stackoverflow.blog/feed
-    - https://blog.replit.com/feed.xml
-    - https://supabase.com/feed.xml
-    - url: https://netflixtechblog.com/feed
-      scrape_needed: false
-    - https://engineering.atspotify.com/feed
-    - url: https://github.blog/feed
-      scrape_needed: false
-    - url: https://www.docker.com/feed
-      scrape_needed: false
-    - https://www.osnews.com/feed/
-    - https://blog.google/products/chrome/rss
-    - https://blog.chromium.org/feeds/posts/default
-
-    # Programming Languages, Runtime and Frameworks
-    - https://deno.com/feed
-    - url: https://bun.sh/rss.xml
-      scrape_needed: false
-    - https://vercel.com/atom
-    - https://astro.build/rss.xml
-    - https://nextjs.org/feed.xml
-    - https://tailwindcss.com/feeds/feed.xml
-
   ai:
     name: AI
     description: "New AI models, AI features, LLMs, or NLP."
