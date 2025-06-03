@@ -1,6 +1,0 @@
-*
-!**/*.py
-!Dockerfile
-!docker-compose.yaml
-!requirements.txt
-!web

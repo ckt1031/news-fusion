@@ -1,9 +1,5 @@
-*.env
-.venv
-__pycache__
-data
-qdrant_storage
-.idea
-dev.config.yaml
+node_modules
+.env
 .DS_Store
-/downloaded_files/
+.idea
+.vscode
