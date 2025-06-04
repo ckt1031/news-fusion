@@ -5,18 +5,17 @@
       "name": "news-fusion",
       "dependencies": {
         "@hono/node-server": "^1.14.3",
-        "@types/html-to-text": "^9.0.4",
-        "@types/rss": "^0.0.32",
-        "drizzle-orm": "^0.44.1",
+        "drizzle-orm": "^0.44.2",
         "hono": "^4.7.11",
         "itty-router": "^5.0.18",
         "postgres": "^3.4.7",
         "rss": "^1.2.2",
         "rss-parser": "^3.13.0",
-        "zod": "^3.25.50",
+        "zod": "^3.25.51",
       },
       "devDependencies": {
         "@biomejs/biome": "^1.9.4",
+        "@types/rss": "^0.0.32",
         "dotenv": "^16.5.0",
         "drizzle-kit": "^0.31.1",
         "vercel": "^42.3.0",
@@ -151,8 +150,6 @@
     "@tsconfig/node16": ["@tsconfig/node16@1.0.4", "", {}, "sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA=="],
 
     "@types/estree": ["@types/estree@1.0.7", "", {}, "sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ=="],
-
-    "@types/html-to-text": ["@types/html-to-text@9.0.4", "", {}, "sha512-pUY3cKH/Nm2yYrEmDlPR1mR7yszjGx4DrwPjQ702C4/D5CwHuZTgZdIdwPkRbcuhs7BAh2L5rg3CL5cbRiGTCQ=="],
 
     "@types/json-schema": ["@types/json-schema@7.0.15", "", {}, "sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA=="],
 
