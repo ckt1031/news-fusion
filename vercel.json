@@ -2,6 +2,22 @@
 	"$schema": "https://openapi.vercel.sh/vercel.json",
 	"rewrites": [
 		{
+			"source": "/favicon.ico",
+			"destination": "public/favicon.ico"
+		},
+		{
+			"source": "/robots.txt",
+			"destination": "public/robots.txt"
+		},
+		{
+			"source": "/icon.jpg",
+			"destination": "public/icon.jpg"
+		},
+		{
+			"source": "/",
+			"destination": "public/index.html"
+		},
+		{
 			"source": "/(.*)",
 			"destination": "api/index"
 		}
