@@ -1,11 +1,12 @@
-import type { FeedItem } from '../lib/rss';
-import { articles } from '../db/schema';
-import { db } from '../db';
 import type { RSSConfigFeed } from '../config/sources';
-import { scrapeArticle } from './scrape';
-import Similarity from '../lib/similarity';
-import { redisClient } from '../lib/redis';
+import { db } from '../db';
+import { articles } from '../db/schema';
 import { processNewsWithLLM } from '../lib/completions';
+import { redisClient } from '../lib/redis';
+import type { FeedItem } from '../lib/rss';
+import Similarity from '../lib/similarity';
+import { getThumbnailFromRSS } from '../lib/thumbnail';
+import { scrapeArticle } from './scrape';
 
 export type FeedItemWithFeedData = {
 	feedConfig: RSSConfigFeed;
@@ -34,10 +35,14 @@ export async function handleEntry(item: FeedItemWithFeedData) {
 	const isScrapingNeeded = !item.feedConfig.useXmlContent;
 
 	let articleContent = item.feedData.content;
+	let thumbnail = await getThumbnailFromRSS(item.feedData.rawContent);
 
 	if (isScrapingNeeded) {
 		// Scrape the article.
-		articleContent = await scrapeArticle(item.feedData.link);
+		const articleData = await scrapeArticle(item.feedData.link);
+
+		thumbnail = articleData.image ?? thumbnail;
+		articleContent = articleData.content ?? articleContent;
 	}
 
 	const similarity = new Similarity();
@@ -70,6 +75,7 @@ export async function handleEntry(item: FeedItemWithFeedData) {
 	// Save the article to the database.
 	await db.insert(articles).values({
 		guid,
+		thumbnail,
 		link: item.feedData.link,
 		title: processedData.title,
 		summary: processedData.summary,

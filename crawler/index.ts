@@ -1,6 +1,7 @@
-import { RSS_CATEGORIES, type RSSConfigFeed } from '../config/sources';
+import { type RSSConfigFeed, RSS_CATEGORIES } from '../config/sources';
 import { parseRSS } from '../lib/rss';
 import Similarity from '../lib/similarity';
+import { getThumbnailFromRSS } from '../lib/thumbnail';
 import { handleEntry } from './entry';
 
 async function handleFeed(feed: RSSConfigFeed) {

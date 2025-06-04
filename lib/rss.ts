@@ -1,5 +1,5 @@
+import { type HtmlToTextOptions, convert } from 'html-to-text';
 import Parser from 'rss-parser';
-import { convert, type HtmlToTextOptions } from 'html-to-text';
 
 export interface FeedItem {
 	title: string;
@@ -12,6 +12,7 @@ export interface FeedItem {
 	id: string;
 	// categories: string[]; // We don't need this for now
 	isoDate: string;
+	rawContent: string;
 }
 
 export interface FeedData {
@@ -65,6 +66,7 @@ export async function parseRSS(url: string, hours?: number) {
 		}
 
 		// Convert the content to text.
+		item.rawContent = item.content;
 		item.content = convert(item.content, htmlToTextOptions);
 	});
 
