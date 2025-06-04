@@ -18,6 +18,11 @@ export const articles = pgTable('articles', {
 	thumbnail: text('thumbnail'),
 
 	/**
+	 * Classify the article into a category for better grouping.
+	 */
+	category: text('category').notNull(),
+
+	/**
 	 * The date and time the article was published.
 	 */
 	publishedAt: timestamp('published_at', {

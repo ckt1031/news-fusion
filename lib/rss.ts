@@ -4,11 +4,12 @@ export interface FeedItem {
 	title: string;
 	link: string;
 	pubDate: string;
-	creator: string;
+	// creator: string; // We don't need this for now
 	content: string;
 	contentSnippet: string;
 	guid: string;
-	categories: string[];
+	id: string;
+	// categories: string[]; // We don't need this for now
 	isoDate: string;
 }
 
@@ -40,6 +41,19 @@ export async function parseRSS(url: string, hours?: number) {
 
 	// Filter the feed items by the number of hours.
 	feed.items = feed.items.filter((item) => !hours || filterHours(item, hours));
+
+	// Check feed id and guids, if guid is missing, check id, if id is missing, check guid.
+	feed.items.map((item) => {
+		if (!item.guid && item.id) {
+			// @ts-ignore
+			item.guid = item.id;
+		}
+
+		if (item.guid && !item.id) {
+			// @ts-ignore
+			item.id = item.guid;
+		}
+	});
 
 	return feed;
 }
