@@ -1,0 +1,27 @@
+{
+	"name": "news-fusion",
+	"scripts": {
+		"drizzle:push": "drizzle-kit push",
+		"format": "biome format . --write",
+		"scrape": "bun run crawler/index.ts",
+		"vercel": "vercel dev"
+	},
+	"dependencies": {
+		"@hono/node-server": "^1.14.3",
+		"@types/html-to-text": "^9.0.4",
+		"@types/rss": "^0.0.32",
+		"drizzle-orm": "^0.44.2",
+		"hono": "^4.7.11",
+		"itty-router": "^5.0.18",
+		"postgres": "^3.4.7",
+		"rss": "^1.2.2",
+		"rss-parser": "^3.13.0",
+		"zod": "^3.25.51"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"dotenv": "^16.5.0",
+		"drizzle-kit": "^0.31.1",
+		"vercel": "^42.3.0"
+	}
+}
