@@ -26,6 +26,8 @@ async function runScraper() {
 		// Handle each feed in the category.
 		for (const feed of category.feeds) await handleFeed(feed);
 	}
+
+	process.exit(0);
 }
 
 runScraper();
