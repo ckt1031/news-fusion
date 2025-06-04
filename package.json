@@ -2,7 +2,8 @@
 	"name": "news-fusion",
 	"scripts": {
 		"drizzle:push": "drizzle-kit push",
-		"format": "tsc --noEmit && biome format . --write",
+		"format": "biome format . --write",
+		"lint": "tsc --noEmit && biome check . --write",
 		"scrape": "bun run crawler/index.ts",
 		"vercel": "vercel dev"
 	},

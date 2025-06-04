@@ -6,5 +6,5 @@ export async function scrapeArticle(url: string) {
 	if (!data || !data.content)
 		throw new Error(`Failed to scrape article from ${url}`);
 
-	return data.content;
+	return data;
 }
