@@ -58,7 +58,7 @@ export const RSS_CATEGORIES: RSSConfigCategory[] = [
 			},
 			{
 				name: 'CNN',
-				url: 'https://rss.cnn.com/rss/cnn_world.rss',
+				url: 'http://rss.cnn.com/rss/cnn_world.rss',
 			},
 			{
 				name: 'ABC News',

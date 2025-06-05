@@ -5,12 +5,14 @@
 		"format": "biome format . --write",
 		"lint": "tsc --noEmit && biome check . --write",
 		"scrape": "bun run crawler/index.ts",
+		"validate-sources": "bun run scripts/validate-sources.ts",
 		"vercel": "vercel dev"
 	},
 	"dependencies": {
 		"@extractus/article-extractor": "^8.0.19",
 		"@hono/node-server": "^1.14.3",
 		"@qdrant/js-client-rest": "^1.14.1",
+		"chalk": "^5.4.1",
 		"drizzle-orm": "^0.44.2",
 		"hono": "^4.7.11",
 		"itty-router": "^5.0.18",
