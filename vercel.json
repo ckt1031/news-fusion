@@ -1,5 +1,6 @@
 {
 	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"buildCommand": "bun run build && bun run drizzle:migrate",
 	"rewrites": [
 		{
 			"source": "/favicon.ico",
