@@ -1,0 +1,43 @@
+name: Process News
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '5,20,35,50 * * * *' # Every 15 minutes
+
+permissions:
+  contents: read
+
+jobs:
+  process:
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install && bun run drizzle:migrate || true # Ignore error if migration fails
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Check Project
+        run: bun run scrape
+        env:
+          # Redis
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+
+          # Database
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+          # OpenAI
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+          OPENAI_COMPLETION_MODEL: ${{ secrets.OPENAI_COMPLETION_MODEL }}
+
+          # Qdrant
+          QDRANT_URL: ${{ secrets.QDRANT_URL }}
+          QDRANT_API_KEY: ${{ secrets.QDRANT_API_KEY }}
