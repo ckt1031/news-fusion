@@ -19,9 +19,11 @@
 		"drizzle-orm": "^0.44.2",
 		"feed": "^5.1.0",
 		"hono": "^4.7.11",
+		"html-to-text": "^9.0.5",
 		"itty-router": "^5.0.18",
 		"openai": "^5.1.0",
 		"postgres": "^3.4.7",
+		"redis": "^5.5.5",
 		"rss-parser": "^3.13.0",
 		"tiktoken": "^1.0.21",
 		"zod": "^3.25.51"
