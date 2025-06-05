@@ -1,6 +1,7 @@
 {
 	"name": "news-fusion",
 	"scripts": {
+		"postbuild": "drizzle-kit generate && drizzle-kit migrate",
 		"drizzle:push": "drizzle-kit push",
 		"format": "biome format . --write",
 		"lint": "tsc --noEmit && biome check . --write",

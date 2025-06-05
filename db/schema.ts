@@ -42,4 +42,9 @@ export const articles = pgTable('articles', {
 	 * The name of the publisher of the article.
 	 */
 	publisher: text('publisher').notNull(),
+
+	/**
+	 * Similarity score of the article, text array of article ids.
+	 */
+	similarities: text('similarities').array().notNull().default([]),
 });
