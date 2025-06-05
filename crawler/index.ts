@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import { type RSSConfigFeed, RSS_CATEGORIES } from '../config/sources.js';
+import { randomOrder } from '../lib/random.js';
 import { parseRSS } from '../lib/rss.js';
 import Similarity from '../lib/similarity.js';
 import { handleEntry } from './entry.js';
@@ -10,11 +11,11 @@ async function handleFeed(feedConfig: RSSConfigFeed) {
 	const parsedFeed = await parseRSS(feedConfig.url, 24);
 
 	for (const feedData of parsedFeed.items) {
-		// try {
-		await handleEntry({ feedConfig, feedData });
-		// } catch (error) {
-		// 	console.error(chalk.red(`Error handling entry: ${error}`));
-		// }
+		try {
+			await handleEntry({ feedConfig, feedData });
+		} catch (error) {
+			console.error(chalk.red(`Error handling entry: ${error}`));
+		}
 	}
 }
 
@@ -24,9 +25,13 @@ async function runScraper() {
 	// Initialize the similarity collection.
 	await similarity.initializeCollection();
 
-	for (const category of RSS_CATEGORIES) {
+	const randomOrderedCategories = randomOrder(RSS_CATEGORIES);
+
+	for (const category of randomOrderedCategories) {
+		const randomOrderedFeeds = randomOrder(category.feeds);
+
 		// Handle each feed in the category.
-		for (const feed of category.feeds) await handleFeed(feed);
+		for (const feed of randomOrderedFeeds) await handleFeed(feed);
 	}
 
 	process.exit(0);
