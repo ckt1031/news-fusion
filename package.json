@@ -15,17 +15,16 @@
 		"@qdrant/js-client-rest": "^1.14.1",
 		"chalk": "^5.4.1",
 		"drizzle-orm": "^0.44.2",
+		"feed": "^5.1.0",
 		"hono": "^4.7.11",
 		"itty-router": "^5.0.18",
 		"openai": "^5.1.0",
 		"postgres": "^3.4.7",
-		"rss": "^1.2.2",
 		"rss-parser": "^3.13.0",
 		"zod": "^3.25.51"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@types/rss": "^0.0.32",
 		"dotenv": "^16.5.0",
 		"drizzle-kit": "^0.31.1",
 		"vercel": "^42.3.0"

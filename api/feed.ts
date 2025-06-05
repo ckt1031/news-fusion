@@ -1,6 +1,6 @@
 import { desc } from 'drizzle-orm';
+import { Feed } from 'feed';
 import { Hono } from 'hono';
-import RSS from 'rss';
 import { RSS_CATEGORIES } from '../config/sources';
 import { db } from '../db';
 import { articles } from '../db/schema';
@@ -11,9 +11,22 @@ function isCategoryValid(category: string) {
 	return RSS_CATEGORIES.some((c) => c.id === category);
 }
 
+/**
+ * Returns a feed in the requested format.
+ * By default, it returns an atom feed.
+ */
 router.get('/:category', async (c) => {
-	const category = c.req.param('category');
+	const categoryWithFormat = c.req.param('category');
+	const [category, format] = categoryWithFormat.split('.');
 
+	const allowedFormats = ['xml', 'atom', 'json'];
+
+	// If format is provided, check if it's valid
+	if (format && !allowedFormats.includes(format)) {
+		return c.json({ error: 'Invalid format' }, 400);
+	}
+
+	// If category is not valid, return 400
 	if (!isCategoryValid(category)) {
 		return c.json({ error: 'Invalid category' }, 400);
 	}
@@ -32,23 +45,36 @@ router.get('/:category', async (c) => {
 
 	const SITE_DOMAIN = process.env.SITE_DOMAIN || 'localhost:3000';
 
-	const feed = new RSS({
+	const feed = new Feed({
+		id: `https://${SITE_DOMAIN}`,
+		link: `https://${SITE_DOMAIN}`,
 		title: `News Fusion - ${categoryData.name}`,
-		feed_url: `https://${SITE_DOMAIN}/v1/feeds/${category}`,
-		site_url: `https://${SITE_DOMAIN}`,
+		copyright: `All rights reserved ${new Date().getFullYear()}, News Fusion`,
+		description:
+			'News Fusion is a news aggregator that collects news from various sources and provides a unified feed.',
 	});
 
 	for (const article of queriedArticles) {
-		feed.item({
+		feed.addItem({
+			id: article.guid,
 			title: article.title,
 			description: article.summary,
-			url: article.link,
+			link: article.link,
 			date: article.publishedAt,
-			guid: article.guid,
 		});
 	}
 
-	return c.body(feed.xml(), 200, {
-		'Content-Type': 'application/xml; charset=UTF-8',
+	const isRSS = format === 'xml';
+	const isAtom = !format || format === 'atom';
+
+	const contentType = isRSS || isAtom ? 'application/xml' : 'application/json';
+	const feedContent = isRSS
+		? feed.rss2()
+		: isAtom
+			? feed.atom1()
+			: feed.json1();
+
+	return c.body(feedContent, 200, {
+		'Content-Type': `${contentType}; charset=UTF-8`,
 	});
 });
