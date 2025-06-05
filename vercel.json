@@ -1,6 +1,12 @@
 {
 	"$schema": "https://openapi.vercel.sh/vercel.json",
 	"buildCommand": "bun run drizzle:migrate",
+	"crons": [
+		{
+			"path": "/v1/cron",
+			"schedule": "0 0 * * *"
+		}
+	],
 	"rewrites": [
 		{
 			"source": "/favicon.ico",

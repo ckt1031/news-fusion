@@ -5,8 +5,9 @@ import type { FeedItem } from './rss.js';
 
 export default class Similarity {
 	private readonly openai: OpenAI;
-	private readonly collectionName = 'articles';
-	private readonly qdrantClient: QdrantClient;
+
+	readonly collectionName = 'articles';
+	readonly qdrantClient: QdrantClient;
 
 	constructor() {
 		const requriedVariables = [
