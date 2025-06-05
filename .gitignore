@@ -6,4 +6,6 @@ node_modules
 drizzle
 .vercel
 migrations
-api/dist.js
+dist
+.nuxt
+.output

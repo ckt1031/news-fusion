@@ -1,36 +1,30 @@
 import { desc } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { Feed } from 'feed';
-import { Hono } from 'hono';
-import { RSS_CATEGORIES } from '../config/sources.js';
-import { db } from '../db/index.js';
-import { articles } from '../db/schema.js';
+import { RSS_CATEGORIES } from '~~/config/sources';
+import { db } from '~~/db';
+import { articles } from '~~/db/schema';
 
-export const router = new Hono();
-
-function isCategoryValid(category: string) {
+export function isCategoryValid(category: string) {
 	return RSS_CATEGORIES.some((c) => c.id === category);
 }
 
-/**
- * Returns a feed in the requested format.
- * By default, it returns an atom feed.
- */
-router.get('/:category', async (c) => {
-	const categoryWithFormat = c.req.param('category');
+export default defineEventHandler(async (event) => {
+	const categoryWithFormat = event.context.params?.category || '';
 	const [category, format] = categoryWithFormat.split('.');
-
 	const allowedFormats = ['xml', 'atom', 'json'];
 
 	// If format is provided, check if it's valid
 	if (format && !allowedFormats.includes(format)) {
-		return c.json({ error: 'Invalid format' }, 400);
+		return Response.json({ error: 'Invalid format' }, { status: 400 });
 	}
 
 	// If category is not valid, return 400
 	if (!isCategoryValid(category)) {
-		return c.json({ error: 'Invalid category' }, 400);
+		return Response.json({ error: 'Invalid category' }, { status: 400 });
 	}
 
+	// Get the category data
 	const categoryData = RSS_CATEGORIES.find((c) => c.id === category);
 
 	// Below will never happen, but just in case
@@ -40,6 +34,7 @@ router.get('/:category', async (c) => {
 	const queriedArticles = await db
 		.select()
 		.from(articles)
+		.where(eq(articles.category, category))
 		.limit(150)
 		.orderBy(desc(articles.publishedAt));
 
@@ -75,7 +70,9 @@ router.get('/:category', async (c) => {
 			? feed.atom1()
 			: feed.json1();
 
-	return c.body(feedContent, 200, {
-		'Content-Type': `${contentType}; charset=UTF-8`,
+	return new Response(feedContent, {
+		headers: {
+			'Content-Type': `${contentType}; charset=UTF-8`,
+		},
 	});
 });

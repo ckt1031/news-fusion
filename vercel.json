@@ -1,32 +1,10 @@
 {
 	"$schema": "https://openapi.vercel.sh/vercel.json",
-	"buildCommand": "bun run drizzle:migrate",
+	"buildCommand": "bun run nuxt:build && bun run drizzle:migrate",
 	"crons": [
 		{
-			"path": "/v1/cron",
+			"path": "/api/cron",
 			"schedule": "0 0 * * *"
-		}
-	],
-	"rewrites": [
-		{
-			"source": "/favicon.ico",
-			"destination": "public/favicon.ico"
-		},
-		{
-			"source": "/robots.txt",
-			"destination": "public/robots.txt"
-		},
-		{
-			"source": "/icon.jpg",
-			"destination": "public/icon.jpg"
-		},
-		{
-			"source": "/",
-			"destination": "public/index.html"
-		},
-		{
-			"source": "/(.*)",
-			"destination": "api/index"
 		}
 	]
 }

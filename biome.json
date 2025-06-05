@@ -3,7 +3,7 @@
 	"formatter": {
 		"enabled": true,
 		"formatWithErrors": false,
-		"ignore": ["node_modules"],
+		"ignore": ["node_modules", "dist", ".nuxt", ".output", ".vercel"],
 		"indentStyle": "tab",
 		"indentWidth": 2,
 		"lineEnding": "lf",
@@ -19,10 +19,11 @@
 		"rules": {
 			"recommended": true
 		},
-		"ignore": ["node_modules", "dist"]
+		"ignore": ["node_modules", "dist", ".nuxt", ".output", ".vercel"]
 	},
 	"organizeImports": {
-		"enabled": true
+		"enabled": true,
+		"ignore": ["node_modules", "dist", ".nuxt", ".output", ".vercel"]
 	},
 	"json": {
 		"formatter": {

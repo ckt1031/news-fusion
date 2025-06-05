@@ -1,16 +1,13 @@
 import { lt } from 'drizzle-orm';
-import { Hono } from 'hono';
-import { db } from '../db/index.js';
-import { articles } from '../db/schema.js';
-import Similarity from '../lib/similarity.js';
+import { db } from '~~/db/index';
+import { articles } from '~~/db/schema';
+import Similarity from '~~/lib/similarity';
 
-export const router = new Hono();
-
-router.get('/', async (c) => {
-	const authHeader = c.req.header('Authorization');
+export default defineEventHandler(async (event) => {
+	const authHeader = event.node.req.headers.authorization;
 
 	if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-		return c.json({ error: 'Unauthorized' }, 401);
+		return Response.json({ error: 'Unauthorized' }, { status: 401 });
 	}
 
 	const similarity = new Similarity();
@@ -38,5 +35,5 @@ router.get('/', async (c) => {
 			lt(articles.createdAt, new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)),
 		);
 
-	return c.json({ success: true });
+	return Response.json({ success: true });
 });
