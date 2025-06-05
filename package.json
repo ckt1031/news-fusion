@@ -15,6 +15,7 @@
 		"@hono/node-server": "^1.14.3",
 		"@langchain/textsplitters": "^0.1.0",
 		"@qdrant/js-client-rest": "^1.14.1",
+		"@types/html-to-text": "^9.0.4",
 		"chalk": "^5.4.1",
 		"drizzle-orm": "^0.44.2",
 		"feed": "^5.1.0",
