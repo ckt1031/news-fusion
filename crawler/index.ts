@@ -10,11 +10,11 @@ async function handleFeed(feedConfig: RSSConfigFeed) {
 	const parsedFeed = await parseRSS(feedConfig.url, 24);
 
 	for (const feedData of parsedFeed.items) {
-		try {
-			await handleEntry({ feedConfig, feedData });
-		} catch (error) {
-			console.error(chalk.red(`Error handling entry: ${error}`));
-		}
+		// try {
+		await handleEntry({ feedConfig, feedData });
+		// } catch (error) {
+		// 	console.error(chalk.red(`Error handling entry: ${error}`));
+		// }
 	}
 }
 

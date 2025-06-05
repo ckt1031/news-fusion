@@ -82,8 +82,8 @@ export default class Similarity {
 
 	async getEmbedding(content: string): Promise<number[][]> {
 		const splitter = new TokenTextSplitter({
-			chunkSize: 2000,
-			chunkOverlap: 250,
+			chunkSize: 6500,
+			chunkOverlap: 500,
 			encodingName: 'o200k_base', // o200k_base is for newer models
 		});
 
@@ -100,47 +100,60 @@ export default class Similarity {
 		return response.data.map((chunk) => chunk.embedding);
 	}
 
+	async getSimilarArticlesByEmbedding(embedding: number[][], limit = 5) {
+		const articles = [];
+
+		for (const chunk of embedding) {
+			const response = await this.qdrantClient.query(this.collectionName, {
+				with_payload: false,
+				with_vector: false,
+				query: chunk,
+				limit,
+			});
+
+			const similarityThreshold = 0.75;
+
+			const similarArticles = response.points.filter(
+				(point) => point.score >= similarityThreshold,
+			);
+
+			articles.push(...similarArticles);
+		}
+
+		return articles;
+	}
+
 	async getSimilarArticles(content: string, limit = 5) {
 		const embedding = await this.getEmbedding(content);
-
-		const response = await this.qdrantClient.query(this.collectionName, {
-			query: embedding,
-			with_payload: false,
-			with_vector: false,
-			limit,
-		});
+		const similarArticles = await this.getSimilarArticlesByEmbedding(embedding);
 
 		// Sort the points by score in descending order
-		const points = response.points.sort((a, b) => b.score - a.score);
+		const points = similarArticles.sort((a, b) => b.score - a.score);
 
-		const similarityThreshold = 0.75;
-
-		const similarArticles = points.filter(
-			(point) => point.score >= similarityThreshold,
-		);
+		// Apply limit
+		points.splice(limit);
 
 		return {
-			similar: similarArticles.length > 0,
-			similarities: similarArticles,
+			similar: points.length > 0,
+			similarities: points,
 			embedding,
 		};
 	}
 
 	async saveArticle(articleData: FeedItem, embedding: number[][]) {
+		const points = embedding.map((chunk) => ({
+			id: crypto.randomUUID(),
+			vector: chunk,
+			payload: {
+				createdAt: new Date(
+					articleData.pubDate, // <-- ISO Date by default
+				).toISOString(),
+				link: articleData.link,
+			},
+		}));
+
 		await this.qdrantClient.upsert(this.collectionName, {
-			points: [
-				{
-					id: crypto.randomUUID(),
-					vector: embedding,
-					payload: {
-						link: articleData.link,
-						// RFC 3339 format
-						createdAt: new Date(
-							articleData.pubDate, // <-- ISO Date by default
-						).toISOString(),
-					},
-				},
-			],
+			points,
 		});
 	}
 }
