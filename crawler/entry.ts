@@ -1,12 +1,12 @@
-import type { RSSConfigFeed } from '../config/sources';
-import { db } from '../db';
-import { articles } from '../db/schema';
-import { processNewsWithLLM } from '../lib/completions';
-import { redisClient } from '../lib/redis';
-import type { FeedItem } from '../lib/rss';
-import Similarity from '../lib/similarity';
-import { getThumbnailFromRSS } from '../lib/thumbnail';
-import { scrapeArticle } from './scrape';
+import type { RSSConfigFeed } from '../config/sources.js';
+import { db } from '../db/index.js';
+import { articles } from '../db/schema.js';
+import { processNewsWithLLM } from '../lib/completions.js';
+import { redisClient } from '../lib/redis.js';
+import type { FeedItem } from '../lib/rss.js';
+import Similarity from '../lib/similarity.js';
+import { getThumbnailFromRSS } from '../lib/thumbnail.js';
+import { scrapeArticle } from './scrape.js';
 
 export type FeedItemWithFeedData = {
 	feedConfig: RSSConfigFeed;

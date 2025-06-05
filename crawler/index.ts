@@ -1,8 +1,7 @@
-import { type RSSConfigFeed, RSS_CATEGORIES } from '../config/sources';
-import { parseRSS } from '../lib/rss';
-import Similarity from '../lib/similarity';
-import { getThumbnailFromRSS } from '../lib/thumbnail';
-import { handleEntry } from './entry';
+import { type RSSConfigFeed, RSS_CATEGORIES } from '../config/sources.js';
+import { parseRSS } from '../lib/rss.js';
+import Similarity from '../lib/similarity.js';
+import { handleEntry } from './entry.js';
 
 async function handleFeed(feed: RSSConfigFeed) {
 	console.log(`Handling feed: ${feed.name}`);

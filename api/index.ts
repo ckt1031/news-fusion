@@ -1,6 +1,6 @@
 import { handle } from '@hono/node-server/vercel';
 import { Hono } from 'hono';
-import { router as feedRouter } from './feed';
+import { router as feedRouter } from './feed.js';
 
 const app = new Hono();
 

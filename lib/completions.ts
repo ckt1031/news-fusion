@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 import { zodResponseFormat } from 'openai/helpers/zod';
-import type { FeedItemWithFeedData } from '../crawler/entry';
-import { NewsProcessorPrompt, NewsProcessorSchema } from './prompt/news';
+import type { FeedItemWithFeedData } from '../crawler/entry.js';
+import { NewsProcessorPrompt, NewsProcessorSchema } from './prompt/news.js';
 
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,
