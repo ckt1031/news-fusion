@@ -1,6 +1,8 @@
 import crypto from 'node:crypto';
+import { TokenTextSplitter } from '@langchain/textsplitters';
 import { QdrantClient } from '@qdrant/js-client-rest';
 import OpenAI from 'openai';
+import type { CreateEmbeddingResponse } from 'openai/resources';
 import type { FeedItem } from './rss.js';
 
 export default class Similarity {
@@ -61,13 +63,41 @@ export default class Similarity {
 		}
 	}
 
-	async getEmbedding(content: string) {
-		const response = await this.openai.embeddings.create({
-			model: 'text-embedding-3-small',
-			input: content,
+	/**
+	 * To prevent random errors or massive content length,
+	 * we will set maximum content length to 12K tokens.
+	 * Only send the first chunk to the embedding model, the rest will be abandoned.
+	 */
+	async handleMaxmiumContentLength(content: string) {
+		const splitter = new TokenTextSplitter({
+			chunkSize: 12 * 1000,
+			chunkOverlap: 0,
+			encodingName: 'o200k_base', // o200k_base is for newer models
 		});
 
-		return response.data[0].embedding;
+		const chunks = await splitter.splitText(content);
+
+		return chunks[0];
+	}
+
+	async getEmbedding(content: string): Promise<number[][]> {
+		const splitter = new TokenTextSplitter({
+			chunkSize: 2000,
+			chunkOverlap: 250,
+			encodingName: 'o200k_base', // o200k_base is for newer models
+		});
+
+		const preProcessedContent = await this.handleMaxmiumContentLength(content);
+		const chunks = await splitter.splitText(preProcessedContent);
+
+		const response: CreateEmbeddingResponse =
+			await this.openai.embeddings.create({
+				model: 'text-embedding-3-small',
+				input: chunks,
+				encoding_format: 'float',
+			});
+
+		return response.data.map((chunk) => chunk.embedding);
 	}
 
 	async getSimilarArticles(content: string, limit = 5) {
@@ -96,7 +126,7 @@ export default class Similarity {
 		};
 	}
 
-	async saveArticle(articleData: FeedItem, embedding: number[]) {
+	async saveArticle(articleData: FeedItem, embedding: number[][]) {
 		await this.qdrantClient.upsert(this.collectionName, {
 			points: [
 				{
