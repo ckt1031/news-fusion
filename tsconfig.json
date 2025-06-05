@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"resolveJsonModule": true,
-		"lib": ["ESNext"],
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
 		"moduleResolution": "NodeNext",
 		"module": "NodeNext",
 		"target": "ESNext",

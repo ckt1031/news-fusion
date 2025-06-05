@@ -52,6 +52,7 @@ router.get('/:category', async (c) => {
 		copyright: `All rights reserved ${new Date().getFullYear()}, News Fusion`,
 		description:
 			'News Fusion is a news aggregator that collects news from various sources and provides a unified feed.',
+		hub: 'https://pubsubhubbub.appspot.com/',
 	});
 
 	for (const article of queriedArticles) {

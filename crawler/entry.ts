@@ -6,6 +6,7 @@ import { redisClient } from '../lib/redis.js';
 import type { FeedItem } from '../lib/rss.js';
 import Similarity from '../lib/similarity.js';
 import { getThumbnailFromRSS } from '../lib/thumbnail.js';
+import { sendPub } from './pub.js';
 import { scrapeArticle } from './scrape.js';
 
 export type FeedItemWithFeedData = {
@@ -76,6 +77,8 @@ export async function handleEntry(item: FeedItemWithFeedData) {
 		console.debug(`Article (${title}) is not important, skipping...`);
 		return;
 	}
+
+	await sendPub(processedData.category);
 
 	// Save the article to the database.
 	await similarity.saveArticle(item.feedData, similarityResult.embedding);
