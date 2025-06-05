@@ -25,10 +25,10 @@ export async function handleEntry(item: FeedItemWithFeedData) {
 	const title = item.feedData.title;
 
 	// We will not process the entry if it's older than 12 hours
-	if (new Date(item.feedData.pubDate) < new Date(Date.now() - 12 * 60 * 60 * 1000)) {
-		console.debug(
-			`Article (${title}) is older than 12 hours, skipping...`,
-		);
+	if (
+		new Date(item.feedData.pubDate) < new Date(Date.now() - 12 * 60 * 60 * 1000)
+	) {
+		console.debug(`Article (${title}) is older than 12 hours, skipping...`);
 		return;
 	}
 

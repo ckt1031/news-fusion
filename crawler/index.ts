@@ -1,18 +1,20 @@
+import chalk from 'chalk';
 import { type RSSConfigFeed, RSS_CATEGORIES } from '../config/sources.js';
 import { parseRSS } from '../lib/rss.js';
 import Similarity from '../lib/similarity.js';
 import { handleEntry } from './entry.js';
 
-async function handleFeed(feed: RSSConfigFeed) {
-	console.log(`Handling feed: ${feed.name}`);
+async function handleFeed(feedConfig: RSSConfigFeed) {
+	console.log(`Handling feed: ${feedConfig.name}`);
 
-	const parsedFeed = await parseRSS(feed.url, 24);
+	const parsedFeed = await parseRSS(feedConfig.url, 24);
 
-	for (const entry of parsedFeed.items) {
-		await handleEntry({
-			feedConfig: feed,
-			feedData: entry,
-		});
+	for (const feedData of parsedFeed.items) {
+		try {
+			await handleEntry({ feedConfig, feedData });
+		} catch (error) {
+			console.error(chalk.red(`Error handling entry: ${error}`));
+		}
 	}
 }
 
