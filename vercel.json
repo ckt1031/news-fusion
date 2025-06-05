@@ -19,7 +19,7 @@
 		},
 		{
 			"source": "/(.*)",
-			"destination": "api/index"
+			"destination": "api/dist"
 		}
 	]
 }
