@@ -1,13 +1,14 @@
 {
 	"compilerOptions": {
 		"resolveJsonModule": true,
-		"lib": ["ESNext", "DOM", "dom.iterable"],
-		"moduleResolution": "node",
-		"module": "CommonJS",
+		"lib": ["ESNext"],
+		"moduleResolution": "NodeNext",
+		"module": "NodeNext",
 		"target": "ESNext",
 		"strict": true,
 		"esModuleInterop": true,
 		"skipLibCheck": true,
+		"noEmit": true,
 		"forceConsistentCasingInFileNames": true
 	}
 }

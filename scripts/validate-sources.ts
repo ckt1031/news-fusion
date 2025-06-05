@@ -1,6 +1,6 @@
 import chalk from 'chalk';
-import { RSS_CATEGORIES } from '../config/sources';
-import { parseRSS } from '../lib/rss';
+import { RSS_CATEGORIES } from '../config/sources.js';
+import { parseRSS } from '../lib/rss.js';
 
 async function validateSources() {
 	for (const category of RSS_CATEGORIES) {

@@ -1,9 +1,9 @@
 import { desc } from 'drizzle-orm';
 import { Feed } from 'feed';
 import { Hono } from 'hono';
-import { RSS_CATEGORIES } from '../config/sources';
-import { db } from '../db';
-import { articles } from '../db/schema';
+import { RSS_CATEGORIES } from '../config/sources.js';
+import { db } from '../db/index.js';
+import { articles } from '../db/schema.js';
 
 export const router = new Hono();
 

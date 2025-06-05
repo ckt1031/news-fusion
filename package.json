@@ -1,7 +1,7 @@
 {
 	"name": "news-fusion",
+	"type": "module",
 	"scripts": {
-		"build": "esbuild api/index.ts --bundle --outfile=api/dist.js --format=cjs --platform=node --minify",
 		"drizzle:migrate": "drizzle-kit generate && drizzle-kit migrate || true",
 		"drizzle:push": "drizzle-kit push",
 		"format": "biome format . --write",
@@ -28,7 +28,7 @@
 		"@biomejs/biome": "^1.9.4",
 		"dotenv": "^16.5.0",
 		"drizzle-kit": "^0.31.1",
-		"esbuild": "^0.25.5",
+		"typescript": "^5.8.3",
 		"vercel": "^42.3.0"
 	}
 }

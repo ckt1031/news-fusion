@@ -1,6 +1,7 @@
+import crypto from 'node:crypto';
 import { QdrantClient } from '@qdrant/js-client-rest';
 import OpenAI from 'openai';
-import type { FeedItem } from './rss';
+import type { FeedItem } from './rss.js';
 
 export default class Similarity {
 	private readonly openai: OpenAI;

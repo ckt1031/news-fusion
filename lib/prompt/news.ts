@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { RSS_CATEGORIES } from '../../config/sources';
+import { RSS_CATEGORIES } from '../../config/sources.js';
 
 export const NewsProcessorSchema = z.object({
 	title: z.string(),
