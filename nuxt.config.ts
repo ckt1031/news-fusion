@@ -14,9 +14,13 @@ export default defineNuxtConfig({
 	modules: ['@nuxt/ui', '@nuxt/icon', 'nuxt-easy-lightbox'],
 	css: ['~/assets/css/main.css'],
 	routeRules: {
-		'/': { isr: 120 },
-		'/category/**': { isr: 120 },
+		'/': { isr: 300 },
+		'/category/**': { isr: 300 },
 		'/about': { prerender: true },
+
+		// API routes
+		'/api/feeds/**': { cors: true, isr: 60 },
+		'/api/data/feed': { cors: false, isr: 300 },
 	},
 	icon: {
 		serverBundle: {

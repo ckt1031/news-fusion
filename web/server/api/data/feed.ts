@@ -13,10 +13,13 @@ export function isCategoryValid(category: string) {
  * Oriented for internal nuxt use
  */
 export default defineEventHandler(async (event) => {
-	const category = getRouterParam(event, 'category') as string;
+	const queryCategory = getQuery(event).category as string | undefined;
 
-	// If category is not valid, return 400
-	if (!isCategoryValid(category)) {
+	if (
+		!queryCategory ||
+		!isCategoryValid(queryCategory) ||
+		typeof queryCategory !== 'string'
+	) {
 		return {
 			error: 'Invalid category',
 		};
@@ -62,7 +65,7 @@ export default defineEventHandler(async (event) => {
 	const date = queryDate ?? dayjs().format('YYYY-MM-DD');
 
 	// Get the category data
-	const categoryData = RSS_CATEGORIES.find((c) => c.id === category);
+	const categoryData = RSS_CATEGORIES.find((c) => c.id === queryCategory);
 
 	// Below will never happen, but just in case
 	// And makes TypeScript happy
@@ -78,7 +81,7 @@ export default defineEventHandler(async (event) => {
 			.from(articles)
 			.where(
 				and(
-					eq(articles.category, category),
+					eq(articles.category, queryCategory),
 					// Date range, from start of the day to end of the day
 					gte(articles.createdAt, dayjs(date).startOf('day').toDate()),
 					lt(articles.createdAt, dayjs(date).endOf('day').toDate()),

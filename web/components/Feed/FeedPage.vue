@@ -10,7 +10,9 @@
       </div>
     </div>
   </div>
-  <FeedList/>
+  <div class="my-3">
+    <FeedList/>
+  </div>
 </template>
 
 <style scoped>
