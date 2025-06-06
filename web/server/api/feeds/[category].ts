@@ -56,7 +56,7 @@ export default defineEventHandler(async (event) => {
 			title: article.title,
 			description: article.summary,
 			link: article.link,
-			date: article.publishedAt,
+			date: article.createdAt,
 		});
 	}
 

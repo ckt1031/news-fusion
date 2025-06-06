@@ -23,7 +23,7 @@ const onClick = () => {
           {{ props.entry.title }}
         </span>
       </button>
-      <FeedDate :date="typeof props.entry.publishedAt === 'string' ? props.entry.publishedAt : props.entry.publishedAt.toISOString()"/>
+      <FeedDate :date="typeof props.entry.createdAt === 'string' ? props.entry.createdAt : props.entry.createdAt.toISOString()"/>
     </div>
     <div v-if="openContent === 'true'" class="my-2" translatable="true">
       <LazyFeedItemDetail :entry="props.entry"/>
