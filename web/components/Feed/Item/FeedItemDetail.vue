@@ -16,7 +16,7 @@ const props = defineProps<{
     <p class="text-zinc-600 dark:text-zinc-400 mb-2 leading-relaxed">{{ props.entry.summary }}</p>
     <div class="clear-both"></div>
   </div>
-  <a class="underline" :href="props.entry.link" target="_blank">
+  <a class="underline text-blue-500 dark:text-blue-400 italic font-light" :href="props.entry.link" target="_blank">
     Read More
   </a>
 </template>
