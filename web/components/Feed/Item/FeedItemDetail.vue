@@ -11,7 +11,11 @@ const props = defineProps<{
 
 <template>
   <FeedPublisher :url="props.entry.link" :name="props.entry.publisher" class="mb-2"/>
-  <p class="text-zinc-600 dark:text-zinc-400 font-serif mb-2">{{ props.entry.summary }}</p>
+  <div class="relative mx-auto">
+    <FeedItemThumbnail :imageURL="props.entry.thumbnail" v-if="props.entry.thumbnail && props.entry.thumbnail.length > 0" />
+    <p class="text-zinc-600 dark:text-zinc-400 mb-2 leading-relaxed">{{ props.entry.summary }}</p>
+    <div class="clear-both"></div>
+  </div>
   <a class="underline" :href="props.entry.link" target="_blank">
     Read More
   </a>
