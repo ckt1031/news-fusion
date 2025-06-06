@@ -20,7 +20,7 @@ async function isEntryExistsInRedis(guid: string) {
 }
 
 export async function handleEntry(item: FeedItemWithFeedData) {
-	console.debug(`Checking ${item.feedData.title}`);
+	// console.debug(`Checking ${item.feedData.title}`);
 
 	const guid = item.feedData.guid;
 	const title = item.feedData.title;
@@ -68,6 +68,8 @@ export async function handleEntry(item: FeedItemWithFeedData) {
 
 	const processedData = await processNewsWithLLM(item, articleContent);
 
+	console.debug(processedData);
+
 	// Save to redis for duplicate check, value as 1 to reduce memory usage.
 	await redisClient.set(`entry:${guid}`, 1, {
 		EX: 60 * 60 * 24 * 3, // 3 days (1 day is 86400 seconds)
@@ -94,4 +96,6 @@ export async function handleEntry(item: FeedItemWithFeedData) {
 		publisher: item.feedConfig.name,
 		publishedAt: new Date(item.feedData.pubDate),
 	});
+
+	console.debug(`Article (${title}) processed successfully`);
 }
