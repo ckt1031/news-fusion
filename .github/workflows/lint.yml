@@ -25,4 +25,4 @@ jobs:
         run: bun install
 
       - name: Check Project
-        run: bun run lint
+        run: bun run nuxt:prepare && bun run lint
