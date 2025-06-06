@@ -8,12 +8,18 @@ async function validateSources() {
 			const parsed = await parseRSS(feed.url);
 
 			if (!parsed) {
-				console.error(chalk.red(`Failed to parse RSS feed for ${feed.name}`));
+				console.error(
+					chalk.red(
+						`Failed to parse RSS feed for ${feed.name} (${category.name})`,
+					),
+				);
 				continue;
 			}
 
 			console.log(
-				chalk.green(`Parsed ${parsed.items.length} items from ${feed.name}`),
+				chalk.green(
+					`Parsed ${parsed.items.length} items from ${feed.name} (${category.name})`,
+				),
 			);
 		}
 	}

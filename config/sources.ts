@@ -100,8 +100,8 @@ export const RSS_CATEGORIES: RSSConfigCategory[] = [
 		],
 	},
 	{
-		id: 'finance',
-		name: 'Finance',
+		id: 'business',
+		name: 'Business',
 		feeds: [
 			{
 				name: 'Yahoo Finance',
@@ -111,19 +111,23 @@ export const RSS_CATEGORIES: RSSConfigCategory[] = [
 				name: 'BBC Business',
 				url: 'https://feeds.bbci.co.uk/news/business/rss.xml',
 			},
+			{
+				name: 'The Independent',
+				url: 'https://www.independent.co.uk/news/business/rss',
+			},
 		],
 	},
 	{
-		id: 'investing',
-		name: 'Investing',
+		id: 'politics',
+		name: 'Politics',
 		feeds: [
 			{
-				name: 'Dow Jones',
-				url: 'https://feeds.content.dowjones.io/public/rss/mw_bulletins',
+				name: 'Politico',
+				url: 'https://rss.politico.com/politics-news.xml',
 			},
 			{
-				name: 'Dow Jones',
-				url: 'https://feeds.content.dowjones.io/public/rss/mw_topstories',
+				name: 'The Independent',
+				url: 'https://www.independent.co.uk/news/world/rss',
 			},
 		],
 	},
