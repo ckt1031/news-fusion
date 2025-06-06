@@ -11,7 +11,7 @@ export default defineNuxtConfig({
 		'~/components/Feed/Item',
 		'~/components/Layout',
 	],
-	modules: ['@nuxt/ui', '@nuxt/icon'],
+	modules: ['@nuxt/ui', '@nuxt/icon', 'nuxt-easy-lightbox'],
 	css: ['~/assets/css/main.css'],
 	routeRules: {
 		'/': { isr: 120 },
