@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import { desc, gte, lt } from 'drizzle-orm';
 import { and, eq } from 'drizzle-orm';
-import z from 'zod';
 import { RSS_CATEGORIES } from '~~/config/sources';
 import { db } from '~~/db';
 import { articles } from '~~/db/schema';
@@ -9,10 +8,6 @@ import { articles } from '~~/db/schema';
 export function isCategoryValid(category: string) {
 	return RSS_CATEGORIES.some((c) => c.id === category);
 }
-
-const querySchema = z.object({
-	date: z.string().optional(),
-});
 
 /**
  * Oriented for internal nuxt use
@@ -27,9 +22,44 @@ export default defineEventHandler(async (event) => {
 		};
 	}
 
+	const queryDate = getQuery(event).date as string | undefined;
+
+	if (
+		queryDate &&
+		(!/^\d{4}-\d{2}-\d{2}$/.test(queryDate as string) ||
+			typeof queryDate !== 'string')
+	) {
+		return {
+			error: 'Invalid date format',
+		};
+	}
+
+	if (queryDate) {
+		// check if date is valid and under 30 days, if not, return 400
+		const date = dayjs(queryDate);
+
+		if (!date.isValid()) {
+			return {
+				error: 'Invalid date',
+			};
+		}
+
+		if (dayjs().diff(date, 'd') > 30) {
+			return {
+				error: 'Date is too far in the past',
+			};
+		}
+
+		// Cannot query future date (add 1 day buffer to avoid timezone issues)
+		if (date.diff(dayjs(), 'h') > 24) {
+			return {
+				error: 'Date is too far in the future',
+			};
+		}
+	}
+
 	// Get date query parameter
-	const queries = await getValidatedQuery(event, (q) => querySchema.parse(q));
-	const date = queries.date ?? dayjs().format('YYYY-MM-DD');
+	const date = queryDate ?? dayjs().format('YYYY-MM-DD');
 
 	// Get the category data
 	const categoryData = RSS_CATEGORIES.find((c) => c.id === category);

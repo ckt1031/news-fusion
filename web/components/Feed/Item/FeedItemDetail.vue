@@ -10,10 +10,9 @@ const props = defineProps<{
 </style>
 
 <template>
-  <p class="text-zinc-600 dark:text-zinc-400 font-serif">{{ props.entry.summary }}</p>
-  <div class="flex flex-col sm:flex-row sm:items-center mt-3" translatable="false">
-    <FeedPublisher :url="props.entry.link" :name="props.entry.publisher" class="mb-1 sm:mb-0 sm:mr-1"/>
-    <FeedReadMore :link="props.entry.link"/>
-    <FeedCopy :title="props.entry.title" :summary="props.entry.summary" :link="props.entry.link"/>
-  </div>
+  <FeedPublisher :url="props.entry.link" :name="props.entry.publisher" class="mb-2"/>
+  <p class="text-zinc-600 dark:text-zinc-400 font-serif mb-2">{{ props.entry.summary }}</p>
+  <a class="underline" :href="props.entry.link" target="_blank">
+    Read More
+  </a>
 </template>

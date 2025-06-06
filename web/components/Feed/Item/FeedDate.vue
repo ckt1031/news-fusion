@@ -2,7 +2,7 @@
 import dayjs from 'dayjs';
 
 const props = defineProps<{
-	date: Date;
+	date: Date | string;
 }>();
 
 const sAgo = (date: Date) => {

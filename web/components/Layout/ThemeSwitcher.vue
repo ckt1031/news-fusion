@@ -2,11 +2,15 @@
 import clsx from 'clsx';
 
 const colorMode = useColorMode();
-const preference = ref<string>(colorMode.preference);
-const setPref = (pref: string) => {
-	preference.value = pref;
-	colorMode.preference = pref;
-};
+const themeMode = computed({
+	get() {
+		return colorMode.preference;
+	},
+	set(theme: string) {
+		colorMode.preference = theme;
+	},
+});
+
 const buttonClass = 'p-1.5';
 const selectedClass =
 	'text-black dark:text-white bg-zinc-100 dark:bg-zinc-800 rounded-full border border-zinc-300 dark:border-zinc-700';
@@ -24,8 +28,8 @@ const selectedClass =
               color="neutral"
               variant="link"
               title="Auto Mode"
-              :class="clsx(buttonClass, preference === 'system' ? selectedClass : '')"
-              @click="setPref('system')"
+              :class="clsx(buttonClass, themeMode === 'system' ? selectedClass : '')"
+              @click="themeMode = 'system'"
           />
         </UTooltip>
         <UTooltip text="Change to Light Theme">
@@ -36,8 +40,8 @@ const selectedClass =
               color="neutral"
               variant="link"
               title="Light Mode"
-              :class="clsx(buttonClass, preference === 'light' ? selectedClass : '')"
-              @click="setPref('light')"
+              :class="clsx(buttonClass, themeMode === 'light' ? selectedClass : '')"
+              @click="themeMode = 'light'"
           />
         </UTooltip>
         <UTooltip text="Change to Dark Theme">
@@ -48,8 +52,8 @@ const selectedClass =
               color="neutral"
               variant="link"
               title="Dark Mode"
-              :class="clsx(buttonClass, preference === 'dark' ? selectedClass : '')"
-              @click="setPref('dark')"
+              :class="clsx(buttonClass, themeMode === 'dark' ? selectedClass : '')"
+              @click="themeMode = 'dark'"
           />
         </UTooltip>
       </div>

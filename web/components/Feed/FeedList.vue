@@ -53,7 +53,7 @@ const result = computed(() => {
     <div
         v-else-if="data != null && data.articles.length > 0"
     >
-      <div class="flex flex-col sm:flex-row sm:items-center mb-4 gap-6">
+      <div class="flex flex-col sm:flex-row sm:items-center mb-4 gap-2">
         <p class="text-zinc-700 dark:text-zinc-300 font-light">
           Total: {{ data.articles.length }} articles
         </p>

@@ -16,3 +16,10 @@
 .padding-container {
 	@apply w-full max-w-[1000px] px-5 m-auto;
 }
+
+@layer base {
+	button:not(:disabled),
+	[role="button"]:not(:disabled) {
+		cursor: pointer;
+	}
+}
