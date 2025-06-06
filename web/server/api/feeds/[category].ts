@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
 		.from(articles)
 		.where(eq(articles.category, category))
 		.limit(150)
-		.orderBy(desc(articles.publishedAt));
+		.orderBy(desc(articles.createdAt));
 
 	const SITE_DOMAIN = process.env.SITE_DOMAIN || 'localhost:3000';
 

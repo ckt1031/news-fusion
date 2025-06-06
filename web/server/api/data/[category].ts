@@ -80,12 +80,12 @@ export default defineEventHandler(async (event) => {
 				and(
 					eq(articles.category, category),
 					// Date range, from start of the day to end of the day
-					gte(articles.publishedAt, dayjs(date).startOf('day').toDate()),
-					lt(articles.publishedAt, dayjs(date).endOf('day').toDate()),
+					gte(articles.createdAt, dayjs(date).startOf('day').toDate()),
+					lt(articles.createdAt, dayjs(date).endOf('day').toDate()),
 				),
 			)
 			.limit(150)
-			.orderBy(desc(articles.publishedAt));
+			.orderBy(desc(articles.createdAt));
 
 		return {
 			error: null,
