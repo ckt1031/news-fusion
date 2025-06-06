@@ -27,6 +27,8 @@ jobs:
       - name: Check Project
         run: bun run scrape
         env:
+          SITE_DOMAIN: ${{ secrets.SITE_DOMAIN }}
+          
           # Redis
           REDIS_URL: ${{ secrets.REDIS_URL }}
 
