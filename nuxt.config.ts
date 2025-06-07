@@ -1,6 +1,3 @@
-import { defineNuxtConfig } from 'nuxt/config';
-import type { NuxtCustomSchema } from './.nuxt/schema/nuxt.schema.d.js';
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	srcDir: 'web',
@@ -23,8 +20,12 @@ export default defineNuxtConfig({
 		'/api/data/feed': { cors: false, cache: { maxAge: 5 * 60 } },
 	},
 	icon: {
-		serverBundle: {
-			collections: ['lucide', 'hugeicons'],
+		serverBundle: 'local',
+		clientBundle: {
+			scan: {
+				globInclude: ['web/**/*.vue'],
+				globExclude: ['node_modules', 'dist'],
+			},
 		},
 	},
-} as NuxtCustomSchema);
+});

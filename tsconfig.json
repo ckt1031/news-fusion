@@ -10,6 +10,6 @@
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true
 	},
-	"include": ["**/*.ts", ".nuxt/schema/nuxt.schema.d.ts"],
-	"exclude": ["node_modules", "dist", ".nuxt", ".output", ".vercel", "web"]
+	"include": ["**/*.ts", ".nuxt/schema/nuxt.schema.d.ts", ".nuxt/nuxt.d.ts"],
+	"exclude": ["node_modules", "dist", ".output", ".vercel", "web"]
 }
