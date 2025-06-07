@@ -15,5 +15,3 @@ export async function sendPub(category: string) {
 
 	await axios.post(PUBSUB_URL, body, { headers });
 }
-
-sendPub('business');
