@@ -19,8 +19,8 @@ export default defineNuxtConfig({
 		'/about': { prerender: true },
 
 		// API routes
-		'/api/feeds/**': { cors: true, isr: 60 },
-		'/api/data/feed': { cors: false, isr: 300 },
+		'/api/feeds/**': { cors: true, cache: { maxAge: 5 * 60 } },
+		'/api/data/feed': { cors: false, cache: { maxAge: 5 * 60 } },
 	},
 	icon: {
 		serverBundle: {
