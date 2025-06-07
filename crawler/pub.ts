@@ -10,7 +10,7 @@ export async function sendPub(category: string) {
 
 	const body = {
 		'hub.mode': 'publish',
-		'hub.url': `https://${SITE_DOMAIN}/v1/feeds/${category}.xml`,
+		'hub.url': `https://${SITE_DOMAIN}/api/feeds/${category}.xml`,
 	};
 
 	await axios.post(PUBSUB_URL, body, { headers });
