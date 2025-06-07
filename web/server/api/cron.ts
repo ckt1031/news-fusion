@@ -15,16 +15,24 @@ export default defineEventHandler(async (event) => {
 	// Initialize the collection if it doesn't exist
 	await similarity.initializeCollection();
 
+	// Create index if it doesn't exist
+	await similarity.qdrantClient.createPayloadIndex(similarity.collectionName, {
+		field_name: 'createdAt',
+		field_schema: 'datetime',
+	});
+
 	// Remove all articles older than 30 days
 	await similarity.qdrantClient.delete(similarity.collectionName, {
 		filter: {
-			must: {
-				key: 'date',
-				range: {
-					// 30 days ago, in ISO format
-					lte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+			must: [
+				{
+					key: 'createdAt',
+					range: {
+						// 30 days ago, in ISO format
+						lte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+					},
 				},
-			},
+			],
 		},
 	});
 
