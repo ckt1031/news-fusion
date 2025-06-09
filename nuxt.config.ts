@@ -8,7 +8,13 @@ export default defineNuxtConfig({
 		'~/components/Feed/Item',
 		'~/components/Layout',
 	],
-	modules: ['@nuxt/ui', '@nuxt/icon', 'nuxt-easy-lightbox'],
+	modules: [
+		'@nuxt/ui',
+		'@nuxt/icon',
+		'@nuxtjs/robots',
+		'@nuxtjs/sitemap',
+		'nuxt-easy-lightbox',
+	],
 	css: ['~/assets/css/main.css'],
 	routeRules: {
 		'/': { isr: 300 },
@@ -27,5 +33,18 @@ export default defineNuxtConfig({
 				globExclude: ['node_modules', 'dist'],
 			},
 		},
+	},
+	site: {
+		url: `http://${process.env.SITE_DOMAIN}`,
+		name: 'News Fusion',
+		indexable: true,
+	},
+	robots: {
+		// provide simple disallow rules for all robots `user-agent: *`
+		disallow: ['/api', '/_nuxt', '/_vercel', '/_static'],
+		allow: '/',
+	},
+	sitemap: {
+		sources: ['/api/__sitemap__/urls'],
 	},
 });
