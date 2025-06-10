@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Fuse from 'fuse.js';
+import sAgo from 's-ago';
 import type { Article } from '~~/db/types';
 import type { NuxtAPIFeedDataResponse } from '~~/web/lib/types';
 
@@ -11,6 +12,15 @@ const { status, data, refresh } = await useLazyFetch<NuxtAPIFeedDataResponse>(
 	'/api/data/feed',
 	{ query: { date, category } },
 );
+
+const serverUpdatedAt = computed(() => {
+	if (!data.value?.timestamp) return null;
+
+	return {
+		ago: sAgo(new Date(data.value.timestamp)),
+		dateString: new Date(data.value.timestamp).toLocaleString(),
+	};
+});
 
 const input = ref('');
 const result = computed(() => {
@@ -63,6 +73,11 @@ const centerBox = 'flex flex-row gap-1.5 justify-center items-center h-32';
         />
         <FeedRefresh :refresh="refresh"/>
       </div>
+    </div>
+    <div class="mb-3" v-if="serverUpdatedAt">
+      <p class="text-zinc-600 dark:text-zinc-400 font-light italic">
+        Data updated: {{ serverUpdatedAt.ago }} <span class="hidden sm:inline dark:text-zinc-500">({{ serverUpdatedAt.dateString }})</span>
+      </p>
     </div>
     <div class="flex flex-col divide-y divide-zinc-300 dark:divide-zinc-700" v-if="result.length > 0">
       <div v-for="d in result" :key="d.id" class="py-2">

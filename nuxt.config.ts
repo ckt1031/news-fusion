@@ -23,7 +23,7 @@ export default defineNuxtConfig({
 
 		// API routes
 		'/api/feeds/**': { cors: true, cache: { maxAge: 5 * 60 } },
-		'/api/data/feed': { cors: false, cache: { maxAge: 5 * 60 } },
+		'/api/data/feed': { cors: false },
 	},
 	icon: {
 		serverBundle: 'local',

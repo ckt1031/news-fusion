@@ -93,6 +93,7 @@ export default defineCachedEventHandler(
 
 			return {
 				error: null,
+				timestamp: dayjs().toISOString(),
 				articles: queriedArticles,
 			};
 		} catch (error) {
@@ -102,6 +103,7 @@ export default defineCachedEventHandler(
 			return {
 				error: 'Failed to fetch articles',
 				articles: [],
+				timestamp: dayjs().toISOString(),
 			};
 		}
 	},
