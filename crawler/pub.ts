@@ -1,7 +1,13 @@
 import axios from 'axios';
 
 export async function sendPub(category: string) {
-	const SITE_DOMAIN = process.env.SITE_DOMAIN || 'localhost:3000';
+	const SITE_DOMAIN = process.env.SITE_DOMAIN;
+
+	if (!SITE_DOMAIN || SITE_DOMAIN === '') {
+		// If the site domain is not set, we don't need to send the pub
+		return;
+	}
+
 	const PUBSUB_URL = 'https://pubsubhubbub.appspot.com/';
 
 	const headers = {

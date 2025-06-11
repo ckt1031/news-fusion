@@ -1,0 +1,53 @@
+# This is a development docker compose file for the project.
+name: news-fusion-dev
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: news_fusion_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: news_fusion
+    # expose:
+    #   - "5432"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Qdrant is used for storing the embeddings
+  qdrant:
+    container_name: news-fusion-qdrant-dev
+    image: qdrant/qdrant:latest
+    restart: unless-stopped
+    # expose:
+    #   - "6333"
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage:z
+
+  redis:
+    image: redis:latest
+    container_name: news_fusion_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:
+  qdrant_data:
