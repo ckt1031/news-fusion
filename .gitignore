@@ -5,7 +5,6 @@ node_modules
 .vscode
 drizzle
 .vercel
-migrations
 dist
 .nuxt
 .output

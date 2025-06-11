@@ -2,8 +2,8 @@
 	"name": "news-fusion",
 	"type": "module",
 	"scripts": {
-		"drizzle:migrate": "drizzle-kit generate && drizzle-kit migrate || true",
-		"drizzle:push": "drizzle-kit push",
+		"drizzle:migrate": "bun run scripts/migrate-db.ts",
+		"drizzle:generate": "drizzle-kit generate",
 		"format": "biome format . --write",
 		"web:typecheck": "cd web && tsc --noEmit && cd ..",
 		"lint": "tsc --noEmit && bun run web:typecheck && biome check .",
