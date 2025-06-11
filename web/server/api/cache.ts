@@ -40,7 +40,9 @@ export const cachedPublicAPIFeed = defineCachedFunction(
 				description: article.summary,
 				link: article.link,
 				date: article.createdAt,
-				image: article.thumbnail || undefined,
+				image: article.thumbnail
+					? article.thumbnail.replaceAll('&', '&amp;')
+					: undefined,
 			});
 		}
 

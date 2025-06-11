@@ -22,7 +22,7 @@ export default defineNuxtConfig({
 		'/about': { prerender: true },
 
 		// API routes
-		'/api/feeds/**': { cors: true, cache: { maxAge: 5 * 60 } },
+		'/api/feeds/**': { cors: true },
 		'/api/data/feed': { cors: false },
 	},
 	icon: {
