@@ -20,6 +20,7 @@ export default defineNuxtConfig({
 		'/': { isr: 300 },
 		'/category/**': { isr: 300 },
 		'/about': { prerender: true },
+		'/sitemap.xml': { prerender: true },
 
 		// API routes
 		'/api/feeds/**': { cors: true },
@@ -40,8 +41,6 @@ export default defineNuxtConfig({
 		indexable: true,
 	},
 	robots: {
-		// provide simple disallow rules for all robots `user-agent: *`
-		disallow: ['/api', '/_nuxt', '/_vercel', '/_static'],
 		allow: '/',
 	},
 	sitemap: {
