@@ -90,7 +90,7 @@ const centerBox = 'flex flex-row gap-1.5 justify-center items-center h-32';
     </div>
   </div>
   <div v-else class="flex flex-col gap-3 items-center">
-    <div class="center-box">
+    <div :class="centerBox">
       <UIcon name="i-hugeicons-no-meeting-room" class="w-5 h-5"/>
       No news found
     </div>
