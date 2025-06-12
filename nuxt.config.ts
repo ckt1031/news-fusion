@@ -21,6 +21,7 @@ export default defineNuxtConfig({
 		'/category/**': { isr: 300 },
 		'/about': { prerender: true },
 		'/sitemap.xml': { prerender: true },
+		'/rss': { prerender: true },
 
 		// API routes
 		'/api/feeds/**': { cors: true },
@@ -42,6 +43,7 @@ export default defineNuxtConfig({
 	},
 	robots: {
 		allow: '/',
+		disallow: '/404',
 	},
 	sitemap: {
 		sources: ['/api/__sitemap__/urls'],
