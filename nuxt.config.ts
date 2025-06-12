@@ -46,4 +46,9 @@ export default defineNuxtConfig({
 	sitemap: {
 		sources: ['/api/__sitemap__/urls'],
 	},
+	runtimeConfig: {
+		public: {
+			siteDomain: process.env.SITE_DOMAIN || 'localhost:3000',
+		},
+	},
 });

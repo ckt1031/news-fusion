@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RSS_CATEGORIES } from '~~/config/sources';
 
-const SITE_DOMAIN = process.env.SITE_DOMAIN || 'localhost:3000';
+const SITE_DOMAIN = useRuntimeConfig().public.siteDomain;
 const protocol = SITE_DOMAIN.includes('localhost') ? 'http' : 'https';
 
 useHead({
