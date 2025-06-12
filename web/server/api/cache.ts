@@ -12,7 +12,8 @@ export const cachedPublicAPIFeed = defineCachedFunction(
 
 		// Below will never happen, but just in case
 		// And makes TypeScript happy
-		if (!categoryData) throw new Error('Category not found');
+		if (!categoryData && category !== 'all')
+			throw new Error('Category not found');
 
 		const queriedArticles = await db
 			.select()
@@ -26,7 +27,7 @@ export const cachedPublicAPIFeed = defineCachedFunction(
 		const feed = new Feed({
 			id: `https://${SITE_DOMAIN}`,
 			link: `https://${SITE_DOMAIN}`,
-			title: `News Fusion - ${categoryData.name}`,
+			title: `News Fusion - ${categoryData?.name || 'All Categories'}`,
 			copyright: `All rights reserved ${new Date().getFullYear()}, News Fusion`,
 			description:
 				'News Fusion is a news aggregator that collects news from various sources and provides a unified feed.',

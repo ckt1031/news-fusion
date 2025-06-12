@@ -10,6 +10,9 @@
         <a href="/about">
           About
         </a>
+        <a href="/rss">
+          RSS
+        </a>
         <a href="https://github.com/ckt1031" target="_blank">
           Author
         </a>

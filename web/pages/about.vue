@@ -12,11 +12,8 @@ useHead({
 
 <template>
   <article class="flex flex-col gap-3 text-zinc-700 dark:text-zinc-400 pt-4 mb-10">
-    <h1 class="text-2xl font-semibold mb-3 text-black dark:text-white">
-      About...
-    </h1>
     <p>
-      I'm CHAN, a technology enthusiast based in Hong Kong.
+      I'm ckt, a technology enthusiast based in Hong Kong.
     </p>
     <p>
       My interests span multiple fields, including technology, politics,
@@ -63,22 +60,22 @@ useHead({
       What about the operational costs?
     </h2>
     <p>
-      The concept of "expensive" can vary; $1 daily might be affordable for
+      The concept of "expensive" can vary. $1 can be affordable for
       those with jobs, but costly for students.
     </p>
     <p>
       This site uses multiple AI models to filter, embed, and re-rank the
-      desired news. These include Google's <b>Gemini 1.5 Flash</b> for scoring,
+      desired news. These include Google's <b>Gemini 2.0 Flash</b> for scoring,
       filtering, and summarization, also with OpenAI's <b>Text Embeddings v3 Small</b> for vector
       operations.
     </p>
     <p>
-      On average, the daily operational cost ranges from <b>$3 to $10</b> in US dollars.
+      On average, the daily operational cost ranges from <b>$1 to $3</b> in US dollars.
     </p>
     <h2 class="font-semibold mt-4 text-black dark:text-white">
       Is this website free to access?
     </h2>
-    <p>Currently yes, but I may consider adding a subscription model in the future.</p>
+    <p>Currently yes, I will remain free to access in order to listen to your feedback.</p>
   </article>
 </template>
 

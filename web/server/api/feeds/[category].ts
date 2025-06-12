@@ -6,7 +6,7 @@ export function isCategoryValid(category: string) {
 }
 
 export default defineEventHandler(async (event) => {
-	const categoryWithFormat = event.context.params?.category || '';
+	const categoryWithFormat = event.context.params?.category || 'all';
 	const [category, format] = categoryWithFormat.split('.');
 	const allowedFormats = ['xml', 'atom', 'json'];
 
@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
 	}
 
 	// If category is not valid, return 400
-	if (!isCategoryValid(category)) {
+	if (category !== 'all' && !isCategoryValid(category)) {
 		return Response.json({ error: 'Invalid category' }, { status: 400 });
 	}
 
