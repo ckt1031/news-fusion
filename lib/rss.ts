@@ -1,5 +1,6 @@
 import { type HtmlToTextOptions, convert } from 'html-to-text';
 import Parser from 'rss-parser';
+import { htmlToTextOptions } from './html-extractor.js';
 
 export interface FeedItem {
 	title: string;
@@ -43,15 +44,6 @@ export async function parseRSS(url: string, hours?: number) {
 
 	// Filter the feed items by the number of hours.
 	feed.items = feed.items.filter((item) => !hours || filterHours(item, hours));
-
-	const htmlToTextOptions: HtmlToTextOptions = {
-		// Remove images
-		selectors: [
-			{ selector: 'img', format: 'skip' },
-			{ selector: 'figure', format: 'skip' },
-			{ selector: 'a', options: { ignoreHref: true } },
-		],
-	};
 
 	// Check feed id and guids, if guid is missing, check id, if id is missing, check guid.
 	feed.items.map((item) => {

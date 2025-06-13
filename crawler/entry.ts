@@ -1,7 +1,9 @@
+import { htmlToText } from 'html-to-text';
 import type { RSSConfigFeed } from '../config/sources.js';
 import { db } from '../db/index.js';
 import { articles } from '../db/schema.js';
 import { processNewsWithLLM } from '../lib/completions.js';
+import { htmlToTextOptions } from '../lib/html-extractor.js';
 import { redisClient } from '../lib/redis.js';
 import type { FeedItem } from '../lib/rss.js';
 import Similarity from '../lib/similarity.js';
@@ -53,6 +55,10 @@ export async function handleEntry(item: FeedItemWithFeedData) {
 		thumbnail = articleData.image ?? thumbnail;
 		articleContent = articleData.content ?? articleContent;
 	}
+
+	// Remove images, links, etc.
+	// Content can also be HTML, so we need to convert it to text.
+	articleContent = htmlToText(articleContent, htmlToTextOptions);
 
 	const similarity = new Similarity();
 
