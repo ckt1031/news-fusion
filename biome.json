@@ -1,9 +1,21 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
+	"files": {
+		"includes": [
+			"config",
+			"crawler",
+			"db",
+			"lib",
+			"scripts",
+			"web",
+			"*.ts",
+			"*.json"
+		],
+		"ignoreUnknown": true
+	},
 	"formatter": {
 		"enabled": true,
 		"formatWithErrors": false,
-		"ignore": ["node_modules", "dist", ".nuxt", ".output", ".vercel"],
 		"indentStyle": "tab",
 		"indentWidth": 2,
 		"lineEnding": "lf",
@@ -18,16 +30,18 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true
-		},
-		"ignore": ["node_modules", "dist", ".nuxt", ".output", ".vercel"]
-	},
-	"organizeImports": {
-		"enabled": true,
-		"ignore": ["node_modules", "dist", ".nuxt", ".output", ".vercel"]
+		}
 	},
 	"json": {
 		"formatter": {
 			"enabled": true
+		}
+	},
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
 		}
 	}
 }

@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export async function sendPub(category: string) {
 	const SITE_DOMAIN = process.env.SITE_DOMAIN;
 
@@ -19,5 +17,9 @@ export async function sendPub(category: string) {
 		'hub.url': `https://${SITE_DOMAIN}/api/feeds/${category}.xml`,
 	};
 
-	await axios.post(PUBSUB_URL, body, { headers });
+	await fetch(PUBSUB_URL, {
+		method: 'POST',
+		body: new URLSearchParams(body),
+		headers,
+	});
 }
