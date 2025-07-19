@@ -20,7 +20,7 @@ export default defineNuxtConfig({
 		'/': { isr: 300 },
 		'/category/**': { isr: 300 },
 		'/about': { prerender: true },
-		'/sitemap.xml': { prerender: true },
+		'/sitemap-index.xml': { prerender: true },
 		'/rss': { prerender: true },
 
 		// API routes
@@ -46,6 +46,7 @@ export default defineNuxtConfig({
 		disallow: '/404',
 	},
 	sitemap: {
+		sitemapName: 'sitemap-index.xml',
 		sources: ['/api/__sitemap__/urls'],
 	},
 	runtimeConfig: {
