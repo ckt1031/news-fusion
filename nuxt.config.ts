@@ -1,3 +1,6 @@
+const SITE_DOMAIN = process.env.SITE_DOMAIN || 'localhost:3000';
+const protocol = SITE_DOMAIN.includes('localhost') ? 'http' : 'https';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	srcDir: 'web',
@@ -37,7 +40,7 @@ export default defineNuxtConfig({
 		},
 	},
 	site: {
-		url: `http://${process.env.SITE_DOMAIN}`,
+		url: `${protocol}://${SITE_DOMAIN}`,
 		name: 'News Fusion',
 		indexable: true,
 	},
