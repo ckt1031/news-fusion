@@ -8,14 +8,19 @@ import { handleEntry } from './entry.js';
 async function handleFeed(feedConfig: RSSConfigFeed) {
 	console.log(`Handling feed: ${feedConfig.name}`);
 
-	const parsedFeed = await parseRSS(feedConfig.url, 24);
+	try {
+		const parsedFeed = await parseRSS(feedConfig.url, 24);
 
-	for (const feedData of parsedFeed.items) {
-		try {
-			await handleEntry({ feedConfig, feedData });
-		} catch (error) {
-			console.error(chalk.red(`Error handling entry: ${error}`));
+		for (const feedData of parsedFeed.items) {
+			try {
+				await handleEntry({ feedConfig, feedData });
+			} catch (error) {
+				console.error(chalk.red(`Error handling entry: ${error}`));
+			}
 		}
+	} catch (error) {
+		console.error(chalk.red(`Error parsing feed: ${error}`));
+		return;
 	}
 }
 
