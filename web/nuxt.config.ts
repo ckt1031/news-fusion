@@ -1,10 +1,13 @@
-const SITE_DOMAIN = process.env.SITE_DOMAIN || 'localhost:3000';
-const protocol = SITE_DOMAIN.includes('localhost') ? 'http' : 'https';
+import path from 'path';
+
+const SITE_DOMAIN = process.env.SITE_DOMAIN;
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	srcDir: 'web',
-	compatibilityDate: '2024-11-01',
+	compatibilityDate: '2025-07-15',
+	alias: {
+		'~~': path.resolve(__dirname, '../'),
+	},
 	components: [
 		'~/components',
 		'~/components/Feed',
@@ -40,9 +43,11 @@ export default defineNuxtConfig({
 		},
 	},
 	site: {
-		url: `${protocol}://${SITE_DOMAIN}`,
 		name: 'News Fusion',
 		indexable: true,
+		...(SITE_DOMAIN && {
+			url: 'https://' + SITE_DOMAIN,
+		}),
 	},
 	robots: {
 		allow: '/',

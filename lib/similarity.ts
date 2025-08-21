@@ -77,6 +77,10 @@ export default class Similarity {
 
 		const chunks = await splitter.splitText(content);
 
+		if (chunks.length === 0 || !chunks[0]) {
+			throw new Error('No chunks generated');
+		}
+
 		return chunks[0];
 	}
 

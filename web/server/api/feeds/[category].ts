@@ -8,6 +8,11 @@ export function isCategoryValid(category: string) {
 export default defineEventHandler(async (event) => {
 	const categoryWithFormat = event.context.params?.category || 'all';
 	const [category, format] = categoryWithFormat.split('.');
+
+	if (!category || !format) {
+		return Response.json({ error: 'Missing category or format' }, { status: 400 });
+	}
+
 	const allowedFormats = ['xml', 'atom', 'json'];
 
 	// If format is provided, check if it's valid
