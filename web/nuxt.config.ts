@@ -14,6 +14,12 @@ export default defineNuxtConfig({
 		'~/components/Feed/Item',
 		'~/components/Layout',
 	],
+	nitro: {
+		preset: 'vercel',
+		output: {
+			dir: '../.vercel/output',
+		},
+	},
 	modules: [
 		'@nuxt/ui',
 		'@nuxt/icon',
