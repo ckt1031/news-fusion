@@ -17,7 +17,11 @@ export function randomOrder<T>(array: T[]): T[] {
 		const j = Math.floor(randomFloat * (i + 1));
 
 		// Swap elements
-		[randomIndices[i], randomIndices[j]] = [randomIndices[j], randomIndices[i]];
+		[randomIndices[i], randomIndices[j!]!] = [
+			randomIndices[j!]!,
+			randomIndices[i]!,
+		];
 	}
-	return randomIndices.map((index) => array[index]);
+
+	return randomIndices.map((index) => array[index!]!) as T[];
 }

@@ -26,6 +26,10 @@ Content: ${content}`;
 		response_format: zodResponseFormat(NewsProcessorSchema, 'data'),
 	});
 
+	if (!response.choices[0]?.message.parsed) {
+		throw new Error('Failed to process news with LLM');
+	}
+
 	const data = response.choices[0].message.parsed;
 
 	if (!data) {
